@@ -25,6 +25,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
@@ -32,31 +33,22 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 public class MainActivity extends ListActivity {
-	private String itsAdressWWWTop25 = "http://www.radio-browser.info/webservice/json/stations/topvote/25";
+	private String itsAdressWWWTopClick25 = "http://www.radio-browser.info/webservice/json/stations/topclick/25";
+	private String itsAdressWWWTopVote25 = "http://www.radio-browser.info/webservice/json/stations/topvote/25";
+
 	ProgressDialog itsProgressLoading;
 	ArrayAdapter<RadioStation> itsArrayAdapter = null;
 	MediaPlayer itsMediaPlayer = new MediaPlayer();
 
 	private static final String TAG = "RadioDroid";
 
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		// setContentView(R.layout.activity_main);
-
-		// gui stuff
-		itsArrayAdapter = new ArrayAdapter<RadioStation>(this,
-				R.layout.list_item);
-		setListAdapter(itsArrayAdapter);
-
+	private void RefillList(final String theURL) {
 		itsProgressLoading = ProgressDialog.show(MainActivity.this, "",
 				"Loading...");
-
-		// new DownloadFilesTask().execute(AdressWWWTop5);
 		new AsyncTask<Void, Void, String>() {
 			@Override
 			protected String doInBackground(Void... params) {
-				return downloadFeed(itsAdressWWWTop25);
+				return downloadFeed(theURL);
 			}
 
 			@Override
@@ -70,6 +62,19 @@ public class MainActivity extends ListActivity {
 				super.onPostExecute(result);
 			}
 		}.execute();
+	}
+
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		// setContentView(R.layout.activity_main);
+
+		// gui stuff
+		itsArrayAdapter = new ArrayAdapter<RadioStation>(this,
+				R.layout.list_item);
+		setListAdapter(itsArrayAdapter);
+
+		RefillList(itsAdressWWWTopClick25);
 
 		ListView lv = getListView();
 		lv.setTextFilterEnabled(true);
@@ -77,73 +82,81 @@ public class MainActivity extends ListActivity {
 		lv.setOnItemClickListener(new OnItemClickListener() {
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
-				// When clicked, show a toast with the TextView text
 				Object anObject = parent.getItemAtPosition(position);
 				if (anObject instanceof RadioStation) {
-					RadioStation aStation = (RadioStation) anObject;
-					itsProgressLoading = ProgressDialog.show(MainActivity.this,
-							"", "Loading...");
-
-					new AsyncTask<RadioStation, Void, Void>() {
-
-						@Override
-						protected Void doInBackground(RadioStation... stations) {
-
-							if (stations.length != 1)
-								return null;
-
-							RadioStation aStation = stations[0];
-
-							Log.v(TAG, "Stream url:" + aStation.StreamUrl);
-
-							String aDecodedURL = DecodeURL(aStation.StreamUrl);
-
-							Log.v(TAG, "Stream url decoded:" + aDecodedURL);
-
-							itsMediaPlayer.stop();
-							itsMediaPlayer.reset();
-							try {
-								itsMediaPlayer.setDataSource(aDecodedURL);
-								itsMediaPlayer.prepare();
-								itsMediaPlayer.start();
-							} catch (IllegalArgumentException e) {
-								// TODO Auto-generated catch block
-								e.printStackTrace();
-							} catch (SecurityException e) {
-								// TODO Auto-generated catch block
-								e.printStackTrace();
-							} catch (IllegalStateException e) {
-								// TODO Auto-generated catch block
-								e.printStackTrace();
-							} catch (IOException e) {
-								// TODO Auto-generated catch block
-								e.printStackTrace();
-							}
-							return null;
-						}
-
-						@Override
-						protected void onPostExecute(Void result) {
-							if (!isFinishing()) {
-								Log.d(TAG, "prepare ok");
-
-								itsProgressLoading.dismiss();
-							}
-							super.onPostExecute(result);
-						}
-
-					}.execute(aStation);
-
+					ClickOnItem((RadioStation) anObject);
 				}
 			}
 		});
+	}
 
+	void ClickOnItem(RadioStation theStation) {
+		// When clicked, show a toast with the TextView text
+		{
+			RadioStation aStation = theStation;
+			itsProgressLoading = ProgressDialog.show(MainActivity.this, "",
+					"Loading...");
+
+			new AsyncTask<RadioStation, Void, Void>() {
+
+				@Override
+				protected Void doInBackground(RadioStation... stations) {
+
+					if (stations.length != 1)
+						return null;
+
+					RadioStation aStation = stations[0];
+
+					Log.v(TAG, "Stream url:" + aStation.StreamUrl);
+
+					String aDecodedURL = DecodeURL(aStation.StreamUrl);
+
+					Log.v(TAG, "Stream url decoded:" + aDecodedURL);
+
+					if (itsMediaPlayer.isPlaying()) {
+						itsMediaPlayer.stop();
+						itsMediaPlayer.reset();
+					}
+					try {
+						itsMediaPlayer.setDataSource(aDecodedURL);
+						itsMediaPlayer.prepare();
+						itsMediaPlayer.start();
+					} catch (IllegalArgumentException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (SecurityException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (IllegalStateException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					return null;
+				}
+
+				@Override
+				protected void onPostExecute(Void result) {
+					if (!isFinishing()) {
+						Log.d(TAG, "prepare ok");
+
+						itsProgressLoading.dismiss();
+					}
+					super.onPostExecute(result);
+				}
+
+			}.execute(aStation);
+
+		}
 	}
 
 	protected void DecodeJson(String result) {
 		try {
 			JSONArray jsonArray = new JSONArray(result);
 			Log.v(TAG, "Found entries:" + jsonArray.length());
+			itsArrayAdapter.clear();
 
 			for (int i = 0; i < jsonArray.length(); i++) {
 				JSONObject anObject = jsonArray.getJSONObject(i);
@@ -162,11 +175,36 @@ public class MainActivity extends ListActivity {
 		}
 	}
 
+	final int MENU_TOPVOTE = 1;
+	final int MENU_TOPCLICK = 2;
+
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
+		menu.add(Menu.NONE, MENU_TOPVOTE, Menu.NONE, "TopVote");
+		menu.add(Menu.NONE, MENU_TOPCLICK, Menu.NONE, "TopClick");
+
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.activity_main, menu);
 		return true;
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		Log.v(TAG, "menu click");
+		// check selected menu item
+		if (item.getItemId() == MENU_TOPVOTE) {
+			Log.v(TAG, "menu : topvote");
+			RefillList(itsAdressWWWTopVote25);
+			setTitle("TopVote");
+			return true;
+		}
+		if (item.getItemId() == MENU_TOPCLICK) {
+			Log.v(TAG, "menu : topclick");
+			RefillList(itsAdressWWWTopClick25);
+			setTitle("TopClick");
+			return true;
+		}
+		return false;
 	}
 
 	public String downloadFeed(String theURI) {
@@ -209,7 +247,7 @@ public class MainActivity extends ListActivity {
 						theFile));
 				String str;
 				while ((str = aReader.readLine()) != null) {
-					Log.e(TAG, " -> " + str);
+					Log.v(TAG, " -> " + str);
 					if (str.substring(0, 4).equals("File")) {
 						int anIndex = str.indexOf('=');
 						if (anIndex >= 0) {
@@ -224,7 +262,7 @@ public class MainActivity extends ListActivity {
 						theFile));
 				String str;
 				while ((str = aReader.readLine()) != null) {
-					Log.e(TAG, " -> " + str);
+					Log.v(TAG, " -> " + str);
 					if (!str.substring(0, 1).equals("#")) {
 						return str.trim();
 					}
