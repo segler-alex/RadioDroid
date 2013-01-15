@@ -4,6 +4,8 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.StringReader;
+import java.net.URL;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -35,6 +37,8 @@ public class MainActivity extends ListActivity {
 	ArrayAdapter<RadioStation> itsArrayAdapter = null;
 	MediaPlayer itsMediaPlayer = new MediaPlayer();
 
+	private static final String TAG = "RadioDroid";
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -58,7 +62,7 @@ public class MainActivity extends ListActivity {
 			@Override
 			protected void onPostExecute(String result) {
 				if (!isFinishing()) {
-					Log.d("", result);
+					Log.d(TAG, result);
 
 					DecodeJson(result);
 					itsProgressLoading.dismiss();
@@ -89,11 +93,17 @@ public class MainActivity extends ListActivity {
 								return null;
 
 							RadioStation aStation = stations[0];
+
+							Log.v(TAG, "Stream url:" + aStation.StreamUrl);
+
+							String aDecodedURL = DecodeURL(aStation.StreamUrl);
+
+							Log.v(TAG, "Stream url decoded:" + aDecodedURL);
+
 							itsMediaPlayer.stop();
 							itsMediaPlayer.reset();
 							try {
-								itsMediaPlayer
-										.setDataSource(aStation.StreamUrl);
+								itsMediaPlayer.setDataSource(aDecodedURL);
 								itsMediaPlayer.prepare();
 								itsMediaPlayer.start();
 							} catch (IllegalArgumentException e) {
@@ -115,7 +125,7 @@ public class MainActivity extends ListActivity {
 						@Override
 						protected void onPostExecute(Void result) {
 							if (!isFinishing()) {
-								Log.d("", "prepare ok");
+								Log.d(TAG, "prepare ok");
 
 								itsProgressLoading.dismiss();
 							}
@@ -133,11 +143,11 @@ public class MainActivity extends ListActivity {
 	protected void DecodeJson(String result) {
 		try {
 			JSONArray jsonArray = new JSONArray(result);
-			Log.v("", "Found entries:" + jsonArray.length());
+			Log.v(TAG, "Found entries:" + jsonArray.length());
 
 			for (int i = 0; i < jsonArray.length(); i++) {
 				JSONObject anObject = jsonArray.getJSONObject(i);
-				Log.v("", "found station:" + anObject.getString("name"));
+				Log.v(TAG, "found station:" + anObject.getString("name"));
 
 				RadioStation aStation = new RadioStation();
 				aStation.Name = anObject.getString("name");
@@ -175,15 +185,54 @@ public class MainActivity extends ListActivity {
 				String line;
 				while ((line = reader.readLine()) != null) {
 					builder.append(line);
+					builder.append('\n');
 				}
 			} else {
-				Log.e("tag", "Failed to download file");
+				Log.e(TAG, "Failed to download file");
 			}
 		} catch (ClientProtocolException e) {
-			e.printStackTrace();
+			Log.e(TAG, "" + e);
 		} catch (IOException e) {
-			e.printStackTrace();
+			Log.e(TAG, "" + e);
 		}
 		return builder.toString();
+	}
+
+	String DecodeURL(String theUrl) {
+		try {
+			URL anUrl = new URL(theUrl);
+			String aFileName = anUrl.getFile();
+			if (aFileName.endsWith(".pls")) {
+				Log.v(TAG, "Found PLS file");
+				String theFile = downloadFeed(theUrl);
+				BufferedReader aReader = new BufferedReader(new StringReader(
+						theFile));
+				String str;
+				while ((str = aReader.readLine()) != null) {
+					Log.e(TAG, " -> " + str);
+					if (str.substring(0, 4).equals("File")) {
+						int anIndex = str.indexOf('=');
+						if (anIndex >= 0) {
+							return str.substring(anIndex + 1);
+						}
+					}
+				}
+			} else if (aFileName.endsWith(".m3u")) {
+				Log.v(TAG, "Found M3U file");
+				String theFile = downloadFeed(theUrl);
+				BufferedReader aReader = new BufferedReader(new StringReader(
+						theFile));
+				String str;
+				while ((str = aReader.readLine()) != null) {
+					Log.e(TAG, " -> " + str);
+					if (!str.substring(0, 1).equals("#")) {
+						return str.trim();
+					}
+				}
+			}
+		} catch (Exception e) {
+			Log.e(TAG, "" + e);
+		}
+		return theUrl;
 	}
 }
