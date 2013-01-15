@@ -29,7 +29,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 public class MainActivity extends ListActivity {
@@ -37,7 +36,7 @@ public class MainActivity extends ListActivity {
 	private String itsAdressWWWTopVote25 = "http://www.radio-browser.info/webservice/json/stations/topvote/25";
 
 	ProgressDialog itsProgressLoading;
-	ArrayAdapter<RadioStation> itsArrayAdapter = null;
+	RadioItemBigAdapter itsArrayAdapter = null;
 	MediaPlayer itsMediaPlayer = new MediaPlayer();
 
 	private static final String TAG = "RadioDroid";
@@ -70,8 +69,7 @@ public class MainActivity extends ListActivity {
 		// setContentView(R.layout.activity_main);
 
 		// gui stuff
-		itsArrayAdapter = new ArrayAdapter<RadioStation>(this,
-				R.layout.list_item);
+		itsArrayAdapter = new RadioItemBigAdapter(this, R.layout.list_item_big);
 		setListAdapter(itsArrayAdapter);
 
 		RefillList(itsAdressWWWTopClick25);
