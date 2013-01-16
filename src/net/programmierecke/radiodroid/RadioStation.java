@@ -1,4 +1,4 @@
-package com.programmierecke.radiodroid;
+package net.programmierecke.radiodroid;
 
 public class RadioStation {
 	public RadioStation() {

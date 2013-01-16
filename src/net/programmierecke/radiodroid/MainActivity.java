@@ -1,11 +1,9 @@
-package com.programmierecke.radiodroid;
+package net.programmierecke.radiodroid;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.StringReader;
-import java.net.URL;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -20,9 +18,13 @@ import org.json.JSONObject;
 
 import android.app.ListActivity;
 import android.app.ProgressDialog;
-import android.media.MediaPlayer;
+import android.content.ComponentName;
+import android.content.Intent;
+import android.content.ServiceConnection;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.IBinder;
+import android.os.RemoteException;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -37,13 +39,23 @@ public class MainActivity extends ListActivity {
 
 	ProgressDialog itsProgressLoading;
 	RadioItemBigAdapter itsArrayAdapter = null;
-	MediaPlayer itsMediaPlayer = new MediaPlayer();
 
 	private static final String TAG = "RadioDroid";
+	IPlayerService itsPlayerService;
+	private ServiceConnection svcConn = new ServiceConnection() {
+		public void onServiceConnected(ComponentName className, IBinder binder) {
+			Log.v(TAG, "Service came online");
+			itsPlayerService = IPlayerService.Stub.asInterface(binder);
+		}
+
+		public void onServiceDisconnected(ComponentName className) {
+			Log.v(TAG, "Service offline");
+			itsPlayerService = null;
+		}
+	};
 
 	private void RefillList(final String theURL) {
-		itsProgressLoading = ProgressDialog.show(MainActivity.this, "",
-				"Loading...");
+		itsProgressLoading = ProgressDialog.show(MainActivity.this, "", "Loading...");
 		new AsyncTask<Void, Void, String>() {
 			@Override
 			protected String doInBackground(Void... params) {
@@ -53,7 +65,7 @@ public class MainActivity extends ListActivity {
 			@Override
 			protected void onPostExecute(String result) {
 				if (!isFinishing()) {
-					Log.d(TAG, result);
+					// Log.d(TAG, result);
 
 					DecodeJson(result);
 					itsProgressLoading.dismiss();
@@ -66,7 +78,10 @@ public class MainActivity extends ListActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		// setContentView(R.layout.activity_main);
+
+		Intent anIntent = new Intent(this, PlayerService.class);
+		bindService(anIntent, svcConn, BIND_AUTO_CREATE);
+		startService(anIntent);
 
 		// gui stuff
 		itsArrayAdapter = new RadioItemBigAdapter(this, R.layout.list_item_big);
@@ -78,8 +93,7 @@ public class MainActivity extends ListActivity {
 		lv.setTextFilterEnabled(true);
 		registerForContextMenu(lv);
 		lv.setOnItemClickListener(new OnItemClickListener() {
-			public void onItemClick(AdapterView<?> parent, View view,
-					int position, long id) {
+			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 				Object anObject = parent.getItemAtPosition(position);
 				if (anObject instanceof RadioStation) {
 					ClickOnItem((RadioStation) anObject);
@@ -90,63 +104,18 @@ public class MainActivity extends ListActivity {
 
 	void ClickOnItem(RadioStation theStation) {
 		// When clicked, show a toast with the TextView text
-		{
-			RadioStation aStation = theStation;
-			itsProgressLoading = ProgressDialog.show(MainActivity.this, "",
-					"Loading...");
-
-			new AsyncTask<RadioStation, Void, Void>() {
-
-				@Override
-				protected Void doInBackground(RadioStation... stations) {
-
-					if (stations.length != 1)
-						return null;
-
-					RadioStation aStation = stations[0];
-
-					Log.v(TAG, "Stream url:" + aStation.StreamUrl);
-
-					String aDecodedURL = DecodeURL(aStation.StreamUrl);
-
-					Log.v(TAG, "Stream url decoded:" + aDecodedURL);
-
-					if (itsMediaPlayer.isPlaying()) {
-						itsMediaPlayer.stop();
-						itsMediaPlayer.reset();
-					}
-					try {
-						itsMediaPlayer.setDataSource(aDecodedURL);
-						itsMediaPlayer.prepare();
-						itsMediaPlayer.start();
-					} catch (IllegalArgumentException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					} catch (SecurityException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					} catch (IllegalStateException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					} catch (IOException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-					return null;
-				}
-
-				@Override
-				protected void onPostExecute(Void result) {
-					if (!isFinishing()) {
-						Log.d(TAG, "prepare ok");
-
-						itsProgressLoading.dismiss();
-					}
-					super.onPostExecute(result);
-				}
-
-			}.execute(aStation);
-
+		RadioStation aStation = theStation;
+		// itsProgressLoading = ProgressDialog.show(MainActivity.this,
+		// "","Loading...");
+		if (itsPlayerService != null) {
+			try {
+				itsPlayerService.Play(aStation.StreamUrl, aStation.Name, aStation.ID);
+			} catch (RemoteException e) {
+				// TODO Auto-generated catch block
+				Log.e(TAG, "" + e);
+			}
+		} else {
+			Log.v(TAG, "SERVICE NOT ONLINE");
 		}
 	}
 
@@ -158,7 +127,7 @@ public class MainActivity extends ListActivity {
 
 			for (int i = 0; i < jsonArray.length(); i++) {
 				JSONObject anObject = jsonArray.getJSONObject(i);
-				Log.v(TAG, "found station:" + anObject.getString("name"));
+				// Log.v(TAG, "found station:" + anObject.getString("name"));
 
 				RadioStation aStation = new RadioStation();
 				aStation.Name = anObject.getString("name");
@@ -173,22 +142,35 @@ public class MainActivity extends ListActivity {
 		}
 	}
 
+	final int MENU_STOP = 0;
 	final int MENU_TOPVOTE = 1;
 	final int MENU_TOPCLICK = 2;
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
+		menu.add(Menu.NONE, MENU_STOP, Menu.NONE, "Stop");
 		menu.add(Menu.NONE, MENU_TOPVOTE, Menu.NONE, "TopVote");
 		menu.add(Menu.NONE, MENU_TOPCLICK, Menu.NONE, "TopClick");
 
 		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.activity_main, menu);
+		// getMenuInflater().inflate(R.menu.activity_main, menu);
 		return true;
 	}
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		Log.v(TAG, "menu click");
+
+		if (item.getItemId() == MENU_STOP) {
+			Log.v(TAG, "menu : stop");
+			try {
+				itsPlayerService.Stop();
+			} catch (RemoteException e) {
+				// TODO Auto-generated catch block
+				Log.e(TAG, "" + e);
+			}
+			return true;
+		}
 		// check selected menu item
 		if (item.getItemId() == MENU_TOPVOTE) {
 			Log.v(TAG, "menu : topvote");
@@ -216,12 +198,10 @@ public class MainActivity extends ListActivity {
 			if (statusCode == 200) {
 				HttpEntity entity = response.getEntity();
 				InputStream content = entity.getContent();
-				BufferedReader reader = new BufferedReader(
-						new InputStreamReader(content));
+				BufferedReader reader = new BufferedReader(new InputStreamReader(content));
 				String line;
 				while ((line = reader.readLine()) != null) {
 					builder.append(line);
-					builder.append('\n');
 				}
 			} else {
 				Log.e(TAG, "Failed to download file");
@@ -232,43 +212,5 @@ public class MainActivity extends ListActivity {
 			Log.e(TAG, "" + e);
 		}
 		return builder.toString();
-	}
-
-	String DecodeURL(String theUrl) {
-		try {
-			URL anUrl = new URL(theUrl);
-			String aFileName = anUrl.getFile();
-			if (aFileName.endsWith(".pls")) {
-				Log.v(TAG, "Found PLS file");
-				String theFile = downloadFeed(theUrl);
-				BufferedReader aReader = new BufferedReader(new StringReader(
-						theFile));
-				String str;
-				while ((str = aReader.readLine()) != null) {
-					Log.v(TAG, " -> " + str);
-					if (str.substring(0, 4).equals("File")) {
-						int anIndex = str.indexOf('=');
-						if (anIndex >= 0) {
-							return str.substring(anIndex + 1);
-						}
-					}
-				}
-			} else if (aFileName.endsWith(".m3u")) {
-				Log.v(TAG, "Found M3U file");
-				String theFile = downloadFeed(theUrl);
-				BufferedReader aReader = new BufferedReader(new StringReader(
-						theFile));
-				String str;
-				while ((str = aReader.readLine()) != null) {
-					Log.v(TAG, " -> " + str);
-					if (!str.substring(0, 1).equals("#")) {
-						return str.trim();
-					}
-				}
-			}
-		} catch (Exception e) {
-			Log.e(TAG, "" + e);
-		}
-		return theUrl;
 	}
 }

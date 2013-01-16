@@ -1,4 +1,4 @@
-package com.programmierecke.radiodroid;
+package net.programmierecke.radiodroid;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -21,8 +21,7 @@ public class RadioItemBigAdapter extends ArrayAdapter<RadioStation> {
 	public View getView(int position, View convertView, ViewGroup parent) {
 		View v = convertView;
 		if (v == null) {
-			LayoutInflater vi = (LayoutInflater) itsContext
-					.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+			LayoutInflater vi = (LayoutInflater) itsContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 			v = vi.inflate(R.layout.list_item_big, null);
 		}
 		RadioStation aStation = getItem(position);
