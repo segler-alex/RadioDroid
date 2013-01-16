@@ -20,14 +20,17 @@ import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.BitmapDrawable;
+import android.media.AudioManager;
 import android.media.MediaPlayer;
+import android.media.MediaPlayer.OnBufferingUpdateListener;
 import android.os.AsyncTask;
 import android.os.IBinder;
 import android.os.RemoteException;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
-public class PlayerService extends Service {
+public class PlayerService extends Service implements OnBufferingUpdateListener {
 	protected static final int NOTIFY_ID = 1;
 	final String TAG = "PlayerService";
 	MediaPlayer itsMediaPlayer = null;
@@ -54,12 +57,13 @@ public class PlayerService extends Service {
 		itsContext = this;
 	}
 
-	public void SendMessage(String theTitle, String theMessage) {
+	public void SendMessage(String theTitle, String theMessage, String theTicker) {
 		Intent notificationIntent = new Intent(itsContext, MainActivity.class);
 		notificationIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 		PendingIntent contentIntent = PendingIntent.getActivity(itsContext, 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 		Notification itsNotification = new NotificationCompat.Builder(itsContext).setContentIntent(contentIntent).setContentTitle(theTitle)
-				.setContentText(theMessage).setWhen(System.currentTimeMillis()).setUsesChronometer(true).setSmallIcon(R.drawable.play).build();
+				.setContentText(theMessage).setWhen(System.currentTimeMillis()).setTicker(theTicker).setOngoing(true).setUsesChronometer(true)
+				.setSmallIcon(R.drawable.play).setLargeIcon((((BitmapDrawable) getResources().getDrawable(R.drawable.ic_launcher)).getBitmap())).build();
 
 		startForeground(NOTIFY_ID, itsNotification);
 	}
@@ -72,32 +76,39 @@ public class PlayerService extends Service {
 
 	Context itsContext;
 
+	@SuppressWarnings("unused")
+	private String itsStationID;
+	private String itsStationName;
+	private String itsStationURL;
+
 	public void PlayUrl(String theURL, String theName, String theID) {
-		new AsyncTask<String, Void, Void>() {
+		itsStationID = theID;
+		itsStationName = theName;
+		itsStationURL = theURL;
+		new AsyncTask<Void, Void, Void>() {
 			@Override
-			protected Void doInBackground(String... stations) {
-
-				if (stations.length != 1)
-					return null;
-
-				String aStation = stations[0];
+			protected Void doInBackground(Void... stations) {
+				String aStation = itsStationURL;
 
 				Log.v(TAG, "Stream url:" + aStation);
-				SendMessage(aStation, "Decoding");
+				SendMessage(itsStationName, "Decoding URL", "Decoding URL");
 				String aDecodedURL = DecodeURL(aStation);
 
 				Log.v(TAG, "Stream url decoded:" + aDecodedURL);
-				if (itsMediaPlayer == null)
+				if (itsMediaPlayer == null) {
 					itsMediaPlayer = new MediaPlayer();
+					itsMediaPlayer.setOnBufferingUpdateListener(PlayerService.this);
+				}
 				if (itsMediaPlayer.isPlaying()) {
 					itsMediaPlayer.stop();
 					itsMediaPlayer.reset();
 				}
 				try {
-					SendMessage(aStation, "Preparing");
+					SendMessage(itsStationName, "Preparing stream", "Preparing stream");
+					itsMediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
 					itsMediaPlayer.setDataSource(aDecodedURL);
 					itsMediaPlayer.prepare();
-					SendMessage(aStation, "Playing");
+					SendMessage(itsStationName, "Playing", "Playing '" + itsStationName + "'");
 					itsMediaPlayer.start();
 				} catch (IllegalArgumentException e) {
 					// TODO Auto-generated catch block
@@ -122,7 +133,7 @@ public class PlayerService extends Service {
 				super.onPostExecute(result);
 			}
 
-		}.execute(theURL);
+		}.execute();
 	}
 
 	public void Stop() {
@@ -198,5 +209,12 @@ public class PlayerService extends Service {
 			Log.e(TAG, "" + e);
 		}
 		return theUrl;
+	}
+
+	@Override
+	public void onBufferingUpdate(MediaPlayer mp, int percent) {
+		// Log.v(TAG, "Buffering:" + percent);
+		// SendMessage(itsStationName, "Buffering..", "Buffering .. (" + percent +
+		// "%)");
 	}
 }
