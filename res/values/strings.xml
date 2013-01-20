@@ -2,7 +2,9 @@
 <resources>
 
     <string name="app_name">RadioDroid</string>
-    <string name="hello_world">Hello world!</string>
-    <string name="menu_settings">Settings</string>
-
+<string name="detail_name">Name</string>
+    <string name="detail_tags">Tags</string>
+    <string name="detail_country">Land</string>
+    <string name="detail_language">Sprache</string>
+    <string name="detail_weblink">Weblink</string>
 </resources>

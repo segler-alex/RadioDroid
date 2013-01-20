@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="detail_name">Name</string>
+    <string name="detail_tags">Tags</string>
+    <string name="detail_country">Country</string>
+    <string name="detail_language">Language</string>
+    <string name="detail_weblink">Weblink</string>
+    
+</resources>

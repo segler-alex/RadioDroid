@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/LinearLayout1"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <TextView
+        android:id="@+id/detail_station_name"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/detail_name"
+        android:textSize="20sp" />
+
+    <TextView
+        android:id="@+id/detail_station_name_value"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:textSize="16sp" />
+
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="2dip"
+        android:background="#dcdcdc" />
+
+    <TextView
+        android:id="@+id/detail_station_tags"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/detail_tags"
+        android:textSize="20sp" />
+
+    <TextView
+        android:id="@+id/detail_station_tags_value"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:textSize="16sp" />
+
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="2dip"
+        android:background="#dcdcdc" />
+
+    <TextView
+        android:id="@+id/detail_station_country"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/detail_country"
+        android:textSize="20sp" />
+
+    <TextView
+        android:id="@+id/detail_station_country_value"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:textSize="16sp" />
+
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="2dip"
+        android:background="#dcdcdc" />
+
+    <TextView
+        android:id="@+id/detail_station_language"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/detail_language"
+        android:textSize="20sp" />
+
+    <TextView
+        android:id="@+id/detail_station_language_value"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:textSize="16sp" />
+
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="2dip"
+        android:background="#dcdcdc" />
+
+    <TextView
+        android:id="@+id/detail_station_www"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/detail_weblink"
+        android:textSize="20sp" />
+
+    <TextView
+        android:id="@+id/detail_station_www_value"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:textSize="16sp" />
+
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="2dip"
+        android:background="#dcdcdc" />
+
+    <Button
+        android:id="@+id/detail_button_play_stop"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" />
+
+</LinearLayout>
