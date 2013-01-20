@@ -1,5 +1,8 @@
 package net.programmierecke.radiodroid;
 
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
 import java.util.concurrent.ArrayBlockingQueue;
@@ -8,6 +11,7 @@ import java.util.concurrent.BlockingQueue;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -68,10 +72,18 @@ public class RadioItemBigAdapter extends ArrayAdapter<RadioStation> implements R
 					anImageView.setImageResource(R.drawable.empty);
 			} else {
 				try {
-					anImageView.setImageResource(R.drawable.empty);
-					itsQueuedDownloadJobs.put(new QueueItem(aStation.IconUrl, anImageView));
-				} catch (InterruptedException e) {
-					Log.e("Error", "" + e);
+					// check download cache
+					String aFileNameIcon = getBase64(aStation.IconUrl);
+					Bitmap anIcon = BitmapFactory.decodeStream(itsContext.openFileInput(aFileNameIcon));
+					anImageView.setImageBitmap(anIcon);
+					itsIconCache.put(aStation.IconUrl, anIcon);
+				} catch (Exception e) {
+					try {
+						anImageView.setImageResource(R.drawable.empty);
+						itsQueuedDownloadJobs.put(new QueueItem(aStation.IconUrl, anImageView));
+					} catch (InterruptedException e2) {
+						Log.e("Error", "" + e2);
+					}
 				}
 			}
 		}
@@ -92,7 +104,21 @@ public class RadioItemBigAdapter extends ArrayAdapter<RadioStation> implements R
 						anItem.itsImageView.post(new Runnable() {
 							public void run() {
 								if (anIcon != null) {
+									// set image in view
 									anItem.itsImageView.setImageBitmap(anIcon);
+
+									// save image to file
+									String aFileName = getBase64(anItem.itsURL);
+									Log.v("", "" + anItem.itsURL + "->" + aFileName);
+									try {
+										FileOutputStream aStream = itsContext.openFileOutput(aFileName, Context.MODE_PRIVATE);
+										anIcon.compress(Bitmap.CompressFormat.PNG, 100, aStream);
+										aStream.close();
+									} catch (FileNotFoundException e) {
+										Log.e("", "" + e);
+									} catch (IOException e) {
+										Log.e("", "" + e);
+									}
 								}
 							}
 						});
@@ -106,5 +132,9 @@ public class RadioItemBigAdapter extends ArrayAdapter<RadioStation> implements R
 				Log.e("Error", "" + e);
 			}
 		}
+	}
+
+	public String getBase64(String theOriginal) {
+		return Base64.encodeToString(theOriginal.getBytes(), Base64.URL_SAFE | Base64.NO_PADDING);
 	}
 }
