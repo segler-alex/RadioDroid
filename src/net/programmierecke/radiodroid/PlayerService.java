@@ -111,25 +111,24 @@ public class PlayerService extends Service implements OnBufferingUpdateListener 
 					SendMessage(itsStationName, "Playing", "Playing '" + itsStationName + "'");
 					itsMediaPlayer.start();
 				} catch (IllegalArgumentException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (SecurityException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (IllegalStateException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+					Log.e(TAG, "" + e);
+					SendMessage(itsStationName, "Stream url problem", "Stream url problem");
+					Stop();
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+					Log.e(TAG, "" + e);
+					SendMessage(itsStationName, "Stream caching problem", "Stream caching problem");
+					Stop();
+				} catch (Exception e) {
+					Log.e(TAG, "" + e);
+					SendMessage(itsStationName, "Unable to play stream", "Unable to play stream");
+					Stop();
 				}
 				return null;
 			}
 
 			@Override
 			protected void onPostExecute(Void result) {
-				Log.d(TAG, "prepare ok");
-
+				Log.d(TAG, "Play task finished");
 				super.onPostExecute(result);
 			}
 
