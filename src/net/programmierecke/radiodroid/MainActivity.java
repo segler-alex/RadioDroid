@@ -68,6 +68,7 @@ public class MainActivity extends ListActivity {
 					// Log.d(TAG, result);
 
 					DecodeJson(result);
+					getListView().invalidate();
 					itsProgressLoading.dismiss();
 				}
 				super.onPostExecute(result);
@@ -91,7 +92,7 @@ public class MainActivity extends ListActivity {
 
 		ListView lv = getListView();
 		lv.setTextFilterEnabled(true);
-		registerForContextMenu(lv);
+		// registerForContextMenu(lv);
 		lv.setOnItemClickListener(new OnItemClickListener() {
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 				Object anObject = parent.getItemAtPosition(position);
@@ -133,6 +134,10 @@ public class MainActivity extends ListActivity {
 				aStation.Name = anObject.getString("name");
 				aStation.StreamUrl = anObject.getString("url");
 				aStation.Votes = anObject.getInt("votes");
+				aStation.HomePageUrl = anObject.getString("homepage");
+				aStation.TagsAll = anObject.getString("tags");
+				aStation.Country = anObject.getString("country");
+				aStation.IconUrl = anObject.getString("favicon");
 
 				itsArrayAdapter.add(aStation);
 			}

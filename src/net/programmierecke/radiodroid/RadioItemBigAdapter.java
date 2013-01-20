@@ -1,18 +1,41 @@
 package net.programmierecke.radiodroid;
 
+import java.io.InputStream;
+import java.util.HashMap;
+import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.BlockingQueue;
+
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
-public class RadioItemBigAdapter extends ArrayAdapter<RadioStation> {
+public class RadioItemBigAdapter extends ArrayAdapter<RadioStation> implements Runnable {
+	public class QueueItem {
+		public String itsURL;
+		public ImageView itsImageView;
+
+		public QueueItem(String theURL, ImageView theImageView) {
+			itsURL = theURL;
+			itsImageView = theImageView;
+		}
+	}
+
+	HashMap<String, Bitmap> itsIconCache = new HashMap<String, Bitmap>();
+	BlockingQueue<QueueItem> itsQueuedDownloadJobs = new ArrayBlockingQueue<QueueItem>(1000);
+	Thread itsThread;
 
 	public RadioItemBigAdapter(Context context, int textViewResourceId) {
 		super(context, textViewResourceId);
-
 		itsContext = context;
+		itsThread = new Thread(this);
+		itsThread.start();
 	}
 
 	Context itsContext;
@@ -26,15 +49,62 @@ public class RadioItemBigAdapter extends ArrayAdapter<RadioStation> {
 		}
 		RadioStation aStation = getItem(position);
 		if (aStation != null) {
-			TextView tt = (TextView) v.findViewById(R.id.textViewLeft);
-			TextView bt = (TextView) v.findViewById(R.id.textViewRight);
-			if (tt != null) {
-				tt.setText("" + aStation.Name);
+			TextView aTextViewTop = (TextView) v.findViewById(R.id.textViewTop);
+			TextView aTextViewBottom = (TextView) v.findViewById(R.id.textViewBottom);
+			if (aTextViewTop != null) {
+				aTextViewTop.setText("" + aStation.Name);
 			}
-			if (bt != null) {
-				bt.setText("" + aStation.Votes);
+			if (aTextViewBottom != null) {
+				aTextViewBottom.setText("" + aStation.getShortDetails());
+			}
+			ImageView anImageView = (ImageView) v.findViewById(R.id.imageViewIcon);
+
+			// new DownloadImageTask(anImageView).execute(aStation.IconUrl);
+			if (itsIconCache.containsKey(aStation.IconUrl)) {
+				Bitmap aBitmap = itsIconCache.get(aStation.IconUrl);
+				if (aBitmap != null)
+					anImageView.setImageBitmap(aBitmap);
+				else
+					anImageView.setImageResource(R.drawable.empty);
+			} else {
+				try {
+					anImageView.setImageResource(R.drawable.empty);
+					itsQueuedDownloadJobs.put(new QueueItem(aStation.IconUrl, anImageView));
+				} catch (InterruptedException e) {
+					Log.e("Error", "" + e);
+				}
 			}
 		}
 		return v;
+	}
+
+	@Override
+	public void run() {
+		while (true) {
+			try {
+				final QueueItem anItem = itsQueuedDownloadJobs.take();
+				try {
+					if (!itsIconCache.containsKey(anItem.itsURL)) {
+						InputStream in = new java.net.URL(anItem.itsURL).openStream();
+						final Bitmap anIcon = BitmapFactory.decodeStream(in);
+						itsIconCache.put(anItem.itsURL, anIcon);
+
+						anItem.itsImageView.post(new Runnable() {
+							public void run() {
+								if (anIcon != null) {
+									anItem.itsImageView.setImageBitmap(anIcon);
+								}
+							}
+						});
+					}
+				} catch (Exception e) {
+					Log.e("Error", "" + e);
+					itsIconCache.put(anItem.itsURL, null);
+				}
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				Log.e("Error", "" + e);
+			}
+		}
 	}
 }
