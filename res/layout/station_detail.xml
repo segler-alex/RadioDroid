@@ -77,18 +77,27 @@
         android:layout_height="2dip"
         android:background="#dcdcdc" />
 
-    <TextView
-        android:id="@+id/detail_station_www"
-        android:layout_width="fill_parent"
+    <LinearLayout
+        android:id="@+id/detail_station_www_clickable"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/detail_weblink"
-        android:textSize="20sp" />
+        android:background="@android:drawable/list_selector_background"
+        android:clickable="true"
+        android:orientation="vertical" >
 
-    <TextView
-        android:id="@+id/detail_station_www_value"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:textSize="16sp" />
+        <TextView
+            android:id="@+id/detail_station_www"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/detail_weblink"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/detail_station_www_value"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:textSize="16sp" />
+    </LinearLayout>
 
     <TextView
         android:layout_width="fill_parent"
@@ -96,8 +105,15 @@
         android:background="#dcdcdc" />
 
     <Button
-        android:id="@+id/detail_button_play_stop"
+        android:id="@+id/detail_button_play"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:text="@string/detail_play" />
+
+    <Button
+        android:id="@+id/detail_button_stop"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/detail_stop" />
 
 </LinearLayout>

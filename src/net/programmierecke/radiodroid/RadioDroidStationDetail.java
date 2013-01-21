@@ -7,6 +7,7 @@ import android.app.ProgressDialog;
 import android.content.ComponentName;
 import android.content.Intent;
 import android.content.ServiceConnection;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.IBinder;
@@ -14,6 +15,7 @@ import android.os.RemoteException;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 public class RadioDroidStationDetail extends Activity {
@@ -78,33 +80,31 @@ public class RadioDroidStationDetail extends Activity {
 		TextView aTextViewTags = (TextView) findViewById(R.id.detail_station_tags_value);
 		aTextViewTags.setText(radioStation.TagsAll);
 
-		Button aButtonPlayStop = (Button) findViewById(R.id.detail_button_play_stop);
+		TextView aTextViewWWW = (TextView) findViewById(R.id.detail_station_www_value);
+		aTextViewWWW.setText(radioStation.HomePageUrl);
 
-		if (itsPlayerService != null) {
-			String aStationIDCurrent;
-			try {
-				aStationIDCurrent = itsPlayerService.getCurrentStationID();
-
-				if (aStationIDCurrent.equals(itsStation.ID)) {
-					aButtonPlayStop.setText(R.string.detail_stop);
-					aButtonPlayStop.setOnClickListener(new View.OnClickListener() {
-						public void onClick(View v) {
-							Stop();
-						}
-
-					});
-				} else {
-					aButtonPlayStop.setText(R.string.detail_play);
-					aButtonPlayStop.setOnClickListener(new View.OnClickListener() {
-						public void onClick(View v) {
-							Play();
-						}
-					});
-				}
-			} catch (RemoteException e) {
-				Log.e("", "" + e);
+		final String aLink = itsStation.HomePageUrl;
+		LinearLayout aLinLayoutWWW = (LinearLayout) findViewById(R.id.detail_station_www_clickable);
+		aLinLayoutWWW.setOnClickListener(new View.OnClickListener() {
+			public void onClick(View v) {
+				Intent aWWWIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(aLink));
+				startActivity(aWWWIntent);
 			}
-		}
+		});
+
+		Button aButtonPlay = (Button) findViewById(R.id.detail_button_play);
+		aButtonPlay.setOnClickListener(new View.OnClickListener() {
+			public void onClick(View v) {
+				Play();
+			}
+		});
+
+		Button aButtonStop = (Button) findViewById(R.id.detail_button_stop);
+		aButtonStop.setOnClickListener(new View.OnClickListener() {
+			public void onClick(View v) {
+				Stop();
+			}
+		});
 	}
 
 	private void Play() {

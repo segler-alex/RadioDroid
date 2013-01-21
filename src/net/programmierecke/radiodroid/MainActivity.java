@@ -89,20 +89,20 @@ public class MainActivity extends ListActivity {
 	}
 
 	void ClickOnItem(RadioStation theStation) {
-		// When clicked, show a toast with the TextView text
-		RadioStation aStation = theStation;
-		// itsProgressLoading = ProgressDialog.show(MainActivity.this,
-		// "","Loading...");
-		if (itsPlayerService != null) {
-			try {
-				itsPlayerService.Play(aStation.StreamUrl, aStation.Name, aStation.ID);
-			} catch (RemoteException e) {
-				// TODO Auto-generated catch block
-				Log.e(TAG, "" + e);
-			}
-		} else {
-			Log.v(TAG, "SERVICE NOT ONLINE");
-		}
+		Intent anIntent = new Intent(getBaseContext(), RadioDroidStationDetail.class);
+		anIntent.putExtra("stationid", theStation.ID);
+		startActivity(anIntent);
+
+		// if (itsPlayerService != null) {
+		// try {
+		// itsPlayerService.Play(aStation.StreamUrl, aStation.Name, aStation.ID);
+		// } catch (RemoteException e) {
+		// // TODO Auto-generated catch block
+		// Log.e(TAG, "" + e);
+		// }
+		// } else {
+		// Log.v(TAG, "SERVICE NOT ONLINE");
+		// }
 	}
 
 	final int MENU_STOP = 0;

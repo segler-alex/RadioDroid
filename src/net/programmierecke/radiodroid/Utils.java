@@ -38,6 +38,7 @@ public class Utils {
 				aStation.TagsAll = anObject.getString("tags");
 				aStation.Country = anObject.getString("country");
 				aStation.IconUrl = anObject.getString("favicon");
+				aStation.Language = anObject.getString("language");
 
 				aList.add(aStation);
 			}
