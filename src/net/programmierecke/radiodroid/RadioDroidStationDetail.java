@@ -87,8 +87,10 @@ public class RadioDroidStationDetail extends Activity {
 		LinearLayout aLinLayoutWWW = (LinearLayout) findViewById(R.id.detail_station_www_clickable);
 		aLinLayoutWWW.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
-				Intent aWWWIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(aLink));
-				startActivity(aWWWIntent);
+				if (aLink.toLowerCase(Locale.US).startsWith("http")) {
+					Intent aWWWIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(aLink));
+					startActivity(aWWWIntent);
+				}
 			}
 		});
 
