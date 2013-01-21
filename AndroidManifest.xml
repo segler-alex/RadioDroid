@@ -24,6 +24,7 @@
             </intent-filter>
         </activity>
         <service android:name="net.programmierecke.radiodroid.PlayerService"></service>
+        <activity android:name="RadioDroidStationDetail"></activity>
     </application>
 
 </manifest>

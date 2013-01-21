@@ -1,21 +1,5 @@
 package net.programmierecke.radiodroid;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.StatusLine;
-import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import android.app.ListActivity;
 import android.app.ProgressDialog;
 import android.content.ComponentName;
@@ -59,15 +43,16 @@ public class MainActivity extends ListActivity {
 		new AsyncTask<Void, Void, String>() {
 			@Override
 			protected String doInBackground(Void... params) {
-				return downloadFeed(theURL);
+				return Utils.downloadFeed(theURL);
 			}
 
 			@Override
 			protected void onPostExecute(String result) {
 				if (!isFinishing()) {
-					// Log.d(TAG, result);
-
-					DecodeJson(result);
+					itsArrayAdapter.clear();
+					for (RadioStation aStation : Utils.DecodeJson(result)) {
+						itsArrayAdapter.add(aStation);
+					}
 					getListView().invalidate();
 					itsProgressLoading.dismiss();
 				}
@@ -120,33 +105,6 @@ public class MainActivity extends ListActivity {
 		}
 	}
 
-	protected void DecodeJson(String result) {
-		try {
-			JSONArray jsonArray = new JSONArray(result);
-			Log.v(TAG, "Found entries:" + jsonArray.length());
-			itsArrayAdapter.clear();
-
-			for (int i = 0; i < jsonArray.length(); i++) {
-				JSONObject anObject = jsonArray.getJSONObject(i);
-				// Log.v(TAG, "found station:" + anObject.getString("name"));
-
-				RadioStation aStation = new RadioStation();
-				aStation.Name = anObject.getString("name");
-				aStation.StreamUrl = anObject.getString("url");
-				aStation.Votes = anObject.getInt("votes");
-				aStation.HomePageUrl = anObject.getString("homepage");
-				aStation.TagsAll = anObject.getString("tags");
-				aStation.Country = anObject.getString("country");
-				aStation.IconUrl = anObject.getString("favicon");
-
-				itsArrayAdapter.add(aStation);
-			}
-
-		} catch (JSONException e) {
-			e.printStackTrace();
-		}
-	}
-
 	final int MENU_STOP = 0;
 	final int MENU_TOPVOTE = 1;
 	final int MENU_TOPCLICK = 2;
@@ -190,32 +148,5 @@ public class MainActivity extends ListActivity {
 			return true;
 		}
 		return false;
-	}
-
-	public String downloadFeed(String theURI) {
-		StringBuilder builder = new StringBuilder();
-		HttpClient client = new DefaultHttpClient();
-		HttpGet httpGet = new HttpGet(theURI);
-		try {
-			HttpResponse response = client.execute(httpGet);
-			StatusLine statusLine = response.getStatusLine();
-			int statusCode = statusLine.getStatusCode();
-			if (statusCode == 200) {
-				HttpEntity entity = response.getEntity();
-				InputStream content = entity.getContent();
-				BufferedReader reader = new BufferedReader(new InputStreamReader(content));
-				String line;
-				while ((line = reader.readLine()) != null) {
-					builder.append(line);
-				}
-			} else {
-				Log.e(TAG, "Failed to download file");
-			}
-		} catch (ClientProtocolException e) {
-			Log.e(TAG, "" + e);
-		} catch (IOException e) {
-			Log.e(TAG, "" + e);
-		}
-		return builder.toString();
 	}
 }

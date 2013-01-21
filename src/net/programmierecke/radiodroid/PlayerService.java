@@ -44,6 +44,15 @@ public class PlayerService extends Service implements OnBufferingUpdateListener 
 		public void Stop() throws RemoteException {
 			PlayerService.this.Stop();
 		}
+
+		@Override
+		public String getCurrentStationID() throws RemoteException {
+			if (itsMediaPlayer == null)
+				return null;
+			if (!itsMediaPlayer.isPlaying())
+				return null;
+			return itsStationID;
+		}
 	};
 
 	@Override
@@ -58,7 +67,8 @@ public class PlayerService extends Service implements OnBufferingUpdateListener 
 	}
 
 	public void SendMessage(String theTitle, String theMessage, String theTicker) {
-		Intent notificationIntent = new Intent(itsContext, MainActivity.class);
+		Intent notificationIntent = new Intent(itsContext, RadioDroidStationDetail.class);
+		notificationIntent.putExtra("stationid", itsStationID);
 		notificationIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 		PendingIntent contentIntent = PendingIntent.getActivity(itsContext, 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 		Notification itsNotification = new NotificationCompat.Builder(itsContext).setContentIntent(contentIntent).setContentTitle(theTitle)
@@ -76,7 +86,6 @@ public class PlayerService extends Service implements OnBufferingUpdateListener 
 
 	Context itsContext;
 
-	@SuppressWarnings("unused")
 	private String itsStationID;
 	private String itsStationName;
 	private String itsStationURL;

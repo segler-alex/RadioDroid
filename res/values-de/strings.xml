@@ -2,8 +2,11 @@
 <resources>
     <string name="detail_name">Name</string>
     <string name="detail_tags">Tags</string>
-    <string name="detail_country">Country</string>
-    <string name="detail_language">Language</string>
+    
+    <string name="detail_country">Land</string>
+    <string name="detail_language">Sprache</string>
     <string name="detail_weblink">Weblink</string>
+    <string name="detail_play">Abspielen</string>
+    <string name="detail_stop">Stoppen</string>
     
 </resources>
