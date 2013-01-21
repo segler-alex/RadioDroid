@@ -187,6 +187,15 @@ public class PlayerService extends Service implements OnBufferingUpdateListener 
 		try {
 			URL anUrl = new URL(theUrl);
 			String aFileName = anUrl.getFile();
+
+			Log.v("", "Decoded filename:" + aFileName);
+			Log.v("", "Decoded query:" + anUrl.getQuery());
+
+			int aQueryIndex = aFileName.indexOf('?');
+			if (aQueryIndex >= 0) {
+				aFileName = aFileName.substring(0, aQueryIndex);
+			}
+
 			if (aFileName.endsWith(".pls")) {
 				Log.v(TAG, "Found PLS file");
 				String theFile = downloadFeed(theUrl);
