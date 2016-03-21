@@ -18,3 +18,19 @@ local.properties
 # Eclipse project files
 .classpath
 .project
+
+# idea IDE
+.idea*
+*.iml
+
+# Built application files
+/*/build/
+
+# Local configuration file (sdk path, etc)
+local.properties
+
+# Gradle generated files
+.gradle/
+
+# Signing files
+.signing/

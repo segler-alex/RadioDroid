@@ -217,8 +217,12 @@ public class PlayerService extends Service implements OnBufferingUpdateListener 
 				String str;
 				while ((str = aReader.readLine()) != null) {
 					Log.v(TAG, " -> " + str);
-					if (!str.substring(0, 1).equals("#")) {
-						return str.trim();
+					if (str.length() > 7) {
+						if (!str.substring(0, 1).equals("#")) {
+							if (str.substring(0,7).equals("http://")) {
+								return str.trim();
+							}
+						}
 					}
 				}
 			}
