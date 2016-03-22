@@ -1,4 +1,4 @@
-package net.programmierecke.radiodroid;
+package net.programmierecke.radiodroid2;
 
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;

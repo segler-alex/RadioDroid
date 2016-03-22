@@ -1,4 +1,4 @@
-package net.programmierecke.radiodroid;
+package net.programmierecke.radiodroid2;
 interface IPlayerService
 {
 void Play(String theUrl,String theName,String theID);

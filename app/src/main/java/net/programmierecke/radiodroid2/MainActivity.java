@@ -1,4 +1,4 @@
-package net.programmierecke.radiodroid;
+package net.programmierecke.radiodroid2;
 
 import android.app.ListActivity;
 import android.app.ProgressDialog;

@@ -1,4 +1,4 @@
-package net.programmierecke.radiodroid;
+package net.programmierecke.radiodroid2;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -6,7 +6,7 @@ android {
     useLibrary  'org.apache.http.legacy'
 
     defaultConfig {
-        applicationId "net.programmierecke.radiodroid"
+        applicationId "net.programmierecke.radiodroid2"
         minSdkVersion 8
         targetSdkVersion 17
     }
