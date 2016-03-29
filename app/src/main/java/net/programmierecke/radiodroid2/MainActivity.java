@@ -18,8 +18,9 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 
 public class MainActivity extends ListActivity {
-	private String itsAdressWWWTopClick25 = "http://www.radio-browser.info/webservice/json/stations/topclick/100";
+	private String itsAdressWWWTopClick = "http://www.radio-browser.info/webservice/json/stations/topclick/100";
 	private String itsAdressWWWTopVote25 = "http://www.radio-browser.info/webservice/json/stations/topvote/100";
+	private String itsAdressWWWChangedLately = "http://www.radio-browser.info/webservice/json/stations/lastchange/100";
 
 	ProgressDialog itsProgressLoading;
 	RadioItemBigAdapter itsArrayAdapter = null;
@@ -73,7 +74,7 @@ public class MainActivity extends ListActivity {
 		itsArrayAdapter = new RadioItemBigAdapter(this, R.layout.list_item_big);
 		setListAdapter(itsArrayAdapter);
 
-		RefillList(itsAdressWWWTopClick25);
+		RefillList(itsAdressWWWTopClick);
 
 		ListView lv = getListView();
 		lv.setTextFilterEnabled(true);
@@ -108,12 +109,14 @@ public class MainActivity extends ListActivity {
 	final int MENU_STOP = 0;
 	final int MENU_TOPVOTE = 1;
 	final int MENU_TOPCLICK = 2;
+	final int MENU_LAST_CHANGED = 3;
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		menu.add(Menu.NONE, MENU_STOP, Menu.NONE, "Stop");
 		menu.add(Menu.NONE, MENU_TOPVOTE, Menu.NONE, "TopVote");
 		menu.add(Menu.NONE, MENU_TOPCLICK, Menu.NONE, "TopClick");
+		menu.add(Menu.NONE, MENU_LAST_CHANGED, Menu.NONE, "Changed lately");
 
 		// Inflate the menu; this adds items to the action bar if it is present.
 		// getMenuInflater().inflate(R.menu.activity_main, menu);
@@ -143,10 +146,17 @@ public class MainActivity extends ListActivity {
 		}
 		if (item.getItemId() == MENU_TOPCLICK) {
 			Log.v(TAG, "menu : topclick");
-			RefillList(itsAdressWWWTopClick25);
+			RefillList(itsAdressWWWTopClick);
 			setTitle("TopClick");
 			return true;
 		}
+		if (item.getItemId() == MENU_LAST_CHANGED) {
+			Log.v(TAG, "menu : topclick");
+			RefillList(itsAdressWWWChangedLately);
+			setTitle("Changed lately");
+			return true;
+		}
+
 		return false;
 	}
 }
