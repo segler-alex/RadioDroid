@@ -18,8 +18,8 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 
 public class MainActivity extends ListActivity {
-	private String itsAdressWWWTopClick25 = "http://www.radio-browser.info/webservice/json/stations/topclick/25";
-	private String itsAdressWWWTopVote25 = "http://www.radio-browser.info/webservice/json/stations/topvote/25";
+	private String itsAdressWWWTopClick25 = "http://www.radio-browser.info/webservice/json/stations/topclick/100";
+	private String itsAdressWWWTopVote25 = "http://www.radio-browser.info/webservice/json/stations/topvote/100";
 
 	ProgressDialog itsProgressLoading;
 	RadioItemBigAdapter itsArrayAdapter = null;
