@@ -90,6 +90,9 @@ public class MainActivity extends ListActivity {
 	}
 
 	void ClickOnItem(RadioStation theStation) {
+		PlayerService thisService = new PlayerService();
+		thisService.unbindSafely( this, svcConn );
+
 		Intent anIntent = new Intent(getBaseContext(), RadioDroidStationDetail.class);
 		anIntent.putExtra("stationid", theStation.ID);
 		startActivity(anIntent);
@@ -122,6 +125,16 @@ public class MainActivity extends ListActivity {
 		// getMenuInflater().inflate(R.menu.activity_main, menu);
 		return true;
 	}
+
+	@Override
+	protected void onPause() {
+		super.onPause();
+		Log.v("mainactivity","onpause");
+
+		PlayerService thisService = new PlayerService();
+		thisService.unbindSafely( this, svcConn );
+	}
+
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {

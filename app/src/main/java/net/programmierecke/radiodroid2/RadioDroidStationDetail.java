@@ -65,6 +65,14 @@ public class RadioDroidStationDetail extends Activity {
 		}.execute();
 	}
 
+	@Override
+	protected void onPause() {
+		super.onPause();
+		Log.v("stationdetail", "onpause");
+		PlayerService thisService = new PlayerService();
+		thisService.unbindSafely(this, svcConn);
+	}
+
 	private void setStation(RadioStation radioStation) {
 		itsStation = radioStation;
 

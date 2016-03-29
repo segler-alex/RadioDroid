@@ -20,6 +20,7 @@ import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
+import android.content.ServiceConnection;
 import android.graphics.drawable.BitmapDrawable;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
@@ -237,5 +238,16 @@ public class PlayerService extends Service implements OnBufferingUpdateListener 
 		// Log.v(TAG, "Buffering:" + percent);
 		// SendMessage(itsStationName, "Buffering..", "Buffering .. (" + percent +
 		// "%)");
+	}
+
+	public void unbindSafely(Context appContext, ServiceConnection connection) {
+		try {
+			appContext.unbindService(connection);
+		} catch (Exception e) {
+			// We were unable to unbind, e.g. because no such service binding
+			// exists. This should be rare, but is possible, e.g. if the
+			// service was killed by Android in the meantime.
+			// We ignore this.
+		}
 	}
 }
