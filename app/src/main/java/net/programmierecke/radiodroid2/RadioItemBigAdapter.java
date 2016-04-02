@@ -66,20 +66,25 @@ public class RadioItemBigAdapter extends ArrayAdapter<RadioStation> implements R
 			// new DownloadImageTask(anImageView).execute(aStation.IconUrl);
 			if (itsIconCache.containsKey(aStation.IconUrl)) {
 				Bitmap aBitmap = itsIconCache.get(aStation.IconUrl);
-				if (aBitmap != null)
+				if (aBitmap != null) {
+					anImageView.setVisibility(View.VISIBLE);
 					anImageView.setImageBitmap(aBitmap);
+				}
 				else
-					anImageView.setImageResource(R.drawable.empty);
+					anImageView.setVisibility(View.GONE);
+					//anImageView.setImageResource(R.drawable.empty);
 			} else {
 				try {
 					// check download cache
 					String aFileNameIcon = getBase64(aStation.IconUrl);
 					Bitmap anIcon = BitmapFactory.decodeStream(itsContext.openFileInput(aFileNameIcon));
+					anImageView.setVisibility(View.VISIBLE);
 					anImageView.setImageBitmap(anIcon);
 					itsIconCache.put(aStation.IconUrl, anIcon);
 				} catch (Exception e) {
 					try {
-						anImageView.setImageResource(R.drawable.empty);
+						//anImageView.setImageResource(R.drawable.empty);
+						anImageView.setVisibility(View.GONE);
 						itsQueuedDownloadJobs.put(new QueueItem(aStation.IconUrl, anImageView));
 					} catch (InterruptedException e2) {
 						Log.e("Error", "" + e2);
