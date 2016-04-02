@@ -23,16 +23,16 @@ public class RadioStation {
 	public String getShortDetails() {
 		List<String> aList = new ArrayList<String>();
 		if (Country != null) {
-			if (Country.trim().equals(""))
+			if (!Country.trim().equals(""))
 				aList.add(Country);
 		}
 		if (Language != null) {
-			if (Language.trim().equals(""))
+			if (!Language.trim().equals(""))
 				aList.add(Language);
 		}
 		if (TagsAll != null) {
 			for (String aPart : TagsAll.split(",")) {
-				if (aPart.trim().equals(""))
+				if (!aPart.trim().equals(""))
 					aList.add(aPart);
 			}
 		}
