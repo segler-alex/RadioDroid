@@ -111,6 +111,7 @@ public class RadioItemBigAdapter extends ArrayAdapter<RadioStation> implements R
 								if (anIcon != null) {
 									// set image in view
 									anItem.itsImageView.setImageBitmap(anIcon);
+									anItem.itsImageView.setVisibility(View.VISIBLE);
 
 									// save image to file
 									String aFileName = getBase64(anItem.itsURL);
