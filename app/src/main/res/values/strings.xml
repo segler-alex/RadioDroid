@@ -8,4 +8,5 @@
     <string name="detail_weblink">Weblink</string>
     <string name="detail_play">Play</string>
     <string name="detail_stop">Stop</string>
+    <string name="detail_share">Share</string>
 </resources>

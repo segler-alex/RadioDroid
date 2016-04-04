@@ -116,4 +116,10 @@
         android:layout_height="wrap_content"
         android:text="@string/detail_stop" />
 
+    <Button
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/detail_share"
+        android:id="@+id/detail_button_share" />
+
 </LinearLayout>

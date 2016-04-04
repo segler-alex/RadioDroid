@@ -9,5 +9,5 @@
     <string name="detail_play">Abspielen</string>
     <string name="detail_stop">Stoppen</string>
     <string name="app_name">RadioDroid</string>
-
+    <string name="detail_share">Teilen</string>
 </resources>

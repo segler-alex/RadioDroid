@@ -115,6 +115,19 @@ public class RadioDroidStationDetail extends Activity {
 				Stop();
 			}
 		});
+
+		Button aButtonShare = (Button) findViewById(R.id.detail_button_share);
+		aButtonShare.setOnClickListener(new View.OnClickListener() {
+			public void onClick(View v) {
+				Share();
+			}
+		});
+	}
+
+	private void Share() {
+		Intent share = new Intent(Intent.ACTION_VIEW);
+		share.setDataAndType(Uri.parse(itsStation.StreamUrl), "audio/*");
+		startActivity(Intent.createChooser(share, "Share stream.."));
 	}
 
 	private void Play() {
