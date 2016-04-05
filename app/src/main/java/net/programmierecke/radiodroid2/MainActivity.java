@@ -154,19 +154,19 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
 		if (item.getItemId() == R.id.action_top_vote) {
 			Log.v(TAG, "menu : topvote");
 			RefillList(itsAdressWWWTopVote25);
-			setTitle("TopVote");
+			setTitle(R.string.action_top_vote);
 			return true;
 		}
 		if (item.getItemId() == R.id.action_top_click) {
 			Log.v(TAG, "menu : topclick");
 			RefillList(itsAdressWWWTopClick);
-			setTitle("TopClick");
+			setTitle(R.string.action_top_click);
 			return true;
 		}
 		if (item.getItemId() == R.id.action_changed_lately) {
 			Log.v(TAG, "menu : topclick");
 			RefillList(itsAdressWWWChangedLately);
-			setTitle("Changed lately");
+			setTitle(R.string.action_changed_lately);
 			return true;
 		}
 
