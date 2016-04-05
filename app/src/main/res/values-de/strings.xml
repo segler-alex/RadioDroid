@@ -11,4 +11,7 @@
     <string name="app_name">RadioDroid</string>
     <string name="detail_share">Teilen</string>
     <string name="action_search">Suche</string>
+    <string name="action_top_click">Meiste Klicks</string>
+    <string name="action_top_vote">Höchste Bewertung</string>
+    <string name="action_changed_lately">Kürzlich geändert</string>
 </resources>
