@@ -14,6 +14,9 @@ import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import android.app.Notification;
 import android.app.PendingIntent;
@@ -102,35 +105,46 @@ public class PlayerService extends Service implements OnBufferingUpdateListener 
 
 				Log.v(TAG, "Stream url:" + aStation);
 				SendMessage(itsStationName, "Decoding URL", "Decoding URL");
-				String aDecodedURL = DecodeURL(aStation);
-
-				Log.v(TAG, "Stream url decoded:" + aDecodedURL);
-				if (itsMediaPlayer == null) {
-					itsMediaPlayer = new MediaPlayer();
-					itsMediaPlayer.setOnBufferingUpdateListener(PlayerService.this);
-				}
-				if (itsMediaPlayer.isPlaying()) {
-					itsMediaPlayer.stop();
-					itsMediaPlayer.reset();
-				}
+				String decodedURLJson = downloadFeed("http://www.radio-browser.info/webservice/json/url/" + itsStationID);
+				String aDecodedURL = null;
+				JSONObject jsonObj = null;
+				JSONArray jsonArr = null;
 				try {
-					SendMessage(itsStationName, "Preparing stream", "Preparing stream");
-					itsMediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
-					itsMediaPlayer.setDataSource(aDecodedURL);
-					itsMediaPlayer.prepare();
-					SendMessage(itsStationName, "Playing", "Playing '" + itsStationName + "'");
-					itsMediaPlayer.start();
-				} catch (IllegalArgumentException e) {
-					Log.e(TAG, "" + e);
-					SendMessage(itsStationName, "Stream url problem", "Stream url problem");
-					Stop();
-				} catch (IOException e) {
-					Log.e(TAG, "" + e);
-					SendMessage(itsStationName, "Stream caching problem", "Stream caching problem");
-					Stop();
-				} catch (Exception e) {
-					Log.e(TAG, "" + e);
-					SendMessage(itsStationName, "Unable to play stream", "Unable to play stream");
+					jsonArr = new JSONArray(decodedURLJson);
+					jsonObj = jsonArr.getJSONObject(0);
+					aDecodedURL = jsonObj.getString("url");
+
+					Log.v(TAG, "Stream url decoded:" + aDecodedURL);
+					if (itsMediaPlayer == null) {
+						itsMediaPlayer = new MediaPlayer();
+						itsMediaPlayer.setOnBufferingUpdateListener(PlayerService.this);
+					}
+					if (itsMediaPlayer.isPlaying()) {
+						itsMediaPlayer.stop();
+						itsMediaPlayer.reset();
+					}
+					try {
+						SendMessage(itsStationName, "Preparing stream", "Preparing stream");
+						itsMediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
+						itsMediaPlayer.setDataSource(aDecodedURL);
+						itsMediaPlayer.prepare();
+						SendMessage(itsStationName, "Playing", "Playing '" + itsStationName + "'");
+						itsMediaPlayer.start();
+					} catch (IllegalArgumentException e) {
+						Log.e(TAG, "" + e);
+						SendMessage(itsStationName, "Stream url problem", "Stream url problem");
+						Stop();
+					} catch (IOException e) {
+						Log.e(TAG, "" + e);
+						SendMessage(itsStationName, "Stream caching problem", "Stream caching problem");
+						Stop();
+					} catch (Exception e) {
+						Log.e(TAG, "" + e);
+						SendMessage(itsStationName, "Unable to play stream", "Unable to play stream");
+						Stop();
+					}
+				} catch (JSONException e) {
+					e.printStackTrace();
 					Stop();
 				}
 				return null;
@@ -184,7 +198,7 @@ public class PlayerService extends Service implements OnBufferingUpdateListener 
 		return builder.toString();
 	}
 
-	String DecodeURL(String theUrl) {
+	/*String DecodeURL(String theUrl) {
 		try {
 			URL anUrl = new URL(theUrl);
 			String aFileName = anUrl.getFile();
@@ -231,7 +245,7 @@ public class PlayerService extends Service implements OnBufferingUpdateListener 
 			Log.e(TAG, "" + e);
 		}
 		return theUrl;
-	}
+	}*/
 
 	@Override
 	public void onBufferingUpdate(MediaPlayer mp, int percent) {
