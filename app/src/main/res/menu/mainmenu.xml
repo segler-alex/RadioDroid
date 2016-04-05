@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/action_search"
+        android:title="@string/action_search"
+        android:icon="@drawable/ic_action_action_search"
+        app:actionViewClass="android.support.v7.widget.SearchView"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/action_top_click"
+        android:title="@string/action_top_click"
+        app:actionViewClass="android.support.v7.widget.SearchView"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_top_vote"
+        android:title="@string/action_top_vote"
+        app:actionViewClass="android.support.v7.widget.SearchView"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_changed_lately"
+        android:title="@string/action_changed_lately"
+        app:actionViewClass="android.support.v7.widget.SearchView"
+        app:showAsAction="never" />
+</menu>

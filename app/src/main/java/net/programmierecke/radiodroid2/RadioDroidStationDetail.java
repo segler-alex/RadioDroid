@@ -12,13 +12,18 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.os.RemoteException;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-public class RadioDroidStationDetail extends Activity {
+public class RadioDroidStationDetail extends AppCompatActivity {
 	ProgressDialog itsProgressLoading;
 	RadioStation itsStation;
 
@@ -27,6 +32,15 @@ public class RadioDroidStationDetail extends Activity {
 		Log.v("", "Oncreate");
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.station_detail);
+
+		Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
+		setSupportActionBar(myToolbar);
+
+		// Get a support ActionBar corresponding to this toolbar
+		ActionBar ab = getSupportActionBar();
+
+		// Enable the Up button
+		ab.setDisplayHomeAsUpEnabled(true);
 
 		Bundle anExtras = getIntent().getExtras();
 		final String aStationID = anExtras.getString("stationid");
@@ -65,6 +79,45 @@ public class RadioDroidStationDetail extends Activity {
 		}.execute();
 	}
 
+	void UpdateMenu(Menu menu){
+		if (IsPlaying()) {
+			menu.findItem(R.id.action_stop).setVisible(true);
+		}
+		else{
+			menu.findItem(R.id.action_stop).setVisible(false);
+		}
+	}
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		getMenuInflater().inflate(R.menu.simplemenu, menu);
+		UpdateMenu(menu);
+		return true;
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+			case R.id.action_play:
+				Play();
+				return true;
+
+			case R.id.action_stop:
+				Stop();
+				item.setVisible(false);
+				return true;
+
+			case R.id.action_share:
+				Share();
+				return true;
+
+			default:
+				// If we got here, the user's action was not recognized.
+				// Invoke the superclass to handle it.
+				return super.onOptionsItemSelected(item);
+		}
+	}
+
 	@Override
 	protected void onPause() {
 		super.onPause();
@@ -101,33 +154,22 @@ public class RadioDroidStationDetail extends Activity {
 				}
 			}
 		});
+	}
 
-		Button aButtonPlay = (Button) findViewById(R.id.detail_button_play);
-		aButtonPlay.setOnClickListener(new View.OnClickListener() {
-			public void onClick(View v) {
-				Play();
+	private boolean IsPlaying(){
+		if (itsPlayerService != null){
+			try {
+				return itsPlayerService.getCurrentStationID() != null;
+			} catch (RemoteException e) {
 			}
-		});
-
-		Button aButtonStop = (Button) findViewById(R.id.detail_button_stop);
-		aButtonStop.setOnClickListener(new View.OnClickListener() {
-			public void onClick(View v) {
-				Stop();
-			}
-		});
-
-		Button aButtonShare = (Button) findViewById(R.id.detail_button_share);
-		aButtonShare.setOnClickListener(new View.OnClickListener() {
-			public void onClick(View v) {
-				Share();
-			}
-		});
+		}
+		return false;
 	}
 
 	private void Share() {
 		Intent share = new Intent(Intent.ACTION_VIEW);
 		share.setDataAndType(Uri.parse(itsStation.StreamUrl), "audio/*");
-		startActivity(Intent.createChooser(share, "Share stream.."));
+		startActivity(share);
 	}
 
 	private void Play() {

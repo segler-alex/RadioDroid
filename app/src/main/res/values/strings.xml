@@ -9,4 +9,8 @@
     <string name="detail_play">Play</string>
     <string name="detail_stop">Stop</string>
     <string name="detail_share">Share</string>
+    <string name="action_search">Search</string>
+    <string name="action_top_click">TopClick</string>
+    <string name="action_top_vote">TopVote</string>
+    <string name="action_changed_lately">Changed lately</string>
 </resources>

@@ -1,9 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/LinearLayout1"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical" >
+    android:orientation="vertical">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/my_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorPrimary"
+        android:elevation="4dp"
+        android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
 
     <TextView
         android:id="@+id/detail_station_name"
@@ -103,23 +113,5 @@
         android:layout_width="fill_parent"
         android:layout_height="2dip"
         android:background="#dcdcdc" />
-
-    <Button
-        android:id="@+id/detail_button_play"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/detail_play" />
-
-    <Button
-        android:id="@+id/detail_button_stop"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/detail_stop" />
-
-    <Button
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/detail_share"
-        android:id="@+id/detail_button_share" />
 
 </LinearLayout>
