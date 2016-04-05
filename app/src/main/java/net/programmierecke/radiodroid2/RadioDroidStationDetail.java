@@ -80,19 +80,21 @@ public class RadioDroidStationDetail extends AppCompatActivity {
 		}.execute();
 	}
 
-	void UpdateMenu(Menu menu){
-		if (IsPlaying()) {
-			menu.findItem(R.id.action_stop).setVisible(true);
-		}
-		else{
-			menu.findItem(R.id.action_stop).setVisible(false);
+	void UpdateMenu(){
+		if (m_Menu_Stop != null) {
+			m_Menu_Stop.setVisible(IsPlaying());
 		}
 	}
 
+	Menu m_Menu;
+	MenuItem m_Menu_Stop;
+
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
+		m_Menu = menu;
 		getMenuInflater().inflate(R.menu.simplemenu, menu);
-		UpdateMenu(menu);
+		m_Menu_Stop = m_Menu.findItem(R.id.action_stop);
+		UpdateMenu();
 		return true;
 	}
 
@@ -105,7 +107,6 @@ public class RadioDroidStationDetail extends AppCompatActivity {
 
 			case R.id.action_stop:
 				Stop();
-				item.setVisible(false);
 				return true;
 
 			case R.id.action_share:
@@ -183,6 +184,9 @@ public class RadioDroidStationDetail extends AppCompatActivity {
 			} catch (RemoteException e) {
 				Log.e("", "" + e);
 			}
+			if (m_Menu_Stop != null) {
+				m_Menu_Stop.setVisible(true);
+			}
 		}
 	}
 
@@ -192,6 +196,9 @@ public class RadioDroidStationDetail extends AppCompatActivity {
 				itsPlayerService.Stop();
 			} catch (RemoteException e) {
 				Log.e("", "" + e);
+			}
+			if (m_Menu_Stop != null) {
+				m_Menu_Stop.setVisible(false);
 			}
 		}
 	}

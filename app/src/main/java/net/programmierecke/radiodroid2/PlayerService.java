@@ -37,7 +37,13 @@ import android.util.Log;
 public class PlayerService extends Service implements OnBufferingUpdateListener {
 	protected static final int NOTIFY_ID = 1;
 	final String TAG = "PlayerService";
-	MediaPlayer itsMediaPlayer = null;
+
+	private Context itsContext;
+
+	private String itsStationID;
+	private String itsStationName;
+	private String itsStationURL;
+	private MediaPlayer itsMediaPlayer = null;
 
 	private final IPlayerService.Stub itsBinder = new IPlayerService.Stub() {
 
@@ -70,14 +76,42 @@ public class PlayerService extends Service implements OnBufferingUpdateListener 
 		itsContext = this;
 	}
 
+	@Override
+	public int onStartCommand (Intent intent, int flags, int startId){
+		if (intent != null) {
+			String action = intent.getAction();
+			if (action != null) {
+				if (action.equals("stop")) {
+					Stop();
+				}
+			}
+		}
+
+		return super.onStartCommand(intent,flags,startId);
+	}
+
 	public void SendMessage(String theTitle, String theMessage, String theTicker) {
 		Intent notificationIntent = new Intent(itsContext, RadioDroidStationDetail.class);
 		notificationIntent.putExtra("stationid", itsStationID);
 		notificationIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
+		Intent stopIntent = new Intent(itsContext, PlayerService.class);
+		stopIntent.setAction("stop");
+		PendingIntent pendingIntentStop = PendingIntent.getService(itsContext, 0, stopIntent, 0);
+
 		PendingIntent contentIntent = PendingIntent.getActivity(itsContext, 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-		Notification itsNotification = new NotificationCompat.Builder(itsContext).setContentIntent(contentIntent).setContentTitle(theTitle)
-				.setContentText(theMessage).setWhen(System.currentTimeMillis()).setTicker(theTicker).setOngoing(true).setUsesChronometer(true)
-				.setSmallIcon(R.drawable.play).setLargeIcon((((BitmapDrawable) getResources().getDrawable(R.drawable.ic_launcher)).getBitmap())).build();
+		Notification itsNotification = new NotificationCompat.Builder(itsContext)
+				.setContentIntent(contentIntent)
+				.setContentTitle(theTitle)
+				.setContentText(theMessage)
+				.setWhen(System.currentTimeMillis())
+				.setTicker(theTicker)
+				.setOngoing(true)
+				.setUsesChronometer(true)
+				.setSmallIcon(R.drawable.play)
+				.setLargeIcon((((BitmapDrawable) getResources().getDrawable(R.drawable.ic_launcher)).getBitmap()))
+				.addAction(R.drawable.stop,"Stop",pendingIntentStop)
+				.build();
 
 		startForeground(NOTIFY_ID, itsNotification);
 	}
@@ -87,12 +121,6 @@ public class PlayerService extends Service implements OnBufferingUpdateListener 
 		Stop();
 		stopForeground(true);
 	}
-
-	Context itsContext;
-
-	private String itsStationID;
-	private String itsStationName;
-	private String itsStationURL;
 
 	public void PlayUrl(String theURL, String theName, String theID) {
 		itsStationID = theID;
@@ -198,55 +226,6 @@ public class PlayerService extends Service implements OnBufferingUpdateListener 
 		return builder.toString();
 	}
 
-	/*String DecodeURL(String theUrl) {
-		try {
-			URL anUrl = new URL(theUrl);
-			String aFileName = anUrl.getFile();
-
-			Log.v("", "Decoded filename:" + aFileName);
-			Log.v("", "Decoded query:" + anUrl.getQuery());
-
-			int aQueryIndex = aFileName.indexOf('?');
-			if (aQueryIndex >= 0) {
-				aFileName = aFileName.substring(0, aQueryIndex);
-			}
-
-			if (aFileName.endsWith(".pls")) {
-				Log.v(TAG, "Found PLS file");
-				String theFile = downloadFeed(theUrl);
-				BufferedReader aReader = new BufferedReader(new StringReader(theFile));
-				String str;
-				while ((str = aReader.readLine()) != null) {
-					Log.v(TAG, " -> " + str);
-					if (str.substring(0, 4).equals("File")) {
-						int anIndex = str.indexOf('=');
-						if (anIndex >= 0) {
-							return str.substring(anIndex + 1);
-						}
-					}
-				}
-			} else if (aFileName.endsWith(".m3u")) {
-				Log.v(TAG, "Found M3U file");
-				String theFile = downloadFeed(theUrl);
-				BufferedReader aReader = new BufferedReader(new StringReader(theFile));
-				String str;
-				while ((str = aReader.readLine()) != null) {
-					Log.v(TAG, " -> " + str);
-					if (str.length() > 7) {
-						if (!str.substring(0, 1).equals("#")) {
-							if (str.substring(0,7).equals("http://")) {
-								return str.trim();
-							}
-						}
-					}
-				}
-			}
-		} catch (Exception e) {
-			Log.e(TAG, "" + e);
-		}
-		return theUrl;
-	}*/
-
 	@Override
 	public void onBufferingUpdate(MediaPlayer mp, int percent) {
 		// Log.v(TAG, "Buffering:" + percent);
@@ -258,10 +237,6 @@ public class PlayerService extends Service implements OnBufferingUpdateListener 
 		try {
 			appContext.unbindService(connection);
 		} catch (Exception e) {
-			// We were unable to unbind, e.g. because no such service binding
-			// exists. This should be rare, but is possible, e.g. if the
-			// service was killed by Android in the meantime.
-			// We ignore this.
 		}
 	}
 }
