@@ -15,6 +15,7 @@ import android.os.RemoteException;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -133,7 +134,10 @@ public class RadioDroidStationDetail extends AppCompatActivity {
 		aTextViewName.setText(radioStation.Name);
 
 		TextView aTextViewCountry = (TextView) findViewById(R.id.detail_station_country_value);
-		aTextViewCountry.setText(radioStation.Country);
+		if (TextUtils.isEmpty(radioStation.State))
+			aTextViewCountry.setText(radioStation.Country);
+		else
+			aTextViewCountry.setText(radioStation.Country+"/"+radioStation.State);
 
 		TextView aTextViewLanguage = (TextView) findViewById(R.id.detail_station_language_value);
 		aTextViewLanguage.setText(radioStation.Language);

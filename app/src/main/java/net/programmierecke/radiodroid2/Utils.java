@@ -37,6 +37,7 @@ public class Utils {
 				aStation.HomePageUrl = anObject.getString("homepage");
 				aStation.TagsAll = anObject.getString("tags");
 				aStation.Country = anObject.getString("country");
+				aStation.State = anObject.getString("state");
 				aStation.IconUrl = anObject.getString("favicon");
 				aStation.Language = anObject.getString("language");
 

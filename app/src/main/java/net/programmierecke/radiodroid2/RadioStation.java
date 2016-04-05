@@ -15,6 +15,7 @@ public class RadioStation {
 	public String HomePageUrl;
 	public String IconUrl;
 	public String Country;
+	public String State;
 	public String TagsAll;
 	public String Language;
 	public int ClickCount;
@@ -25,6 +26,10 @@ public class RadioStation {
 		if (Country != null) {
 			if (!Country.trim().equals(""))
 				aList.add(Country);
+		}
+		if (State != null) {
+			if (!State.trim().equals(""))
+				aList.add(State);
 		}
 		if (Language != null) {
 			if (!Language.trim().equals(""))
