@@ -1,24 +1,19 @@
 package net.programmierecke.radiodroid2;
 
+import android.content.pm.PackageInfo;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.StatusLine;
-import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.DefaultHttpClient;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import android.util.Log;
 
 public class Utils {
 	public static RadioStation[] DecodeJson(String result) {
@@ -51,29 +46,27 @@ public class Utils {
 	}
 
 	public static String downloadFeed(String theURI) {
-		StringBuilder builder = new StringBuilder();
-		HttpClient client = new DefaultHttpClient();
-		HttpGet httpGet = new HttpGet(theURI);
-		try {
-			HttpResponse response = client.execute(httpGet);
-			StatusLine statusLine = response.getStatusLine();
-			int statusCode = statusLine.getStatusCode();
-			if (statusCode == 200) {
-				HttpEntity entity = response.getEntity();
-				InputStream content = entity.getContent();
-				BufferedReader reader = new BufferedReader(new InputStreamReader(content));
-				String line;
-				while ((line = reader.readLine()) != null) {
-					builder.append(line);
-				}
-			} else {
-				Log.e("", "Failed to download file");
+		StringBuffer chaine = new StringBuffer("");
+		try{
+			URL url = new URL(theURI);
+			HttpURLConnection connection = (HttpURLConnection)url.openConnection();
+			connection.setRequestProperty("User-Agent", "RadioDroid2 ("+BuildConfig.VERSION_NAME+")");
+			connection.setRequestMethod("GET");
+			connection.setDoInput(true);
+			connection.connect();
+
+			InputStream inputStream = connection.getInputStream();
+			BufferedReader rd = new BufferedReader(new InputStreamReader(inputStream));
+			String line = "";
+			while ((line = rd.readLine()) != null) {
+				chaine.append(line);
 			}
-		} catch (ClientProtocolException e) {
-			Log.e("", "" + e);
+
 		} catch (IOException e) {
-			Log.e("", "" + e);
+			// writing exception to log
+			e.printStackTrace();
 		}
-		return builder.toString();
+
+		return chaine.toString();
 	}
 }
