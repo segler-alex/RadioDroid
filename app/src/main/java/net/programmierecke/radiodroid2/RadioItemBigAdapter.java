@@ -11,6 +11,7 @@ import java.util.concurrent.BlockingQueue;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.text.TextUtils;
 import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -76,11 +77,14 @@ public class RadioItemBigAdapter extends ArrayAdapter<RadioStation> implements R
 			} else {
 				try {
 					// check download cache
-					String aFileNameIcon = getBase64(aStation.IconUrl);
-					Bitmap anIcon = BitmapFactory.decodeStream(itsContext.openFileInput(aFileNameIcon));
-					anImageView.setVisibility(View.VISIBLE);
-					anImageView.setImageBitmap(anIcon);
-					itsIconCache.put(aStation.IconUrl, anIcon);
+					Log.v("ICONLOAD","--URL="+aStation.IconUrl);
+					if (TextUtils.isGraphic(aStation.IconUrl)) {
+						String aFileNameIcon = getBase64(aStation.IconUrl);
+						Bitmap anIcon = BitmapFactory.decodeStream(itsContext.openFileInput(aFileNameIcon));
+						anImageView.setVisibility(View.VISIBLE);
+						anImageView.setImageBitmap(anIcon);
+						itsIconCache.put(aStation.IconUrl, anIcon);
+					}
 				} catch (Exception e) {
 					try {
 						//anImageView.setImageResource(R.drawable.empty);
