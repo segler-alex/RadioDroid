@@ -4,6 +4,8 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.ref.WeakReference;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
@@ -24,11 +26,9 @@ import android.widget.TextView;
 public class RadioItemBigAdapter extends ArrayAdapter<RadioStation> implements Runnable {
 	public class QueueItem {
 		public String itsURL;
-		public ImageView itsImageView;
 
 		public QueueItem(String theURL, ImageView theImageView) {
 			itsURL = theURL;
-			itsImageView = theImageView;
 		}
 	}
 
@@ -45,14 +45,73 @@ public class RadioItemBigAdapter extends ArrayAdapter<RadioStation> implements R
 
 	Context itsContext;
 
+	class MyItem{
+		public WeakReference<View> v = null;
+		public RadioStation station;
+		public int position;
+		public String GetHash(){
+			if (TextUtils.isGraphic(station.StreamUrl)) {
+				return getBase64(station.StreamUrl);
+			}
+			return null;
+		}
+
+		public void SetIcon(final Bitmap anIcon) {
+			if (anIcon != null) {
+				if (v != null) {
+					final View vHard = v.get();
+					if (vHard != null) {
+						vHard.post(new Runnable() {
+							public void run() {
+								final ImageView anImageView = (ImageView) vHard.findViewById(R.id.imageViewIcon);
+
+								// set image in view
+								anImageView.setImageBitmap(anIcon);
+								anImageView.setVisibility(View.VISIBLE);
+								Log.w("ok","replaced icon:"+station.Name);
+							}
+						});
+					}else{
+						Log.w("","vhard == null");
+					}
+				}else{
+					Log.w("","v == null");
+				}
+			}else{
+				Log.w("","icon == null");
+			}
+		}
+	}
+	ArrayList<MyItem> listViewItems = new ArrayList<MyItem>();
+
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
+		RadioStation aStation = getItem(position);
+
 		View v = convertView;
 		if (v == null) {
 			LayoutInflater vi = (LayoutInflater) itsContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 			v = vi.inflate(R.layout.list_item_big, null);
+
+			MyItem item = new MyItem();
+			item.v = new WeakReference<View>(v);
+			item.position = position;
+			item.station = aStation;
+			listViewItems.add(item);
+		}else {
+			for (int i = 0; i < listViewItems.size(); i++) {
+				MyItem item = listViewItems.get(i);
+				View ref = item.v.get();
+				if (ref != null) {
+					if (convertView == ref) {
+						item.station = aStation;
+						item.position = position;
+						break;
+					}
+				}
+			}
 		}
-		RadioStation aStation = getItem(position);
+
 		if (aStation != null) {
 			TextView aTextViewTop = (TextView) v.findViewById(R.id.textViewTop);
 			TextView aTextViewBottom = (TextView) v.findViewById(R.id.textViewBottom);
@@ -77,7 +136,7 @@ public class RadioItemBigAdapter extends ArrayAdapter<RadioStation> implements R
 			} else {
 				try {
 					// check download cache
-					Log.v("ICONLOAD","--URL="+aStation.IconUrl);
+					Log.v("ICONLOAD", "--URL=" + aStation.IconUrl);
 					if (TextUtils.isGraphic(aStation.IconUrl)) {
 						String aFileNameIcon = getBase64(aStation.IconUrl);
 						Bitmap anIcon = BitmapFactory.decodeStream(itsContext.openFileInput(aFileNameIcon));
@@ -89,9 +148,9 @@ public class RadioItemBigAdapter extends ArrayAdapter<RadioStation> implements R
 					try {
 						//anImageView.setImageResource(R.drawable.empty);
 						anImageView.setVisibility(View.GONE);
-						itsQueuedDownloadJobs.put(new QueueItem(aStation.IconUrl, anImageView));
+						itsQueuedDownloadJobs.put(new QueueItem(aStation.IconUrl, null));
 					} catch (InterruptedException e2) {
-						Log.e("Error", "" + e2);
+						Log.e("Errorabc", "" + e2.getStackTrace());
 					}
 				}
 			}
@@ -106,40 +165,43 @@ public class RadioItemBigAdapter extends ArrayAdapter<RadioStation> implements R
 				final QueueItem anItem = itsQueuedDownloadJobs.take();
 				try {
 					if (!itsIconCache.containsKey(anItem.itsURL)) {
+						// load image from url
 						InputStream in = new java.net.URL(anItem.itsURL).openStream();
 						final Bitmap anIcon = BitmapFactory.decodeStream(in);
 						itsIconCache.put(anItem.itsURL, anIcon);
 
-						anItem.itsImageView.post(new Runnable() {
-							public void run() {
-								if (anIcon != null) {
-									// set image in view
-									anItem.itsImageView.setImageBitmap(anIcon);
-									anItem.itsImageView.setVisibility(View.VISIBLE);
+						// save image to file
+						String aFileName = getBase64(anItem.itsURL);
+						Log.v("", "" + anItem.itsURL + "->" + aFileName);
+						try {
+							FileOutputStream aStream = itsContext.openFileOutput(aFileName, Context.MODE_PRIVATE);
+							anIcon.compress(Bitmap.CompressFormat.PNG, 100, aStream);
+							aStream.close();
+						} catch (FileNotFoundException e) {
+							Log.e("", "my1" + e);
+						} catch (IOException e) {
+							Log.e("", "my2" + e);
+						}
 
-									// save image to file
-									String aFileName = getBase64(anItem.itsURL);
-									Log.v("", "" + anItem.itsURL + "->" + aFileName);
-									try {
-										FileOutputStream aStream = itsContext.openFileOutput(aFileName, Context.MODE_PRIVATE);
-										anIcon.compress(Bitmap.CompressFormat.PNG, 100, aStream);
-										aStream.close();
-									} catch (FileNotFoundException e) {
-										Log.e("", "" + e);
-									} catch (IOException e) {
-										Log.e("", "" + e);
+						for (int i=0;i< listViewItems.size();i++){
+							MyItem item = listViewItems.get(i);
+							if (item.station != null) {
+								if (item.station.IconUrl != null) {
+									if (item.station.IconUrl.equals(anItem.itsURL)) {
+										Log.d("", "Refresh icon:"+anItem.itsURL);
+										item.SetIcon(anIcon);
 									}
 								}
 							}
-						});
+						}
 					}
 				} catch (Exception e) {
-					Log.e("Error", "" + e);
+					Log.e("Error3", "Could not load "+anItem.itsURL+" " + e);
 					itsIconCache.put(anItem.itsURL, null);
 				}
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
-				Log.e("Error", "" + e);
+				Log.e("Error4", "" + e);
 			}
 		}
 	}
