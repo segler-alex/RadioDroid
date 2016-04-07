@@ -24,6 +24,10 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 public class RadioDroidStationDetail extends AppCompatActivity {
 	ProgressDialog itsProgressLoading;
 	RadioStation itsStation;
@@ -172,9 +176,21 @@ public class RadioDroidStationDetail extends AppCompatActivity {
 	}
 
 	private void Share() {
-		Intent share = new Intent(Intent.ACTION_VIEW);
-		share.setDataAndType(Uri.parse(itsStation.StreamUrl), "audio/*");
-		startActivity(share);
+		String decodedURLJson = Utils.downloadFeed("http://www.radio-browser.info/webservice/json/url/" + itsStation.ID);
+		String aDecodedURL = null;
+		JSONObject jsonObj = null;
+		JSONArray jsonArr = null;
+		try {
+			jsonArr = new JSONArray(decodedURLJson);
+			jsonObj = jsonArr.getJSONObject(0);
+			aDecodedURL = jsonObj.getString("url");
+
+			Intent share = new Intent(Intent.ACTION_VIEW);
+			share.setDataAndType(Uri.parse(aDecodedURL), "audio/*");
+			startActivity(share);
+		} catch (JSONException e) {
+			Log.e("",""+e);
+		}
 	}
 
 	private void Play() {
