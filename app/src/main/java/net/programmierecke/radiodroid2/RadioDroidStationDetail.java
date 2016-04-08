@@ -176,21 +176,36 @@ public class RadioDroidStationDetail extends AppCompatActivity {
 	}
 
 	private void Share() {
-		String decodedURLJson = Utils.downloadFeed("http://www.radio-browser.info/webservice/json/url/" + itsStation.ID);
-		String aDecodedURL = null;
-		JSONObject jsonObj = null;
-		JSONArray jsonArr = null;
-		try {
-			jsonArr = new JSONArray(decodedURLJson);
-			jsonObj = jsonArr.getJSONObject(0);
-			aDecodedURL = jsonObj.getString("url");
+		new AsyncTask<Void, Void, String>() {
+			@Override
+			protected String doInBackground(Void... params) {
+				return Utils.downloadFeed("http://www.radio-browser.info/webservice/json/url/" + itsStation.ID);
+			}
 
-			Intent share = new Intent(Intent.ACTION_VIEW);
-			share.setDataAndType(Uri.parse(aDecodedURL), "audio/*");
-			startActivity(share);
-		} catch (JSONException e) {
-			Log.e("",""+e);
-		}
+			@Override
+			protected void onPostExecute(String result) {
+				if (!isFinishing()) {
+					String aDecodedURL = null;
+					JSONObject jsonObj = null;
+					JSONArray jsonArr = null;
+					try {
+						jsonArr = new JSONArray(result);
+						jsonObj = jsonArr.getJSONObject(0);
+						aDecodedURL = jsonObj.getString("url");
+
+						Intent share = new Intent(Intent.ACTION_VIEW);
+						share.setDataAndType(Uri.parse(aDecodedURL), "audio/*");
+						startActivity(share);
+					} catch (JSONException e) {
+						Log.e("",""+e);
+					}
+					itsProgressLoading.dismiss();
+				}
+				super.onPostExecute(result);
+			}
+		}.execute();
+
+
 	}
 
 	private void Play() {
