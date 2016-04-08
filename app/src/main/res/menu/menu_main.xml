@@ -4,23 +4,20 @@
     <item
         android:id="@+id/action_search"
         android:title="@string/action_search"
-        android:icon="@drawable/ic_action_action_search"
+        android:icon="@drawable/ic_search_24dp"
         app:actionViewClass="android.support.v7.widget.SearchView"
         app:showAsAction="ifRoom" />
 
     <item
         android:id="@+id/action_top_click"
         android:title="@string/action_top_click"
-        app:actionViewClass="android.support.v7.widget.SearchView"
         app:showAsAction="never" />
     <item
         android:id="@+id/action_top_vote"
         android:title="@string/action_top_vote"
-        app:actionViewClass="android.support.v7.widget.SearchView"
         app:showAsAction="never" />
     <item
         android:id="@+id/action_changed_lately"
         android:title="@string/action_changed_lately"
-        app:actionViewClass="android.support.v7.widget.SearchView"
         app:showAsAction="never" />
 </menu>

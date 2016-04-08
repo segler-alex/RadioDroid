@@ -3,17 +3,17 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/action_play"
-        android:icon="@drawable/ic_action_av_play_arrow"
+        android:icon="@drawable/ic_play_arrow_24dp"
         android:title="@string/detail_play"
         app:showAsAction="ifRoom"/>
     <item
         android:id="@+id/action_stop"
-        android:icon="@drawable/ic_action_av_stop"
+        android:icon="@drawable/ic_stop_24dp"
         android:title="@string/detail_stop"
         app:showAsAction="ifRoom"/>
     <item
         android:id="@+id/action_share"
-        android:icon="@drawable/ic_action_social_share"
+        android:icon="@drawable/ic_share_24dp"
         android:title="@string/detail_share"
         app:showAsAction="ifRoom"/>
 </menu>

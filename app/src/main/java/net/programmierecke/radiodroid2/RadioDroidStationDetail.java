@@ -2,7 +2,6 @@ package net.programmierecke.radiodroid2;
 
 import java.util.Locale;
 
-import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.ComponentName;
 import android.content.Intent;
@@ -20,7 +19,6 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -36,7 +34,7 @@ public class RadioDroidStationDetail extends AppCompatActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		Log.v("", "Oncreate");
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.station_detail);
+		setContentView(R.layout.layout_station_detail);
 
 		Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
 		setSupportActionBar(myToolbar);
@@ -96,7 +94,7 @@ public class RadioDroidStationDetail extends AppCompatActivity {
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		m_Menu = menu;
-		getMenuInflater().inflate(R.menu.simplemenu, menu);
+		getMenuInflater().inflate(R.menu.menu_station_detail, menu);
 		m_Menu_Stop = m_Menu.findItem(R.id.action_stop);
 		UpdateMenu();
 		return true;

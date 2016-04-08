@@ -96,9 +96,9 @@ public class PlayerService extends Service implements OnBufferingUpdateListener 
 				.setTicker(theTicker)
 				.setOngoing(true)
 				.setUsesChronometer(true)
-				.setSmallIcon(R.drawable.ic_action_av_play_arrow)
+				.setSmallIcon(R.drawable.ic_play_arrow_24dp)
 				.setLargeIcon((((BitmapDrawable) getResources().getDrawable(R.drawable.ic_launcher)).getBitmap()))
-				.addAction(R.drawable.ic_action_av_stop,"Stop",pendingIntentStop)
+				.addAction(R.drawable.ic_stop_24dp,"Stop",pendingIntentStop)
 				.build();
 
 		startForeground(NOTIFY_ID, itsNotification);
