@@ -123,7 +123,6 @@ public class RadioItemBigAdapter extends ArrayAdapter<RadioStation> implements R
 			}
 			ImageView anImageView = (ImageView) v.findViewById(R.id.imageViewIcon);
 
-			// new DownloadImageTask(anImageView).execute(aStation.IconUrl);
 			if (itsIconCache.containsKey(aStation.IconUrl)) {
 				Bitmap aBitmap = itsIconCache.get(aStation.IconUrl);
 				if (aBitmap != null) {
@@ -132,7 +131,6 @@ public class RadioItemBigAdapter extends ArrayAdapter<RadioStation> implements R
 				}
 				else
 					anImageView.setVisibility(View.GONE);
-					//anImageView.setImageResource(R.drawable.empty);
 			} else {
 				try {
 					// check download cache
@@ -146,7 +144,6 @@ public class RadioItemBigAdapter extends ArrayAdapter<RadioStation> implements R
 					}
 				} catch (Exception e) {
 					try {
-						//anImageView.setImageResource(R.drawable.empty);
 						anImageView.setVisibility(View.GONE);
 						itsQueuedDownloadJobs.put(new QueueItem(aStation.IconUrl, null));
 					} catch (InterruptedException e2) {

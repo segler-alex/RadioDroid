@@ -21,7 +21,7 @@ import android.widget.ListView;
 
 public class MainActivity extends AppCompatActivity implements SearchView.OnQueryTextListener {
 	private String itsAdressWWWTopClick = "http://www.radio-browser.info/webservice/json/stations/topclick/100";
-	private String itsAdressWWWTopVote25 = "http://www.radio-browser.info/webservice/json/stations/topvote/100";
+	private String itsAdressWWWTopVote = "http://www.radio-browser.info/webservice/json/stations/topvote/100";
 	private String itsAdressWWWChangedLately = "http://www.radio-browser.info/webservice/json/stations/lastchange/100";
 
 	ProgressDialog itsProgressLoading;
@@ -70,7 +70,7 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		setContentView(R.layout.mainlayout);
+		setContentView(R.layout.layout_main);
 
 		Intent anIntent = new Intent(this, PlayerService.class);
 		bindService(anIntent, svcConn, BIND_AUTO_CREATE);
@@ -137,20 +137,10 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
 	public boolean onOptionsItemSelected(MenuItem item) {
 		Log.v(TAG, "menu click");
 
-		/*if (item.getItemId() == MENU_STOP) {
-			Log.v(TAG, "menu : stop");
-			try {
-				itsPlayerService.Stop();
-			} catch (RemoteException e) {
-				// TODO Auto-generated catch block
-				Log.e(TAG, "" + e);
-			}
-			return true;
-		}*/
 		// check selected menu item
 		if (item.getItemId() == R.id.action_top_vote) {
 			Log.v(TAG, "menu : topvote");
-			RefillList(itsAdressWWWTopVote25);
+			RefillList(itsAdressWWWTopVote);
 			setTitle(R.string.action_top_vote);
 			return true;
 		}
