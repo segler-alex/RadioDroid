@@ -19,6 +19,8 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -186,7 +188,13 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
 
 	@Override
 	public boolean onQueryTextSubmit(String query) {
-		Search("http://www.radio-browser.info/webservice/json/stations/byname/"+query);
+		String queryEncoded = null;
+		try {
+			queryEncoded = URLEncoder.encode(query, "utf-8");
+			Search("http://www.radio-browser.info/webservice/json/stations/byname/"+queryEncoded);
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
 		return true;
 	}
 

@@ -9,6 +9,9 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+
 public class FragmentCategories extends FragmentBase {
     private ProgressDialog itsProgressLoading;
     private ItemAdapterCategory itsArrayAdapter = null;
@@ -31,7 +34,13 @@ public class FragmentCategories extends FragmentBase {
 
     void ClickOnItem(DataCategory theData) {
         MainActivity m = (MainActivity)getActivity();
-        m.Search(baseSearchAdress+"/"+theData.Name);
+
+        try {
+            String queryEncoded = URLEncoder.encode(theData.Name, "utf-8");
+            m.Search(baseSearchAdress+"/"+queryEncoded);
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
