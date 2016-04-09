@@ -9,15 +9,8 @@
         app:showAsAction="ifRoom" />
 
     <item
-        android:id="@+id/action_top_click"
+        android:id="@+id/action_refresh"
         android:title="@string/action_top_click"
-        app:showAsAction="never" />
-    <item
-        android:id="@+id/action_top_vote"
-        android:title="@string/action_top_vote"
-        app:showAsAction="never" />
-    <item
-        android:id="@+id/action_changed_lately"
-        android:title="@string/action_changed_lately"
-        app:showAsAction="never" />
+        android:icon="@drawable/ic_sync_black_24dp"
+        app:showAsAction="ifRoom" />
 </menu>
