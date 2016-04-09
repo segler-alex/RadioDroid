@@ -34,3 +34,5 @@ local.properties
 
 # Signing files
 .signing/
+
+build/*
