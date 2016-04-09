@@ -141,6 +141,8 @@ public class RadioItemBigAdapter extends ArrayAdapter<RadioStation> implements R
 						anImageView.setVisibility(View.VISIBLE);
 						anImageView.setImageBitmap(anIcon);
 						itsIconCache.put(aStation.IconUrl, anIcon);
+					}else{
+						anImageView.setVisibility(View.GONE);
 					}
 				} catch (Exception e) {
 					try {
