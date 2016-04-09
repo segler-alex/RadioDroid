@@ -14,4 +14,8 @@
     <string name="action_top_click">Meiste Klicks</string>
     <string name="action_top_vote">Höchste Bewertung</string>
     <string name="action_changed_lately">Kürzlich geändert</string>
+    <string name="action_currently_playing">Andere hören</string>
+    <string name="action_tags">Tags</string>
+    <string name="action_countries">Länder</string>
+    <string name="action_languages">Sprachen</string>
 </resources>

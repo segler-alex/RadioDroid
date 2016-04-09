@@ -28,7 +28,7 @@ import org.json.JSONObject;
 
 public class RadioDroidStationDetail extends AppCompatActivity {
 	ProgressDialog itsProgressLoading;
-	RadioStation itsStation;
+	DataRadioStation itsStation;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -67,7 +67,7 @@ public class RadioDroidStationDetail extends AppCompatActivity {
 				if (!isFinishing()) {
 					Log.v("", "onPostExecute2");
 					if (result != null) {
-						RadioStation[] aStationList = Utils.DecodeJson(result);
+						DataRadioStation[] aStationList = DataRadioStation.DecodeJson(result);
 						Log.v("", "onPostExecute3:" + aStationList.length);
 						if (aStationList.length == 1) {
 							Log.v("", "onPostExecute4");
@@ -130,26 +130,26 @@ public class RadioDroidStationDetail extends AppCompatActivity {
 		thisService.unbindSafely(this, svcConn);
 	}
 
-	private void setStation(RadioStation radioStation) {
-		itsStation = radioStation;
+	private void setStation(DataRadioStation dataRadioStation) {
+		itsStation = dataRadioStation;
 
 		TextView aTextViewName = (TextView) findViewById(R.id.detail_station_name_value);
-		aTextViewName.setText(radioStation.Name);
+		aTextViewName.setText(dataRadioStation.Name);
 
 		TextView aTextViewCountry = (TextView) findViewById(R.id.detail_station_country_value);
-		if (TextUtils.isEmpty(radioStation.State))
-			aTextViewCountry.setText(radioStation.Country);
+		if (TextUtils.isEmpty(dataRadioStation.State))
+			aTextViewCountry.setText(dataRadioStation.Country);
 		else
-			aTextViewCountry.setText(radioStation.Country+"/"+radioStation.State);
+			aTextViewCountry.setText(dataRadioStation.Country+"/"+ dataRadioStation.State);
 
 		TextView aTextViewLanguage = (TextView) findViewById(R.id.detail_station_language_value);
-		aTextViewLanguage.setText(radioStation.Language);
+		aTextViewLanguage.setText(dataRadioStation.Language);
 
 		TextView aTextViewTags = (TextView) findViewById(R.id.detail_station_tags_value);
-		aTextViewTags.setText(radioStation.TagsAll);
+		aTextViewTags.setText(dataRadioStation.TagsAll);
 
 		TextView aTextViewWWW = (TextView) findViewById(R.id.detail_station_www_value);
-		aTextViewWWW.setText(radioStation.HomePageUrl);
+		aTextViewWWW.setText(dataRadioStation.HomePageUrl);
 
 		final String aLink = itsStation.HomePageUrl;
 		LinearLayout aLinLayoutWWW = (LinearLayout) findViewById(R.id.detail_station_www_clickable);

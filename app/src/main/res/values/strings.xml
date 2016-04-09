@@ -13,4 +13,8 @@
     <string name="action_top_click">TopClick</string>
     <string name="action_top_vote">TopVote</string>
     <string name="action_changed_lately">Changed lately</string>
+    <string name="action_currently_playing">Playing</string>
+    <string name="action_tags">Tags</string>
+    <string name="action_countries">Countries</string>
+    <string name="action_languages">Languages</string>
 </resources>

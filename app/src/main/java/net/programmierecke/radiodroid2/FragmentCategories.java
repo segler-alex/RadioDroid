@@ -9,37 +9,37 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
-public class FragmentStations extends FragmentBase {
+public class FragmentCategories extends FragmentBase {
     private ProgressDialog itsProgressLoading;
-    private ItemAdapterStation itsArrayAdapter = null;
+    private ItemAdapterCategory itsArrayAdapter = null;
     private ListView lv;
     private String url;
-    private DataRadioStation[] data = new DataRadioStation[0];
+    private DataCategory[] data = new DataCategory[0];
+    private String baseSearchAdress = "";
 
-    public FragmentStations() {
+    public FragmentCategories() {
     }
 
     @Override
     protected void InitArrayAdapter(){
-        itsArrayAdapter = new ItemAdapterStation(getActivity(), R.layout.list_item_station);
+        itsArrayAdapter = new ItemAdapterCategory(getActivity(), R.layout.list_item_category);
     }
 
-    void ClickOnItem(DataRadioStation theStation) {
-        MainActivity a = (MainActivity)getActivity();
-        PlayerService thisService = new PlayerService();
-        thisService.unbindSafely( a, a.getSvc() );
+    public void SetBaseSearchLink(String url){
+        this.baseSearchAdress = url;
+    }
 
-        Intent anIntent = new Intent(getActivity().getBaseContext(), RadioDroidStationDetail.class);
-        anIntent.putExtra("stationid", theStation.ID);
-        startActivity(anIntent);
+    void ClickOnItem(DataCategory theData) {
+        MainActivity m = (MainActivity)getActivity();
+        m.Search(baseSearchAdress+"/"+theData.Name);
     }
 
     @Override
     protected void RefreshListGui(){
-        data = DataRadioStation.DecodeJson(getUrlResult());
+        data = DataCategory.DecodeJson(getUrlResult());
         itsArrayAdapter.clear();
-        for (DataRadioStation aStation : data) {
-            itsArrayAdapter.add(aStation);
+        for (DataCategory aData : data) {
+            itsArrayAdapter.add(aData);
         }
         if (lv != null) {
             lv.invalidate();
@@ -58,8 +58,8 @@ public class FragmentStations extends FragmentBase {
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Object anObject = parent.getItemAtPosition(position);
-                if (anObject instanceof DataRadioStation) {
-                    ClickOnItem((DataRadioStation) anObject);
+                if (anObject instanceof DataCategory) {
+                    ClickOnItem((DataCategory) anObject);
                 }
             }
         });

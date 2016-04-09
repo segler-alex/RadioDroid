@@ -23,7 +23,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-public class RadioItemBigAdapter extends ArrayAdapter<RadioStation> implements Runnable {
+public class ItemAdapterStation extends ArrayAdapter<DataRadioStation> implements Runnable {
 	public class QueueItem {
 		public String itsURL;
 
@@ -36,7 +36,7 @@ public class RadioItemBigAdapter extends ArrayAdapter<RadioStation> implements R
 	BlockingQueue<QueueItem> itsQueuedDownloadJobs = new ArrayBlockingQueue<QueueItem>(1000);
 	Thread itsThread;
 
-	public RadioItemBigAdapter(Context context, int textViewResourceId) {
+	public ItemAdapterStation(Context context, int textViewResourceId) {
 		super(context, textViewResourceId);
 		itsContext = context;
 		itsThread = new Thread(this);
@@ -47,7 +47,7 @@ public class RadioItemBigAdapter extends ArrayAdapter<RadioStation> implements R
 
 	class MyItem{
 		public WeakReference<View> v = null;
-		public RadioStation station;
+		public DataRadioStation station;
 		public int position;
 		public String GetHash(){
 			if (TextUtils.isGraphic(station.StreamUrl)) {
@@ -86,12 +86,12 @@ public class RadioItemBigAdapter extends ArrayAdapter<RadioStation> implements R
 
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
-		RadioStation aStation = getItem(position);
+		DataRadioStation aStation = getItem(position);
 
 		View v = convertView;
 		if (v == null) {
 			LayoutInflater vi = (LayoutInflater) itsContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-			v = vi.inflate(R.layout.list_item_big, null);
+			v = vi.inflate(R.layout.list_item_station, null);
 
 			MyItem item = new MyItem();
 			item.v = new WeakReference<View>(v);

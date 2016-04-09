@@ -1,11 +1,9 @@
 package net.programmierecke.radiodroid2;
 
-import android.app.ProgressDialog;
 import android.content.ComponentName;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.content.res.Resources;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.support.design.widget.TabLayout;
@@ -20,10 +18,6 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
-import android.widget.ListView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,13 +26,17 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
 	private String itsAdressWWWTopClick = "http://www.radio-browser.info/webservice/json/stations/topclick/100";
 	private String itsAdressWWWTopVote = "http://www.radio-browser.info/webservice/json/stations/topvote/100";
 	private String itsAdressWWWChangedLately = "http://www.radio-browser.info/webservice/json/stations/lastchange/100";
+	private String itsAdressWWWCurrentlyHeard = "http://www.radio-browser.info/webservice/json/stations/lastclick/100";
+	private String itsAdressWWWTags = "http://www.radio-browser.info/webservice/json/tags";
+	private String itsAdressWWWCountries = "http://www.radio-browser.info/webservice/json/countries";
+	private String itsAdressWWWLanguages = "http://www.radio-browser.info/webservice/json/languages";
 
 	private TabLayout tabLayout;
 	private ViewPager viewPager;
 	private SearchView mSearchView;
 
 	private static final String TAG = "RadioDroid";
-	IPlayerService itsPlayerService;
+	private IPlayerService itsPlayerService;
 	private ServiceConnection svcConn = new ServiceConnection() {
 		public void onServiceConnected(ComponentName className, IBinder binder) {
 			Log.v(TAG, "Service came online");
@@ -74,35 +72,45 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
 		tabLayout.setupWithViewPager(viewPager);
 	}
 
-	FragmentStations[] fragments = new FragmentStations[4];
+	FragmentBase[] fragments = new FragmentBase[8];
+	String[] adresses = new String[]{
+			itsAdressWWWTopClick,
+			itsAdressWWWTopVote,
+			itsAdressWWWChangedLately,
+			itsAdressWWWCurrentlyHeard,
+			itsAdressWWWTags,
+			itsAdressWWWCountries,
+			itsAdressWWWLanguages,
+			""
+	};
 
 	private void setupViewPager(ViewPager viewPager) {
-		fragments[0] = new FragmentStations();
-		Bundle bundle1 = new Bundle();
-		bundle1.putString("url", itsAdressWWWTopClick);
-		fragments[0].setArguments(bundle1);
+		for (int i=0;i<fragments.length;i++) {
+			if (i < 4)
+				fragments[i] = new FragmentStations();
+			else if (i < 7)
+				fragments[i] = new FragmentCategories();
+			else
+				fragments[i] = new FragmentStations();
+			Bundle bundle1 = new Bundle();
+			bundle1.putString("url", adresses[i]);
+			fragments[i].setArguments(bundle1);
+		}
 
-		fragments[1] = new FragmentStations();
-		Bundle bundle2 = new Bundle();
-		bundle2.putString("url", itsAdressWWWTopVote);
-		fragments[1].setArguments(bundle2);
-
-		fragments[2] = new FragmentStations();
-		Bundle bundle3 = new Bundle();
-		bundle3.putString("url", itsAdressWWWChangedLately);
-		fragments[2].setArguments(bundle3);
-
-		fragments[3] = new FragmentStations();
-		Bundle bundle4 = new Bundle();
-		bundle4.putString("url", "");
-		fragments[3].setArguments(bundle4);
+		((FragmentCategories)fragments[4]).SetBaseSearchLink("http://www.radio-browser.info/webservice/json/stations/bytagexact");
+		((FragmentCategories)fragments[5]).SetBaseSearchLink("http://www.radio-browser.info/webservice/json/stations/bycountryexact");
+		((FragmentCategories)fragments[6]).SetBaseSearchLink("http://www.radio-browser.info/webservice/json/stations/bylanguageexact");
 
 		FragmentManager m = getSupportFragmentManager();
 		ViewPagerAdapter adapter = new ViewPagerAdapter(m);
 		adapter.addFragment(fragments[0], R.string.action_top_click);
 		adapter.addFragment(fragments[1], R.string.action_top_vote);
 		adapter.addFragment(fragments[2], R.string.action_changed_lately);
-		adapter.addFragment(fragments[3], R.string.action_search);
+		adapter.addFragment(fragments[3], R.string.action_currently_playing);
+		adapter.addFragment(fragments[4], R.string.action_tags);
+		adapter.addFragment(fragments[5], R.string.action_countries);
+		adapter.addFragment(fragments[6], R.string.action_languages);
+		adapter.addFragment(fragments[7], R.string.action_search);
 		viewPager.setAdapter(adapter);
 	}
 
@@ -163,18 +171,22 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
 		// check selected menu item
 		if (item.getItemId() == R.id.action_refresh) {
 			Log.v(TAG, "menu : refresh all");
-			FragmentStations fragment = fragments[viewPager.getCurrentItem()];
-			fragment.DownloadStations();
+			FragmentBase fragment = fragments[viewPager.getCurrentItem()];
+			fragment.DownloadUrl();
 			return true;
 		}
 
 		return false;
 	}
 
+	public void Search(String query){
+		viewPager.setCurrentItem(7);
+		fragments[7].SetDownloadUrl(query);
+	}
+
 	@Override
 	public boolean onQueryTextSubmit(String query) {
-		viewPager.setCurrentItem(3);
-		fragments[3].SetDownloadUrl("http://www.radio-browser.info/webservice/json/stations/byname/"+query);
+		Search("http://www.radio-browser.info/webservice/json/stations/byname/"+query);
 		return true;
 	}
 
