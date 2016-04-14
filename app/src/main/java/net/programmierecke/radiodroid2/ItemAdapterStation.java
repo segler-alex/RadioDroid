@@ -49,12 +49,6 @@ public class ItemAdapterStation extends ArrayAdapter<DataRadioStation> implement
 		public WeakReference<View> v = null;
 		public DataRadioStation station;
 		public int position;
-		public String GetHash(){
-			if (TextUtils.isGraphic(station.StreamUrl)) {
-				return getBase64(station.StreamUrl);
-			}
-			return null;
-		}
 
 		public void SetIcon(final Bitmap anIcon) {
 			if (anIcon != null) {

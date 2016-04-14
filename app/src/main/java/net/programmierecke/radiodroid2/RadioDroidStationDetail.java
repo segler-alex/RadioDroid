@@ -21,6 +21,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -174,48 +175,61 @@ public class RadioDroidStationDetail extends AppCompatActivity {
 	}
 
 	private void Share() {
+		itsProgressLoading = ProgressDialog.show(RadioDroidStationDetail.this, "", "Loading...");
 		new AsyncTask<Void, Void, String>() {
 			@Override
 			protected String doInBackground(Void... params) {
-				return Utils.downloadFeed("http://www.radio-browser.info/webservice/json/url/" + itsStation.ID);
+				return Utils.getRealStationLink(itsStation.ID);
 			}
 
 			@Override
 			protected void onPostExecute(String result) {
-				if (!isFinishing()) {
-					String aDecodedURL = null;
-					JSONObject jsonObj = null;
-					JSONArray jsonArr = null;
-					try {
-						jsonArr = new JSONArray(result);
-						jsonObj = jsonArr.getJSONObject(0);
-						aDecodedURL = jsonObj.getString("url");
+				itsProgressLoading.dismiss();
 
+				if (result != null) {
+					if (!isFinishing()) {
 						Intent share = new Intent(Intent.ACTION_VIEW);
-						share.setDataAndType(Uri.parse(aDecodedURL), "audio/*");
+						share.setDataAndType(Uri.parse(result), "audio/*");
 						startActivity(share);
-					} catch (JSONException e) {
-						Log.e("",""+e);
 					}
-					itsProgressLoading.dismiss();
+				} else {
+					Toast toast = Toast.makeText(getApplicationContext(), getResources().getText(R.string.error_station_load), Toast.LENGTH_SHORT);
+					toast.show();
 				}
 				super.onPostExecute(result);
 			}
 		}.execute();
-
-
 	}
 
 	private void Play() {
 		if (itsPlayerService != null) {
-			try {
-				itsPlayerService.Play(itsStation.StreamUrl, itsStation.Name, itsStation.ID);
-			} catch (RemoteException e) {
-				Log.e("", "" + e);
-			}
-			if (m_Menu_Stop != null) {
-				m_Menu_Stop.setVisible(true);
-			}
+			itsProgressLoading = ProgressDialog.show(RadioDroidStationDetail.this, "", "Loading...");
+			new AsyncTask<Void, Void, String>() {
+				@Override
+				protected String doInBackground(Void... params) {
+					return Utils.getRealStationLink(itsStation.ID);
+				}
+
+				@Override
+				protected void onPostExecute(String result) {
+					itsProgressLoading.dismiss();
+
+					if (result != null) {
+						try {
+							itsPlayerService.Play(result, itsStation.Name, itsStation.ID);
+						} catch (RemoteException e) {
+							Log.e("", "" + e);
+						}
+						if (m_Menu_Stop != null) {
+							m_Menu_Stop.setVisible(true);
+						}
+					} else {
+						Toast toast = Toast.makeText(getApplicationContext(), getResources().getText(R.string.error_station_load), Toast.LENGTH_SHORT);
+						toast.show();
+					}
+					super.onPostExecute(result);
+				}
+			}.execute();
 		}
 	}
 

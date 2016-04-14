@@ -17,4 +17,6 @@
     <string name="action_tags">Tags</string>
     <string name="action_countries">Countries</string>
     <string name="action_languages">Languages</string>
+    <string name="error_station_load">Could not connect to station</string>
+    <string name="error_list_update">Could not connect to radio browser server</string>
 </resources>

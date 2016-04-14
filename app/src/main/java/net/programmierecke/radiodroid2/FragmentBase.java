@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment;
 import android.text.TextUtils;
 import android.util.Log;
 import android.widget.ListView;
+import android.widget.Toast;
 
 public class FragmentBase extends Fragment {
     private ProgressDialog itsProgressLoading;
@@ -55,9 +56,14 @@ public class FragmentBase extends Fragment {
 
                 @Override
                 protected void onPostExecute(String result) {
-                    urlResult = result;
-                    RefreshListGui();
                     itsProgressLoading.dismiss();
+                    if (result != null) {
+                        urlResult = result;
+                        RefreshListGui();
+                    }else{
+                        Toast toast = Toast.makeText(getContext(), getResources().getText(R.string.error_list_update), Toast.LENGTH_SHORT);
+                        toast.show();
+                    }
                     super.onPostExecute(result);
                 }
             }.execute();

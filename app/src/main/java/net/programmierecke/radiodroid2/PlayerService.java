@@ -117,52 +117,38 @@ public class PlayerService extends Service implements OnBufferingUpdateListener 
 		new AsyncTask<Void, Void, Void>() {
 			@Override
 			protected Void doInBackground(Void... stations) {
-				String aStation = itsStationURL;
-
-				Log.v(TAG, "Stream url:" + aStation);
+				Log.v(TAG, "Stream url:" + itsStationURL);
 				SendMessage(itsStationName, "Decoding URL", "Decoding URL");
-				String decodedURLJson = Utils.downloadFeed("http://www.radio-browser.info/webservice/json/url/" + itsStationID);
-				String aDecodedURL = null;
-				JSONObject jsonObj = null;
-				JSONArray jsonArr = null;
+				Log.v(TAG, "Stream url decoded:" + itsStationURL);
+				if (itsMediaPlayer == null) {
+					itsMediaPlayer = new MediaPlayer();
+					itsMediaPlayer.setOnBufferingUpdateListener(PlayerService.this);
+				}
+				if (itsMediaPlayer.isPlaying()) {
+					itsMediaPlayer.stop();
+					itsMediaPlayer.reset();
+				}
 				try {
-					jsonArr = new JSONArray(decodedURLJson);
-					jsonObj = jsonArr.getJSONObject(0);
-					aDecodedURL = jsonObj.getString("url");
-
-					Log.v(TAG, "Stream url decoded:" + aDecodedURL);
-					if (itsMediaPlayer == null) {
-						itsMediaPlayer = new MediaPlayer();
-						itsMediaPlayer.setOnBufferingUpdateListener(PlayerService.this);
-					}
-					if (itsMediaPlayer.isPlaying()) {
-						itsMediaPlayer.stop();
-						itsMediaPlayer.reset();
-					}
-					try {
-						SendMessage(itsStationName, "Preparing stream", "Preparing stream");
-						itsMediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
-						itsMediaPlayer.setDataSource(aDecodedURL);
-						itsMediaPlayer.prepare();
-						SendMessage(itsStationName, "Playing", "Playing '" + itsStationName + "'");
-						itsMediaPlayer.start();
-					} catch (IllegalArgumentException e) {
-						Log.e(TAG, "" + e);
-						SendMessage(itsStationName, "Stream url problem", "Stream url problem");
-						Stop();
-					} catch (IOException e) {
-						Log.e(TAG, "" + e);
-						SendMessage(itsStationName, "Stream caching problem", "Stream caching problem");
-						Stop();
-					} catch (Exception e) {
-						Log.e(TAG, "" + e);
-						SendMessage(itsStationName, "Unable to play stream", "Unable to play stream");
-						Stop();
-					}
-				} catch (JSONException e) {
-					e.printStackTrace();
+					SendMessage(itsStationName, "Preparing stream", "Preparing stream");
+					itsMediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
+					itsMediaPlayer.setDataSource(itsStationURL);
+					itsMediaPlayer.prepare();
+					SendMessage(itsStationName, "Playing", "Playing '" + itsStationName + "'");
+					itsMediaPlayer.start();
+				} catch (IllegalArgumentException e) {
+					Log.e(TAG, "" + e);
+					SendMessage(itsStationName, "Stream url problem", "Stream url problem");
+					Stop();
+				} catch (IOException e) {
+					Log.e(TAG, "" + e);
+					SendMessage(itsStationName, "Stream caching problem", "Stream caching problem");
+					Stop();
+				} catch (Exception e) {
+					Log.e(TAG, "" + e);
+					SendMessage(itsStationName, "Unable to play stream", "Unable to play stream");
 					Stop();
 				}
+
 				return null;
 			}
 
