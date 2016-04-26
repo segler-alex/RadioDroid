@@ -50,6 +50,8 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
 	FragmentManager mFragmentManager;
 	FragmentTransaction mFragmentTransaction;
 
+	FragmentTabs fragTabs;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -82,9 +84,11 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
 		 * Here , we are inflating the TabFragment as the first Fragment
 		 */
 
+		fragTabs = new FragmentTabs();
+
 		mFragmentManager = getSupportFragmentManager();
 		mFragmentTransaction = mFragmentManager.beginTransaction();
-		mFragmentTransaction.replace(R.id.containerView,new FragmentTabs()).commit();
+		mFragmentTransaction.replace(R.id.containerView,fragTabs).commit();
 		/**
 		 * Setup click events on the Navigation View Items.
 		 */
@@ -124,16 +128,6 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
 	}
 
 	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		switch (item.getItemId()) {
-			case android.R.id.home:
-				mDrawerLayout.openDrawer(GravityCompat.START);  // OPEN DRAWER
-				return true;
-		}
-		return super.onOptionsItemSelected(item);
-	}
-
-	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.menu_main, menu);
@@ -153,32 +147,32 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
 		thisService.unbindSafely( this, svcConn );
 	}
 
-	/*@Override
+	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		Log.v(TAG, "menu click");
 
-		// check selected menu item
-		if (item.getItemId() == R.id.action_refresh) {
-			Log.v(TAG, "menu : refresh all");
-			FragmentBase fragment = fragments[viewPager.getCurrentItem()];
-			fragment.DownloadUrl();
-			return true;
+		switch (item.getItemId()) {
+			case android.R.id.home:
+				mDrawerLayout.openDrawer(GravityCompat.START);  // OPEN DRAWER
+				return true;
+			case R.id.action_refresh:
+				Log.v(TAG, "menu : refresh all");
+				fragTabs.RefreshCurrent();
+				return true;
 		}
-
-		return false;
+		return super.onOptionsItemSelected(item);
 	}
 
 	public void Search(String query){
-		viewPager.setCurrentItem(7);
-		fragments[7].SetDownloadUrl(query);
-	}*/
+		fragTabs.Search(query);
+	}
 
 	@Override
 	public boolean onQueryTextSubmit(String query) {
 		String queryEncoded = null;
 		try {
 			queryEncoded = URLEncoder.encode(query, "utf-8");
-			//Search("http://www.radio-browser.info/webservice/json/stations/byname/"+queryEncoded);
+			Search("http://www.radio-browser.info/webservice/json/stations/byname/"+queryEncoded);
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
 		}

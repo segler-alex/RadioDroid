@@ -101,6 +101,16 @@ public class FragmentTabs extends Fragment {
         viewPager.setAdapter(adapter);
     }
 
+    public void RefreshCurrent() {
+        FragmentBase fragment = fragments[viewPager.getCurrentItem()];
+        fragment.DownloadUrl();
+    }
+
+    public void Search(String query) {
+        viewPager.setCurrentItem(7);
+        fragments[7].SetDownloadUrl(query);
+    }
+
     class ViewPagerAdapter extends FragmentPagerAdapter {
         private final List<Fragment> mFragmentList = new ArrayList<>();
         private final List<Integer> mFragmentTitleList = new ArrayList<Integer>();
