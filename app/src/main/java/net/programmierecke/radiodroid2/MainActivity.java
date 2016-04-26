@@ -6,6 +6,7 @@ import android.content.ServiceConnection;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.support.design.widget.NavigationView;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v4.app.FragmentManager;
@@ -74,7 +75,7 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
 		 */
 
 		mDrawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
-		mNavigationView = (NavigationView) findViewById(R.id.shitstuff) ;
+		mNavigationView = (NavigationView) findViewById(R.id.my_navigation_view) ;
 
 		/**
 		 * Lets inflate the very first fragment
@@ -120,6 +121,16 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
 
 		mDrawerToggle.syncState();
 
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+			case android.R.id.home:
+				mDrawerLayout.openDrawer(GravityCompat.START);  // OPEN DRAWER
+				return true;
+		}
+		return super.onOptionsItemSelected(item);
 	}
 
 	@Override

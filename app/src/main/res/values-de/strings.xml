@@ -20,4 +20,8 @@
     <string name="action_languages">Sprachen</string>
     <string name="error_station_load">Es konnte leider keine Verbindung zur Radiostation hergestellt werden.</string>
     <string name="error_list_update">Verbindung mit radio browser server fehlgeschlagen.</string>
+
+    <string name="nav_item_stations">Radios</string>
+    <string name="nav_item_settings">Einstellungen</string>
+    <string name="nav_item_about">Über</string>
 </resources>
