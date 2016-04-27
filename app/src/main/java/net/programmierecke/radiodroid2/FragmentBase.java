@@ -35,16 +35,11 @@ public class FragmentBase extends Fragment {
         Bundle bundle = this.getArguments();
         url = bundle.getString("url");
 
-        InitArrayAdapter();
-
         DownloadUrl();
     }
 
     protected String getUrlResult(){
         return urlResult;
-    }
-
-    protected void InitArrayAdapter(){
     }
 
     public void SetDownloadUrl(String theUrl) {
@@ -54,6 +49,7 @@ public class FragmentBase extends Fragment {
     }
 
     public void DownloadUrl() {
+        Log.d("DOWN","Download url:"+url);
         if (TextUtils.isGraphic(url)) {
             if (mycontext != null) {
                 itsProgressLoading = ProgressDialog.show(mycontext, "", "Loading...");
@@ -70,7 +66,9 @@ public class FragmentBase extends Fragment {
                         itsProgressLoading.dismiss();
                         itsProgressLoading = null;
                     }
+                    Log.d("DOWN","Download url finished:"+url);
                     if (result != null) {
+                        Log.d("DOWN","Download url OK:"+url);
                         urlResult = result;
                         RefreshListGui();
                     }else{

@@ -3,6 +3,7 @@ package net.programmierecke.radiodroid2;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,17 +12,11 @@ import android.widget.ListView;
 
 public class FragmentStations extends FragmentBase {
     private ProgressDialog itsProgressLoading;
-    private ItemAdapterStation itsArrayAdapter = null;
     private ListView lv;
     private String url;
     private DataRadioStation[] data = new DataRadioStation[0];
 
     public FragmentStations() {
-    }
-
-    @Override
-    protected void InitArrayAdapter(){
-        itsArrayAdapter = new ItemAdapterStation(getActivity(), R.layout.list_item_station);
     }
 
     void ClickOnItem(DataRadioStation theStation) {
@@ -36,24 +31,36 @@ public class FragmentStations extends FragmentBase {
 
     @Override
     protected void RefreshListGui(){
-        data = DataRadioStation.DecodeJson(getUrlResult());
-        itsArrayAdapter.clear();
-        for (DataRadioStation aStation : data) {
-            itsArrayAdapter.add(aStation);
-        }
+        Log.d("ABC", "RefreshListGUI()");
+
         if (lv != null) {
+            Log.d("ABC","LV != null");
+            data = DataRadioStation.DecodeJson(getUrlResult());
+            ItemAdapterStation arrayAdapter = (ItemAdapterStation) lv.getAdapter();
+            arrayAdapter.clear();
+            Log.d("ABC","Station count:"+data.length);
+            for (DataRadioStation aStation : data) {
+                arrayAdapter.add(aStation);
+            }
+
             lv.invalidate();
+        }else{
+            Log.e("NULL","LV == null");
         }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        Log.w("ABC","onCreateView FragmentStations");
+
+        ItemAdapterStation arrayAdapter = new ItemAdapterStation(getActivity(), R.layout.list_item_station);
+
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_stations, container, false);
 
         lv = (ListView) view.findViewById(R.id.listViewStations);
-        lv.setAdapter(itsArrayAdapter);
+        lv.setAdapter(arrayAdapter);
         lv.setTextFilterEnabled(true);
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {

@@ -48,8 +48,8 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
 	FragmentManager mFragmentManager;
 	FragmentTransaction mFragmentTransaction;
 
-	FragmentTabs fragTabs;
 	IFragmentRefreshable fragRefreshable = null;
+	IFragmentSearchable fragSearchable = null;
 
 	MenuItem menuItemSearch;
 	MenuItem menuItemRefresh;
@@ -72,8 +72,9 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
 		mDrawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
 		mNavigationView = (NavigationView) findViewById(R.id.my_navigation_view) ;
 
-		fragTabs = new FragmentTabs();
+		FragmentTabs fragTabs = new FragmentTabs();
 		fragRefreshable = fragTabs;
+		fragSearchable = fragTabs;
 
 		mFragmentManager = getSupportFragmentManager();
 		mFragmentTransaction = mFragmentManager.beginTransaction();
@@ -112,8 +113,12 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
 				FragmentTransaction xfragmentTransaction = mFragmentManager.beginTransaction();
 				xfragmentTransaction.replace(R.id.containerView,f).commit();
 				fragRefreshable = null;
+				fragSearchable = null;
 				if (f instanceof IFragmentRefreshable) {
 					fragRefreshable = (IFragmentRefreshable) f;
+				}
+				if (f instanceof IFragmentSearchable) {
+					fragSearchable = (IFragmentSearchable) f;
 				}
 				menuItemRefresh.setVisible(fragRefreshable != null);
 
@@ -159,7 +164,9 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
 				mDrawerLayout.openDrawer(GravityCompat.START);  // OPEN DRAWER
 				return true;
 			case R.id.action_refresh:
+				Log.v(TAG, "menu click2");
 				if (fragRefreshable != null){
+					Log.v(TAG, "menu click3");
 					fragRefreshable.Refresh();
 				}
 				return true;
@@ -168,7 +175,9 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
 	}
 
 	public void Search(String query){
-		fragTabs.Search(query);
+		if (fragSearchable != null) {
+			fragSearchable.Search(query);
+		}
 	}
 
 	@Override
