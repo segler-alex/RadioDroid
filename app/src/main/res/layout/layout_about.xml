@@ -2,25 +2,22 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
-        android:textSize="30sp"
-        android:gravity="center"
-        android:id="@+id/textView"
-        android:layout_centerHorizontal="true"
-        android:text="Primary\nFragment"/>
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:autoLink="web"
+        android:autoLink="web|email"
         android:textSize="15sp"
-        android:layout_marginTop="10dp"
         android:layout_centerHorizontal="true"
-        android:text="androidbelieve.com"
+        android:text="@string/about_text"
         android:textColor="#000"
         android:layout_below="@+id/textView"
-        android:textStyle="italic"/>
+        android:layout_margin="10dp"
+        android:autoText="false"
+        android:elegantTextHeight="false"
+        android:linksClickable="true"
+        android:typeface="normal"
+        android:textIsSelectable="false"
+        android:singleLine="false" />
+
 </LinearLayout>
