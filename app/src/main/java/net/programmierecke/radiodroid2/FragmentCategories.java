@@ -37,7 +37,7 @@ public class FragmentCategories extends FragmentBase {
 
         try {
             String queryEncoded = URLEncoder.encode(theData.Name, "utf-8");
-            //m.Search(baseSearchAdress+"/"+queryEncoded);
+            m.Search(baseSearchAdress+"/"+queryEncoded);
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
