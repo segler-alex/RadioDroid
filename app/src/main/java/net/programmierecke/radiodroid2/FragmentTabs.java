@@ -15,7 +15,7 @@ import android.view.ViewGroup;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FragmentTabs extends Fragment {
+public class FragmentTabs extends Fragment implements IFragmentRefreshable {
     private String itsAdressWWWTopClick = "http://www.radio-browser.info/webservice/json/stations/topclick/100";
     private String itsAdressWWWTopVote = "http://www.radio-browser.info/webservice/json/stations/topvote/100";
     private String itsAdressWWWChangedLately = "http://www.radio-browser.info/webservice/json/stations/lastchange/100";
@@ -109,6 +109,11 @@ public class FragmentTabs extends Fragment {
     public void Search(String query) {
         viewPager.setCurrentItem(7);
         fragments[7].SetDownloadUrl(query);
+    }
+
+    @Override
+    public void Refresh() {
+        RefreshCurrent();
     }
 
     class ViewPagerAdapter extends FragmentPagerAdapter {

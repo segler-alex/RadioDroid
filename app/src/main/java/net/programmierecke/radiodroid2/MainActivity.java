@@ -23,8 +23,6 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 
 public class MainActivity extends AppCompatActivity implements SearchView.OnQueryTextListener {
-	//private TabLayout tabLayout;
-	//private ViewPager viewPager;
 	private SearchView mSearchView;
 
 	private static final String TAG = "RadioDroid";
@@ -51,6 +49,10 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
 	FragmentTransaction mFragmentTransaction;
 
 	FragmentTabs fragTabs;
+	IFragmentRefreshable fragRefreshable = null;
+
+	MenuItem menuItemSearch;
+	MenuItem menuItemRefresh;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -67,64 +69,57 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 		getSupportActionBar().setHomeButtonEnabled(true);
 
-		//viewPager = (ViewPager) findViewById(R.id.viewpager);
-
-		//tabLayout = (TabLayout) findViewById(R.id.tabs);
-		//tabLayout.setupWithViewPager(viewPager);
-
-		/**
-		 *Setup the DrawerLayout and NavigationView
-		 */
-
 		mDrawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
 		mNavigationView = (NavigationView) findViewById(R.id.my_navigation_view) ;
-
-		/**
-		 * Lets inflate the very first fragment
-		 * Here , we are inflating the TabFragment as the first Fragment
-		 */
 
 		fragTabs = new FragmentTabs();
 
 		mFragmentManager = getSupportFragmentManager();
 		mFragmentTransaction = mFragmentManager.beginTransaction();
 		mFragmentTransaction.replace(R.id.containerView,fragTabs).commit();
-		/**
-		 * Setup click events on the Navigation View Items.
-		 */
 
 		mNavigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
 			@Override
 			public boolean onNavigationItemSelected(MenuItem menuItem) {
 				mDrawerLayout.closeDrawers();
-
-				if (menuItem.getItemId() == R.id.nav_item_about) {
-					FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
-					fragmentTransaction.replace(R.id.containerView,new FragmentAbout()).commit();
-
-				}
+				android.support.v4.app.Fragment f = null;
 
 				if (menuItem.getItemId() == R.id.nav_item_stations) {
-					FragmentTransaction xfragmentTransaction = mFragmentManager.beginTransaction();
-					xfragmentTransaction.replace(R.id.containerView,new FragmentTabs()).commit();
+					f = new FragmentTabs();
+					menuItemSearch.setVisible(true);
 				}
+
+				if (menuItem.getItemId() == R.id.nav_item_serverinfo) {
+					f = new FragmentServerInfo();
+					menuItemSearch.setVisible(false);
+				}
+
+				if (menuItem.getItemId() == R.id.nav_item_settings) {
+					f = new FragmentSettings();
+					menuItemSearch.setVisible(false);
+				}
+
+				if (menuItem.getItemId() == R.id.nav_item_about) {
+					f = new FragmentAbout();
+					menuItemSearch.setVisible(false);
+				}
+
+				FragmentTransaction xfragmentTransaction = mFragmentManager.beginTransaction();
+				xfragmentTransaction.replace(R.id.containerView,f).commit();
+				fragRefreshable = null;
+				if (f instanceof IFragmentRefreshable) {
+					fragRefreshable = (IFragmentRefreshable) f;
+				}
+				menuItemRefresh.setVisible(fragRefreshable != null);
 
 				return false;
 			}
-
 		});
-
-		/**
-		 * Setup Drawer Toggle of the Toolbar
-		 */
 
 		//myToolbar = (android.support.v7.widget.Toolbar) findViewById(R.id.main_toolbar);
 		ActionBarDrawerToggle mDrawerToggle = new ActionBarDrawerToggle(this,mDrawerLayout, R.string.app_name,R.string.app_name);
-
 		mDrawerLayout.addDrawerListener(mDrawerToggle);
-
 		mDrawerToggle.syncState();
-
 	}
 
 	@Override
@@ -132,9 +127,12 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.menu_main, menu);
 
-		MenuItem searchItem = menu.findItem(R.id.action_search);
-		mSearchView = (SearchView) MenuItemCompat.getActionView(searchItem);
+		menuItemSearch = menu.findItem(R.id.action_search);
+		mSearchView = (SearchView) MenuItemCompat.getActionView(menuItemSearch);
 		mSearchView.setOnQueryTextListener(this);
+
+		menuItemRefresh = menu.findItem(R.id.action_refresh);
+
 		return true;
 	}
 
@@ -156,8 +154,9 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
 				mDrawerLayout.openDrawer(GravityCompat.START);  // OPEN DRAWER
 				return true;
 			case R.id.action_refresh:
-				Log.v(TAG, "menu : refresh all");
-				fragTabs.RefreshCurrent();
+				if (fragRefreshable != null){
+					fragRefreshable.Refresh();
+				}
 				return true;
 		}
 		return super.onOptionsItemSelected(item);

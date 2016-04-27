@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:weightSum="1">
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="40sp"
+        android:gravity="center"
+        android:id="@+id/textView"
+        android:layout_centerHorizontal="true"
+        android:text="@string/nav_item_statistics"
+        android:layout_margin="20dp"/>
+
+    <android.support.v7.widget.ListViewCompat
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/listViewStatistics"></android.support.v7.widget.ListViewCompat>
+
+</LinearLayout>

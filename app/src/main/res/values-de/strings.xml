@@ -23,5 +23,6 @@
 
     <string name="nav_item_stations">Radios</string>
     <string name="nav_item_settings">Einstellungen</string>
+    <string name="nav_item_statistics">Statistik</string>
     <string name="nav_item_about">Über</string>
 </resources>

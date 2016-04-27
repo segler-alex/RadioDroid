@@ -11,7 +11,6 @@ import android.widget.Toast;
 
 public class FragmentBase extends Fragment {
     private ProgressDialog itsProgressLoading;
-    private ItemAdapterStation itsArrayAdapter = null;
     private ListView lv;
     private String url;
     private String urlResult;
