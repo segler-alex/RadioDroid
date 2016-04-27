@@ -73,6 +73,7 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
 		mNavigationView = (NavigationView) findViewById(R.id.my_navigation_view) ;
 
 		fragTabs = new FragmentTabs();
+		fragRefreshable = fragTabs;
 
 		mFragmentManager = getSupportFragmentManager();
 		mFragmentTransaction = mFragmentManager.beginTransaction();

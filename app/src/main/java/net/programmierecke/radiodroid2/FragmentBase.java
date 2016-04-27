@@ -1,6 +1,7 @@
 package net.programmierecke.radiodroid2;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -15,8 +16,16 @@ public class FragmentBase extends Fragment {
     private String url;
     private String urlResult;
     private DataRadioStation[] stations = new DataRadioStation[0];
+    private Context mycontext;
 
     public FragmentBase() {
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        Log.w("ATT", "attached");
+        super.onAttach(context);
+        mycontext = getActivity();
     }
 
     @Override
@@ -46,7 +55,9 @@ public class FragmentBase extends Fragment {
 
     public void DownloadUrl() {
         if (TextUtils.isGraphic(url)) {
-            itsProgressLoading = ProgressDialog.show(getActivity(), "", "Loading...");
+            if (mycontext != null) {
+                itsProgressLoading = ProgressDialog.show(mycontext, "", "Loading...");
+            }
             new AsyncTask<Void, Void, String>() {
                 @Override
                 protected String doInBackground(Void... params) {
@@ -55,7 +66,10 @@ public class FragmentBase extends Fragment {
 
                 @Override
                 protected void onPostExecute(String result) {
-                    itsProgressLoading.dismiss();
+                    if (itsProgressLoading != null) {
+                        itsProgressLoading.dismiss();
+                        itsProgressLoading = null;
+                    }
                     if (result != null) {
                         urlResult = result;
                         RefreshListGui();
