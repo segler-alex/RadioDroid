@@ -184,6 +184,9 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
 	public boolean onQueryTextSubmit(String query) {
 		String queryEncoded = null;
 		try {
+			mSearchView.setQuery("", false);
+			mSearchView.clearFocus();
+			mSearchView.setIconified(true);
 			queryEncoded = URLEncoder.encode(query, "utf-8");
 			Search("http://www.radio-browser.info/webservice/json/stations/byname/"+queryEncoded);
 		} catch (UnsupportedEncodingException e) {
