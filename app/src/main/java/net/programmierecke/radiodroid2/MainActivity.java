@@ -63,7 +63,7 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
 		bindService(anIntent, svcConn, BIND_AUTO_CREATE);
 		startService(anIntent);
 
-		Toolbar myToolbar = (Toolbar) findViewById(R.id.my_awesome_toolbar);
+		final Toolbar myToolbar = (Toolbar) findViewById(R.id.my_awesome_toolbar);
 		setSupportActionBar(myToolbar);
 
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -87,21 +87,25 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
 				if (menuItem.getItemId() == R.id.nav_item_stations) {
 					f = new FragmentTabs();
 					menuItemSearch.setVisible(true);
+					myToolbar.setTitle(R.string.app_name);
 				}
 
 				if (menuItem.getItemId() == R.id.nav_item_serverinfo) {
 					f = new FragmentServerInfo();
 					menuItemSearch.setVisible(false);
+					myToolbar.setTitle(R.string.nav_item_statistics);
 				}
 
 				if (menuItem.getItemId() == R.id.nav_item_settings) {
 					f = new FragmentSettings();
 					menuItemSearch.setVisible(false);
+					myToolbar.setTitle(R.string.nav_item_settings);
 				}
 
 				if (menuItem.getItemId() == R.id.nav_item_about) {
 					f = new FragmentAbout();
 					menuItemSearch.setVisible(false);
+					myToolbar.setTitle(R.string.nav_item_about);
 				}
 
 				FragmentTransaction xfragmentTransaction = mFragmentManager.beginTransaction();

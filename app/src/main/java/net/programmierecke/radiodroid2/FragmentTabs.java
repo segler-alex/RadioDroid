@@ -42,16 +42,10 @@ public class FragmentTabs extends Fragment implements IFragmentRefreshable {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        /**
-         *Inflate tab_layout and setup Views.
-         */
         View x =  inflater.inflate(R.layout.layout_tabs,null);
         tabLayout = (TabLayout) x.findViewById(R.id.tabs);
         viewPager = (ViewPager) x.findViewById(R.id.viewpager);
 
-        /**
-         *Set an Adapter for the View Pager
-         */
         setupViewPager(viewPager);
 
         /**
@@ -101,11 +95,6 @@ public class FragmentTabs extends Fragment implements IFragmentRefreshable {
         viewPager.setAdapter(adapter);
     }
 
-    public void RefreshCurrent() {
-        FragmentBase fragment = fragments[viewPager.getCurrentItem()];
-        fragment.DownloadUrl();
-    }
-
     public void Search(String query) {
         viewPager.setCurrentItem(7);
         fragments[7].SetDownloadUrl(query);
@@ -113,7 +102,8 @@ public class FragmentTabs extends Fragment implements IFragmentRefreshable {
 
     @Override
     public void Refresh() {
-        RefreshCurrent();
+        FragmentBase fragment = fragments[viewPager.getCurrentItem()];
+        fragment.DownloadUrl();
     }
 
     class ViewPagerAdapter extends FragmentPagerAdapter {
