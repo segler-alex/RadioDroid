@@ -69,6 +69,7 @@ public class DataRadioStation {
 						aStation.State = anObject.getString("state");
 						aStation.IconUrl = anObject.getString("favicon");
 						aStation.Language = anObject.getString("language");
+						aStation.ClickCount = anObject.getInt("clickcount");
 
 						aList.add(aStation);
 					}
@@ -79,5 +80,26 @@ public class DataRadioStation {
 			}
 		}
 		return aList.toArray(new DataRadioStation[0]);
+	}
+
+	public JSONObject toJson(){
+		JSONObject obj = new JSONObject();
+		try {
+			obj.put("id",ID);
+			obj.put("name",Name);
+			obj.put("homepage",HomePageUrl);
+			obj.put("favicon",IconUrl);
+			obj.put("country",Country);
+			obj.put("state",State);
+			obj.put("tags",TagsAll);
+			obj.put("language",Language);
+			obj.put("clickcount",ClickCount);
+			obj.put("votes",Votes);
+			return obj;
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+
+		return null;
 	}
 }

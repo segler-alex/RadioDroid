@@ -92,6 +92,12 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
 					myToolbar.setTitle(R.string.app_name);
 				}
 
+				if (menuItem.getItemId() == R.id.nav_item_starred) {
+					f = new FragmentStarred();
+					menuItemSearch.setVisible(false);
+					myToolbar.setTitle(R.string.nav_item_starred);
+				}
+
 				if (menuItem.getItemId() == R.id.nav_item_serverinfo) {
 					f = new FragmentServerInfo();
 					menuItemSearch.setVisible(false);

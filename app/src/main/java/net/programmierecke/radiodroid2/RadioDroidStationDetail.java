@@ -23,13 +23,11 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 public class RadioDroidStationDetail extends AppCompatActivity {
 	ProgressDialog itsProgressLoading;
 	DataRadioStation itsStation;
+	private MenuItem m_Menu_Star;
+	private MenuItem m_Menu_UnStar;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -83,9 +81,22 @@ public class RadioDroidStationDetail extends AppCompatActivity {
 		}.execute();
 	}
 
-	void UpdateMenu(){
+	void UpdateMenu() {
+		FavouriteManager fm = new FavouriteManager(getApplicationContext());
+
 		if (m_Menu_Stop != null) {
 			m_Menu_Stop.setVisible(IsPlaying());
+		}
+		if (itsStation != null) {
+			if (m_Menu_Star != null) {
+				m_Menu_Star.setVisible(!fm.has(itsStation.ID));
+			}
+			if (m_Menu_UnStar != null) {
+				m_Menu_UnStar.setVisible(fm.has(itsStation.ID));
+			}
+		} else {
+			m_Menu_Star.setVisible(false);
+			m_Menu_UnStar.setVisible(false);
 		}
 	}
 
@@ -97,6 +108,8 @@ public class RadioDroidStationDetail extends AppCompatActivity {
 		m_Menu = menu;
 		getMenuInflater().inflate(R.menu.menu_station_detail, menu);
 		m_Menu_Stop = m_Menu.findItem(R.id.action_stop);
+		m_Menu_Star = m_Menu.findItem(R.id.action_star);
+		m_Menu_UnStar = m_Menu.findItem(R.id.action_unstar);
 		UpdateMenu();
 		return true;
 	}
@@ -116,10 +129,38 @@ public class RadioDroidStationDetail extends AppCompatActivity {
 				Share();
 				return true;
 
+			case R.id.action_star:
+				Star();
+				return true;
+
+			case R.id.action_unstar:
+				UnStar();
+				return true;
+
 			default:
 				// If we got here, the user's action was not recognized.
 				// Invoke the superclass to handle it.
 				return super.onOptionsItemSelected(item);
+		}
+	}
+
+	private void UnStar() {
+		if (itsStation != null) {
+			FavouriteManager fm = new FavouriteManager(getApplicationContext());
+			fm.remove(itsStation.ID);
+			UpdateMenu();
+		}else{
+			Log.e("ABC","empty station info");
+		}
+	}
+
+	private void Star() {
+		if (itsStation != null) {
+			FavouriteManager fm = new FavouriteManager(getApplicationContext());
+			fm.add(itsStation);
+			UpdateMenu();
+		}else{
+			Log.e("ABC","empty station info");
 		}
 	}
 
@@ -162,6 +203,8 @@ public class RadioDroidStationDetail extends AppCompatActivity {
 				}
 			}
 		});
+
+		UpdateMenu();
 	}
 
 	private boolean IsPlaying(){

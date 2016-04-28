@@ -16,4 +16,14 @@
         android:icon="@drawable/ic_share_24dp"
         android:title="@string/detail_share"
         app:showAsAction="ifRoom"/>
+    <item
+        android:id="@+id/action_star"
+        android:icon="@drawable/ic_star_border_black_24dp"
+        android:title="@string/detail_star"
+        app:showAsAction="ifRoom"/>
+    <item
+        android:id="@+id/action_unstar"
+        android:icon="@drawable/ic_star_black_24dp"
+        android:title="@string/detail_star"
+        app:showAsAction="ifRoom"/>
 </menu>
