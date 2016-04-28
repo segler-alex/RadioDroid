@@ -28,6 +28,7 @@ public class RadioDroidStationDetail extends AppCompatActivity {
 	DataRadioStation itsStation;
 	private MenuItem m_Menu_Star;
 	private MenuItem m_Menu_UnStar;
+	String stationId;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -46,11 +47,14 @@ public class RadioDroidStationDetail extends AppCompatActivity {
 
 		Bundle anExtras = getIntent().getExtras();
 		final String aStationID = anExtras.getString("stationid");
+		stationId = aStationID;
 		Log.v("", "Oncreate2:" + aStationID);
 
 		Intent anIntent = new Intent(this, PlayerService.class);
 		bindService(anIntent, svcConn, BIND_AUTO_CREATE);
 		startService(anIntent);
+
+		UpdateMenu();
 
 		itsProgressLoading = ProgressDialog.show(RadioDroidStationDetail.this, "", "Loading...");
 		new AsyncTask<Void, Void, String>() {
@@ -87,16 +91,18 @@ public class RadioDroidStationDetail extends AppCompatActivity {
 		if (m_Menu_Stop != null) {
 			m_Menu_Stop.setVisible(IsPlaying());
 		}
-		if (itsStation != null) {
+		if (stationId != null) {
 			if (m_Menu_Star != null) {
-				m_Menu_Star.setVisible(!fm.has(itsStation.ID));
+				m_Menu_Star.setVisible(!fm.has(stationId));
 			}
 			if (m_Menu_UnStar != null) {
-				m_Menu_UnStar.setVisible(fm.has(itsStation.ID));
+				m_Menu_UnStar.setVisible(fm.has(stationId));
 			}
 		} else {
-			m_Menu_Star.setVisible(false);
-			m_Menu_UnStar.setVisible(false);
+			if (m_Menu_Star != null) {
+				m_Menu_Star.setVisible(false);
+				m_Menu_UnStar.setVisible(false);
+			}
 		}
 	}
 
