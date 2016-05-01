@@ -18,7 +18,7 @@ public class Utils {
 		try{
 			URL url = new URL(theURI);
 			HttpURLConnection connection = (HttpURLConnection)url.openConnection();
-			connection.setConnectTimeout(2000);
+			connection.setConnectTimeout(4000);
 			connection.setReadTimeout(3000);
 			connection.setRequestProperty("User-Agent", "RadioDroid2 ("+BuildConfig.VERSION_NAME+")");
 			connection.setRequestMethod("GET");
