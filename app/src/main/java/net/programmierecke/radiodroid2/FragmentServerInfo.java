@@ -37,7 +37,7 @@ public class FragmentServerInfo extends Fragment implements IFragmentRefreshable
         new AsyncTask<Void, Void, String>() {
             @Override
             protected String doInBackground(Void... params) {
-                return Utils.downloadFeed("http://www.radio-browser.info/webservice/json/stats");
+                return Utils.downloadFeed(getActivity(), "http://www.radio-browser.info/webservice/json/stats");
             }
 
             @Override

@@ -130,7 +130,7 @@ public class ItemAdapterStation extends ArrayAdapter<DataRadioStation> implement
 					// check download cache
 					Log.v("ICONLOAD", "--URL=" + aStation.IconUrl);
 					if (TextUtils.isGraphic(aStation.IconUrl)) {
-						String aFileNameIcon = getBase64(aStation.IconUrl);
+						String aFileNameIcon = Utils.getBase64(aStation.IconUrl);
 						Bitmap anIcon = BitmapFactory.decodeStream(itsContext.openFileInput(aFileNameIcon));
 						anImageView.setVisibility(View.VISIBLE);
 						anImageView.setImageBitmap(anIcon);
@@ -164,7 +164,7 @@ public class ItemAdapterStation extends ArrayAdapter<DataRadioStation> implement
 						itsIconCache.put(anItem.itsURL, anIcon);
 
 						// save image to file
-						String aFileName = getBase64(anItem.itsURL);
+						String aFileName = Utils.getBase64(anItem.itsURL);
 						Log.v("", "" + anItem.itsURL + "->" + aFileName);
 						try {
 							FileOutputStream aStream = itsContext.openFileOutput(aFileName, Context.MODE_PRIVATE);
@@ -197,9 +197,5 @@ public class ItemAdapterStation extends ArrayAdapter<DataRadioStation> implement
 				Log.e("Error4", "" + e);
 			}
 		}
-	}
-
-	public String getBase64(String theOriginal) {
-		return Base64.encodeToString(theOriginal.getBytes(), Base64.URL_SAFE | Base64.NO_PADDING);
 	}
 }

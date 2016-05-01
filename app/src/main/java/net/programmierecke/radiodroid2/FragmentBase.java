@@ -57,7 +57,7 @@ public class FragmentBase extends Fragment {
             new AsyncTask<Void, Void, String>() {
                 @Override
                 protected String doInBackground(Void... params) {
-                    return Utils.downloadFeed(url);
+                    return Utils.downloadFeed(getActivity(), url);
                 }
 
                 @Override

@@ -61,7 +61,7 @@ public class RadioDroidStationDetail extends AppCompatActivity {
 			@Override
 			protected String doInBackground(Void... params) {
 				Log.v("", "doInBackground");
-				return Utils.downloadFeed(String.format(Locale.US, "http://www.radio-browser.info/webservice/json/stations/byid/%s", aStationID));
+				return Utils.downloadFeed(getApplicationContext(), String.format(Locale.US, "http://www.radio-browser.info/webservice/json/stations/byid/%s", aStationID));
 			}
 
 			@Override
@@ -228,7 +228,7 @@ public class RadioDroidStationDetail extends AppCompatActivity {
 		new AsyncTask<Void, Void, String>() {
 			@Override
 			protected String doInBackground(Void... params) {
-				return Utils.getRealStationLink(itsStation.ID);
+				return Utils.getRealStationLink(getApplicationContext(), itsStation.ID);
 			}
 
 			@Override
@@ -256,7 +256,7 @@ public class RadioDroidStationDetail extends AppCompatActivity {
 			new AsyncTask<Void, Void, String>() {
 				@Override
 				protected String doInBackground(Void... params) {
-					return Utils.getRealStationLink(itsStation.ID);
+					return Utils.getRealStationLink(getApplicationContext(), itsStation.ID);
 				}
 
 				@Override
