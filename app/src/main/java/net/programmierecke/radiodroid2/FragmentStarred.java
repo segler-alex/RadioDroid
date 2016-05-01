@@ -26,6 +26,9 @@ public class FragmentStarred extends Fragment {
         Intent anIntent = new Intent(getActivity().getBaseContext(), RadioDroidStationDetail.class);
         anIntent.putExtra("stationid", theStation.ID);
         startActivity(anIntent);
+
+        HistoryManager hm = new HistoryManager(a.getApplicationContext());
+        hm.add(theStation);
     }
 
     protected void RefreshListGui(){

@@ -8,6 +8,10 @@
         android:id="@+id/nav_item_starred"
         android:icon="@drawable/ic_star_black_24dp"/>
 
+    <item android:title="@string/nav_item_history"
+        android:id="@+id/nav_item_history"
+        android:icon="@drawable/ic_restore_black_24dp"/>
+
     <item android:title="@string/nav_item_statistics"
         android:id="@+id/nav_item_serverinfo"
         android:icon="@drawable/ic_poll_24dp"/>

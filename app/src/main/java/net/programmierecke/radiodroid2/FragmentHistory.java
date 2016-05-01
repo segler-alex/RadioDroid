@@ -1,8 +1,8 @@
 package net.programmierecke.radiodroid2;
 
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,13 +10,11 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
-public class FragmentStations extends FragmentBase {
-    private ProgressDialog itsProgressLoading;
+public class FragmentHistory extends Fragment {
     private ListView lv;
-    private String url;
     private DataRadioStation[] data = new DataRadioStation[0];
 
-    public FragmentStations() {
+    public FragmentHistory() {
     }
 
     void ClickOnItem(DataRadioStation theStation) {
@@ -32,17 +30,16 @@ public class FragmentStations extends FragmentBase {
         hm.add(theStation);
     }
 
-    @Override
     protected void RefreshListGui(){
         Log.d("ABC", "RefreshListGUI()");
 
         if (lv != null) {
             Log.d("ABC","LV != null");
-            data = DataRadioStation.DecodeJson(getUrlResult());
+            HistoryManager favouriteManager = new HistoryManager(getActivity());
             ItemAdapterStation arrayAdapter = (ItemAdapterStation) lv.getAdapter();
             arrayAdapter.clear();
             Log.d("ABC","Station count:"+data.length);
-            for (DataRadioStation aStation : data) {
+            for (DataRadioStation aStation : favouriteManager.getList()) {
                 arrayAdapter.add(aStation);
             }
 

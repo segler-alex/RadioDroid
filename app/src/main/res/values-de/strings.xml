@@ -23,6 +23,7 @@
 
     <string name="nav_item_stations">Radios</string>
     <string name="nav_item_starred">Favoriten</string>
+    <string name="nav_item_history">Geschichte</string>
     <string name="nav_item_settings">Einstellungen</string>
     <string name="nav_item_statistics">Statistik</string>
     <string name="nav_item_about">Über</string>
