@@ -224,7 +224,7 @@ public class RadioDroidStationDetail extends AppCompatActivity {
 	}
 
 	private void Share() {
-		itsProgressLoading = ProgressDialog.show(RadioDroidStationDetail.this, "", "Loading...");
+		itsProgressLoading = ProgressDialog.show(RadioDroidStationDetail.this, "", this.getString(R.string.progress_loading));
 		new AsyncTask<Void, Void, String>() {
 			@Override
 			protected String doInBackground(Void... params) {

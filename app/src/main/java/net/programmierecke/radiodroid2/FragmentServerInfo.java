@@ -33,7 +33,7 @@ public class FragmentServerInfo extends Fragment implements IFragmentRefreshable
     }
 
     void Download(final boolean forceUpdate){
-        itsProgressLoading = ProgressDialog.show(getActivity(), "", "Loading...");
+        itsProgressLoading = ProgressDialog.show(getActivity(), "", getActivity().getString(R.string.progress_loading));
         new AsyncTask<Void, Void, String>() {
             @Override
             protected String doInBackground(Void... params) {

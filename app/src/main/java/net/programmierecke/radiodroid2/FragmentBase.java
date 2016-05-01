@@ -52,7 +52,7 @@ public class FragmentBase extends Fragment {
         Log.d("DOWN","Download url:"+url);
         if (TextUtils.isGraphic(url)) {
             if (mycontext != null) {
-                itsProgressLoading = ProgressDialog.show(mycontext, "", "Loading...");
+                itsProgressLoading = ProgressDialog.show(mycontext, "", getActivity().getString(R.string.progress_loading));
             }
             new AsyncTask<Void, Void, String>() {
                 @Override
