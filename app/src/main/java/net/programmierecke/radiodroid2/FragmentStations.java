@@ -1,6 +1,5 @@
 package net.programmierecke.radiodroid2;
 
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -11,9 +10,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 public class FragmentStations extends FragmentBase {
-    private ProgressDialog itsProgressLoading;
     private ListView lv;
-    private String url;
     private DataRadioStation[] data = new DataRadioStation[0];
 
     public FragmentStations() {

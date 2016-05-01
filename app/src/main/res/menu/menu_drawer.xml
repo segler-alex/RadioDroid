@@ -16,6 +16,10 @@
         android:id="@+id/nav_item_serverinfo"
         android:icon="@drawable/ic_poll_24dp"/>
 
+    <item android:title="@string/nav_item_alarm"
+        android:id="@+id/nav_item_alarm"
+        android:icon="@drawable/ic_query_builder_black_24dp"/>
+
     <!--<item android:title="@string/nav_item_settings"
         android:id="@+id/nav_item_settings"
         android:icon="@drawable/ic_tune_24dp"/>-->

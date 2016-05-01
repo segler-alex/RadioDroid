@@ -6,11 +6,13 @@ import android.app.ProgressDialog;
 import android.content.ComponentName;
 import android.content.Intent;
 import android.content.ServiceConnection;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.os.RemoteException;
+import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -143,6 +145,10 @@ public class RadioDroidStationDetail extends AppCompatActivity {
 				UnStar();
 				return true;
 
+			case R.id.action_set_alarm:
+				setAsAlarm();
+				return true;
+
 			default:
 				// If we got here, the user's action was not recognized.
 				// Invoke the superclass to handle it.
@@ -168,6 +174,14 @@ public class RadioDroidStationDetail extends AppCompatActivity {
 		}else{
 			Log.e("ABC","empty station info");
 		}
+	}
+
+	void setAsAlarm(){
+		SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+		SharedPreferences.Editor editor = sharedPref.edit();
+		editor.putString("alarm.id",itsStation.ID);
+		editor.putString("alarm.name",itsStation.Name);
+		editor.commit();
 	}
 
 	@Override

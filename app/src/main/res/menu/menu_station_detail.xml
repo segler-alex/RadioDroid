@@ -26,4 +26,9 @@
         android:icon="@drawable/ic_star_black_24dp"
         android:title="@string/detail_star"
         app:showAsAction="ifRoom"/>
+    <item
+        android:id="@+id/action_set_alarm"
+        android:icon="@drawable/ic_query_builder_black_24dp"
+        android:title="@string/nav_item_alarm"
+        app:showAsAction="ifRoom"/>
 </menu>
