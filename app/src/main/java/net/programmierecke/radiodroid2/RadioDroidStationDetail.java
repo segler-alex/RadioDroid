@@ -43,7 +43,7 @@ public class RadioDroidStationDetail extends AppCompatActivity {
 		ActionBar ab = getSupportActionBar();
 
 		// Enable the Up button
-		ab.setDisplayHomeAsUpEnabled(true);
+		// ab.setDisplayHomeAsUpEnabled(true);
 
 		Bundle anExtras = getIntent().getExtras();
 		final String aStationID = anExtras.getString("stationid");
@@ -61,7 +61,7 @@ public class RadioDroidStationDetail extends AppCompatActivity {
 			@Override
 			protected String doInBackground(Void... params) {
 				Log.v("", "doInBackground");
-				return Utils.downloadFeed(getApplicationContext(), String.format(Locale.US, "http://www.radio-browser.info/webservice/json/stations/byid/%s", aStationID));
+				return Utils.downloadFeed(getApplicationContext(), String.format(Locale.US, "http://www.radio-browser.info/webservice/json/stations/byid/%s", aStationID),true);
 			}
 
 			@Override

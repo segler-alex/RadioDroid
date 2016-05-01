@@ -66,10 +66,12 @@ public class Utils {
 		}
 	}
 
-	public static String downloadFeed(Context ctx, String theURI) {
-		String cache = getCacheFile(ctx,theURI);
-		if (cache != null){
-			return cache;
+	public static String downloadFeed(Context ctx, String theURI, boolean forceUpdate) {
+		if (!forceUpdate) {
+			String cache = getCacheFile(ctx, theURI);
+			if (cache != null) {
+				return cache;
+			}
 		}
 
 		StringBuffer chaine = new StringBuffer("");
@@ -102,7 +104,7 @@ public class Utils {
 	}
 
 	public static String getRealStationLink(Context ctx, String stationId){
-		String result = Utils.downloadFeed(ctx, "http://www.radio-browser.info/webservice/json/url/" + stationId);
+		String result = Utils.downloadFeed(ctx, "http://www.radio-browser.info/webservice/json/url/" + stationId, true);
 		if (result != null) {
 			JSONObject jsonObj = null;
 			JSONArray jsonArr = null;

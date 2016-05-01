@@ -102,7 +102,7 @@ public class FragmentTabs extends Fragment implements IFragmentRefreshable, IFra
     @Override
     public void Refresh() {
         FragmentBase fragment = fragments[viewPager.getCurrentItem()];
-        fragment.DownloadUrl();
+        fragment.DownloadUrl(true);
     }
 
     class ViewPagerAdapter extends FragmentPagerAdapter {

@@ -35,7 +35,7 @@ public class FragmentBase extends Fragment {
         Bundle bundle = this.getArguments();
         url = bundle.getString("url");
 
-        DownloadUrl();
+        DownloadUrl(false);
     }
 
     protected String getUrlResult(){
@@ -45,10 +45,10 @@ public class FragmentBase extends Fragment {
     public void SetDownloadUrl(String theUrl) {
         Log.w("","new url "+theUrl);
         url = theUrl;
-        DownloadUrl();
+        DownloadUrl(false);
     }
 
-    public void DownloadUrl() {
+    public void DownloadUrl(final boolean forceUpdate) {
         Log.d("DOWN","Download url:"+url);
         if (TextUtils.isGraphic(url)) {
             if (mycontext != null) {
@@ -57,7 +57,7 @@ public class FragmentBase extends Fragment {
             new AsyncTask<Void, Void, String>() {
                 @Override
                 protected String doInBackground(Void... params) {
-                    return Utils.downloadFeed(getActivity(), url);
+                    return Utils.downloadFeed(getActivity(), url, forceUpdate);
                 }
 
                 @Override

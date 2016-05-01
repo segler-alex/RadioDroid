@@ -27,17 +27,17 @@ public class FragmentServerInfo extends Fragment implements IFragmentRefreshable
         ListViewCompat lv = (ListViewCompat)view.findViewById(R.id.listViewStatistics);
         lv.setAdapter(itemAdapterStatistics);
 
-        Download();
+        Download(false);
 
         return view;
     }
 
-    void Download(){
+    void Download(final boolean forceUpdate){
         itsProgressLoading = ProgressDialog.show(getActivity(), "", "Loading...");
         new AsyncTask<Void, Void, String>() {
             @Override
             protected String doInBackground(Void... params) {
-                return Utils.downloadFeed(getActivity(), "http://www.radio-browser.info/webservice/json/stats");
+                return Utils.downloadFeed(getActivity(), "http://www.radio-browser.info/webservice/json/stats", forceUpdate);
             }
 
             @Override
@@ -60,6 +60,6 @@ public class FragmentServerInfo extends Fragment implements IFragmentRefreshable
 
     @Override
     public void Refresh() {
-        Download();
+        Download(true);
     }
 }

@@ -2,10 +2,6 @@ package net.programmierecke.radiodroid2;
 
 import java.io.IOException;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import android.app.Notification;
 import android.app.PendingIntent;
 import android.app.Service;
@@ -22,9 +18,9 @@ import android.os.RemoteException;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
-public class PlayerService extends Service implements OnBufferingUpdateListener {
+public class PlayerService extends Service implements OnBufferingUpdateListener, MediaPlayer.OnInfoListener {
 	protected static final int NOTIFY_ID = 1;
-	final String TAG = "PlayerService";
+	final String TAG = "PLAY";
 
 	private Context itsContext;
 
@@ -123,6 +119,7 @@ public class PlayerService extends Service implements OnBufferingUpdateListener 
 				if (itsMediaPlayer == null) {
 					itsMediaPlayer = new MediaPlayer();
 					itsMediaPlayer.setOnBufferingUpdateListener(PlayerService.this);
+					itsMediaPlayer.setOnInfoListener(PlayerService.this);
 				}
 				if (itsMediaPlayer.isPlaying()) {
 					itsMediaPlayer.stop();
@@ -174,7 +171,7 @@ public class PlayerService extends Service implements OnBufferingUpdateListener 
 
 	@Override
 	public void onBufferingUpdate(MediaPlayer mp, int percent) {
-		// Log.v(TAG, "Buffering:" + percent);
+		Log.w(TAG, "Buffering:" + percent);
 		// SendMessage(itsStationName, "Buffering..", "Buffering .. (" + percent +
 		// "%)");
 	}
@@ -184,5 +181,11 @@ public class PlayerService extends Service implements OnBufferingUpdateListener 
 			appContext.unbindService(connection);
 		} catch (Exception e) {
 		}
+	}
+
+	@Override
+	public boolean onInfo(MediaPlayer mp, int what, int extra) {
+		Log.e(TAG,"info:"+what);
+		return false;
 	}
 }
