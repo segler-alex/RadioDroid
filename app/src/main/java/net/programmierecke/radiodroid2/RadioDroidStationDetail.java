@@ -3,6 +3,7 @@ package net.programmierecke.radiodroid2;
 import java.util.Locale;
 
 import android.app.ProgressDialog;
+import android.app.TimePickerDialog;
 import android.content.ComponentName;
 import android.content.Intent;
 import android.content.ServiceConnection;
@@ -13,6 +14,7 @@ import android.os.Bundle;
 import android.os.IBinder;
 import android.os.RemoteException;
 import android.preference.PreferenceManager;
+import android.support.v4.app.DialogFragment;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -23,9 +25,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
-public class RadioDroidStationDetail extends AppCompatActivity {
+public class RadioDroidStationDetail extends AppCompatActivity implements TimePickerDialog.OnTimeSetListener {
 	ProgressDialog itsProgressLoading;
 	DataRadioStation itsStation;
 	private MenuItem m_Menu_Star;
@@ -177,11 +180,10 @@ public class RadioDroidStationDetail extends AppCompatActivity {
 	}
 
 	void setAsAlarm(){
-		SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-		SharedPreferences.Editor editor = sharedPref.edit();
-		editor.putString("alarm.id",itsStation.ID);
-		editor.putString("alarm.name",itsStation.Name);
-		editor.commit();
+		if (itsStation != null) {
+			DialogFragment newFragment = new TimePickerFragment();
+			newFragment.show(getSupportFragmentManager(), "timePicker");
+		}
 	}
 
 	@Override
@@ -196,33 +198,46 @@ public class RadioDroidStationDetail extends AppCompatActivity {
 		itsStation = dataRadioStation;
 
 		TextView aTextViewName = (TextView) findViewById(R.id.detail_station_name_value);
-		aTextViewName.setText(dataRadioStation.Name);
+		if (aTextViewName != null) {
+			aTextViewName.setText(dataRadioStation.Name);
+		}
 
 		TextView aTextViewCountry = (TextView) findViewById(R.id.detail_station_country_value);
-		if (TextUtils.isEmpty(dataRadioStation.State))
-			aTextViewCountry.setText(dataRadioStation.Country);
-		else
-			aTextViewCountry.setText(dataRadioStation.Country+"/"+ dataRadioStation.State);
+		if (aTextViewCountry != null) {
+			if (TextUtils.isEmpty(dataRadioStation.State)) {
+				aTextViewCountry.setText(dataRadioStation.Country);
+			} else {
+				aTextViewCountry.setText(dataRadioStation.Country + "/" + dataRadioStation.State);
+			}
+		}
 
 		TextView aTextViewLanguage = (TextView) findViewById(R.id.detail_station_language_value);
-		aTextViewLanguage.setText(dataRadioStation.Language);
+		if (aTextViewLanguage != null) {
+			aTextViewLanguage.setText(dataRadioStation.Language);
+		}
 
 		TextView aTextViewTags = (TextView) findViewById(R.id.detail_station_tags_value);
-		aTextViewTags.setText(dataRadioStation.TagsAll);
+		if (aTextViewTags != null) {
+			aTextViewTags.setText(dataRadioStation.TagsAll);
+		}
 
 		TextView aTextViewWWW = (TextView) findViewById(R.id.detail_station_www_value);
-		aTextViewWWW.setText(dataRadioStation.HomePageUrl);
+		if (aTextViewWWW != null) {
+			aTextViewWWW.setText(dataRadioStation.HomePageUrl);
+		}
 
 		final String aLink = itsStation.HomePageUrl;
 		LinearLayout aLinLayoutWWW = (LinearLayout) findViewById(R.id.detail_station_www_clickable);
-		aLinLayoutWWW.setOnClickListener(new View.OnClickListener() {
-			public void onClick(View v) {
-				if (aLink.toLowerCase(Locale.US).startsWith("http")) {
-					Intent aWWWIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(aLink));
-					startActivity(aWWWIntent);
+		if (aLinLayoutWWW != null) {
+			aLinLayoutWWW.setOnClickListener(new View.OnClickListener() {
+				public void onClick(View v) {
+					if (aLink.toLowerCase(Locale.US).startsWith("http")) {
+						Intent aWWWIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(aLink));
+						startActivity(aWWWIntent);
+					}
 				}
-			}
-		});
+			});
+		}
 
 		UpdateMenu();
 	}
@@ -321,4 +336,10 @@ public class RadioDroidStationDetail extends AppCompatActivity {
 			itsPlayerService = null;
 		}
 	};
+
+	@Override
+	public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+		RadioAlarmManager ram = new RadioAlarmManager(getApplicationContext());
+		ram.add(itsStation,hourOfDay,minute);
+	}
 }

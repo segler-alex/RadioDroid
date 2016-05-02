@@ -82,6 +82,34 @@ public class DataRadioStation {
 		return aList.toArray(new DataRadioStation[0]);
 	}
 
+	public static DataRadioStation DecodeJsonSingle(String result) {
+		if (result != null) {
+			if (TextUtils.isGraphic(result)) {
+				try {
+					JSONObject anObject = new JSONObject(result);
+
+					DataRadioStation aStation = new DataRadioStation();
+					aStation.ID = anObject.getString("id");
+					aStation.Name = anObject.getString("name");
+					//aStation.StreamUrl = anObject.getString("url");
+					aStation.Votes = anObject.getInt("votes");
+					aStation.HomePageUrl = anObject.getString("homepage");
+					aStation.TagsAll = anObject.getString("tags");
+					aStation.Country = anObject.getString("country");
+					aStation.State = anObject.getString("state");
+					aStation.IconUrl = anObject.getString("favicon");
+					aStation.Language = anObject.getString("language");
+					aStation.ClickCount = anObject.getInt("clickcount");
+
+					return aStation;
+				} catch (JSONException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		return null;
+	}
+
 	public JSONObject toJson(){
 		JSONObject obj = new JSONObject();
 		try {
