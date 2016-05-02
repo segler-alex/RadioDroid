@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.TextView;
 
@@ -33,7 +34,17 @@ public class ItemAdapterRadioAlarm extends ArrayAdapter<DataRadioStationAlarm> {
 		TextView tvStation = (TextView) v.findViewById(R.id.textViewStation);
 		TextView tvTime = (TextView) v.findViewById(R.id.textViewTime);
 		SwitchCompat s = (SwitchCompat)v.findViewById(R.id.switch1);
+		Button b = (Button) v.findViewById(R.id.buttonDelete);
 
+		if (b != null){
+			b.setOnClickListener(new View.OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					RadioAlarmManager ram = new RadioAlarmManager(getContext().getApplicationContext(),null);
+					ram.remove(aData.id);
+				}
+			});
+		}
 		if (tvStation != null) {
 			tvStation.setText(aData.station.Name);
 		}
@@ -45,7 +56,7 @@ public class ItemAdapterRadioAlarm extends ArrayAdapter<DataRadioStationAlarm> {
 			s.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 				public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 					Log.w("ALARM","new state:"+isChecked);
-					RadioAlarmManager ram = new RadioAlarmManager(getContext().getApplicationContext());
+					RadioAlarmManager ram = new RadioAlarmManager(getContext().getApplicationContext(),null);
 					ram.setEnabled(aData.id, isChecked);
 				}
 			});

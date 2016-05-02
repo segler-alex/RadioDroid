@@ -12,7 +12,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TimePicker;
 
-public class FragmentAlarm extends Fragment implements TimePickerDialog.OnTimeSetListener {
+public class FragmentAlarm extends Fragment implements TimePickerDialog.OnTimeSetListener, IChanged {
     private ListView lv;
     private RadioAlarmManager ram;
     private ItemAdapterRadioAlarm adapterRadioAlarm;
@@ -27,7 +27,7 @@ public class FragmentAlarm extends Fragment implements TimePickerDialog.OnTimeSe
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        ram = new RadioAlarmManager(getActivity().getApplicationContext());
+        ram = new RadioAlarmManager(getActivity().getApplicationContext(),this);
         View view = inflater.inflate(R.layout.layout_alarms, container, false);
 
         adapterRadioAlarm = new ItemAdapterRadioAlarm(getActivity());
@@ -72,5 +72,11 @@ public class FragmentAlarm extends Fragment implements TimePickerDialog.OnTimeSe
         ram.changeTime(clickedAlarm.id,hourOfDay,minute);
         RefreshList();
         view.invalidate();
+    }
+
+    @Override
+    public void onChanged() {
+        ram.load();
+        RefreshList();
     }
 }

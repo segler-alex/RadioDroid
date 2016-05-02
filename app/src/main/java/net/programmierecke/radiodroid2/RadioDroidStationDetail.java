@@ -340,7 +340,7 @@ public class RadioDroidStationDetail extends AppCompatActivity implements TimePi
 
 	@Override
 	public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-		RadioAlarmManager ram = new RadioAlarmManager(getApplicationContext());
+		RadioAlarmManager ram = new RadioAlarmManager(getApplicationContext(),null);
 		ram.add(itsStation,hourOfDay,minute);
 	}
 }

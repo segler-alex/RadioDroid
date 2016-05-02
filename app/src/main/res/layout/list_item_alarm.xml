@@ -34,15 +34,26 @@
 
     </LinearLayout>
 
-    <android.support.v7.widget.SwitchCompat
-        android:textSize="20sp"
+    <LinearLayout
+        android:orientation="vertical"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text=""
-        android:id="@+id/switch1"
-        android:height="50dp"
-        android:layout_margin="15dp"
-        android:layout_gravity="end"
-        android:layout_weight="0" />
+        android:layout_height="wrap_content">
+
+        <android.support.v7.widget.SwitchCompat
+            android:textSize="20sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:id="@+id/switch1"
+            android:height="10dp"
+            android:layout_margin="15dp" />
+
+        <Button
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@drawable/ic_close_black_24dp"
+            android:id="@+id/buttonDelete" />
+    </LinearLayout>
 
 </LinearLayout>
