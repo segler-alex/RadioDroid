@@ -3,26 +3,36 @@
     android:id="@+id/LinearLayout1"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:clickable="true"
     android:orientation="horizontal" >
 
-    <TextView
-        android:id="@+id/textViewStation"
+    <LinearLayout
+        android:orientation="vertical"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="20sp"
-        android:height="50dp"
         android:layout_gravity="start"
-        android:layout_weight="0.4" />
+        android:layout_weight="1">
 
-    <TextView
-        android:id="@+id/textViewTime"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="20sp"
-        android:height="50dp"
-        android:layout_gravity="end"
-        android:layout_weight="0.4" />
+        <TextView
+            android:id="@+id/textViewTime"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="40sp"
+            android:height="50dp"
+            android:clickable="true"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginRight="15dp" />
+
+        <TextView
+            android:id="@+id/textViewStation"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginBottom="15dp" />
+
+    </LinearLayout>
 
     <android.support.v7.widget.SwitchCompat
         android:textSize="20sp"
@@ -31,6 +41,8 @@
         android:text=""
         android:id="@+id/switch1"
         android:height="50dp"
-        android:layout_margin="5dp" />
+        android:layout_margin="15dp"
+        android:layout_gravity="end"
+        android:layout_weight="0" />
 
 </LinearLayout>
