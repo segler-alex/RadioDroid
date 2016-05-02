@@ -1,7 +1,6 @@
 package net.programmierecke.radiodroid2;
 
 import android.content.Context;
-import android.support.v4.app.DialogFragment;
 import android.support.v7.widget.SwitchCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -10,7 +9,6 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.CompoundButton;
 import android.widget.TextView;
-import android.widget.TimePicker;
 
 import java.util.Locale;
 
@@ -24,7 +22,7 @@ public class ItemAdapterRadioAlarm extends ArrayAdapter<DataRadioStationAlarm> {
 
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
-		DataRadioStationAlarm aData = getItem(position);
+		final DataRadioStationAlarm aData = getItem(position);
 
 		View v = convertView;
 		if (v == null) {
@@ -43,25 +41,16 @@ public class ItemAdapterRadioAlarm extends ArrayAdapter<DataRadioStationAlarm> {
 			tvTime.setText(String.format(Locale.getDefault(),"%02d:%02d",aData.hour,aData.minute));
 		}
 		if (s != null){
-			s.setEnabled(aData.enabled);
+			s.setChecked(aData.enabled);
 			s.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 				public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 					Log.w("ALARM","new state:"+isChecked);
-					//ram.setEnabled(alarmId,isChecked);
-
-					if (isChecked) {
-						DialogFragment newFragment = new TimePickerFragment();
-						//newFragment.show(context.getApplicationContext().getSupportFragmentManager(), "timePicker");
-					}
+					RadioAlarmManager ram = new RadioAlarmManager(getContext().getApplicationContext());
+					ram.setEnabled(aData.id, isChecked);
 				}
 			});
 		}
 
 		return v;
 	}
-
-	/*@Override
-	public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-		ram.changeTime(alarmId,hourOfDay,minute);
-	}*/
 }

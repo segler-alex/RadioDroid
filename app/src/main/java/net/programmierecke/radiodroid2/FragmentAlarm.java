@@ -1,6 +1,8 @@
 package net.programmierecke.radiodroid2;
 
+import android.app.TimePickerDialog;
 import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -8,8 +10,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TimePicker;
 
-public class FragmentAlarm extends Fragment {
+public class FragmentAlarm extends Fragment implements TimePickerDialog.OnTimeSetListener {
     private ListView lv;
     private RadioAlarmManager ram;
     private ItemAdapterRadioAlarm adapterRadioAlarm;
@@ -42,17 +45,32 @@ public class FragmentAlarm extends Fragment {
             }
         });
 
-        adapterRadioAlarm.clear();
-        for(DataRadioStationAlarm alarm: ram.getList()){
-            adapterRadioAlarm.add(alarm);
-        }
+        RefreshList();
 
         view.invalidate();
 
         return view;
     }
 
-    private void ClickOnItem(DataRadioStationAlarm anObject) {
+    private void RefreshList() {
+        adapterRadioAlarm.clear();
+        for(DataRadioStationAlarm alarm: ram.getList()){
+            adapterRadioAlarm.add(alarm);
+        }
+    }
 
+    DataRadioStationAlarm clickedAlarm = null;
+    private void ClickOnItem(DataRadioStationAlarm anObject) {
+        clickedAlarm = anObject;
+        TimePickerFragment newFragment = new TimePickerFragment();
+        newFragment.setCallback(this);
+        newFragment.show(getActivity().getSupportFragmentManager(), "timePicker");
+    }
+
+    @Override
+    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+        ram.changeTime(clickedAlarm.id,hourOfDay,minute);
+        RefreshList();
+        view.invalidate();
     }
 }

@@ -181,7 +181,8 @@ public class RadioDroidStationDetail extends AppCompatActivity implements TimePi
 
 	void setAsAlarm(){
 		if (itsStation != null) {
-			DialogFragment newFragment = new TimePickerFragment();
+			TimePickerFragment newFragment = new TimePickerFragment();
+			newFragment.setCallback(this);
 			newFragment.show(getSupportFragmentManager(), "timePicker");
 		}
 	}

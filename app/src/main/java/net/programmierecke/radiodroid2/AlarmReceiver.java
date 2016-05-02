@@ -24,8 +24,8 @@ public class AlarmReceiver extends BroadcastReceiver {
         toast.show();
 
         Intent anIntent = new Intent(context, PlayerService.class);
-        context.bindService(anIntent, svcConn, context.BIND_AUTO_CREATE);
-        context.startService(anIntent);
+        context.getApplicationContext().bindService(anIntent, svcConn, context.BIND_AUTO_CREATE);
+        context.getApplicationContext().startService(anIntent);
 
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
         String stationId = sharedPref.getString("alarm.id", null);
