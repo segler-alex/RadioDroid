@@ -2,9 +2,7 @@ package net.programmierecke.radiodroid2;
 
 import android.app.TimePickerDialog;
 import android.os.Bundle;
-import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,10 +18,6 @@ public class FragmentAlarm extends Fragment implements TimePickerDialog.OnTimeSe
     public FragmentAlarm() {
     }
 
-    public void onClick(View view) {
-        Log.e("abc","click on item");
-    }
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
@@ -36,11 +30,9 @@ public class FragmentAlarm extends Fragment implements TimePickerDialog.OnTimeSe
         lv.setClickable(true);
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Log.e("a","def");
                 Object anObject = parent.getItemAtPosition(position);
                 if (anObject instanceof DataRadioStationAlarm) {
                     ClickOnItem((DataRadioStationAlarm) anObject);
-                    Log.e("a","def2");
                 }
             }
         });
