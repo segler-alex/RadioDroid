@@ -62,4 +62,35 @@ public class PlayerServiceUtil {
             }
         }
     }
+
+    public static void clearTimer() {
+        if (itsPlayerService != null) {
+            try {
+                itsPlayerService.clearTimer();
+            } catch (RemoteException e) {
+                Log.e("", "" + e);
+            }
+        }
+    }
+
+    public static void addTimer(int secondsAdd) {
+        if (itsPlayerService != null) {
+            try {
+                itsPlayerService.addTimer(secondsAdd);
+            } catch (RemoteException e) {
+                Log.e("", "" + e);
+            }
+        }
+    }
+
+    public static long getTimerSeconds() {
+        if (itsPlayerService != null) {
+            try {
+                return itsPlayerService.getTimerSeconds();
+            } catch (RemoteException e) {
+                Log.e("", "" + e);
+            }
+        }
+        return 0;
+    }
 }

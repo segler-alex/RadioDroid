@@ -13,6 +13,7 @@ import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.media.MediaPlayer.OnBufferingUpdateListener;
 import android.os.AsyncTask;
+import android.os.CountDownTimer;
 import android.os.IBinder;
 import android.os.RemoteException;
 import android.support.v4.app.NotificationCompat;
@@ -20,6 +21,8 @@ import android.util.Log;
 
 public class PlayerService extends Service implements OnBufferingUpdateListener, MediaPlayer.OnInfoListener {
 	protected static final int NOTIFY_ID = 1;
+	public static final String PLAYER_SERVICE_TIMER_UPDATE = "net.programmierecke.radiodroid2.timerupdate";
+	public static final String PLAYER_SERVICE_STATUS_UPDATE = "net.programmierecke.radiodroid2.statusupdate";
 	final String TAG = "PLAY";
 
 	private Context itsContext;
@@ -28,6 +31,14 @@ public class PlayerService extends Service implements OnBufferingUpdateListener,
 	private String itsStationName;
 	private String itsStationURL;
 	private MediaPlayer itsMediaPlayer = null;
+	private CountDownTimer timer = null;
+	long seconds = -1;
+
+	void sendBroadCast(String action){
+		Intent local = new Intent();
+		local.setAction(action);
+		sendBroadcast(local);
+	}
 
 	private final IPlayerService.Stub itsBinder = new IPlayerService.Stub() {
 
@@ -40,6 +51,21 @@ public class PlayerService extends Service implements OnBufferingUpdateListener,
 		}
 
 		@Override
+		public void addTimer(int secondsAdd) throws RemoteException {
+			PlayerService.this.addTimer(secondsAdd);
+		}
+
+		@Override
+		public void clearTimer() throws RemoteException {
+			PlayerService.this.clearTimer();
+		}
+
+		@Override
+		public long getTimerSeconds() throws RemoteException {
+			return PlayerService.this.getTimerSeconds();
+		}
+
+		@Override
 		public String getCurrentStationID() throws RemoteException {
 			if (itsMediaPlayer == null)
 				return null;
@@ -48,6 +74,45 @@ public class PlayerService extends Service implements OnBufferingUpdateListener,
 			return itsStationID;
 		}
 	};
+
+	private long getTimerSeconds() {
+		return seconds;
+	}
+
+	private void clearTimer() {
+		if (timer != null) {
+			timer.cancel();
+			timer = null;
+
+			seconds = -1;
+
+			sendBroadCast(PLAYER_SERVICE_TIMER_UPDATE);
+		}
+	}
+
+	private void addTimer(int secondsAdd) {
+		if (timer != null) {
+			timer.cancel();
+			timer = null;
+		}
+
+		seconds += secondsAdd;
+
+		timer = new CountDownTimer(seconds * 1000, 1000) {
+			public void onTick(long millisUntilFinished) {
+				seconds = millisUntilFinished / 1000;
+				Log.w("ABC",""+seconds);
+
+				Intent local = new Intent();
+				local.setAction(PLAYER_SERVICE_TIMER_UPDATE);
+				sendBroadcast(local);
+			}
+			public void onFinish() {
+				Stop();
+				timer = null;
+			}
+		}.start();
+	}
 
 	@Override
 	public IBinder onBind(Intent arg0) {
@@ -58,6 +123,7 @@ public class PlayerService extends Service implements OnBufferingUpdateListener,
 	public void onCreate() {
 		super.onCreate();
 		itsContext = this;
+		timer = null;
 	}
 
 	@Override
@@ -167,6 +233,7 @@ public class PlayerService extends Service implements OnBufferingUpdateListener,
 			itsMediaPlayer = null;
 		}
 		stopForeground(true);
+		sendBroadCast(PLAYER_SERVICE_STATUS_UPDATE);
 	}
 
 	@Override

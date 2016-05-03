@@ -1,17 +1,17 @@
 package net.programmierecke.radiodroid2;
 
 import android.app.ProgressDialog;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
+import android.content.IntentFilter;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.Locale;
@@ -20,6 +20,12 @@ public class ActivityPlayerInfo extends AppCompatActivity {
 	ProgressDialog itsProgressLoading;
 	DataRadioStation itsStation;
 	String stationId;
+	TextView aTextViewName;
+	ImageButton buttonStop;
+	ImageButton buttonAddTimeout;
+	ImageButton buttonClearTimeout;
+	private TextView textViewCountdown;
+	private BroadcastReceiver updateUIReciver;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +40,21 @@ public class ActivityPlayerInfo extends AppCompatActivity {
 		stationId = aStationID;
 
 		PlayerServiceUtil.bind(this);
+
+		InitControls();
+
+		IntentFilter filter = new IntentFilter();
+
+		filter.addAction(PlayerService.PLAYER_SERVICE_TIMER_UPDATE);
+		filter.addAction(PlayerService.PLAYER_SERVICE_STATUS_UPDATE);
+
+		updateUIReciver = new BroadcastReceiver() {
+			@Override
+			public void onReceive(Context context, Intent intent) {
+				UpdateOutput();
+			}
+		};
+		registerReceiver(updateUIReciver,filter);
 
 		itsProgressLoading = ProgressDialog.show(ActivityPlayerInfo.this, "", getString(R.string.progress_loading));
 		new AsyncTask<Void, Void, String>() {
@@ -60,18 +81,11 @@ public class ActivityPlayerInfo extends AppCompatActivity {
 		}.execute();
 	}
 
-	@Override
-	protected void onPause() {
-		super.onPause();
-		PlayerServiceUtil.unBind(this);
-	}
+	private void InitControls() {
+		aTextViewName = (TextView) findViewById(R.id.detail_station_name_value);
+		textViewCountdown = (TextView) findViewById(R.id.textViewCountdown);
 
-	private void UpdateOutput() {
-		TextView aTextViewName = (TextView) findViewById(R.id.detail_station_name_value);
-		if (aTextViewName != null) {
-			aTextViewName.setText(itsStation.Name);
-		}
-		ImageButton buttonStop = (ImageButton) findViewById(R.id.buttonStop);
+		buttonStop = (ImageButton) findViewById(R.id.buttonStop);
 		if (buttonStop != null){
 			buttonStop.setOnClickListener(new View.OnClickListener() {
 				@Override
@@ -80,6 +94,65 @@ public class ActivityPlayerInfo extends AppCompatActivity {
 					finish();
 				}
 			});
+		}
+
+		buttonAddTimeout = (ImageButton) findViewById(R.id.buttonAddTimeout);
+		if (buttonAddTimeout != null){
+			buttonAddTimeout.setOnClickListener(new View.OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					addTime();
+				}
+			});
+		}
+
+		buttonClearTimeout = (ImageButton) findViewById(R.id.buttonCancelCountdown);
+		if (buttonClearTimeout != null){
+			buttonClearTimeout.setVisibility(View.GONE);
+			buttonClearTimeout.setOnClickListener(new View.OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					clearTime();
+				}
+			});
+		}
+	}
+
+	private void clearTime() {
+		PlayerServiceUtil.clearTimer();
+	}
+
+	private void addTime() {
+		PlayerServiceUtil.addTimer(10 * 60);
+	}
+
+	@Override
+	protected void onPause() {
+		super.onPause();
+		PlayerServiceUtil.unBind(this);
+		unregisterReceiver(updateUIReciver);
+	}
+
+	private void UpdateOutput() {
+		Log.w("ARR","UpdateOutput()");
+
+		if (aTextViewName != null) {
+			aTextViewName.setText(itsStation.Name);
+		}
+
+		long seconds = PlayerServiceUtil.getTimerSeconds();
+
+		if (seconds < 0){
+			buttonClearTimeout.setVisibility(View.GONE);
+			textViewCountdown.setText("");
+		}else{
+			buttonClearTimeout.setVisibility(View.VISIBLE);
+			textViewCountdown.setText(String.format(Locale.getDefault(),"Remaining: %02d:%02d",seconds / 60, seconds % 60));
+		}
+
+		if (!PlayerServiceUtil.isPlaying()){
+			Log.i("ARR","exit..");
+			finish();
 		}
 	}
 }
