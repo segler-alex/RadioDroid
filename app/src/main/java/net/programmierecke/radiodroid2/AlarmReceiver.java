@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.ServiceConnection;
 import android.os.AsyncTask;
 import android.os.IBinder;
+import android.os.PowerManager;
 import android.os.RemoteException;
 import android.util.Log;
 import android.widget.Toast;
@@ -15,9 +16,15 @@ public class AlarmReceiver extends BroadcastReceiver {
     String url;
     int alarmId;
     DataRadioStation station;
+    PowerManager powerManager;
+    PowerManager.WakeLock wakeLock;
 
     @Override
     public void onReceive(Context context, Intent intent) {
+        powerManager = (PowerManager) context.getSystemService(context.POWER_SERVICE);
+        wakeLock = powerManager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "MyWakelockTag");
+        wakeLock.acquire();
+
         Log.w("recv","received broadcast");
         Toast toast = Toast.makeText(context, "Alarm!", Toast.LENGTH_SHORT);
         toast.show();
@@ -47,6 +54,8 @@ public class AlarmReceiver extends BroadcastReceiver {
             } catch (RemoteException e) {
                 Log.e("recv","play error:"+e);
             }
+
+            wakeLock.release();
         }
 
         public void onServiceDisconnected(ComponentName className) {
@@ -73,6 +82,7 @@ public class AlarmReceiver extends BroadcastReceiver {
                 } else {
                     Toast toast = Toast.makeText(context, context.getResources().getText(R.string.error_station_load), Toast.LENGTH_SHORT);
                     toast.show();
+                    wakeLock.release();
                 }
                 super.onPostExecute(result);
             }

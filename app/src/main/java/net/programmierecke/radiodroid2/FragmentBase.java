@@ -23,7 +23,6 @@ public class FragmentBase extends Fragment {
 
     @Override
     public void onAttach(Context context) {
-        Log.w("ATT", "attached");
         super.onAttach(context);
         mycontext = getActivity();
     }

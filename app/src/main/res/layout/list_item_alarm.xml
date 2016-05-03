@@ -48,12 +48,12 @@
             android:height="10dp"
             android:layout_margin="15dp" />
 
-        <Button
-            style="?android:attr/buttonStyleSmall"
+        <ImageButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:drawableLeft="@drawable/ic_close_black_24dp"
-            android:id="@+id/buttonDelete" />
+            android:id="@+id/buttonDelete"
+            android:src="@drawable/ic_delete_black_24dp" />
+
     </LinearLayout>
 
 </LinearLayout>

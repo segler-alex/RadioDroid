@@ -3,6 +3,8 @@
     package="net.programmierecke.radiodroid2">
 
     <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
 
     <application
         android:allowBackup="false"
@@ -32,6 +34,14 @@
             android:enabled="true" >
             <intent-filter>
                 <action android:name=".AlarmReceiver" />
+            </intent-filter>
+        </receiver>
+
+        <receiver
+            android:name="net.programmierecke.radiodroid2.BootReceiver"
+            android:enabled="true" >
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
         </receiver>
     </application>

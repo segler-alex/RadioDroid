@@ -211,4 +211,13 @@ public class RadioAlarmManager {
         }
         return null;
     }
+
+    public void resetAllAlarms() {
+        for(DataRadioStationAlarm alarm: list){
+            if (alarm.enabled){
+                Log.w("alarm","started alarm with id:"+alarm.id);
+                start(alarm.id);
+            }
+        }
+    }
 }
