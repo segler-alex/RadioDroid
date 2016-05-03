@@ -127,17 +127,22 @@ public class ActivityPlayerInfo extends AppCompatActivity {
 	}
 
 	@Override
-	protected void onPause() {
-		super.onPause();
+	public void onDestroy() {
+		super.onDestroy();
 		PlayerServiceUtil.unBind(this);
-		unregisterReceiver(updateUIReciver);
+		if (updateUIReciver != null) {
+			unregisterReceiver(updateUIReciver);
+			updateUIReciver = null;
+		}
 	}
 
 	private void UpdateOutput() {
 		Log.w("ARR","UpdateOutput()");
 
-		if (aTextViewName != null) {
-			aTextViewName.setText(itsStation.Name);
+		if (itsStation != null) {
+			if (aTextViewName != null) {
+				aTextViewName.setText(itsStation.Name);
+			}
 		}
 
 		long seconds = PlayerServiceUtil.getTimerSeconds();

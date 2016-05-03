@@ -232,6 +232,11 @@ public class PlayerService extends Service implements OnBufferingUpdateListener,
 			itsMediaPlayer.release();
 			itsMediaPlayer = null;
 		}
+
+		if (timer != null){
+			timer.cancel();
+			timer = null;
+		}
 		stopForeground(true);
 		sendBroadCast(PLAYER_SERVICE_STATUS_UPDATE);
 	}
