@@ -7,11 +7,6 @@
         android:title="@string/detail_play"
         app:showAsAction="ifRoom"/>
     <item
-        android:id="@+id/action_stop"
-        android:icon="@drawable/ic_stop_24dp"
-        android:title="@string/detail_stop"
-        app:showAsAction="ifRoom"/>
-    <item
         android:id="@+id/action_share"
         android:icon="@drawable/ic_share_24dp"
         android:title="@string/detail_share"

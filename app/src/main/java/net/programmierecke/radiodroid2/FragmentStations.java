@@ -17,11 +17,9 @@ public class FragmentStations extends FragmentBase {
     }
 
     void ClickOnItem(DataRadioStation theStation) {
-        MainActivity a = (MainActivity)getActivity();
-        PlayerService thisService = new PlayerService();
-        thisService.unbindSafely( a, a.getSvc() );
+        ActivityMain a = (ActivityMain)getActivity();
 
-        Intent anIntent = new Intent(getActivity().getBaseContext(), RadioDroidStationDetail.class);
+        Intent anIntent = new Intent(getActivity().getBaseContext(), ActivityRadioStationDetail.class);
         anIntent.putExtra("stationid", theStation.ID);
         startActivity(anIntent);
 
@@ -52,8 +50,6 @@ public class FragmentStations extends FragmentBase {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        Log.w("ABC","onCreateView FragmentStations");
-
         ItemAdapterStation arrayAdapter = new ItemAdapterStation(getActivity(), R.layout.list_item_station);
 
         // Inflate the layout for this fragment

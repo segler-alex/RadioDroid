@@ -4,18 +4,10 @@ import java.util.Locale;
 
 import android.app.ProgressDialog;
 import android.app.TimePickerDialog;
-import android.content.ComponentName;
 import android.content.Intent;
-import android.content.ServiceConnection;
-import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.IBinder;
-import android.os.RemoteException;
-import android.preference.PreferenceManager;
-import android.support.v4.app.DialogFragment;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
@@ -28,57 +20,43 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
-public class RadioDroidStationDetail extends AppCompatActivity implements TimePickerDialog.OnTimeSetListener {
-	ProgressDialog itsProgressLoading;
-	DataRadioStation itsStation;
+public class ActivityRadioStationDetail extends AppCompatActivity implements TimePickerDialog.OnTimeSetListener {
+	private ProgressDialog itsProgressLoading;
+	private DataRadioStation itsStation;
 	private MenuItem m_Menu_Star;
 	private MenuItem m_Menu_UnStar;
-	String stationId;
+	private Menu m_Menu;
+	private String stationId;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		Log.v("", "Oncreate");
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.layout_station_detail);
 
 		Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
 		setSupportActionBar(myToolbar);
 
-		// Get a support ActionBar corresponding to this toolbar
-		ActionBar ab = getSupportActionBar();
-
-		// Enable the Up button
-		// ab.setDisplayHomeAsUpEnabled(true);
-
 		Bundle anExtras = getIntent().getExtras();
 		final String aStationID = anExtras.getString("stationid");
 		stationId = aStationID;
-		Log.v("", "Oncreate2:" + aStationID);
 
-		Intent anIntent = new Intent(this, PlayerService.class);
-		bindService(anIntent, svcConn, BIND_AUTO_CREATE);
-		startService(anIntent);
+		PlayerServiceUtil.bind(this);
 
 		UpdateMenu();
 
-		itsProgressLoading = ProgressDialog.show(RadioDroidStationDetail.this, "", "Loading...");
+		itsProgressLoading = ProgressDialog.show(ActivityRadioStationDetail.this, "", getResources().getText(R.string.progress_loading));
 		new AsyncTask<Void, Void, String>() {
 			@Override
 			protected String doInBackground(Void... params) {
-				Log.v("", "doInBackground");
 				return Utils.downloadFeed(getApplicationContext(), String.format(Locale.US, "http://www.radio-browser.info/webservice/json/stations/byid/%s", aStationID),true);
 			}
 
 			@Override
 			protected void onPostExecute(String result) {
-				Log.v("", "onPostExecute:" + result);
 				if (!isFinishing()) {
-					Log.v("", "onPostExecute2");
 					if (result != null) {
 						DataRadioStation[] aStationList = DataRadioStation.DecodeJson(result);
-						Log.v("", "onPostExecute3:" + aStationList.length);
 						if (aStationList.length == 1) {
-							Log.v("", "onPostExecute4");
 							setStation(aStationList[0]);
 						}
 					}
@@ -93,9 +71,6 @@ public class RadioDroidStationDetail extends AppCompatActivity implements TimePi
 	void UpdateMenu() {
 		FavouriteManager fm = new FavouriteManager(getApplicationContext());
 
-		if (m_Menu_Stop != null) {
-			m_Menu_Stop.setVisible(IsPlaying());
-		}
 		if (stationId != null) {
 			if (m_Menu_Star != null) {
 				m_Menu_Star.setVisible(!fm.has(stationId));
@@ -111,14 +86,10 @@ public class RadioDroidStationDetail extends AppCompatActivity implements TimePi
 		}
 	}
 
-	Menu m_Menu;
-	MenuItem m_Menu_Stop;
-
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		m_Menu = menu;
 		getMenuInflater().inflate(R.menu.menu_station_detail, menu);
-		m_Menu_Stop = m_Menu.findItem(R.id.action_stop);
 		m_Menu_Star = m_Menu.findItem(R.id.action_star);
 		m_Menu_UnStar = m_Menu.findItem(R.id.action_unstar);
 		UpdateMenu();
@@ -130,10 +101,6 @@ public class RadioDroidStationDetail extends AppCompatActivity implements TimePi
 		switch (item.getItemId()) {
 			case R.id.action_play:
 				Play();
-				return true;
-
-			case R.id.action_stop:
-				Stop();
 				return true;
 
 			case R.id.action_share:
@@ -190,9 +157,7 @@ public class RadioDroidStationDetail extends AppCompatActivity implements TimePi
 	@Override
 	protected void onPause() {
 		super.onPause();
-		Log.v("stationdetail", "onpause");
-		PlayerService thisService = new PlayerService();
-		thisService.unbindSafely(this, svcConn);
+		PlayerServiceUtil.unBind(this);
 	}
 
 	private void setStation(DataRadioStation dataRadioStation) {
@@ -243,18 +208,8 @@ public class RadioDroidStationDetail extends AppCompatActivity implements TimePi
 		UpdateMenu();
 	}
 
-	private boolean IsPlaying(){
-		if (itsPlayerService != null){
-			try {
-				return itsPlayerService.getCurrentStationID() != null;
-			} catch (RemoteException e) {
-			}
-		}
-		return false;
-	}
-
 	private void Share() {
-		itsProgressLoading = ProgressDialog.show(RadioDroidStationDetail.this, "", this.getString(R.string.progress_loading));
+		itsProgressLoading = ProgressDialog.show(ActivityRadioStationDetail.this, "", this.getString(R.string.progress_loading));
 		new AsyncTask<Void, Void, String>() {
 			@Override
 			protected String doInBackground(Void... params) {
@@ -281,62 +236,27 @@ public class RadioDroidStationDetail extends AppCompatActivity implements TimePi
 	}
 
 	private void Play() {
-		if (itsPlayerService != null) {
-			itsProgressLoading = ProgressDialog.show(RadioDroidStationDetail.this, "", "Loading...");
-			new AsyncTask<Void, Void, String>() {
-				@Override
-				protected String doInBackground(Void... params) {
-					return Utils.getRealStationLink(getApplicationContext(), itsStation.ID);
-				}
-
-				@Override
-				protected void onPostExecute(String result) {
-					itsProgressLoading.dismiss();
-
-					if (result != null) {
-						try {
-							itsPlayerService.Play(result, itsStation.Name, itsStation.ID);
-						} catch (RemoteException e) {
-							Log.e("", "" + e);
-						}
-						if (m_Menu_Stop != null) {
-							m_Menu_Stop.setVisible(true);
-						}
-					} else {
-						Toast toast = Toast.makeText(getApplicationContext(), getResources().getText(R.string.error_station_load), Toast.LENGTH_SHORT);
-						toast.show();
-					}
-					super.onPostExecute(result);
-				}
-			}.execute();
-		}
-	}
-
-	private void Stop() {
-		if (itsPlayerService != null) {
-			try {
-				itsPlayerService.Stop();
-			} catch (RemoteException e) {
-				Log.e("", "" + e);
+		itsProgressLoading = ProgressDialog.show(ActivityRadioStationDetail.this, "", getResources().getText(R.string.progress_loading));
+		new AsyncTask<Void, Void, String>() {
+			@Override
+			protected String doInBackground(Void... params) {
+				return Utils.getRealStationLink(getApplicationContext(), itsStation.ID);
 			}
-			if (m_Menu_Stop != null) {
-				m_Menu_Stop.setVisible(false);
+
+			@Override
+			protected void onPostExecute(String result) {
+				itsProgressLoading.dismiss();
+
+				if (result != null) {
+					PlayerServiceUtil.play(result, itsStation.Name, itsStation.ID);
+				} else {
+					Toast toast = Toast.makeText(getApplicationContext(), getResources().getText(R.string.error_station_load), Toast.LENGTH_SHORT);
+					toast.show();
+				}
+				super.onPostExecute(result);
 			}
-		}
+		}.execute();
 	}
-
-	IPlayerService itsPlayerService;
-	private ServiceConnection svcConn = new ServiceConnection() {
-		public void onServiceConnected(ComponentName className, IBinder binder) {
-			Log.v("", "Service came online");
-			itsPlayerService = IPlayerService.Stub.asInterface(binder);
-		}
-
-		public void onServiceDisconnected(ComponentName className) {
-			Log.v("", "Service offline");
-			itsPlayerService = null;
-		}
-	};
 
 	@Override
 	public void onTimeSet(TimePicker view, int hourOfDay, int minute) {

@@ -1,6 +1,5 @@
 package net.programmierecke.radiodroid2;
 
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -19,15 +18,13 @@ public class FragmentStarred extends Fragment {
     }
 
     void ClickOnItem(DataRadioStation theStation) {
-        MainActivity a = (MainActivity)getActivity();
-        PlayerService thisService = new PlayerService();
-        thisService.unbindSafely( a, a.getSvc() );
+        ActivityMain activity = (ActivityMain)getActivity();
 
-        Intent anIntent = new Intent(getActivity().getBaseContext(), RadioDroidStationDetail.class);
+        Intent anIntent = new Intent(getActivity().getBaseContext(), ActivityRadioStationDetail.class);
         anIntent.putExtra("stationid", theStation.ID);
         startActivity(anIntent);
 
-        HistoryManager hm = new HistoryManager(a.getApplicationContext());
+        HistoryManager hm = new HistoryManager(activity.getApplicationContext());
         hm.add(theStation);
     }
 
@@ -53,8 +50,6 @@ public class FragmentStarred extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        Log.w("ABC","onCreateView FragmentStations");
-
         ItemAdapterStation arrayAdapter = new ItemAdapterStation(getActivity(), R.layout.list_item_station);
 
         // Inflate the layout for this fragment

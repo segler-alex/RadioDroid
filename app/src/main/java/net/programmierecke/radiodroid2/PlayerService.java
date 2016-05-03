@@ -75,7 +75,7 @@ public class PlayerService extends Service implements OnBufferingUpdateListener,
 	}
 
 	public void SendMessage(String theTitle, String theMessage, String theTicker) {
-		Intent notificationIntent = new Intent(itsContext, RadioDroidStationDetail.class);
+		Intent notificationIntent = new Intent(itsContext, ActivityPlayerInfo.class);
 		notificationIntent.putExtra("stationid", itsStationID);
 		notificationIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 

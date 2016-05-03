@@ -22,26 +22,10 @@ import android.view.MenuItem;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 
-public class MainActivity extends AppCompatActivity implements SearchView.OnQueryTextListener {
+public class ActivityMain extends AppCompatActivity implements SearchView.OnQueryTextListener {
 	private SearchView mSearchView;
 
 	private static final String TAG = "RadioDroid";
-	private IPlayerService itsPlayerService;
-	private ServiceConnection svcConn = new ServiceConnection() {
-		public void onServiceConnected(ComponentName className, IBinder binder) {
-			Log.v(TAG, "Service came online");
-			itsPlayerService = IPlayerService.Stub.asInterface(binder);
-		}
-
-		public void onServiceDisconnected(ComponentName className) {
-			Log.v(TAG, "Service offline");
-			itsPlayerService = null;
-		}
-	};
-
-	public ServiceConnection getSvc(){
-		return svcConn;
-	}
 
 	DrawerLayout mDrawerLayout;
 	NavigationView mNavigationView;
@@ -58,10 +42,6 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.layout_main);
-
-		Intent anIntent = new Intent(this, PlayerService.class);
-		bindService(anIntent, svcConn, BIND_AUTO_CREATE);
-		startService(anIntent);
 
 		final Toolbar myToolbar = (Toolbar) findViewById(R.id.my_awesome_toolbar);
 		setSupportActionBar(myToolbar);
@@ -165,26 +145,13 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
 	}
 
 	@Override
-	protected void onPause() {
-		super.onPause();
-		Log.v("mainactivity","onpause");
-
-		PlayerService thisService = new PlayerService();
-		thisService.unbindSafely( this, svcConn );
-	}
-
-	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-		Log.v(TAG, "menu click");
-
 		switch (item.getItemId()) {
 			case android.R.id.home:
 				mDrawerLayout.openDrawer(GravityCompat.START);  // OPEN DRAWER
 				return true;
 			case R.id.action_refresh:
-				Log.v(TAG, "menu click2");
 				if (fragRefreshable != null){
-					Log.v(TAG, "menu click3");
 					fragRefreshable.Refresh();
 				}
 				return true;

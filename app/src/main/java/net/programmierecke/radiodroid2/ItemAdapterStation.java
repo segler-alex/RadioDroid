@@ -62,17 +62,17 @@ public class ItemAdapterStation extends ArrayAdapter<DataRadioStation> implement
 								// set image in view
 								anImageView.setImageBitmap(anIcon);
 								anImageView.setVisibility(View.VISIBLE);
-								Log.w("ok","replaced icon:"+station.Name);
+								Log.w("ICONS","replaced icon:"+station.Name);
 							}
 						});
 					}else{
-						Log.w("","vhard == null");
+						Log.w("ICONS","vhard == null");
 					}
 				}else{
-					Log.w("","v == null");
+					Log.w("ICONS","v == null");
 				}
 			}else{
-				Log.w("","icon == null");
+				Log.w("ICONS","icon == null");
 			}
 		}
 	}
@@ -128,7 +128,7 @@ public class ItemAdapterStation extends ArrayAdapter<DataRadioStation> implement
 			} else {
 				try {
 					// check download cache
-					Log.v("ICONLOAD", "--URL=" + aStation.IconUrl);
+					Log.v("ICONS", "check cache for " + aStation.IconUrl);
 					if (TextUtils.isGraphic(aStation.IconUrl)) {
 						String aFileNameIcon = Utils.getBase64(aStation.IconUrl);
 						Bitmap anIcon = BitmapFactory.decodeStream(itsContext.openFileInput(aFileNameIcon));
@@ -143,7 +143,7 @@ public class ItemAdapterStation extends ArrayAdapter<DataRadioStation> implement
 						anImageView.setVisibility(View.GONE);
 						itsQueuedDownloadJobs.put(new QueueItem(aStation.IconUrl, null));
 					} catch (InterruptedException e2) {
-						Log.e("Errorabc", "" + e2.getStackTrace());
+						Log.e("ICONS", "" + e2.getStackTrace());
 					}
 				}
 			}
@@ -159,21 +159,22 @@ public class ItemAdapterStation extends ArrayAdapter<DataRadioStation> implement
 				try {
 					if (!itsIconCache.containsKey(anItem.itsURL)) {
 						// load image from url
+						Log.v("ICONS", "download from " + anItem.itsURL);
 						InputStream in = new java.net.URL(anItem.itsURL).openStream();
 						final Bitmap anIcon = BitmapFactory.decodeStream(in);
 						itsIconCache.put(anItem.itsURL, anIcon);
 
 						// save image to file
 						String aFileName = Utils.getBase64(anItem.itsURL);
-						Log.v("", "" + anItem.itsURL + "->" + aFileName);
+						Log.v("ICONS", "download finished " + anItem.itsURL);
 						try {
 							FileOutputStream aStream = itsContext.openFileOutput(aFileName, Context.MODE_PRIVATE);
 							anIcon.compress(Bitmap.CompressFormat.PNG, 100, aStream);
 							aStream.close();
 						} catch (FileNotFoundException e) {
-							Log.e("", "my1" + e);
+							Log.e("ICONS", "my1" + e);
 						} catch (IOException e) {
-							Log.e("", "my2" + e);
+							Log.e("ICONS", "my2" + e);
 						}
 
 						for (int i=0;i< listViewItems.size();i++){
@@ -181,7 +182,7 @@ public class ItemAdapterStation extends ArrayAdapter<DataRadioStation> implement
 							if (item.station != null) {
 								if (item.station.IconUrl != null) {
 									if (item.station.IconUrl.equals(anItem.itsURL)) {
-										Log.d("", "Refresh icon:"+anItem.itsURL);
+										Log.d("ICONS", "refresh icon "+anItem.itsURL);
 										item.SetIcon(anIcon);
 									}
 								}
@@ -189,12 +190,12 @@ public class ItemAdapterStation extends ArrayAdapter<DataRadioStation> implement
 						}
 					}
 				} catch (Exception e) {
-					Log.e("Error3", "Could not load "+anItem.itsURL+" " + e);
+					Log.e("ICONS", "Could not load "+anItem.itsURL+" " + e);
 					itsIconCache.put(anItem.itsURL, null);
 				}
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
-				Log.e("Error4", "" + e);
+				Log.e("ICONS", "" + e);
 			}
 		}
 	}

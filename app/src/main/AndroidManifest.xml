@@ -12,7 +12,7 @@
         android:label="@string/app_name"
         android:theme="@style/MyMaterialTheme" >
         <activity
-            android:name="net.programmierecke.radiodroid2.MainActivity"
+            android:name=".ActivityMain"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -20,14 +20,13 @@
             </intent-filter>
         </activity>
         <service android:name="net.programmierecke.radiodroid2.PlayerService"/>
-        <activity android:name="net.programmierecke.radiodroid2.RadioDroidStationDetail"
-            android:parentActivityName="net.programmierecke.radiodroid2.MainActivity"
-            android:label="Station">
-            <!-- Parent activity meta-data to support 4.0 and lower -->
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="net.programmierecke.radiodroid2.MainActivity" />
-        </activity>
+        <activity
+            android:name=".ActivityRadioStationDetail"
+            android:label="Station" />
+
+        <activity
+            android:name="net.programmierecke.radiodroid2.ActivityPlayerInfo"
+            android:label="PlayerInfo" />
 
         <receiver
             android:name="net.programmierecke.radiodroid2.AlarmReceiver"
