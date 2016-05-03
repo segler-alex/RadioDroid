@@ -32,7 +32,7 @@ public class PlayerService extends Service implements OnBufferingUpdateListener,
 	private String itsStationURL;
 	private MediaPlayer itsMediaPlayer = null;
 	private CountDownTimer timer = null;
-	long seconds = -1;
+	long seconds = 0;
 
 	void sendBroadCast(String action){
 		Intent local = new Intent();
@@ -84,7 +84,7 @@ public class PlayerService extends Service implements OnBufferingUpdateListener,
 			timer.cancel();
 			timer = null;
 
-			seconds = -1;
+			seconds = 0;
 
 			sendBroadCast(PLAYER_SERVICE_TIMER_UPDATE);
 		}
@@ -233,10 +233,7 @@ public class PlayerService extends Service implements OnBufferingUpdateListener,
 			itsMediaPlayer = null;
 		}
 
-		if (timer != null){
-			timer.cancel();
-			timer = null;
-		}
+		clearTimer();
 		stopForeground(true);
 		sendBroadCast(PLAYER_SERVICE_STATUS_UPDATE);
 	}

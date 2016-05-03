@@ -84,6 +84,9 @@ public class ActivityPlayerInfo extends AppCompatActivity {
 	private void InitControls() {
 		aTextViewName = (TextView) findViewById(R.id.detail_station_name_value);
 		textViewCountdown = (TextView) findViewById(R.id.textViewCountdown);
+		if (textViewCountdown != null){
+			textViewCountdown.setText("");
+		}
 
 		buttonStop = (ImageButton) findViewById(R.id.buttonStop);
 		if (buttonStop != null){
@@ -147,7 +150,7 @@ public class ActivityPlayerInfo extends AppCompatActivity {
 
 		long seconds = PlayerServiceUtil.getTimerSeconds();
 
-		if (seconds < 0){
+		if (seconds <= 0){
 			buttonClearTimeout.setVisibility(View.GONE);
 			textViewCountdown.setText("");
 		}else{
