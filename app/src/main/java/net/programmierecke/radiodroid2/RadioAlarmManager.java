@@ -35,7 +35,7 @@ public class RadioAlarmManager {
     }
 
     public void add(DataRadioStation station, int hour, int minute){
-        Log.i("alarm","added station:"+station.Name);
+        Log.i("ALARM","added station:"+station.Name);
         DataRadioStationAlarm alarm = new DataRadioStationAlarm();
         alarm.station = station;
         alarm.hour = hour;
@@ -55,7 +55,7 @@ public class RadioAlarmManager {
         while (!checkIdFree(i)){
             i++;
         }
-        Log.w("alarm","new free id:"+i);
+        Log.w("ALARM","new free id:"+i);
         return i;
     }
 
@@ -75,7 +75,7 @@ public class RadioAlarmManager {
         String items = "";
 
         for (DataRadioStationAlarm alarm: list){
-            Log.i("alarm","save item:"+alarm.id+"/"+alarm.station.Name);
+            Log.i("ALARM","save item:"+alarm.id+"/"+alarm.station.Name);
             editor.putString("alarm."+alarm.id+".station",alarm.station.toJson().toString());
             editor.putInt("alarm."+alarm.id+".timeHour",alarm.hour);
             editor.putInt("alarm."+alarm.id+".timeMinutes",alarm.minute);
@@ -94,13 +94,13 @@ public class RadioAlarmManager {
 
     public void load(){
         list.clear();
-        Log.w("alarm","load()");
+        Log.w("ALARM","load()");
 
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
         String ids = sharedPref.getString("alarm.ids", "");
         if (!ids.equals("")) {
             String[] idsArr = ids.split(",");
-            Log.w("alarm", "load() - " + idsArr.length);
+            Log.w("ALARM", "load() - " + idsArr.length);
             for (String id : idsArr) {
                 DataRadioStationAlarm alarm = new DataRadioStationAlarm();
 
@@ -114,11 +114,11 @@ public class RadioAlarmManager {
                         list.add(alarm);
                     }
                 } catch (Exception e) {
-                    Log.e("alarm", "could not decode:" + id);
+                    Log.e("ALARM", "could not decode:" + id);
                 }
             }
         }else{
-            Log.w("alarm","empty load() string");
+            Log.w("ALARM","empty load() string");
         }
     }
 
@@ -160,21 +160,32 @@ public class RadioAlarmManager {
             intent.putExtra("id",alarmId);
             PendingIntent alarmIntent = PendingIntent.getBroadcast(context, alarmId, intent, PendingIntent.FLAG_UPDATE_CURRENT);
             AlarmManager alarmMgr = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+
             Calendar calendar = Calendar.getInstance();
             calendar.setTimeInMillis(System.currentTimeMillis());
             calendar.set(Calendar.HOUR_OF_DAY, alarm.hour);
             calendar.set(Calendar.MINUTE, alarm.minute);
+
+            // if new calendar is in the past, move it 1 day ahead
+            // add 1 min, to ignore already fired events
+            if (calendar.getTimeInMillis() < System.currentTimeMillis() + 60){
+                Log.w("ALARM","moved ahead one day");
+                calendar.setTimeInMillis(System.currentTimeMillis() + 24 * 60 * 60 * 1000);
+                calendar.set(Calendar.HOUR_OF_DAY, alarm.hour);
+                calendar.set(Calendar.MINUTE, alarm.minute);
+            }
+
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                Log.w("alarm","START setExactAndAllowWhileIdle");
+                Log.w("ALARM","START setExactAndAllowWhileIdle");
                 alarmMgr.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP,calendar.getTimeInMillis(),alarmIntent);
             }else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                Log.w("alarm","START setAlarmClock");
+                Log.w("ALARM","START setAlarmClock");
                 alarmMgr.setAlarmClock(new AlarmManager.AlarmClockInfo(calendar.getTimeInMillis(),alarmIntent),alarmIntent);
             }else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-                Log.w("alarm","START setExact");
+                Log.w("ALARM","START setExact");
                 alarmMgr.setExact(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), alarmIntent);
             }else{
-                Log.w("alarm","START set");
+                Log.w("ALARM","START set");
                 alarmMgr.set(AlarmManager.RTC_WAKEUP,calendar.getTimeInMillis(),alarmIntent);
             }
         }
@@ -231,7 +242,7 @@ public class RadioAlarmManager {
     public void resetAllAlarms() {
         for(DataRadioStationAlarm alarm: list){
             if (alarm.enabled){
-                Log.w("alarm","started alarm with id:"+alarm.id);
+                Log.w("ALARM","started alarm with id:"+alarm.id);
                 start(alarm.id);
             }
         }

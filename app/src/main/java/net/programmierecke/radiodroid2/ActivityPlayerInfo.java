@@ -155,7 +155,7 @@ public class ActivityPlayerInfo extends AppCompatActivity {
 			textViewCountdown.setText("");
 		}else{
 			buttonClearTimeout.setVisibility(View.VISIBLE);
-			textViewCountdown.setText(String.format(Locale.getDefault(),"Remaining: %02d:%02d",seconds / 60, seconds % 60));
+			textViewCountdown.setText(getResources().getString(R.string.sleep_timer,seconds / 60, seconds % 60));
 		}
 
 		if (!PlayerServiceUtil.isPlaying()){

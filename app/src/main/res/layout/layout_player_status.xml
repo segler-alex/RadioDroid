@@ -24,7 +24,7 @@
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:layout_marginTop="10dp"
-        android:layout_marginBottom="40dp" />
+        android:layout_marginBottom="20dp" />
 
     <ImageButton
         android:layout_width="wrap_content"
@@ -34,7 +34,7 @@
         android:minHeight="100dp"
         android:minWidth="100dp"
         android:src="@drawable/ic_stop_24dp"
-        android:layout_margin="30dp" />
+        android:layout_margin="10dp" />
 
     <LinearLayout
         android:orientation="horizontal"
@@ -46,10 +46,10 @@
             android:layout_height="wrap_content"
             android:id="@+id/buttonAddTimeout"
             android:layout_gravity="center"
-            android:minHeight="30dp"
+            android:minHeight="20dp"
             android:minWidth="30dp"
             android:src="@drawable/ic_add_alarm_black_24dp"
-            android:layout_margin="30dp"
+            android:layout_margin="10dp"
             android:layout_weight="1" />
 
         <ImageButton
@@ -57,10 +57,10 @@
             android:layout_height="wrap_content"
             android:id="@+id/buttonCancelCountdown"
             android:layout_gravity="center"
-            android:minHeight="50dp"
+            android:minHeight="20dp"
             android:minWidth="50dp"
             android:src="@drawable/ic_delete_black_24dp"
-            android:layout_margin="30dp"
+            android:layout_margin="10dp"
             android:layout_weight="1" />
     </LinearLayout>
 
@@ -73,7 +73,7 @@
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:layout_marginTop="10dp"
-        android:layout_marginBottom="40dp"
-        android:text="abc" />
+        android:layout_marginBottom="20dp"
+        android:text="" />
 
 </LinearLayout>
