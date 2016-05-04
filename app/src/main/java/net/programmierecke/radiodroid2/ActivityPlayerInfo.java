@@ -10,9 +10,12 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.Locale;
 
@@ -99,7 +102,7 @@ public class ActivityPlayerInfo extends AppCompatActivity {
 			});
 		}
 
-		buttonAddTimeout = (ImageButton) findViewById(R.id.buttonAddTimeout);
+		/*buttonAddTimeout = (ImageButton) findViewById(R.id.buttonAddTimeout);
 		if (buttonAddTimeout != null){
 			buttonAddTimeout.setOnClickListener(new View.OnClickListener() {
 				@Override
@@ -107,7 +110,7 @@ public class ActivityPlayerInfo extends AppCompatActivity {
 					addTime();
 				}
 			});
-		}
+		}*/
 
 		buttonClearTimeout = (ImageButton) findViewById(R.id.buttonCancelCountdown);
 		if (buttonClearTimeout != null){
@@ -118,6 +121,26 @@ public class ActivityPlayerInfo extends AppCompatActivity {
 					clearTime();
 				}
 			});
+		}
+	}
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		getMenuInflater().inflate(R.menu.menu_player_info, menu);
+		return true;
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+			case R.id.action_set_alarm:
+				addTime();
+				return true;
+
+			default:
+				// If we got here, the user's action was not recognized.
+				// Invoke the superclass to handle it.
+				return super.onOptionsItemSelected(item);
 		}
 	}
 

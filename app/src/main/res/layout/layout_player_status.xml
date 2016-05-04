@@ -36,12 +36,24 @@
         android:src="@drawable/ic_stop_24dp"
         android:layout_margin="10dp" />
 
+    <TextView
+        android:id="@+id/textViewCountdown"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:gravity="center"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="20dp"
+        android:text="" />
+
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <ImageButton
+        <!--<ImageButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/buttonAddTimeout"
@@ -50,7 +62,7 @@
             android:minWidth="30dp"
             android:src="@drawable/ic_add_alarm_black_24dp"
             android:layout_margin="10dp"
-            android:layout_weight="1" />
+            android:layout_weight="1" />-->
 
         <ImageButton
             android:layout_width="wrap_content"
@@ -63,17 +75,5 @@
             android:layout_margin="10dp"
             android:layout_weight="1" />
     </LinearLayout>
-
-    <TextView
-        android:id="@+id/textViewCountdown"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:textSize="20sp"
-        android:gravity="center"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="20dp"
-        android:text="" />
 
 </LinearLayout>
