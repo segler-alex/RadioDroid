@@ -44,6 +44,8 @@ public class RadioAlarmManager {
         list.add(alarm);
 
         save();
+
+        setEnabled(alarm.id, true);
     }
 
     public DataRadioStationAlarm[] getList(){
@@ -165,6 +167,7 @@ public class RadioAlarmManager {
             calendar.setTimeInMillis(System.currentTimeMillis());
             calendar.set(Calendar.HOUR_OF_DAY, alarm.hour);
             calendar.set(Calendar.MINUTE, alarm.minute);
+            calendar.set(Calendar.SECOND, 0);
 
             // if new calendar is in the past, move it 1 day ahead
             // add 1 min, to ignore already fired events
@@ -173,6 +176,7 @@ public class RadioAlarmManager {
                 calendar.setTimeInMillis(System.currentTimeMillis() + 24 * 60 * 60 * 1000);
                 calendar.set(Calendar.HOUR_OF_DAY, alarm.hour);
                 calendar.set(Calendar.MINUTE, alarm.minute);
+                calendar.set(Calendar.SECOND, 0);
             }
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
