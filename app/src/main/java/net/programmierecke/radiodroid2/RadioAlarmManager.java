@@ -34,6 +34,7 @@ public class RadioAlarmManager {
     }
 
     public void add(DataRadioStation station, int hour, int minute){
+        Log.i("alarm","added station:"+station.Name);
         DataRadioStationAlarm alarm = new DataRadioStationAlarm();
         alarm.station = station;
         alarm.hour = hour;
@@ -73,6 +74,7 @@ public class RadioAlarmManager {
         String items = "";
 
         for (DataRadioStationAlarm alarm: list){
+            Log.i("alarm","save item:"+alarm.id+"/"+alarm.station.Name);
             editor.putString("alarm."+alarm.id+".station",alarm.station.toJson().toString());
             editor.putInt("alarm."+alarm.id+".timeHour",alarm.hour);
             editor.putInt("alarm."+alarm.id+".timeMinutes",alarm.minute);
@@ -94,27 +96,28 @@ public class RadioAlarmManager {
         Log.w("alarm","load()");
 
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
-        String ids = sharedPref.getString("alarm.ids", null);
-        if (ids != null){
+        String ids = sharedPref.getString("alarm.ids", "");
+        if (!ids.equals("")) {
             String[] idsArr = ids.split(",");
-            Log.w("alarm","load() - "+idsArr.length);
-            for (String id: idsArr){
+            Log.w("alarm", "load() - " + idsArr.length);
+            for (String id : idsArr) {
                 DataRadioStationAlarm alarm = new DataRadioStationAlarm();
 
-                alarm.station = DataRadioStation.DecodeJsonSingle(sharedPref.getString("alarm."+id+".station",null));
-                alarm.hour = sharedPref.getInt("alarm."+id+".timeHour",0);
-                alarm.minute = sharedPref.getInt("alarm."+id+".timeMinutes",0);
-                alarm.enabled = sharedPref.getBoolean("alarm."+id+".enabled",false);
+                alarm.station = DataRadioStation.DecodeJsonSingle(sharedPref.getString("alarm." + id + ".station", null));
+                alarm.hour = sharedPref.getInt("alarm." + id + ".timeHour", 0);
+                alarm.minute = sharedPref.getInt("alarm." + id + ".timeMinutes", 0);
+                alarm.enabled = sharedPref.getBoolean("alarm." + id + ".enabled", false);
                 try {
                     alarm.id = Integer.parseInt(id);
-                    if (alarm.station != null){
+                    if (alarm.station != null) {
                         list.add(alarm);
                     }
-                }
-                catch (Exception e){
-                    Log.e("alarm","could not decode:"+id);
+                } catch (Exception e) {
+                    Log.e("alarm", "could not decode:" + id);
                 }
             }
+        }else{
+            Log.w("alarm","empty load() string");
         }
     }
 
