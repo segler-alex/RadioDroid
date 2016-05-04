@@ -34,6 +34,7 @@ public class AlarmReceiver extends BroadcastReceiver {
 
         RadioAlarmManager ram = new RadioAlarmManager(context.getApplicationContext(),null);
         station = ram.getStation(alarmId);
+        ram.resetAllAlarms();
 
         if (station != null && alarmId >= 0) {
             Log.w("recv","radio id:"+alarmId);
@@ -51,6 +52,8 @@ public class AlarmReceiver extends BroadcastReceiver {
             itsPlayerService = IPlayerService.Stub.asInterface(binder);
             try {
                 itsPlayerService.Play(url, station.Name, station.ID);
+                // default timeout 1 hour
+                itsPlayerService.addTimer(60*60);
             } catch (RemoteException e) {
                 Log.e("recv","play error:"+e);
             }

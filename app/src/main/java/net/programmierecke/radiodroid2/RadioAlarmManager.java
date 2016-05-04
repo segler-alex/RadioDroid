@@ -5,6 +5,7 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
@@ -163,7 +164,19 @@ public class RadioAlarmManager {
             calendar.setTimeInMillis(System.currentTimeMillis());
             calendar.set(Calendar.HOUR_OF_DAY, alarm.hour);
             calendar.set(Calendar.MINUTE, alarm.minute);
-            alarmMgr.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), 1000 * 60 * 60 * 24, alarmIntent);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                Log.w("alarm","START setExactAndAllowWhileIdle");
+                alarmMgr.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP,calendar.getTimeInMillis(),alarmIntent);
+            }else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                Log.w("alarm","START setAlarmClock");
+                alarmMgr.setAlarmClock(new AlarmManager.AlarmClockInfo(calendar.getTimeInMillis(),alarmIntent),alarmIntent);
+            }else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                Log.w("alarm","START setExact");
+                alarmMgr.setExact(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), alarmIntent);
+            }else{
+                Log.w("alarm","START set");
+                alarmMgr.set(AlarmManager.RTC_WAKEUP,calendar.getTimeInMillis(),alarmIntent);
+            }
         }
     }
 
