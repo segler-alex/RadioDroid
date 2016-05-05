@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <PreferenceCategory
+        android:title="@string/settings_play">
+
+        <CheckBoxPreference
+            android:key="play_external"
+            android:title="@string/settings_play_external"
+            android:summary="@string/settings_play_external_desc" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="@string/settings_alarm">
+
+        <CheckBoxPreference
+            android:key="alarm_external"
+            android:title="@string/settings_alarm_external"
+            android:summary="@string/settings_alarm_external_desc" />
+
+    </PreferenceCategory>
+</PreferenceScreen>

@@ -3,8 +3,10 @@ package net.programmierecke.radiodroid2;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.support.v7.preference.PreferenceManager;
 import android.util.Base64;
 import android.util.Log;
 import android.widget.Toast;
@@ -129,7 +131,10 @@ public class Utils {
 	}
 
 	public static void Play(final DataRadioStation station, final Context context) {
-		Play(station,context,false);
+		SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
+		boolean play_external = sharedPref.getBoolean("play_external", false);
+
+		Play(station,context,play_external);
 	}
 
 	public static void Play(final DataRadioStation station, final Context context, final boolean external) {
@@ -159,12 +164,5 @@ public class Utils {
 				super.onPostExecute(result);
 			}
 		}.execute();
-	}
-
-	public static final String LIST_UPDATE = "net.programmierecke.radiodroid2.listupdate";
-	public static void sendListUpdate(Context context){
-		Intent local = new Intent();
-		local.setAction(LIST_UPDATE);
-		context.sendBroadcast(local);
 	}
 }
