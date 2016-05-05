@@ -1,9 +1,6 @@
 package net.programmierecke.radiodroid2;
 
 import android.content.BroadcastReceiver;
-import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -12,6 +9,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
+
+import net.programmierecke.radiodroid2.interfaces.IAdapterRefreshable;
 
 public class FragmentStarred extends Fragment implements IAdapterRefreshable {
     private ListView lv;

@@ -12,6 +12,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import net.programmierecke.radiodroid2.interfaces.IFragmentRefreshable;
+import net.programmierecke.radiodroid2.interfaces.IFragmentSearchable;
+
 import java.util.ArrayList;
 import java.util.List;
 

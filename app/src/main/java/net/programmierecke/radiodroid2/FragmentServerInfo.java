@@ -11,6 +11,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import net.programmierecke.radiodroid2.interfaces.IFragmentRefreshable;
+
 public class FragmentServerInfo extends Fragment implements IFragmentRefreshable {
     private ItemAdapterStatistics itemAdapterStatistics;
     private ProgressDialog itsProgressLoading;

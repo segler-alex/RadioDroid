@@ -10,7 +10,6 @@ import java.util.HashMap;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 
-import android.app.Activity;
 import android.app.ProgressDialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
@@ -19,7 +18,6 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.AsyncTask;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.PopupMenu;
 import android.text.TextUtils;
@@ -35,6 +33,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
+
+import net.programmierecke.radiodroid2.interfaces.IAdapterRefreshable;
 
 public class ItemAdapterStation extends ArrayAdapter<DataRadioStation> implements Runnable, TimePickerDialog.OnTimeSetListener {
 	private ProgressDialog itsProgressLoading;

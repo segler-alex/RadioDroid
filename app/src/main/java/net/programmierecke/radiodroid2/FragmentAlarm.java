@@ -10,6 +10,8 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TimePicker;
 
+import net.programmierecke.radiodroid2.interfaces.IChanged;
+
 public class FragmentAlarm extends Fragment implements TimePickerDialog.OnTimeSetListener, IChanged {
     private ListView lv;
     private RadioAlarmManager ram;
