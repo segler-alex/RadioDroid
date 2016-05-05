@@ -1,6 +1,9 @@
 package net.programmierecke.radiodroid2;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -10,9 +13,10 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
-public class FragmentStarred extends Fragment {
+public class FragmentStarred extends Fragment implements IAdapterRefreshable {
     private ListView lv;
     private DataRadioStation[] data = new DataRadioStation[0];
+    private BroadcastReceiver updateUIReciver;
 
     public FragmentStarred() {
     }
@@ -20,15 +24,13 @@ public class FragmentStarred extends Fragment {
     void ClickOnItem(DataRadioStation theStation) {
         ActivityMain activity = (ActivityMain)getActivity();
 
-        Intent anIntent = new Intent(getActivity().getBaseContext(), ActivityRadioStationDetail.class);
-        anIntent.putExtra("stationid", theStation.ID);
-        startActivity(anIntent);
+        Utils.Play(theStation,getContext());
 
         HistoryManager hm = new HistoryManager(activity.getApplicationContext());
         hm.add(theStation);
     }
 
-    protected void RefreshListGui(){
+    public void RefreshListGui(){
         Log.d("ABC", "RefreshListGUI()");
 
         if (lv != null) {
@@ -51,6 +53,7 @@ public class FragmentStarred extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         ItemAdapterStation arrayAdapter = new ItemAdapterStation(getActivity(), R.layout.list_item_station);
+        arrayAdapter.setUpdate(this);
 
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_stations, container, false);

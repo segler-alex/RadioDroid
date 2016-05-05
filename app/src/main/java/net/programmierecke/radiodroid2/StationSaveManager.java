@@ -72,7 +72,7 @@ public class StationSaveManager {
                 listStations.add(arr[i]);
             }
         }else{
-            Log.w("FAV","Load() no stations to load");
+            Log.w("SAVE","Load() no stations to load");
         }
     }
 
@@ -85,7 +85,7 @@ public class StationSaveManager {
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
         SharedPreferences.Editor editor = sharedPref.edit();
         String str = arr.toString();
-        Log.w("ABC","wrote: "+str);
+        Log.w("SAVE","wrote: "+str);
         editor.putString(getSaveId(), str);
         editor.commit();
     }

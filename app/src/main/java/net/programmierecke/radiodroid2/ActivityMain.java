@@ -46,6 +46,8 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
 		final Toolbar myToolbar = (Toolbar) findViewById(R.id.my_awesome_toolbar);
 		setSupportActionBar(myToolbar);
 
+		PlayerServiceUtil.bind(this);
+
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 		getSupportActionBar().setHomeButtonEnabled(true);
 
@@ -128,6 +130,17 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
 		ActionBarDrawerToggle mDrawerToggle = new ActionBarDrawerToggle(this,mDrawerLayout, R.string.app_name,R.string.app_name);
 		mDrawerLayout.addDrawerListener(mDrawerToggle);
 		mDrawerToggle.syncState();
+	}
+
+	@Override
+	public void onDestroy() {
+		super.onDestroy();
+		PlayerServiceUtil.unBind(this);
+	}
+
+	@Override
+	protected void onPause() {
+		super.onPause();
 	}
 
 	@Override

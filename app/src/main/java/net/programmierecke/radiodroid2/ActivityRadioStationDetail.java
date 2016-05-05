@@ -100,11 +100,11 @@ public class ActivityRadioStationDetail extends AppCompatActivity implements Tim
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 			case R.id.action_play:
-				Play();
+				Utils.Play(itsStation,this,false);
 				return true;
 
 			case R.id.action_share:
-				Share();
+				Utils.Play(itsStation,this,true);
 				return true;
 
 			case R.id.action_star:
@@ -208,56 +208,6 @@ public class ActivityRadioStationDetail extends AppCompatActivity implements Tim
 		}
 
 		UpdateMenu();
-	}
-
-	private void Share() {
-		itsProgressLoading = ProgressDialog.show(ActivityRadioStationDetail.this, "", this.getString(R.string.progress_loading));
-		new AsyncTask<Void, Void, String>() {
-			@Override
-			protected String doInBackground(Void... params) {
-				return Utils.getRealStationLink(getApplicationContext(), itsStation.ID);
-			}
-
-			@Override
-			protected void onPostExecute(String result) {
-				itsProgressLoading.dismiss();
-
-				if (result != null) {
-					if (!isFinishing()) {
-						Intent share = new Intent(Intent.ACTION_VIEW);
-						share.setDataAndType(Uri.parse(result), "audio/*");
-						startActivity(share);
-					}
-				} else {
-					Toast toast = Toast.makeText(getApplicationContext(), getResources().getText(R.string.error_station_load), Toast.LENGTH_SHORT);
-					toast.show();
-				}
-				super.onPostExecute(result);
-			}
-		}.execute();
-	}
-
-	private void Play() {
-		itsProgressLoading = ProgressDialog.show(ActivityRadioStationDetail.this, "", getResources().getText(R.string.progress_loading));
-		new AsyncTask<Void, Void, String>() {
-			@Override
-			protected String doInBackground(Void... params) {
-				return Utils.getRealStationLink(getApplicationContext(), itsStation.ID);
-			}
-
-			@Override
-			protected void onPostExecute(String result) {
-				itsProgressLoading.dismiss();
-
-				if (result != null) {
-					PlayerServiceUtil.play(result, itsStation.Name, itsStation.ID);
-				} else {
-					Toast toast = Toast.makeText(getApplicationContext(), getResources().getText(R.string.error_station_load), Toast.LENGTH_SHORT);
-					toast.show();
-				}
-				super.onPostExecute(result);
-			}
-		}.execute();
 	}
 
 	@Override

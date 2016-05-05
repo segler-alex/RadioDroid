@@ -1,8 +1,13 @@
 package net.programmierecke.radiodroid2;
 
+import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
+import android.os.AsyncTask;
 import android.util.Base64;
 import android.util.Log;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -121,5 +126,45 @@ public class Utils {
 
 	public static String getBase64(String theOriginal) {
 		return Base64.encodeToString(theOriginal.getBytes(), Base64.URL_SAFE | Base64.NO_PADDING);
+	}
+
+	public static void Play(final DataRadioStation station, final Context context) {
+		Play(station,context,false);
+	}
+
+	public static void Play(final DataRadioStation station, final Context context, final boolean external) {
+		final ProgressDialog itsProgressLoading = ProgressDialog.show(context, "", context.getResources().getText(R.string.progress_loading));
+		new AsyncTask<Void, Void, String>() {
+			@Override
+			protected String doInBackground(Void... params) {
+				return Utils.getRealStationLink(context.getApplicationContext(), station.ID);
+			}
+
+			@Override
+			protected void onPostExecute(String result) {
+				itsProgressLoading.dismiss();
+
+				if (result != null) {
+					if (external){
+						Intent share = new Intent(Intent.ACTION_VIEW);
+						share.setDataAndType(Uri.parse(result), "audio/*");
+						context.startActivity(share);
+					}else {
+						PlayerServiceUtil.play(result, station.Name, station.ID);
+					}
+				} else {
+					Toast toast = Toast.makeText(context.getApplicationContext(), context.getResources().getText(R.string.error_station_load), Toast.LENGTH_SHORT);
+					toast.show();
+				}
+				super.onPostExecute(result);
+			}
+		}.execute();
+	}
+
+	public static final String LIST_UPDATE = "net.programmierecke.radiodroid2.listupdate";
+	public static void sendListUpdate(Context context){
+		Intent local = new Intent();
+		local.setAction(LIST_UPDATE);
+		context.sendBroadcast(local);
 	}
 }

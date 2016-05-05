@@ -19,7 +19,7 @@
     <item
         android:id="@+id/action_unstar"
         android:icon="@drawable/ic_star_black_24dp"
-        android:title="@string/detail_star"
+        android:title="@string/detail_unstar"
         app:showAsAction="ifRoom"/>
     <item
         android:id="@+id/action_set_alarm"

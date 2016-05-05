@@ -19,9 +19,7 @@ public class FragmentStations extends FragmentBase {
     void ClickOnItem(DataRadioStation theStation) {
         ActivityMain a = (ActivityMain)getActivity();
 
-        Intent anIntent = new Intent(getActivity().getBaseContext(), ActivityRadioStationDetail.class);
-        anIntent.putExtra("stationid", theStation.ID);
-        startActivity(anIntent);
+        Utils.Play(theStation,getContext());
 
         HistoryManager hm = new HistoryManager(a.getApplicationContext());
         hm.add(theStation);

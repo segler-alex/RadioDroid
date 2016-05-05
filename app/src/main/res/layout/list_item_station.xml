@@ -2,7 +2,9 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/LinearLayout1"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+    android:layout_height="match_parent"
+    android:descendantFocusability="blocksDescendants"
+    android:minHeight="55dp">
 
     <ImageView
         android:id="@+id/imageViewIcon"
@@ -14,7 +16,7 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_weight="1"
-        android:orientation="vertical" >
+        android:orientation="vertical">
 
         <TextView
             android:id="@+id/textViewTop"
@@ -33,5 +35,15 @@
             android:textSize="16sp" />
 
     </LinearLayout>
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/buttonMore"
+        android:src="@drawable/ic_more_vert_black_24dp"
+        android:background="@android:color/transparent"
+        android:layout_margin="5dp"
+        android:layout_gravity="center"
+        android:minWidth="40dp" />
 
 </LinearLayout>

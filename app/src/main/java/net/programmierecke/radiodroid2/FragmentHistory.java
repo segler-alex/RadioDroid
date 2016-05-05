@@ -1,6 +1,5 @@
 package net.programmierecke.radiodroid2;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -20,9 +19,7 @@ public class FragmentHistory extends Fragment {
     void ClickOnItem(DataRadioStation theStation) {
         ActivityMain activity = (ActivityMain)getActivity();
 
-        Intent anIntent = new Intent(getActivity().getBaseContext(), ActivityRadioStationDetail.class);
-        anIntent.putExtra("stationid", theStation.ID);
-        startActivity(anIntent);
+        Utils.Play(theStation,getContext());
 
         HistoryManager hm = new HistoryManager(activity.getApplicationContext());
         hm.add(theStation);

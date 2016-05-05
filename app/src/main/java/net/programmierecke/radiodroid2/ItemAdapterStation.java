@@ -10,20 +10,40 @@ import java.util.HashMap;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 
+import android.app.Activity;
+import android.app.ProgressDialog;
+import android.app.TimePickerDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
+import android.os.AsyncTask;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
+import android.support.v7.widget.PopupMenu;
 import android.text.TextUtils;
-import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.TimePicker;
+import android.widget.Toast;
 
-public class ItemAdapterStation extends ArrayAdapter<DataRadioStation> implements Runnable {
+public class ItemAdapterStation extends ArrayAdapter<DataRadioStation> implements Runnable, TimePickerDialog.OnTimeSetListener {
+	private ProgressDialog itsProgressLoading;
+	IAdapterRefreshable refreshable;
+
+	public void setUpdate(FragmentStarred refreshableList) {
+		refreshable = refreshableList;
+	}
+
 	public class QueueItem {
 		public String itsURL;
 
@@ -36,14 +56,15 @@ public class ItemAdapterStation extends ArrayAdapter<DataRadioStation> implement
 	BlockingQueue<QueueItem> itsQueuedDownloadJobs = new ArrayBlockingQueue<QueueItem>(1000);
 	Thread itsThread;
 
-	public ItemAdapterStation(Context context, int textViewResourceId) {
+	public ItemAdapterStation(FragmentActivity context, int textViewResourceId) {
 		super(context, textViewResourceId);
-		itsContext = context;
+		activity = context;
 		itsThread = new Thread(this);
 		itsThread.start();
 	}
 
-	Context itsContext;
+	FragmentActivity activity;
+	DataRadioStation itsStation;
 
 	class MyItem{
 		public WeakReference<View> v = null;
@@ -80,11 +101,11 @@ public class ItemAdapterStation extends ArrayAdapter<DataRadioStation> implement
 
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
-		DataRadioStation aStation = getItem(position);
+		final DataRadioStation aStation = getItem(position);
 
 		View v = convertView;
 		if (v == null) {
-			LayoutInflater vi = (LayoutInflater) itsContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+			LayoutInflater vi = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 			v = vi.inflate(R.layout.list_item_station, null);
 
 			MyItem item = new MyItem();
@@ -107,6 +128,13 @@ public class ItemAdapterStation extends ArrayAdapter<DataRadioStation> implement
 		}
 
 		if (aStation != null) {
+			ImageButton buttonMore = (ImageButton) v.findViewById(R.id.buttonMore);
+			buttonMore.setOnClickListener(new View.OnClickListener() {
+				@Override
+				public void onClick(View view) {
+					showMenu(aStation, view);
+				}
+			});
 			TextView aTextViewTop = (TextView) v.findViewById(R.id.textViewTop);
 			TextView aTextViewBottom = (TextView) v.findViewById(R.id.textViewBottom);
 			if (aTextViewTop != null) {
@@ -131,7 +159,7 @@ public class ItemAdapterStation extends ArrayAdapter<DataRadioStation> implement
 					Log.v("ICONS", "check cache for " + aStation.IconUrl);
 					if (TextUtils.isGraphic(aStation.IconUrl)) {
 						String aFileNameIcon = Utils.getBase64(aStation.IconUrl);
-						Bitmap anIcon = BitmapFactory.decodeStream(itsContext.openFileInput(aFileNameIcon));
+						Bitmap anIcon = BitmapFactory.decodeStream(activity.openFileInput(aFileNameIcon));
 						anImageView.setVisibility(View.VISIBLE);
 						anImageView.setImageBitmap(anIcon);
 						itsIconCache.put(aStation.IconUrl, anIcon);
@@ -151,6 +179,115 @@ public class ItemAdapterStation extends ArrayAdapter<DataRadioStation> implement
 		return v;
 	}
 
+	void showMenu(final DataRadioStation station, View view)
+	{
+		FavouriteManager fm = new FavouriteManager(activity.getApplicationContext());
+
+		PopupMenu popup = new PopupMenu(getContext(), view);
+		popup.inflate(R.menu.menu_station_detail);
+
+		Menu m = popup.getMenu();
+		boolean isStarred = fm.has(station.ID);
+		m.findItem(R.id.action_star).setVisible(!isStarred);
+		m.findItem(R.id.action_unstar).setVisible(isStarred);
+
+		popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+			@Override
+			public boolean onMenuItemClick(MenuItem item) {
+
+				switch (item.getItemId()) {
+					case R.id.action_share:
+						Share(station);
+						return true;
+
+					case R.id.action_star:
+						Star(station);
+						return true;
+
+					case R.id.action_unstar:
+						UnStar(station);
+						return true;
+
+					case R.id.action_set_alarm:
+						setAsAlarm(station);
+						return true;
+
+					case R.id.action_play:
+						Utils.Play(station, getContext());
+						return true;
+
+					default:
+						return false;
+				}
+			}
+		});
+		popup.show();
+	}
+
+	private void Star(DataRadioStation station) {
+		if (station != null) {
+			FavouriteManager fm = new FavouriteManager(getContext().getApplicationContext());
+			fm.add(station);
+		}else{
+			Log.e("ABC","empty station info");
+		}
+	}
+
+	private void UnStar(DataRadioStation station) {
+		if (station != null) {
+			FavouriteManager fm = new FavouriteManager(getContext().getApplicationContext());
+			fm.remove(station.ID);
+			if (refreshable != null) {
+				refreshable.RefreshListGui();
+			}
+		}else{
+			Log.e("ABC","empty station info");
+		}
+	}
+
+	void setAsAlarm(DataRadioStation station){
+		Log.w("DETAIL","setAsAlarm() 1");
+		if (station != null) {
+			itsStation = station;
+			Log.w("DETAIL","setAsAlarm() 2");
+			TimePickerFragment newFragment = new TimePickerFragment();
+			newFragment.setCallback(this);
+			newFragment.show(activity.getSupportFragmentManager(), "timePicker");
+		}
+	}
+
+	private void Share(final DataRadioStation station) {
+		itsProgressLoading = ProgressDialog.show(getContext(), "", getContext().getResources().getString(R.string.progress_loading));
+		new AsyncTask<Void, Void, String>() {
+			@Override
+			protected String doInBackground(Void... params) {
+				return Utils.getRealStationLink(getContext().getApplicationContext(), station.ID);
+			}
+
+			@Override
+			protected void onPostExecute(String result) {
+				itsProgressLoading.dismiss();
+
+				if (result != null) {
+					Intent share = new Intent(Intent.ACTION_VIEW);
+					share.setDataAndType(Uri.parse(result), "audio/*");
+					getContext().startActivity(share);
+				} else {
+					Toast toast = Toast.makeText(getContext().getApplicationContext(), getContext().getResources().getText(R.string.error_station_load), Toast.LENGTH_SHORT);
+					toast.show();
+				}
+				super.onPostExecute(result);
+			}
+		}.execute();
+	}
+
+	@Override
+	public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+		Log.w("DETAIL","onTimeSet() "+hourOfDay);
+		RadioAlarmManager ram = new RadioAlarmManager(getContext().getApplicationContext(),null);
+		ram.add(itsStation,hourOfDay,minute);
+	}
+
 	@Override
 	public void run() {
 		while (true) {
@@ -168,7 +305,7 @@ public class ItemAdapterStation extends ArrayAdapter<DataRadioStation> implement
 						String aFileName = Utils.getBase64(anItem.itsURL);
 						Log.v("ICONS", "download finished " + anItem.itsURL);
 						try {
-							FileOutputStream aStream = itsContext.openFileOutput(aFileName, Context.MODE_PRIVATE);
+							FileOutputStream aStream = activity.openFileOutput(aFileName, Context.MODE_PRIVATE);
 							anIcon.compress(Bitmap.CompressFormat.PNG, 100, aStream);
 							aStream.close();
 						} catch (FileNotFoundException e) {
