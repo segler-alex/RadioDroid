@@ -9,6 +9,9 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import net.programmierecke.radiodroid2.adapters.ItemAdapterStation;
+import net.programmierecke.radiodroid2.data.DataRadioStation;
+
 public class FragmentHistory extends Fragment {
     private ListView lv;
     private DataRadioStation[] data = new DataRadioStation[0];

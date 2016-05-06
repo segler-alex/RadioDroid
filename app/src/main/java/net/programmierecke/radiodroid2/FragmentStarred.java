@@ -9,6 +9,8 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import net.programmierecke.radiodroid2.adapters.ItemAdapterStation;
+import net.programmierecke.radiodroid2.data.DataRadioStation;
 import net.programmierecke.radiodroid2.interfaces.IAdapterRefreshable;
 
 public class FragmentStarred extends Fragment implements IAdapterRefreshable {

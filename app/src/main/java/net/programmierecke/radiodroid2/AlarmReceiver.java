@@ -15,6 +15,8 @@ import android.support.v7.preference.PreferenceManager;
 import android.util.Log;
 import android.widget.Toast;
 
+import net.programmierecke.radiodroid2.data.DataRadioStation;
+
 public class AlarmReceiver extends BroadcastReceiver {
     String url;
     int alarmId;

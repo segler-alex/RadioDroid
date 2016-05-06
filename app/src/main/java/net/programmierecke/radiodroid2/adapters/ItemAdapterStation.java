@@ -1,4 +1,4 @@
-package net.programmierecke.radiodroid2;
+package net.programmierecke.radiodroid2.adapters;
 
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -34,6 +34,13 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import net.programmierecke.radiodroid2.data.DataRadioStation;
+import net.programmierecke.radiodroid2.FavouriteManager;
+import net.programmierecke.radiodroid2.FragmentStarred;
+import net.programmierecke.radiodroid2.R;
+import net.programmierecke.radiodroid2.RadioAlarmManager;
+import net.programmierecke.radiodroid2.TimePickerFragment;
+import net.programmierecke.radiodroid2.Utils;
 import net.programmierecke.radiodroid2.interfaces.IAdapterRefreshable;
 
 public class ItemAdapterStation extends ArrayAdapter<DataRadioStation> implements Runnable, TimePickerDialog.OnTimeSetListener {

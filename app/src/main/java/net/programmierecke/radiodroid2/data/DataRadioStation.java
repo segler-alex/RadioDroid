@@ -1,10 +1,9 @@
-package net.programmierecke.radiodroid2;
+package net.programmierecke.radiodroid2.data;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import android.text.TextUtils;
-import android.util.Log;
 
 import org.json.JSONArray;
 import org.json.JSONException;

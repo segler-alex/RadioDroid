@@ -1,4 +1,4 @@
-package net.programmierecke.radiodroid2;
+package net.programmierecke.radiodroid2.data;
 
 public class DataRadioStationAlarm {
     public DataRadioStation station;

@@ -18,7 +18,8 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.TimePicker;
-import android.widget.Toast;
+
+import net.programmierecke.radiodroid2.data.DataRadioStation;
 
 public class ActivityRadioStationDetail extends AppCompatActivity implements TimePickerDialog.OnTimeSetListener {
 	private ProgressDialog itsProgressLoading;

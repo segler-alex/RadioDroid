@@ -1,14 +1,8 @@
 package net.programmierecke.radiodroid2;
 
 import android.content.Context;
-import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
-import android.util.Log;
 
-import org.json.JSONArray;
-
-import java.util.ArrayList;
-import java.util.List;
+import net.programmierecke.radiodroid2.data.DataRadioStation;
 
 public class HistoryManager extends StationSaveManager{
     int MAXSIZE = 25;

@@ -9,6 +9,9 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import net.programmierecke.radiodroid2.adapters.ItemAdapterCategory;
+import net.programmierecke.radiodroid2.data.DataCategory;
+
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 

@@ -11,6 +11,8 @@ import android.util.Base64;
 import android.util.Log;
 import android.widget.Toast;
 
+import net.programmierecke.radiodroid2.data.DataRadioStation;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 

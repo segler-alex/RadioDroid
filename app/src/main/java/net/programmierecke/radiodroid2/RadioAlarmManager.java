@@ -9,6 +9,8 @@ import android.os.Build;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
+import net.programmierecke.radiodroid2.data.DataRadioStation;
+import net.programmierecke.radiodroid2.data.DataRadioStationAlarm;
 import net.programmierecke.radiodroid2.interfaces.IChanged;
 
 import java.util.ArrayList;

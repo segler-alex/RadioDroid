@@ -1,4 +1,4 @@
-package net.programmierecke.radiodroid2;
+package net.programmierecke.radiodroid2.adapters;
 
 import android.content.Context;
 import android.support.v7.widget.SwitchCompat;
@@ -7,10 +7,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.ImageButton;
 import android.widget.TextView;
+
+import net.programmierecke.radiodroid2.data.DataRadioStationAlarm;
+import net.programmierecke.radiodroid2.R;
+import net.programmierecke.radiodroid2.RadioAlarmManager;
 
 import java.util.Locale;
 

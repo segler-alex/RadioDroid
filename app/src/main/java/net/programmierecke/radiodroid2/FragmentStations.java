@@ -1,6 +1,5 @@
 package net.programmierecke.radiodroid2;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
@@ -9,6 +8,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
+
+import net.programmierecke.radiodroid2.adapters.ItemAdapterStation;
+import net.programmierecke.radiodroid2.data.DataRadioStation;
 
 public class FragmentStations extends FragmentBase {
     private ListView lv;

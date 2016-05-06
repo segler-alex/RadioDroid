@@ -10,6 +10,8 @@ import android.util.Log;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import net.programmierecke.radiodroid2.data.DataRadioStation;
+
 public class FragmentBase extends Fragment {
     private ProgressDialog itsProgressLoading;
     private ListView lv;

@@ -5,6 +5,8 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
+import net.programmierecke.radiodroid2.data.DataRadioStation;
+
 import org.json.JSONArray;
 
 import java.util.ArrayList;
