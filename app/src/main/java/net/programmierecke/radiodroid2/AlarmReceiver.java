@@ -56,7 +56,7 @@ public class AlarmReceiver extends BroadcastReceiver {
             try {
                 itsPlayerService.Play(url, station.Name, station.ID);
                 // default timeout 1 hour
-                itsPlayerService.addTimer(60*60);
+                itsPlayerService.addTimer(timeout*60);
             } catch (RemoteException e) {
                 Log.e("recv","play error:"+e);
             }
