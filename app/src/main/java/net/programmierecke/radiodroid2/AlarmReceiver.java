@@ -88,6 +88,7 @@ public class AlarmReceiver extends BroadcastReceiver {
                     String activityName = sharedPref.getString("shareapp_activity",null);
                     if (play_external && packageName != null && activityName != null){
                         Intent share = new Intent(Intent.ACTION_VIEW);
+                        share.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         share.setClassName(packageName,activityName);
                         share.setDataAndType(Uri.parse(url), "audio/*");
                         context.startActivity(share);
