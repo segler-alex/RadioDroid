@@ -2,6 +2,7 @@ package net.programmierecke.radiodroid2;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +13,7 @@ import android.widget.ListView;
 public class FragmentStations extends FragmentBase {
     private ListView lv;
     private DataRadioStation[] data = new DataRadioStation[0];
+    private SwipeRefreshLayout mySwipeRefreshLayout;
 
     public FragmentStations() {
     }
@@ -40,6 +42,9 @@ public class FragmentStations extends FragmentBase {
             }
 
             lv.invalidate();
+            if (mySwipeRefreshLayout != null) {
+                mySwipeRefreshLayout.setRefreshing(false);
+            }
         }else{
             Log.e("NULL","LV == null");
         }
@@ -64,6 +69,20 @@ public class FragmentStations extends FragmentBase {
                 }
             }
         });
+
+        mySwipeRefreshLayout = (SwipeRefreshLayout)view.findViewById(R.id.swiperefresh);
+        if (mySwipeRefreshLayout != null) {
+            mySwipeRefreshLayout.setOnRefreshListener(
+                    new SwipeRefreshLayout.OnRefreshListener() {
+                        @Override
+                        public void onRefresh() {
+                            Log.i("ABC", "onRefresh called from SwipeRefreshLayout");
+                            //RefreshListGui();
+                            DownloadUrl(true);
+                        }
+                    }
+            );
+        }
 
         RefreshListGui();
 
