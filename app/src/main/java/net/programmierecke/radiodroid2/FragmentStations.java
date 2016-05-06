@@ -56,7 +56,7 @@ public class FragmentStations extends FragmentBase {
         ItemAdapterStation arrayAdapter = new ItemAdapterStation(getActivity(), R.layout.list_item_station);
 
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_stations, container, false);
+        View view = inflater.inflate(R.layout.fragment_stations_remote, container, false);
 
         lv = (ListView) view.findViewById(R.id.listViewStations);
         lv.setAdapter(arrayAdapter);

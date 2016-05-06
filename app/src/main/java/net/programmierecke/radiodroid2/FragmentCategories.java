@@ -1,6 +1,7 @@
 package net.programmierecke.radiodroid2;
 
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,6 +16,7 @@ public class FragmentCategories extends FragmentBase {
     private ListView lv;
     private DataCategory[] data = new DataCategory[0];
     private String baseSearchAdress = "";
+    private SwipeRefreshLayout mySwipeRefreshLayout;
 
     public FragmentCategories() {
     }
@@ -45,6 +47,9 @@ public class FragmentCategories extends FragmentBase {
             }
 
             lv.invalidate();
+            if (mySwipeRefreshLayout != null) {
+                mySwipeRefreshLayout.setRefreshing(false);
+            }
         }else{
             Log.e("ABC", "LV == NULL FragmentCategories");
         }
@@ -56,7 +61,7 @@ public class FragmentCategories extends FragmentBase {
         ItemAdapterCategory adapterCategory = new ItemAdapterCategory(getActivity(), R.layout.list_item_category);
 
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_stations, container, false);
+        View view = inflater.inflate(R.layout.fragment_stations_remote, container, false);
 
         lv = (ListView) view.findViewById(R.id.listViewStations);
         lv.setAdapter(adapterCategory);
@@ -69,6 +74,20 @@ public class FragmentCategories extends FragmentBase {
                 }
             }
         });
+
+        mySwipeRefreshLayout = (SwipeRefreshLayout)view.findViewById(R.id.swiperefresh);
+        if (mySwipeRefreshLayout != null) {
+            mySwipeRefreshLayout.setOnRefreshListener(
+                    new SwipeRefreshLayout.OnRefreshListener() {
+                        @Override
+                        public void onRefresh() {
+                            Log.i("ABC", "onRefresh called from SwipeRefreshLayout");
+                            //RefreshListGui();
+                            DownloadUrl(true);
+                        }
+                    }
+            );
+        }
 
         RefreshListGui();
 

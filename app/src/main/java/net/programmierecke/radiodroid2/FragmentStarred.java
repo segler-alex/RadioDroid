@@ -1,6 +1,5 @@
 package net.programmierecke.radiodroid2;
 
-import android.content.BroadcastReceiver;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -15,7 +14,6 @@ import net.programmierecke.radiodroid2.interfaces.IAdapterRefreshable;
 public class FragmentStarred extends Fragment implements IAdapterRefreshable {
     private ListView lv;
     private DataRadioStation[] data = new DataRadioStation[0];
-    private BroadcastReceiver updateUIReciver;
 
     public FragmentStarred() {
     }
