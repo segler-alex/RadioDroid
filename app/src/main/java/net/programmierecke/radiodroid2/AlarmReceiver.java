@@ -70,6 +70,8 @@ public class AlarmReceiver extends BroadcastReceiver {
         }
     };
 
+    int timeout = 10;
+
     private void Play(final Context context, final String stationId) {
         new AsyncTask<Void, Void, String>() {
             @Override
@@ -86,6 +88,11 @@ public class AlarmReceiver extends BroadcastReceiver {
                     boolean play_external = sharedPref.getBoolean("alarm_external", false);
                     String packageName = sharedPref.getString("shareapp_package",null);
                     String activityName = sharedPref.getString("shareapp_activity",null);
+                    try {
+                        timeout = Integer.parseInt(sharedPref.getString("alarm_timeout", "10"));
+                    }catch(Exception e){
+                        timeout = 10;
+                    }
                     if (play_external && packageName != null && activityName != null){
                         Intent share = new Intent(Intent.ACTION_VIEW);
                         share.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

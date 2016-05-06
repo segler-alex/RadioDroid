@@ -15,6 +15,7 @@
         android:title="@string/settings_alarm">
 
         <CheckBoxPreference
+            android:disableDependentsState="true"
             android:key="alarm_external"
             android:title="@string/settings_alarm_external"
             android:summary="@string/settings_alarm_external_desc" />
@@ -23,5 +24,15 @@
             android:key="shareapp_package"
             android:enabled="false"
             android:title="Audio player" />
+
+        <ListPreference
+            android:defaultValue="10"
+            android:dependency="alarm_external"
+            android:entries="@array/timeout_minutes"
+            android:entryValues="@array/timeout_minutes_values"
+            android:key="alarm_timeout"
+            android:summary="Stop playing after %1$s minutes"
+            android:title="Sleep timer" />
+
     </PreferenceCategory>
 </PreferenceScreen>
