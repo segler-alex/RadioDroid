@@ -5,10 +5,13 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
+import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.IBinder;
 import android.os.PowerManager;
 import android.os.RemoteException;
+import android.support.v7.preference.PreferenceManager;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -79,9 +82,21 @@ public class AlarmReceiver extends BroadcastReceiver {
                 if (result != null) {
                     url = result;
 
-                    Intent anIntent = new Intent(context, PlayerService.class);
-                    context.getApplicationContext().bindService(anIntent, svcConn, context.BIND_AUTO_CREATE);
-                    context.getApplicationContext().startService(anIntent);
+                    SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
+                    boolean play_external = sharedPref.getBoolean("play_external", false);
+                    String packageName = sharedPref.getString("shareapp_package",null);
+                    String activityName = sharedPref.getString("shareapp_activity",null);
+                    if (play_external && packageName != null && activityName != null){
+                        Intent share = new Intent(Intent.ACTION_VIEW);
+                        share.setClassName(packageName,activityName);
+                        share.setDataAndType(Uri.parse(url), "audio/*");
+                        context.startActivity(share);
+                        wakeLock.release();
+                    }else {
+                        Intent anIntent = new Intent(context, PlayerService.class);
+                        context.getApplicationContext().bindService(anIntent, svcConn, context.BIND_AUTO_CREATE);
+                        context.getApplicationContext().startService(anIntent);
+                    }
                 } else {
                     Toast toast = Toast.makeText(context, context.getResources().getText(R.string.error_station_load), Toast.LENGTH_SHORT);
                     toast.show();

@@ -19,5 +19,9 @@
             android:title="@string/settings_alarm_external"
             android:summary="@string/settings_alarm_external_desc" />
 
+        <Preference
+            android:key="shareapp_package"
+            android:enabled="false"
+            android:title="Audio player" />
     </PreferenceCategory>
 </PreferenceScreen>
