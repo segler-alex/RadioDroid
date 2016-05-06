@@ -83,7 +83,7 @@ public class AlarmReceiver extends BroadcastReceiver {
                     url = result;
 
                     SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
-                    boolean play_external = sharedPref.getBoolean("play_external", false);
+                    boolean play_external = sharedPref.getBoolean("alarm_external", false);
                     String packageName = sharedPref.getString("shareapp_package",null);
                     String activityName = sharedPref.getString("shareapp_activity",null);
                     if (play_external && packageName != null && activityName != null){
