@@ -8,6 +8,9 @@ import android.os.IBinder;
 import android.os.RemoteException;
 import android.util.Log;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class PlayerServiceUtil {
     public static void bind(Context context){
         Intent anIntent = new Intent(context, PlayerService.class);
@@ -92,5 +95,16 @@ public class PlayerServiceUtil {
             }
         }
         return 0;
+    }
+
+    public static Map<String,String> getMetadataLive() {
+        if (itsPlayerService != null) {
+            try {
+                return itsPlayerService.getMetadataLive();
+            } catch (RemoteException e) {
+                Log.e("", "" + e);
+            }
+        }
+        return new HashMap<String,String>();
     }
 }

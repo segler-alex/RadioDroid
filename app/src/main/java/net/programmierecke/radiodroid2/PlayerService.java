@@ -1,6 +1,9 @@
 package net.programmierecke.radiodroid2;
 
 import java.io.IOException;
+import java.util.Dictionary;
+import java.util.Enumeration;
+import java.util.Map;
 
 import android.app.Notification;
 import android.app.PendingIntent;
@@ -19,10 +22,15 @@ import android.os.RemoteException;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
-public class PlayerService extends Service implements OnBufferingUpdateListener, MediaPlayer.OnInfoListener {
+import net.programmierecke.radiodroid2.data.ShoutcastInfo;
+import net.programmierecke.radiodroid2.interfaces.IConnectionReady;
+
+public class PlayerService extends Service implements OnBufferingUpdateListener, MediaPlayer.OnInfoListener,IConnectionReady {
 	protected static final int NOTIFY_ID = 1;
 	public static final String PLAYER_SERVICE_TIMER_UPDATE = "net.programmierecke.radiodroid2.timerupdate";
 	public static final String PLAYER_SERVICE_STATUS_UPDATE = "net.programmierecke.radiodroid2.statusupdate";
+	public static final String PLAYER_SERVICE_META_UPDATE = "net.programmierecke.radiodroid2.metaupdate";
+
 	final String TAG = "PLAY";
 
 	private Context itsContext;
@@ -33,6 +41,8 @@ public class PlayerService extends Service implements OnBufferingUpdateListener,
 	private MediaPlayer itsMediaPlayer = null;
 	private CountDownTimer timer = null;
 	long seconds = 0;
+	private Map<String, String> liveInfo;
+	private ShoutcastInfo streamInfo;
 
 	void sendBroadCast(String action){
 		Intent local = new Intent();
@@ -72,6 +82,60 @@ public class PlayerService extends Service implements OnBufferingUpdateListener,
 			if (!itsMediaPlayer.isPlaying())
 				return null;
 			return itsStationID;
+		}
+
+		@Override
+		public Map getMetadataLive() throws RemoteException {
+			return PlayerService.this.liveInfo;
+		}
+
+		@Override
+		public String getMetadataStreamName() throws RemoteException {
+			if (streamInfo != null)
+				return streamInfo.audioName;
+			return null;
+		}
+
+		@Override
+		public String getMetadataServerName() throws RemoteException {
+			if (streamInfo != null)
+				return streamInfo.serverName;
+			return null;
+		}
+
+		@Override
+		public String getMetadataGenre() throws RemoteException {
+			if (streamInfo != null)
+				return streamInfo.audioGenre;
+			return null;
+		}
+
+		@Override
+		public String getMetadataHomepage() throws RemoteException {
+			if (streamInfo != null)
+				return streamInfo.audioHP;
+			return null;
+		}
+
+		@Override
+		public int getMetadataBitrate() throws RemoteException {
+			if (streamInfo != null)
+				return streamInfo.bitrate;
+			return 0;
+		}
+
+		@Override
+		public int getMetadataSampleRate() throws RemoteException {
+			if (streamInfo != null)
+				return streamInfo.sampleRate;
+			return 0;
+		}
+
+		@Override
+		public int getMetadataChannels() throws RemoteException {
+			if (streamInfo != null)
+				return streamInfo.channels;
+			return 0;
 		}
 	};
 
@@ -176,12 +240,17 @@ public class PlayerService extends Service implements OnBufferingUpdateListener,
 		itsStationID = theID;
 		itsStationName = theName;
 		itsStationURL = theURL;
+
 		new AsyncTask<Void, Void, Void>() {
 			@Override
 			protected Void doInBackground(Void... stations) {
-				Log.v(TAG, "Stream url:" + itsStationURL);
+				Log.v(TAG, "Start proxy");
+				SendMessage(itsStationName, "Start proxy", "Start proxy");
+				StreamProxy proxy = new StreamProxy(itsStationURL, PlayerService.this);
+				String proxyConnection = proxy.getLocalAdress();
+				Log.v(TAG, "Stream url:" + proxyConnection);
 				SendMessage(itsStationName, "Decoding URL", "Decoding URL");
-				Log.v(TAG, "Stream url decoded:" + itsStationURL);
+				Log.v(TAG, "Stream url decoded:" + proxyConnection);
 				if (itsMediaPlayer == null) {
 					itsMediaPlayer = new MediaPlayer();
 					itsMediaPlayer.setOnBufferingUpdateListener(PlayerService.this);
@@ -194,9 +263,9 @@ public class PlayerService extends Service implements OnBufferingUpdateListener,
 				try {
 					SendMessage(itsStationName, "Preparing stream", "Preparing stream");
 					itsMediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
-					itsMediaPlayer.setDataSource(itsStationURL);
+					itsMediaPlayer.setDataSource(proxyConnection);
 					itsMediaPlayer.prepare();
-					SendMessage(itsStationName, "Playing", "Playing '" + itsStationName + "'");
+					UpdateNotification();
 					itsMediaPlayer.start();
 				} catch (IllegalArgumentException e) {
 					Log.e(TAG, "" + e);
@@ -222,6 +291,44 @@ public class PlayerService extends Service implements OnBufferingUpdateListener,
 			}
 
 		}.execute();
+	}
+
+	private void UpdateNotification() {
+		if (liveInfo != null)
+		{
+			String title = liveInfo.get("StreamTitle");
+			if (title != null) {
+				Log.i("ABC","update message:"+title);
+				SendMessage(itsStationName, title, title);
+			}else{
+				SendMessage(itsStationName, "Playing", itsStationName);
+			}
+		}else{
+			SendMessage(itsStationName, "Playing", itsStationName);
+		}
+	}
+
+	@Override
+	public void foundShoutcastStream(ShoutcastInfo info) {
+		this.streamInfo = info;
+		Log.i(TAG, "Metadata offset:" + info.metadataOffset);
+		Log.i(TAG, "Bitrate:" + info.bitrate);
+		Log.i(TAG, "Name:" + info.audioName);
+		itsStationName = info.audioName;
+		Log.i(TAG, "Server:" + info.serverName);
+		Log.i(TAG, "AudioInfo:" + info.audioInfo);
+		sendBroadCast(PLAYER_SERVICE_META_UPDATE);
+	}
+
+	@Override
+	public void foundLiveStreamInfo(Map<String, String> liveInfo) {
+		this.liveInfo = liveInfo;
+		for (String key: liveInfo.keySet())
+		{
+			Log.i("ABC","INFO:"+key+"="+liveInfo.get(key));
+		}
+		sendBroadCast(PLAYER_SERVICE_META_UPDATE);
+		UpdateNotification();
 	}
 
 	public void Stop() {

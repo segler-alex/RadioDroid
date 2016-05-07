@@ -19,6 +19,7 @@ import android.widget.TextView;
 import net.programmierecke.radiodroid2.data.DataRadioStation;
 
 import java.util.Locale;
+import java.util.Map;
 
 public class ActivityPlayerInfo extends AppCompatActivity {
 	ProgressDialog itsProgressLoading;
@@ -30,6 +31,7 @@ public class ActivityPlayerInfo extends AppCompatActivity {
 	ImageButton buttonClearTimeout;
 	private TextView textViewCountdown;
 	private BroadcastReceiver updateUIReciver;
+	private TextView textViewLiveInfo;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +53,7 @@ public class ActivityPlayerInfo extends AppCompatActivity {
 
 		filter.addAction(PlayerService.PLAYER_SERVICE_TIMER_UPDATE);
 		filter.addAction(PlayerService.PLAYER_SERVICE_STATUS_UPDATE);
+		filter.addAction(PlayerService.PLAYER_SERVICE_META_UPDATE);
 
 		updateUIReciver = new BroadcastReceiver() {
 			@Override
@@ -91,6 +94,7 @@ public class ActivityPlayerInfo extends AppCompatActivity {
 		if (textViewCountdown != null){
 			textViewCountdown.setText("");
 		}
+		textViewLiveInfo = (TextView) findViewById(R.id.textViewLiveInfo);
 
 		buttonStop = (ImageButton) findViewById(R.id.buttonStop);
 		if (buttonStop != null){
@@ -180,6 +184,14 @@ public class ActivityPlayerInfo extends AppCompatActivity {
 		}else{
 			buttonClearTimeout.setVisibility(View.VISIBLE);
 			textViewCountdown.setText(getResources().getString(R.string.sleep_timer,seconds / 60, seconds % 60));
+		}
+
+		Map<String,String> liveInfo = PlayerServiceUtil.getMetadataLive();
+		if (liveInfo != null){
+			textViewLiveInfo.setVisibility(View.VISIBLE);
+			textViewLiveInfo.setText(liveInfo.get("StreamTitle"));
+		}else{
+			textViewLiveInfo.setVisibility(View.GONE);
 		}
 
 		if (!PlayerServiceUtil.isPlaying()){
