@@ -107,4 +107,26 @@ public class PlayerServiceUtil {
         }
         return new HashMap<String,String>();
     }
+
+    public static String getStreamName() {
+        if (itsPlayerService != null) {
+            try {
+                return itsPlayerService.getMetadataStreamName();
+            } catch (RemoteException e) {
+                Log.e("", "" + e);
+            }
+        }
+        return null;
+    }
+
+    public static String getStationName() {
+        if (itsPlayerService != null) {
+            try {
+                return itsPlayerService.getStationName();
+            } catch (RemoteException e) {
+                Log.e("", "" + e);
+            }
+        }
+        return null;
+    }
 }

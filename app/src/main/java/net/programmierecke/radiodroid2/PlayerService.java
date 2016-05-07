@@ -20,6 +20,8 @@ import android.os.CountDownTimer;
 import android.os.IBinder;
 import android.os.RemoteException;
 import android.support.v4.app.NotificationCompat;
+import android.support.v4.text.TextUtilsCompat;
+import android.text.TextUtils;
 import android.util.Log;
 
 import net.programmierecke.radiodroid2.data.ShoutcastInfo;
@@ -82,6 +84,11 @@ public class PlayerService extends Service implements OnBufferingUpdateListener,
 			if (!itsMediaPlayer.isPlaying())
 				return null;
 			return itsStationID;
+		}
+
+		@Override
+		public String getStationName() throws RemoteException {
+			return itsStationName;
 		}
 
 		@Override
@@ -297,7 +304,7 @@ public class PlayerService extends Service implements OnBufferingUpdateListener,
 		if (liveInfo != null)
 		{
 			String title = liveInfo.get("StreamTitle");
-			if (title != null) {
+			if (!TextUtils.isEmpty(title)) {
 				Log.i("ABC","update message:"+title);
 				SendMessage(itsStationName, title, title);
 			}else{

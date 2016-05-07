@@ -7,6 +7,7 @@ void addTimer(int secondsAdd);
 void clearTimer();
 long getTimerSeconds();
 String getCurrentStationID();
+String getStationName();
 Map getMetadataLive();
 String getMetadataStreamName();
 String getMetadataServerName();

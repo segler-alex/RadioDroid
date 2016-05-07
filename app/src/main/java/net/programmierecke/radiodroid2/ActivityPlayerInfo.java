@@ -9,6 +9,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -23,8 +24,6 @@ import java.util.Map;
 
 public class ActivityPlayerInfo extends AppCompatActivity {
 	ProgressDialog itsProgressLoading;
-	DataRadioStation itsStation;
-	String stationId;
 	TextView aTextViewName;
 	ImageButton buttonStop;
 	ImageButton buttonAddTimeout;
@@ -42,12 +41,11 @@ public class ActivityPlayerInfo extends AppCompatActivity {
 		setSupportActionBar(myToolbar);
 
 		Bundle anExtras = getIntent().getExtras();
-		final String aStationID = anExtras.getString("stationid");
-		stationId = aStationID;
 
 		PlayerServiceUtil.bind(this);
 
 		InitControls();
+		UpdateOutput();
 
 		IntentFilter filter = new IntentFilter();
 
@@ -62,30 +60,6 @@ public class ActivityPlayerInfo extends AppCompatActivity {
 			}
 		};
 		registerReceiver(updateUIReciver,filter);
-
-		itsProgressLoading = ProgressDialog.show(ActivityPlayerInfo.this, "", getString(R.string.progress_loading));
-		new AsyncTask<Void, Void, String>() {
-			@Override
-			protected String doInBackground(Void... params) {
-				return Utils.downloadFeed(getApplicationContext(), String.format(Locale.US, "http://www.radio-browser.info/webservice/json/stations/byid/%s", aStationID),true);
-			}
-
-			@Override
-			protected void onPostExecute(String result) {
-				if (!isFinishing()) {
-					if (result != null) {
-						DataRadioStation[] aStationList = DataRadioStation.DecodeJson(result);
-						if (aStationList.length == 1) {
-							itsStation = aStationList[0];
-							UpdateOutput();
-						}
-					}
-				}
-				itsProgressLoading.dismiss();
-				super.onPostExecute(result);
-			}
-
-		}.execute();
 	}
 
 	private void InitControls() {
@@ -106,16 +80,6 @@ public class ActivityPlayerInfo extends AppCompatActivity {
 				}
 			});
 		}
-
-		/*buttonAddTimeout = (ImageButton) findViewById(R.id.buttonAddTimeout);
-		if (buttonAddTimeout != null){
-			buttonAddTimeout.setOnClickListener(new View.OnClickListener() {
-				@Override
-				public void onClick(View v) {
-					addTime();
-				}
-			});
-		}*/
 
 		buttonClearTimeout = (ImageButton) findViewById(R.id.buttonCancelCountdown);
 		if (buttonClearTimeout != null){
@@ -170,9 +134,13 @@ public class ActivityPlayerInfo extends AppCompatActivity {
 	private void UpdateOutput() {
 		Log.w("ARR","UpdateOutput()");
 
-		if (itsStation != null) {
-			if (aTextViewName != null) {
-				aTextViewName.setText(itsStation.Name);
+		if (aTextViewName != null) {
+			String stationName = PlayerServiceUtil.getStationName();
+			String streamName = PlayerServiceUtil.getStreamName();
+			if (!TextUtils.isEmpty(streamName)) {
+				aTextViewName.setText(streamName);
+			}else{
+				aTextViewName.setText(stationName);
 			}
 		}
 
@@ -188,8 +156,13 @@ public class ActivityPlayerInfo extends AppCompatActivity {
 
 		Map<String,String> liveInfo = PlayerServiceUtil.getMetadataLive();
 		if (liveInfo != null){
-			textViewLiveInfo.setVisibility(View.VISIBLE);
-			textViewLiveInfo.setText(liveInfo.get("StreamTitle"));
+			String streamTitle = liveInfo.get("StreamTitle");
+			if (!TextUtils.isEmpty(streamTitle)) {
+				textViewLiveInfo.setVisibility(View.VISIBLE);
+				textViewLiveInfo.setText(streamTitle);
+			}else {
+				textViewLiveInfo.setVisibility(View.GONE);
+			}
 		}else{
 			textViewLiveInfo.setVisibility(View.GONE);
 		}
