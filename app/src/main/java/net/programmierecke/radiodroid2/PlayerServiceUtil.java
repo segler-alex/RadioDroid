@@ -129,4 +129,37 @@ public class PlayerServiceUtil {
         }
         return null;
     }
+
+    public static int getMetadataBitrate() {
+        if (itsPlayerService != null) {
+            try {
+                return itsPlayerService.getMetadataBitrate();
+            } catch (RemoteException e) {
+                Log.e("", "" + e);
+            }
+        }
+        return 0;
+    }
+
+    public static String getMetadataHomepage() {
+        if (itsPlayerService != null) {
+            try {
+                return itsPlayerService.getMetadataHomepage();
+            } catch (RemoteException e) {
+                Log.e("", "" + e);
+            }
+        }
+        return null;
+    }
+
+    public static String getMetadataGenre() {
+        if (itsPlayerService != null) {
+            try {
+                return itsPlayerService.getMetadataGenre();
+            } catch (RemoteException e) {
+                Log.e("", "" + e);
+            }
+        }
+        return null;
+    }
 }

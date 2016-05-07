@@ -31,6 +31,7 @@ public class ActivityPlayerInfo extends AppCompatActivity {
 	private TextView textViewCountdown;
 	private BroadcastReceiver updateUIReciver;
 	private TextView textViewLiveInfo;
+	private TextView textViewExtraInfo;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -69,6 +70,7 @@ public class ActivityPlayerInfo extends AppCompatActivity {
 			textViewCountdown.setText("");
 		}
 		textViewLiveInfo = (TextView) findViewById(R.id.textViewLiveInfo);
+		textViewExtraInfo = (TextView) findViewById(R.id.textViewExtraStreamInfo);
 
 		buttonStop = (ImageButton) findViewById(R.id.buttonStop);
 		if (buttonStop != null){
@@ -166,6 +168,8 @@ public class ActivityPlayerInfo extends AppCompatActivity {
 		}else{
 			textViewLiveInfo.setVisibility(View.GONE);
 		}
+
+		textViewExtraInfo.setText(String.format("%d kbps\n%s\n%s",PlayerServiceUtil.getMetadataBitrate(),PlayerServiceUtil.getMetadataGenre(),PlayerServiceUtil.getMetadataHomepage()));
 
 		if (!PlayerServiceUtil.isPlaying()){
 			Log.i("ARR","exit..");

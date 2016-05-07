@@ -88,4 +88,16 @@
             android:layout_weight="1" />
     </LinearLayout>
 
+    <TextView
+        android:id="@+id/textViewExtraStreamInfo"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:gravity="center"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="20dp"
+        android:textStyle="italic" />
+
 </LinearLayout>
