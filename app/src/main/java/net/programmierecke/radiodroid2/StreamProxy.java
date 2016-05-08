@@ -1,11 +1,13 @@
 package net.programmierecke.radiodroid2;
 
 import android.content.Context;
+import android.os.Environment;
 import android.util.Log;
 
 import net.programmierecke.radiodroid2.data.ShoutcastInfo;
 import net.programmierecke.radiodroid2.interfaces.IConnectionReady;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -198,10 +200,12 @@ public class StreamProxy {
     public void record(String fileName){
         if (fileOutputStream == null) {
             try {
-                Log.i("ABC","start recording to :"+fileName);
-                fileOutputStream = context.openFileOutput(fileName, 0);
+                // Get the directory for the user's public pictures directory.
+                String path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MUSIC) + "/" + fileName;
+                Log.i("ABC","start recording to :"+fileName + " in dir " + path);
+                fileOutputStream = new FileOutputStream(path);
             } catch (FileNotFoundException e) {
-                Log.e("ABC", "" + e);
+                Log.e("ABC", "record('"+fileName+"'): " + e);
             }
         }
     }

@@ -1,11 +1,15 @@
 package net.programmierecke.radiodroid2;
 
+import android.Manifest;
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.preference.PreferenceManager;
 import android.util.Base64;
 import android.util.Log;
@@ -166,5 +170,28 @@ public class Utils {
 				super.onPostExecute(result);
 			}
 		}.execute();
+	}
+
+	// Storage Permissions
+	public static final int REQUEST_EXTERNAL_STORAGE = 1;
+	private static String[] PERMISSIONS_STORAGE = {
+			Manifest.permission.WRITE_EXTERNAL_STORAGE
+	};
+
+	public static boolean verifyStoragePermissions(Activity activity) {
+		// Check if we have write permission
+		int permission = ActivityCompat.checkSelfPermission(activity, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+
+		if (permission != PackageManager.PERMISSION_GRANTED) {
+			// We don't have permission so prompt the user
+			ActivityCompat.requestPermissions(
+					activity,
+					PERMISSIONS_STORAGE,
+					REQUEST_EXTERNAL_STORAGE
+			);
+			return false;
+		}
+
+		return true;
 	}
 }
