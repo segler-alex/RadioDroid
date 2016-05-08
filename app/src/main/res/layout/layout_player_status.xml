@@ -1,113 +1,119 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/LinearLayout1"
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
-
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/my_toolbar"
+    android:layout_height="match_parent" >
+    
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/LinearLayout1"
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="?attr/colorPrimary"
-        android:elevation="4dp"
-        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/detail_station_name_value"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:textSize="20sp"
-        android:gravity="center"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp" />
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/my_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            android:elevation="4dp"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
 
-    <TextView
-        android:id="@+id/textViewLiveInfo"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:textSize="20sp"
-        android:gravity="center"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="20dp"
-        android:textStyle="italic" />
+        <TextView
+            android:id="@+id/detail_station_name_value"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:gravity="center"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp" />
 
-    <ImageButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/buttonStop"
-        android:layout_gravity="center"
-        android:minHeight="100dp"
-        android:minWidth="100dp"
-        android:src="@drawable/ic_stop_24dp"
-        android:layout_margin="10dp" />
+        <TextView
+            android:id="@+id/textViewLiveInfo"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:gravity="center"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="20dp"
+            android:textStyle="italic" />
 
-    <TextView
-        android:id="@+id/textViewCountdown"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:textSize="20sp"
-        android:gravity="center"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="20dp"
-        android:text="" />
-
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal">
-
-        <!--<ImageButton
+        <ImageButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/buttonAddTimeout"
+            android:id="@+id/buttonStop"
             android:layout_gravity="center"
-            android:minHeight="20dp"
-            android:minWidth="30dp"
-            android:src="@drawable/ic_add_alarm_black_24dp"
-            android:layout_margin="10dp"
-            android:layout_weight="1" />-->
+            android:minHeight="100dp"
+            android:minWidth="100dp"
+            android:src="@drawable/ic_stop_24dp"
+            android:layout_margin="10dp" />
 
-        <ImageButton
+        <TextView
+            android:id="@+id/textViewCountdown"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:gravity="center"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="20dp"
+            android:text="" />
+
+        <LinearLayout
+            android:orientation="horizontal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/buttonCancelCountdown"
-            android:minHeight="20dp"
-            android:minWidth="50dp"
-            android:src="@drawable/ic_delete_black_24dp"
-            android:layout_margin="10dp"
-            android:layout_gravity="center" />
+            android:layout_gravity="center_horizontal">
 
-        <ImageButton
-            android:layout_width="wrap_content"
+            <!--<ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/buttonAddTimeout"
+                android:layout_gravity="center"
+                android:minHeight="20dp"
+                android:minWidth="30dp"
+                android:src="@drawable/ic_add_alarm_black_24dp"
+                android:layout_margin="10dp"
+                android:layout_weight="1" />-->
+
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/buttonCancelCountdown"
+                android:minHeight="20dp"
+                android:minWidth="50dp"
+                android:src="@drawable/ic_delete_black_24dp"
+                android:layout_margin="10dp"
+                android:layout_gravity="center" />
+
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/buttonRecord"
+                android:minHeight="20dp"
+                android:minWidth="50dp"
+                android:src="@drawable/ic_fiber_manual_record_black_24dp"
+                android:layout_margin="10dp"
+                android:layout_gravity="center" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/textViewExtraStreamInfo"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/buttonRecord"
-            android:minHeight="20dp"
-            android:minWidth="50dp"
-            android:src="@drawable/ic_fiber_manual_record_black_24dp"
-            android:layout_margin="10dp"
-            android:layout_gravity="center" />
+            android:textSize="20sp"
+            android:gravity="center"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="20dp"
+            android:textStyle="italic" />
+
     </LinearLayout>
-
-    <TextView
-        android:id="@+id/textViewExtraStreamInfo"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:textSize="20sp"
-        android:gravity="center"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="20dp"
-        android:textStyle="italic" />
-
-</LinearLayout>
+</ScrollView>
