@@ -173,9 +173,11 @@ public class ActivityPlayerInfo extends AppCompatActivity {
 		if (seconds <= 0){
 			buttonClearTimeout.setVisibility(View.GONE);
 			textViewCountdown.setText("");
+			textViewCountdown.setVisibility(View.GONE);
 		}else{
 			buttonClearTimeout.setVisibility(View.VISIBLE);
 			textViewCountdown.setText(getResources().getString(R.string.sleep_timer,seconds / 60, seconds % 60));
+			textViewCountdown.setVisibility(View.VISIBLE);
 		}
 
 		Map<String,String> liveInfo = PlayerServiceUtil.getMetadataLive();
@@ -195,14 +197,14 @@ public class ActivityPlayerInfo extends AppCompatActivity {
 		if (PlayerServiceUtil.getCurrentRecordFileName() != null){
 			strExtra += "Recording to:" + PlayerServiceUtil.getCurrentRecordFileName() + "\n";
 		}
-		if (PlayerServiceUtil.getMetadataBitrate() > 0) {
-			strExtra += "" + PlayerServiceUtil.getMetadataBitrate() + " kbps\n";
-		}
 		if (PlayerServiceUtil.getMetadataGenre() != null) {
 			strExtra += PlayerServiceUtil.getMetadataGenre() + "\n";
 		}
 		if (PlayerServiceUtil.getMetadataHomepage() != null) {
 			strExtra += PlayerServiceUtil.getMetadataHomepage() + "\n";
+		}
+		if (PlayerServiceUtil.getMetadataBitrate() > 0) {
+			strExtra += "" + PlayerServiceUtil.getMetadataBitrate() + " kbps\n";
 		}
 		textViewExtraInfo.setText(strExtra);
 
