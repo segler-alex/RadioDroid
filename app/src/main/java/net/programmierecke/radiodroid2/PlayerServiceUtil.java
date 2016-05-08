@@ -20,7 +20,10 @@ public class PlayerServiceUtil {
 
     public static void unBind(Context context){
         PlayerService thisService = new PlayerService();
-        thisService.unbindSafely(context, svcConn);
+        try {
+            context.unbindService(svcConn);
+        } catch (Exception e) {
+        }
     }
 
     static IPlayerService itsPlayerService;
@@ -39,7 +42,7 @@ public class PlayerServiceUtil {
     public static boolean isPlaying(){
         if (itsPlayerService != null){
             try {
-                return itsPlayerService.getCurrentStationID() != null;
+                return itsPlayerService.isPlaying();
             } catch (RemoteException e) {
             }
         }

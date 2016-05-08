@@ -1,8 +1,6 @@
 package net.programmierecke.radiodroid2;
 
 import java.io.IOException;
-import java.util.Dictionary;
-import java.util.Enumeration;
 import java.util.Map;
 
 import android.app.Notification;
@@ -10,24 +8,21 @@ import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
-import android.content.ServiceConnection;
 import android.graphics.drawable.BitmapDrawable;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
-import android.media.MediaPlayer.OnBufferingUpdateListener;
-import android.os.AsyncTask;
 import android.os.CountDownTimer;
 import android.os.IBinder;
 import android.os.RemoteException;
 import android.support.v4.app.NotificationCompat;
-import android.support.v4.text.TextUtilsCompat;
 import android.text.TextUtils;
 import android.util.Log;
+import android.widget.Toast;
 
 import net.programmierecke.radiodroid2.data.ShoutcastInfo;
 import net.programmierecke.radiodroid2.interfaces.IConnectionReady;
 
-public class PlayerService extends Service implements OnBufferingUpdateListener, MediaPlayer.OnInfoListener,IConnectionReady {
+public class PlayerService extends Service implements IConnectionReady {
 	protected static final int NOTIFY_ID = 1;
 	public static final String PLAYER_SERVICE_TIMER_UPDATE = "net.programmierecke.radiodroid2.timerupdate";
 	public static final String PLAYER_SERVICE_STATUS_UPDATE = "net.programmierecke.radiodroid2.statusupdate";
@@ -45,6 +40,15 @@ public class PlayerService extends Service implements OnBufferingUpdateListener,
 	long seconds = 0;
 	private Map<String, String> liveInfo;
 	private ShoutcastInfo streamInfo;
+
+	PlayStatus playStatus = PlayStatus.Idle;
+	enum PlayStatus{
+		Idle,
+		CreateProxy,
+		ClearOld,
+		PrepareStream,
+		PrePlaying, Playing
+	}
 
 	void sendBroadCast(String action){
 		Intent local = new Intent();
@@ -79,11 +83,10 @@ public class PlayerService extends Service implements OnBufferingUpdateListener,
 
 		@Override
 		public String getCurrentStationID() throws RemoteException {
-			if (itsMediaPlayer == null)
-				return null;
-			if (!itsMediaPlayer.isPlaying())
-				return null;
-			return itsStationID;
+			if (playStatus != PlayStatus.Idle) {
+				return itsStationID;
+			}
+			return null;
 		}
 
 		@Override
@@ -144,6 +147,11 @@ public class PlayerService extends Service implements OnBufferingUpdateListener,
 				return streamInfo.channels;
 			return 0;
 		}
+
+		@Override
+		public boolean isPlaying() throws RemoteException {
+			return playStatus != PlayStatus.Idle;
+		}
 	};
 
 	private long getTimerSeconds() {
@@ -172,7 +180,7 @@ public class PlayerService extends Service implements OnBufferingUpdateListener,
 		timer = new CountDownTimer(seconds * 1000, 1000) {
 			public void onTick(long millisUntilFinished) {
 				seconds = millisUntilFinished / 1000;
-				Log.w("ABC",""+seconds);
+				Log.w(TAG,""+seconds);
 
 				Intent local = new Intent();
 				local.setAction(PLAYER_SERVICE_TIMER_UPDATE);
@@ -249,71 +257,86 @@ public class PlayerService extends Service implements OnBufferingUpdateListener,
 		itsStationURL = theURL;
 		liveInfo = null;
 		streamInfo = null;
+		SetPlayStatus(PlayStatus.Idle);
 
-		new AsyncTask<Void, Void, Void>() {
+		new Thread(new Runnable() {
 			@Override
-			protected Void doInBackground(Void... stations) {
-				Log.v(TAG, "Start proxy");
-				SendMessage(itsStationName, "Start proxy", "Start proxy");
+			public void run() {
+				SetPlayStatus(PlayStatus.CreateProxy);
 				StreamProxy proxy = new StreamProxy(itsStationURL, PlayerService.this);
 				String proxyConnection = proxy.getLocalAdress();
 				Log.v(TAG, "Stream url:" + proxyConnection);
-				SendMessage(itsStationName, "Decoding URL", "Decoding URL");
-				Log.v(TAG, "Stream url decoded:" + proxyConnection);
+				SetPlayStatus(PlayStatus.ClearOld);
 				if (itsMediaPlayer == null) {
 					itsMediaPlayer = new MediaPlayer();
-					itsMediaPlayer.setOnBufferingUpdateListener(PlayerService.this);
-					itsMediaPlayer.setOnInfoListener(PlayerService.this);
 				}
 				if (itsMediaPlayer.isPlaying()) {
 					itsMediaPlayer.stop();
 					itsMediaPlayer.reset();
 				}
 				try {
-					SendMessage(itsStationName, "Preparing stream", "Preparing stream");
+					SetPlayStatus(PlayStatus.PrepareStream);
 					itsMediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
 					itsMediaPlayer.setDataSource(proxyConnection);
 					itsMediaPlayer.prepare();
-					UpdateNotification();
+					SetPlayStatus(PlayStatus.PrePlaying);
 					itsMediaPlayer.start();
+					SetPlayStatus(PlayStatus.Playing);
 				} catch (IllegalArgumentException e) {
 					Log.e(TAG, "" + e);
-					SendMessage(itsStationName, "Stream url problem", "Stream url problem");
+					Toast toast = Toast.makeText(itsContext, "Stream url problem", Toast.LENGTH_SHORT);
+					toast.show();
 					Stop();
 				} catch (IOException e) {
 					Log.e(TAG, "" + e);
-					SendMessage(itsStationName, "Stream caching problem", "Stream caching problem");
+					Toast toast = Toast.makeText(itsContext, "Stream caching problem", Toast.LENGTH_SHORT);
+					toast.show();
 					Stop();
 				} catch (Exception e) {
 					Log.e(TAG, "" + e);
-					SendMessage(itsStationName, "Unable to play stream", "Unable to play stream");
+					Toast toast = Toast.makeText(itsContext, "Unable to play stream", Toast.LENGTH_SHORT);
+					toast.show();
 					Stop();
 				}
-
-				return null;
 			}
+		}).start();
+	}
 
-			@Override
-			protected void onPostExecute(Void result) {
-				Log.d(TAG, "Play task finished");
-				super.onPostExecute(result);
-			}
-
-		}.execute();
+	void SetPlayStatus(PlayStatus status){
+		playStatus = status;
+		UpdateNotification();
 	}
 
 	private void UpdateNotification() {
-		if (liveInfo != null)
-		{
-			String title = liveInfo.get("StreamTitle");
-			if (!TextUtils.isEmpty(title)) {
-				Log.i("ABC","update message:"+title);
-				SendMessage(itsStationName, title, title);
-			}else{
-				SendMessage(itsStationName, "Playing", itsStationName);
-			}
-		}else{
-			SendMessage(itsStationName, "Playing", itsStationName);
+		switch (playStatus){
+			case Idle:
+				break;
+			case CreateProxy:
+				SendMessage(itsStationName, "Start proxy", "Start proxy");
+				break;
+			case ClearOld:
+				SendMessage(itsStationName, "Stop old player", "Stop old player");
+				break;
+			case PrepareStream:
+				SendMessage(itsStationName, "Preparing stream", "Preparing stream");
+				break;
+			case PrePlaying:
+				SendMessage(itsStationName, "Try playing", "Try playing");
+				break;
+			case Playing:
+				if (liveInfo != null)
+				{
+					String title = liveInfo.get("StreamTitle");
+					if (!TextUtils.isEmpty(title)) {
+						Log.i(TAG, "update message:"+title);
+						SendMessage(itsStationName, title, title);
+					}else{
+						SendMessage(itsStationName, "Playing", itsStationName);
+					}
+				}else{
+					SendMessage(itsStationName, "Playing", itsStationName);
+				}
+				break;
 		}
 	}
 
@@ -323,7 +346,9 @@ public class PlayerService extends Service implements OnBufferingUpdateListener,
 		Log.i(TAG, "Metadata offset:" + info.metadataOffset);
 		Log.i(TAG, "Bitrate:" + info.bitrate);
 		Log.i(TAG, "Name:" + info.audioName);
-		itsStationName = info.audioName;
+		if (info.audioName != null) {
+			itsStationName = info.audioName;
+		}
 		Log.i(TAG, "Server:" + info.serverName);
 		Log.i(TAG, "AudioInfo:" + info.audioInfo);
 		sendBroadCast(PLAYER_SERVICE_META_UPDATE);
@@ -349,30 +374,11 @@ public class PlayerService extends Service implements OnBufferingUpdateListener,
 			itsMediaPlayer = null;
 		}
 
+		SetPlayStatus(PlayStatus.Idle);
 		liveInfo = null;
 		streamInfo = null;
 		clearTimer();
 		stopForeground(true);
 		sendBroadCast(PLAYER_SERVICE_STATUS_UPDATE);
-	}
-
-	@Override
-	public void onBufferingUpdate(MediaPlayer mp, int percent) {
-		Log.w(TAG, "Buffering:" + percent);
-		// SendMessage(itsStationName, "Buffering..", "Buffering .. (" + percent +
-		// "%)");
-	}
-
-	public void unbindSafely(Context appContext, ServiceConnection connection) {
-		try {
-			appContext.unbindService(connection);
-		} catch (Exception e) {
-		}
-	}
-
-	@Override
-	public boolean onInfo(MediaPlayer mp, int what, int extra) {
-		Log.e(TAG,"info:"+what);
-		return false;
 	}
 }

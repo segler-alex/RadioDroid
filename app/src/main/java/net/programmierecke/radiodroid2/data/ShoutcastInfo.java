@@ -44,14 +44,22 @@ public class ShoutcastInfo {
             for (int i=0;i<items.length;i++){
                 String[] item = items[i].split("=");
                 if (item.length == 2){
-                    if (item[0].equals("ice-channels")){
+                    String key = item[0];
+                    if (key.equals("ice-channels") || key.equals("channels")){
                         try {
                             info.channels = Integer.parseInt(item[1]);
                         }catch(Exception e){};
-                    } else if (item[0].equals("ice-samplerate")){
+                    } else if (key.equals("ice-samplerate") || key.equals("samplerate")){
                         try {
                             info.sampleRate = Integer.parseInt(item[1]);
                         }catch(Exception e){};
+                    } else if (key.equals("ice-bitrate") || key.equals("bitrate")){
+                        if (info.bitrate == 0) {
+                            try {
+                                info.bitrate = Integer.parseInt(item[1]);
+                            } catch (Exception e) {
+                            }
+                        }
                     }
                 }
             }

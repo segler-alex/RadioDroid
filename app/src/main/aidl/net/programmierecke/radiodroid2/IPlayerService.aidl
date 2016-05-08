@@ -16,4 +16,5 @@ String getMetadataHomepage();
 int getMetadataBitrate();
 int getMetadataSampleRate();
 int getMetadataChannels();
+boolean isPlaying();
 }
