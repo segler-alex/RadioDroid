@@ -1,11 +1,13 @@
 package net.programmierecke.radiodroid2;
 
-import android.os.AsyncTask;
+import android.content.Context;
 import android.util.Log;
 
 import net.programmierecke.radiodroid2.data.ShoutcastInfo;
 import net.programmierecke.radiodroid2.interfaces.IConnectionReady;
 
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -15,9 +17,8 @@ import java.net.Socket;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.Arrays;
-import java.util.Dictionary;
+import java.util.Calendar;
 import java.util.HashMap;
-import java.util.Hashtable;
 import java.util.Locale;
 import java.util.Map;
 
@@ -27,8 +28,13 @@ public class StreamProxy {
     private long connectionBytesTotal = 0;
     private Socket socketProxy;
     private volatile String localAdress = null;
+    private Context context;
+    private FileOutputStream fileOutputStream;
+    private boolean isStopped = false;
+    private String outFileName = null;
 
-    public StreamProxy(String uri, IConnectionReady callback) {
+    public StreamProxy(Context context, String uri, IConnectionReady callback) {
+        this.context = context;
         this.uri = uri;
         this.callback = callback;
 
@@ -75,6 +81,9 @@ public class StreamProxy {
         }
     }
 
+    InputStream in;
+    OutputStream out;
+
     private void doConnectToStream() {
         try {
             // connect to stream
@@ -84,10 +93,10 @@ public class StreamProxy {
             connection.setRequestProperty("Icy-MetaData", "1");
             connection.connect();
 
-            InputStream in = connection.getInputStream();
+            in = connection.getInputStream();
 
             // send ok message to local mediaplayer
-            OutputStream out = socketProxy.getOutputStream();
+            out = socketProxy.getOutputStream();
             out.write(("HTTP/1.0 200 OK\r\n" +
                     "Pragma: no-cache\r\n" +
                     "Content-Type: " + connection.getContentType() +
@@ -111,7 +120,7 @@ public class StreamProxy {
             int readBytesBuffer = 0;
             int readBytesBufferMetadata = 0;
 
-            while (true) {
+            while (!isStopped) {
                 int readBytes = 0;
                 if (!filterOutMetaData || (bytesUntilMetaData > 0))
                 {
@@ -136,6 +145,10 @@ public class StreamProxy {
                     if (readBytesBuffer > buf.length / 2) {
                         Log.v("ABC","out:"+readBytesBuffer);
                         out.write(buf, 0, readBytesBuffer);
+                        if (fileOutputStream != null) {
+                            Log.v("ABC","writing to record file..");
+                            fileOutputStream.write(buf, 0, readBytesBuffer);
+                        }
                         readBytesBuffer = 0;
                     }
                 }else
@@ -171,6 +184,37 @@ public class StreamProxy {
             }
         }catch(Exception e){
             Log.e("ABC",""+e);
+        }
+        stop();
+    }
+
+    public void record(){
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(System.currentTimeMillis());
+        outFileName = String.format("%1$tY_%1$tm_%1$td_%1$tH_%1$tM_%1$tS.mp3", calendar);
+        record(outFileName);
+    }
+
+    public void record(String fileName){
+        if (fileOutputStream == null) {
+            try {
+                Log.i("ABC","start recording to :"+fileName);
+                fileOutputStream = context.openFileOutput(fileName, 0);
+            } catch (FileNotFoundException e) {
+                Log.e("ABC", "" + e);
+            }
+        }
+    }
+
+    public void stopRecord() {
+        if (fileOutputStream != null){
+            try {
+                fileOutputStream.close();
+            } catch (IOException e) {
+                Log.e("ABC",""+e);
+            }
+            outFileName = null;
+            fileOutputStream = null;
         }
     }
 
@@ -230,5 +274,32 @@ public class StreamProxy {
 
     public String getLocalAdress() {
         return localAdress;
+    }
+
+    public void stop() {
+        stopRecord();
+        isStopped = true;
+        if (in != null) {
+            try {
+                in.close();
+            } catch (IOException e) {
+            }
+        }
+        if (out != null) {
+            try {
+                out.close();
+            } catch (IOException e) {
+            }
+        }
+        in = null;
+        out = null;
+    }
+
+    public String getOutFileName() {
+        return outFileName;
+    }
+
+    public long getTotalBytes(){
+        return connectionBytesTotal;
     }
 }

@@ -17,4 +17,8 @@ int getMetadataBitrate();
 int getMetadataSampleRate();
 int getMetadataChannels();
 boolean isPlaying();
+void startRecording();
+void stopRecording();
+boolean isRecording();
+String getCurrentRecordFileName();
 }

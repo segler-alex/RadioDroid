@@ -165,4 +165,46 @@ public class PlayerServiceUtil {
         }
         return null;
     }
+
+    public static void startRecording() {
+        if (itsPlayerService != null) {
+            try {
+                itsPlayerService.startRecording();
+            } catch (RemoteException e) {
+                Log.e("", "" + e);
+            }
+        }
+    }
+
+    public static void stopRecording() {
+        if (itsPlayerService != null) {
+            try {
+                itsPlayerService.stopRecording();
+            } catch (RemoteException e) {
+                Log.e("", "" + e);
+            }
+        }
+    }
+
+    public static boolean isRecording() {
+        if (itsPlayerService != null) {
+            try {
+                return itsPlayerService.isRecording();
+            } catch (RemoteException e) {
+                Log.e("", "" + e);
+            }
+        }
+        return false;
+    }
+
+    public static String getCurrentRecordFileName() {
+        if (itsPlayerService != null) {
+            try {
+                return itsPlayerService.getCurrentRecordFileName();
+            } catch (RemoteException e) {
+                Log.e("", "" + e);
+            }
+        }
+        return null;
+    }
 }

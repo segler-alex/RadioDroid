@@ -40,6 +40,7 @@ public class PlayerService extends Service implements IConnectionReady {
 	long seconds = 0;
 	private Map<String, String> liveInfo;
 	private ShoutcastInfo streamInfo;
+	private StreamProxy proxy;
 
 	PlayStatus playStatus = PlayStatus.Idle;
 	enum PlayStatus{
@@ -152,6 +153,38 @@ public class PlayerService extends Service implements IConnectionReady {
 		public boolean isPlaying() throws RemoteException {
 			return playStatus != PlayStatus.Idle;
 		}
+
+		@Override
+		public void startRecording() throws RemoteException {
+			if (proxy != null){
+				proxy.record();
+				sendBroadCast(PLAYER_SERVICE_META_UPDATE);
+			}
+		}
+
+		@Override
+		public void stopRecording() throws RemoteException {
+			if (proxy != null){
+				proxy.stopRecord();
+				sendBroadCast(PLAYER_SERVICE_META_UPDATE);
+			}
+		}
+
+		@Override
+		public boolean isRecording() throws RemoteException {
+			if (proxy != null){
+				return proxy.getOutFileName() != null;
+			}
+			return false;
+		}
+
+		@Override
+		public String getCurrentRecordFileName() throws RemoteException {
+			if (proxy != null){
+				return proxy.getOutFileName();
+			}
+			return null;
+		}
 	};
 
 	private long getTimerSeconds() {
@@ -263,7 +296,7 @@ public class PlayerService extends Service implements IConnectionReady {
 			@Override
 			public void run() {
 				SetPlayStatus(PlayStatus.CreateProxy);
-				StreamProxy proxy = new StreamProxy(itsStationURL, PlayerService.this);
+				proxy = new StreamProxy(PlayerService.this, itsStationURL, PlayerService.this);
 				String proxyConnection = proxy.getLocalAdress();
 				Log.v(TAG, "Stream url:" + proxyConnection);
 				SetPlayStatus(PlayStatus.ClearOld);
@@ -374,6 +407,10 @@ public class PlayerService extends Service implements IConnectionReady {
 			itsMediaPlayer = null;
 		}
 
+		if (proxy != null){
+			proxy.stop();
+			proxy = null;
+		}
 		SetPlayStatus(PlayStatus.Idle);
 		liveInfo = null;
 		streamInfo = null;

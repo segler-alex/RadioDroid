@@ -24,7 +24,7 @@
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:layout_marginTop="10dp"
-        android:layout_marginBottom="20dp" />
+        android:layout_marginBottom="10dp" />
 
     <TextView
         android:id="@+id/textViewLiveInfo"
@@ -62,8 +62,9 @@
 
     <LinearLayout
         android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal">
 
         <!--<ImageButton
             android:layout_width="wrap_content"
@@ -80,12 +81,21 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/buttonCancelCountdown"
-            android:layout_gravity="center"
             android:minHeight="20dp"
             android:minWidth="50dp"
             android:src="@drawable/ic_delete_black_24dp"
             android:layout_margin="10dp"
-            android:layout_weight="1" />
+            android:layout_gravity="center" />
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/buttonRecord"
+            android:minHeight="20dp"
+            android:minWidth="50dp"
+            android:src="@drawable/ic_fiber_manual_record_black_24dp"
+            android:layout_margin="10dp"
+            android:layout_gravity="center" />
     </LinearLayout>
 
     <TextView

@@ -32,6 +32,7 @@ public class ActivityPlayerInfo extends AppCompatActivity {
 	private BroadcastReceiver updateUIReciver;
 	private TextView textViewLiveInfo;
 	private TextView textViewExtraInfo;
+	private ImageButton buttonRecord;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -79,6 +80,20 @@ public class ActivityPlayerInfo extends AppCompatActivity {
 				public void onClick(View v) {
 					PlayerServiceUtil.stop();
 					finish();
+				}
+			});
+		}
+
+		buttonRecord = (ImageButton) findViewById(R.id.buttonRecord);
+		if (buttonRecord != null){
+			buttonRecord.setOnClickListener(new View.OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					if (PlayerServiceUtil.isRecording()) {
+						PlayerServiceUtil.stopRecording();
+					} else {
+						PlayerServiceUtil.startRecording();
+					}
 				}
 			});
 		}
@@ -169,7 +184,20 @@ public class ActivityPlayerInfo extends AppCompatActivity {
 			textViewLiveInfo.setVisibility(View.GONE);
 		}
 
-		textViewExtraInfo.setText(String.format("%d kbps\n%s\n%s",PlayerServiceUtil.getMetadataBitrate(),PlayerServiceUtil.getMetadataGenre(),PlayerServiceUtil.getMetadataHomepage()));
+		String strExtra = "";
+		if (PlayerServiceUtil.getCurrentRecordFileName() != null){
+			strExtra += "Recording to:" + PlayerServiceUtil.getCurrentRecordFileName() + "\n";
+		}
+		if (PlayerServiceUtil.getMetadataBitrate() > 0) {
+			strExtra += "" + PlayerServiceUtil.getMetadataBitrate() + " kbps\n";
+		}
+		if (PlayerServiceUtil.getMetadataGenre() != null) {
+			strExtra += PlayerServiceUtil.getMetadataGenre() + "\n";
+		}
+		if (PlayerServiceUtil.getMetadataHomepage() != null) {
+			strExtra += PlayerServiceUtil.getMetadataHomepage() + "\n";
+		}
+		textViewExtraInfo.setText(strExtra);
 
 		if (!PlayerServiceUtil.isPlaying()){
 			Log.i("ARR","exit..");
