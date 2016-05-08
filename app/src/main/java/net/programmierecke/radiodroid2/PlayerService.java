@@ -247,6 +247,8 @@ public class PlayerService extends Service implements OnBufferingUpdateListener,
 		itsStationID = theID;
 		itsStationName = theName;
 		itsStationURL = theURL;
+		liveInfo = null;
+		streamInfo = null;
 
 		new AsyncTask<Void, Void, Void>() {
 			@Override
@@ -347,6 +349,8 @@ public class PlayerService extends Service implements OnBufferingUpdateListener,
 			itsMediaPlayer = null;
 		}
 
+		liveInfo = null;
+		streamInfo = null;
 		clearTimer();
 		stopForeground(true);
 		sendBroadCast(PLAYER_SERVICE_STATUS_UPDATE);
