@@ -30,6 +30,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Date;
+import java.util.Locale;
 
 public class Utils {
 	public static String getCacheFile(Context ctx, String theURI) {
@@ -194,5 +195,16 @@ public class Utils {
 		}
 
 		return true;
+	}
+
+	public static String getReadableBytes(double bytes){
+		String[] str = new String[]{"B","KB","MB","GB","TB"};
+		for (int i=0;i<str.length;i++){
+			if (bytes < 1024) {
+				return String.format(Locale.getDefault(), "%1$,.1f %2$s",bytes,str[i]);
+			}
+			bytes = bytes/1024;
+		}
+		return String.format(Locale.getDefault(), "%1$,.1f %2$s",bytes*1024,str[str.length-1]);
 	}
 }

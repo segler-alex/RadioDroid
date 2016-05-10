@@ -38,6 +38,7 @@ public class ActivityPlayerInfo extends AppCompatActivity {
 	private TextView textViewLiveInfo;
 	private TextView textViewExtraInfo;
 	private ImageButton buttonRecord;
+	private Thread t;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +54,25 @@ public class ActivityPlayerInfo extends AppCompatActivity {
 
 		InitControls();
 		UpdateOutput();
+
+		t = new Thread() {
+			@Override
+			public void run() {
+				try {
+					while (!isInterrupted()) {
+						Thread.sleep(1000);
+						runOnUiThread(new Runnable() {
+							@Override
+							public void run() {
+								UpdateOutput();
+							}
+						});
+					}
+				} catch (InterruptedException e) {
+				}
+			}
+		};
+		t.start();
 
 		IntentFilter filter = new IntentFilter();
 
@@ -147,6 +167,9 @@ public class ActivityPlayerInfo extends AppCompatActivity {
 
 	@Override
 	public void onDestroy() {
+		if (t != null) {
+			t.interrupt();
+		}
 		super.onDestroy();
 		PlayerServiceUtil.unBind(this);
 		if (updateUIReciver != null) {
@@ -206,6 +229,7 @@ public class ActivityPlayerInfo extends AppCompatActivity {
 		if (PlayerServiceUtil.getMetadataBitrate() > 0) {
 			strExtra += "" + PlayerServiceUtil.getMetadataBitrate() + " kbps\n";
 		}
+		strExtra += "Transfered: "+Utils.getReadableBytes(PlayerServiceUtil.getTransferedBytes());
 		textViewExtraInfo.setText(strExtra);
 
 		if (!PlayerServiceUtil.isPlaying()){

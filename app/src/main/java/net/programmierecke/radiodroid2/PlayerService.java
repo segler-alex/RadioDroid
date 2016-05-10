@@ -185,6 +185,14 @@ public class PlayerService extends Service implements IConnectionReady {
 			}
 			return null;
 		}
+
+		@Override
+		public long getTransferedBytes() throws RemoteException {
+			if (proxy != null) {
+				return proxy.getTotalBytes();
+			}
+			return 0;
+		}
 	};
 
 	private long getTimerSeconds() {

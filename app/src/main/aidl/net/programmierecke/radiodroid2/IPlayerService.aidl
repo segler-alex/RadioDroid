@@ -21,4 +21,5 @@ void startRecording();
 void stopRecording();
 boolean isRecording();
 String getCurrentRecordFileName();
+long getTransferedBytes();
 }

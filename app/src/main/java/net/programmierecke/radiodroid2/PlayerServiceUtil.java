@@ -207,4 +207,15 @@ public class PlayerServiceUtil {
         }
         return null;
     }
+
+    public static long getTransferedBytes() {
+        if (itsPlayerService != null) {
+            try {
+                return itsPlayerService.getTransferedBytes();
+            } catch (RemoteException e) {
+                Log.e("", "" + e);
+            }
+        }
+        return 0;
+    }
 }
