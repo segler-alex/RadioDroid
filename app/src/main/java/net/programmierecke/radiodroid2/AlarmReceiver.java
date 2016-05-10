@@ -78,7 +78,19 @@ public class AlarmReceiver extends BroadcastReceiver {
         new AsyncTask<Void, Void, String>() {
             @Override
             protected String doInBackground(Void... params) {
-                return Utils.getRealStationLink(context, stationId);
+                String result = null;
+                for (int i=0;i<20;i++){
+                    result = Utils.getRealStationLink(context, stationId);
+                    if (result != null){
+                        return result;
+                    }
+                    try {
+                        Thread.sleep(500);
+                    } catch (InterruptedException e) {
+                        Log.e("ALARM","Play() "+e);
+                    }
+                }
+                return result;
             }
 
             @Override

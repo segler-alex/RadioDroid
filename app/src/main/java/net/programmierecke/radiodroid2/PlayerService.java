@@ -20,9 +20,9 @@ import android.util.Log;
 import android.widget.Toast;
 
 import net.programmierecke.radiodroid2.data.ShoutcastInfo;
-import net.programmierecke.radiodroid2.interfaces.IConnectionReady;
+import net.programmierecke.radiodroid2.interfaces.IStreamProxyEventReceiver;
 
-public class PlayerService extends Service implements IConnectionReady {
+public class PlayerService extends Service implements IStreamProxyEventReceiver {
 	protected static final int NOTIFY_ID = 1;
 	public static final String PLAYER_SERVICE_TIMER_UPDATE = "net.programmierecke.radiodroid2.timerupdate";
 	public static final String PLAYER_SERVICE_STATUS_UPDATE = "net.programmierecke.radiodroid2.statusupdate";
@@ -404,6 +404,11 @@ public class PlayerService extends Service implements IConnectionReady {
 		}
 		sendBroadCast(PLAYER_SERVICE_META_UPDATE);
 		UpdateNotification();
+	}
+
+	@Override
+	public void streamStopped() {
+		Stop();
 	}
 
 	public void Stop() {

@@ -5,9 +5,8 @@ import android.os.Environment;
 import android.util.Log;
 
 import net.programmierecke.radiodroid2.data.ShoutcastInfo;
-import net.programmierecke.radiodroid2.interfaces.IConnectionReady;
+import net.programmierecke.radiodroid2.interfaces.IStreamProxyEventReceiver;
 
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -25,7 +24,7 @@ import java.util.Locale;
 import java.util.Map;
 
 public class StreamProxy {
-    private IConnectionReady callback;
+    private IStreamProxyEventReceiver callback;
     private String uri;
     private long connectionBytesTotal = 0;
     private Socket socketProxy;
@@ -35,7 +34,7 @@ public class StreamProxy {
     private boolean isStopped = false;
     private String outFileName = null;
 
-    public StreamProxy(Context context, String uri, IConnectionReady callback) {
+    public StreamProxy(Context context, String uri, IStreamProxyEventReceiver callback) {
         this.context = context;
         this.uri = uri;
         this.callback = callback;
@@ -51,7 +50,7 @@ public class StreamProxy {
             int port = proxyServer.getLocalPort();
             localAdress = String.format(Locale.US,"http://localhost:%d",port);
         } catch (IOException e) {
-            Log.e("ABC",""+e);
+            Log.e("PROXY","createProxy() create server socket: "+e);
         }
 
         if (proxyServer != null) {
@@ -66,16 +65,16 @@ public class StreamProxy {
 
                         doConnectToStream();
 
-                        Log.i("ABC", "juhu");
+                        Log.i("PROXY", "createProxy() ended");
                     } catch (IOException e) {
-                        Log.e("ABC", "" + e);
+                        Log.e("PROXY", "" + e);
                     }
                 }
             }).start();
 
             while (localAdress == null) {
                 try {
-                    Log.i("ABC", "starting serversock...");
+                    Log.i("PROXY", "starting serversock...");
                     Thread.sleep(100);
                 } catch (Exception e) {
                 }
@@ -87,105 +86,120 @@ public class StreamProxy {
     OutputStream out;
 
     private void doConnectToStream() {
-        try {
-            // connect to stream
-            URLConnection connection = new URL(uri).openConnection();
-            connection.setConnectTimeout(5000);
-            connection.setReadTimeout(5000);
-            connection.setRequestProperty("Icy-MetaData", "1");
-            connection.connect();
+        try{
+            final int MaxRetries = 30;
+            int retry = MaxRetries;
+            while (!isStopped && retry > 0) {
+                try {
+                    // connect to stream
+                    URLConnection connection = new URL(uri).openConnection();
+                    connection.setConnectTimeout(5000);
+                    connection.setReadTimeout(5000);
+                    connection.setRequestProperty("Icy-MetaData", "1");
+                    connection.connect();
 
-            in = connection.getInputStream();
+                    in = connection.getInputStream();
 
-            // send ok message to local mediaplayer
-            out = socketProxy.getOutputStream();
-            out.write(("HTTP/1.0 200 OK\r\n" +
-                    "Pragma: no-cache\r\n" +
-                    "Content-Type: " + connection.getContentType() +
-                    "\r\n\r\n").getBytes("utf-8"));
+                    // send ok message to local mediaplayer
+                    out = socketProxy.getOutputStream();
+                    out.write(("HTTP/1.0 200 OK\r\n" +
+                            "Pragma: no-cache\r\n" +
+                            "Content-Type: " + connection.getContentType() +
+                            "\r\n\r\n").getBytes("utf-8"));
 
-            // try to get shoutcast information from stream connection
-            ShoutcastInfo info = ShoutcastInfo.Decode(connection);
+                    // try to get shoutcast information from stream connection
+                    ShoutcastInfo info = ShoutcastInfo.Decode(connection);
 
-            int bytesUntilMetaData = 0;
-            boolean readMetaData = false;
-            boolean filterOutMetaData = false;
+                    int bytesUntilMetaData = 0;
+                    boolean readMetaData = false;
+                    boolean filterOutMetaData = false;
 
-            if (info != null) {
-                callback.foundShoutcastStream(info);
-                bytesUntilMetaData = info.metadataOffset;
-                filterOutMetaData = true;
-            }
-
-            byte buf[] = new byte[16384];
-            byte bufMetadata[] = new byte[256 * 16];
-            int readBytesBuffer = 0;
-            int readBytesBufferMetadata = 0;
-
-            while (!isStopped) {
-                int readBytes = 0;
-                if (!filterOutMetaData || (bytesUntilMetaData > 0))
-                {
-                    int bytesToRead = buf.length - readBytesBuffer;
-                    if (filterOutMetaData){
-                        bytesToRead = Math.min(bytesUntilMetaData,bytesToRead);
-                    }
-                    readBytes = in.read(buf, readBytesBuffer, bytesToRead);
-                    if (readBytes == 0) {
-                        continue;
-                    }
-                    if (readBytes < 0) {
-                        break;
-                    }
-                    readBytesBuffer += readBytes;
-                    connectionBytesTotal += readBytes;
-                    if (filterOutMetaData){
-                        bytesUntilMetaData -= readBytes;
+                    if (info != null) {
+                        callback.foundShoutcastStream(info);
+                        bytesUntilMetaData = info.metadataOffset;
+                        filterOutMetaData = true;
                     }
 
-                    Log.v("ABC","in:"+readBytes);
-                    if (readBytesBuffer > buf.length / 2) {
-                        Log.v("ABC","out:"+readBytesBuffer);
-                        out.write(buf, 0, readBytesBuffer);
-                        if (fileOutputStream != null) {
-                            Log.v("ABC","writing to record file..");
-                            fileOutputStream.write(buf, 0, readBytesBuffer);
-                        }
-                        readBytesBuffer = 0;
-                    }
-                }else
-                {
-                    int metadataBytes = in.read() * 16;
-                    int metadataBytesToRead = metadataBytes;
-                    readBytesBufferMetadata = 0;
-                    bytesUntilMetaData = info.metadataOffset;
-                    Log.d("ABC","metadata size:"+metadataBytes);
-                    if (metadataBytes > 0) {
-                        Arrays.fill(bufMetadata, (byte) 0);
-                        while (true) {
-                            readBytes = in.read(bufMetadata, readBytesBufferMetadata, metadataBytesToRead);
+                    byte buf[] = new byte[16384];
+                    byte bufMetadata[] = new byte[256 * 16];
+                    int readBytesBuffer = 0;
+                    int readBytesBufferMetadata = 0;
+
+                    while (!isStopped) {
+                        int readBytes = 0;
+                        if (!filterOutMetaData || (bytesUntilMetaData > 0)) {
+                            int bytesToRead = buf.length - readBytesBuffer;
+                            if (filterOutMetaData) {
+                                bytesToRead = Math.min(bytesUntilMetaData, bytesToRead);
+                            }
+                            readBytes = in.read(buf, readBytesBuffer, bytesToRead);
                             if (readBytes == 0) {
                                 continue;
                             }
                             if (readBytes < 0) {
                                 break;
                             }
-                            metadataBytesToRead -= readBytes;
-                            readBytesBufferMetadata += readBytes;
-                            if (metadataBytesToRead <= 0) {
-                                String s = new String(bufMetadata, 0, metadataBytes, "utf-8");
-                                Log.d("ABC", "METADATA:" + s);
-                                Map<String,String> dict = DecodeShoutcastMetadata(s);
-                                Log.d("ABC", "META:"+dict.get("StreamTitle"));
-                                callback.foundLiveStreamInfo(dict);
-                                break;
+                            readBytesBuffer += readBytes;
+                            connectionBytesTotal += readBytes;
+                            if (filterOutMetaData) {
+                                bytesUntilMetaData -= readBytes;
+                            }
+
+                            Log.v("ABC", "in:" + readBytes);
+                            if (readBytesBuffer > buf.length / 2) {
+                                Log.v("ABC", "out:" + readBytesBuffer);
+                                out.write(buf, 0, readBytesBuffer);
+                                if (fileOutputStream != null) {
+                                    Log.v("ABC", "writing to record file..");
+                                    fileOutputStream.write(buf, 0, readBytesBuffer);
+                                }
+                                readBytesBuffer = 0;
+                            }
+                        } else {
+                            int metadataBytes = in.read() * 16;
+                            int metadataBytesToRead = metadataBytes;
+                            readBytesBufferMetadata = 0;
+                            bytesUntilMetaData = info.metadataOffset;
+                            Log.d("ABC", "metadata size:" + metadataBytes);
+                            if (metadataBytes > 0) {
+                                Arrays.fill(bufMetadata, (byte) 0);
+                                while (true) {
+                                    readBytes = in.read(bufMetadata, readBytesBufferMetadata, metadataBytesToRead);
+                                    if (readBytes == 0) {
+                                        continue;
+                                    }
+                                    if (readBytes < 0) {
+                                        break;
+                                    }
+                                    metadataBytesToRead -= readBytes;
+                                    readBytesBufferMetadata += readBytes;
+                                    if (metadataBytesToRead <= 0) {
+                                        String s = new String(bufMetadata, 0, metadataBytes, "utf-8");
+                                        Log.d("ABC", "METADATA:" + s);
+                                        Map<String, String> dict = DecodeShoutcastMetadata(s);
+                                        Log.d("ABC", "META:" + dict.get("StreamTitle"));
+                                        callback.foundLiveStreamInfo(dict);
+                                        break;
+                                    }
+                                }
                             }
                         }
+                        // reset retry count, if connection was ok
+                        retry = MaxRetries;
                     }
+                } catch (Exception e) {
+                    Log.e("PROXY", "Play()" + e);
                 }
+
+                retry--;
+                Thread.sleep(1000);
             }
-        }catch(Exception e){
-            Log.e("ABC",""+e);
+        } catch (InterruptedException e) {
+            Log.e("PROXY","Play() "+e);
+        }
+        // inform outside if stream stopped, only if outside did not initiate stop
+        if (!isStopped){
+            callback.streamStopped();
         }
         stop();
     }
@@ -281,19 +295,30 @@ public class StreamProxy {
     }
 
     public void stop() {
-        stopRecord();
+        Log.i("PROXY","stop()");
         isStopped = true;
+        stopRecord();
         if (in != null) {
             try {
                 in.close();
             } catch (IOException e) {
+                Log.e("PROXY","stop() in.close() "+e);
             }
         }
         if (out != null) {
             try {
                 out.close();
             } catch (IOException e) {
+                Log.e("PROXY","stop() out.close() "+e);
             }
+        }
+        if (socketProxy != null){
+            try {
+                socketProxy.close();
+            } catch (IOException e) {
+                Log.e("PROXY","stop() socketProxy.close() "+e);
+            }
+            socketProxy = null;
         }
         in = null;
         out = null;

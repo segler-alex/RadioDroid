@@ -64,7 +64,7 @@ public class Utils {
 			return null;
 		}
 		catch(Exception e){
-			Log.e("UTIL",""+e);
+			Log.e("UTIL","getCacheFile() "+e);
 		}
 		return null;
 	}
@@ -77,7 +77,7 @@ public class Utils {
 			aStream.close();
 		}
 		catch(Exception e){
-			Log.e("UTIL","could not write to cache file for:"+theURI);
+			Log.e("UTIL","writeFileCache() could not write to cache file for:"+theURI);
 		}
 	}
 
@@ -112,7 +112,7 @@ public class Utils {
 			Log.w("UTIL","wrote cache file for:"+theURI);
 			return s;
 		} catch (Exception e) {
-			Log.e("UTIL",""+e);
+			Log.e("UTIL","downloadFeed() "+e);
 		}
 
 		return null;
@@ -128,7 +128,7 @@ public class Utils {
 				jsonObj = jsonArr.getJSONObject(0);
 				return jsonObj.getString("url");
 			} catch (Exception e) {
-				Log.e("UTIL", "" + e);
+				Log.e("UTIL", "getRealStationLink() " + e);
 			}
 		}
 		return null;
