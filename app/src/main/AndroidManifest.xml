@@ -27,7 +27,8 @@
 
         <activity
             android:name="net.programmierecke.radiodroid2.ActivityPlayerInfo"
-            android:label="PlayerInfo" />
+            android:label="PlayerInfo"
+            android:noHistory="true" />
 
         <receiver
             android:name="net.programmierecke.radiodroid2.AlarmReceiver"
