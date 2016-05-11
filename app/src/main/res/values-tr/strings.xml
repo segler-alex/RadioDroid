@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<string name="detail_name">Ad</string>
+    <string name="detail_tags">Etiketler</string>
+    <string name="detail_country">Ülke</string>
+    <string name="detail_language">Dil</string>
+    <string name="detail_weblink">Web adresi</string>
+    <string name="detail_play">Oynat</string>
+    <string name="detail_stop">Durdur</string>
+    <string name="detail_share">Paylaş</string>
+    <string name="action_search">Ara</string>
+    <string name="action_top_click">ÇokTıklanan</string>
+    <string name="action_top_vote">ÇokOylanan</string>
+    <string name="action_changed_lately">Son değişen</string>
+    <string name="action_currently_playing">Oynatılıyor</string>
+    <string name="action_tags">Etiketler</string>
+    <string name="action_countries">Ülkeler</string>
+    <string name="action_languages">Diller</string>
+    <string name="error_station_load">İstasyona bağlanamadı</string>
+    <string name="error_list_update">Radyo tarayıcı sunucusuna bağlanamadı</string>
+
+    <string name="nav_item_stations">İstasyonlar</string>
+    <string name="nav_item_starred">İş</string>
+    <string name="nav_item_history">Geçmiş</string>
+    <string name="nav_item_settings">Ayarlar</string>
+    <string name="nav_item_alarm">Alarm</string>
+    <string name="nav_item_statistics">İstatistikler</string>
+    <string name="nav_item_about">Hakkında</string>
+
+    <string name="about_text">Bu uygulama özgür radyo istasyon dizini kullanır \nhttp://www.radio-browser.info\nHerkes buraya yeni istasyon ekleyebilir veya var olanları düzenleyebilir (viki gibi çalışır)\n\nİletişim:\nsegler_alex@web.de\n\nHata takibi:\nhttps://github.com/segler-alex/RadioDroid/issues\n\nEğer uygulamayı beğendin ve yardım etmek istersen, e-posta göndermekten çekinme. Göze hoş görünen uygulama yapmak için gerçekten grafik deneyimi olan birine ihtiyacım var :) Belki biri ikonlar, resimler çizebilir...Ayrıca hataları düzeltecek veya yenisini yapacak programcılara ihtiyaç var\nBi de yeni özellikler için düşüncelerin oldu mu takdire şayan!\n\nBu uygulama GPLv3 lisanslanmış özgür yazılımdır\nhttp://ozgurlisanslar.org.tr/gpl/gpl-v3/</string>
+    <string name="detail_star">Yerimi</string>
+    <string name="detail_unstar">Sil</string>
+    <string name="progress_loading">Yükleniyor...</string>
+
+    <string name="sleep_timer" formatted="true">Otomatik kapanma: %1$02d:%2$02d</string>
+    <string name="nav_item_add_sleep">+15 dakika</string>
+
+    <string name="settings_alarm">Alarm</string>
+    <string name="settings_alarm_external">Hariciyle aç</string>
+    <string name="settings_alarm_external_desc">Alarmı harici uygulamayla aç</string>
+    <string name="settings_play">Oynatıcı</string>
+    <string name="settings_play_external">Hariciyle aç</string>
+    <string name="settings_play_external_desc">İstasyonları harici uygulamayla açmak için bir defa tıklanmalı</string>
+</resources>
