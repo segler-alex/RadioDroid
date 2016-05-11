@@ -262,6 +262,8 @@ public class PlayerService extends Service implements IStreamProxyEventReceiver 
 				wifiLock = wm.createWifiLock(WifiManager.WIFI_MODE_FULL, TAG);
 			}
 			wifiLock.setReferenceCounted(false);
+		}else{
+			Log.e(TAG,"could not aquire wifi lock");
 		}
 	}
 
@@ -307,14 +309,8 @@ public class PlayerService extends Service implements IStreamProxyEventReceiver 
 
 	@Override
 	public void onDestroy() {
+		Log.i(TAG,"onDestroy()");
 		Stop();
-		stopForeground(true);
-		wakeLock.release();
-		wakeLock = null;
-		if (wifiLock != null) {
-			wifiLock.release();
-			wifiLock = null;
-		}
 	}
 
 	public void PlayUrl(String theURL, String theName, String theID) {
@@ -437,6 +433,7 @@ public class PlayerService extends Service implements IStreamProxyEventReceiver 
 	}
 
 	public void Stop() {
+		Log.i(TAG,"stop()");
 		if (itsMediaPlayer != null) {
 			if (itsMediaPlayer.isPlaying()) {
 				itsMediaPlayer.stop();
@@ -455,5 +452,14 @@ public class PlayerService extends Service implements IStreamProxyEventReceiver 
 		clearTimer();
 		stopForeground(true);
 		sendBroadCast(PLAYER_SERVICE_STATUS_UPDATE);
+
+		if (wakeLock != null) {
+			wakeLock.release();
+			wakeLock = null;
+		}
+		if (wifiLock != null) {
+			wifiLock.release();
+			wifiLock = null;
+		}
 	}
 }
