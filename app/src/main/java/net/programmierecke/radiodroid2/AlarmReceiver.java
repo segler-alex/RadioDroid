@@ -7,7 +7,9 @@ import android.content.Intent;
 import android.content.ServiceConnection;
 import android.content.SharedPreferences;
 import android.net.Uri;
+import android.net.wifi.WifiManager;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.IBinder;
 import android.os.PowerManager;
 import android.os.RemoteException;
@@ -23,26 +25,37 @@ public class AlarmReceiver extends BroadcastReceiver {
     DataRadioStation station;
     PowerManager powerManager;
     PowerManager.WakeLock wakeLock;
+    private WifiManager.WifiLock wifiLock;
+    private final String TAG = "RECV";
 
     @Override
     public void onReceive(Context context, Intent intent) {
         powerManager = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
         wakeLock = powerManager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "MyWakelockTag");
         wakeLock.acquire();
+        WifiManager wm = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
+        if (wm != null) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR1) {
+                wifiLock = wm.createWifiLock(WifiManager.WIFI_MODE_FULL_HIGH_PERF, TAG);
+            }else{
+                wifiLock = wm.createWifiLock(WifiManager.WIFI_MODE_FULL, TAG);
+            }
+            wifiLock.setReferenceCounted(false);
+        }
 
-        Log.w("recv","received broadcast");
+        Log.w(TAG,"received broadcast");
         Toast toast = Toast.makeText(context, "Alarm!", Toast.LENGTH_SHORT);
         toast.show();
 
         alarmId = intent.getIntExtra("id",-1);
-        Log.w("recv","alarm id:"+alarmId);
+        Log.w(TAG,"alarm id:"+alarmId);
 
         RadioAlarmManager ram = new RadioAlarmManager(context.getApplicationContext(),null);
         station = ram.getStation(alarmId);
         ram.resetAllAlarms();
 
         if (station != null && alarmId >= 0) {
-            Log.w("recv","radio id:"+alarmId);
+            Log.w(TAG,"radio id:"+alarmId);
             Play(context, station.ID);
         }else{
             toast = Toast.makeText(context, "not enough info for alarm!", Toast.LENGTH_SHORT);
@@ -53,21 +66,25 @@ public class AlarmReceiver extends BroadcastReceiver {
     IPlayerService itsPlayerService;
     private ServiceConnection svcConn = new ServiceConnection() {
         public void onServiceConnected(ComponentName className, IBinder binder) {
-            Log.v("", "Service came online");
+            Log.v(TAG, "Service came online");
             itsPlayerService = IPlayerService.Stub.asInterface(binder);
             try {
                 itsPlayerService.Play(url, station.Name, station.ID);
                 // default timeout 1 hour
                 itsPlayerService.addTimer(timeout*60);
             } catch (RemoteException e) {
-                Log.e("recv","play error:"+e);
+                Log.e(TAG,"play error:"+e);
             }
 
             wakeLock.release();
+            if (wifiLock != null) {
+                wifiLock.release();
+                wifiLock = null;
+            }
         }
 
         public void onServiceDisconnected(ComponentName className) {
-            Log.v("", "Service offline");
+            Log.v(TAG, "Service offline");
             itsPlayerService = null;
         }
     };
@@ -87,7 +104,7 @@ public class AlarmReceiver extends BroadcastReceiver {
                     try {
                         Thread.sleep(500);
                     } catch (InterruptedException e) {
-                        Log.e("ALARM","Play() "+e);
+                        Log.e(TAG,"Play() "+e);
                     }
                 }
                 return result;
@@ -114,6 +131,10 @@ public class AlarmReceiver extends BroadcastReceiver {
                         share.setDataAndType(Uri.parse(url), "audio/*");
                         context.startActivity(share);
                         wakeLock.release();
+                        if (wifiLock != null) {
+                            wifiLock.release();
+                            wifiLock = null;
+                        }
                     }else {
                         Intent anIntent = new Intent(context, PlayerService.class);
                         context.getApplicationContext().bindService(anIntent, svcConn, context.BIND_AUTO_CREATE);
@@ -123,6 +144,10 @@ public class AlarmReceiver extends BroadcastReceiver {
                     Toast toast = Toast.makeText(context, context.getResources().getText(R.string.error_station_load), Toast.LENGTH_SHORT);
                     toast.show();
                     wakeLock.release();
+                    if (wifiLock != null) {
+                        wifiLock.release();
+                        wifiLock = null;
+                    }
                 }
                 super.onPostExecute(result);
             }

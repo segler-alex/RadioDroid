@@ -11,8 +11,11 @@ import android.content.Intent;
 import android.graphics.drawable.BitmapDrawable;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
+import android.net.wifi.WifiManager;
+import android.os.Build;
 import android.os.CountDownTimer;
 import android.os.IBinder;
+import android.os.PowerManager;
 import android.os.RemoteException;
 import android.support.v4.app.NotificationCompat;
 import android.text.TextUtils;
@@ -43,6 +46,10 @@ public class PlayerService extends Service implements IStreamProxyEventReceiver 
 	private StreamProxy proxy;
 
 	PlayStatus playStatus = PlayStatus.Idle;
+	private PowerManager powerManager;
+	private PowerManager.WakeLock wakeLock;
+	private WifiManager.WifiLock wifiLock;
+
 	enum PlayStatus{
 		Idle,
 		CreateProxy,
@@ -244,6 +251,18 @@ public class PlayerService extends Service implements IStreamProxyEventReceiver 
 		super.onCreate();
 		itsContext = this;
 		timer = null;
+		powerManager = (PowerManager) itsContext.getSystemService(Context.POWER_SERVICE);
+		wakeLock = powerManager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "MyWakelockTag");
+		wakeLock.acquire();
+		WifiManager wm = (WifiManager) itsContext.getSystemService(Context.WIFI_SERVICE);
+		if (wm != null) {
+			if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR1) {
+				wifiLock = wm.createWifiLock(WifiManager.WIFI_MODE_FULL_HIGH_PERF, TAG);
+			}else{
+				wifiLock = wm.createWifiLock(WifiManager.WIFI_MODE_FULL, TAG);
+			}
+			wifiLock.setReferenceCounted(false);
+		}
 	}
 
 	@Override
@@ -290,6 +309,12 @@ public class PlayerService extends Service implements IStreamProxyEventReceiver 
 	public void onDestroy() {
 		Stop();
 		stopForeground(true);
+		wakeLock.release();
+		wakeLock = null;
+		if (wifiLock != null) {
+			wifiLock.release();
+			wifiLock = null;
+		}
 	}
 
 	public void PlayUrl(String theURL, String theName, String theID) {
