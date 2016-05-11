@@ -346,17 +346,17 @@ public class PlayerService extends Service implements IStreamProxyEventReceiver 
 					SetPlayStatus(PlayStatus.Playing);
 				} catch (IllegalArgumentException e) {
 					Log.e(TAG, "" + e);
-					Toast toast = Toast.makeText(itsContext, "Stream url problem", Toast.LENGTH_SHORT);
+					Toast toast = Toast.makeText(itsContext, itsContext.getResources().getString(R.string.error_stream_url), Toast.LENGTH_SHORT);
 					toast.show();
 					Stop();
 				} catch (IOException e) {
 					Log.e(TAG, "" + e);
-					Toast toast = Toast.makeText(itsContext, "Stream caching problem", Toast.LENGTH_SHORT);
+					Toast toast = Toast.makeText(itsContext, itsContext.getResources().getString(R.string.error_caching_stream), Toast.LENGTH_SHORT);
 					toast.show();
 					Stop();
 				} catch (Exception e) {
 					Log.e(TAG, "" + e);
-					Toast toast = Toast.makeText(itsContext, "Unable to play stream", Toast.LENGTH_SHORT);
+					Toast toast = Toast.makeText(itsContext, itsContext.getResources().getString(R.string.error_play_stream), Toast.LENGTH_SHORT);
 					toast.show();
 					Stop();
 				}
@@ -374,16 +374,16 @@ public class PlayerService extends Service implements IStreamProxyEventReceiver 
 			case Idle:
 				break;
 			case CreateProxy:
-				SendMessage(itsStationName, "Start proxy", "Start proxy");
+				SendMessage(itsStationName, itsContext.getResources().getString(R.string.notify_start_proxy), itsContext.getResources().getString(R.string.notify_start_proxy));
 				break;
 			case ClearOld:
-				SendMessage(itsStationName, "Stop old player", "Stop old player");
+				SendMessage(itsStationName, itsContext.getResources().getString(R.string.notify_stop_player), itsContext.getResources().getString(R.string.notify_stop_player));
 				break;
 			case PrepareStream:
-				SendMessage(itsStationName, "Preparing stream", "Preparing stream");
+				SendMessage(itsStationName, itsContext.getResources().getString(R.string.notify_prepare_stream), itsContext.getResources().getString(R.string.notify_prepare_stream));
 				break;
 			case PrePlaying:
-				SendMessage(itsStationName, "Try playing", "Try playing");
+				SendMessage(itsStationName, itsContext.getResources().getString(R.string.notify_try_play), itsContext.getResources().getString(R.string.notify_try_play));
 				break;
 			case Playing:
 				if (liveInfo != null)
@@ -393,10 +393,10 @@ public class PlayerService extends Service implements IStreamProxyEventReceiver 
 						Log.i(TAG, "update message:"+title);
 						SendMessage(itsStationName, title, title);
 					}else{
-						SendMessage(itsStationName, "Playing", itsStationName);
+						SendMessage(itsStationName, itsContext.getResources().getString(R.string.notify_play), itsStationName);
 					}
 				}else{
-					SendMessage(itsStationName, "Playing", itsStationName);
+					SendMessage(itsStationName, itsContext.getResources().getString(R.string.notify_play), itsStationName);
 				}
 				break;
 		}
@@ -421,7 +421,7 @@ public class PlayerService extends Service implements IStreamProxyEventReceiver 
 		this.liveInfo = liveInfo;
 		for (String key: liveInfo.keySet())
 		{
-			Log.i("ABC","INFO:"+key+"="+liveInfo.get(key));
+			Log.i(TAG,"INFO:"+key+"="+liveInfo.get(key));
 		}
 		sendBroadCast(PLAYER_SERVICE_META_UPDATE);
 		UpdateNotification();

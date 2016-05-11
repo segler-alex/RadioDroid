@@ -42,4 +42,19 @@
     <string name="settings_play">Player</string>
     <string name="settings_play_external">Open external</string>
     <string name="settings_play_external_desc">Should a single click on stations open external</string>
+
+    <string name="notify_start_proxy">Starting proxy..</string>
+    <string name="notify_stop_player">Stop old player..</string>
+    <string name="notify_prepare_stream">Preparing stream..</string>
+    <string name="notify_try_play">Try playing</string>
+    <string name="notify_play">Playing</string>
+
+    <string name="error_stream_url">Stream url problem</string>
+    <string name="error_caching_stream">Stream caching problem"</string>
+    <string name="error_play_stream">Unable to play stream</string>
+
+    <string name="error_record_needs_write">Need write permission for recording!</string>
+
+    <string name="player_info_transfered">Transfered data: %1$s</string>
+    <string name="player_info_record_to">Recording to: %1$s</string>
 </resources>

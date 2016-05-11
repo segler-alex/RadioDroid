@@ -218,7 +218,7 @@ public class ActivityPlayerInfo extends AppCompatActivity {
 
 		String strExtra = "";
 		if (PlayerServiceUtil.getCurrentRecordFileName() != null){
-			strExtra += "Recording to:" + PlayerServiceUtil.getCurrentRecordFileName() + "\n";
+			strExtra += getResources().getString(R.string.player_info_record_to,PlayerServiceUtil.getCurrentRecordFileName()) + "\n";
 		}
 		if (PlayerServiceUtil.getMetadataGenre() != null) {
 			strExtra += PlayerServiceUtil.getMetadataGenre() + "\n";
@@ -229,7 +229,7 @@ public class ActivityPlayerInfo extends AppCompatActivity {
 		if (PlayerServiceUtil.getMetadataBitrate() > 0) {
 			strExtra += "" + PlayerServiceUtil.getMetadataBitrate() + " kbps\n";
 		}
-		strExtra += "Transfered: "+Utils.getReadableBytes(PlayerServiceUtil.getTransferedBytes());
+		strExtra += getResources().getString(R.string.player_info_transfered,Utils.getReadableBytes(PlayerServiceUtil.getTransferedBytes()));
 		textViewExtraInfo.setText(strExtra);
 
 		if (!PlayerServiceUtil.isPlaying()){
@@ -247,7 +247,7 @@ public class ActivityPlayerInfo extends AppCompatActivity {
 				if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
 					PlayerServiceUtil.startRecording();
 				} else {
-					Toast toast = Toast.makeText(this, "Need write permission for recording!", Toast.LENGTH_SHORT);
+					Toast toast = Toast.makeText(this, getResources().getString(R.string.error_record_needs_write), Toast.LENGTH_SHORT);
 					toast.show();
 				}
 				return;
