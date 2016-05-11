@@ -23,7 +23,7 @@
         <Preference
             android:key="shareapp_package"
             android:enabled="false"
-            android:title="Audio player" />
+            android:title="@string/settings_alarm_audio_player" />
 
         <ListPreference
             android:defaultValue="10"
@@ -31,8 +31,8 @@
             android:entries="@array/timeout_minutes"
             android:entryValues="@array/timeout_minutes_values"
             android:key="alarm_timeout"
-            android:summary="Stop playing after %1$s minutes"
-            android:title="Sleep timer" />
+            android:summary="@string/settings_alarm_sleep_timer_desc"
+            android:title="@string/settings_alarm_sleep_timer" />
 
     </PreferenceCategory>
 </PreferenceScreen>
