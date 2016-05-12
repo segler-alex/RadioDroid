@@ -53,7 +53,7 @@
     <string name="notify_play">Playing</string>
 
     <string name="error_stream_url">Stream url problem</string>
-    <string name="error_caching_stream">Stream caching problem"</string>
+    <string name="error_caching_stream">Stream caching problem</string>
     <string name="error_play_stream">Unable to play stream</string>
 
     <string name="error_record_needs_write">Need write permission for recording!</string>
