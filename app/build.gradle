@@ -9,8 +9,8 @@ android {
         minSdkVersion 8
         targetSdkVersion 23
 
-        versionCode 19
-        versionName "0.14.2"
+        versionCode 20
+        versionName "0.14.3"
     }
 
     buildTypes {
