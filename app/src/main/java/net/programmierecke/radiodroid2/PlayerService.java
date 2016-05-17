@@ -252,19 +252,6 @@ public class PlayerService extends Service implements IStreamProxyEventReceiver 
 		itsContext = this;
 		timer = null;
 		powerManager = (PowerManager) itsContext.getSystemService(Context.POWER_SERVICE);
-		wakeLock = powerManager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "MyWakelockTag");
-		wakeLock.acquire();
-		WifiManager wm = (WifiManager) itsContext.getSystemService(Context.WIFI_SERVICE);
-		if (wm != null) {
-			if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR1) {
-				wifiLock = wm.createWifiLock(WifiManager.WIFI_MODE_FULL_HIGH_PERF, TAG);
-			}else{
-				wifiLock = wm.createWifiLock(WifiManager.WIFI_MODE_FULL, TAG);
-			}
-			wifiLock.setReferenceCounted(false);
-		}else{
-			Log.e(TAG,"could not aquire wifi lock");
-		}
 	}
 
 	@Override
@@ -320,6 +307,29 @@ public class PlayerService extends Service implements IStreamProxyEventReceiver 
 		liveInfo = null;
 		streamInfo = null;
 		SetPlayStatus(PlayStatus.Idle);
+
+		if (wakeLock == null) {
+			wakeLock = powerManager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "PlayerService");
+		}
+		if (!wakeLock.isHeld()) {
+			wakeLock.acquire();
+		}
+		WifiManager wm = (WifiManager) itsContext.getSystemService(Context.WIFI_SERVICE);
+		if (wm != null) {
+
+			if (wifiLock == null) {
+				if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR1) {
+					wifiLock = wm.createWifiLock(WifiManager.WIFI_MODE_FULL_HIGH_PERF, "PlayerService");
+				} else {
+					wifiLock = wm.createWifiLock(WifiManager.WIFI_MODE_FULL, "PlayerService");
+				}
+			}
+			if (!wifiLock.isHeld()) {
+				wifiLock.acquire();
+			}
+		}else{
+			Log.e(TAG,"could not aquire wifi lock");
+		}
 
 		if (proxy != null){
 			Log.i(TAG,"stop old proxy");
