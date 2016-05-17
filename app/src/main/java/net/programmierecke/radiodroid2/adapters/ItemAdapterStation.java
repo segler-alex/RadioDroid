@@ -148,7 +148,7 @@ public class ItemAdapterStation extends ArrayAdapter<DataRadioStation> implement
 				aTextViewTop.setText("" + aStation.Name);
 			}
 			if (aTextViewBottom != null) {
-				aTextViewBottom.setText("" + aStation.getShortDetails());
+				aTextViewBottom.setText("" + aStation.getShortDetails(getContext()));
 			}
 			ImageView anImageView = (ImageView) v.findViewById(R.id.imageViewIcon);
 
