@@ -93,7 +93,11 @@ public class DataRadioStation {
 							aStation.ClickCount = anObject.getInt("clickcount");
 							if (anObject.has("bitrate")) {
 								aStation.Bitrate = anObject.getInt("bitrate");
+							}
+							if (anObject.has("codec")) {
 								aStation.Codec = anObject.getString("codec");
+							}
+							if (anObject.has("lastcheckok")){
 								aStation.Working = anObject.getInt("lastcheckok") != 0;
 							}
 
@@ -131,7 +135,11 @@ public class DataRadioStation {
 					aStation.ClickCount = anObject.getInt("clickcount");
 					if (anObject.has(("bitrate"))) {
 						aStation.Bitrate = anObject.getInt("bitrate");
+					}
+					if (anObject.has("codec")) {
 						aStation.Codec = anObject.getString("codec");
+					}
+					if (anObject.has("lastcheckok")){
 						aStation.Working = anObject.getInt("lastcheckok") != 0;
 					}
 
