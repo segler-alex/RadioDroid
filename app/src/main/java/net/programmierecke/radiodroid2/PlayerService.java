@@ -312,6 +312,7 @@ public class PlayerService extends Service implements IStreamProxyEventReceiver 
 			wakeLock = powerManager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "PlayerService");
 		}
 		if (!wakeLock.isHeld()) {
+			Log.i(TAG,"acquire wakelock");
 			wakeLock.acquire();
 		}
 		WifiManager wm = (WifiManager) itsContext.getSystemService(Context.WIFI_SERVICE);
@@ -325,6 +326,7 @@ public class PlayerService extends Service implements IStreamProxyEventReceiver 
 				}
 			}
 			if (!wifiLock.isHeld()) {
+				Log.i(TAG,"acquire wifilock");
 				wifiLock.acquire();
 			}
 		}else{
@@ -470,11 +472,17 @@ public class PlayerService extends Service implements IStreamProxyEventReceiver 
 		sendBroadCast(PLAYER_SERVICE_STATUS_UPDATE);
 
 		if (wakeLock != null) {
-			wakeLock.release();
+			if (wakeLock.isHeld()) {
+				wakeLock.release();
+				Log.i(TAG,"release wakelock");
+			}
 			wakeLock = null;
 		}
 		if (wifiLock != null) {
-			wifiLock.release();
+			if (wifiLock.isHeld()) {
+				Log.i(TAG,"release wifilock");
+				wifiLock.release();
+			}
 			wifiLock = null;
 		}
 	}
