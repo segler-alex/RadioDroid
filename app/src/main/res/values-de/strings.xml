@@ -61,4 +61,6 @@
 
     <string name="player_info_transfered">Übertragene Daten: %1$s</string>
     <string name="player_info_record_to">Aufnahmeziel: %1$s</string>
+
+    <string name="station_detail_broken">KAPUTT</string>
 </resources>

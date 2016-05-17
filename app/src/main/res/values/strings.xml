@@ -62,4 +62,5 @@
     <string name="player_info_record_to">Recording to: %1$s</string>
 
     <string name="station_detail_bitrate">%1$1d kbps</string>
+    <string name="station_detail_broken">BROKEN</string>
 </resources>

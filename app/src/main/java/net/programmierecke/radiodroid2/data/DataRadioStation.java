@@ -37,6 +37,9 @@ public class DataRadioStation {
 
 	public String getShortDetails(Context ctx) {
 		List<String> aList = new ArrayList<String>();
+		if (!Working){
+			aList.add(ctx.getResources().getString(R.string.station_detail_broken));
+		}
 		if (Codec != null){
 			if (!Codec.trim().equals("")){
 				aList.add(Codec);
