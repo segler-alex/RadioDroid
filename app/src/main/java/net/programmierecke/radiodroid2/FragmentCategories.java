@@ -1,7 +1,9 @@
 package net.programmierecke.radiodroid2;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.preference.PreferenceManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,6 +22,7 @@ public class FragmentCategories extends FragmentBase {
     private DataCategory[] data = new DataCategory[0];
     private String baseSearchAdress = "";
     private SwipeRefreshLayout mySwipeRefreshLayout;
+    private boolean singleUseFilter = false;
 
     public FragmentCategories() {
     }
@@ -33,6 +36,7 @@ public class FragmentCategories extends FragmentBase {
 
         try {
             String queryEncoded = URLEncoder.encode(theData.Name, "utf-8");
+            queryEncoded = queryEncoded.replace("+","%20");
             m.Search(baseSearchAdress+"/"+queryEncoded);
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
@@ -42,11 +46,16 @@ public class FragmentCategories extends FragmentBase {
     @Override
     protected void RefreshListGui(){
         if (lv != null) {
+            SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getContext());
+            boolean show_single_use_tags = sharedPref.getBoolean("single_use_tags", false);
+
             data = DataCategory.DecodeJson(getUrlResult());
             ItemAdapterCategory adapterCategory = (ItemAdapterCategory) lv.getAdapter();
             adapterCategory.clear();
             for (DataCategory aData : data) {
-                adapterCategory.add(aData);
+                if (!singleUseFilter || show_single_use_tags || (aData.UsedCount > 1)) {
+                    adapterCategory.add(aData);
+                }
             }
 
             lv.invalidate();
@@ -95,5 +104,9 @@ public class FragmentCategories extends FragmentBase {
         RefreshListGui();
 
         return view;
+    }
+
+    public void EnableSingleUseFilter(boolean b) {
+        this.singleUseFilter = b;
     }
 }

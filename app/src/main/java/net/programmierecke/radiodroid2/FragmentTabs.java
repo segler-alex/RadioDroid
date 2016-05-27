@@ -80,6 +80,7 @@ public class FragmentTabs extends Fragment implements IFragmentRefreshable, IFra
             fragments[i].setArguments(bundle1);
         }
 
+        ((FragmentCategories)fragments[4]).EnableSingleUseFilter(true);
         ((FragmentCategories)fragments[4]).SetBaseSearchLink("http://www.radio-browser.info/webservice/json/stations/bytagexact");
         ((FragmentCategories)fragments[5]).SetBaseSearchLink("http://www.radio-browser.info/webservice/json/stations/bycountryexact");
         ((FragmentCategories)fragments[6]).SetBaseSearchLink("http://www.radio-browser.info/webservice/json/stations/bylanguageexact");

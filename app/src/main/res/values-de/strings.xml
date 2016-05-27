@@ -37,6 +37,11 @@
     <string name="sleep_timer" formatted="true">Schlaftimer: %1$02d:%2$02d</string>
     <string name="nav_item_add_sleep">+15 mins</string>
 
+    <string name="settings_general">Allgemein</string>
+    <string name="settings_single_use_tags">Zeige einmalige Tags</string>
+    <string name="settings_single_use_tags_desc_off">Zeige einmal vorkommende Tags nicht.</string>
+    <string name="settings_single_use_tags_desc_on">Zeige einmal vorkommende Tags.</string>
+
     <string name="settings_alarm">Alarm</string>
     <string name="settings_alarm_external">Öffne extern</string>
     <string name="settings_alarm_external_desc">Öffne mit externem Abspieler</string>

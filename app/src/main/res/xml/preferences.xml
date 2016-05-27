@@ -2,6 +2,17 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <PreferenceCategory
+        android:title="@string/settings_general">
+
+        <CheckBoxPreference
+            android:key="single_use_tags"
+            android:title="@string/settings_single_use_tags"
+            android:summaryOn="@string/settings_single_use_tags_desc_on"
+            android:summaryOff="@string/settings_single_use_tags_desc_off" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
         android:title="@string/settings_play">
 
         <CheckBoxPreference
