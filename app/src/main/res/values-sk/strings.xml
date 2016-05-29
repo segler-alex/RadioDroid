@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">RadioDroid</string>
+    <string name="detail_name">Názov</string>
+    <string name="detail_tags">Značky</string>
+    <string name="detail_country">Krajina</string>
+    <string name="detail_language">Jazyk</string>
+    <string name="detail_weblink">URL Adresa</string>
+    <string name="detail_play">Prehrať</string>
+    <string name="detail_stop">Zastaviť</string>
+    <string name="detail_share">Zdieľať</string>
+    <string name="action_search">Hľadať</string>
+    <string name="action_top_click">Najlepšie (Kliknutia)</string>
+    <string name="action_top_vote">Najlepšie (Hlasovanie)</string>
+    <string name="action_changed_lately">Naposledy zmenené</string>
+    <string name="action_currently_playing">Prehrávajúce</string>
+    <string name="action_tags">Značky</string>
+    <string name="action_countries">Krajiny</string>
+    <string name="action_languages">Jazyky</string>
+    <string name="error_station_load">Nie je možné pripojiť sa k stanici</string>
+    <string name="error_list_update">Nie je možné pripojiť sa k serveru služby radio browser</string>
+
+    <string name="nav_item_stations">Stanice</string>
+    <string name="nav_item_starred">Obľúbené</string>
+    <string name="nav_item_history">História</string>
+    <string name="nav_item_settings">Nastavenia</string>
+    <string name="nav_item_alarm">Budík</string>
+    <string name="nav_item_statistics">Štatistiky</string>
+    <string name="nav_item_about">O programe</string>
+
+    <string name="about_text">Táto aplikácia používa bezplatný zoznam rádio staníc na adrese\nhttp://www.radio-browser.info\nKaždý môže upravovať alebo pridávať stanice do tohoto zoznamu. Služba Radio browser funguje na princípe wiki s tým rozdieľom, že členovia komunity neupravujú články ale udržujú zoznam online (streamovateľných) rádio staníc.\n\nKontakt:\nsegler_alex@web.de\n\nNahlasovanie chýb:\nhttps://github.com/segler-alex/RadioDroid/issues\n\nAk sa vám táto aplikácia páči a radi by ste pomohli, prosím ozvite sa emailom. Rád by som našiel niekoho so skúsenosťami v oblasti grafiky, aby mi pomohol zatraktívniť aplikáciu tak, aby bola krajšia na pohľad :) možno niekto z vás dokáže nakresliť ikony a obrázky... alebo tiež šikovní vývojári, ktorí dokážete opraviť chyby a pridať nové (vlastnosti nie chyby ;)\nNápady na nové vylepšenia sú tiež vítané!\n\nTáto aplikácia je poskytovaná zdarma pod licenciou GPLv3\nhttps://www.gnu.org/licenses/gpl-3.0.html.</string>
+    <string name="detail_star">Do obľúbených</string>
+    <string name="detail_unstar">Odstrániť z obľúbených</string>
+    <string name="progress_loading">Prebieha načítanie...</string>
+
+    <string name="sleep_timer" formatted="true">Časovač zaspávania: %1$02d:%2$02d</string>
+    <string name="nav_item_add_sleep">+15 minút</string>
+
+    <string name="settings_general">Všeobecné</string>
+    <string name="settings_single_use_tags">Zobraziť jednorázové značky</string>
+    <string name="settings_single_use_tags_desc_off">Značky na jednorázové použitie nebudú zobrazené</string>
+    <string name="settings_single_use_tags_desc_on">Značky na jednorázové použitie budú zobrazené</string>
+
+    <string name="settings_alarm">Budík</string>
+    <string name="settings_alarm_external">Otvoriť externú aplikáciu</string>
+    <string name="settings_alarm_external_desc">Budík sa otvorí v predvolenej externej aplikácii</string>
+    <string name="settings_alarm_audio_player">Audio prehrávač</string>
+    <string name="settings_alarm_sleep_timer">Časovač zaspávania</string>
+    <string name="settings_alarm_sleep_timer_desc">Zastaviť prehrávanie po %1$s minútach</string>
+    <string name="settings_play">Prehrávač</string>
+    <string name="settings_play_external">Otvoriť externú aplikáciu</string>
+    <string name="settings_play_external_desc">Klepnutím na názov stanice otvorí externý prehrávač</string>
+
+    <string name="notify_start_proxy">Prebieha spustenie servera proxy..</string>
+    <string name="notify_stop_player">Zastavenie pôvodného prehrávača..</string>
+    <string name="notify_prepare_stream">Prebieha príprava streamu..</string>
+    <string name="notify_try_play">Pokus o prehrávanie</string>
+    <string name="notify_play">Prehrávanie</string>
+
+    <string name="error_stream_url">Vyskytol sa problém s URL adresou streamu</string>
+    <string name="error_caching_stream">Vyskytol sa problém pri ukladaní streamu do vyrovnávacej pamäte</string>
+    <string name="error_play_stream">Nie je možné prehrať stream</string>
+
+    <string name="error_record_needs_write">Pre možnosť nahrávania je vyžadované oprávnenie na zápis!</string>
+
+    <string name="player_info_transfered">Prenesené údaje: %1$s</string>
+    <string name="player_info_record_to">Nahrávanie do: %1$s</string>
+
+    <string name="station_detail_bitrate">%1$1d kbps</string>
+    <string name="station_detail_broken">NEFUNKČNÁ</string>
+</resources>
