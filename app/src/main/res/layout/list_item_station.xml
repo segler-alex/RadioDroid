@@ -45,6 +45,7 @@
         android:background="@android:color/transparent"
         android:layout_margin="5dp"
         android:layout_gravity="center"
-        android:minWidth="40dp" />
+        android:minWidth="40dp"
+        android:contentDescription="@string/image_button_more" />
 
 </LinearLayout>

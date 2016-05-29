@@ -68,4 +68,9 @@
 
     <string name="station_detail_bitrate">%1$1d kbps</string>
     <string name="station_detail_broken">NEFUNKČNÁ</string>
+
+    <string name="image_button_disable">Zakázať</string>
+    <string name="image_button_record">Nahrávať</string>
+    <string name="image_button_delete">Odstrániť</string>
+    <string name="image_button_more">Viac</string>
 </resources>

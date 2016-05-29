@@ -54,7 +54,8 @@
             android:id="@+id/buttonDelete"
             android:src="@drawable/ic_delete_black_24dp"
             android:layout_gravity="center"
-            android:background="@android:color/transparent" />
+            android:background="@android:color/transparent"
+            android:contentDescription="@string/image_button_delete" />
 
     </LinearLayout>
 
