@@ -42,6 +42,10 @@
     <string name="settings_single_use_tags_desc_off">Zeige einmal vorkommende Tags nicht.</string>
     <string name="settings_single_use_tags_desc_on">Zeige einmal vorkommende Tags.</string>
 
+    <string name="settings_show_broken">Defekte Stationen</string>
+    <string name="settings_show_broken_on">Zeige nicht funktionierende Stationen in Listen</string>
+    <string name="settings_show_broken_off">Verstecke nicht funktionierende Stationen in Listen</string>
+
     <string name="settings_alarm">Alarm</string>
     <string name="settings_alarm_external">Öffne extern</string>
     <string name="settings_alarm_external_desc">Öffne mit externem Abspieler</string>

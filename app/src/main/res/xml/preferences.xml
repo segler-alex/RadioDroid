@@ -10,6 +10,12 @@
             android:summaryOn="@string/settings_single_use_tags_desc_on"
             android:summaryOff="@string/settings_single_use_tags_desc_off" />
 
+        <CheckBoxPreference
+            android:key="show_broken"
+            android:title="@string/settings_show_broken"
+            android:summaryOn="@string/settings_show_broken_on"
+            android:summaryOff="@string/settings_show_broken_off" />
+
     </PreferenceCategory>
 
     <PreferenceCategory

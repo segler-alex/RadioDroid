@@ -1,7 +1,9 @@
 package net.programmierecke.radiodroid2;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.preference.PreferenceManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -34,13 +36,18 @@ public class FragmentStations extends FragmentBase {
         Log.d("ABC", "RefreshListGUI()");
 
         if (lv != null) {
+            SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getContext());
+            boolean show_broken = sharedPref.getBoolean("show_broken", false);
+
             Log.d("ABC","LV != null");
             data = DataRadioStation.DecodeJson(getUrlResult());
             ItemAdapterStation arrayAdapter = (ItemAdapterStation) lv.getAdapter();
             arrayAdapter.clear();
             Log.d("ABC","Station count:"+data.length);
             for (DataRadioStation aStation : data) {
-                arrayAdapter.add(aStation);
+                if (show_broken || aStation.Working) {
+                    arrayAdapter.add(aStation);
+                }
             }
 
             lv.invalidate();
