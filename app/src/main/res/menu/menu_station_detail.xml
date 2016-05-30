@@ -12,6 +12,11 @@
         android:title="@string/detail_share"
         app:showAsAction="ifRoom"/>
     <item
+        android:id="@+id/action_homepage"
+        android:icon="@drawable/ic_store_black_24dp"
+        android:title="@string/detail_weblink"
+        app:showAsAction="ifRoom"/>
+    <item
         android:id="@+id/action_star"
         android:icon="@drawable/ic_star_border_black_24dp"
         android:title="@string/detail_star"

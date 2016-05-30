@@ -207,6 +207,10 @@ public class ItemAdapterStation extends ArrayAdapter<DataRadioStation> implement
 						Share(station);
 						return true;
 
+					case R.id.action_homepage:
+						ShowHomepage(station);
+						return true;
+
 					case R.id.action_star:
 						Star(station);
 						return true;
@@ -229,6 +233,12 @@ public class ItemAdapterStation extends ArrayAdapter<DataRadioStation> implement
 			}
 		});
 		popup.show();
+	}
+
+	private void ShowHomepage(DataRadioStation station) {
+		Intent share = new Intent(Intent.ACTION_VIEW);
+		share.setData(Uri.parse(station.HomePageUrl));
+		getContext().startActivity(share);
 	}
 
 	private void Star(DataRadioStation station) {
