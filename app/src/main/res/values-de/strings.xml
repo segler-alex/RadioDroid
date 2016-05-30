@@ -21,6 +21,8 @@
     <string name="error_station_load">Es konnte leider keine Verbindung zur Radiostation hergestellt werden.</string>
     <string name="error_list_update">Verbindung mit radio browser server fehlgeschlagen.</string>
 
+    <string name="share_action">Teile Radio-Internet Link mit..</string>
+
     <string name="nav_item_stations">Radios</string>
     <string name="nav_item_starred">Favoriten</string>
     <string name="nav_item_history">Verlauf</string>

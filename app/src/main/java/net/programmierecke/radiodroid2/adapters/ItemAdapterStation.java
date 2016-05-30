@@ -278,7 +278,12 @@ public class ItemAdapterStation extends ArrayAdapter<DataRadioStation> implement
 				if (result != null) {
 					Intent share = new Intent(Intent.ACTION_VIEW);
 					share.setDataAndType(Uri.parse(result), "audio/*");
-					getContext().startActivity(share);
+					String title = getContext().getResources().getString(R.string.share_action);
+					Intent chooser = Intent.createChooser(share, title);
+
+					if (share.resolveActivity(getContext().getPackageManager()) != null) {
+						getContext().startActivity(chooser);
+					}
 				} else {
 					Toast toast = Toast.makeText(getContext().getApplicationContext(), getContext().getResources().getText(R.string.error_station_load), Toast.LENGTH_SHORT);
 					toast.show();

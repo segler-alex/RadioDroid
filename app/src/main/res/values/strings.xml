@@ -20,6 +20,8 @@
     <string name="error_station_load">Could not connect to station</string>
     <string name="error_list_update">Could not connect to radio browser server</string>
 
+    <string name="share_action">Share station link with..</string>
+
     <string name="nav_item_stations">Stations</string>
     <string name="nav_item_starred">Starred</string>
     <string name="nav_item_history">History</string>
