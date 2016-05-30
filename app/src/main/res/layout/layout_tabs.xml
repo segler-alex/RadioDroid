@@ -13,7 +13,8 @@
         app:tabGravity="fill"
         android:background="@color/colorPrimary"
         app:tabTextColor="@color/windowBackground"
-        app:tabSelectedTextColor="@color/windowBackground"/>
+        app:tabSelectedTextColor="@color/windowBackground"
+        app:tabIndicatorColor="@color/colorTabUnderline" />
 
     <android.support.v4.view.ViewPager
         android:id="@+id/viewpager"
