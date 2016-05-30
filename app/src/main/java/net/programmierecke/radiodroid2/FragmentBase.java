@@ -50,9 +50,13 @@ public class FragmentBase extends Fragment {
     }
 
     public void DownloadUrl(final boolean forceUpdate) {
+        DownloadUrl(forceUpdate,true);
+    }
+
+    public void DownloadUrl(final boolean forceUpdate, final boolean displayProgress) {
         Log.d("DOWN","Download url:"+url);
         if (TextUtils.isGraphic(url)) {
-            if (mycontext != null) {
+            if (mycontext != null && displayProgress) {
                 itsProgressLoading = ProgressDialog.show(mycontext, "", getActivity().getString(R.string.progress_loading));
             }
             new AsyncTask<Void, Void, String>() {

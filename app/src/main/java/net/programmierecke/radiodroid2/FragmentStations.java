@@ -87,7 +87,7 @@ public class FragmentStations extends FragmentBase {
                         public void onRefresh() {
                             Log.i("ABC", "onRefresh called from SwipeRefreshLayout");
                             //RefreshListGui();
-                            DownloadUrl(true);
+                            DownloadUrl(true,false);
                         }
                     }
             );
