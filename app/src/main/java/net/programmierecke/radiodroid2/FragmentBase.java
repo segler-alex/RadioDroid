@@ -2,15 +2,19 @@ package net.programmierecke.radiodroid2;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.preference.PreferenceManager;
 import android.text.TextUtils;
 import android.util.Log;
 import android.widget.ListView;
 import android.widget.Toast;
 
 import net.programmierecke.radiodroid2.data.DataRadioStation;
+
+import java.util.HashMap;
 
 public class FragmentBase extends Fragment {
     private ProgressDialog itsProgressLoading;
@@ -54,6 +58,9 @@ public class FragmentBase extends Fragment {
     }
 
     public void DownloadUrl(final boolean forceUpdate, final boolean displayProgress) {
+        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getContext());
+        final boolean show_broken = sharedPref.getBoolean("show_broken", false);
+
         Log.d("DOWN","Download url:"+url);
         if (TextUtils.isGraphic(url)) {
             if (mycontext != null && displayProgress) {
@@ -62,7 +69,11 @@ public class FragmentBase extends Fragment {
             new AsyncTask<Void, Void, String>() {
                 @Override
                 protected String doInBackground(Void... params) {
-                    return Utils.downloadFeed(getActivity(), url, forceUpdate);
+                    HashMap<String,String> p = new HashMap<String, String>();
+                    if (!show_broken) {
+                        p.put("hidebroken", "true");
+                    }
+                    return Utils.downloadFeed(getActivity(), url, forceUpdate, p);
                 }
 
                 @Override

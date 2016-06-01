@@ -27,10 +27,14 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Date;
+import java.util.Dictionary;
+import java.util.Enumeration;
 import java.util.Locale;
+import java.util.Map;
 
 public class Utils {
 	public static String getCacheFile(Context ctx, String theURI) {
@@ -81,7 +85,7 @@ public class Utils {
 		}
 	}
 
-	public static String downloadFeed(Context ctx, String theURI, boolean forceUpdate) {
+	public static String downloadFeed(Context ctx, String theURI, boolean forceUpdate, Map<String,String> dictParams) {
 		if (!forceUpdate) {
 			String cache = getCacheFile(ctx, theURI);
 			if (cache != null) {
@@ -96,9 +100,27 @@ public class Utils {
 			connection.setConnectTimeout(4000);
 			connection.setReadTimeout(3000);
 			connection.setRequestProperty("User-Agent", "RadioDroid2/"+BuildConfig.VERSION_NAME);
-			connection.setRequestMethod("GET");
 			connection.setDoInput(true);
+			if (dictParams != null) {
+				connection.setDoOutput(true);
+				connection.setRequestProperty("Content-Type", "application/json");
+				connection.setRequestProperty("Accept", "application/json");
+				connection.setRequestMethod("POST");
+			} else {
+				connection.setRequestMethod("GET");
+			}
 			connection.connect();
+
+			if (dictParams != null) {
+				JSONObject jsonParams = new JSONObject();
+				for (String key: dictParams.keySet()){
+					jsonParams.put(key, dictParams.get(key));
+				}
+
+				OutputStreamWriter wr = new OutputStreamWriter(connection.getOutputStream());
+				wr.write(jsonParams.toString());
+				wr.flush();
+			}
 
 			InputStream inputStream = connection.getInputStream();
 			BufferedReader rd = new BufferedReader(new InputStreamReader(inputStream));
@@ -119,7 +141,7 @@ public class Utils {
 	}
 
 	public static String getRealStationLink(Context ctx, String stationId){
-		String result = Utils.downloadFeed(ctx, "http://www.radio-browser.info/webservice/json/url/" + stationId, true);
+		String result = Utils.downloadFeed(ctx, "http://www.radio-browser.info/webservice/json/url/" + stationId, true, null);
 		if (result != null) {
 			JSONObject jsonObj = null;
 			JSONArray jsonArr = null;
