@@ -66,8 +66,8 @@ public class PlayerService extends Service implements IStreamProxyEventReceiver 
 
 	private final IPlayerService.Stub itsBinder = new IPlayerService.Stub() {
 
-		public void Play(String theUrl, String theName, String theID) throws RemoteException {
-			PlayerService.this.PlayUrl(theUrl, theName, theID);
+		public void Play(String theUrl, String theName, String theID, boolean isAlarm) throws RemoteException {
+			PlayerService.this.PlayUrl(theUrl, theName, theID, isAlarm);
 		}
 
 		public void Stop() throws RemoteException {
@@ -300,7 +300,7 @@ public class PlayerService extends Service implements IStreamProxyEventReceiver 
 		Stop();
 	}
 
-	public void PlayUrl(String theURL, String theName, String theID) {
+	public void PlayUrl(String theURL, String theName, String theID, final boolean isAlarm) {
 		itsStationID = theID;
 		itsStationName = theName;
 		itsStationURL = theURL;
@@ -356,7 +356,7 @@ public class PlayerService extends Service implements IStreamProxyEventReceiver 
 				}
 				try {
 					SetPlayStatus(PlayStatus.PrepareStream);
-					itsMediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
+					itsMediaPlayer.setAudioStreamType(isAlarm ? AudioManager.STREAM_ALARM : AudioManager.STREAM_MUSIC);
 					itsMediaPlayer.setDataSource(proxyConnection);
 					itsMediaPlayer.prepare();
 					SetPlayStatus(PlayStatus.PrePlaying);

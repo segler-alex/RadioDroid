@@ -62,7 +62,7 @@ public class PlayerServiceUtil {
     public static void play(String result, String name, String id) {
         if (itsPlayerService != null) {
             try {
-                itsPlayerService.Play(result,name,id);
+                itsPlayerService.Play(result,name,id, false);
             } catch (RemoteException e) {
                 Log.e("", "" + e);
             }
