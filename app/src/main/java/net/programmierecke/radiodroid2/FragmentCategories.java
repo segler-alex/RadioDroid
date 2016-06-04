@@ -1,5 +1,6 @@
 package net.programmierecke.radiodroid2;
 
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -23,6 +24,7 @@ public class FragmentCategories extends FragmentBase {
     private String baseSearchAdress = "";
     private SwipeRefreshLayout mySwipeRefreshLayout;
     private boolean singleUseFilter = false;
+    private SharedPreferences sharedPref;
 
     public FragmentCategories() {
     }
@@ -45,8 +47,11 @@ public class FragmentCategories extends FragmentBase {
 
     @Override
     protected void RefreshListGui(){
-        if (lv != null) {
-            SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getContext());
+        Context ctx = getContext();
+        if (sharedPref == null) {
+            sharedPref = PreferenceManager.getDefaultSharedPreferences(getContext());
+        }
+        if (lv != null && ctx != null) {
             boolean show_single_use_tags = sharedPref.getBoolean("single_use_tags", false);
 
             data = DataCategory.DecodeJson(getUrlResult());

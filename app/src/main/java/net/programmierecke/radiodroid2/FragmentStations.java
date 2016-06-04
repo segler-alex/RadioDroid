@@ -1,5 +1,6 @@
 package net.programmierecke.radiodroid2;
 
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -18,6 +19,7 @@ public class FragmentStations extends FragmentBase {
     private ListView lv;
     private DataRadioStation[] data = new DataRadioStation[0];
     private SwipeRefreshLayout mySwipeRefreshLayout;
+    private SharedPreferences sharedPref;
 
     public FragmentStations() {
     }
@@ -34,16 +36,18 @@ public class FragmentStations extends FragmentBase {
     @Override
     protected void RefreshListGui(){
         Log.d("ABC", "RefreshListGUI()");
-
-        if (lv != null) {
-            SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getContext());
+        Context ctx = getContext();
+        if (lv != null && ctx != null) {
+            if (sharedPref == null) {
+                sharedPref = PreferenceManager.getDefaultSharedPreferences(ctx);
+            }
             boolean show_broken = sharedPref.getBoolean("show_broken", false);
 
-            Log.d("ABC","LV != null");
+            Log.d("ABC", "LV != null");
             data = DataRadioStation.DecodeJson(getUrlResult());
             ItemAdapterStation arrayAdapter = (ItemAdapterStation) lv.getAdapter();
             arrayAdapter.clear();
-            Log.d("ABC","Station count:"+data.length);
+            Log.d("ABC", "Station count:" + data.length);
             for (DataRadioStation aStation : data) {
                 if (show_broken || aStation.Working) {
                     arrayAdapter.add(aStation);
@@ -54,8 +58,8 @@ public class FragmentStations extends FragmentBase {
             if (mySwipeRefreshLayout != null) {
                 mySwipeRefreshLayout.setRefreshing(false);
             }
-        }else{
-            Log.e("NULL","LV == null");
+        } else {
+            Log.e("NULL", "LV == null");
         }
     }
 
