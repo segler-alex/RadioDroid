@@ -48,10 +48,10 @@ public class FragmentCategories extends FragmentBase {
     @Override
     protected void RefreshListGui(){
         Context ctx = getContext();
-        if (sharedPref == null) {
-            sharedPref = PreferenceManager.getDefaultSharedPreferences(getContext());
-        }
         if (lv != null && ctx != null) {
+            if (sharedPref == null) {
+                sharedPref = PreferenceManager.getDefaultSharedPreferences(ctx);
+            }
             boolean show_single_use_tags = sharedPref.getBoolean("single_use_tags", false);
 
             data = DataCategory.DecodeJson(getUrlResult());
