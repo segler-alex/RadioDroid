@@ -167,9 +167,13 @@ public class ItemAdapterStation extends ArrayAdapter<DataRadioStation> implement
 					if (TextUtils.isGraphic(aStation.IconUrl)) {
 						String aFileNameIcon = Utils.getBase64(aStation.IconUrl);
 						Bitmap anIcon = BitmapFactory.decodeStream(activity.openFileInput(aFileNameIcon));
-						anImageView.setVisibility(View.VISIBLE);
-						anImageView.setImageBitmap(anIcon);
 						itsIconCache.put(aStation.IconUrl, anIcon);
+						if (anIcon != null) {
+							anImageView.setImageBitmap(anIcon);
+							anImageView.setVisibility(View.VISIBLE);
+						}else{
+							anImageView.setVisibility(View.GONE);
+						}
 					}else{
 						anImageView.setVisibility(View.GONE);
 					}
