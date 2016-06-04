@@ -327,26 +327,28 @@ public class ItemAdapterStation extends ArrayAdapter<DataRadioStation> implement
 						final Bitmap anIcon = BitmapFactory.decodeStream(in);
 						itsIconCache.put(anItem.itsURL, anIcon);
 
-						// save image to file
-						String aFileName = Utils.getBase64(anItem.itsURL);
-						Log.v("ICONS", "download finished " + anItem.itsURL);
-						try {
-							FileOutputStream aStream = activity.openFileOutput(aFileName, Context.MODE_PRIVATE);
-							anIcon.compress(Bitmap.CompressFormat.PNG, 100, aStream);
-							aStream.close();
-						} catch (FileNotFoundException e) {
-							Log.e("ICONS", "my1" + e);
-						} catch (IOException e) {
-							Log.e("ICONS", "my2" + e);
-						}
+						if (anIcon != null) {
+							// save image to file
+							String aFileName = Utils.getBase64(anItem.itsURL);
+							Log.v("ICONS", "download finished " + anItem.itsURL);
+							try {
+								FileOutputStream aStream = activity.openFileOutput(aFileName, Context.MODE_PRIVATE);
+								anIcon.compress(Bitmap.CompressFormat.PNG, 100, aStream);
+								aStream.close();
+							} catch (FileNotFoundException e) {
+								Log.e("ICONS", "my1" + e);
+							} catch (IOException e) {
+								Log.e("ICONS", "my2" + e);
+							}
 
-						for (int i=0;i< listViewItems.size();i++){
-							MyItem item = listViewItems.get(i);
-							if (item.station != null) {
-								if (item.station.IconUrl != null) {
-									if (item.station.IconUrl.equals(anItem.itsURL)) {
-										Log.d("ICONS", "refresh icon "+anItem.itsURL);
-										item.SetIcon(anIcon);
+							for (int i = 0; i < listViewItems.size(); i++) {
+								MyItem item = listViewItems.get(i);
+								if (item.station != null) {
+									if (item.station.IconUrl != null) {
+										if (item.station.IconUrl.equals(anItem.itsURL)) {
+											Log.d("ICONS", "refresh icon " + anItem.itsURL);
+											item.SetIcon(anIcon);
+										}
 									}
 								}
 							}
