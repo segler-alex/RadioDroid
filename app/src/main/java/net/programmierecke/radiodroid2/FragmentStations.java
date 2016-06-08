@@ -55,9 +55,6 @@ public class FragmentStations extends FragmentBase {
             }
 
             lv.invalidate();
-            if (mySwipeRefreshLayout != null) {
-                mySwipeRefreshLayout.setRefreshing(false);
-            }
         } else {
             Log.e("NULL", "LV == null");
         }
@@ -100,5 +97,12 @@ public class FragmentStations extends FragmentBase {
         RefreshListGui();
 
         return view;
+    }
+
+    @Override
+    protected void DownloadFinished() {
+        if (mySwipeRefreshLayout != null) {
+            mySwipeRefreshLayout.setRefreshing(false);
+        }
     }
 }

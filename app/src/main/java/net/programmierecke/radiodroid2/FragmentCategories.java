@@ -64,9 +64,6 @@ public class FragmentCategories extends FragmentBase {
             }
 
             lv.invalidate();
-            if (mySwipeRefreshLayout != null) {
-                mySwipeRefreshLayout.setRefreshing(false);
-            }
         }else{
             Log.e("ABC", "LV == NULL FragmentCategories");
         }
@@ -113,5 +110,12 @@ public class FragmentCategories extends FragmentBase {
 
     public void EnableSingleUseFilter(boolean b) {
         this.singleUseFilter = b;
+    }
+
+    @Override
+    protected void DownloadFinished() {
+        if (mySwipeRefreshLayout != null) {
+            mySwipeRefreshLayout.setRefreshing(false);
+        }
     }
 }

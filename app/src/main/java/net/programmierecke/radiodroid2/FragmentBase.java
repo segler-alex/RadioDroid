@@ -78,6 +78,7 @@ public class FragmentBase extends Fragment {
 
                 @Override
                 protected void onPostExecute(String result) {
+                    DownloadFinished();
                     if (itsProgressLoading != null) {
                         itsProgressLoading.dismiss();
                         itsProgressLoading = null;
@@ -100,5 +101,8 @@ public class FragmentBase extends Fragment {
     }
 
     protected void RefreshListGui(){
+    }
+
+    protected void DownloadFinished(){
     }
 }
