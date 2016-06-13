@@ -14,6 +14,7 @@ import android.media.MediaPlayer;
 import android.net.wifi.WifiManager;
 import android.os.Build;
 import android.os.CountDownTimer;
+import android.os.Handler;
 import android.os.IBinder;
 import android.os.PowerManager;
 import android.os.RemoteException;
@@ -364,22 +365,30 @@ public class PlayerService extends Service implements IStreamProxyEventReceiver 
 					SetPlayStatus(PlayStatus.Playing);
 				} catch (IllegalArgumentException e) {
 					Log.e(TAG, "" + e);
-					Toast toast = Toast.makeText(itsContext, itsContext.getResources().getString(R.string.error_stream_url), Toast.LENGTH_SHORT);
-					toast.show();
+					ToastOnUi(R.string.error_stream_url);
 					Stop();
 				} catch (IOException e) {
 					Log.e(TAG, "" + e);
-					Toast toast = Toast.makeText(itsContext, itsContext.getResources().getString(R.string.error_caching_stream), Toast.LENGTH_SHORT);
-					toast.show();
+					ToastOnUi(R.string.error_caching_stream);
 					Stop();
 				} catch (Exception e) {
 					Log.e(TAG, "" + e);
-					Toast toast = Toast.makeText(itsContext, itsContext.getResources().getString(R.string.error_play_stream), Toast.LENGTH_SHORT);
-					toast.show();
+					ToastOnUi(R.string.error_play_stream);
 					Stop();
 				}
 			}
 		}).start();
+	}
+
+	void ToastOnUi(final int messageId){
+		Handler h = new Handler(itsContext.getMainLooper());
+
+		h.post(new Runnable() {
+			@Override
+			public void run() {
+				Toast.makeText(itsContext,itsContext.getResources().getString(messageId),Toast.LENGTH_SHORT).show();
+			}
+		});
 	}
 
 	void SetPlayStatus(PlayStatus status){
