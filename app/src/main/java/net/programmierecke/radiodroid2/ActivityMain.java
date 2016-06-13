@@ -11,12 +11,14 @@ import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import net.programmierecke.radiodroid2.interfaces.IFragmentRefreshable;
 import net.programmierecke.radiodroid2.interfaces.IFragmentSearchable;
 
+import java.io.File;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 
@@ -40,6 +42,17 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.layout_main);
+
+		File dir = new File(getFilesDir().getAbsolutePath());
+		if (dir.isDirectory())
+		{
+			String[] children = dir.list();
+			for (int i = 0; i < children.length; i++)
+			{
+				Log.e("MAIN","delete file:"+children[i]);
+				new File(dir, children[i]).delete();
+			}
+		}
 
 		final Toolbar myToolbar = (Toolbar) findViewById(R.id.my_awesome_toolbar);
 		setSupportActionBar(myToolbar);
