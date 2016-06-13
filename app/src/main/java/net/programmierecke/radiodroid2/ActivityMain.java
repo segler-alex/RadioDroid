@@ -43,16 +43,20 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.layout_main);
 
-		File dir = new File(getFilesDir().getAbsolutePath());
-		if (dir.isDirectory())
-		{
-			String[] children = dir.list();
-			for (int i = 0; i < children.length; i++)
-			{
-				Log.e("MAIN","delete file:"+children[i]);
-				new File(dir, children[i]).delete();
+		try {
+			File dir = new File(getFilesDir().getAbsolutePath());
+			if (dir.isDirectory()) {
+				String[] children = dir.list();
+				for (int i = 0; i < children.length; i++) {
+					Log.e("MAIN", "delete file:" + children[i]);
+					try {
+						new File(dir, children[i]).delete();
+					}
+					catch (Exception e){}
+				}
 			}
 		}
+		catch (Exception e){}
 
 		final Toolbar myToolbar = (Toolbar) findViewById(R.id.my_awesome_toolbar);
 		setSupportActionBar(myToolbar);
