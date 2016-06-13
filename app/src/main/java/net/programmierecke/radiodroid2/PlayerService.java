@@ -334,15 +334,15 @@ public class PlayerService extends Service implements IStreamProxyEventReceiver 
 			Log.e(TAG,"could not aquire wifi lock");
 		}
 
-		if (proxy != null){
-			Log.i(TAG,"stop old proxy");
-			proxy.stop();
-			proxy = null;
-		}
-
 		new Thread(new Runnable() {
 			@Override
 			public void run() {
+				if (proxy != null){
+					Log.i(TAG,"stop old proxy");
+					proxy.stop();
+					proxy = null;
+				}
+
 				SetPlayStatus(PlayStatus.CreateProxy);
 				proxy = new StreamProxy(PlayerService.this, itsStationURL, PlayerService.this);
 				String proxyConnection = proxy.getLocalAdress();
