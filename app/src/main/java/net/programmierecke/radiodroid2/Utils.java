@@ -40,9 +40,13 @@ public class Utils {
 	public static String getCacheFile(Context ctx, String theURI) {
 		StringBuffer chaine = new StringBuffer("");
 		try{
-			String aFileName = Utils.getBase64(theURI);
+			String aFileName = theURI.toLowerCase().replace("http://","");
+			aFileName = aFileName.toLowerCase().replace("https://","");
+			aFileName = aFileName.toLowerCase().replace("/","_");
+			aFileName = aFileName.toLowerCase().replace("?","_");
+			aFileName = aFileName.toLowerCase().replace("&","_");
 
-			File file = new File(ctx.getFilesDir().getAbsolutePath() + "/"+aFileName);
+			File file = new File(ctx.getCacheDir().getAbsolutePath() + "/"+aFileName);
 			Date lastModDate = new Date(file.lastModified());
 
 			Date now = new Date();
@@ -75,8 +79,14 @@ public class Utils {
 
 	public static void writeFileCache(Context ctx, String theURI, String content){
 		try{
-			String aFileName = Utils.getBase64(theURI);
-			FileOutputStream aStream = ctx.openFileOutput(aFileName, Context.MODE_PRIVATE);
+			String aFileName = theURI.toLowerCase().replace("http://","");
+			aFileName = aFileName.toLowerCase().replace("https://","");
+			aFileName = aFileName.toLowerCase().replace("/","_");
+			aFileName = aFileName.toLowerCase().replace("?","_");
+			aFileName = aFileName.toLowerCase().replace("&","_");
+
+			File f = new File(ctx.getCacheDir() + "/" + aFileName);
+			FileOutputStream aStream = new FileOutputStream(f);
 			aStream.write(content.getBytes("utf-8"));
 			aStream.close();
 		}
