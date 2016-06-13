@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">RadioDroid</string>
+    <string name="detail_name">Nom</string>
+    <string name="detail_tags">Tags</string>
+    <string name="detail_country">Pays</string>
+    <string name="detail_language">Langue</string>
+    <string name="detail_weblink">Lien Web</string>
+    <string name="detail_play">Lire</string>
+    <string name="detail_stop">Arrêter</string>
+    <string name="detail_share">Partager</string>
+    <string name="action_search">Recerche</string>
+    <string name="action_top_click">Top Clics</string>
+    <string name="action_top_vote">Top Votes</string>
+    <string name="action_changed_lately">Modification récente</string>
+    <string name="action_currently_playing">Écoutées actuellement</string>
+    <string name="action_tags">Tags</string>
+    <string name="action_countries">Pays</string>
+    <string name="action_languages">Langues</string>
+    <string name="error_station_load">Impossible de se connecter à la station</string>
+    <string name="error_list_update">Impossible de se connecter au navigateur du serveur radio</string>
+
+    <string name="share_action">Partager le lien de la station avec...</string>
+
+    <string name="nav_item_stations">Radios</string>
+    <string name="nav_item_starred">Favoris</string>
+    <string name="nav_item_history">Historique</string>
+    <string name="nav_item_settings">Réglages</string>
+    <string name="nav_item_alarm">Réveil</string>
+    <string name="nav_item_statistics">Statistiques</string>
+    <string name="nav_item_about">À propos</string>
+
+    <string name="about_text">Cette application utilise le répertoire libre de stations radios à l\'adresse\nhttp://www.radio-browser.info\nChacun peut y ajouter des stations ou éditer celles déjà existantes. Ce répertoire fonctionne comme un wiki pour recenser les stations de webradios (en streaming).\n\nContact:\nsegler_alex@web.de\n\nBugtracker:\nhttps://github.com/segler-alex/RadioDroid/issues\n\nSi vous appréciez cette application et que vous voulez soutenir le développement, n\'hésitez pas à m\'envoyer un mail. Si vous avez de l\'expérience en graphisme, vous êtes le bienvenu pour rendre RadioDroid plus agréable à regarder ;) Je cherche aussi des programmeurs pour résoudre les bugs, et implémenter de nouvelles fonctionnalités !\nLes idées de nouvelles fonctionnalités sont d\'ailleurs toujours les bienvenues!\n\nCette application est un logiciel libre, sa licence est la GNU GPLv3\nhttps://www.gnu.org/licenses/gpl-3.0.html.</string>
+    <string name="detail_star">Favoris</string>
+    <string name="detail_unstar">Supprimer</string>
+    <string name="progress_loading">Chargement...</string>
+
+    <string name="sleep_timer" formatted="true">Temps de sommeil : %1$02d:%2$02d</string>
+    <string name="nav_item_add_sleep">+15 mins</string>
+
+    <string name="settings_general">Général</string>
+    <string name="settings_single_use_tags">Montrer les tags uniques</string>
+    <string name="settings_single_use_tags_desc_off">Les tags uniques ne seront pas affichés</string>
+    <string name="settings_single_use_tags_desc_on">Les tags uniques seront affichés</string>
+
+    <string name="settings_show_broken">Stations défectueuses</string>
+    <string name="settings_show_broken_on">Afficher les stations défectueuses dans les listes de stations</string>
+    <string name="settings_show_broken_off">Ne pas afficher les stations défectueuses dans les listes de stations</string>
+
+    <string name="settings_alarm">Alarme</string>
+    <string name="settings_alarm_external">Ouverture avec une application externe</string>
+    <string name="settings_alarm_external_desc">Jouer l\'alarme avec l\'application externe par défaut</string>
+    <string name="settings_alarm_audio_player">Lecteur audio</string>
+    <string name="settings_alarm_sleep_timer">Minuterie pour le sommeil</string>
+    <string name="settings_alarm_sleep_timer_desc">Stopper la lecture après %1$s minutes</string>
+    <string name="settings_play">Lecteur</string>
+    <string name="settings_play_external">Ouverture avec une application externe</string>
+    <string name="settings_play_external_desc">Lire les radios avec un lecteur externe</string>
+
+    <string name="notify_start_proxy">Démarrage du proxy..</string>
+    <string name="notify_stop_player">Stopper l\'ancien lecteur...</string>
+    <string name="notify_prepare_stream">Préparation du stream...</string>
+    <string name="notify_try_play">Essai de lecture</string>
+    <string name="notify_play">En lecture</string>
+
+    <string name="error_stream_url">Problème avec le lien internet</string>
+    <string name="error_caching_stream">Problème avec le cache du stream</string>
+    <string name="error_play_stream">Impossible de lire le stream</string>
+
+    <string name="error_record_needs_write">Droits d\écriture requis pour l\'enregistrement !</string>
+
+    <string name="player_info_transfered">Données transmises : %1$s</string>
+    <string name="player_info_record_to">Enregistrement à : %1$s</string>
+
+    <string name="station_detail_bitrate">%1$1d kbps</string>
+    <string name="station_detail_broken">INDISPONIBLE</string>
+
+    <string name="image_button_disable">Désactiver</string>
+    <string name="image_button_record">Enregistrer</string>
+    <string name="image_button_delete">Supprimer</string>
+    <string name="image_button_more">Plus</string>
+</resources>
