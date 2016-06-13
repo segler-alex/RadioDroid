@@ -1,5 +1,7 @@
 package net.programmierecke.radiodroid2.adapters;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -53,9 +55,11 @@ public class ItemAdapterStation extends ArrayAdapter<DataRadioStation> implement
 
 	public class QueueItem {
 		public String itsURL;
+		public String ID;
 
-		public QueueItem(String theURL, ImageView theImageView) {
+		public QueueItem(String ID, String theURL, ImageView theImageView) {
 			itsURL = theURL;
+			this.ID = ID;
 		}
 	}
 
@@ -165,8 +169,9 @@ public class ItemAdapterStation extends ArrayAdapter<DataRadioStation> implement
 					// check download cache
 					Log.v("ICONS", "check cache for " + aStation.IconUrl);
 					if (TextUtils.isGraphic(aStation.IconUrl)) {
-						String aFileNameIcon = Utils.getBase64(aStation.IconUrl);
-						Bitmap anIcon = BitmapFactory.decodeStream(activity.openFileInput(aFileNameIcon));
+						String aFileNameIcon = activity.getCacheDir().getAbsolutePath() + "/" + aStation.ID + ".dat";
+						File f = new File(aFileNameIcon);
+						Bitmap anIcon = BitmapFactory.decodeStream(new FileInputStream(f));
 						itsIconCache.put(aStation.IconUrl, anIcon);
 						if (anIcon != null) {
 							anImageView.setImageBitmap(anIcon);
@@ -180,7 +185,7 @@ public class ItemAdapterStation extends ArrayAdapter<DataRadioStation> implement
 				} catch (Exception e) {
 					try {
 						anImageView.setVisibility(View.GONE);
-						itsQueuedDownloadJobs.put(new QueueItem(aStation.IconUrl, null));
+						itsQueuedDownloadJobs.put(new QueueItem(aStation.ID, aStation.IconUrl, null));
 					} catch (InterruptedException e2) {
 						Log.e("ICONS", "" + e2.getStackTrace());
 					}
@@ -329,10 +334,12 @@ public class ItemAdapterStation extends ArrayAdapter<DataRadioStation> implement
 
 						if (anIcon != null) {
 							// save image to file
-							String aFileName = Utils.getBase64(anItem.itsURL);
-							Log.v("ICONS", "download finished " + anItem.itsURL);
+							String aFileName = activity.getCacheDir().getAbsolutePath() + "/" + anItem.ID + ".dat";
+							File f = new File(aFileName);
+
+							Log.v("ICONS", "download finished " + anItem.itsURL + " -> "+aFileName);
 							try {
-								FileOutputStream aStream = activity.openFileOutput(aFileName, Context.MODE_PRIVATE);
+								FileOutputStream aStream = new FileOutputStream(f);
 								anIcon.compress(Bitmap.CompressFormat.PNG, 100, aStream);
 								aStream.close();
 							} catch (FileNotFoundException e) {
