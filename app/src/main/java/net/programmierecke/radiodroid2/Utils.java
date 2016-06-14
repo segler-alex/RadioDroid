@@ -58,7 +58,7 @@ public class Utils {
 			Log.w("UTIL","File last modified : "+ lastModDate.toString() + " secs="+secs+"  mins="+mins+" hours="+hours);
 
 			if (hours < 1) {
-				FileInputStream aStream = ctx.openFileInput(aFileName);
+				FileInputStream aStream = new FileInputStream(file);
 				BufferedReader rd = new BufferedReader(new InputStreamReader(aStream));
 				String line = "";
 				while ((line = rd.readLine()) != null) {
