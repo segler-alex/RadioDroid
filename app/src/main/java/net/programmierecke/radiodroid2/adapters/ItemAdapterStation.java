@@ -49,6 +49,8 @@ public class ItemAdapterStation extends ArrayAdapter<DataRadioStation> implement
 	private ProgressDialog itsProgressLoading;
 	IAdapterRefreshable refreshable;
 
+	final String TAG = "AdapterStations";
+
 	public void setUpdate(FragmentStarred refreshableList) {
 		refreshable = refreshableList;
 	}
@@ -254,9 +256,25 @@ public class ItemAdapterStation extends ArrayAdapter<DataRadioStation> implement
 		if (station != null) {
 			FavouriteManager fm = new FavouriteManager(getContext().getApplicationContext());
 			fm.add(station);
+			Vote(station.ID);
 		}else{
-			Log.e("ABC","empty station info");
+			Log.e(TAG,"empty station info");
 		}
+	}
+
+	private void Vote(final String stationID){
+		new AsyncTask<Void, Void, String>() {
+			@Override
+			protected String doInBackground(Void... params) {
+				return Utils.downloadFeed(activity,"http://www.radio-browser.info/webservice/json/vote/"+stationID,true, null);
+			}
+
+			@Override
+			protected void onPostExecute(String result) {
+				Log.i(TAG,result);
+				super.onPostExecute(result);
+			}
+		}.execute();
 	}
 
 	private void UnStar(DataRadioStation station) {
@@ -267,15 +285,15 @@ public class ItemAdapterStation extends ArrayAdapter<DataRadioStation> implement
 				refreshable.RefreshListGui();
 			}
 		}else{
-			Log.e("ABC","empty station info");
+			Log.e(TAG,"empty station info");
 		}
 	}
 
 	void setAsAlarm(DataRadioStation station){
-		Log.w("DETAIL","setAsAlarm() 1");
+		Log.w(TAG,"setAsAlarm() 1");
 		if (station != null) {
 			itsStation = station;
-			Log.w("DETAIL","setAsAlarm() 2");
+			Log.w(TAG,"setAsAlarm() 2");
 			TimePickerFragment newFragment = new TimePickerFragment();
 			newFragment.setCallback(this);
 			newFragment.show(activity.getSupportFragmentManager(), "timePicker");
@@ -314,7 +332,7 @@ public class ItemAdapterStation extends ArrayAdapter<DataRadioStation> implement
 
 	@Override
 	public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-		Log.w("DETAIL","onTimeSet() "+hourOfDay);
+		Log.w(TAG,"onTimeSet() "+hourOfDay);
 		RadioAlarmManager ram = new RadioAlarmManager(getContext().getApplicationContext(),null);
 		ram.add(itsStation,hourOfDay,minute);
 	}
