@@ -1,16 +1,12 @@
 package net.programmierecke.radiodroid2;
 
-import android.Manifest;
-import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
@@ -19,12 +15,10 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import net.programmierecke.radiodroid2.data.DataRadioStation;
-
-import java.util.Locale;
 import java.util.Map;
 
 public class ActivityPlayerInfo extends AppCompatActivity {
@@ -39,6 +33,8 @@ public class ActivityPlayerInfo extends AppCompatActivity {
 	private TextView textViewExtraInfo;
 	private ImageButton buttonRecord;
 	private Thread t;
+	private LinearLayout layoutPlaying;
+	private TextView textViewStatus;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -97,6 +93,8 @@ public class ActivityPlayerInfo extends AppCompatActivity {
 		}
 		textViewLiveInfo = (TextView) findViewById(R.id.textViewLiveInfo);
 		textViewExtraInfo = (TextView) findViewById(R.id.textViewExtraStreamInfo);
+		layoutPlaying = (LinearLayout) findViewById(R.id.LinearLayoutPlaying);
+		textViewStatus = (TextView) findViewById(R.id.detail_status);
 
 		buttonStop = (ImageButton) findViewById(R.id.buttonStop);
 		if (buttonStop != null){
@@ -145,6 +143,9 @@ public class ActivityPlayerInfo extends AppCompatActivity {
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
+		if (!PlayerServiceUtil.isPlaying()){
+			return super.onOptionsItemSelected(item);
+		}
 		switch (item.getItemId()) {
 			case R.id.action_set_alarm:
 				addTime();
@@ -179,7 +180,7 @@ public class ActivityPlayerInfo extends AppCompatActivity {
 	}
 
 	private void UpdateOutput() {
-		Log.w("ARR","UpdateOutput()");
+		Log.i("ARR","UpdateOutput()");
 
 		if (aTextViewName != null) {
 			String stationName = PlayerServiceUtil.getStationName();
@@ -234,7 +235,11 @@ public class ActivityPlayerInfo extends AppCompatActivity {
 
 		if (!PlayerServiceUtil.isPlaying()){
 			Log.i("ARR","exit..");
-			finish();
+			textViewStatus.setText(getResources().getString(R.string.player_info_status)+getResources().getString(R.string.player_info_status_stopped));
+			layoutPlaying.setVisibility(View.GONE);
+		}else{
+			textViewStatus.setText(getResources().getString(R.string.player_info_status)+getResources().getString(R.string.player_info_status_playing));
+			layoutPlaying.setVisibility(View.VISIBLE);
 		}
 	}
 

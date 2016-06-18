@@ -1,5 +1,6 @@
 package net.programmierecke.radiodroid2;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -82,6 +83,12 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
 			public boolean onNavigationItemSelected(MenuItem menuItem) {
 				mDrawerLayout.closeDrawers();
 				android.support.v4.app.Fragment f = null;
+
+				if (menuItem.getItemId() == R.id.nav_item_player_status) {
+					Intent intent = new Intent(ActivityMain.this, ActivityPlayerInfo.class);
+					startActivity(intent);
+					return false;
+				}
 
 				if (menuItem.getItemId() == R.id.nav_item_stations) {
 					f = new FragmentTabs();
