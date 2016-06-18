@@ -63,38 +63,45 @@ public class FragmentBase extends Fragment {
 
         Log.d("DOWN","Download url:"+url);
         if (TextUtils.isGraphic(url)) {
-            if (mycontext != null && displayProgress) {
-                itsProgressLoading = ProgressDialog.show(mycontext, "", getActivity().getString(R.string.progress_loading));
-            }
-            new AsyncTask<Void, Void, String>() {
-                @Override
-                protected String doInBackground(Void... params) {
-                    HashMap<String,String> p = new HashMap<String, String>();
-                    if (!show_broken) {
-                        p.put("hidebroken", "true");
-                    }
-                    return Utils.downloadFeed(getActivity(), url, forceUpdate, p);
+            String cache = Utils.getCacheFile(getActivity(),url);
+            if (cache == null || forceUpdate) {
+                if (mycontext != null && displayProgress) {
+                    itsProgressLoading = ProgressDialog.show(mycontext, "", getActivity().getString(R.string.progress_loading));
                 }
+                new AsyncTask<Void, Void, String>() {
+                    @Override
+                    protected String doInBackground(Void... params) {
+                        HashMap<String, String> p = new HashMap<String, String>();
+                        if (!show_broken) {
+                            p.put("hidebroken", "true");
+                        }
+                        return Utils.downloadFeed(getActivity(), url, forceUpdate, p);
+                    }
 
-                @Override
-                protected void onPostExecute(String result) {
-                    DownloadFinished();
-                    if (itsProgressLoading != null) {
-                        itsProgressLoading.dismiss();
-                        itsProgressLoading = null;
+                    @Override
+                    protected void onPostExecute(String result) {
+                        DownloadFinished();
+                        if (itsProgressLoading != null) {
+                            itsProgressLoading.dismiss();
+                            itsProgressLoading = null;
+                        }
+                        Log.d("DOWN", "Download url finished:" + url);
+                        if (result != null) {
+                            Log.d("DOWN", "Download url OK:" + url);
+                            urlResult = result;
+                            RefreshListGui();
+                        } else {
+                            Toast toast = Toast.makeText(getContext(), getResources().getText(R.string.error_list_update), Toast.LENGTH_SHORT);
+                            toast.show();
+                        }
+                        super.onPostExecute(result);
                     }
-                    Log.d("DOWN","Download url finished:"+url);
-                    if (result != null) {
-                        Log.d("DOWN","Download url OK:"+url);
-                        urlResult = result;
-                        RefreshListGui();
-                    }else{
-                        Toast toast = Toast.makeText(getContext(), getResources().getText(R.string.error_list_update), Toast.LENGTH_SHORT);
-                        toast.show();
-                    }
-                    super.onPostExecute(result);
-                }
-            }.execute();
+                }.execute();
+            }else{
+                urlResult = cache;
+                RefreshListGui();
+                DownloadFinished();
+            }
         }else{
             RefreshListGui();
         }
