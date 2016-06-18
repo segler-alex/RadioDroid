@@ -24,7 +24,7 @@ public class FragmentRecordings extends Fragment implements IFragmentRefreshable
     final String TAG = "FragREC";
 
     void ClickOnItem(DataRecording theData) {
-        String path = Recordings.getRecordDir() + "/" + theData.Name;
+        String path = RecordingsManager.getRecordDir() + "/" + theData.Name;
         Log.w(TAG,"play :"+path);
         Intent i = new Intent(path);
         i.setAction(android.content.Intent.ACTION_VIEW);
@@ -69,7 +69,7 @@ public class FragmentRecordings extends Fragment implements IFragmentRefreshable
             Log.d(TAG,"LV != null");
             ItemAdapterRecordings arrayAdapter = (ItemAdapterRecordings) lv.getAdapter();
             arrayAdapter.clear();
-            DataRecording[] recordings = Recordings.getRecordings();
+            DataRecording[] recordings = RecordingsManager.getRecordings();
             Log.d(TAG,"Station count:"+recordings.length);
             for (DataRecording aRecording : recordings) {
                 if (!aRecording.Name.equals(PlayerServiceUtil.getCurrentRecordFileName())) {

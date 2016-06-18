@@ -214,7 +214,7 @@ public class StreamProxy {
     void recordInternal(String fileName){
         if (fileOutputStream == null) {
             try {
-                String path = Recordings.getRecordDir() + "/" + fileName;
+                String path = RecordingsManager.getRecordDir() + "/" + fileName;
                 Log.i(TAG,"start recording to :"+fileName + " in dir " + path);
                 fileOutputStream = new FileOutputStream(path);
             } catch (FileNotFoundException e) {

@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class Recordings {
+public class RecordingsManager {
     final static String TAG = "REC";
 
     public static String getRecordDir(){
