@@ -72,7 +72,9 @@ public class FragmentRecordings extends Fragment implements IFragmentRefreshable
             DataRecording[] recordings = Recordings.getRecordings();
             Log.d(TAG,"Station count:"+recordings.length);
             for (DataRecording aRecording : recordings) {
-                arrayAdapter.add(aRecording);
+                if (!aRecording.Name.equals(PlayerServiceUtil.getCurrentRecordFileName())) {
+                    arrayAdapter.add(aRecording);
+                }
             }
 
             lv.invalidate();
