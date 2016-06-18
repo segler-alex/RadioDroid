@@ -1,14 +1,11 @@
 package net.programmierecke.radiodroid2;
 
 import android.content.Context;
-import android.os.Environment;
-import android.provider.ContactsContract;
 import android.util.Log;
 
 import net.programmierecke.radiodroid2.data.ShoutcastInfo;
 import net.programmierecke.radiodroid2.interfaces.IStreamProxyEventReceiver;
 
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -19,11 +16,9 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.URL;
 import java.net.URLConnection;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
@@ -37,6 +32,7 @@ public class StreamProxy {
     private FileOutputStream fileOutputStream;
     private boolean isStopped = false;
     private String outFileName = null;
+    final String TAG = "PROXY";
 
     public StreamProxy(Context context, String uri, IStreamProxyEventReceiver callback) {
         this.context = context;
@@ -47,14 +43,14 @@ public class StreamProxy {
     }
 
     private void createProxy() {
-        Log.i("ABC","thread started");
+        Log.i(TAG,"thread started");
         ServerSocket proxyServer = null;
         try {
             proxyServer = new ServerSocket(0, 1, InetAddress.getLocalHost());
             int port = proxyServer.getLocalPort();
             localAdress = String.format(Locale.US,"http://localhost:%d",port);
         } catch (IOException e) {
-            Log.e("PROXY","createProxy() create server socket: "+e);
+            Log.e(TAG,"createProxy() create server socket: "+e);
         }
 
         if (proxyServer != null) {
@@ -63,22 +59,22 @@ public class StreamProxy {
                 @Override
                 public void run() {
                     try {
-                        Log.i("ABC", "waiting..");
+                        Log.i(TAG, "waiting..");
                         socketProxy = finalProxyServer.accept();
                         finalProxyServer.close();
 
                         doConnectToStream();
 
-                        Log.i("PROXY", "createProxy() ended");
+                        Log.i(TAG, "createProxy() ended");
                     } catch (IOException e) {
-                        Log.e("PROXY", "" + e);
+                        Log.e(TAG, "" + e);
                     }
                 }
             }).start();
 
             while (localAdress == null) {
                 try {
-                    Log.i("PROXY", "starting serversock...");
+                    Log.i(TAG, "starting serversock...");
                     Thread.sleep(100);
                 } catch (Exception e) {
                 }
@@ -149,12 +145,12 @@ public class StreamProxy {
                                 bytesUntilMetaData -= readBytes;
                             }
 
-                            Log.v("ABC", "in:" + readBytes);
+                            Log.v(TAG, "in:" + readBytes);
                             if (readBytesBuffer > buf.length / 2) {
-                                Log.v("ABC", "out:" + readBytesBuffer);
+                                Log.v(TAG, "out:" + readBytesBuffer);
                                 out.write(buf, 0, readBytesBuffer);
                                 if (fileOutputStream != null) {
-                                    Log.v("ABC", "writing to record file..");
+                                    Log.v(TAG, "writing to record file..");
                                     fileOutputStream.write(buf, 0, readBytesBuffer);
                                 }
                                 readBytesBuffer = 0;
@@ -164,7 +160,7 @@ public class StreamProxy {
                             int metadataBytesToRead = metadataBytes;
                             readBytesBufferMetadata = 0;
                             bytesUntilMetaData = info.metadataOffset;
-                            Log.d("ABC", "metadata size:" + metadataBytes);
+                            Log.d(TAG, "metadata size:" + metadataBytes);
                             if (metadataBytes > 0) {
                                 Arrays.fill(bufMetadata, (byte) 0);
                                 while (true) {
@@ -179,9 +175,9 @@ public class StreamProxy {
                                     readBytesBufferMetadata += readBytes;
                                     if (metadataBytesToRead <= 0) {
                                         String s = new String(bufMetadata, 0, metadataBytes, "utf-8");
-                                        Log.d("ABC", "METADATA:" + s);
+                                        Log.d(TAG, "METADATA:" + s);
                                         Map<String, String> dict = DecodeShoutcastMetadata(s);
-                                        Log.d("ABC", "META:" + dict.get("StreamTitle"));
+                                        Log.d(TAG, "META:" + dict.get("StreamTitle"));
                                         callback.foundLiveStreamInfo(dict);
                                         break;
                                     }
@@ -192,14 +188,14 @@ public class StreamProxy {
                         retry = MaxRetries;
                     }
                 } catch (Exception e) {
-                    Log.e("PROXY", "Play()" + e);
+                    Log.e(TAG, "Play()" + e);
                 }
 
                 retry--;
                 Thread.sleep(1000);
             }
         } catch (InterruptedException e) {
-            Log.e("PROXY","Play() "+e);
+            Log.e(TAG,"Play() "+e);
         }
         // inform outside if stream stopped, only if outside did not initiate stop
         if (!isStopped){
@@ -219,10 +215,10 @@ public class StreamProxy {
         if (fileOutputStream == null) {
             try {
                 String path = Recordings.getRecordDir() + "/" + fileName;
-                Log.i("ABC","start recording to :"+fileName + " in dir " + path);
+                Log.i(TAG,"start recording to :"+fileName + " in dir " + path);
                 fileOutputStream = new FileOutputStream(path);
             } catch (FileNotFoundException e) {
-                Log.e("ABC", "record('"+fileName+"'): " + e);
+                Log.e(TAG, "record('"+fileName+"'): " + e);
             }
         }
     }
@@ -232,7 +228,7 @@ public class StreamProxy {
             try {
                 fileOutputStream.close();
             } catch (IOException e) {
-                Log.e("ABC",""+e);
+                Log.e(TAG,"stopRecord():"+e);
             }
             outFileName = null;
             fileOutputStream = null;
@@ -298,28 +294,28 @@ public class StreamProxy {
     }
 
     public void stop() {
-        Log.i("PROXY","stop()");
+        Log.i(TAG,"stop()");
         isStopped = true;
         stopRecord();
         if (in != null) {
             try {
                 in.close();
             } catch (IOException e) {
-                Log.e("PROXY","stop() in.close() "+e);
+                Log.e(TAG,"stop() in.close() "+e);
             }
         }
         if (out != null) {
             try {
                 out.close();
             } catch (IOException e) {
-                Log.e("PROXY","stop() out.close() "+e);
+                Log.e(TAG,"stop() out.close() "+e);
             }
         }
         if (socketProxy != null){
             try {
                 socketProxy.close();
             } catch (IOException e) {
-                Log.e("PROXY","stop() socketProxy.close() "+e);
+                Log.e(TAG,"stop() socketProxy.close() "+e);
             }
             socketProxy = null;
         }
