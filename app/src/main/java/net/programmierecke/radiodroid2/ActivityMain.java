@@ -1,6 +1,7 @@
 package net.programmierecke.radiodroid2;
 
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -15,6 +16,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import net.programmierecke.radiodroid2.interfaces.IFragmentRefreshable;
 import net.programmierecke.radiodroid2.interfaces.IFragmentSearchable;
@@ -114,6 +116,12 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
 					myToolbar.setTitle(R.string.nav_item_statistics);
 				}
 
+				if (menuItem.getItemId() == R.id.nav_item_recordings) {
+					f = new FragmentRecordings();
+					menuItemSearch.setVisible(false);
+					myToolbar.setTitle(R.string.nav_item_recordings);
+				}
+
 				if (menuItem.getItemId() == R.id.nav_item_alarm) {
 					f = new FragmentAlarm();
 					menuItemSearch.setVisible(false);
@@ -152,6 +160,27 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
 		ActionBarDrawerToggle mDrawerToggle = new ActionBarDrawerToggle(this,mDrawerLayout, R.string.app_name,R.string.app_name);
 		mDrawerLayout.addDrawerListener(mDrawerToggle);
 		mDrawerToggle.syncState();
+	}
+
+	@Override
+	public void onRequestPermissionsResult(int requestCode,
+										   String permissions[], int[] grantResults) {
+		Log.w(TAG,"on request permissions result:"+requestCode);
+		switch (requestCode) {
+			case Utils.REQUEST_EXTERNAL_STORAGE: {
+				// If request is cancelled, the result arrays are empty.
+				if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+					if (fragRefreshable != null){
+						Log.w(TAG,"REFRESH VIEW");
+						fragRefreshable.Refresh();
+					}
+				} else {
+					Toast toast = Toast.makeText(this, getResources().getString(R.string.error_record_needs_write), Toast.LENGTH_SHORT);
+					toast.show();
+				}
+				return;
+			}
+		}
 	}
 
 	@Override

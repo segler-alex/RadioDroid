@@ -2,11 +2,13 @@ package net.programmierecke.radiodroid2;
 
 import android.content.Context;
 import android.os.Environment;
+import android.provider.ContactsContract;
 import android.util.Log;
 
 import net.programmierecke.radiodroid2.data.ShoutcastInfo;
 import net.programmierecke.radiodroid2.interfaces.IStreamProxyEventReceiver;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -17,9 +19,11 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
@@ -204,18 +208,17 @@ public class StreamProxy {
         stop();
     }
 
-    public void record(){
+    public void record(String stationName){
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(System.currentTimeMillis());
-        outFileName = String.format("%1$tY_%1$tm_%1$td_%1$tH_%1$tM_%1$tS.mp3", calendar);
-        record(outFileName);
+        outFileName = String.format("%2$s - %1$tY_%1$tm_%1$td_%1$tH_%1$tM_%1$tS.mp3", calendar, Utils.sanitizeName(stationName));
+        recordInternal(outFileName);
     }
 
-    public void record(String fileName){
+    void recordInternal(String fileName){
         if (fileOutputStream == null) {
             try {
-                // Get the directory for the user's public pictures directory.
-                String path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MUSIC) + "/" + fileName;
+                String path = Recordings.getRecordDir() + "/" + fileName;
                 Log.i("ABC","start recording to :"+fileName + " in dir " + path);
                 fileOutputStream = new FileOutputStream(path);
             } catch (FileNotFoundException e) {

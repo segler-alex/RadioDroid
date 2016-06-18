@@ -42,9 +42,7 @@ public class Utils {
 		try{
 			String aFileName = theURI.toLowerCase().replace("http://","");
 			aFileName = aFileName.toLowerCase().replace("https://","");
-			aFileName = aFileName.toLowerCase().replace("/","_");
-			aFileName = aFileName.toLowerCase().replace("?","_");
-			aFileName = aFileName.toLowerCase().replace("&","_");
+			aFileName = sanitizeName(aFileName);
 
 			File file = new File(ctx.getCacheDir().getAbsolutePath() + "/"+aFileName);
 			Date lastModDate = new Date(file.lastModified());
@@ -81,9 +79,7 @@ public class Utils {
 		try{
 			String aFileName = theURI.toLowerCase().replace("http://","");
 			aFileName = aFileName.toLowerCase().replace("https://","");
-			aFileName = aFileName.toLowerCase().replace("/","_");
-			aFileName = aFileName.toLowerCase().replace("?","_");
-			aFileName = aFileName.toLowerCase().replace("&","_");
+			aFileName = sanitizeName(aFileName);
 
 			File f = new File(ctx.getCacheDir() + "/" + aFileName);
 			FileOutputStream aStream = new FileOutputStream(f);
@@ -166,10 +162,6 @@ public class Utils {
 		return null;
 	}
 
-	public static String getBase64(String theOriginal) {
-		return Base64.encodeToString(theOriginal.getBytes(), Base64.URL_SAFE | Base64.NO_PADDING);
-	}
-
 	public static void Play(final DataRadioStation station, final Context context) {
 		SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
 		boolean play_external = sharedPref.getBoolean("play_external", false);
@@ -238,5 +230,9 @@ public class Utils {
 			bytes = bytes/1024;
 		}
 		return String.format(Locale.getDefault(), "%1$,.1f %2$s",bytes*1024,str[str.length-1]);
+	}
+
+	public static String sanitizeName(String str){
+		return str.replaceAll("\\W+", "_");
 	}
 }

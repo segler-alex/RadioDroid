@@ -165,7 +165,7 @@ public class PlayerService extends Service implements IStreamProxyEventReceiver 
 		@Override
 		public void startRecording() throws RemoteException {
 			if (proxy != null){
-				proxy.record();
+				proxy.record(itsStationName);
 				sendBroadCast(PLAYER_SERVICE_META_UPDATE);
 			}
 		}
@@ -436,7 +436,9 @@ public class PlayerService extends Service implements IStreamProxyEventReceiver 
 		Log.i(TAG, "Bitrate:" + info.bitrate);
 		Log.i(TAG, "Name:" + info.audioName);
 		if (info.audioName != null) {
-			itsStationName = info.audioName;
+			if (!info.audioName.trim().equals("")) {
+				itsStationName = info.audioName.trim();
+			}
 		}
 		Log.i(TAG, "Server:" + info.serverName);
 		Log.i(TAG, "AudioInfo:" + info.audioInfo);
