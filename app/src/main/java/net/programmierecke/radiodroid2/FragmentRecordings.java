@@ -21,10 +21,11 @@ import java.io.File;
 public class FragmentRecordings extends Fragment implements IFragmentRefreshable{
     private ItemAdapterRecordings itemAdapterRecordings;
     private ListViewCompat lv;
+    final String TAG = "FragREC";
 
     void ClickOnItem(DataRecording theData) {
         String path = Recordings.getRecordDir() + "/" + theData.Name;
-        Log.w("REC","play :"+path);
+        Log.w(TAG,"play :"+path);
         Intent i = new Intent(path);
         i.setAction(android.content.Intent.ACTION_VIEW);
         File file = new File(path);
@@ -58,25 +59,25 @@ public class FragmentRecordings extends Fragment implements IFragmentRefreshable
     }
 
     protected void RefreshListGui(){
-        Log.d("ABC", "RefreshListGUI()");
+        Log.d(TAG, "RefreshListGUI()");
 
         if (!Utils.verifyStoragePermissions(getActivity())){
-            Log.e("REC","could not get permissions");
+            Log.e(TAG,"could not get permissions");
         }
 
         if (lv != null) {
-            Log.d("ABC","LV != null");
+            Log.d(TAG,"LV != null");
             ItemAdapterRecordings arrayAdapter = (ItemAdapterRecordings) lv.getAdapter();
             arrayAdapter.clear();
             DataRecording[] recordings = Recordings.getRecordings();
-            Log.d("ABC","Station count:"+recordings.length);
+            Log.d(TAG,"Station count:"+recordings.length);
             for (DataRecording aRecording : recordings) {
                 arrayAdapter.add(aRecording);
             }
 
             lv.invalidate();
         }else{
-            Log.e("NULL","LV == null");
+            Log.e(TAG,"LV == null");
         }
     }
 
