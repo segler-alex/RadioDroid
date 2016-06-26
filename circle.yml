@@ -14,8 +14,8 @@ machine:
     GRADLE_OPTS: '-Dorg.gradle.jvmargs="-Xmx1000m -XX:+HeapDumpOnOutOfMemoryError"'
     GRADLE_HOME: ~/g/gradle-2.10
     PATH: ~/g/gradle-2.10/bin:$PATH
-    CLASS_P: ws.xsoh.etar
-    START_INTENT_P: com.android.calendar.AllInOneActivity
+    CLASS_P: net.programmierecke.radiodroid2
+    START_INTENT_P: .ActivityMain
 dependencies:
   cache_directories:
     - ~/.android
