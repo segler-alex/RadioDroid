@@ -471,10 +471,20 @@ public class PlayerService extends Service implements IStreamProxyEventReceiver 
 			itsMediaPlayer = null;
 		}
 
-		if (proxy != null){
-			proxy.stop();
-			proxy = null;
-		}
+		new Thread(new Runnable() {
+			@Override
+			public void run() {
+				if (proxy != null) {
+					try {
+						proxy.stop();
+					}
+					catch (Exception e){
+						Log.e(TAG,"Stop() "+e);
+					}
+					proxy = null;
+				}
+			}
+		}).start();
 		SetPlayStatus(PlayStatus.Idle);
 		liveInfo = null;
 		streamInfo = null;
