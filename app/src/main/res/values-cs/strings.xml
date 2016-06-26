@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">RadioDroid</string>
+    <string name="detail_name">Jméno</string>
+    <string name="detail_tags">Tagy</string>
+    <string name="detail_country">Země</string>
+    <string name="detail_language">Jazyk</string>
+    <string name="detail_weblink">Web</string>
+    <string name="detail_play">Hrát</string>
+    <string name="detail_stop">Zastavit</string>
+    <string name="detail_share">Sdílet</string>
+    <string name="action_search">Hledat</string>
+    <string name="action_top_click">Nejotvíranější</string>
+    <string name="action_top_vote">Nejvolenější</string>
+    <string name="action_changed_lately">Nedávno změněné</string>
+    <string name="action_currently_playing">Hrající</string>
+    <string name="action_tags">Tagy</string>
+    <string name="action_countries">Země</string>
+    <string name="action_languages">Jazyky</string>
+    <string name="error_station_load">Nelze připojit ke stanici</string>
+    <string name="error_list_update">Nelze připojit k serveru prohlížeče rádií</string>
+
+    <string name="share_action">Sdílet odkaz stanice s</string>
+
+    <string name="nav_item_stations">Stanice</string>
+    <string name="nav_item_starred">Označené</string>
+    <string name="nav_item_history">Historie</string>
+    <string name="nav_item_settings">Nastavení</string>
+    <string name="nav_item_alarm">Alarm</string>
+    <string name="nav_item_statistics">Statistiky</string>
+    <string name="nav_item_about">O aplikaci</string>
+    <string name="nav_item_recordings">Nahrávky</string>
+    <string name="nav_item_player_status">Stav přehrávače</string>
+
+    <string name="about_text">Tato aplikace používá volně dostupný adresář rádií na\nhttp://www.radio-browser.info\nKaždý může přidávat nové nebo měnit existující stanice. Funguje ve stylu wiki pro online(streamované) radiostanice.\n\nKontakt:\nsegler_alex@web.de\n\nHlášení chyb:\nhttps://github.com/segler-alex/RadioDroid/issues\n\nPokud se vám tento software líbí a chtěli byste pomoci, můžete mi poslat email. Opravdu potřebuji někoho se zkušeností s prací s grafikou, aby aplikace získala hezčí vzhled. Možná někdo kdo umí kreslit ikony a obrázky... Ale také programátory opravující chyby nebo implementující nové funkce.\nNápady na nové funkce jsou také vítány!\n\nTato aplikace je svobodný software licencovaný pod GPLv3\nhttps://www.gnu.org/licenses/gpl-3.0.html.</string>
+    <string name="detail_star">Záložka</string>
+    <string name="detail_unstar">Smazat</string>
+    <string name="progress_loading">Načítání...</string>
+
+    <string name="sleep_timer" formatted="true">Časovač před spaním: %1$02d:%2$02d</string>
+    <string name="nav_item_add_sleep">+15 min</string>
+
+    <string name="settings_general">Všeobecné</string>
+    <string name="settings_single_use_tags">Zobrazit tagy použité jednou</string>
+    <string name="settings_single_use_tags_desc_off">Tagy použité pouze jednou nebudou zobrazeny</string>
+    <string name="settings_single_use_tags_desc_on">Tagy použité pouze jednou budou zobrazeny</string>
+
+    <string name="settings_show_broken">Rozbité stanice</string>
+    <string name="settings_show_broken_on">Zobrazovat rozbité stanice v seznamech</string>
+    <string name="settings_show_broken_off">Nezobrazovat rozbité stanice v seznamech</string>
+
+    <string name="settings_alarm">Alarm</string>
+    <string name="settings_alarm_external">Otevřít externě</string>
+    <string name="settings_alarm_external_desc">Otevřít alarm s výchozí externí aplikací</string>
+    <string name="settings_alarm_audio_player">Audiopřehrávač</string>
+    <string name="settings_alarm_sleep_timer">Časovač před spaním</string>
+    <string name="settings_alarm_sleep_timer_desc">Ukončit přehrávání po %1$s minutách</string>
+    <string name="settings_play">Přehrávač</string>
+    <string name="settings_play_external">Otevřít externě</string>
+    <string name="settings_play_external_desc">Má dotyk na stanice otevřít externí</string>
+
+    <string name="notify_start_proxy">Spouštění proxy..</string>
+    <string name="notify_stop_player">Ukončení starého přehrávače..</string>
+    <string name="notify_prepare_stream">Připravování streamu..</string>
+    <string name="notify_try_play">Zkus přehrát</string>
+    <string name="notify_play">Hrající</string>
+
+    <string name="error_stream_url">Problém s URL streamu</string>
+    <string name="error_caching_stream">Problém s cache streamu</string>
+    <string name="error_play_stream">Nelze přehrát stream</string>
+
+    <string name="error_record_needs_write">Pro nahrávání jsou nutná práva pro zápis!</string>
+
+    <string name="player_info_status">STAV:</string>
+    <string name="player_info_status_stopped">Zastaveno</string>
+    <string name="player_info_status_playing">Hrající</string>
+    <string name="player_info_transfered">Přenesená data: %1$s</string>
+    <string name="player_info_record_to">Nahrává se do: %1$s</string>
+
+    <string name="station_detail_bitrate">%1$1d kbps</string>
+    <string name="station_detail_broken">ROZBITÉ</string>
+
+    <string name="image_button_disable">Vypnout</string>
+    <string name="image_button_record">Nahrát</string>
+    <string name="image_button_delete">Smazat</string>
+    <string name="image_button_more">Více</string>
+</resources>
