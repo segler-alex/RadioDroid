@@ -300,21 +300,21 @@ public class StreamProxy {
         if (in != null) {
             try {
                 in.close();
-            } catch (IOException e) {
+            } catch (Exception e) {
                 Log.e(TAG,"stop() in.close() "+e);
             }
         }
         if (out != null) {
             try {
                 out.close();
-            } catch (IOException e) {
+            } catch (Exception e) {
                 Log.e(TAG,"stop() out.close() "+e);
             }
         }
         if (socketProxy != null){
             try {
                 socketProxy.close();
-            } catch (IOException e) {
+            } catch (Exception e) {
                 Log.e(TAG,"stop() socketProxy.close() "+e);
             }
             socketProxy = null;
