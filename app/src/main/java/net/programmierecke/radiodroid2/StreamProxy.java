@@ -94,7 +94,7 @@ public class StreamProxy {
                     // connect to stream
                     URLConnection connection = new URL(uri).openConnection();
                     connection.setConnectTimeout(5000);
-                    connection.setReadTimeout(5000);
+                    connection.setReadTimeout(10000);
                     connection.setRequestProperty("Icy-MetaData", "1");
                     connection.connect();
 
@@ -120,7 +120,7 @@ public class StreamProxy {
                         filterOutMetaData = true;
                     }
 
-                    byte buf[] = new byte[16384];
+                    byte buf[] = new byte[163840];
                     byte bufMetadata[] = new byte[256 * 16];
                     int readBytesBuffer = 0;
                     int readBytesBufferMetadata = 0;
@@ -188,14 +188,14 @@ public class StreamProxy {
                         retry = MaxRetries;
                     }
                 } catch (Exception e) {
-                    Log.e(TAG, "Play()" + e);
+                    Log.e(TAG, "Inside loop ex Proxy()" + e);
                 }
 
                 retry--;
                 Thread.sleep(1000);
             }
         } catch (InterruptedException e) {
-            Log.e(TAG,"Play() "+e);
+            Log.e(TAG,"Interrupted ex Proxy() "+e);
         }
         // inform outside if stream stopped, only if outside did not initiate stop
         if (!isStopped){
