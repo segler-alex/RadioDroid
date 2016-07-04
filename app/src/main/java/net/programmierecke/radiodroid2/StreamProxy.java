@@ -22,6 +22,11 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
+import okio.Buffer;
+import okio.BufferedSink;
+import okio.BufferedSource;
+import okio.Okio;
+
 public class StreamProxy {
     private IStreamProxyEventReceiver callback;
     private String uri;
@@ -30,6 +35,7 @@ public class StreamProxy {
     private volatile String localAdress = null;
     private Context context;
     private FileOutputStream fileOutputStream;
+    private BufferedSink fileSink;
     private boolean isStopped = false;
     private String outFileName = null;
     final String TAG = "PROXY";
@@ -110,7 +116,7 @@ public class StreamProxy {
                     // try to get shoutcast information from stream connection
                     ShoutcastInfo info = ShoutcastInfo.Decode(connection);
 
-                    int bytesUntilMetaData = 0;
+                    long bytesUntilMetaData = 0;
                     boolean readMetaData = false;
                     boolean filterOutMetaData = false;
 
@@ -120,19 +126,27 @@ public class StreamProxy {
                         filterOutMetaData = true;
                     }
 
-                    byte buf[] = new byte[163840];
-                    byte bufMetadata[] = new byte[256 * 16];
-                    int readBytesBuffer = 0;
-                    int readBytesBufferMetadata = 0;
+                    BufferedSource httpSource = Okio.buffer(Okio.source(in));
+                    BufferedSink playerSink = Okio.buffer(Okio.sink(out));
+                    // create new okio buffer
+                    Buffer okibuf = new Buffer();
+                    Buffer bufMetadata = new Buffer();
+
+                    //byte buf[] = new byte[163840];
+                    long oldbufsize = 163840;
+                    //byte bufMetadata[] = new byte[256 * 16];
+                    long readBytesBuffer = 0;
+                    long readBytesBufferMetadata = 0;
 
                     while (!isStopped) {
-                        int readBytes = 0;
+                        long readBytes = 0;
                         if (!filterOutMetaData || (bytesUntilMetaData > 0)) {
-                            int bytesToRead = buf.length - readBytesBuffer;
+                            long bytesToRead = oldbufsize - readBytesBuffer;
                             if (filterOutMetaData) {
                                 bytesToRead = Math.min(bytesUntilMetaData, bytesToRead);
                             }
-                            readBytes = in.read(buf, readBytesBuffer, bytesToRead);
+                            readBytes = httpSource.read(okibuf, bytesToRead);
+                            //readBytes = in.read(buf, readBytesBuffer, bytesToRead);
                             if (readBytes == 0) {
                                 continue;
                             }
@@ -146,25 +160,25 @@ public class StreamProxy {
                             }
 
                             Log.v(TAG, "in:" + readBytes);
-                            if (readBytesBuffer > buf.length / 2) {
+                            if (readBytesBuffer > oldbufsize / 2) {
                                 Log.v(TAG, "out:" + readBytesBuffer);
-                                out.write(buf, 0, readBytesBuffer);
-                                if (fileOutputStream != null) {
+                                playerSink.write(okibuf, readBytesBuffer);
+                                if (fileSink != null) {
                                     Log.v(TAG, "writing to record file..");
-                                    fileOutputStream.write(buf, 0, readBytesBuffer);
+                                    fileSink.write(okibuf, readBytesBuffer);
                                 }
                                 readBytesBuffer = 0;
                             }
                         } else {
-                            int metadataBytes = in.read() * 16;
-                            int metadataBytesToRead = metadataBytes;
+                            long metadataBytes = httpSource.readByte() * 16;
+                            long metadataBytesToRead = metadataBytes;
                             readBytesBufferMetadata = 0;
                             bytesUntilMetaData = info.metadataOffset;
                             Log.d(TAG, "metadata size:" + metadataBytes);
                             if (metadataBytes > 0) {
-                                Arrays.fill(bufMetadata, (byte) 0);
+                                //Arrays.fill(bufMetadata, (byte) 0);
                                 while (true) {
-                                    readBytes = in.read(bufMetadata, readBytesBufferMetadata, metadataBytesToRead);
+                                    readBytes = httpSource.read(bufMetadata, metadataBytesToRead);
                                     if (readBytes == 0) {
                                         continue;
                                     }
@@ -174,7 +188,8 @@ public class StreamProxy {
                                     metadataBytesToRead -= readBytes;
                                     readBytesBufferMetadata += readBytes;
                                     if (metadataBytesToRead <= 0) {
-                                        String s = new String(bufMetadata, 0, metadataBytes, "utf-8");
+                                        String s = bufMetadata.readUtf8();
+                                        //String s = new String(bufMetadata, 0, metadataBytes, "utf-8");
                                         Log.d(TAG, "METADATA:" + s);
                                         Map<String, String> dict = DecodeShoutcastMetadata(s);
                                         Log.d(TAG, "META:" + dict.get("StreamTitle"));
@@ -217,6 +232,7 @@ public class StreamProxy {
                 String path = RecordingsManager.getRecordDir() + "/" + fileName;
                 Log.i(TAG,"start recording to :"+fileName + " in dir " + path);
                 fileOutputStream = new FileOutputStream(path);
+                fileSink = Okio.buffer(Okio.sink(fileOutputStream));
             } catch (FileNotFoundException e) {
                 Log.e(TAG, "record('"+fileName+"'): " + e);
             }
@@ -226,12 +242,14 @@ public class StreamProxy {
     public void stopRecord() {
         if (fileOutputStream != null){
             try {
+                fileSink.close();
                 fileOutputStream.close();
             } catch (IOException e) {
                 Log.e(TAG,"stopRecord():"+e);
             }
             outFileName = null;
             fileOutputStream = null;
+            fileSink = null;
         }
     }
 
