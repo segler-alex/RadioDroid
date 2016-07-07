@@ -305,6 +305,10 @@ public class PlayerService extends Service implements IStreamProxyEventReceiver 
 		itsStationID = theID;
 		itsStationName = theName;
 		itsStationURL = theURL;
+		ReplayCurrent(isAlarm);
+	}
+
+	public void ReplayCurrent(final boolean isAlarm) {
 		liveInfo = null;
 		streamInfo = null;
 		SetPlayStatus(PlayStatus.Idle);
@@ -459,6 +463,7 @@ public class PlayerService extends Service implements IStreamProxyEventReceiver 
 	@Override
 	public void streamStopped() {
 		Stop();
+		ReplayCurrent(false);
 	}
 
 	public void Stop() {
