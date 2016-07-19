@@ -120,7 +120,7 @@ public class StreamProxy {
                         filterOutMetaData = true;
                     }
 
-                    byte buf[] = new byte[163840];
+                    byte buf[] = new byte[16384*2];
                     byte bufMetadata[] = new byte[256 * 16];
                     int readBytesBuffer = 0;
                     int readBytesBufferMetadata = 0;
