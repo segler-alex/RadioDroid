@@ -100,7 +100,7 @@ public class PlayerServiceUtil {
         return 0;
     }
 
-    public static Map<String,String> getMetadataLive() {
+    public static Map getMetadataLive() {
         if (itsPlayerService != null) {
             try {
                 return itsPlayerService.getMetadataLive();

@@ -19,6 +19,7 @@ import android.os.IBinder;
 import android.os.PowerManager;
 import android.os.RemoteException;
 import android.support.v4.app.NotificationCompat;
+import android.support.v4.content.res.ResourcesCompat;
 import android.text.TextUtils;
 import android.util.Log;
 import android.widget.Toast;
@@ -288,7 +289,7 @@ public class PlayerService extends Service implements IStreamProxyEventReceiver 
 				.setOngoing(true)
 				.setUsesChronometer(true)
 				.setSmallIcon(R.drawable.ic_play_arrow_24dp)
-				.setLargeIcon((((BitmapDrawable) getResources().getDrawable(R.drawable.ic_launcher)).getBitmap()))
+				.setLargeIcon((((BitmapDrawable) ResourcesCompat.getDrawable(getResources(), R.drawable.ic_launcher, null)).getBitmap()))
 				.addAction(R.drawable.ic_stop_24dp,"Stop",pendingIntentStop)
 				.build();
 

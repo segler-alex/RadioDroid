@@ -204,9 +204,9 @@ public class ActivityPlayerInfo extends AppCompatActivity {
 			textViewCountdown.setVisibility(View.VISIBLE);
 		}
 
-		Map<String,String> liveInfo = PlayerServiceUtil.getMetadataLive();
+		Map liveInfo = PlayerServiceUtil.getMetadataLive();
 		if (liveInfo != null){
-			String streamTitle = liveInfo.get("StreamTitle");
+			String streamTitle = (String)liveInfo.get("StreamTitle");
 			if (!TextUtils.isEmpty(streamTitle)) {
 				textViewLiveInfo.setVisibility(View.VISIBLE);
 				textViewLiveInfo.setText(streamTitle);

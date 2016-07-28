@@ -16,6 +16,12 @@
             android:summaryOn="@string/settings_show_broken_on"
             android:summaryOff="@string/settings_show_broken_off" />
 
+        <CheckBoxPreference
+            android:key="starred_at_startup"
+            android:title="@string/settings_starred_at_startup"
+            android:summaryOn="@string/settings_starred_at_startup_on"
+            android:summaryOff="@string/settings_starred_at_startup_off" />
+
     </PreferenceCategory>
 
     <PreferenceCategory

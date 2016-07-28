@@ -1,16 +1,19 @@
 package net.programmierecke.radiodroid2;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.view.MenuItemCompat;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.preference.PreferenceManager;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -41,6 +44,8 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
 	MenuItem menuItemSearch;
 	MenuItem menuItemRefresh;
 
+	private SharedPreferences sharedPref;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -69,16 +74,10 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 		getSupportActionBar().setHomeButtonEnabled(true);
 
+		mFragmentManager = getSupportFragmentManager();
+
 		mDrawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
 		mNavigationView = (NavigationView) findViewById(R.id.my_navigation_view) ;
-
-		FragmentTabs fragTabs = new FragmentTabs();
-		fragRefreshable = fragTabs;
-		fragSearchable = fragTabs;
-
-		mFragmentManager = getSupportFragmentManager();
-		mFragmentTransaction = mFragmentManager.beginTransaction();
-		mFragmentTransaction.replace(R.id.containerView,fragTabs).commit();
 
 		mNavigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
 			@Override
@@ -205,6 +204,14 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
 
 		menuItemRefresh = menu.findItem(R.id.action_refresh);
 
+		if (fragSearchable == null) {
+			menuItemSearch.setVisible(false);
+		}
+
+		if (fragRefreshable == null) {
+			menuItemRefresh.setVisible(false);
+		}
+
 		return true;
 	}
 
@@ -221,6 +228,33 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
 				return true;
 		}
 		return super.onOptionsItemSelected(item);
+	}
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+
+		if (sharedPref == null) {
+			sharedPref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+		}
+
+		Fragment first = null;
+		if (sharedPref.getBoolean("starred_at_startup", false)) {
+			FragmentStarred fragStarred = new FragmentStarred();
+			getSupportActionBar().setTitle(R.string.nav_item_starred);
+			fragSearchable = null;
+			fragRefreshable = null;
+			first = fragStarred;
+		} else {
+			FragmentTabs fragTabs = new FragmentTabs();
+			getSupportActionBar().setTitle(R.string.nav_item_stations);
+			fragRefreshable = fragTabs;
+			fragSearchable = fragTabs;
+			first = fragTabs;
+		}
+
+		mFragmentTransaction = mFragmentManager.beginTransaction();
+		mFragmentTransaction.replace(R.id.containerView,first).commit();
 	}
 
 	public void Search(String query){
