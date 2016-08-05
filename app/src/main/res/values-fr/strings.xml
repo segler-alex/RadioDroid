@@ -9,7 +9,7 @@
     <string name="detail_play">Lire</string>
     <string name="detail_stop">Arrêter</string>
     <string name="detail_share">Partager</string>
-    <string name="action_search">Recerche</string>
+    <string name="action_search">Recherche</string>
     <string name="action_top_click">Top Clics</string>
     <string name="action_top_vote">Top Votes</string>
     <string name="action_changed_lately">Modification récente</string>
@@ -29,6 +29,8 @@
     <string name="nav_item_alarm">Réveil</string>
     <string name="nav_item_statistics">Statistiques</string>
     <string name="nav_item_about">À propos</string>
+    <string name="nav_item_recordings">Enregistrements</string>
+     <string name="nav_item_player_status">État du lecteur</string>
 
     <string name="about_text">Cette application utilise le répertoire libre de stations radios à l\'adresse\nhttp://www.radio-browser.info\nChacun peut y ajouter des stations ou éditer celles déjà existantes. Ce répertoire fonctionne comme un wiki pour recenser les stations de webradios (en streaming).\n\nContact:\nsegler_alex@web.de\n\nBugtracker:\nhttps://github.com/segler-alex/RadioDroid/issues\n\nSi vous appréciez cette application et que vous voulez soutenir le développement, n\'hésitez pas à m\'envoyer un mail. Si vous avez de l\'expérience en graphisme, vous êtes le bienvenu pour rendre RadioDroid plus agréable à regarder ;) Je cherche aussi des programmeurs pour résoudre les bugs, et implémenter de nouvelles fonctionnalités !\nLes idées de nouvelles fonctionnalités sont d\'ailleurs toujours les bienvenues!\n\nCette application est un logiciel libre, sa licence est la GNU GPLv3\nhttps://www.gnu.org/licenses/gpl-3.0.html.</string>
     <string name="detail_star">Favoris</string>
@@ -69,6 +71,9 @@
 
     <string name="error_record_needs_write">Droits d\écriture requis pour l\'enregistrement !</string>
 
+    <string name="player_info_status">STATUS :</string>
+    <string name="player_info_status_stopped">Arrêté</string>
+    <string name="player_info_status_playing">En lecture</string>
     <string name="player_info_transfered">Données transmises : %1$s</string>
     <string name="player_info_record_to">Enregistrement à : %1$s</string>
 
