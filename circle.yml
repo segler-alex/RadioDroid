@@ -58,7 +58,7 @@ dependencies:
 
     - git submodule init
     - git submodule update
-    - gradle build --stacktrace --info
+    - ./gradlew build --stacktrace --info
     - find . -name '*.apk' ; exit 0
 
     - mkdir -p app/build/outputs/apk/
