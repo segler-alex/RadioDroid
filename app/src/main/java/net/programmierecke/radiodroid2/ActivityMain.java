@@ -186,11 +186,19 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
 	public void onDestroy() {
 		super.onDestroy();
 		PlayerServiceUtil.unBind(this);
+		System.out.println("main:"+ "onDestroy");
 	}
 
 	@Override
 	protected void onPause() {
 		super.onPause();
+		System.out.println("main:"+ "onPause");
+
+		if (!PlayerServiceUtil.isPlaying())
+		{
+			System.out.println("main:"+ "onPause:" +"stopping PlayerService");
+			PlayerServiceUtil.shutdownService();
+		}
 	}
 
 	@Override
@@ -232,6 +240,9 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
 
 	@Override
 	protected void onResume() {
+
+		System.out.println("main:"+ "onResume");
+
 		super.onResume();
 
 		if (sharedPref == null) {
