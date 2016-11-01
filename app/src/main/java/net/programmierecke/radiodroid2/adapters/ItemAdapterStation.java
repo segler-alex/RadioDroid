@@ -171,7 +171,7 @@ public class ItemAdapterStation extends ArrayAdapter<DataRadioStation> implement
 					// check download cache
 					Log.v("ICONS", "check cache for " + aStation.IconUrl);
 					if (TextUtils.isGraphic(aStation.IconUrl)) {
-						String aFileNameIcon = activity.getCacheDir().getAbsolutePath() + "/" + aStation.ID + ".dat";
+						String aFileNameIcon = activity.getCacheDir().getAbsolutePath() + "/" + Utils.sanitizeName(aStation.IconUrl) + ".dat";
 						File f = new File(aFileNameIcon);
 						Bitmap anIcon = BitmapFactory.decodeStream(new FileInputStream(f));
 						itsIconCache.put(aStation.IconUrl, anIcon);
@@ -352,7 +352,7 @@ public class ItemAdapterStation extends ArrayAdapter<DataRadioStation> implement
 
 						if (anIcon != null) {
 							// save image to file
-							String aFileName = activity.getCacheDir().getAbsolutePath() + "/" + anItem.ID + ".dat";
+							String aFileName = activity.getCacheDir().getAbsolutePath() + "/" + Utils.sanitizeName(anItem.itsURL) + ".dat";
 							File f = new File(aFileName);
 
 							Log.v("ICONS", "download finished " + anItem.itsURL + " -> "+aFileName);
