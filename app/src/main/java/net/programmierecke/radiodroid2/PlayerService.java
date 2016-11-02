@@ -322,7 +322,7 @@ public class PlayerService extends Service implements IStreamProxyEventReceiver,
 		switch (focusChange) {
 			case AudioManager.AUDIOFOCUS_GAIN:
 				// resume playback
-				if (itsMediaPlayer.isPlaying())
+				if (itsMediaPlayer != null && itsMediaPlayer.isPlaying())
 					itsMediaPlayer.setVolume(1.0f, 1.0f);
 				else
 					ReplayCurrent(false);
