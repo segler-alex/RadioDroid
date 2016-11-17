@@ -63,6 +63,10 @@ dependencies:
     - cp -v /home/ubuntu/RadioDroid/app/build/outputs/lint-results.xml $CIRCLE_ARTIFACTS/ ;  exit 0
     - cp -v /home/ubuntu/RadioDroid/app/build/outputs/lint-results-debug.html $CIRCLE_ARTIFACTS/ ;  exit 0
     - cp -v /home/ubuntu/RadioDroid/app/build/outputs/lint-results-debug.xml $CIRCLE_ARTIFACTS/ ;  exit 0
+    - cat -v /home/ubuntu/RadioDroid/app/build/outputs/lint-results.html $CIRCLE_ARTIFACTS/ ;  exit 0
+    - cat -v /home/ubuntu/RadioDroid/app/build/outputs/lint-results.xml $CIRCLE_ARTIFACTS/ ;  exit 0
+    - cat -v /home/ubuntu/RadioDroid/app/build/outputs/lint-results-debug.html $CIRCLE_ARTIFACTS/ ;  exit 0
+    - cat -v /home/ubuntu/RadioDroid/app/build/outputs/lint-results-debug.xml $CIRCLE_ARTIFACTS/ ;  exit 0
     - ./gradlew build --stacktrace --info # normal build
 
     - find . -name '*.apk' ; exit 0
