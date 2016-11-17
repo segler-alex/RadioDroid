@@ -59,8 +59,10 @@ dependencies:
     - git submodule init
     - git submodule update
     - ./gradlew :app:lint --stacktrace --info ; exit 0 # to get lint output
-    - cp /home/ubuntu/RadioDroid/app/build/outputs/lint-results.html $CIRCLE_ARTIFACTS/ ;  exit 0
-    - cp /home/ubuntu/RadioDroid/app/build/outputs/lint-results.xml $CIRCLE_ARTIFACTS/ ;  exit 0
+    - cp -v /home/ubuntu/RadioDroid/app/build/outputs/lint-results.html $CIRCLE_ARTIFACTS/ ;  exit 0
+    - cp -v /home/ubuntu/RadioDroid/app/build/outputs/lint-results.xml $CIRCLE_ARTIFACTS/ ;  exit 0
+    - cp -v /home/ubuntu/RadioDroid/app/build/outputs/lint-results-debug.html $CIRCLE_ARTIFACTS/ ;  exit 0
+    - cp -v /home/ubuntu/RadioDroid/app/build/outputs/lint-results-debug.xml $CIRCLE_ARTIFACTS/ ;  exit 0
     - ./gradlew build --stacktrace --info # normal build
 
     - find . -name '*.apk' ; exit 0
