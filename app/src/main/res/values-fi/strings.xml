@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">RadioDroid</string>
+    <string name="detail_name">Nimi</string>
+    <string name="detail_tags">Tunnisteet</string>
+    <string name="detail_country">Maa</string>
+    <string name="detail_language">Kieli</string>
+    <string name="detail_weblink">Kotisivu</string>
+    <string name="detail_play">Toista</string>
+    <string name="detail_stop">Pysäytä</string>
+    <string name="detail_share">Jaa</string>
+    <string name="action_search">Hae</string>
+    <string name="action_top_click">Klikatuimmat</string>
+    <string name="action_top_vote">Suosituimmat</string>
+    <string name="action_changed_lately">Viimeaikoina muuttuneet</string>
+    <string name="action_currently_playing">Tämänhetkiset</string>
+    <string name="action_tags">Tunnisteet</string>
+    <string name="action_countries">Maat</string>
+    <string name="action_languages">Kielet</string>
+    <string name="error_station_load">Ei voitu yhdistää asemaan</string>
+    <string name="error_list_update">Ei voitu yhdistää Radio Browser -palvelimeen</string>
+
+    <string name="share_action">Jaa aseman osoite sovelluksella..</string>
+
+    <string name="nav_item_stations">Asemat</string>
+    <string name="nav_item_starred">Suosikit</string>
+    <string name="nav_item_history">Historia</string>
+    <string name="nav_item_settings">Asetukset</string>
+    <string name="nav_item_alarm">Hälytys</string>
+    <string name="nav_item_statistics">Tilastoja</string>
+    <string name="nav_item_about">Tietoa</string>
+    <string name="nav_item_recordings">Nauhoitukset</string>
+    <string name="nav_item_player_status">Soittimen tila</string>
+
+    <string name="about_text">Tämä sovellus käyttää ilmaisia radioasematietoja osoitteesta\nhttp://www.radio-browser.info\nJokainen voi lisätä tai muokata olemassa olevia asemia sivustolla. Sivusto on wikityyppinen tietokanta internetissä toimiville radioasemille.\n\nOta yhteyttä:\nsegler_alex@web.de\n\nIlmoita virheistä:\nhttps://github.com/segler-alex/RadioDroid/issues\n\nJos pidät sovelluksesta ja haluat auttaa sen kehittämisessä, voit lähettää minulle sähköpostia (englanniksi). Haluaisin ennen kaikkea, että joku graafisesti kokenut voisi auttaa tekemään sovelluksesta mielyttävämmän näköisen :) Ehkä joku, joka osaa piirtää kuvakkeita ja kuvia...Mutta myös ohjelmoijia, jotka osaavat korjata bugeja ja lisätä uusia ominaisuuksia. ;)\nMyös ideat uusista ominaisuuksista ovat tervetulleita!\n\nTämä sovellus on ilmainen, ja käyttää GPLv3-lisenssiä\nhttps://www.gnu.org/licenses/gpl-3.0.html.</string>
+
+    <string name="detail_star">Kirjanmerkki</string>
+    <string name="detail_unstar">Poista</string>
+    <string name="progress_loading">Ladataan...</string>
+
+    <string name="sleep_timer" formatted="true">Uniajastin: %1$02d:%2$02d</string>
+    <string name="nav_item_add_sleep">+15 min</string>
+
+    <string name="settings_general">Yleiset</string>
+    <string name="settings_single_use_tags">Kertakäyttöiset tunnisteet</string>
+    <string name="settings_single_use_tags_desc_off">Älä näytä kertakäyttöisiä tunnisteita</string>
+    <string name="settings_single_use_tags_desc_on">Näytä kertakäyttöiset tunnisteet</string>
+
+    <string name="settings_show_broken">Rikkinäiset asemat</string>
+    <string name="settings_show_broken_on">Näytä rikkinäiset asemat</string>
+    <string name="settings_show_broken_off">Älä näytä rikkinäisiä asemia</string>
+
+    <string name="settings_starred_at_startup">Suosikkiasemat käynnistyksen yhteydessä</string>
+    <string name="settings_starred_at_startup_on">Näytä suosikkiasemat RadioDroidin käynnistyksen yhteydessä</string>
+    <string name="settings_starred_at_startup_off">Näytä kaikki asemat RadioDroidin käynnistyksen yhteydessä</string>
+
+    <string name="settings_alarm">Hälytys</string>
+    <string name="settings_alarm_external">Avaa ulkoisella</string>
+    <string name="settings_alarm_external_desc">Käytä ulkoista oletussovellusta</string>
+    <string name="settings_alarm_audio_player">Audiosoitin</string>
+    <string name="settings_alarm_sleep_timer">Uniajastin</string>
+    <string name="settings_alarm_sleep_timer_desc">Pysäytä toisto %1$s minuutin jälkeen</string>
+    <string name="settings_play">Soitin</string>
+    <string name="settings_play_external">Avaa ulkoisella</string>
+    <string name="settings_play_external_desc">Avaa asemat ulkoisella sovelluksella</string>
+
+    <string name="notify_start_proxy">Käynnistetään proxya..</string>
+    <string name="notify_stop_player">Suljetaan aiempaa soitinta..</string>
+    <string name="notify_prepare_stream">Valmistellaan toistoa..</string>
+    <string name="notify_try_play">Yritetään toistaa</string>
+    <string name="notify_play">Toistetaan</string>
+
+    <string name="error_stream_url">Ongelma URL-osoitteen avaamisessa</string>
+    <string name="error_caching_stream">Ongelma suoratoiston puskuroinnissa</string>
+    <string name="error_play_stream">Suoratoistoa ei voida avata</string>
+
+    <string name="error_record_needs_write">Nauhoitus tarvitsee kirjoitusoikeuden toimiakseen!</string>
+
+    <string name="player_info_status">TILA:</string>
+    <string name="player_info_status_stopped">Pysäytetty</string>
+    <string name="player_info_status_playing">Toistetaan</string>
+    <string name="player_info_transfered">Siirretty data: %1$s</string>
+    <string name="player_info_record_to">Nauhoitetaan polkuun: %1$s</string>
+
+    <string name="station_detail_bitrate">%1$1d kbps</string>
+    <string name="station_detail_broken">RIKKI</string>
+
+    <string name="image_button_disable">Kytke pois</string>
+    <string name="image_button_record">Nauhoita</string>
+    <string name="image_button_delete">Poista</string>
+    <string name="image_button_more">Lisää</string>
+</resources>
