@@ -71,6 +71,7 @@
     <string name="error_play_stream">Wiedergabe des Streams gescheitert</string>
 
     <string name="error_record_needs_write">Aufnahme benötigt Schreibberechtigung!</string>
+    <string name="error_grant_audiofocus">Das System gab den Audiokanal nicht frei.</string>
 
     <string name="player_info_status">STATUS:</string>
     <string name="player_info_status_stopped">Gestoppt</string>

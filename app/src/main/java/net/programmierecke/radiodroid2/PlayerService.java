@@ -27,6 +27,8 @@ import android.widget.Toast;
 import net.programmierecke.radiodroid2.data.ShoutcastInfo;
 import net.programmierecke.radiodroid2.interfaces.IStreamProxyEventReceiver;
 
+import static android.media.AudioManager.AUDIOFOCUS_LOSS_TRANSIENT;
+
 public class PlayerService extends Service implements IStreamProxyEventReceiver {
 	protected static final int NOTIFY_ID = 1;
 	public static final String PLAYER_SERVICE_TIMER_UPDATE = "net.programmierecke.radiodroid2.timerupdate";
@@ -254,7 +256,10 @@ public class PlayerService extends Service implements IStreamProxyEventReceiver 
 		itsContext = this;
 		timer = null;
 		powerManager = (PowerManager) itsContext.getSystemService(Context.POWER_SERVICE);
+		audioManager = (AudioManager) itsContext.getSystemService(Context.AUDIO_SERVICE);
 	}
+
+	AudioManager audioManager;
 
 	@Override
 	public int onStartCommand (Intent intent, int flags, int startId){
@@ -306,8 +311,37 @@ public class PlayerService extends Service implements IStreamProxyEventReceiver 
 		itsStationID = theID;
 		itsStationName = theName;
 		itsStationURL = theURL;
-		ReplayCurrent(isAlarm);
+
+		int result = audioManager.requestAudioFocus(afChangeListener,
+				// Use the music stream.
+				AudioManager.STREAM_MUSIC,
+				// Request permanent focus.
+				AudioManager.AUDIOFOCUS_GAIN);
+		if (result == AudioManager.AUDIOFOCUS_REQUEST_GRANTED) {
+			//am.registerMediaButtonEventReceiver(RemoteControlReceiver);
+			// Start playback.
+			ReplayCurrent(isAlarm);
+		}else{
+			ToastOnUi(R.string.error_grant_audiofocus);
+		}
 	}
+
+	AudioManager.OnAudioFocusChangeListener afChangeListener =
+			new AudioManager.OnAudioFocusChangeListener() {
+				public void onAudioFocusChange(int focusChange) {
+					if (focusChange == AUDIOFOCUS_LOSS_TRANSIENT) {
+						// Pause playback
+					} else if (focusChange == AudioManager.AUDIOFOCUS_GAIN) {
+						// Resume playback
+						ReplayCurrent(false);
+					} else if (focusChange == AudioManager.AUDIOFOCUS_LOSS) {
+						//am.unregisterMediaButtonEventReceiver(RemoteControlReceiver);
+						audioManager.abandonAudioFocus(afChangeListener);
+						// Stop playback
+						Stop();
+					}
+				}
+			};
 
 	public void ReplayCurrent(final boolean isAlarm) {
 		liveInfo = null;

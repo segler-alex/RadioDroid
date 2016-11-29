@@ -74,6 +74,7 @@
     <string name="error_play_stream">Unable to play stream</string>
 
     <string name="error_record_needs_write">Need write permission for recording!</string>
+    <string name="error_grant_audiofocus">Request for audio focus was not granted by the system.</string>
 
     <string name="player_info_status">STATUS:</string>
     <string name="player_info_status_stopped">Stopped</string>
