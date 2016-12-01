@@ -75,6 +75,7 @@
     <string name="error_play_stream">Suoratoistoa ei voida avata</string>
 
     <string name="error_record_needs_write">Nauhoitus tarvitsee kirjoitusoikeuden toimiakseen!</string>
+    <string name="error_grant_audiofocus">Järjestelmä ei sallinut äänikanavan kohdennuspyyntöä.</string>
 
     <string name="player_info_status">TILA:</string>
     <string name="player_info_status_stopped">Pysäytetty</string>
