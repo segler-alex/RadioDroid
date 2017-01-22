@@ -331,9 +331,14 @@ public class PlayerService extends Service implements IStreamProxyEventReceiver 
 				public void onAudioFocusChange(int focusChange) {
 					if (focusChange == AUDIOFOCUS_LOSS_TRANSIENT) {
 						// Pause playback
+						if (itsMediaPlayer != null) {
+							itsMediaPlayer.pause();
+						}
 					} else if (focusChange == AudioManager.AUDIOFOCUS_GAIN) {
 						// Resume playback
-						ReplayCurrent(false);
+						if (itsMediaPlayer != null) {
+							itsMediaPlayer.start();
+						}
 					} else if (focusChange == AudioManager.AUDIOFOCUS_LOSS) {
 						//am.unregisterMediaButtonEventReceiver(RemoteControlReceiver);
 						audioManager.abandonAudioFocus(afChangeListener);
