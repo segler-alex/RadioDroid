@@ -1,14 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="app_name">RadioDroid</string>
     <string name="detail_name">Name</string>
     <string name="detail_tags">Tags</string>
-    
     <string name="detail_country">Land</string>
     <string name="detail_language">Sprache</string>
     <string name="detail_weblink">Weblink</string>
     <string name="detail_play">Abspielen</string>
     <string name="detail_stop">Stoppen</string>
-    <string name="app_name">RadioDroid</string>
     <string name="detail_share">Teilen</string>
     <string name="action_search">Suche</string>
     <string name="action_top_click">Meiste Klicks</string>
@@ -50,6 +49,10 @@
     <string name="settings_show_broken_on">Zeige nicht funktionierende Stationen in Listen</string>
     <string name="settings_show_broken_off">Verstecke nicht funktionierende Stationen in Listen</string>
 
+    <string name="settings_starred_at_startup">Favoriten als erstes zeigen</string>
+    <string name="settings_starred_at_startup_on">Favoriten beim Starten von RadioDroid anzeigen</string>
+    <string name="settings_starred_at_startup_off">Alle Sender beim Starten von RadioDroid anzeigen</string>
+
     <string name="settings_alarm">Alarm</string>
     <string name="settings_alarm_external">Öffne extern</string>
     <string name="settings_alarm_external_desc">Öffne mit externem Abspieler</string>
@@ -79,5 +82,11 @@
     <string name="player_info_transfered">Übertragene Daten: %1$s</string>
     <string name="player_info_record_to">Aufnahmeziel: %1$s</string>
 
+    <string name="station_detail_bitrate">%1$1d kbps</string>
     <string name="station_detail_broken">KAPUTT</string>
+
+    <string name="image_button_disable">Deaktivieren</string>
+    <string name="image_button_record">Aufnehmen</string>
+    <string name="image_button_delete">Löschen</string>
+    <string name="image_button_more">Mehr</string>
 </resources>
