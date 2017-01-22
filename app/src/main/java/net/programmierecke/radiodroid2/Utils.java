@@ -147,13 +147,11 @@ public class Utils {
 	}
 
 	public static String getRealStationLink(Context ctx, String stationId){
-		String result = Utils.downloadFeed(ctx, "http://www.radio-browser.info/webservice/json/url/" + stationId, true, null);
+		String result = Utils.downloadFeed(ctx, "http://www.radio-browser.info/webservice/v2/json/url/" + stationId, true, null);
 		if (result != null) {
 			JSONObject jsonObj = null;
-			JSONArray jsonArr = null;
 			try {
-				jsonArr = new JSONArray(result);
-				jsonObj = jsonArr.getJSONObject(0);
+				jsonObj = new JSONObject(result);
 				return jsonObj.getString("url");
 			} catch (Exception e) {
 				Log.e("UTIL", "getRealStationLink() " + e);
