@@ -89,4 +89,15 @@
     <string name="image_button_record">Aufnehmen</string>
     <string name="image_button_delete">Löschen</string>
     <string name="image_button_more">Mehr</string>
+
+    <string-array name="weekdays">
+        <item>S</item>
+        <item>M</item>
+        <item>D</item>
+        <item>M</item>
+        <item>D</item>
+        <item>F</item>
+        <item>S</item>
+    </string-array>
+
 </resources>

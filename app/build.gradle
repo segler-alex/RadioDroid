@@ -3,11 +3,9 @@ apply plugin: 'com.android.application'
 android {
     compileSdkVersion 23
     buildToolsVersion "23.0.3"
-
     lintOptions {
         abortOnError true
     }
-
     defaultConfig {
         applicationId "net.programmierecke.radiodroid2"
         minSdkVersion 8
@@ -16,7 +14,6 @@ android {
         versionCode 37
         versionName "0.27"
     }
-
     buildTypes {
         release {
             minifyEnabled false
@@ -34,4 +31,5 @@ dependencies {
     compile 'com.android.support:appcompat-v7:23.2.1'
     compile 'com.android.support:design:23.2.1'
     compile 'com.android.support:preference-v7:23.2.1'
+    compile 'com.google.code.gson:gson:2.3.1'
 }

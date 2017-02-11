@@ -15,10 +15,15 @@ import net.programmierecke.radiodroid2.interfaces.IChanged;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.List;
+
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 public class RadioAlarmManager {
 
+    public static final int ONE_DAY_IN_MILLIS = 24 * 60 * 60 * 1000;
     IChanged callback;
     Context context;
     List<DataRadioStationAlarm> list = new ArrayList<DataRadioStationAlarm>();
@@ -44,6 +49,7 @@ public class RadioAlarmManager {
         alarm.station = station;
         alarm.hour = hour;
         alarm.minute = minute;
+        alarm.weekDays = new ArrayList<>();
         alarm.id = getFreeId();
         list.add(alarm);
 
@@ -86,6 +92,11 @@ public class RadioAlarmManager {
             editor.putInt("alarm."+alarm.id+".timeHour",alarm.hour);
             editor.putInt("alarm."+alarm.id+".timeMinutes",alarm.minute);
             editor.putBoolean("alarm."+alarm.id+".enabled",alarm.enabled);
+            editor.putBoolean("alarm."+alarm.id+".repeating",alarm.repeating);
+
+            Gson gson = new Gson();
+            String weekdaysString = gson.toJson(alarm.weekDays);
+            editor.putString("alarm."+alarm.id+".weekDays",weekdaysString);
 
             if (items.equals("")) {
                 items = "" + alarm.id;
@@ -111,9 +122,14 @@ public class RadioAlarmManager {
                 DataRadioStationAlarm alarm = new DataRadioStationAlarm();
 
                 alarm.station = DataRadioStation.DecodeJsonSingle(sharedPref.getString("alarm." + id + ".station", null));
+                String weekDaysString  = sharedPref.getString("alarm." + id + ".weekDays", "");
+                Gson gson = new Gson();
+                alarm.weekDays = gson.fromJson(weekDaysString, new TypeToken<List<Integer>>(){}.getType());
                 alarm.hour = sharedPref.getInt("alarm." + id + ".timeHour", 0);
                 alarm.minute = sharedPref.getInt("alarm." + id + ".timeMinutes", 0);
                 alarm.enabled = sharedPref.getBoolean("alarm." + id + ".enabled", false);
+                alarm.repeating  = sharedPref.getBoolean("alarm." + id + ".repeating", false);
+
                 try {
                     alarm.id = Integer.parseInt(id);
                     if (alarm.station != null) {
@@ -161,7 +177,6 @@ public class RadioAlarmManager {
         if (alarm != null) {
             stop(alarmId);
 
-            Log.w("ALARM","started:"+alarmId + " "+alarm.hour+":"+alarm.minute);
             Intent intent = new Intent(context, AlarmReceiver.class);
             intent.putExtra("id",alarmId);
             PendingIntent alarmIntent = PendingIntent.getBroadcast(context, alarmId, intent, PendingIntent.FLAG_UPDATE_CURRENT);
@@ -177,11 +192,26 @@ public class RadioAlarmManager {
             // add 1 min, to ignore already fired events
             if (calendar.getTimeInMillis() < System.currentTimeMillis() + 60){
                 Log.w("ALARM","moved ahead one day");
-                calendar.setTimeInMillis(System.currentTimeMillis() + 24 * 60 * 60 * 1000);
-                calendar.set(Calendar.HOUR_OF_DAY, alarm.hour);
-                calendar.set(Calendar.MINUTE, alarm.minute);
-                calendar.set(Calendar.SECOND, 0);
+                calendar.setTimeInMillis(calendar.getTimeInMillis() + ONE_DAY_IN_MILLIS);
             }
+
+            if (alarm.repeating) {
+                Integer currentDayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
+                Collections.sort(alarm.weekDays);
+                Integer limiter = 6;
+                while (!alarm.weekDays.contains(currentDayOfWeek - 1) && limiter > 0) {
+                    calendar.setTimeInMillis(calendar.getTimeInMillis() + ONE_DAY_IN_MILLIS);
+                    currentDayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
+                    limiter--;
+                }
+            }
+            Log.w(
+                    "ALARM","started:" +alarmId + " "
+                    + calendar.get(Calendar.DAY_OF_WEEK) + " "
+                    + calendar.get(Calendar.DAY_OF_MONTH)
+                    + "." + calendar.get(Calendar.MONTH)
+                    + " " + calendar.get(Calendar.HOUR_OF_DAY) + ":" + calendar.get(Calendar.MINUTE)
+            );
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 Log.w("ALARM","START setExactAndAllowWhileIdle");
@@ -227,6 +257,26 @@ public class RadioAlarmManager {
         }
     }
 
+    public void changeWeekDays(int alarmId, int weekday) {
+        DataRadioStationAlarm alarm = getById(alarmId);
+        if (alarm != null) {
+            if (alarm.weekDays == null) {
+                alarm.weekDays = new ArrayList<>();
+            }
+            int position = alarm.weekDays.indexOf(weekday);
+            if (position == -1) {
+                alarm.weekDays.add(weekday);
+            } else {
+                alarm.weekDays.remove(position);
+            }
+            save();
+            start(alarmId);
+            if (callback != null){
+                callback.onChanged();
+            }
+        }
+    }
+
     public void remove(int id) {
         DataRadioStationAlarm alarm = getById(id);
         if (alarm != null) {
@@ -252,6 +302,18 @@ public class RadioAlarmManager {
             if (alarm.enabled){
                 Log.w("ALARM","started alarm with id:"+alarm.id);
                 start(alarm.id);
+            }
+        }
+    }
+
+    public void toggleRepeating(int id) {
+        DataRadioStationAlarm alarm = getById(id);
+        if (alarm != null) {
+            alarm.repeating = !alarm.repeating;
+            save();
+            start(id);
+            if (callback != null){
+                callback.onChanged();
             }
         }
     }

@@ -89,4 +89,14 @@
     <string name="image_button_record">Record</string>
     <string name="image_button_delete">Delete</string>
     <string name="image_button_more">More</string>
+
+    <string-array name="weekdays">
+        <item>S</item>
+        <item>M</item>
+        <item>T</item>
+        <item>W</item>
+        <item>T</item>
+        <item>F</item>
+        <item>S</item>
+    </string-array>
 </resources>
