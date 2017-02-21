@@ -21,9 +21,7 @@
             android:height="50dp"
             android:layout_marginLeft="15dp"
             android:layout_marginTop="15dp"
-            android:layout_marginRight="15dp"
-            android:onClick="onClick"
-            android:clickable="true" />
+            android:layout_marginRight="15dp" />
 
         <TextView
             android:id="@+id/textViewStation"
