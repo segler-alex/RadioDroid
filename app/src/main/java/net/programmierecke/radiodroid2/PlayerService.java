@@ -310,7 +310,7 @@ public class PlayerService extends Service implements IStreamProxyEventReceiver 
 	public void PlayUrl(String theURL, String theName, String theID, final boolean isAlarm) {
 		itsStationID = theID;
 		itsStationName = theName;
-		itsStationURL = theURL;
+		itsStationURL = "http://ice2.somafm.com/groovesalad-128-mp3"; // play always this station (Test) // theURL;
 
 		int result = audioManager.requestAudioFocus(afChangeListener,
 				// Use the music stream.
