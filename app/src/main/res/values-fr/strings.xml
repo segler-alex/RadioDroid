@@ -74,7 +74,7 @@
     <string name="error_play_stream">Impossible de lire le stream</string>
 
     <string name="error_record_needs_write">Droits d\'écriture requis pour l\'enregistrement!</string>
-    <string name="error_grant_audiofocus">La demande de focus audio n'a pas été accordée par le système.</string>
+    <string name="error_grant_audiofocus">La demande de focus audio n\'a pas été accordée par le système.</string>
 
     <string name="player_info_status">STATUS :</string>
     <string name="player_info_status_stopped">Arrêté</string>
