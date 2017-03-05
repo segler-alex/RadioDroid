@@ -8,7 +8,7 @@ android {
     }
     defaultConfig {
         applicationId "net.programmierecke.radiodroid2"
-        minSdkVersion 8
+        minSdkVersion 9
         targetSdkVersion 23
 
         versionCode 38
@@ -32,4 +32,5 @@ dependencies {
     compile 'com.android.support:design:23.2.1'
     compile 'com.android.support:preference-v7:23.2.1'
     compile 'com.google.code.gson:gson:2.3.1'
+    compile 'com.google.android.exoplayer:exoplayer:r2.2.0'
 }

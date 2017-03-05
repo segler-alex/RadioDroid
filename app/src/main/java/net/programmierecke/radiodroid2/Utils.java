@@ -185,7 +185,7 @@ public class Utils {
 						share.setDataAndType(Uri.parse(result), "audio/*");
 						context.startActivity(share);
 					}else {
-						PlayerServiceUtil.play(result, station.Name, station.ID);
+						PlayerServiceUtil.play(result, station.Name, station.ID, true);
 					}
 				} else {
 					Toast toast = Toast.makeText(context.getApplicationContext(), context.getResources().getText(R.string.error_station_load), Toast.LENGTH_SHORT);

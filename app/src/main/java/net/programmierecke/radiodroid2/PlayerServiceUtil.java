@@ -59,10 +59,10 @@ public class PlayerServiceUtil {
         }
     }
 
-    public static void play(String result, String name, String id) {
+    public static void play(String result, String name, String id, boolean useExo) {
         if (itsPlayerService != null) {
             try {
-                itsPlayerService.Play(result,name,id, false);
+                itsPlayerService.Play(result,name,id, useExo, false);
             } catch (RemoteException e) {
                 Log.e("", "" + e);
             }

@@ -1,6 +1,10 @@
 package net.programmierecke.radiodroid2;
 
 import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URL;
+import java.util.ArrayList;
 import java.util.Map;
 
 import android.app.Notification;
@@ -11,11 +15,14 @@ import android.content.Intent;
 import android.graphics.drawable.BitmapDrawable;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
+import android.media.PlaybackParams;
+import android.net.Uri;
 import android.net.wifi.WifiManager;
 import android.os.Build;
 import android.os.CountDownTimer;
 import android.os.Handler;
 import android.os.IBinder;
+import android.os.Looper;
 import android.os.PowerManager;
 import android.os.RemoteException;
 import android.support.v4.app.NotificationCompat;
@@ -23,6 +30,23 @@ import android.support.v4.content.res.ResourcesCompat;
 import android.text.TextUtils;
 import android.util.Log;
 import android.widget.Toast;
+
+import com.google.android.exoplayer2.DefaultLoadControl;
+import com.google.android.exoplayer2.ExoPlayerFactory;
+import com.google.android.exoplayer2.LoadControl;
+import com.google.android.exoplayer2.SimpleExoPlayer;
+import com.google.android.exoplayer2.extractor.DefaultExtractorsFactory;
+import com.google.android.exoplayer2.extractor.ExtractorsFactory;
+import com.google.android.exoplayer2.source.ExtractorMediaSource;
+import com.google.android.exoplayer2.source.MediaSource;
+import com.google.android.exoplayer2.trackselection.AdaptiveVideoTrackSelection;
+import com.google.android.exoplayer2.trackselection.DefaultTrackSelector;
+import com.google.android.exoplayer2.trackselection.TrackSelection;
+import com.google.android.exoplayer2.trackselection.TrackSelector;
+import com.google.android.exoplayer2.upstream.DataSource;
+import com.google.android.exoplayer2.upstream.DefaultBandwidthMeter;
+import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
+import com.google.android.exoplayer2.util.Util;
 
 import net.programmierecke.radiodroid2.data.ShoutcastInfo;
 import net.programmierecke.radiodroid2.interfaces.IStreamProxyEventReceiver;
@@ -43,6 +67,7 @@ public class PlayerService extends Service implements IStreamProxyEventReceiver 
 	private String itsStationName;
 	private String itsStationURL;
 	private MediaPlayer itsMediaPlayer = null;
+	SimpleExoPlayer player = null;
 	private CountDownTimer timer = null;
 	long seconds = 0;
 	private Map<String, String> liveInfo;
@@ -54,6 +79,7 @@ public class PlayerService extends Service implements IStreamProxyEventReceiver 
 	private PowerManager.WakeLock wakeLock;
 	private WifiManager.WifiLock wifiLock;
 	private boolean isHls = false;
+	boolean useExo = false;
 
 	enum PlayStatus{
 		Idle,
@@ -71,8 +97,8 @@ public class PlayerService extends Service implements IStreamProxyEventReceiver 
 
 	private final IPlayerService.Stub itsBinder = new IPlayerService.Stub() {
 
-		public void Play(String theUrl, String theName, String theID, boolean isAlarm) throws RemoteException {
-			PlayerService.this.PlayUrl(theUrl, theName, theID, isAlarm);
+		public void Play(String theUrl, String theName, String theID, boolean useExo, boolean isAlarm) throws RemoteException {
+			PlayerService.this.PlayUrl(theUrl, theName, theID, useExo, isAlarm);
 		}
 
 		public void Stop() throws RemoteException {
@@ -313,10 +339,11 @@ public class PlayerService extends Service implements IStreamProxyEventReceiver 
 		Stop();
 	}
 
-	public void PlayUrl(String theURL, String theName, String theID, final boolean isAlarm) {
+	public void PlayUrl(String theURL, String theName, String theID, final boolean useExo, final boolean isAlarm) {
 		itsStationID = theID;
 		itsStationName = theName;
 		itsStationURL = theURL;
+		this.useExo = useExo;
 
 		int result = audioManager.requestAudioFocus(afChangeListener,
 				// Use the music stream.
@@ -398,33 +425,71 @@ public class PlayerService extends Service implements IStreamProxyEventReceiver 
 				String proxyConnection = proxy.getLocalAdress();
 				Log.v(TAG, "Stream url:" + proxyConnection);
 				SetPlayStatus(PlayStatus.ClearOld);
-				if (itsMediaPlayer == null) {
-					itsMediaPlayer = new MediaPlayer();
-				}
-				if (itsMediaPlayer.isPlaying()) {
-					itsMediaPlayer.stop();
-					itsMediaPlayer.reset();
-				}
-				try {
-					SetPlayStatus(PlayStatus.PrepareStream);
-					itsMediaPlayer.setAudioStreamType(isAlarm ? AudioManager.STREAM_ALARM : AudioManager.STREAM_MUSIC);
-					itsMediaPlayer.setDataSource(proxyConnection);
-					itsMediaPlayer.prepare();
-					SetPlayStatus(PlayStatus.PrePlaying);
-					itsMediaPlayer.start();
+
+				if (useExo){
+					if (player != null){
+						player.stop();
+					}
+
+					Looper.prepare();
+
+					if (player == null){
+						// 1. Create a default TrackSelector
+						//Handler mainHandler = new Handler();
+						DefaultBandwidthMeter bandwidthMeter = new DefaultBandwidthMeter();
+						TrackSelection.Factory videoTrackSelectionFactory = new AdaptiveVideoTrackSelection.Factory(bandwidthMeter);
+						TrackSelector trackSelector = new DefaultTrackSelector(videoTrackSelectionFactory);
+
+						// 2. Create a default LoadControl
+						LoadControl loadControl = new DefaultLoadControl();
+
+						// 3. Create the player
+						player = ExoPlayerFactory.newSimpleInstance(itsContext, trackSelector, loadControl);
+						player.setAudioStreamType(isAlarm ? AudioManager.STREAM_ALARM : AudioManager.STREAM_MUSIC);
+					}
+					// Produces DataSource instances through which media data is loaded.
+					DataSource.Factory dataSourceFactory = new DefaultDataSourceFactory(itsContext, Util.getUserAgent(itsContext, "yourApplicationName"), null);
+					// Produces Extractor instances for parsing the media data.
+					ExtractorsFactory extractorsFactory = new DefaultExtractorsFactory();
+					// This is the MediaSource representing the media to be played.
+					MediaSource videoSource = null;
+					videoSource = new ExtractorMediaSource(Uri.parse(proxyConnection), dataSourceFactory, extractorsFactory, null, null);
+					player.prepare(videoSource);
+					player.setPlayWhenReady(true);
+
 					SetPlayStatus(PlayStatus.Playing);
-				} catch (IllegalArgumentException e) {
-					Log.e(TAG, "" + e);
-					ToastOnUi(R.string.error_stream_url);
-					Stop();
-				} catch (IOException e) {
-					Log.e(TAG, "" + e);
-					ToastOnUi(R.string.error_caching_stream);
-					Stop();
-				} catch (Exception e) {
-					Log.e(TAG, "" + e);
-					ToastOnUi(R.string.error_play_stream);
-					Stop();
+
+					Looper.loop();
+				}else
+				{
+					if (itsMediaPlayer == null) {
+						itsMediaPlayer = new MediaPlayer();
+					}
+					if (itsMediaPlayer.isPlaying()) {
+						itsMediaPlayer.stop();
+						itsMediaPlayer.reset();
+					}
+					try {
+						SetPlayStatus(PlayStatus.PrepareStream);
+						itsMediaPlayer.setAudioStreamType(isAlarm ? AudioManager.STREAM_ALARM : AudioManager.STREAM_MUSIC);
+						itsMediaPlayer.setDataSource(proxyConnection);
+						itsMediaPlayer.prepare();
+						SetPlayStatus(PlayStatus.PrePlaying);
+						itsMediaPlayer.start();
+						SetPlayStatus(PlayStatus.Playing);
+					} catch (IllegalArgumentException e) {
+						Log.e(TAG, "" + e);
+						ToastOnUi(R.string.error_stream_url);
+						Stop();
+					} catch (IOException e) {
+						Log.e(TAG, "" + e);
+						ToastOnUi(R.string.error_caching_stream);
+						Stop();
+					} catch (Exception e) {
+						Log.e(TAG, "" + e);
+						ToastOnUi(R.string.error_play_stream);
+						Stop();
+					}
 				}
 			}
 		}).start();
@@ -518,6 +583,11 @@ public class PlayerService extends Service implements IStreamProxyEventReceiver 
 
 	public void Stop() {
 		Log.i(TAG,"stop()");
+		if (player != null){
+			player.stop();
+			player.release();
+			player = null;
+		}
 		if (itsMediaPlayer != null) {
 			if (itsMediaPlayer.isPlaying()) {
 				itsMediaPlayer.stop();

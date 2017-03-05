@@ -1,7 +1,7 @@
 package net.programmierecke.radiodroid2;
 interface IPlayerService
 {
-void Play(String theUrl,String theName,String theID, boolean isAlarm);
+void Play(String theUrl,String theName,String theID, boolean useExo, boolean isAlarm);
 void Stop();
 void addTimer(int secondsAdd);
 void clearTimer();
