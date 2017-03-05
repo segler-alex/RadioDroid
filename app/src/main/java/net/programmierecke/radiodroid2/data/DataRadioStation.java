@@ -34,11 +34,15 @@ public class DataRadioStation {
 	public int Bitrate;
 	public String Codec;
 	public boolean Working = true;
+	public boolean Hls = false;
 
 	public String getShortDetails(Context ctx) {
 		List<String> aList = new ArrayList<String>();
 		if (!Working){
 			aList.add(ctx.getResources().getString(R.string.station_detail_broken));
+		}
+		if (Hls){
+			aList.add("HLS");
 		}
 		if (Codec != null){
 			if (!Codec.trim().equals("")){
@@ -99,6 +103,9 @@ public class DataRadioStation {
 							}
 							if (anObject.has("lastcheckok")){
 								aStation.Working = anObject.getInt("lastcheckok") != 0;
+							}
+							if (anObject.has("hls")){
+								aStation.Hls = anObject.getInt("hls") != 0;
 							}
 
 							aList.add(aStation);

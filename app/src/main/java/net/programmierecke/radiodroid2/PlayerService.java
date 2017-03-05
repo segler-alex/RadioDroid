@@ -53,6 +53,7 @@ public class PlayerService extends Service implements IStreamProxyEventReceiver 
 	private PowerManager powerManager;
 	private PowerManager.WakeLock wakeLock;
 	private WifiManager.WifiLock wifiLock;
+	private boolean isHls = false;
 
 	enum PlayStatus{
 		Idle,
@@ -158,6 +159,11 @@ public class PlayerService extends Service implements IStreamProxyEventReceiver 
 			if (streamInfo != null)
 				return streamInfo.channels;
 			return 0;
+		}
+
+		@Override
+		public boolean getIsHls() throws RemoteException {
+			return isHls;
 		}
 
 		@Override
@@ -474,18 +480,22 @@ public class PlayerService extends Service implements IStreamProxyEventReceiver 
 	}
 
 	@Override
-	public void foundShoutcastStream(ShoutcastInfo info) {
+	public void foundShoutcastStream(ShoutcastInfo info, boolean isHls) {
 		this.streamInfo = info;
-		Log.i(TAG, "Metadata offset:" + info.metadataOffset);
-		Log.i(TAG, "Bitrate:" + info.bitrate);
-		Log.i(TAG, "Name:" + info.audioName);
-		if (info.audioName != null) {
-			if (!info.audioName.trim().equals("")) {
-				itsStationName = info.audioName.trim();
+		this.isHls = isHls;
+		if (info != null) {
+			Log.i(TAG, "Metadata offset:" + info.metadataOffset);
+			Log.i(TAG, "Bitrate:" + info.bitrate);
+			Log.i(TAG, "Name:" + info.audioName);
+			Log.i(TAG, "Hls:" + isHls);
+			if (info.audioName != null) {
+				if (!info.audioName.trim().equals("")) {
+					itsStationName = info.audioName.trim();
+				}
 			}
+			Log.i(TAG, "Server:" + info.serverName);
+			Log.i(TAG, "AudioInfo:" + info.audioInfo);
 		}
-		Log.i(TAG, "Server:" + info.serverName);
-		Log.i(TAG, "AudioInfo:" + info.audioInfo);
 		sendBroadCast(PLAYER_SERVICE_META_UPDATE);
 	}
 

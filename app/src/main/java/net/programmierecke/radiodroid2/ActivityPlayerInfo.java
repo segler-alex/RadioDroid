@@ -218,6 +218,9 @@ public class ActivityPlayerInfo extends AppCompatActivity {
 		}
 
 		String strExtra = "";
+		if (PlayerServiceUtil.getIsHls()){
+			strExtra += "HLS-Stream\n";
+		}
 		if (PlayerServiceUtil.getCurrentRecordFileName() != null){
 			strExtra += getResources().getString(R.string.player_info_record_to,PlayerServiceUtil.getCurrentRecordFileName()) + "\n";
 		}

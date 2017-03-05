@@ -22,4 +22,5 @@ void stopRecording();
 boolean isRecording();
 String getCurrentRecordFileName();
 long getTransferedBytes();
+boolean getIsHls();
 }

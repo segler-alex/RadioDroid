@@ -208,6 +208,17 @@ public class PlayerServiceUtil {
         return null;
     }
 
+    public static boolean getIsHls() {
+        if (itsPlayerService != null) {
+            try {
+                return itsPlayerService.getIsHls();
+            } catch (RemoteException e) {
+                Log.e("", "" + e);
+            }
+        }
+        return false;
+    }
+
     public static long getTransferedBytes() {
         if (itsPlayerService != null) {
             try {
