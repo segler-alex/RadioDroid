@@ -122,7 +122,7 @@ public class RadioAlarmManager {
                 DataRadioStationAlarm alarm = new DataRadioStationAlarm();
 
                 alarm.station = DataRadioStation.DecodeJsonSingle(sharedPref.getString("alarm." + id + ".station", null));
-                String weekDaysString  = sharedPref.getString("alarm." + id + ".weekDays", "");
+                String weekDaysString  = sharedPref.getString("alarm." + id + ".weekDays", "[]");
                 Gson gson = new Gson();
                 alarm.weekDays = gson.fromJson(weekDaysString, new TypeToken<List<Integer>>(){}.getType());
                 alarm.hour = sharedPref.getInt("alarm." + id + ".timeHour", 0);
