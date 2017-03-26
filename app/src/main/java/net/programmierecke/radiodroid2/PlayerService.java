@@ -39,7 +39,7 @@ import com.google.android.exoplayer2.extractor.DefaultExtractorsFactory;
 import com.google.android.exoplayer2.extractor.ExtractorsFactory;
 import com.google.android.exoplayer2.source.ExtractorMediaSource;
 import com.google.android.exoplayer2.source.MediaSource;
-import com.google.android.exoplayer2.trackselection.AdaptiveVideoTrackSelection;
+import com.google.android.exoplayer2.trackselection.AdaptiveTrackSelection;
 import com.google.android.exoplayer2.trackselection.DefaultTrackSelector;
 import com.google.android.exoplayer2.trackselection.TrackSelection;
 import com.google.android.exoplayer2.trackselection.TrackSelector;
@@ -437,7 +437,7 @@ public class PlayerService extends Service implements IStreamProxyEventReceiver 
 						// 1. Create a default TrackSelector
 						//Handler mainHandler = new Handler();
 						DefaultBandwidthMeter bandwidthMeter = new DefaultBandwidthMeter();
-						TrackSelection.Factory videoTrackSelectionFactory = new AdaptiveVideoTrackSelection.Factory(bandwidthMeter);
+						TrackSelection.Factory videoTrackSelectionFactory = new AdaptiveTrackSelection.Factory(bandwidthMeter);
 						TrackSelector trackSelector = new DefaultTrackSelector(videoTrackSelectionFactory);
 
 						// 2. Create a default LoadControl
