@@ -7,6 +7,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.ref.WeakReference;
+import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.concurrent.ArrayBlockingQueue;
@@ -60,14 +61,14 @@ public class ItemAdapterStation extends ArrayAdapter<DataRadioStation> implement
 		public String itsURL;
 		public String ID;
 
-		public QueueItem(String ID, String theURL, ImageView theImageView) {
+		public QueueItem(String ID, String theURL) {
 			itsURL = theURL;
 			this.ID = ID;
 		}
 	}
 
 	HashMap<String, Bitmap> itsIconCache = new HashMap<String, Bitmap>();
-	BlockingQueue<QueueItem> itsQueuedDownloadJobs = new ArrayBlockingQueue<QueueItem>(1000);
+	BlockingQueue<QueueItem> itsQueuedDownloadJobs = new ArrayBlockingQueue<QueueItem>(10000);
 	Thread itsThread;
 
 	public ItemAdapterStation(FragmentActivity context, int textViewResourceId) {
@@ -188,7 +189,7 @@ public class ItemAdapterStation extends ArrayAdapter<DataRadioStation> implement
 				} catch (Exception e) {
 					try {
 						anImageView.setVisibility(View.GONE);
-						itsQueuedDownloadJobs.put(new QueueItem(aStation.ID, aStation.IconUrl, null));
+						itsQueuedDownloadJobs.put(new QueueItem(aStation.ID, aStation.IconUrl));
 					} catch (InterruptedException e2) {
 						Log.e("ICONS", "" + e2.getStackTrace());
 					}
@@ -348,7 +349,10 @@ public class ItemAdapterStation extends ArrayAdapter<DataRadioStation> implement
 						// load image from url
 						itsIconCache.put(anItem.itsURL, null);
 						Log.v("ICONS", "download from " + anItem.itsURL);
-						InputStream in = new java.net.URL(anItem.itsURL).openStream();
+						URLConnection conn = new java.net.URL(anItem.itsURL).openConnection();
+						conn.setConnectTimeout(1000);
+						conn.setReadTimeout(2000);
+						InputStream in = conn.getInputStream();
 						final Bitmap anIcon = BitmapFactory.decodeStream(in);
 						Bitmap anIconScaled = null;
 
