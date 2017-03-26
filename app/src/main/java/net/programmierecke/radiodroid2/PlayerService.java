@@ -411,6 +411,12 @@ public class PlayerService extends Service implements IStreamProxyEventReceiver 
 			Log.e(TAG,"could not aquire wifi lock");
 		}
 
+		if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN) {
+			// use old MediaPlayer on API levels < 16
+			// https://github.com/google/ExoPlayer/issues/711
+			useExo = false;
+		}
+
 		new Thread(new Runnable() {
 			@Override
 			public void run() {
