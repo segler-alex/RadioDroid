@@ -18,6 +18,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.support.v4.app.FragmentActivity;
@@ -345,10 +346,11 @@ public class ItemAdapterStation extends ArrayAdapter<DataRadioStation> implement
 				try {
 					if (!itsIconCache.containsKey(anItem.itsURL)) {
 						// load image from url
+						itsIconCache.put(anItem.itsURL, null);
 						Log.v("ICONS", "download from " + anItem.itsURL);
 						InputStream in = new java.net.URL(anItem.itsURL).openStream();
 						final Bitmap anIcon = BitmapFactory.decodeStream(in);
-						itsIconCache.put(anItem.itsURL, anIcon);
+						Bitmap anIconScaled = null;
 
 						if (anIcon != null) {
 							// save image to file
@@ -358,21 +360,25 @@ public class ItemAdapterStation extends ArrayAdapter<DataRadioStation> implement
 							Log.v("ICONS", "download finished " + anItem.itsURL + " -> "+aFileName);
 							try {
 								FileOutputStream aStream = new FileOutputStream(f);
-								anIcon.compress(Bitmap.CompressFormat.PNG, 100, aStream);
+								anIconScaled = getResizedBitmap(anIcon,60);
+								anIconScaled.compress(Bitmap.CompressFormat.PNG, 100, aStream);
 								aStream.close();
+								itsIconCache.put(anItem.itsURL, anIconScaled);
 							} catch (FileNotFoundException e) {
 								Log.e("ICONS", "my1" + e);
 							} catch (IOException e) {
 								Log.e("ICONS", "my2" + e);
 							}
 
-							for (int i = 0; i < listViewItems.size(); i++) {
-								MyItem item = listViewItems.get(i);
-								if (item.station != null) {
-									if (item.station.IconUrl != null) {
-										if (item.station.IconUrl.equals(anItem.itsURL)) {
-											Log.d("ICONS", "refresh icon " + anItem.itsURL);
-											item.SetIcon(anIcon);
+							if (anIconScaled != null){
+								for (int i = 0; i < listViewItems.size(); i++) {
+									MyItem item = listViewItems.get(i);
+									if (item.station != null) {
+										if (item.station.IconUrl != null) {
+											if (item.station.IconUrl.equals(anItem.itsURL)) {
+												Log.d("ICONS", "refresh icon " + anItem.itsURL);
+												item.SetIcon(anIconScaled);
+											}
 										}
 									}
 								}
@@ -388,5 +394,20 @@ public class ItemAdapterStation extends ArrayAdapter<DataRadioStation> implement
 				Log.e("ICONS", "" + e);
 			}
 		}
+	}
+
+	public Bitmap getResizedBitmap(Bitmap bm, int newWidth) {
+		int width = bm.getWidth();
+		int height = bm.getHeight();
+		float scaleWidth = ((float) newWidth) / width;
+		// CREATE A MATRIX FOR THE MANIPULATION
+		Matrix matrix = new Matrix();
+		// RESIZE THE BIT MAP
+		matrix.postScale(scaleWidth, scaleWidth);
+
+		// "RECREATE" THE NEW BITMAP
+		Bitmap resizedBitmap = Bitmap.createBitmap(bm, 0, 0, width, height, matrix, false);
+		bm.recycle();
+		return resizedBitmap;
 	}
 }
