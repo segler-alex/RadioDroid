@@ -166,8 +166,6 @@ public class ItemAdapterStation extends ArrayAdapter<DataRadioStation> implement
 					anImageView.setVisibility(View.VISIBLE);
 					anImageView.setImageBitmap(aBitmap);
 				}
-				else
-					anImageView.setVisibility(View.GONE);
 			} else {
 				try {
 					// check download cache
@@ -180,15 +178,10 @@ public class ItemAdapterStation extends ArrayAdapter<DataRadioStation> implement
 						if (anIcon != null) {
 							anImageView.setImageBitmap(anIcon);
 							anImageView.setVisibility(View.VISIBLE);
-						}else{
-							anImageView.setVisibility(View.GONE);
 						}
-					}else{
-						anImageView.setVisibility(View.GONE);
 					}
 				} catch (Exception e) {
 					try {
-						anImageView.setVisibility(View.GONE);
 						itsQueuedDownloadJobs.put(new QueueItem(aStation.ID, aStation.IconUrl));
 					} catch (InterruptedException e2) {
 						Log.e("ICONS", "" + e2.getStackTrace());
