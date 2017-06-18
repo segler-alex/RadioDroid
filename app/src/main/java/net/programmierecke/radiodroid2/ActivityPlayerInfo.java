@@ -35,6 +35,7 @@ public class ActivityPlayerInfo extends AppCompatActivity {
 	private Thread t;
 	private LinearLayout layoutPlaying;
 	private TextView textViewStatus;
+	private ImageButton buttonClose;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -95,6 +96,7 @@ public class ActivityPlayerInfo extends AppCompatActivity {
 		textViewExtraInfo = (TextView) findViewById(R.id.textViewExtraStreamInfo);
 		layoutPlaying = (LinearLayout) findViewById(R.id.LinearLayoutPlaying);
 		textViewStatus = (TextView) findViewById(R.id.detail_status);
+		buttonClose = (ImageButton) findViewById(R.id.buttonClose);
 
 		buttonStop = (ImageButton) findViewById(R.id.buttonStop);
 		if (buttonStop != null){
@@ -240,9 +242,19 @@ public class ActivityPlayerInfo extends AppCompatActivity {
 			Log.i("ARR","exit..");
 			textViewStatus.setText(getResources().getString(R.string.player_info_status)+getResources().getString(R.string.player_info_status_stopped));
 			layoutPlaying.setVisibility(View.GONE);
+			buttonClose = (ImageButton) findViewById(R.id.buttonClose);
+			if (buttonClose != null){
+				buttonClose.setOnClickListener(new View.OnClickListener() {
+					@Override
+					public void onClick(View v) {
+						finish();
+					}
+				});
+			}
 		}else{
 			textViewStatus.setText(getResources().getString(R.string.player_info_status)+getResources().getString(R.string.player_info_status_playing));
 			layoutPlaying.setVisibility(View.VISIBLE);
+			buttonClose.setVisibility(View.GONE);
 		}
 	}
 

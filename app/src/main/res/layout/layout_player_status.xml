@@ -33,6 +33,17 @@
             android:layout_marginTop="10dp"
             android:layout_marginBottom="10dp" />
 
+        <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/buttonClose"
+                android:layout_gravity="center"
+                android:minHeight="100dp"
+                android:minWidth="100dp"
+                android:src="@drawable/ic_stop_24dp"
+                android:layout_margin="10dp"
+                android:contentDescription="@string/detail_stop" />
+
     <LinearLayout
         android:id="@+id/LinearLayoutPlaying"
         android:layout_width="match_parent"
