@@ -404,11 +404,11 @@ public class PlayerService extends Service implements IStreamProxyEventReceiver 
 				}
 			}
 			if (!wifiLock.isHeld()) {
-				Log.i(TAG,"acquire wifilock");
+				Log.i(TAG,"acquire wifi lock");
 				wifiLock.acquire();
 			}
 		}else{
-			Log.e(TAG,"could not aquire wifi lock");
+			Log.e(TAG,"could not acquire wifi lock");
 		}
 
 		if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN) {
