@@ -33,6 +33,7 @@
     <string name="nav_item_player_status">Abspieler Status</string>
 
     <string name="about_text">Diese App basiert auf dem freien Radioverzeichnis auf\nhttps://www.radio-browser.info\nDie Liste der Online(Streaming)-Radio-Stationen funktioniert nach dem Wiki-Prinzip: jeder kann hier mithelfen, das Stationsverzeichnis aktuell zu halten.\n\nKontakt:\nsegler_alex@web.de\n\nBugtracker:\nhttps://github.com/segler-alex/RadioDroid/issues\n\nIch freue mich immer über Mails mit Verbesserungsvorschlägen. Falls ihr sonst irgendwie helfen wollt, gibt es immer bugs zu fixen :) Wenn du dein grafisches Talent sponsoren willst, wäre ich besonders dankbar! Speziell für schönere Icons, Hintergründe oder auch insgesamt ein besseres Design.\n\nDiese app steht wurde mit der GPLv3 lizenziert.\nhttps://www.gnu.org/licenses/gpl-3.0.html.</string>
+    <string name="about_version">Version: %1$s</string>
     <string name="detail_star">Als Favorit setzen</string>
     <string name="detail_unstar">Als Favorit löschen</string>
     <string name="progress_loading">Lade...</string>
