@@ -35,13 +35,25 @@ public class FragmentTabs extends Fragment implements IFragmentRefreshable, IFra
     private String itsAdressWWWCountries = "json/countrycodes";
     private String itsAdressWWWLanguages = "json/languages";
 
-    private ViewPager viewPager;
+    // Note: the actual order of tabs is defined
+    // further down when populating the ViewPagerAdapter
+    private static final int IDX_LOCAL = 0;
+    private static final int IDX_TOP_CLICK = 1;
+    private static final int IDX_TOP_VOTE = 2;
+    private static final int IDX_CHANGED_LATELY = 3;
+    private static final int IDX_CURRENTLY_HEARD = 4;
+    private static final int IDX_TAGS = 5;
+    private static final int IDX_COUNTRIES = 6;
+    private static final int IDX_LANGUAGES = 7;
+    private static final int IDX_SEARCH = 8;
+
+    public static ViewPager viewPager;
 
     private String queuedSearchQuery; // Search may be requested before onCreateView so we should wait
     private StationsFilter.SearchStyle queuedSearchStyle;
 
     private Fragment[] fragments = new Fragment[9];
-    private String[] adresses = new String[]{
+    private String[] addresses = new String[]{
             itsAdressWWWLocal,
             itsAdressWWWTopClick,
             itsAdressWWWTopVote,
@@ -114,7 +126,7 @@ public class FragmentTabs extends Fragment implements IFragmentRefreshable, IFra
             if (countryCode != null) {
                 if (countryCode.length() == 2) {
                     Log.d("MAIN", "Found countrycode " + countryCode);
-                    adresses[0] = "json/stations/bycountrycodeexact/" + countryCode + "?order=clickcount&reverse=true";
+                    addresses[IDX_LOCAL] = "json/stations/bycountrycodeexact/" + countryCode + "?order=clickcount&reverse=true";
                 }else{
                     Log.e("MAIN", "countrycode length != 2");
                 }
@@ -122,40 +134,40 @@ public class FragmentTabs extends Fragment implements IFragmentRefreshable, IFra
                 Log.e("MAIN", "device countrycode and sim countrycode are null");
             }
         }
-        for (int i = 0; i < fragments.length; i++) {
-            Bundle bundle = new Bundle();
+        fragments[IDX_TOP_CLICK] = new FragmentStations();
+        fragments[IDX_TOP_VOTE] = new FragmentStations();
+        fragments[IDX_CHANGED_LATELY] = new FragmentStations();
+        fragments[IDX_CURRENTLY_HEARD] = new FragmentStations();
+        fragments[IDX_TAGS] = new FragmentCategories();
+        fragments[IDX_COUNTRIES] = new FragmentCategories();
+        fragments[IDX_LANGUAGES] = new FragmentCategories();
+        fragments[IDX_SEARCH] = new FragmentStations();
 
-            if (i < 5) {
-                fragments[i] = new FragmentStations();
-            } else if (i < 8) {
-                fragments[i] = new FragmentCategories();
-            } else {
-                fragments[i] = new FragmentStations();
-                bundle.putBoolean(FragmentStations.KEY_SEARCH_ENABLED, true);
-            }
-
-            bundle.putString("url", adresses[i]);
-            fragments[i].setArguments(bundle);
+        for (int i=0;i<fragments.length;i++) {
+            Bundle bundle1 = new Bundle();
+            bundle1.putString("url", addresses[i]);
+            fragments[i].setArguments(bundle1);
         }
 
-        ((FragmentCategories) fragments[5]).EnableSingleUseFilter(true);
-        ((FragmentCategories) fragments[5]).SetBaseSearchLink(StationsFilter.SearchStyle.ByTagExact);
-        ((FragmentCategories) fragments[6]).SetBaseSearchLink(StationsFilter.SearchStyle.ByCountryCodeExact);
-        ((FragmentCategories) fragments[7]).SetBaseSearchLink(StationsFilter.SearchStyle.ByLanguageExact);
+
+        ((FragmentCategories) fragments[IDX_TAGS]).EnableSingleUseFilter(true);
+        ((FragmentCategories) fragments[IDX_TAGS]).SetBaseSearchLink(StationsFilter.SearchStyle.ByTagExact);
+        ((FragmentCategories) fragments[IDX_COUNTRIES]).SetBaseSearchLink(StationsFilter.SearchStyle.ByCountryCodeExact);
+        ((FragmentCategories) fragments[IDX_LANGUAGES]).SetBaseSearchLink(StationsFilter.SearchStyle.ByLanguageExact);
 
         FragmentManager m = getChildFragmentManager();
         ViewPagerAdapter adapter = new ViewPagerAdapter(m);
         if (countryCode != null){
-            adapter.addFragment(fragments[0], R.string.action_local);
+            adapter.addFragment(fragments[IDX_LOCAL], R.string.action_local);
         }
-        adapter.addFragment(fragments[1], R.string.action_top_click);
-        adapter.addFragment(fragments[2], R.string.action_top_vote);
-        adapter.addFragment(fragments[3], R.string.action_changed_lately);
-        adapter.addFragment(fragments[4], R.string.action_currently_playing);
-        adapter.addFragment(fragments[5], R.string.action_tags);
-        adapter.addFragment(fragments[6], R.string.action_countries);
-        adapter.addFragment(fragments[7], R.string.action_languages);
-        adapter.addFragment(fragments[8], R.string.action_search);
+        adapter.addFragment(fragments[IDX_TOP_CLICK], R.string.action_top_click);
+        adapter.addFragment(fragments[IDX_TOP_VOTE], R.string.action_top_vote);
+        adapter.addFragment(fragments[IDX_CHANGED_LATELY], R.string.action_changed_lately);
+        adapter.addFragment(fragments[IDX_CURRENTLY_HEARD], R.string.action_currently_playing);
+        adapter.addFragment(fragments[IDX_TAGS], R.string.action_tags);
+        adapter.addFragment(fragments[IDX_COUNTRIES], R.string.action_countries);
+        adapter.addFragment(fragments[IDX_LANGUAGES], R.string.action_languages);
+        adapter.addFragment(fragments[IDX_SEARCH], R.string.action_search);
         viewPager.setAdapter(adapter);
     }
 
@@ -163,8 +175,8 @@ public class FragmentTabs extends Fragment implements IFragmentRefreshable, IFra
         Log.d("TABS","Search = "+ query + " searchStyle="+searchStyle);
         if (viewPager != null) {
             Log.d("TABS","a Search = "+ query);
-            viewPager.setCurrentItem(8, false);
-            ((IFragmentSearchable)fragments[8]).Search(searchStyle, query);
+            viewPager.setCurrentItem(IDX_SEARCH, false);
+            ((IFragmentSearchable)fragments[IDX_SEARCH]).Search(searchStyle, query);
         } else {
             Log.d("TABS","b Search = "+ query);
             queuedSearchQuery = query;
