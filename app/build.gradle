@@ -7,8 +7,8 @@ android {
         abortOnError true
     }
     defaultConfig {
-        applicationId "net.programmierecke.radiodroid2"
-        minSdkVersion 9
+        applicationId "net.programmierecke.radiodroid2.dost"
+        minSdkVersion 14
         targetSdkVersion 23
 
         versionCode 42
