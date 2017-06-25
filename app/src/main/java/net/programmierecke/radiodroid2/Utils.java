@@ -16,6 +16,12 @@ import android.util.Base64;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.google.android.gms.cast.MediaInfo;
+import com.google.android.gms.cast.MediaMetadata;
+import com.google.android.gms.cast.framework.CastSession;
+import com.google.android.gms.cast.framework.media.RemoteMediaClient;
+import com.google.android.gms.common.images.WebImage;
+
 import net.programmierecke.radiodroid2.data.DataRadioStation;
 
 import org.json.JSONArray;
@@ -37,7 +43,9 @@ import java.util.Locale;
 import java.util.Map;
 
 public class Utils {
-	public static String getCacheFile(Context ctx, String theURI) {
+    public static CastSession mCastSession;
+
+    public static String getCacheFile(Context ctx, String theURI) {
 		StringBuffer chaine = new StringBuffer("");
 		try{
 			String aFileName = theURI.toLowerCase().replace("http://","");
@@ -180,7 +188,9 @@ public class Utils {
 				itsProgressLoading.dismiss();
 
 				if (result != null) {
-					if (external){
+                    if (mCastSession != null){
+                        PlayRemote(station.Name, result, station.IconUrl);
+                    }else if (external){
 						Intent share = new Intent(Intent.ACTION_VIEW);
 						share.setDataAndType(Uri.parse(result), "audio/*");
 						context.startActivity(share);
@@ -195,6 +205,25 @@ public class Utils {
 			}
 		}.execute();
 	}
+
+    private static void PlayRemote(String title, String url, String iconurl){
+        MediaMetadata movieMetadata = new MediaMetadata(MediaMetadata.MEDIA_TYPE_MUSIC_TRACK);
+
+        movieMetadata.putString(MediaMetadata.KEY_TITLE, title);
+        //movieMetadata.putString(MediaMetadata.KEY_SUBTITLE, "MySubTitle");
+        movieMetadata.addImage(new WebImage(Uri.parse(iconurl)));
+        //movieMetadata.addImage(new WebImage(Uri.parse(mSelectedMedia.getImage(1))));
+
+
+        MediaInfo mediaInfo = new MediaInfo.Builder(url)
+                .setStreamType(MediaInfo.STREAM_TYPE_LIVE)
+                .setContentType("audio/ogg")
+                .setMetadata(movieMetadata)
+                //.setStreamDuration(mSelectedMedia.getDuration() * 1000)
+                .build();
+        RemoteMediaClient remoteMediaClient = Utils.mCastSession.getRemoteMediaClient();
+        remoteMediaClient.load(mediaInfo, true);
+    }
 
 	// Storage Permissions
 	public static final int REQUEST_EXTERNAL_STORAGE = 1;

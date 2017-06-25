@@ -3,6 +3,7 @@ package net.programmierecke.radiodroid2;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
@@ -20,6 +21,17 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
+
+import com.google.android.gms.cast.MediaInfo;
+import com.google.android.gms.cast.MediaMetadata;
+import com.google.android.gms.cast.framework.CastButtonFactory;
+import com.google.android.gms.cast.framework.CastContext;
+import com.google.android.gms.cast.framework.CastSession;
+import com.google.android.gms.cast.framework.Session;
+import com.google.android.gms.cast.framework.SessionManager;
+import com.google.android.gms.cast.framework.SessionManagerListener;
+import com.google.android.gms.cast.framework.media.RemoteMediaClient;
+import com.google.android.gms.common.images.WebImage;
 
 import net.programmierecke.radiodroid2.interfaces.IFragmentRefreshable;
 import net.programmierecke.radiodroid2.interfaces.IFragmentSearchable;
@@ -45,13 +57,67 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
 	MenuItem menuItemRefresh;
 
 	private SharedPreferences sharedPref;
+    private CastContext mCastContext;
+    private MenuItem mediaRouteMenuItem;
+    private SessionManager mSessionManager;
 
-	@Override
+    private final SessionManagerListener mSessionManagerListener =
+            new SessionManagerListenerImpl();
+    private class SessionManagerListenerImpl implements SessionManagerListener {
+        @Override
+        public void onSessionStarting(Session session) {
+
+        }
+
+        @Override
+        public void onSessionStarted(Session session, String sessionId) {
+            invalidateOptionsMenu();
+            Utils.mCastSession = mSessionManager.getCurrentCastSession();
+        }
+
+        @Override
+        public void onSessionStartFailed(Session session, int i) {
+
+        }
+
+        @Override
+        public void onSessionEnding(Session session) {
+        }
+
+        @Override
+        public void onSessionResumed(Session session, boolean wasSuspended) {
+            invalidateOptionsMenu();
+            Utils.mCastSession = mSessionManager.getCurrentCastSession();
+        }
+
+        @Override
+        public void onSessionResumeFailed(Session session, int i) {
+            Utils.mCastSession = null;
+        }
+
+        @Override
+        public void onSessionSuspended(Session session, int i) {
+            Utils.mCastSession = null;
+        }
+
+        @Override
+        public void onSessionEnded(Session session, int error) {
+            Utils.mCastSession = null;
+        }
+
+        @Override
+        public void onSessionResuming(Session session, String s) {
+
+        }
+    }
+
+
+    @Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.layout_main);
 
-		try {
+        try {
 			File dir = new File(getFilesDir().getAbsolutePath());
 			if (dir.isDirectory()) {
 				String[] children = dir.list();
@@ -159,7 +225,10 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
 		ActionBarDrawerToggle mDrawerToggle = new ActionBarDrawerToggle(this,mDrawerLayout, R.string.app_name,R.string.app_name);
 		mDrawerLayout.addDrawerListener(mDrawerToggle);
 		mDrawerToggle.syncState();
-	}
+
+        mCastContext = CastContext.getSharedInstance(this);
+        mSessionManager = mCastContext.getSessionManager();
+    }
 
 	@Override
 	public void onRequestPermissionsResult(int requestCode,
@@ -191,10 +260,13 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
 	@Override
 	protected void onPause() {
 		super.onPause();
-	}
+        mSessionManager.removeSessionManagerListener(mSessionManagerListener);
+        Utils.mCastSession = null;
+    }
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
+        super.onCreateOptionsMenu(menu);
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.menu_main, menu);
 
@@ -212,7 +284,11 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
 			menuItemRefresh.setVisible(false);
 		}
 
-		return true;
+        mediaRouteMenuItem = CastButtonFactory.setUpMediaRouteButton(getApplicationContext(),
+                menu,
+                R.id.media_route_menu_item);
+
+        return true;
 	}
 
 	@Override
@@ -255,7 +331,10 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
 
 		mFragmentTransaction = mFragmentManager.beginTransaction();
 		mFragmentTransaction.replace(R.id.containerView,first).commit();
-	}
+
+        Utils.mCastSession = mSessionManager.getCurrentCastSession();
+        mSessionManager.addSessionManagerListener(mSessionManagerListener);
+    }
 
 	public void Search(String query){
 		if (fragSearchable != null) {
