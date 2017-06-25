@@ -124,8 +124,7 @@ public class StreamProxy {
                     bytesUntilMetaData -= readBytes;
                 }
 
-                Log.v(TAG, "in:" + readBytes);
-                Log.v(TAG, "out:" + readBytesBuffer);
+                Log.v(TAG, "stream bytes relayed:" + readBytes);
                 out.write(buf, 0, readBytesBuffer);
                 if (fileOutputStream != null) {
                     Log.v(TAG, "writing to record file..");
@@ -133,13 +132,14 @@ public class StreamProxy {
                 }
                 readBytesBuffer = 0;
             } else {
-                readMetaData();
+                readBytes = readMetaData();
                 bytesUntilMetaData = info.metadataOffset;
+                connectionBytesTotal += readBytes;
             }
         }
     }
 
-    private void readMetaData() throws IOException {
+    private int readMetaData() throws IOException {
         int metadataBytes = in.read() * 16;
         int metadataBytesToRead = metadataBytes;
         int readBytesBufferMetadata = 0;
@@ -168,6 +168,7 @@ public class StreamProxy {
                 }
             }
         }
+        return readBytesBufferMetadata + 1;
     }
 
     private void streamFile(String urlStr) throws IOException {
