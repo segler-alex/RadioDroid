@@ -12,8 +12,12 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class PlayerServiceUtil {
+
+    private static Context mainContext = null;
+
     public static void bind(Context context){
         Intent anIntent = new Intent(context, PlayerService.class);
+        mainContext = context;
         context.bindService(anIntent, svcConn, Context.BIND_AUTO_CREATE);
         context.startService(anIntent);
     }
@@ -23,6 +27,24 @@ public class PlayerServiceUtil {
         try {
             context.unbindService(svcConn);
         } catch (Exception e) {
+        }
+    }
+
+    public static void shutdownService()
+    {
+        if (mainContext != null)
+        {
+            try
+            {
+                Intent anIntent = new Intent(mainContext, PlayerService.class);
+                // context.bindService(anIntent, svcConn, Context.BIND_AUTO_CREATE);
+                System.out.println("PlayerServiceUtil:" + "shutdownService");
+                mainContext.stopService(anIntent);
+            }
+            catch(Exception e)
+            {
+                System.out.println("PlayerServiceUtil:" + "shutdownService " + "E001:" + e.getMessage());
+            }
         }
     }
 
