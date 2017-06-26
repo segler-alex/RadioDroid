@@ -12,7 +12,6 @@ import android.os.AsyncTask;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.preference.PreferenceManager;
-import android.util.Base64;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -24,7 +23,6 @@ import com.google.android.gms.common.images.WebImage;
 
 import net.programmierecke.radiodroid2.data.DataRadioStation;
 
-import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
@@ -37,8 +35,6 @@ import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Date;
-import java.util.Dictionary;
-import java.util.Enumeration;
 import java.util.Locale;
 import java.util.Map;
 
@@ -187,6 +183,7 @@ public class Utils {
 			protected void onPostExecute(String result) {
 				itsProgressLoading.dismiss();
 
+                MPDClient.Play(result, context);
 				if (result != null) {
                     if (mCastSession != null){
                         PlayRemote(station.Name, result, station.IconUrl);

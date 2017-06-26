@@ -93,6 +93,10 @@
     <string name="media_route_menu_title">GoogleCast</string>
     <string name="app_id">5A97BAE4</string>
 
+    <string name="settings_mpd">Music Player Daemon</string>
+    <string name="settings_mpd_hostname">Hostname</string>
+    <string name="settings_mpd_port">Port</string>
+
     <string-array name="weekdays">
         <item>S</item>
         <item>M</item>
