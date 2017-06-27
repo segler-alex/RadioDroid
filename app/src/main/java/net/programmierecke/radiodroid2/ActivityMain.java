@@ -272,6 +272,7 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
 
 	@Override
 	protected void onPause() {
+        Log.i(TAG,"PAUSED");
 		super.onPause();
         mSessionManager.removeSessionManagerListener(mSessionManagerListener);
         Utils.mCastSession = null;
@@ -360,6 +361,7 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
         Utils.mCastSession = mSessionManager.getCurrentCastSession();
         mSessionManager.addSessionManagerListener(mSessionManagerListener);
 
+        Log.i(TAG,"RESUMED");
         MPDClient.StartDiscovery(this, this);
     }
 

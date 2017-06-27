@@ -169,6 +169,7 @@ public class MPDClient {
     public static void StopDiscovery(){
         discoveryActive = false;
         discovered = false;
+        t = null;
     }
 
     private static Boolean PlayRemoteMPD(String mpd_hostname, int mpd_port, String url){
