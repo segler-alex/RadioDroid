@@ -96,6 +96,9 @@
     <string name="settings_mpd">Music Player Daemon</string>
     <string name="settings_mpd_hostname">Hostname</string>
     <string name="settings_mpd_port">Port</string>
+    <string name="action_mpd_nok">MPD not connected</string>
+    <string name="action_mpd_ok">MPD connected</string>
+    <string name="refresh">Refresh</string>
 
     <string-array name="weekdays">
         <item>S</item>

@@ -183,16 +183,25 @@ public class Utils {
 			protected void onPostExecute(String result) {
 				itsProgressLoading.dismiss();
 
-                MPDClient.Play(result, context);
 				if (result != null) {
+					boolean externalActive = false;
+					if (MPDClient.Connected() && MPDClient.Discovered()){
+						MPDClient.Play(result, context);
+						externalActive = true;
+					}
                     if (mCastSession != null){
                         PlayRemote(station.Name, result, station.IconUrl);
-                    }else if (external){
-						Intent share = new Intent(Intent.ACTION_VIEW);
-						share.setDataAndType(Uri.parse(result), "audio/*");
-						context.startActivity(share);
-					}else {
-						PlayerServiceUtil.play(result, station.Name, station.ID, true);
+						externalActive = true;
+                    }
+
+                    if (!externalActive){
+						if (external){
+							Intent share = new Intent(Intent.ACTION_VIEW);
+							share.setDataAndType(Uri.parse(result), "audio/*");
+							context.startActivity(share);
+						}else {
+							PlayerServiceUtil.play(result, station.Name, station.ID, true);
+						}
 					}
 				} else {
 					Toast toast = Toast.makeText(context.getApplicationContext(), context.getResources().getText(R.string.error_station_load), Toast.LENGTH_SHORT);

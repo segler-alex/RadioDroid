@@ -1,26 +1,25 @@
 package net.programmierecke.radiodroid2;
 
-import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.support.v7.preference.PreferenceManager;
 import android.util.Log;
-import android.widget.Toast;
-
-import net.programmierecke.radiodroid2.data.DataRadioStation;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
-import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.net.Socket;
 
+interface IMPDClientStatusChange{
+    void changed();
+}
+
 public class MPDClient {
+    static final String TAG = "MPD";
+    private static boolean connected;
+
     public static int StringToInt(String str, int defaultValue){
         try{
             return Integer.parseInt(str);
@@ -29,6 +28,18 @@ public class MPDClient {
         }
         return defaultValue;
     }
+
+    public static void Connect(IMPDClientStatusChange listener){
+        connected = true;
+        listener.changed();
+    }
+
+    public static void Disconnect(Context context, IMPDClientStatusChange listener){
+        connected = false;
+        listener.changed();
+        Stop(context);
+    }
+
     public static void Play(final String url, final Context context) {
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
         final String mpd_hostname = sharedPref.getString("mpd_hostname", null);
@@ -45,6 +56,119 @@ public class MPDClient {
                 super.onPostExecute(result);
             }
         }.execute();
+    }
+
+    static boolean discovered = false;
+    static Thread t = null;
+    static boolean discoveryActive = false;
+
+    public static boolean Discovered(){
+        return discovered;
+    }
+
+    public static void StartDiscovery(final Context context, final IMPDClientStatusChange listener){
+        final SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
+
+        if (t == null) {
+            discoveryActive = true;
+            t = new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    while(discoveryActive){
+                        try {
+                            final String mpd_hostname = sharedPref.getString("mpd_hostname", "").trim();
+                            final int mpd_port = StringToInt(sharedPref.getString("mpd_port", "6600"), 6600);
+
+                            if (mpd_hostname != ""){
+                                SetDiscoveredStatus(CheckConnection(mpd_hostname, mpd_port), listener);
+                            }
+                            // check every 5 seconds
+                            Thread.sleep(5*1000);
+                        } catch (Exception e) {
+                            SetDiscoveredStatus(false, listener);
+                        }
+                    }
+                    SetDiscoveredStatus(false, listener);
+                    t = null;
+                }
+            });
+            t.start();
+        }
+    }
+
+    private static void SetDiscoveredStatus(boolean status, IMPDClientStatusChange listener){
+        if (status != discovered){
+            discovered = status;
+            listener.changed();
+        }
+    }
+
+    private static boolean CheckConnection(String mpd_hostname, int mpd_port) {
+        Boolean result = false;
+
+        try {
+            Log.i(TAG, "Check connection...");
+            Socket s = new Socket(mpd_hostname, mpd_port);
+            BufferedReader reader = new BufferedReader(new InputStreamReader(s.getInputStream()));
+            BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(s.getOutputStream()));
+            String info = reader.readLine();
+            Log.i(TAG, info);
+            if (info.startsWith("OK")){
+                result = true;
+            }
+            reader.close();
+            writer.close();
+            s.close();
+        } catch (Exception e) {
+            Log.e(TAG,e.toString());
+        }
+        Log.i(TAG, "Connection status:"+result);
+        return result;
+    }
+
+
+    public static void Stop(Context context) {
+        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
+        final String mpd_hostname = sharedPref.getString("mpd_hostname", "").trim();
+        final int mpd_port = StringToInt(sharedPref.getString("mpd_port", "6600"), 6600);
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                StopInternal(mpd_hostname, mpd_port);
+            }
+        }).start();
+    }
+
+    private static boolean StopInternal(String mpd_hostname, int mpd_port) {
+        Boolean result = false;
+
+        try {
+            Log.i(TAG, "Check connection...");
+            Socket s = new Socket(mpd_hostname, mpd_port);
+            BufferedReader reader = new BufferedReader(new InputStreamReader(s.getInputStream()));
+            BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(s.getOutputStream()));
+            String info = reader.readLine();
+            Log.i(TAG, info);
+            if (info.startsWith("OK")) {
+                String cmd = "stop";
+                writer.write(cmd);
+                writer.newLine();
+                writer.flush();
+                result = true;
+            }
+            reader.close();
+            writer.close();
+            s.close();
+        } catch (Exception e) {
+            Log.e(TAG,e.toString());
+        }
+        Log.i(TAG, "Connection status:"+result);
+        return result;
+    }
+
+    public static void StopDiscovery(){
+        discoveryActive = false;
+        discovered = false;
     }
 
     private static Boolean PlayRemoteMPD(String mpd_hostname, int mpd_port, String url){
@@ -81,5 +205,9 @@ public class MPDClient {
             Log.e("MPD",e.toString());
         }
         return result;
+    }
+
+    public static boolean Connected() {
+        return connected;
     }
 }
