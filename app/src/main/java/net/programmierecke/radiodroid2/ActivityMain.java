@@ -3,9 +3,6 @@ package net.programmierecke.radiodroid2;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.content.res.Resources;
-import android.media.AudioManager;
-import android.media.ToneGenerator;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
@@ -19,12 +16,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.preference.PreferenceManager;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
-import android.text.Html;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
-
 import net.programmierecke.radiodroid2.interfaces.IFragmentRefreshable;
 import net.programmierecke.radiodroid2.interfaces.IFragmentSearchable;
 
@@ -69,18 +64,6 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
 			}
 		}
 		catch (Exception e){}
-
-
-		Resources res = getResources();
-		String appName = res.getString(R.string.app_name);
-		String text = String.format(res.getString(R.string.no_wifi_connection),	appName);
-
-		if (!Utils.hasWifiConnection(getBaseContext())) {
-			ToneGenerator toneG = new ToneGenerator(AudioManager.STREAM_ALARM, 100);
-			toneG.startTone(ToneGenerator.TONE_SUP_RADIO_NOTAVAIL, 2000);
-			Toast.makeText( getBaseContext(), Html.fromHtml( text ), Toast.LENGTH_LONG ).show();
-			finish();
-		}
 
 		final Toolbar myToolbar = (Toolbar) findViewById(R.id.my_awesome_toolbar);
 		setSupportActionBar(myToolbar);

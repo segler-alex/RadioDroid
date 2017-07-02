@@ -2,11 +2,16 @@ package net.programmierecke.radiodroid2;
 
 import android.Manifest;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.content.res.Resources;
+import android.media.AudioManager;
+import android.media.ToneGenerator;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
@@ -170,6 +175,32 @@ public class Utils {
 	}
 
 	public static void Play(final DataRadioStation station, final Context context, final boolean external) {
+		if (!Utils.hasWifiConnection(context)) {
+			ToneGenerator toneG = new ToneGenerator(AudioManager.STREAM_ALARM, 100);
+			toneG.startTone(ToneGenerator.TONE_SUP_RADIO_NOTAVAIL, 2000);
+			/*Toast.makeText( getBaseContext(), Html.fromHtml( text ), Toast.LENGTH_LONG ).show();
+			finish();*/
+			Resources res = context.getResources();
+			String appName = res.getString(R.string.app_name);
+			String title = String.format(res.getString(R.string.no_wifi_title),	appName);
+			String text = String.format(res.getString(R.string.no_wifi_connection),	appName);
+			new AlertDialog.Builder(context)
+					.setTitle(title)
+					.setMessage(text)
+					.setNegativeButton(android.R.string.cancel, null) // do not play on cancel
+					.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+						@Override public void onClick(DialogInterface dialog, int which) {
+							playInternal(station, context, external);
+						}
+					})
+					.create()
+					.show();
+		} else {
+			playInternal(station, context, external);
+		}
+	}
+
+	private static void playInternal(final DataRadioStation station, final Context context, final boolean external) {
 		final ProgressDialog itsProgressLoading = ProgressDialog.show(context, "", context.getResources().getText(R.string.progress_loading));
 		new AsyncTask<Void, Void, String>() {
 			@Override
