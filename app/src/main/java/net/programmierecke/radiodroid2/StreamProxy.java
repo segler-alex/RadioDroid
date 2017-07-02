@@ -90,28 +90,25 @@ public class StreamProxy {
     InputStream in;
     OutputStream out;
 
-    byte buf[] = new byte[16384*2];
-    byte bufMetadata[] = new byte[256 * 16];
+    byte buf[] = new byte[256*16];
 
     private void defaultStream(ShoutcastInfo info) throws Exception{
         int bytesUntilMetaData = 0;
-        boolean readMetaData = false;
-        boolean filterOutMetaData = false;
+        boolean streamHasMetaData = false;
 
         if (info != null) {
             callback.foundShoutcastStream(info,false);
             bytesUntilMetaData = info.metadataOffset;
-            filterOutMetaData = true;
+            streamHasMetaData = true;
         }
 
         int readBytesBuffer = 0;
-        int readBytesBufferMetadata = 0;
 
         while (!isStopped) {
             int readBytes = 0;
-            if (!filterOutMetaData || (bytesUntilMetaData > 0)) {
-                int bytesToRead = buf.length - readBytesBuffer;
-                if (filterOutMetaData) {
+            if (!streamHasMetaData || (bytesUntilMetaData > 0)) {
+                int bytesToRead = Math.min(buf.length - readBytesBuffer,in.available());
+                if (streamHasMetaData) {
                     bytesToRead = Math.min(bytesUntilMetaData, bytesToRead);
                 }
                 readBytes = in.read(buf, readBytesBuffer, bytesToRead);
@@ -123,50 +120,55 @@ public class StreamProxy {
                 }
                 readBytesBuffer += readBytes;
                 connectionBytesTotal += readBytes;
-                if (filterOutMetaData) {
+                if (streamHasMetaData) {
                     bytesUntilMetaData -= readBytes;
                 }
 
-                Log.v(TAG, "in:" + readBytes);
-                if (readBytesBuffer > buf.length / 2) {
-                    Log.v(TAG, "out:" + readBytesBuffer);
-                    out.write(buf, 0, readBytesBuffer);
-                    if (fileOutputStream != null) {
-                        Log.v(TAG, "writing to record file..");
-                        fileOutputStream.write(buf, 0, readBytesBuffer);
-                    }
-                    readBytesBuffer = 0;
+                Log.v(TAG, "stream bytes relayed:" + readBytes);
+                out.write(buf, 0, readBytesBuffer);
+                if (fileOutputStream != null) {
+                    Log.v(TAG, "writing to record file..");
+                    fileOutputStream.write(buf, 0, readBytesBuffer);
                 }
+                readBytesBuffer = 0;
             } else {
-                int metadataBytes = in.read() * 16;
-                int metadataBytesToRead = metadataBytes;
-                readBytesBufferMetadata = 0;
+                readBytes = readMetaData();
                 bytesUntilMetaData = info.metadataOffset;
-                Log.d(TAG, "metadata size:" + metadataBytes);
-                if (metadataBytes > 0) {
-                    Arrays.fill(bufMetadata, (byte) 0);
-                    while (true) {
-                        readBytes = in.read(bufMetadata, readBytesBufferMetadata, metadataBytesToRead);
-                        if (readBytes == 0) {
-                            continue;
-                        }
-                        if (readBytes < 0) {
-                            break;
-                        }
-                        metadataBytesToRead -= readBytes;
-                        readBytesBufferMetadata += readBytes;
-                        if (metadataBytesToRead <= 0) {
-                            String s = new String(bufMetadata, 0, metadataBytes, "utf-8");
-                            Log.d(TAG, "METADATA:" + s);
-                            Map<String, String> dict = DecodeShoutcastMetadata(s);
-                            Log.d(TAG, "META:" + dict.get("StreamTitle"));
-                            callback.foundLiveStreamInfo(dict);
-                            break;
-                        }
-                    }
+                connectionBytesTotal += readBytes;
+            }
+        }
+    }
+
+    private int readMetaData() throws IOException {
+        int metadataBytes = in.read() * 16;
+        int metadataBytesToRead = metadataBytes;
+        int readBytesBufferMetadata = 0;
+        int readBytes = 0;
+
+        Log.d(TAG, "metadata size:" + metadataBytes);
+        if (metadataBytes > 0) {
+            Arrays.fill(buf, (byte) 0);
+            while (true) {
+                readBytes = in.read(buf, readBytesBufferMetadata, metadataBytesToRead);
+                if (readBytes == 0) {
+                    continue;
+                }
+                if (readBytes < 0) {
+                    break;
+                }
+                metadataBytesToRead -= readBytes;
+                readBytesBufferMetadata += readBytes;
+                if (metadataBytesToRead <= 0) {
+                    String s = new String(buf, 0, metadataBytes, "utf-8");
+                    Log.d(TAG, "METADATA:" + s);
+                    Map<String, String> dict = DecodeShoutcastMetadata(s);
+                    Log.d(TAG, "META:" + dict.get("StreamTitle"));
+                    callback.foundLiveStreamInfo(dict);
+                    break;
                 }
             }
         }
+        return readBytesBufferMetadata + 1;
     }
 
     private void streamFile(String urlStr) throws IOException {
