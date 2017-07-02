@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">RadioDroid</string>
+    <string name="app_name">RadioDost</string>
     <string name="detail_name">Názov</string>
     <string name="detail_tags">Značky</string>
     <string name="detail_country">Krajina</string>
