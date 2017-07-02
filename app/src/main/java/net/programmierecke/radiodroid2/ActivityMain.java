@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -50,20 +51,16 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.layout_main);
 
-		try {
-			File dir = new File(getFilesDir().getAbsolutePath());
-			if (dir.isDirectory()) {
-				String[] children = dir.list();
-				for (int i = 0; i < children.length; i++) {
-					Log.e("MAIN", "delete file:" + children[i]);
-					try {
-						new File(dir, children[i]).delete();
-					}
-					catch (Exception e){}
+		File dir = new File(getFilesDir().getAbsolutePath());
+		if (dir.isDirectory()) {
+			String[] children = dir.list();
+			for (String aChildren : children) {
+				Log.e("MAIN", "delete file:" + aChildren);
+				if(!new File(dir, aChildren).delete()) {
+					Log.w("MAIN", "Failed to delete " + new File(dir, aChildren));
 				}
 			}
 		}
-		catch (Exception e){}
 
 		final Toolbar myToolbar = (Toolbar) findViewById(R.id.my_awesome_toolbar);
 		setSupportActionBar(myToolbar);
@@ -80,7 +77,7 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
 
 		mNavigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
 			@Override
-			public boolean onNavigationItemSelected(MenuItem menuItem) {
+			public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
 				mDrawerLayout.closeDrawers();
 				android.support.v4.app.Fragment f = null;
 
@@ -162,7 +159,7 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
 
 	@Override
 	public void onRequestPermissionsResult(int requestCode,
-										   String permissions[], int[] grantResults) {
+										   @NonNull String permissions[], @NonNull int[] grantResults) {
 		Log.w(TAG,"on request permissions result:"+requestCode);
 		switch (requestCode) {
 			case Utils.REQUEST_EXTERNAL_STORAGE: {
@@ -176,7 +173,6 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
 					Toast toast = Toast.makeText(this, getResources().getString(R.string.error_record_needs_write), Toast.LENGTH_SHORT);
 					toast.show();
 				}
-				return;
 			}
 		}
 	}
@@ -237,7 +233,7 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
 			sharedPref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 		}
 
-		Fragment first = null;
+		Fragment first;
 		if (sharedPref.getBoolean("starred_at_startup", false)) {
 			FragmentStarred fragStarred = new FragmentStarred();
 			getSupportActionBar().setTitle(R.string.nav_item_starred);
@@ -264,7 +260,7 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
 
 	@Override
 	public boolean onQueryTextSubmit(String query) {
-		String queryEncoded = null;
+		String queryEncoded;
 		try {
 			mSearchView.setQuery("", false);
 			mSearchView.clearFocus();

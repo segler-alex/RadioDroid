@@ -19,13 +19,11 @@ import android.os.AsyncTask;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.preference.PreferenceManager;
-import android.util.Base64;
 import android.util.Log;
 import android.widget.Toast;
 
 import net.programmierecke.radiodroid2.data.DataRadioStation;
 
-import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
@@ -38,14 +36,12 @@ import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Date;
-import java.util.Dictionary;
-import java.util.Enumeration;
 import java.util.Locale;
 import java.util.Map;
 
 public class Utils {
 	public static String getCacheFile(Context ctx, String theURI) {
-		StringBuffer chaine = new StringBuffer("");
+		StringBuilder chaine = new StringBuilder("");
 		try{
 			String aFileName = theURI.toLowerCase().replace("http://","");
 			aFileName = aFileName.toLowerCase().replace("https://","");
@@ -65,7 +61,7 @@ public class Utils {
 			if (hours < 1) {
 				FileInputStream aStream = new FileInputStream(file);
 				BufferedReader rd = new BufferedReader(new InputStreamReader(aStream));
-				String line = "";
+				String line;
 				while ((line = rd.readLine()) != null) {
 					chaine.append(line);
 				}
@@ -106,7 +102,7 @@ public class Utils {
 			}
 		}
 
-		StringBuffer chaine = new StringBuffer("");
+		StringBuilder chaine = new StringBuilder("");
 		try{
 			URL url = new URL(theURI);
 			HttpURLConnection connection = (HttpURLConnection)url.openConnection();
@@ -137,7 +133,7 @@ public class Utils {
 
 			InputStream inputStream = connection.getInputStream();
 			BufferedReader rd = new BufferedReader(new InputStreamReader(inputStream));
-			String line = "";
+			String line;
 			while ((line = rd.readLine()) != null) {
 				chaine.append(line);
 			}
@@ -156,7 +152,7 @@ public class Utils {
 	public static String getRealStationLink(Context ctx, String stationId){
 		String result = Utils.downloadFeed(ctx, "http://www.radio-browser.info/webservice/v2/json/url/" + stationId, true, null);
 		if (result != null) {
-			JSONObject jsonObj = null;
+			JSONObject jsonObj;
 			try {
 				jsonObj = new JSONObject(result);
 				return jsonObj.getString("url");
@@ -254,11 +250,11 @@ public class Utils {
 
 	public static String getReadableBytes(double bytes){
 		String[] str = new String[]{"B","KB","MB","GB","TB"};
-		for (int i=0;i<str.length;i++){
+		for (String aStr : str) {
 			if (bytes < 1024) {
-				return String.format(Locale.getDefault(), "%1$,.1f %2$s",bytes,str[i]);
+				return String.format(Locale.getDefault(), "%1$,.1f %2$s", bytes, aStr);
 			}
-			bytes = bytes/1024;
+			bytes = bytes / 1024;
 		}
 		return String.format(Locale.getDefault(), "%1$,.1f %2$s",bytes*1024,str[str.length-1]);
 	}
