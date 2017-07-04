@@ -1,16 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
+
     <item
         android:id="@+id/action_search"
         android:title="@string/action_search"
         android:icon="@drawable/ic_search_24dp"
         app:actionViewClass="android.support.v7.widget.SearchView"
-        app:showAsAction="ifRoom" />
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/action_mpd_ok"
+        android:title="@string/action_mpd_ok"
+        android:icon="@drawable/mpd_ok"
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/action_mpd_nok"
+        android:title="@string/action_mpd_nok"
+        android:icon="@drawable/mpd_nok"
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/media_route_menu_item"
+        android:title="@string/media_route_menu_title"
+        app:actionProviderClass="android.support.v7.app.MediaRouteActionProvider"
+        app:showAsAction="always"/>
 
     <item
         android:id="@+id/action_refresh"
-        android:title="@string/action_top_click"
+        android:title="@string/refresh"
         android:icon="@drawable/ic_sync_black_24dp"
-        app:showAsAction="ifRoom" />
+        app:showAsAction="always" />
 </menu>

@@ -7,5 +7,6 @@ import java.util.Map;
 public interface IStreamProxyEventReceiver {
     void foundShoutcastStream(ShoutcastInfo bitrate, boolean isHls);
     void foundLiveStreamInfo(Map<String,String> liveInfo);
+    void streamCreated(String proxyConnection);
     void streamStopped();
 }

@@ -12,13 +12,17 @@ import android.os.AsyncTask;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.preference.PreferenceManager;
-import android.util.Base64;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.google.android.gms.cast.MediaInfo;
+import com.google.android.gms.cast.MediaMetadata;
+import com.google.android.gms.cast.framework.CastSession;
+import com.google.android.gms.cast.framework.media.RemoteMediaClient;
+import com.google.android.gms.common.images.WebImage;
+
 import net.programmierecke.radiodroid2.data.DataRadioStation;
 
-import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
@@ -31,13 +35,13 @@ import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Date;
-import java.util.Dictionary;
-import java.util.Enumeration;
 import java.util.Locale;
 import java.util.Map;
 
 public class Utils {
-	public static String getCacheFile(Context ctx, String theURI) {
+    public static CastSession mCastSession;
+
+    public static String getCacheFile(Context ctx, String theURI) {
 		StringBuffer chaine = new StringBuffer("");
 		try{
 			String aFileName = theURI.toLowerCase().replace("http://","");
@@ -180,12 +184,24 @@ public class Utils {
 				itsProgressLoading.dismiss();
 
 				if (result != null) {
-					if (external){
-						Intent share = new Intent(Intent.ACTION_VIEW);
-						share.setDataAndType(Uri.parse(result), "audio/*");
-						context.startActivity(share);
-					}else {
-						PlayerServiceUtil.play(result, station.Name, station.ID, true);
+					boolean externalActive = false;
+					if (MPDClient.Connected() && MPDClient.Discovered()){
+						MPDClient.Play(result, context);
+						externalActive = true;
+					}
+                    if (mCastSession != null){
+                        PlayRemote(station.Name, result, station.IconUrl);
+						externalActive = true;
+                    }
+
+                    if (!externalActive){
+						if (external){
+							Intent share = new Intent(Intent.ACTION_VIEW);
+							share.setDataAndType(Uri.parse(result), "audio/*");
+							context.startActivity(share);
+						}else {
+							PlayerServiceUtil.play(result, station.Name, station.ID, true);
+						}
 					}
 				} else {
 					Toast toast = Toast.makeText(context.getApplicationContext(), context.getResources().getText(R.string.error_station_load), Toast.LENGTH_SHORT);
@@ -195,6 +211,25 @@ public class Utils {
 			}
 		}.execute();
 	}
+
+    private static void PlayRemote(String title, String url, String iconurl){
+        MediaMetadata movieMetadata = new MediaMetadata(MediaMetadata.MEDIA_TYPE_MUSIC_TRACK);
+
+        movieMetadata.putString(MediaMetadata.KEY_TITLE, title);
+        //movieMetadata.putString(MediaMetadata.KEY_SUBTITLE, "MySubTitle");
+        movieMetadata.addImage(new WebImage(Uri.parse(iconurl)));
+        //movieMetadata.addImage(new WebImage(Uri.parse(mSelectedMedia.getImage(1))));
+
+
+        MediaInfo mediaInfo = new MediaInfo.Builder(url)
+                .setStreamType(MediaInfo.STREAM_TYPE_LIVE)
+                .setContentType("audio/ogg")
+                .setMetadata(movieMetadata)
+                //.setStreamDuration(mSelectedMedia.getDuration() * 1000)
+                .build();
+        RemoteMediaClient remoteMediaClient = Utils.mCastSession.getRemoteMediaClient();
+        remoteMediaClient.load(mediaInfo, true);
+    }
 
 	// Storage Permissions
 	public static final int REQUEST_EXTERNAL_STORAGE = 1;

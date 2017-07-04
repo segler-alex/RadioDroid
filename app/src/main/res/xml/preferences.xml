@@ -58,4 +58,15 @@
             android:title="@string/settings_alarm_sleep_timer" />
 
     </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="@string/settings_mpd">
+        <EditTextPreference
+            android:title="@string/settings_mpd_hostname"
+            android:key="mpd_hostname" />
+        <EditTextPreference
+            android:title="@string/settings_mpd_port"
+            android:key="mpd_port"
+            android:defaultValue="6600"/>
+    </PreferenceCategory>
 </PreferenceScreen>

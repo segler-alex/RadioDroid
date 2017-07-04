@@ -49,6 +49,7 @@ public class StreamProxy {
 
     private void createProxy() {
         Log.i(TAG,"thread started");
+        /*
         ServerSocket proxyServer = null;
         try {
             proxyServer = new ServerSocket(0, 1, InetAddress.getLocalHost());
@@ -57,34 +58,22 @@ public class StreamProxy {
         } catch (IOException e) {
             Log.e(TAG,"createProxy() create server socket: "+e);
         }
+        */
 
-        if (proxyServer != null) {
-            final ServerSocket finalProxyServer = proxyServer;
+        //if (proxyServer != null) {
+//            final ServerSocket finalProxyServer = proxyServer;
             new Thread(new Runnable() {
                 @Override
                 public void run() {
                     try {
-                        Log.i(TAG, "waiting..");
-                        socketProxy = finalProxyServer.accept();
-                        finalProxyServer.close();
-
                         doConnectToStream();
-
                         Log.i(TAG, "createProxy() ended");
-                    } catch (IOException e) {
+                    } catch (Exception e) {
                         Log.e(TAG, "" + e);
                     }
                 }
             }).start();
-
-            while (localAdress == null) {
-                try {
-                    Log.i(TAG, "starting serversock...");
-                    Thread.sleep(100);
-                } catch (Exception e) {
-                }
-            }
-        }
+        //}
     }
 
     InputStream in;
@@ -272,18 +261,28 @@ public class StreamProxy {
 
     private void doConnectToStream() {
         try{
-            final int MaxRetries = 30;
+            final int MaxRetries = 100;
             int retry = MaxRetries;
             while (!isStopped && retry > 0) {
                 try {
                     // connect to stream
-                    Log.i(TAG,"doConnectToStream:"+uri);
+                    Log.i(TAG,"doConnectToStream (try="+retry+"):"+uri);
                     URL u = new URL(uri);
                     URLConnection connection = u.openConnection();
-                    connection.setConnectTimeout(5000);
-                    connection.setReadTimeout(10000);
+                    connection.setConnectTimeout(2000);
+                    connection.setReadTimeout(2000);
                     connection.setRequestProperty("Icy-MetaData", "1");
                     connection.connect();
+
+                    Log.i(TAG, "create serversocket..");
+                    ServerSocket proxyServer = null;
+                    proxyServer = new ServerSocket(0, 1, InetAddress.getLocalHost());
+                    int port = proxyServer.getLocalPort();
+                    localAdress = String.format(Locale.US,"http://localhost:%d",port);
+                    Log.i(TAG, "waiting..");
+                    callback.streamCreated(localAdress);
+                    socketProxy = proxyServer.accept();
+                    proxyServer.close();
 
                     // send ok message to local mediaplayer
                     out = socketProxy.getOutputStream();

@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -21,6 +22,12 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.google.android.gms.cast.framework.CastButtonFactory;
+import com.google.android.gms.cast.framework.CastContext;
+import com.google.android.gms.cast.framework.Session;
+import com.google.android.gms.cast.framework.SessionManager;
+import com.google.android.gms.cast.framework.SessionManagerListener;
+
 import net.programmierecke.radiodroid2.interfaces.IFragmentRefreshable;
 import net.programmierecke.radiodroid2.interfaces.IFragmentSearchable;
 
@@ -28,7 +35,7 @@ import java.io.File;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 
-public class ActivityMain extends AppCompatActivity implements SearchView.OnQueryTextListener {
+public class ActivityMain extends AppCompatActivity implements SearchView.OnQueryTextListener, IMPDClientStatusChange {
 	private SearchView mSearchView;
 
 	private static final String TAG = "RadioDroid";
@@ -45,13 +52,82 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
 	MenuItem menuItemRefresh;
 
 	private SharedPreferences sharedPref;
+    private CastContext mCastContext;
+    private MenuItem mediaRouteMenuItem;
+    private SessionManager mSessionManager;
 
-	@Override
+    private final SessionManagerListener mSessionManagerListener =
+            new SessionManagerListenerImpl();
+	private MenuItem menuItemMPDOK;
+	private MenuItem menuItemMPDNok;
+
+    @Override
+    public void changed() {
+        Handler mainHandler = new Handler(getMainLooper());
+        Runnable myRunnable = new Runnable() {
+            @Override
+            public void run() {
+                invalidateOptionsMenu();
+            }
+        };
+        mainHandler.post(myRunnable);
+    }
+
+    private class SessionManagerListenerImpl implements SessionManagerListener {
+        @Override
+        public void onSessionStarting(Session session) {
+
+        }
+
+        @Override
+        public void onSessionStarted(Session session, String sessionId) {
+            invalidateOptionsMenu();
+            Utils.mCastSession = mSessionManager.getCurrentCastSession();
+        }
+
+        @Override
+        public void onSessionStartFailed(Session session, int i) {
+
+        }
+
+        @Override
+        public void onSessionEnding(Session session) {
+        }
+
+        @Override
+        public void onSessionResumed(Session session, boolean wasSuspended) {
+            invalidateOptionsMenu();
+            Utils.mCastSession = mSessionManager.getCurrentCastSession();
+        }
+
+        @Override
+        public void onSessionResumeFailed(Session session, int i) {
+            Utils.mCastSession = null;
+        }
+
+        @Override
+        public void onSessionSuspended(Session session, int i) {
+            Utils.mCastSession = null;
+        }
+
+        @Override
+        public void onSessionEnded(Session session, int error) {
+            Utils.mCastSession = null;
+        }
+
+        @Override
+        public void onSessionResuming(Session session, String s) {
+
+        }
+    }
+
+
+    @Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.layout_main);
 
-		try {
+        try {
 			File dir = new File(getFilesDir().getAbsolutePath());
 			if (dir.isDirectory()) {
 				String[] children = dir.list();
@@ -159,7 +235,12 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
 		ActionBarDrawerToggle mDrawerToggle = new ActionBarDrawerToggle(this,mDrawerLayout, R.string.app_name,R.string.app_name);
 		mDrawerLayout.addDrawerListener(mDrawerToggle);
 		mDrawerToggle.syncState();
-	}
+
+        mCastContext = CastContext.getSharedInstance(this);
+        mSessionManager = mCastContext.getSessionManager();
+
+        MPDClient.StartDiscovery(this, this);
+    }
 
 	@Override
 	public void onRequestPermissionsResult(int requestCode,
@@ -186,15 +267,21 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
 	public void onDestroy() {
 		super.onDestroy();
 		PlayerServiceUtil.unBind(this);
+        MPDClient.StopDiscovery();
 	}
 
 	@Override
 	protected void onPause() {
+        Log.i(TAG,"PAUSED");
 		super.onPause();
-	}
+        mSessionManager.removeSessionManagerListener(mSessionManagerListener);
+        Utils.mCastSession = null;
+        MPDClient.StopDiscovery();
+    }
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
+        super.onCreateOptionsMenu(menu);
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.menu_main, menu);
 
@@ -203,6 +290,8 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
 		mSearchView.setOnQueryTextListener(this);
 
 		menuItemRefresh = menu.findItem(R.id.action_refresh);
+		menuItemMPDNok = menu.findItem(R.id.action_mpd_nok);
+		menuItemMPDOK = menu.findItem(R.id.action_mpd_ok);
 
 		if (fragSearchable == null) {
 			menuItemSearch.setVisible(false);
@@ -212,7 +301,14 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
 			menuItemRefresh.setVisible(false);
 		}
 
-		return true;
+		menuItemMPDOK.setVisible(MPDClient.Discovered() && MPDClient.Connected());
+		menuItemMPDNok.setVisible(MPDClient.Discovered() && !MPDClient.Connected());
+
+        mediaRouteMenuItem = CastButtonFactory.setUpMediaRouteButton(getApplicationContext(),
+                menu,
+                R.id.media_route_menu_item);
+
+        return true;
 	}
 
 	@Override
@@ -226,6 +322,12 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
 					fragRefreshable.Refresh();
 				}
 				return true;
+            case R.id.action_mpd_nok:
+                MPDClient.Connect(this);
+                return true;
+            case R.id.action_mpd_ok:
+                MPDClient.Disconnect(this, this);
+                return true;
 		}
 		return super.onOptionsItemSelected(item);
 	}
@@ -255,7 +357,13 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
 
 		mFragmentTransaction = mFragmentManager.beginTransaction();
 		mFragmentTransaction.replace(R.id.containerView,first).commit();
-	}
+
+        Utils.mCastSession = mSessionManager.getCurrentCastSession();
+        mSessionManager.addSessionManagerListener(mSessionManagerListener);
+
+        Log.i(TAG,"RESUMED");
+        MPDClient.StartDiscovery(this, this);
+    }
 
 	public void Search(String query){
 		if (fragSearchable != null) {

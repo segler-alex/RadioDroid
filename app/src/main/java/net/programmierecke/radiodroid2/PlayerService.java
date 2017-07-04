@@ -80,6 +80,7 @@ public class PlayerService extends Service implements IStreamProxyEventReceiver 
 	private WifiManager.WifiLock wifiLock;
 	private boolean isHls = false;
 	boolean useExo = false;
+	private boolean isAlarm = false;
 
 	enum PlayStatus{
 		Idle,
@@ -384,6 +385,7 @@ public class PlayerService extends Service implements IStreamProxyEventReceiver 
 	public void ReplayCurrent(final boolean isAlarm) {
 		liveInfo = null;
 		streamInfo = null;
+		this.isAlarm = isAlarm;
 		SetPlayStatus(PlayStatus.Idle);
 
 		if (wakeLock == null) {
@@ -417,9 +419,9 @@ public class PlayerService extends Service implements IStreamProxyEventReceiver 
 			useExo = false;
 		}
 
-		new Thread(new Runnable() {
+		/*new Thread(new Runnable() {
 			@Override
-			public void run() {
+			public void run() {*/
 				if (proxy != null){
 					Log.i(TAG,"stop old proxy");
 					proxy.stop();
@@ -428,77 +430,10 @@ public class PlayerService extends Service implements IStreamProxyEventReceiver 
 
 				SetPlayStatus(PlayStatus.CreateProxy);
 				proxy = new StreamProxy(PlayerService.this, itsStationURL, PlayerService.this);
-				String proxyConnection = proxy.getLocalAdress();
-				Log.v(TAG, "Stream url:" + proxyConnection);
-				SetPlayStatus(PlayStatus.ClearOld);
-
-				if (useExo){
-					if (player != null){
-						player.stop();
-					}
-
-					Looper.prepare();
-
-					if (player == null){
-						// 1. Create a default TrackSelector
-						//Handler mainHandler = new Handler();
-						DefaultBandwidthMeter bandwidthMeter = new DefaultBandwidthMeter();
-						TrackSelection.Factory videoTrackSelectionFactory = new AdaptiveTrackSelection.Factory(bandwidthMeter);
-						TrackSelector trackSelector = new DefaultTrackSelector(videoTrackSelectionFactory);
-
-						// 2. Create a default LoadControl
-						LoadControl loadControl = new DefaultLoadControl();
-
-						// 3. Create the player
-						player = ExoPlayerFactory.newSimpleInstance(itsContext, trackSelector, loadControl);
-						player.setAudioStreamType(isAlarm ? AudioManager.STREAM_ALARM : AudioManager.STREAM_MUSIC);
-					}
-					// Produces DataSource instances through which media data is loaded.
-					DataSource.Factory dataSourceFactory = new DefaultDataSourceFactory(itsContext, Util.getUserAgent(itsContext, "yourApplicationName"), null);
-					// Produces Extractor instances for parsing the media data.
-					ExtractorsFactory extractorsFactory = new DefaultExtractorsFactory();
-					// This is the MediaSource representing the media to be played.
-					MediaSource videoSource = null;
-					videoSource = new ExtractorMediaSource(Uri.parse(proxyConnection), dataSourceFactory, extractorsFactory, null, null);
-					player.prepare(videoSource);
-					player.setPlayWhenReady(true);
-
-					SetPlayStatus(PlayStatus.Playing);
-
-					Looper.loop();
-				}else
-				{
-					if (itsMediaPlayer == null) {
-						itsMediaPlayer = new MediaPlayer();
-					}
-					if (itsMediaPlayer.isPlaying()) {
-						itsMediaPlayer.stop();
-						itsMediaPlayer.reset();
-					}
-					try {
-						SetPlayStatus(PlayStatus.PrepareStream);
-						itsMediaPlayer.setAudioStreamType(isAlarm ? AudioManager.STREAM_ALARM : AudioManager.STREAM_MUSIC);
-						itsMediaPlayer.setDataSource(proxyConnection);
-						itsMediaPlayer.prepare();
-						SetPlayStatus(PlayStatus.PrePlaying);
-						itsMediaPlayer.start();
-						SetPlayStatus(PlayStatus.Playing);
-					} catch (IllegalArgumentException e) {
-						Log.e(TAG, "" + e);
-						ToastOnUi(R.string.error_stream_url);
-						Stop();
-					} catch (IOException e) {
-						Log.e(TAG, "" + e);
-						ToastOnUi(R.string.error_caching_stream);
-						Stop();
-					} catch (Exception e) {
-						Log.e(TAG, "" + e);
-						ToastOnUi(R.string.error_play_stream);
-						Stop();
-					}
-				}
+        /*
 			}
 		}).start();
+		*/
 	}
 
 	void ToastOnUi(final int messageId){
@@ -579,6 +514,83 @@ public class PlayerService extends Service implements IStreamProxyEventReceiver 
 		}
 		sendBroadCast(PLAYER_SERVICE_META_UPDATE);
 		UpdateNotification();
+	}
+
+	@Override
+	public void streamCreated(final String proxyConnection) {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+            Log.v(TAG, "Stream url:" + proxyConnection);
+            SetPlayStatus(PlayStatus.ClearOld);
+
+            if (useExo){
+                if (player != null){
+                    player.stop();
+                }
+
+                Looper.prepare();
+
+                if (player == null){
+                    // 1. Create a default TrackSelector
+                    //Handler mainHandler = new Handler();
+                    DefaultBandwidthMeter bandwidthMeter = new DefaultBandwidthMeter();
+                    TrackSelection.Factory videoTrackSelectionFactory = new AdaptiveTrackSelection.Factory(bandwidthMeter);
+                    TrackSelector trackSelector = new DefaultTrackSelector(videoTrackSelectionFactory);
+
+                    // 2. Create a default LoadControl
+                    LoadControl loadControl = new DefaultLoadControl();
+
+                    // 3. Create the player
+                    player = ExoPlayerFactory.newSimpleInstance(itsContext, trackSelector, loadControl);
+                    player.setAudioStreamType(isAlarm ? AudioManager.STREAM_ALARM : AudioManager.STREAM_MUSIC);
+                }
+                // Produces DataSource instances through which media data is loaded.
+                DataSource.Factory dataSourceFactory = new DefaultDataSourceFactory(itsContext, Util.getUserAgent(itsContext, "yourApplicationName"), null);
+                // Produces Extractor instances for parsing the media data.
+                ExtractorsFactory extractorsFactory = new DefaultExtractorsFactory();
+                // This is the MediaSource representing the media to be played.
+                MediaSource videoSource = null;
+                videoSource = new ExtractorMediaSource(Uri.parse(proxyConnection), dataSourceFactory, extractorsFactory, null, null);
+                player.prepare(videoSource);
+                player.setPlayWhenReady(true);
+
+                SetPlayStatus(PlayStatus.Playing);
+
+                Looper.loop();
+            }else
+            {
+                if (itsMediaPlayer == null) {
+                    itsMediaPlayer = new MediaPlayer();
+                }
+                if (itsMediaPlayer.isPlaying()) {
+                    itsMediaPlayer.stop();
+                    itsMediaPlayer.reset();
+                }
+                try {
+                    SetPlayStatus(PlayStatus.PrepareStream);
+                    itsMediaPlayer.setAudioStreamType(isAlarm ? AudioManager.STREAM_ALARM : AudioManager.STREAM_MUSIC);
+                    itsMediaPlayer.setDataSource(proxyConnection);
+                    itsMediaPlayer.prepare();
+                    SetPlayStatus(PlayStatus.PrePlaying);
+                    itsMediaPlayer.start();
+                    SetPlayStatus(PlayStatus.Playing);
+                } catch (IllegalArgumentException e) {
+                    Log.e(TAG, "" + e);
+                    ToastOnUi(R.string.error_stream_url);
+                    Stop();
+                } catch (IOException e) {
+                    Log.e(TAG, "" + e);
+                    ToastOnUi(R.string.error_caching_stream);
+                    Stop();
+                } catch (Exception e) {
+                    Log.e(TAG, "" + e);
+                    ToastOnUi(R.string.error_play_stream);
+                    Stop();
+                }
+            }
+            }
+        }).start();
 	}
 
 	@Override
