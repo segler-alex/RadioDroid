@@ -421,12 +421,12 @@ public class PlayerService extends Service implements IStreamProxyEventReceiver 
 
 		/*new Thread(new Runnable() {
 			@Override
-			public void run() {
+			public void run() {*/
 				if (proxy != null){
 					Log.i(TAG,"stop old proxy");
 					proxy.stop();
 					proxy = null;
-				}*/
+				}
 
 				SetPlayStatus(PlayStatus.CreateProxy);
 				proxy = new StreamProxy(PlayerService.this, itsStationURL, PlayerService.this);
