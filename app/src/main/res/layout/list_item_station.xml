@@ -10,6 +10,8 @@
         android:id="@+id/imageViewIcon"
         android:layout_width="50dp"
         android:layout_height="50dp"
+        android:layout_margin="5dp"
+        android:src="@drawable/headphones"
         android:layout_gravity="center_vertical" />
 
     <LinearLayout
