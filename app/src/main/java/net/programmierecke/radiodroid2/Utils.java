@@ -40,6 +40,7 @@ import java.util.Map;
 
 public class Utils {
     public static CastSession mCastSession;
+    private static int loadIcons = -1;
 
     public static String getCacheFile(Context ctx, String theURI) {
 		StringBuffer chaine = new StringBuffer("");
@@ -230,6 +231,24 @@ public class Utils {
         RemoteMediaClient remoteMediaClient = Utils.mCastSession.getRemoteMediaClient();
         remoteMediaClient.load(mediaInfo, true);
     }
+
+    public static boolean shouldLoadIcons(final Context context) {
+		switch(loadIcons) {
+			case -1:
+				if(PreferenceManager.getDefaultSharedPreferences(context.getApplicationContext()).getBoolean("load_icons", false)) {
+					loadIcons = 1;
+					return true;
+				} else {
+					loadIcons = 0;
+					return true;
+				}
+			case 0:
+				return false;
+			case 1:
+				return true;
+		}
+		return false;
+	}
 
 	// Storage Permissions
 	public static final int REQUEST_EXTERNAL_STORAGE = 1;

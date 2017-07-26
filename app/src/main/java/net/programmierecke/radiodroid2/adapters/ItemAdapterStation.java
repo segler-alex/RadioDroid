@@ -160,38 +160,41 @@ public class ItemAdapterStation extends ArrayAdapter<DataRadioStation> implement
 			}
 			ImageView anImageView = (ImageView) v.findViewById(R.id.imageViewIcon);
 
-			if (itsIconCache.containsKey(aStation.IconUrl)) {
-				Bitmap aBitmap = itsIconCache.get(aStation.IconUrl);
-				if (aBitmap != null) {
-					anImageView.setVisibility(View.VISIBLE);
-					anImageView.setImageBitmap(aBitmap);
-				}
-				else
-					anImageView.setVisibility(View.GONE);
+			if(!Utils.shouldLoadIcons(getContext())) {
+				anImageView.setVisibility(View.GONE);
 			} else {
-				try {
-					// check download cache
-					Log.v("ICONS", "check cache for " + aStation.IconUrl);
-					if (TextUtils.isGraphic(aStation.IconUrl)) {
-						String aFileNameIcon = activity.getCacheDir().getAbsolutePath() + "/" + Utils.sanitizeName(aStation.IconUrl) + ".dat";
-						File f = new File(aFileNameIcon);
-						Bitmap anIcon = BitmapFactory.decodeStream(new FileInputStream(f));
-						itsIconCache.put(aStation.IconUrl, anIcon);
-						if (anIcon != null) {
-							anImageView.setImageBitmap(anIcon);
-							anImageView.setVisibility(View.VISIBLE);
-						}else{
+				if (itsIconCache.containsKey(aStation.IconUrl)) {
+					Bitmap aBitmap = itsIconCache.get(aStation.IconUrl);
+					if (aBitmap != null) {
+						anImageView.setVisibility(View.VISIBLE);
+						anImageView.setImageBitmap(aBitmap);
+					} else
+						anImageView.setVisibility(View.GONE);
+				} else {
+					try {
+						// check download cache
+						Log.v("ICONS", "check cache for " + aStation.IconUrl);
+						if (TextUtils.isGraphic(aStation.IconUrl)) {
+							String aFileNameIcon = activity.getCacheDir().getAbsolutePath() + "/" + Utils.sanitizeName(aStation.IconUrl) + ".dat";
+							File f = new File(aFileNameIcon);
+							Bitmap anIcon = BitmapFactory.decodeStream(new FileInputStream(f));
+							itsIconCache.put(aStation.IconUrl, anIcon);
+							if (anIcon != null) {
+								anImageView.setImageBitmap(anIcon);
+								anImageView.setVisibility(View.VISIBLE);
+							} else {
+								anImageView.setVisibility(View.GONE);
+							}
+						} else {
 							anImageView.setVisibility(View.GONE);
 						}
-					}else{
-						anImageView.setVisibility(View.GONE);
-					}
-				} catch (Exception e) {
-					try {
-						anImageView.setVisibility(View.GONE);
-						itsQueuedDownloadJobs.put(new QueueItem(aStation.ID, aStation.IconUrl));
-					} catch (InterruptedException e2) {
-						Log.e("ICONS", "" + e2.getStackTrace());
+					} catch (Exception e) {
+						try {
+							anImageView.setVisibility(View.GONE);
+							itsQueuedDownloadJobs.put(new QueueItem(aStation.ID, aStation.IconUrl));
+						} catch (InterruptedException e2) {
+							Log.e("ICONS", "" + e2.getStackTrace());
+						}
 					}
 				}
 			}
@@ -341,61 +344,63 @@ public class ItemAdapterStation extends ArrayAdapter<DataRadioStation> implement
 
 	@Override
 	public void run() {
-		while (true) {
-			try {
-				final QueueItem anItem = itsQueuedDownloadJobs.take();
+		if(Utils.shouldLoadIcons(getContext())) {
+			while (true) {
 				try {
-					if (!itsIconCache.containsKey(anItem.itsURL)) {
-						// load image from url
-						itsIconCache.put(anItem.itsURL, null);
-						Log.v("ICONS", "download from " + anItem.itsURL);
-						URLConnection conn = new java.net.URL(anItem.itsURL).openConnection();
-						conn.setConnectTimeout(1000);
-						conn.setReadTimeout(2000);
-						InputStream in = conn.getInputStream();
-						final Bitmap anIcon = BitmapFactory.decodeStream(in);
-						Bitmap anIconScaled = null;
+					final QueueItem anItem = itsQueuedDownloadJobs.take();
+					try {
+						if (!itsIconCache.containsKey(anItem.itsURL)) {
+							// load image from url
+							itsIconCache.put(anItem.itsURL, null);
+							Log.v("ICONS", "download from " + anItem.itsURL);
+							URLConnection conn = new java.net.URL(anItem.itsURL).openConnection();
+							conn.setConnectTimeout(1000);
+							conn.setReadTimeout(2000);
+							InputStream in = conn.getInputStream();
+							final Bitmap anIcon = BitmapFactory.decodeStream(in);
+							Bitmap anIconScaled = null;
 
-						if (anIcon != null) {
-							// save image to file
-							String aFileName = activity.getCacheDir().getAbsolutePath() + "/" + Utils.sanitizeName(anItem.itsURL) + ".dat";
-							File f = new File(aFileName);
+							if (anIcon != null) {
+								// save image to file
+								String aFileName = activity.getCacheDir().getAbsolutePath() + "/" + Utils.sanitizeName(anItem.itsURL) + ".dat";
+								File f = new File(aFileName);
 
-							Log.v("ICONS", "download finished " + anItem.itsURL + " -> "+aFileName);
-							try {
-								FileOutputStream aStream = new FileOutputStream(f);
-								anIconScaled = getResizedBitmap(anIcon,60);
-								anIconScaled.compress(Bitmap.CompressFormat.PNG, 100, aStream);
-								aStream.close();
-								itsIconCache.put(anItem.itsURL, anIconScaled);
-							} catch (FileNotFoundException e) {
-								Log.e("ICONS", "my1" + e);
-							} catch (IOException e) {
-								Log.e("ICONS", "my2" + e);
-							}
+								Log.v("ICONS", "download finished " + anItem.itsURL + " -> " + aFileName);
+								try {
+									FileOutputStream aStream = new FileOutputStream(f);
+									anIconScaled = getResizedBitmap(anIcon, 60);
+									anIconScaled.compress(Bitmap.CompressFormat.PNG, 100, aStream);
+									aStream.close();
+									itsIconCache.put(anItem.itsURL, anIconScaled);
+								} catch (FileNotFoundException e) {
+									Log.e("ICONS", "my1" + e);
+								} catch (IOException e) {
+									Log.e("ICONS", "my2" + e);
+								}
 
-							if (anIconScaled != null){
-								for (int i = 0; i < listViewItems.size(); i++) {
-									MyItem item = listViewItems.get(i);
-									if (item.station != null) {
-										if (item.station.IconUrl != null) {
-											if (item.station.IconUrl.equals(anItem.itsURL)) {
-												Log.d("ICONS", "refresh icon " + anItem.itsURL);
-												item.SetIcon(anIconScaled);
+								if (anIconScaled != null) {
+									for (int i = 0; i < listViewItems.size(); i++) {
+										MyItem item = listViewItems.get(i);
+										if (item.station != null) {
+											if (item.station.IconUrl != null) {
+												if (item.station.IconUrl.equals(anItem.itsURL)) {
+													Log.d("ICONS", "refresh icon " + anItem.itsURL);
+													item.SetIcon(anIconScaled);
+												}
 											}
 										}
 									}
 								}
 							}
 						}
+					} catch (Exception e) {
+						Log.e("ICONS", "Could not load " + anItem.itsURL + " " + e);
+						itsIconCache.put(anItem.itsURL, null);
 					}
 				} catch (Exception e) {
-					Log.e("ICONS", "Could not load "+anItem.itsURL+" " + e);
-					itsIconCache.put(anItem.itsURL, null);
+					// TODO Auto-generated catch block
+					Log.e("ICONS", "" + e);
 				}
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				Log.e("ICONS", "" + e);
 			}
 		}
 	}

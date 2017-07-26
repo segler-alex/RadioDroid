@@ -22,6 +22,12 @@
             android:summaryOn="@string/settings_starred_at_startup_on"
             android:summaryOff="@string/settings_starred_at_startup_off" />
 
+        <CheckBoxPreference
+            android:key="load_icons"
+            android:title="@string/settings_load_icons"
+            android:summaryOn="@string/settings_load_icons_on"
+            android:summaryOff="@string/settings_load_icons_off" />
+
     </PreferenceCategory>
 
     <PreferenceCategory
