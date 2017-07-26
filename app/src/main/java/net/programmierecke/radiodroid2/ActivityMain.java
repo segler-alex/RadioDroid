@@ -22,12 +22,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
-import com.google.android.gms.cast.framework.CastButtonFactory;
-import com.google.android.gms.cast.framework.CastContext;
-import com.google.android.gms.cast.framework.Session;
-import com.google.android.gms.cast.framework.SessionManager;
-import com.google.android.gms.cast.framework.SessionManagerListener;
-
 import net.programmierecke.radiodroid2.interfaces.IFragmentRefreshable;
 import net.programmierecke.radiodroid2.interfaces.IFragmentSearchable;
 
@@ -52,12 +46,8 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
 	MenuItem menuItemRefresh;
 
 	private SharedPreferences sharedPref;
-    private CastContext mCastContext;
     private MenuItem mediaRouteMenuItem;
-    private SessionManager mSessionManager;
 
-    private final SessionManagerListener mSessionManagerListener =
-            new SessionManagerListenerImpl();
 	private MenuItem menuItemMPDOK;
 	private MenuItem menuItemMPDNok;
 
@@ -72,55 +62,6 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
         };
         mainHandler.post(myRunnable);
     }
-
-    private class SessionManagerListenerImpl implements SessionManagerListener {
-        @Override
-        public void onSessionStarting(Session session) {
-
-        }
-
-        @Override
-        public void onSessionStarted(Session session, String sessionId) {
-            invalidateOptionsMenu();
-            Utils.mCastSession = mSessionManager.getCurrentCastSession();
-        }
-
-        @Override
-        public void onSessionStartFailed(Session session, int i) {
-
-        }
-
-        @Override
-        public void onSessionEnding(Session session) {
-        }
-
-        @Override
-        public void onSessionResumed(Session session, boolean wasSuspended) {
-            invalidateOptionsMenu();
-            Utils.mCastSession = mSessionManager.getCurrentCastSession();
-        }
-
-        @Override
-        public void onSessionResumeFailed(Session session, int i) {
-            Utils.mCastSession = null;
-        }
-
-        @Override
-        public void onSessionSuspended(Session session, int i) {
-            Utils.mCastSession = null;
-        }
-
-        @Override
-        public void onSessionEnded(Session session, int error) {
-            Utils.mCastSession = null;
-        }
-
-        @Override
-        public void onSessionResuming(Session session, String s) {
-
-        }
-    }
-
 
     @Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -236,8 +177,7 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
 		mDrawerLayout.addDrawerListener(mDrawerToggle);
 		mDrawerToggle.syncState();
 
-        mCastContext = CastContext.getSharedInstance(this);
-        mSessionManager = mCastContext.getSessionManager();
+		CastHandler.onCreate(this);
 
         MPDClient.StartDiscovery(this, this);
     }
@@ -274,8 +214,7 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
 	protected void onPause() {
         Log.i(TAG,"PAUSED");
 		super.onPause();
-        mSessionManager.removeSessionManagerListener(mSessionManagerListener);
-        Utils.mCastSession = null;
+        CastHandler.onPause();
         MPDClient.StopDiscovery();
     }
 
@@ -304,9 +243,7 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
 		menuItemMPDOK.setVisible(MPDClient.Discovered() && MPDClient.Connected());
 		menuItemMPDNok.setVisible(MPDClient.Discovered() && !MPDClient.Connected());
 
-        mediaRouteMenuItem = CastButtonFactory.setUpMediaRouteButton(getApplicationContext(),
-                menu,
-                R.id.media_route_menu_item);
+        mediaRouteMenuItem = CastHandler.getRouteItem(getApplicationContext(), menu);
 
         return true;
 	}
@@ -358,8 +295,7 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
 		mFragmentTransaction = mFragmentManager.beginTransaction();
 		mFragmentTransaction.replace(R.id.containerView,first).commit();
 
-        Utils.mCastSession = mSessionManager.getCurrentCastSession();
-        mSessionManager.addSessionManagerListener(mSessionManagerListener);
+        CastHandler.onResume();
 
         Log.i(TAG,"RESUMED");
         MPDClient.StartDiscovery(this, this);
