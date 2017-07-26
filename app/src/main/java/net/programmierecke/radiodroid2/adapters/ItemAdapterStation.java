@@ -268,7 +268,7 @@ public class ItemAdapterStation extends ArrayAdapter<DataRadioStation> implement
 		new AsyncTask<Void, Void, String>() {
 			@Override
 			protected String doInBackground(Void... params) {
-				return Utils.downloadFeed(activity,"http://www.radio-browser.info/webservice/json/vote/"+stationID,true, null);
+				return Utils.downloadFeed(activity,"https://www.radio-browser.info/webservice/json/vote/"+stationID,true, null);
 			}
 
 			@Override

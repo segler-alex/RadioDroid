@@ -151,7 +151,7 @@ public class Utils {
 	}
 
 	public static String getRealStationLink(Context ctx, String stationId){
-		String result = Utils.downloadFeed(ctx, "http://www.radio-browser.info/webservice/v2/json/url/" + stationId, true, null);
+		String result = Utils.downloadFeed(ctx, "https://www.radio-browser.info/webservice/v2/json/url/" + stationId, true, null);
 		if (result != null) {
 			JSONObject jsonObj = null;
 			try {
