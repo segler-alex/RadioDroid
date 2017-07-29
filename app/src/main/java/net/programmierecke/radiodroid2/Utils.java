@@ -194,7 +194,7 @@ public class Utils {
 							share.setDataAndType(Uri.parse(result), "audio/*");
 							context.startActivity(share);
 						}else {
-							PlayerServiceUtil.play(result, station.Name, station.ID, true);
+							PlayerServiceUtil.play(result, station.Name, station.ID);
 						}
 					}
 				} else {

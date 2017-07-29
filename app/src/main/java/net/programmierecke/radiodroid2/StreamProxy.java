@@ -280,6 +280,11 @@ public class StreamProxy {
                     int port = proxyServer.getLocalPort();
                     localAdress = String.format(Locale.US,"http://localhost:%d",port);
                     Log.i(TAG, "waiting..");
+
+                    if(isStopped) {
+                        break;
+                    }
+
                     callback.streamCreated(localAdress);
                     socketProxy = proxyServer.accept();
                     proxyServer.close();

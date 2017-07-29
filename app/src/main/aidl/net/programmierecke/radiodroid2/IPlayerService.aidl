@@ -1,7 +1,9 @@
 package net.programmierecke.radiodroid2;
 interface IPlayerService
 {
-void Play(String theUrl,String theName,String theID, boolean useExo, boolean isAlarm);
+void Play(String theUrl,String theName,String theID, boolean isAlarm);
+void Pause();
+void Resume();
 void Stop();
 void addTimer(int secondsAdd);
 void clearTimer();
@@ -21,6 +23,6 @@ void startRecording();
 void stopRecording();
 boolean isRecording();
 String getCurrentRecordFileName();
-long getTransferedBytes();
+long getTransferredBytes();
 boolean getIsHls();
 }
