@@ -247,7 +247,7 @@ public class PlayerService extends Service implements RadioPlayer.PlayerListener
                 public void onAudioFocusChange(int focusChange) {
                     switch (focusChange) {
                         case AudioManager.AUDIOFOCUS_GAIN:
-                            Log.d(TAG, "audiofocus gain");
+                            if(BuildConfig.DEBUG) { Log.d(TAG, "audiofocus gain"); }
 
                             CreateMediaSession();
                             Resume();
@@ -255,17 +255,17 @@ public class PlayerService extends Service implements RadioPlayer.PlayerListener
                             radioPlayer.setVolume(FULL_VOLUME);
                             break;
                         case AudioManager.AUDIOFOCUS_LOSS:
-                            Log.d(TAG, "audiofocus loss");
+                            if(BuildConfig.DEBUG) { Log.d(TAG, "audiofocus loss"); }
 
                             Stop();
                             break;
                         case AudioManager.AUDIOFOCUS_LOSS_TRANSIENT:
-                            Log.d(TAG, "audiofocus loss transient");
+                            if(BuildConfig.DEBUG) { Log.d(TAG, "audiofocus loss transient"); }
 
                             Pause();
                             break;
                         case AudioManager.AUDIOFOCUS_LOSS_TRANSIENT_CAN_DUCK:
-                            Log.d(TAG, "audiofocus loss transient can duck");
+                            if(BuildConfig.DEBUG) { Log.d(TAG, "audiofocus loss transient can duck"); }
 
                             radioPlayer.setVolume(DUCK_VOLUME);
                             break;
@@ -299,7 +299,7 @@ public class PlayerService extends Service implements RadioPlayer.PlayerListener
         timer = new CountDownTimer(seconds * 1000, 1000) {
             public void onTick(long millisUntilFinished) {
                 seconds = millisUntilFinished / 1000;
-                Log.w(TAG, "" + seconds);
+                if(BuildConfig.DEBUG) { Log.d(TAG, "" + seconds); }
 
                 Intent local = new Intent();
                 local.setAction(PLAYER_SERVICE_TIMER_UPDATE);
@@ -339,7 +339,7 @@ public class PlayerService extends Service implements RadioPlayer.PlayerListener
 
     @Override
     public void onDestroy() {
-        Log.i(TAG, "onDestroy()");
+        if(BuildConfig.DEBUG) { Log.d(TAG, "onDestroy()"); }
         Stop();
 
         radioPlayer.destroy();
@@ -473,13 +473,13 @@ public class PlayerService extends Service implements RadioPlayer.PlayerListener
     }
 
     public void Pause() {
-        Log.i(TAG, "pause()");
+        if(BuildConfig.DEBUG) { Log.d(TAG, "pause()"); }
 
         radioPlayer.pause();
     }
 
     public void Resume() {
-        Log.i(TAG, "resume()");
+        if(BuildConfig.DEBUG) { Log.d(TAG, "resume()"); }
 
         if(!radioPlayer.isPlaying()) {
             ReplayCurrent(false);
@@ -487,7 +487,7 @@ public class PlayerService extends Service implements RadioPlayer.PlayerListener
     }
 
     public void Stop() {
-        Log.i(TAG, "stop()");
+        if(BuildConfig.DEBUG) { Log.d(TAG, "stop()"); }
 
         DestroyMediaSession();
 
@@ -504,13 +504,13 @@ public class PlayerService extends Service implements RadioPlayer.PlayerListener
         if (wakeLock != null) {
             if (wakeLock.isHeld()) {
                 wakeLock.release();
-                Log.i(TAG, "release wakelock");
+                if(BuildConfig.DEBUG) { Log.d(TAG, "release wakelock"); }
             }
             wakeLock = null;
         }
         if (wifiLock != null) {
             if (wifiLock.isHeld()) {
-                Log.i(TAG, "release wifilock");
+                if(BuildConfig.DEBUG) { Log.d(TAG, "release wifilock"); }
                 wifiLock.release();
             }
             wifiLock = null;
@@ -525,7 +525,7 @@ public class PlayerService extends Service implements RadioPlayer.PlayerListener
             wakeLock = powerManager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "PlayerService");
         }
         if (!wakeLock.isHeld()) {
-            Log.i(TAG, "acquire wakelock");
+            if(BuildConfig.DEBUG) { Log.d(TAG, "acquire wakelock"); }
             wakeLock.acquire();
         }
         WifiManager wm = (WifiManager) itsContext.getApplicationContext().getSystemService(Context.WIFI_SERVICE);
@@ -539,7 +539,7 @@ public class PlayerService extends Service implements RadioPlayer.PlayerListener
                 }
             }
             if (!wifiLock.isHeld()) {
-                Log.i(TAG, "acquire wifilock");
+                if(BuildConfig.DEBUG) { Log.d(TAG, "acquire wifilock"); }
                 wifiLock.acquire();
             }
         } else {
@@ -580,7 +580,7 @@ public class PlayerService extends Service implements RadioPlayer.PlayerListener
                 if (liveInfo != null) {
                     String title = liveInfo.get("StreamTitle");
                     if (!TextUtils.isEmpty(title)) {
-                        Log.i(TAG, "update message:" + title);
+                        if(BuildConfig.DEBUG) { Log.d(TAG, "update message:" + title); }
                         SendMessage(currentStationName, title, title);
                     } else {
                         SendMessage(currentStationName, itsContext.getResources().getString(R.string.notify_play), currentStationName);
@@ -638,17 +638,19 @@ public class PlayerService extends Service implements RadioPlayer.PlayerListener
         this.streamInfo = info;
         this.isHls = isHls;
         if (info != null) {
-            Log.i(TAG, "Metadata offset:" + info.metadataOffset);
-            Log.i(TAG, "Bitrate:" + info.bitrate);
-            Log.i(TAG, "Name:" + info.audioName);
-            Log.i(TAG, "Hls:" + isHls);
             if (info.audioName != null) {
                 if (!info.audioName.trim().equals("")) {
                     currentStationName = info.audioName.trim();
                 }
             }
-            Log.i(TAG, "Server:" + info.serverName);
-            Log.i(TAG, "AudioInfo:" + info.audioInfo);
+            if(BuildConfig.DEBUG) {
+                Log.d(TAG, "Metadata offset:" + info.metadataOffset);
+                Log.d(TAG, "Bitrate:" + info.bitrate);
+                Log.d(TAG, "Name:" + info.audioName);
+                Log.d(TAG, "Hls:" + isHls);
+                Log.d(TAG, "Server:" + info.serverName);
+                Log.d(TAG, "AudioInfo:" + info.audioInfo);
+            }
         }
         sendBroadCast(PLAYER_SERVICE_META_UPDATE);
     }
@@ -657,7 +659,7 @@ public class PlayerService extends Service implements RadioPlayer.PlayerListener
     public void foundLiveStreamInfo(Map<String, String> liveInfo) {
         this.liveInfo = liveInfo;
         for (String key : liveInfo.keySet()) {
-            Log.i(TAG, "INFO:" + key + "=" + liveInfo.get(key));
+            if(BuildConfig.DEBUG) { Log.d(TAG, "INFO:" + key + "=" + liveInfo.get(key)); }
         }
         sendBroadCast(PLAYER_SERVICE_META_UPDATE);
         UpdateNotification();

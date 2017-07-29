@@ -29,12 +29,12 @@ public class PlayerServiceUtil {
     static IPlayerService itsPlayerService;
     private static ServiceConnection svcConn = new ServiceConnection() {
         public void onServiceConnected(ComponentName className, IBinder binder) {
-            Log.i("PLAYER", "Service came online");
+            if(BuildConfig.DEBUG) { Log.d("PLAYER", "Service came online"); }
             itsPlayerService = IPlayerService.Stub.asInterface(binder);
         }
 
         public void onServiceDisconnected(ComponentName className) {
-            Log.i("PLAYER", "Service offline");
+            if(BuildConfig.DEBUG) { Log.d("PLAYER", "Service offline"); }
             itsPlayerService = null;
         }
     };

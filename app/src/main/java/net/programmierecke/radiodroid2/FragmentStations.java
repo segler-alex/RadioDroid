@@ -35,7 +35,7 @@ public class FragmentStations extends FragmentBase {
 
     @Override
     protected void RefreshListGui(){
-        Log.d("ABC", "RefreshListGUI()");
+        if(BuildConfig.DEBUG) { Log.d("ABC", "RefreshListGUI()"); }
         Context ctx = getContext();
         if (lv != null && ctx != null) {
             if (sharedPref == null) {
@@ -43,11 +43,11 @@ public class FragmentStations extends FragmentBase {
             }
             boolean show_broken = sharedPref.getBoolean("show_broken", false);
 
-            Log.d("ABC", "LV != null");
+            if(BuildConfig.DEBUG) { Log.d("ABC", "LV != null"); }
             data = DataRadioStation.DecodeJson(getUrlResult());
             ItemAdapterStation arrayAdapter = (ItemAdapterStation) lv.getAdapter();
             arrayAdapter.clear();
-            Log.d("ABC", "Station count:" + data.length);
+            if(BuildConfig.DEBUG) { Log.d("ABC", "Station count:" + data.length); }
             for (DataRadioStation aStation : data) {
                 if (show_broken || aStation.Working) {
                     arrayAdapter.add(aStation);
@@ -86,7 +86,7 @@ public class FragmentStations extends FragmentBase {
                     new SwipeRefreshLayout.OnRefreshListener() {
                         @Override
                         public void onRefresh() {
-                            Log.i("ABC", "onRefresh called from SwipeRefreshLayout");
+                            if(BuildConfig.DEBUG) { Log.d("ABC", "onRefresh called from SwipeRefreshLayout"); }
                             //RefreshListGui();
                             DownloadUrl(true,false);
                         }

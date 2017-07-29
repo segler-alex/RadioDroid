@@ -51,7 +51,7 @@ public class Utils {
 			long mins = secs/60;
 			long hours = mins/60;
 
-			Log.w("UTIL","File last modified : "+ lastModDate.toString() + " secs="+secs+"  mins="+mins+" hours="+hours);
+			if(BuildConfig.DEBUG) { Log.d("UTIL","File last modified : "+ lastModDate.toString() + " secs="+secs+"  mins="+mins+" hours="+hours); }
 
 			if (hours < 1) {
 				FileInputStream aStream = new FileInputStream(file);
@@ -61,10 +61,10 @@ public class Utils {
 					chaine.append(line);
 				}
 				rd.close();
-				Log.w("UTIL", "used cache for:" + theURI);
+				if(BuildConfig.DEBUG) { Log.d("UTIL", "used cache for:" + theURI); }
 				return chaine.toString();
 			}
-			Log.w("UTIL", "do not use cache, because too old:" + theURI);
+			if(BuildConfig.DEBUG) { Log.d("UTIL", "do not use cache, because too old:" + theURI); }
 			return null;
 		}
 		catch(Exception e){
@@ -135,7 +135,7 @@ public class Utils {
 
 			String s = chaine.toString();
 			writeFileCache(ctx,theURI,s);
-			Log.w("UTIL","wrote cache file for:"+theURI);
+			if(BuildConfig.DEBUG) { Log.d("UTIL","wrote cache file for:"+theURI); }
 			return s;
 		} catch (Exception e) {
 			Log.e("UTIL","downloadFeed() "+e);

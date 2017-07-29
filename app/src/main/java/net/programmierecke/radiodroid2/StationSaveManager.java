@@ -87,7 +87,7 @@ public class StationSaveManager {
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
         SharedPreferences.Editor editor = sharedPref.edit();
         String str = arr.toString();
-        Log.w("SAVE","wrote: "+str);
+        if(BuildConfig.DEBUG) { Log.d("SAVE","wrote: "+str); }
         editor.putString(getSaveId(), str);
         editor.commit();
     }

@@ -95,7 +95,7 @@ public class FragmentCategories extends FragmentBase {
                     new SwipeRefreshLayout.OnRefreshListener() {
                         @Override
                         public void onRefresh() {
-                            Log.i("ABC", "onRefresh called from SwipeRefreshLayout");
+                            if(BuildConfig.DEBUG) { Log.d("ABC", "onRefresh called from SwipeRefreshLayout"); }
                             //RefreshListGui();
                             DownloadUrl(true,false);
                         }

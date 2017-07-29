@@ -31,7 +31,7 @@ public class FragmentSettings extends PreferenceFragmentCompat implements Shared
 
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences,
         String key) {
-        Log.e("AAA","changed key:"+key);
+        if(BuildConfig.DEBUG) { Log.d("AAA","changed key:"+key); }
         if (key.equals("alarm_external")) {
             boolean active = sharedPreferences.getBoolean(key,false);
             if (active) {
@@ -44,7 +44,7 @@ public class FragmentSettings extends PreferenceFragmentCompat implements Shared
 
     @Override
     public void onAppSelected(String packageName, String activityName) {
-        Log.w("SEL","selected:"+packageName+"/"+activityName);
+        if(BuildConfig.DEBUG) { Log.d("SEL","selected:"+packageName+"/"+activityName); }
         SharedPreferences.Editor ed = getPreferenceManager().getSharedPreferences().edit();
         ed.putString("shareapp_package",packageName);
         ed.putString("shareapp_activity",activityName);
