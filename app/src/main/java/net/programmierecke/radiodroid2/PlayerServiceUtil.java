@@ -59,10 +59,30 @@ public class PlayerServiceUtil {
         }
     }
 
-    public static void play(String result, String name, String id, boolean useExo) {
+    public static void play(String result, String name, String id) {
         if (itsPlayerService != null) {
             try {
-                itsPlayerService.Play(result,name,id, useExo, false);
+                itsPlayerService.Play(result,name,id,false);
+            } catch (RemoteException e) {
+                Log.e("", "" + e);
+            }
+        }
+    }
+
+    public static void pause() {
+        if (itsPlayerService != null) {
+            try {
+                itsPlayerService.Pause();
+            } catch (RemoteException e) {
+                Log.e("", "" + e);
+            }
+        }
+    }
+
+    public static void resume() {
+        if (itsPlayerService != null) {
+            try {
+                itsPlayerService.Resume();
             } catch (RemoteException e) {
                 Log.e("", "" + e);
             }
@@ -222,7 +242,7 @@ public class PlayerServiceUtil {
     public static long getTransferedBytes() {
         if (itsPlayerService != null) {
             try {
-                return itsPlayerService.getTransferedBytes();
+                return itsPlayerService.getTransferredBytes();
             } catch (RemoteException e) {
                 Log.e("", "" + e);
             }

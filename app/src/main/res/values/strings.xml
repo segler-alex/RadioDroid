@@ -68,6 +68,7 @@
     <string name="notify_prepare_stream">Preparing stream..</string>
     <string name="notify_try_play">Try playing</string>
     <string name="notify_play">Playing</string>
+    <string name="notify_paused">Paused</string>
 
     <string name="error_stream_url">Stream url problem</string>
     <string name="error_caching_stream">Stream caching problem</string>
