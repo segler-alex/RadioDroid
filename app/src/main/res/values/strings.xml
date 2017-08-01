@@ -67,6 +67,10 @@
     <string name="settings_play_external">Open external</string>
     <string name="settings_play_external_desc">Should a single click on stations open external</string>
 
+    <string name="settings_warn_no_wifi">Warn when not on Wifi</string>
+    <string name="settings_warn_no_wifi_on">Warn when playing without Wifi connection</string>
+    <string name="settings_warn_no_wifi_off">No warning when not on Wifi connection</string>
+
     <string name="notify_start_proxy">Starting proxy..</string>
     <string name="notify_stop_player">Stop old player..</string>
     <string name="notify_prepare_stream">Preparing stream..</string>

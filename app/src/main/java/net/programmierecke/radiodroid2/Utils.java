@@ -173,7 +173,9 @@ public class Utils {
 	}
 
 	public static void Play(final DataRadioStation station, final Context context, final boolean external) {
-		if (!Utils.hasWifiConnection(context)) {
+		SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
+		final boolean warn_no_wifi = sharedPref.getBoolean("warn_no_wifi", false);
+		if (warn_no_wifi && !Utils.hasWifiConnection(context)) {
 			ToneGenerator toneG = new ToneGenerator(AudioManager.STREAM_ALARM, 100);
 			toneG.startTone(ToneGenerator.TONE_SUP_RADIO_NOTAVAIL, 2000);
 			/*Toast.makeText( getBaseContext(), Html.fromHtml( text ), Toast.LENGTH_LONG ).show();
