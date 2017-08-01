@@ -114,4 +114,7 @@
         <item>F</item>
         <item>S</item>
     </string-array>
+
+    <string name="no_wifi_title">No WiFi (WLAN) connection</string>
+    <string name="no_wifi_connection">No WiFi (WLAN) connection when starting %1$s. Press \'Ok\' to continue.</string>
 </resources>

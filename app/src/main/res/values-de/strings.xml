@@ -100,4 +100,6 @@
         <item>S</item>
     </string-array>
 
+    <string name="no_wifi_title">Keine WLAN Verbindung</string>
+    <string name="no_wifi_connection">Keine WLAN Verbindung zum Starten von %1$s. Drücken Sie \'Ok\' um fortzufahren.</string>
 </resources>
