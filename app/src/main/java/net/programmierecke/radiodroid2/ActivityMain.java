@@ -73,7 +73,7 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
 			if (dir.isDirectory()) {
 				String[] children = dir.list();
 				for (int i = 0; i < children.length; i++) {
-					Log.e("MAIN", "delete file:" + children[i]);
+					if(BuildConfig.DEBUG) { Log.d("MAIN", "delete file:" + children[i]); }
 					try {
 						new File(dir, children[i]).delete();
 					}
@@ -185,13 +185,13 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
 	@Override
 	public void onRequestPermissionsResult(int requestCode,
 										   String permissions[], int[] grantResults) {
-		Log.w(TAG,"on request permissions result:"+requestCode);
+		if(BuildConfig.DEBUG) { Log.d(TAG,"on request permissions result:"+requestCode); }
 		switch (requestCode) {
 			case Utils.REQUEST_EXTERNAL_STORAGE: {
 				// If request is cancelled, the result arrays are empty.
 				if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
 					if (fragRefreshable != null){
-						Log.w(TAG,"REFRESH VIEW");
+						if(BuildConfig.DEBUG) { Log.d(TAG,"REFRESH VIEW"); }
 						fragRefreshable.Refresh();
 					}
 				} else {
@@ -212,7 +212,7 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
 
 	@Override
 	protected void onPause() {
-        Log.i(TAG,"PAUSED");
+		if(BuildConfig.DEBUG) { Log.d(TAG,"PAUSED"); }
 		super.onPause();
         CastHandler.onPause();
         MPDClient.StopDiscovery();

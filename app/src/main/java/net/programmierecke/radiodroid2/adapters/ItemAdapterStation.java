@@ -38,6 +38,7 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import net.programmierecke.radiodroid2.BuildConfig;
 import net.programmierecke.radiodroid2.data.DataRadioStation;
 import net.programmierecke.radiodroid2.FavouriteManager;
 import net.programmierecke.radiodroid2.FragmentStarred;
@@ -98,17 +99,17 @@ public class ItemAdapterStation extends ArrayAdapter<DataRadioStation> implement
 								// set image in view
 								anImageView.setImageBitmap(anIcon);
 								anImageView.setVisibility(View.VISIBLE);
-								Log.w("ICONS","replaced icon:"+station.Name);
+								if(BuildConfig.DEBUG) { Log.d("ICONS","replaced icon:"+station.Name); }
 							}
 						});
 					}else{
-						Log.w("ICONS","vhard == null");
+						if(BuildConfig.DEBUG) { Log.d("ICONS","vhard == null"); }
 					}
 				}else{
-					Log.w("ICONS","v == null");
+					if(BuildConfig.DEBUG) { Log.d("ICONS","v == null"); }
 				}
 			}else{
-				Log.w("ICONS","icon == null");
+				if(BuildConfig.DEBUG) { Log.d("ICONS","icon == null"); }
 			}
 		}
 	}
@@ -173,7 +174,7 @@ public class ItemAdapterStation extends ArrayAdapter<DataRadioStation> implement
 				} else {
 					try {
 						// check download cache
-						Log.v("ICONS", "check cache for " + aStation.IconUrl);
+						if(BuildConfig.DEBUG) { Log.d("ICONS", "check cache for " + aStation.IconUrl); }
 						if (TextUtils.isGraphic(aStation.IconUrl)) {
 							String aFileNameIcon = activity.getCacheDir().getAbsolutePath() + "/" + Utils.sanitizeName(aStation.IconUrl) + ".dat";
 							File f = new File(aFileNameIcon);
@@ -276,7 +277,7 @@ public class ItemAdapterStation extends ArrayAdapter<DataRadioStation> implement
 
 			@Override
 			protected void onPostExecute(String result) {
-				Log.i(TAG,result);
+				if(BuildConfig.DEBUG) { Log.d(TAG,result); }
 				super.onPostExecute(result);
 			}
 		}.execute();
@@ -295,10 +296,10 @@ public class ItemAdapterStation extends ArrayAdapter<DataRadioStation> implement
 	}
 
 	void setAsAlarm(DataRadioStation station){
-		Log.w(TAG,"setAsAlarm() 1");
+		if(BuildConfig.DEBUG) { Log.d(TAG,"setAsAlarm() 1"); }
 		if (station != null) {
 			itsStation = station;
-			Log.w(TAG,"setAsAlarm() 2");
+			if(BuildConfig.DEBUG) { Log.d(TAG,"setAsAlarm() 2"); }
 			TimePickerFragment newFragment = new TimePickerFragment();
 			newFragment.setCallback(this);
 			newFragment.show(activity.getSupportFragmentManager(), "timePicker");
@@ -337,7 +338,7 @@ public class ItemAdapterStation extends ArrayAdapter<DataRadioStation> implement
 
 	@Override
 	public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-		Log.w(TAG,"onTimeSet() "+hourOfDay);
+		if(BuildConfig.DEBUG) { Log.d(TAG,"onTimeSet() "+hourOfDay); }
 		RadioAlarmManager ram = new RadioAlarmManager(getContext().getApplicationContext(),null);
 		ram.add(itsStation,hourOfDay,minute);
 	}
@@ -352,7 +353,7 @@ public class ItemAdapterStation extends ArrayAdapter<DataRadioStation> implement
 						if (!itsIconCache.containsKey(anItem.itsURL)) {
 							// load image from url
 							itsIconCache.put(anItem.itsURL, null);
-							Log.v("ICONS", "download from " + anItem.itsURL);
+							if(BuildConfig.DEBUG) { Log.d("ICONS", "download from " + anItem.itsURL); }
 							URLConnection conn = new java.net.URL(anItem.itsURL).openConnection();
 							conn.setConnectTimeout(1000);
 							conn.setReadTimeout(2000);
@@ -365,7 +366,7 @@ public class ItemAdapterStation extends ArrayAdapter<DataRadioStation> implement
 								String aFileName = activity.getCacheDir().getAbsolutePath() + "/" + Utils.sanitizeName(anItem.itsURL) + ".dat";
 								File f = new File(aFileName);
 
-								Log.v("ICONS", "download finished " + anItem.itsURL + " -> " + aFileName);
+								if(BuildConfig.DEBUG) { Log.d("ICONS", "download finished " + anItem.itsURL + " -> " + aFileName); }
 								try {
 									FileOutputStream aStream = new FileOutputStream(f);
 									anIconScaled = getResizedBitmap(anIcon, 60);
@@ -384,7 +385,7 @@ public class ItemAdapterStation extends ArrayAdapter<DataRadioStation> implement
 										if (item.station != null) {
 											if (item.station.IconUrl != null) {
 												if (item.station.IconUrl.equals(anItem.itsURL)) {
-													Log.d("ICONS", "refresh icon " + anItem.itsURL);
+													if(BuildConfig.DEBUG) { Log.d("ICONS", "refresh icon " + anItem.itsURL); }
 													item.SetIcon(anIconScaled);
 												}
 											}

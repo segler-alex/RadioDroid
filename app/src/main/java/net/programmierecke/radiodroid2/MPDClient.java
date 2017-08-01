@@ -107,12 +107,12 @@ public class MPDClient {
         Boolean result = false;
 
         try {
-            Log.i(TAG, "Check connection...");
+            if(BuildConfig.DEBUG) { Log.d(TAG, "Check connection..."); }
             Socket s = new Socket(mpd_hostname, mpd_port);
             BufferedReader reader = new BufferedReader(new InputStreamReader(s.getInputStream()));
             BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(s.getOutputStream()));
             String info = reader.readLine();
-            Log.i(TAG, info);
+            if(BuildConfig.DEBUG) { Log.d(TAG, info); }
             if (info.startsWith("OK")){
                 result = true;
             }
@@ -122,7 +122,7 @@ public class MPDClient {
         } catch (Exception e) {
             Log.e(TAG,e.toString());
         }
-        Log.i(TAG, "Connection status:"+result);
+        if(BuildConfig.DEBUG) { Log.d(TAG, "Connection status:"+result); }
         return result;
     }
 
@@ -143,12 +143,12 @@ public class MPDClient {
         Boolean result = false;
 
         try {
-            Log.i(TAG, "Check connection...");
+            if(BuildConfig.DEBUG) { Log.d(TAG, "Check connection..."); }
             Socket s = new Socket(mpd_hostname, mpd_port);
             BufferedReader reader = new BufferedReader(new InputStreamReader(s.getInputStream()));
             BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(s.getOutputStream()));
             String info = reader.readLine();
-            Log.i(TAG, info);
+            if(BuildConfig.DEBUG) { Log.d(TAG, info); }
             if (info.startsWith("OK")) {
                 String cmd = "stop";
                 writer.write(cmd);
@@ -162,7 +162,7 @@ public class MPDClient {
         } catch (Exception e) {
             Log.e(TAG,e.toString());
         }
-        Log.i(TAG, "Connection status:"+result);
+        if(BuildConfig.DEBUG) { Log.d(TAG, "Connection status:"+result); }
         return result;
     }
 
@@ -175,12 +175,12 @@ public class MPDClient {
     private static Boolean PlayRemoteMPD(String mpd_hostname, int mpd_port, String url){
         Boolean result = false;
         try {
-            Log.i("MPD", "Start");
+            if(BuildConfig.DEBUG) { Log.d("MPD", "Start"); }
             Socket s = new Socket(mpd_hostname, mpd_port);
             BufferedReader reader = new BufferedReader(new InputStreamReader(s.getInputStream()));
             BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(s.getOutputStream()));
             String info = reader.readLine();
-            Log.i("MPD", info);
+            if(BuildConfig.DEBUG) { Log.d("MPD", info); }
             if (info.startsWith("OK")){
                 String cmd = "addid "+url;
                 writer.write(cmd);
@@ -188,14 +188,14 @@ public class MPDClient {
                 writer.flush();
 
                 info = reader.readLine();
-                Log.i("MPD", info);
+                if(BuildConfig.DEBUG) { Log.d("MPD", info); }
                 if (info.startsWith("Id:")){
                     int songid = Integer.parseInt(info.substring(3).trim());
                     cmd = "playid "+songid;
                     writer.write(cmd);
                     writer.newLine();
                     writer.flush();
-                    Log.i("MPD", "OK");
+                    if(BuildConfig.DEBUG) { Log.d("MPD", "OK"); }
                     result = true;
                 }
             }

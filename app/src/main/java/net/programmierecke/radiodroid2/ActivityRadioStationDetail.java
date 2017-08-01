@@ -148,9 +148,9 @@ public class ActivityRadioStationDetail extends AppCompatActivity implements Tim
 	}
 
 	void setAsAlarm(){
-		Log.w("DETAIL","setAsAlarm() 1");
+		if(BuildConfig.DEBUG) { Log.d("DETAIL","setAsAlarm() 1"); }
 		if (itsStation != null) {
-			Log.w("DETAIL","setAsAlarm() 2");
+			if(BuildConfig.DEBUG) { Log.d("DETAIL","setAsAlarm() 2"); }
 			TimePickerFragment newFragment = new TimePickerFragment();
 			newFragment.setCallback(this);
 			newFragment.show(getSupportFragmentManager(), "timePicker");
@@ -213,7 +213,7 @@ public class ActivityRadioStationDetail extends AppCompatActivity implements Tim
 
 	@Override
 	public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-		Log.w("DETAIL","onTimeSet() "+hourOfDay);
+		if(BuildConfig.DEBUG) { Log.d("DETAIL","onTimeSet() "+hourOfDay); }
 		RadioAlarmManager ram = new RadioAlarmManager(getApplicationContext(),null);
 		ram.add(itsStation,hourOfDay,minute);
 	}

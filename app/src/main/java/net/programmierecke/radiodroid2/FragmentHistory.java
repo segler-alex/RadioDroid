@@ -29,14 +29,14 @@ public class FragmentHistory extends Fragment {
     }
 
     protected void RefreshListGui(){
-        Log.d("ABC", "RefreshListGUI()");
+        if(BuildConfig.DEBUG) { Log.d("ABC", "RefreshListGUI()"); }
 
         if (lv != null) {
-            Log.d("ABC","LV != null");
+            if(BuildConfig.DEBUG) { Log.d("ABC","LV != null"); }
             HistoryManager favouriteManager = new HistoryManager(getActivity());
             ItemAdapterStation arrayAdapter = (ItemAdapterStation) lv.getAdapter();
             arrayAdapter.clear();
-            Log.d("ABC","Station count:"+data.length);
+            if(BuildConfig.DEBUG) { Log.d("ABC","Station count:"+data.length); }
             for (DataRadioStation aStation : favouriteManager.getList()) {
                 arrayAdapter.add(aStation);
             }

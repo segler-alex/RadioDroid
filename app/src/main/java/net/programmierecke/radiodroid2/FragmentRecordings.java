@@ -25,7 +25,7 @@ public class FragmentRecordings extends Fragment implements IFragmentRefreshable
 
     void ClickOnItem(DataRecording theData) {
         String path = RecordingsManager.getRecordDir() + "/" + theData.Name;
-        Log.w(TAG,"play :"+path);
+        if(BuildConfig.DEBUG) { Log.d(TAG,"play :"+path); }
         Intent i = new Intent(path);
         i.setAction(android.content.Intent.ACTION_VIEW);
         File file = new File(path);
@@ -59,18 +59,18 @@ public class FragmentRecordings extends Fragment implements IFragmentRefreshable
     }
 
     protected void RefreshListGui(){
-        Log.d(TAG, "RefreshListGUI()");
+        if(BuildConfig.DEBUG) { Log.d(TAG, "RefreshListGUI()"); }
 
         if (!Utils.verifyStoragePermissions(getActivity())){
             Log.e(TAG,"could not get permissions");
         }
 
         if (lv != null) {
-            Log.d(TAG,"LV != null");
+            if(BuildConfig.DEBUG) { Log.d(TAG,"LV != null"); }
             ItemAdapterRecordings arrayAdapter = (ItemAdapterRecordings) lv.getAdapter();
             arrayAdapter.clear();
             DataRecording[] recordings = RecordingsManager.getRecordings();
-            Log.d(TAG,"Station count:"+recordings.length);
+            if(BuildConfig.DEBUG) { Log.d(TAG,"Station count:"+recordings.length); }
             for (DataRecording aRecording : recordings) {
                 if (!aRecording.Name.equals(PlayerServiceUtil.getCurrentRecordFileName())) {
                     arrayAdapter.add(aRecording);
