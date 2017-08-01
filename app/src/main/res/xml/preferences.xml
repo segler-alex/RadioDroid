@@ -38,6 +38,12 @@
             android:title="@string/settings_play_external"
             android:summary="@string/settings_play_external_desc" />
 
+        <CheckBoxPreference
+                android:key="warn_no_wifi"
+                android:title="@string/settings_warn_no_wifi"
+                android:summaryOn="@string/settings_warn_no_wifi_on"
+                android:summaryOff="@string/settings_warn_no_wifi_off" />
+
     </PreferenceCategory>
 
     <PreferenceCategory
