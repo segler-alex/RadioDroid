@@ -71,12 +71,12 @@ public class RadioPlayer implements IStreamProxyEventReceiver, PlayerWrapper.Pla
             @Override
             public void run() {
                 if (proxy != null) {
-                    Log.i(TAG, "Stop old proxy");
+                    Log.d(TAG, "stopping old proxy.");
                     stopProxy();
                 }
 
                 setState(PlayState.CreateProxy);
-                proxy = new StreamProxy(mainContext, stationURL, RadioPlayer.this);
+                proxy = new StreamProxy(stationURL, RadioPlayer.this);
             }
         });
     }
@@ -184,6 +184,8 @@ public class RadioPlayer implements IStreamProxyEventReceiver, PlayerWrapper.Pla
     }
 
     private void setState(PlayState state) {
+        Log.d(TAG, String.format("set state '%s'", state.name()));
+
         playState = state;
         playerListener.onStateChanged(state);
     }
@@ -192,7 +194,7 @@ public class RadioPlayer implements IStreamProxyEventReceiver, PlayerWrapper.Pla
         try {
             proxy.stop();
         } catch (Exception e) {
-            Log.e(TAG, "Proxy stop exception: " + e);
+            Log.e(TAG, "proxy stop exception: ", e);
         }
         proxy = null;
     }
