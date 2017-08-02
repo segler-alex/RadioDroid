@@ -20,7 +20,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <service android:name="net.programmierecke.radiodroid2.PlayerService"/>
+        <service android:name="net.programmierecke.radiodroid2.PlayerService">
+            <intent-filter>
+                <action android:name="android.intent.action.MEDIA_BUTTON" />
+            </intent-filter>
+        </service>
         <activity
             android:name=".ActivityRadioStationDetail"
             android:label="Station" />
@@ -35,6 +39,12 @@
             android:enabled="true" >
             <intent-filter>
                 <action android:name=".AlarmReceiver" />
+            </intent-filter>
+        </receiver>
+
+        <receiver android:name="android.support.v4.media.session.MediaButtonReceiver" >
+            <intent-filter>
+                <action android:name="android.intent.action.MEDIA_BUTTON" />
             </intent-filter>
         </receiver>
 
