@@ -63,6 +63,10 @@
     <string name="settings_play_external">Öffne extern</string>
     <string name="settings_play_external_desc">Spiele Radios mit externem Player ab</string>
 
+    <string name="settings_warn_no_wifi">Warnen ohne WLAN Verbindung</string>
+    <string name="settings_warn_no_wifi_on">Warnung when keine WLAN Verbindung besteht</string>
+    <string name="settings_warn_no_wifi_off">Keine Warnung wenn keine WLAN Verbindung besteht</string>
+
     <string name="notify_start_proxy">Starte proxy..</string>
     <string name="notify_stop_player">Stoppe alte Wiedergabe..</string>
     <string name="notify_prepare_stream">Bereite Stream vor..</string>
@@ -100,4 +104,6 @@
         <item>S</item>
     </string-array>
 
+    <string name="no_wifi_title">Keine WLAN Verbindung</string>
+    <string name="no_wifi_connection">Keine WLAN Verbindung zum Starten von %1$s. Drücken Sie \'Ok\' um fortzufahren.</string>
 </resources>

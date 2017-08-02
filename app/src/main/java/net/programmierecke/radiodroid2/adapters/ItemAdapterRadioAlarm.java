@@ -13,6 +13,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 
+import net.programmierecke.radiodroid2.BuildConfig;
 import net.programmierecke.radiodroid2.data.DataRadioStationAlarm;
 import net.programmierecke.radiodroid2.R;
 import net.programmierecke.radiodroid2.RadioAlarmManager;
@@ -77,7 +78,7 @@ public class ItemAdapterRadioAlarm extends ArrayAdapter<DataRadioStationAlarm> {
 			s.setChecked(aData.enabled);
 			s.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 				public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-					Log.w("ALARM","new state:"+isChecked);
+					if(BuildConfig.DEBUG) { Log.d("ALARM","new state:"+isChecked); }
 					RadioAlarmManager ram = new RadioAlarmManager(getContext().getApplicationContext(),null);
 					ram.setEnabled(aData.id, isChecked);
 				}

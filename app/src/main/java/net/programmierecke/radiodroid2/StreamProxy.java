@@ -48,7 +48,7 @@ public class StreamProxy {
     }
 
     private void createProxy() {
-        Log.i(TAG,"thread started");
+        if(BuildConfig.DEBUG) { Log.d(TAG,"thread started"); }
         /*
         ServerSocket proxyServer = null;
         try {
@@ -67,7 +67,7 @@ public class StreamProxy {
                 public void run() {
                     try {
                         doConnectToStream();
-                        Log.i(TAG, "createProxy() ended");
+                        if(BuildConfig.DEBUG) { Log.d(TAG, "createProxy() ended"); }
                     } catch (Exception e) {
                         Log.e(TAG, "" + e);
                     }
@@ -113,10 +113,10 @@ public class StreamProxy {
                     bytesUntilMetaData -= readBytes;
                 }
 
-                Log.v(TAG, "stream bytes relayed:" + readBytes);
+                if(BuildConfig.DEBUG) { Log.d(TAG, "stream bytes relayed:" + readBytes); }
                 out.write(buf, 0, readBytesBuffer);
                 if (fileOutputStream != null) {
-                    Log.v(TAG, "writing to record file..");
+                    if(BuildConfig.DEBUG) { Log.d(TAG, "writing to record file.."); }
                     fileOutputStream.write(buf, 0, readBytesBuffer);
                 }
                 readBytesBuffer = 0;
@@ -134,7 +134,7 @@ public class StreamProxy {
         int readBytesBufferMetadata = 0;
         int readBytes = 0;
 
-        Log.d(TAG, "metadata size:" + metadataBytes);
+        if(BuildConfig.DEBUG) { Log.d(TAG, "metadata size:" + metadataBytes); }
         if (metadataBytes > 0) {
             Arrays.fill(buf, (byte) 0);
             while (true) {
@@ -149,9 +149,9 @@ public class StreamProxy {
                 readBytesBufferMetadata += readBytes;
                 if (metadataBytesToRead <= 0) {
                     String s = new String(buf, 0, metadataBytes, "utf-8");
-                    Log.d(TAG, "METADATA:" + s);
+                    if(BuildConfig.DEBUG) { Log.d(TAG, "METADATA:" + s); }
                     Map<String, String> dict = DecodeShoutcastMetadata(s);
-                    Log.d(TAG, "META:" + dict.get("StreamTitle"));
+                    if(BuildConfig.DEBUG) { Log.d(TAG, "META:" + dict.get("StreamTitle")); }
                     callback.foundLiveStreamInfo(dict);
                     break;
                 }
@@ -161,7 +161,7 @@ public class StreamProxy {
     }
 
     private void streamFile(String urlStr) throws IOException {
-        Log.i(TAG,"URL Stream Data:   "+urlStr);
+        if(BuildConfig.DEBUG) { Log.d(TAG,"URL Stream Data:   "+urlStr); }
         URL u = new URL(urlStr);
         URLConnection connection = u.openConnection();
         connection.setConnectTimeout(2000);
@@ -220,7 +220,7 @@ public class StreamProxy {
         }
 
         String s = new String(bufM3U, 0, readBytesBuffer, "utf-8");
-        Log.d(TAG,"read m3u:\n"+s);
+        if(BuildConfig.DEBUG) { Log.d(TAG,"read m3u:\n"+s); }
         PlaylistM3U playlist = new PlaylistM3U(path, s);
 
         PlaylistM3UEntry[] entries = playlist.getEntries();
@@ -266,7 +266,7 @@ public class StreamProxy {
             while (!isStopped && retry > 0) {
                 try {
                     // connect to stream
-                    Log.i(TAG,"doConnectToStream (try="+retry+"):"+uri);
+                    if(BuildConfig.DEBUG) { Log.d(TAG,"doConnectToStream (try="+retry+"):"+uri); }
                     URL u = new URL(uri);
                     URLConnection connection = u.openConnection();
                     connection.setConnectTimeout(2000);
@@ -274,12 +274,12 @@ public class StreamProxy {
                     connection.setRequestProperty("Icy-MetaData", "1");
                     connection.connect();
 
-                    Log.i(TAG, "create serversocket..");
+                    if(BuildConfig.DEBUG) { Log.d(TAG, "create serversocket.."); }
                     ServerSocket proxyServer = null;
                     proxyServer = new ServerSocket(0, 1, InetAddress.getLocalHost());
                     int port = proxyServer.getLocalPort();
                     localAdress = String.format(Locale.US,"http://localhost:%d",port);
-                    Log.i(TAG, "waiting..");
+                    if(BuildConfig.DEBUG) { Log.d(TAG, "waiting.."); }
 
                     if(isStopped) {
                         break;
@@ -298,7 +298,7 @@ public class StreamProxy {
 
                     String type = connection.getHeaderField("Content-Type").toLowerCase();
                     Integer size = connection.getHeaderFieldInt("Content-Length",0);
-                    Log.d(TAG,"Content Type: "+type);
+                    if(BuildConfig.DEBUG) { Log.d(TAG,"Content Type: "+type); }
                     if (type.equals("application/vnd.apple.mpegurl") || type.equals("application/x-mpegurl")){
                         // Hls stream
                         hlsStream(u, size, connection.getInputStream());
@@ -348,7 +348,7 @@ public class StreamProxy {
         if (fileOutputStream == null) {
             try {
                 String path = RecordingsManager.getRecordDir() + "/" + fileName;
-                Log.i(TAG,"start recording to :"+fileName + " in dir " + path);
+                if(BuildConfig.DEBUG) { Log.d(TAG,"start recording to :"+fileName + " in dir " + path); }
                 fileOutputStream = new FileOutputStream(path);
             } catch (FileNotFoundException e) {
                 Log.e(TAG, "record('"+fileName+"'): " + e);
@@ -427,7 +427,7 @@ public class StreamProxy {
     }
 
     public void stop() {
-        Log.i(TAG,"stop()");
+        if(BuildConfig.DEBUG) { Log.d(TAG,"stop()"); }
         isStopped = true;
         stopRecord();
         if (in != null) {

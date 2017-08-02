@@ -48,7 +48,7 @@ public class FragmentBase extends Fragment {
     }
 
     public void SetDownloadUrl(String theUrl) {
-        Log.w("","new url "+theUrl);
+        if(BuildConfig.DEBUG) { Log.d("","new url "+theUrl); }
         url = theUrl;
         DownloadUrl(false);
     }
@@ -61,7 +61,7 @@ public class FragmentBase extends Fragment {
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getContext());
         final boolean show_broken = sharedPref.getBoolean("show_broken", false);
 
-        Log.d("DOWN","Download url:"+url);
+        if(BuildConfig.DEBUG) { Log.d("DOWN","Download url:"+url); }
         if (TextUtils.isGraphic(url)) {
             String cache = Utils.getCacheFile(getActivity(),url);
             if (cache == null || forceUpdate) {
@@ -85,9 +85,9 @@ public class FragmentBase extends Fragment {
                             itsProgressLoading.dismiss();
                             itsProgressLoading = null;
                         }
-                        Log.d("DOWN", "Download url finished:" + url);
+                        if(BuildConfig.DEBUG) { Log.d("DOWN", "Download url finished:" + url); }
                         if (result != null) {
-                            Log.d("DOWN", "Download url OK:" + url);
+                            if(BuildConfig.DEBUG) { Log.d("DOWN", "Download url OK:" + url); }
                             urlResult = result;
                             RefreshListGui();
                         } else {

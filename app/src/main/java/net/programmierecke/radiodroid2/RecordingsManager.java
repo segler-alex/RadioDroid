@@ -26,7 +26,7 @@ public class RecordingsManager {
 
     public static DataRecording[] getRecordings(){
         String path = getRecordDir();
-        Log.e(TAG,"path:"+path);
+        if(BuildConfig.DEBUG) { Log.d(TAG,"path:"+path); }
         List<DataRecording> list = new ArrayList<DataRecording>();
         File folder = new File(path);
         File[] files = folder.listFiles();

@@ -32,7 +32,7 @@ public class ApplicationSelectorDialog extends DialogFragment {
         List<ResolveInfo> resolveInfos = pm.queryIntentActivities(mainIntent, PackageManager.MATCH_DEFAULT_ONLY);
         for(ResolveInfo info : resolveInfos) {
             ApplicationInfo applicationInfo = info.activityInfo.applicationInfo;
-            Log.w("UUU", ""+applicationInfo.packageName + " -- "+ info.activityInfo.name+ " -> ");
+            if(BuildConfig.DEBUG) { Log.d("UUU", ""+applicationInfo.packageName + " -- "+ info.activityInfo.name+ " -> "); }
             arrayAdapter.add(""+pm.getApplicationLabel(applicationInfo));
             listInfos.add(info.activityInfo);
         }
@@ -42,7 +42,7 @@ public class ApplicationSelectorDialog extends DialogFragment {
         builder.setTitle("Choose audio player");
         builder.setAdapter(arrayAdapter, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
-                Log.e("AAA","choose : "+which);
+                if(BuildConfig.DEBUG) { Log.d("AAA","choose : "+which); }
                 if (callback != null){
                     ActivityInfo info = listInfos.get(which);
                     callback.onAppSelected(info.packageName,info.name);

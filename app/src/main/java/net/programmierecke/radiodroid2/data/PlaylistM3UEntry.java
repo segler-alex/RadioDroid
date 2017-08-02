@@ -2,6 +2,8 @@ package net.programmierecke.radiodroid2.data;
 
 import android.util.Log;
 
+import net.programmierecke.radiodroid2.BuildConfig;
+
 /**
  * Created by segler on 04.03.17.
  */
@@ -40,14 +42,14 @@ public class PlaylistM3UEntry {
             return;
         }
         if (header.startsWith(EXTINF)) {
-            Log.d(TAG,"found EXTINF:"+header);
+            if(BuildConfig.DEBUG) { Log.d(TAG,"found EXTINF:"+header); }
             String attributes = header.substring(EXTINF.length());
             int sep = attributes.indexOf(",");
             String timeStr = attributes.substring(0, sep);
             length = Integer.getInteger(timeStr, -1);
             title = attributes.substring(sep + 1);
         } else if (header.startsWith(STREAMINF)) {
-            Log.d(TAG,"found STREAMINFO:"+header);
+            if(BuildConfig.DEBUG) { Log.d(TAG,"found STREAMINFO:"+header); }
             isStreamInfo = true;
             String attributes = header.substring(STREAMINF.length());
             String[] attributesList = attributes.split(",");

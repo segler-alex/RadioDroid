@@ -180,7 +180,7 @@ public class ActivityPlayerInfo extends AppCompatActivity {
 	}
 
 	private void UpdateOutput() {
-		Log.i("ARR","UpdateOutput()");
+		if(BuildConfig.DEBUG) { Log.d("ARR","UpdateOutput()"); }
 
 		if (aTextViewName != null) {
 			String stationName = PlayerServiceUtil.getStationName();
@@ -237,7 +237,7 @@ public class ActivityPlayerInfo extends AppCompatActivity {
 		textViewExtraInfo.setText(strExtra);
 
 		if (!PlayerServiceUtil.isPlaying()){
-			Log.i("ARR","exit..");
+			if(BuildConfig.DEBUG) { Log.d("ARR","exit.."); }
 			textViewStatus.setText(getResources().getString(R.string.player_info_status)+getResources().getString(R.string.player_info_status_stopped));
 			layoutPlaying.setVisibility(View.GONE);
 		}else{
