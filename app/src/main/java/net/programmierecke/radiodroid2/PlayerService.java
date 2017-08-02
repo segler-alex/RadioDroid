@@ -19,6 +19,7 @@ import android.os.PowerManager;
 import android.os.RemoteException;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.res.ResourcesCompat;
+import android.support.v4.media.session.MediaButtonReceiver;
 import android.support.v4.media.session.MediaSessionCompat;
 import android.support.v4.media.session.PlaybackStateCompat;
 import android.text.TextUtils;
@@ -63,6 +64,8 @@ public class PlayerService extends Service implements RadioPlayer.PlayerListener
 
     private BecomingNoisyReceiver becomingNoisyReceiver = new BecomingNoisyReceiver();
 
+    private boolean resumeOnFocusGain = false;
+
     private CountDownTimer timer;
     private long seconds = 0;
 
@@ -80,19 +83,19 @@ public class PlayerService extends Service implements RadioPlayer.PlayerListener
     private final IPlayerService.Stub itsBinder = new IPlayerService.Stub() {
 
         public void Play(String theUrl, String theName, String theID, boolean isAlarm) throws RemoteException {
-            PlayerService.this.PlayUrl(theUrl, theName, theID, isAlarm);
+            PlayerService.this.playUrl(theUrl, theName, theID, isAlarm);
         }
 
         public void Pause() throws RemoteException {
-            PlayerService.this.Pause();
+            PlayerService.this.pause();
         }
 
         public void Resume() throws RemoteException {
-            PlayerService.this.Resume();
+            PlayerService.this.resume();
         }
 
         public void Stop() throws RemoteException {
-            PlayerService.this.Stop();
+            PlayerService.this.stop();
         }
 
         @Override
@@ -242,30 +245,37 @@ public class PlayerService extends Service implements RadioPlayer.PlayerListener
         }
     };
 
-    AudioManager.OnAudioFocusChangeListener afChangeListener =
+    private AudioManager.OnAudioFocusChangeListener afChangeListener =
             new AudioManager.OnAudioFocusChangeListener() {
                 public void onAudioFocusChange(int focusChange) {
                     switch (focusChange) {
                         case AudioManager.AUDIOFOCUS_GAIN:
-                            if(BuildConfig.DEBUG) { Log.d(TAG, "audiofocus gain"); }
+                            if (BuildConfig.DEBUG) Log.d(TAG, "audio focus gain");
 
-                            CreateMediaSession();
-                            Resume();
+                            if (resumeOnFocusGain) {
+                                createMediaSession();
+                                resume();
+                            }
 
                             radioPlayer.setVolume(FULL_VOLUME);
                             break;
                         case AudioManager.AUDIOFOCUS_LOSS:
-                            if(BuildConfig.DEBUG) { Log.d(TAG, "audiofocus loss"); }
+                            if (BuildConfig.DEBUG) Log.d(TAG, "audio focus loss");
 
-                            Stop();
+                            stop();
                             break;
                         case AudioManager.AUDIOFOCUS_LOSS_TRANSIENT:
-                            if(BuildConfig.DEBUG) { Log.d(TAG, "audiofocus loss transient"); }
+                            if (BuildConfig.DEBUG) Log.d(TAG, "audio focus loss transient");
 
-                            Pause();
+                            boolean resume = radioPlayer.isPlaying() || resumeOnFocusGain;
+
+                            pause();
+
+                            resumeOnFocusGain = resume;
                             break;
                         case AudioManager.AUDIOFOCUS_LOSS_TRANSIENT_CAN_DUCK:
-                            if(BuildConfig.DEBUG) { Log.d(TAG, "audiofocus loss transient can duck"); }
+                            if (BuildConfig.DEBUG)
+                                Log.d(TAG, "audio focus loss transient can duck");
 
                             radioPlayer.setVolume(DUCK_VOLUME);
                             break;
@@ -299,7 +309,7 @@ public class PlayerService extends Service implements RadioPlayer.PlayerListener
         timer = new CountDownTimer(seconds * 1000, 1000) {
             public void onTick(long millisUntilFinished) {
                 seconds = millisUntilFinished / 1000;
-                if(BuildConfig.DEBUG) { Log.d(TAG, "" + seconds); }
+                if (BuildConfig.DEBUG) Log.d(TAG, "" + seconds);
 
                 Intent local = new Intent();
                 local.setAction(PLAYER_SERVICE_TIMER_UPDATE);
@@ -307,7 +317,7 @@ public class PlayerService extends Service implements RadioPlayer.PlayerListener
             }
 
             public void onFinish() {
-                Stop();
+                stop();
                 timer = null;
             }
         }.start();
@@ -339,8 +349,9 @@ public class PlayerService extends Service implements RadioPlayer.PlayerListener
 
     @Override
     public void onDestroy() {
-        if(BuildConfig.DEBUG) { Log.d(TAG, "onDestroy()"); }
-        Stop();
+        if (BuildConfig.DEBUG) Log.d(TAG, "PlayService should be destroyed.");
+
+        stop();
 
         radioPlayer.destroy();
     }
@@ -352,23 +363,106 @@ public class PlayerService extends Service implements RadioPlayer.PlayerListener
             if (action != null) {
                 switch (action) {
                     case ACTION_STOP:
-                        Stop();
+                        stop();
                         break;
                     case ACTION_PAUSE:
-                        Pause();
+                        pause();
                         break;
                     case ACTION_RESUME:
-                        Resume();
+                        resume();
                         break;
                 }
             }
+
+            MediaButtonReceiver.handleIntent(mediaSession, intent);
         }
 
         return super.onStartCommand(intent, flags, startId);
     }
 
-    private void CreateMediaSession() {
+    public void playUrl(String theURL, String theName, String theID, final boolean isAlarm) {
+        Log.i(TAG, String.format("playing url '%s'.", theURL));
+
+        currentStationID = theID;
+        currentStationName = theName;
+        currentStationURL = theURL;
+
+        int result = acquireAudioFocus();
+        if (result == AudioManager.AUDIOFOCUS_REQUEST_GRANTED) {
+            // Start playback.
+            createMediaSession();
+            replayCurrent(isAlarm);
+        }
+    }
+
+    public void pause() {
+        if (BuildConfig.DEBUG) Log.d(TAG, "pausing playback.");
+
+        resumeOnFocusGain = false;
+
+        releaseWakeLockAndWifiLock();
+        radioPlayer.pause();
+    }
+
+    public void resume() {
+        if (BuildConfig.DEBUG) Log.d(TAG, "resuming playback.");
+
+        resumeOnFocusGain = false;
+
+        if (!radioPlayer.isPlaying()) {
+            acquireAudioFocus();
+            replayCurrent(false);
+        }
+    }
+
+    public void stop() {
+        if (BuildConfig.DEBUG) Log.d(TAG, "stopping playback.");
+
+        resumeOnFocusGain = false;
+
+        liveInfo = null;
+        streamInfo = null;
+
+        releaseAudioFocus();
+        releaseMediaSession();
+        radioPlayer.stop();
+        releaseWakeLockAndWifiLock();
+        clearTimer();
+
+        stopForeground(true);
+
+        sendBroadCast(PLAYER_SERVICE_STATUS_UPDATE);
+    }
+
+    public void replayCurrent(final boolean isAlarm) {
+        if (BuildConfig.DEBUG) Log.d(TAG, "replaying current.");
+
+        liveInfo = null;
+        streamInfo = null;
+
+        acquireWakeLockAndWifiLock();
+
+        radioPlayer.play(currentStationURL, isAlarm);
+    }
+
+    private void setMediaPlaybackState(int state) {
         if (mediaSession == null) {
+            return;
+        }
+
+        PlaybackStateCompat.Builder playbackStateBuilder = new PlaybackStateCompat.Builder();
+        playbackStateBuilder.setActions(PlaybackStateCompat.ACTION_PLAY
+                | PlaybackStateCompat.ACTION_PLAY_PAUSE
+                | PlaybackStateCompat.ACTION_STOP
+                | PlaybackStateCompat.ACTION_PAUSE);
+
+        playbackStateBuilder.setState(state, PlaybackStateCompat.PLAYBACK_POSITION_UNKNOWN, 0);
+        mediaSession.setPlaybackState(playbackStateBuilder.build());
+    }
+
+    private void createMediaSession() {
+        if (mediaSession == null) {
+            if (BuildConfig.DEBUG) Log.d(TAG, "creating media session.");
             becomingNoisyReceiver = new BecomingNoisyReceiver();
 
             IntentFilter becomingNoisyFilter = new IntentFilter(AudioManager.ACTION_AUDIO_BECOMING_NOISY);
@@ -380,12 +474,14 @@ public class PlayerService extends Service implements RadioPlayer.PlayerListener
             mediaSession.setFlags(MediaSessionCompat.FLAG_HANDLES_MEDIA_BUTTONS);
             mediaSession.setActive(true);
 
-            SetMediaPlaybackState(PlaybackStateCompat.STATE_NONE);
+            setMediaPlaybackState(PlaybackStateCompat.STATE_NONE);
         }
     }
 
-    private void DestroyMediaSession() {
+    private void releaseMediaSession() {
         if (mediaSession != null) {
+            if (BuildConfig.DEBUG) Log.d(TAG, "releasing media session.");
+
             mediaSession.release();
             mediaSession = null;
 
@@ -393,25 +489,78 @@ public class PlayerService extends Service implements RadioPlayer.PlayerListener
         }
     }
 
-    private void SetMediaPlaybackState(int state) {
-        if (mediaSession == null) {
-            return;
+    private int acquireAudioFocus() {
+        if (BuildConfig.DEBUG) Log.d(TAG, "acquiring audio focus.");
+
+        int result = audioManager.requestAudioFocus(afChangeListener,
+                // Use the music stream.
+                AudioManager.STREAM_MUSIC,
+                // Request permanent focus.
+                AudioManager.AUDIOFOCUS_GAIN);
+        if (result != AudioManager.AUDIOFOCUS_REQUEST_GRANTED) {
+            Log.e(TAG, "acquiring audio focus failed!");
+            toastOnUi(R.string.error_grant_audiofocus);
         }
 
-        PlaybackStateCompat.Builder playbackStateBuilder = new PlaybackStateCompat.Builder();
-        if (state == PlaybackStateCompat.STATE_PLAYING) {
-            playbackStateBuilder.setActions(PlaybackStateCompat.ACTION_PLAY_PAUSE | PlaybackStateCompat.ACTION_PAUSE);
-        } else if (state == PlaybackStateCompat.STATE_PAUSED) {
-            playbackStateBuilder.setActions(PlaybackStateCompat.ACTION_PLAY_PAUSE | PlaybackStateCompat.ACTION_PLAY);
-        } else {
-            playbackStateBuilder.setActions(PlaybackStateCompat.ACTION_STOP);
-        }
-
-        playbackStateBuilder.setState(state, PlaybackStateCompat.PLAYBACK_POSITION_UNKNOWN, 0);
-        mediaSession.setPlaybackState(playbackStateBuilder.build());
+        return result;
     }
 
-    public void SendMessage(String theTitle, String theMessage, String theTicker) {
+    private void releaseAudioFocus() {
+        if (BuildConfig.DEBUG) Log.d(TAG, "releasing audio focus.");
+
+        audioManager.abandonAudioFocus(afChangeListener);
+    }
+
+    void acquireWakeLockAndWifiLock() {
+        if (BuildConfig.DEBUG) Log.d(TAG, "acquiring wake lock and wifi lock.");
+
+        if (wakeLock == null) {
+            wakeLock = powerManager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "PlayerService");
+        }
+        if (!wakeLock.isHeld()) {
+            wakeLock.acquire();
+        } else {
+            if (BuildConfig.DEBUG) Log.d(TAG, "wake lock is already acquired.");
+        }
+
+        WifiManager wm = (WifiManager) itsContext.getApplicationContext().getSystemService(Context.WIFI_SERVICE);
+        if (wm != null) {
+            if (wifiLock == null) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR1) {
+                    wifiLock = wm.createWifiLock(WifiManager.WIFI_MODE_FULL_HIGH_PERF, "PlayerService");
+                } else {
+                    wifiLock = wm.createWifiLock(WifiManager.WIFI_MODE_FULL, "PlayerService");
+                }
+            }
+            if (!wifiLock.isHeld()) {
+                wifiLock.acquire();
+            } else {
+                if (BuildConfig.DEBUG) Log.d(TAG, "wifi lock is already acquired.");
+            }
+        } else {
+            Log.e(TAG, "could not acquire wifi lock, WifiManager does not exist!");
+        }
+    }
+
+    private void releaseWakeLockAndWifiLock() {
+        if (BuildConfig.DEBUG) Log.d(TAG, "releasing wake lock and wifi lock.");
+
+        if (wakeLock != null) {
+            if (wakeLock.isHeld()) {
+                wakeLock.release();
+            }
+            wakeLock = null;
+        }
+
+        if (wifiLock != null) {
+            if (wifiLock.isHeld()) {
+                wifiLock.release();
+            }
+            wifiLock = null;
+        }
+    }
+
+    private void sendMessage(String theTitle, String theMessage, String theTicker) {
         Intent notificationIntent = new Intent(itsContext, ActivityPlayerInfo.class);
         notificationIntent.putExtra("stationid", currentStationID);
         notificationIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -432,14 +581,16 @@ public class PlayerService extends Service implements RadioPlayer.PlayerListener
                 .setLargeIcon((((BitmapDrawable) ResourcesCompat.getDrawable(getResources(), R.drawable.ic_launcher, null)).getBitmap()))
                 .addAction(R.drawable.ic_stop_24dp, "Stop", pendingIntentStop);
 
-        if (radioPlayer.getPlayState() == RadioPlayer.PlayState.Playing) {
+        RadioPlayer.PlayState currentPlayerState = radioPlayer.getPlayState();
+
+        if (currentPlayerState == RadioPlayer.PlayState.Playing) {
             Intent pauseIntent = new Intent(itsContext, PlayerService.class);
             pauseIntent.setAction(ACTION_PAUSE);
             PendingIntent pendingIntentPause = PendingIntent.getService(itsContext, 0, pauseIntent, 0);
 
             notificationBuilder.addAction(R.drawable.ic_pause_24dp, "Pause", pendingIntentPause);
             notificationBuilder.setUsesChronometer(true);
-        } else if (radioPlayer.getPlayState() == RadioPlayer.PlayState.Paused) {
+        } else if (currentPlayerState == RadioPlayer.PlayState.Paused) {
             Intent resumeIntent = new Intent(itsContext, PlayerService.class);
             resumeIntent.setAction(ACTION_RESUME);
             PendingIntent pendingIntentResume = PendingIntent.getService(itsContext, 0, resumeIntent, 0);
@@ -453,103 +604,7 @@ public class PlayerService extends Service implements RadioPlayer.PlayerListener
         startForeground(NOTIFY_ID, notification);
     }
 
-    public void PlayUrl(String theURL, String theName, String theID, final boolean isAlarm) {
-        currentStationID = theID;
-        currentStationName = theName;
-        currentStationURL = theURL;
-
-        int result = audioManager.requestAudioFocus(afChangeListener,
-                // Use the music stream.
-                AudioManager.STREAM_MUSIC,
-                // Request permanent focus.
-                AudioManager.AUDIOFOCUS_GAIN);
-        if (result == AudioManager.AUDIOFOCUS_REQUEST_GRANTED) {
-            // Start playback.
-            CreateMediaSession();
-            ReplayCurrent(isAlarm);
-        } else {
-            ToastOnUi(R.string.error_grant_audiofocus);
-        }
-    }
-
-    public void Pause() {
-        if(BuildConfig.DEBUG) { Log.d(TAG, "pause()"); }
-
-        radioPlayer.pause();
-    }
-
-    public void Resume() {
-        if(BuildConfig.DEBUG) { Log.d(TAG, "resume()"); }
-
-        if(!radioPlayer.isPlaying()) {
-            ReplayCurrent(false);
-        }
-    }
-
-    public void Stop() {
-        if(BuildConfig.DEBUG) { Log.d(TAG, "stop()"); }
-
-        DestroyMediaSession();
-
-        audioManager.abandonAudioFocus(afChangeListener);
-
-        radioPlayer.stop();
-
-        liveInfo = null;
-        streamInfo = null;
-        clearTimer();
-        stopForeground(true);
-        sendBroadCast(PLAYER_SERVICE_STATUS_UPDATE);
-
-        if (wakeLock != null) {
-            if (wakeLock.isHeld()) {
-                wakeLock.release();
-                if(BuildConfig.DEBUG) { Log.d(TAG, "release wakelock"); }
-            }
-            wakeLock = null;
-        }
-        if (wifiLock != null) {
-            if (wifiLock.isHeld()) {
-                if(BuildConfig.DEBUG) { Log.d(TAG, "release wifilock"); }
-                wifiLock.release();
-            }
-            wifiLock = null;
-        }
-    }
-
-    public void ReplayCurrent(final boolean isAlarm) {
-        liveInfo = null;
-        streamInfo = null;
-
-        if (wakeLock == null) {
-            wakeLock = powerManager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "PlayerService");
-        }
-        if (!wakeLock.isHeld()) {
-            if(BuildConfig.DEBUG) { Log.d(TAG, "acquire wakelock"); }
-            wakeLock.acquire();
-        }
-        WifiManager wm = (WifiManager) itsContext.getApplicationContext().getSystemService(Context.WIFI_SERVICE);
-        if (wm != null) {
-
-            if (wifiLock == null) {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR1) {
-                    wifiLock = wm.createWifiLock(WifiManager.WIFI_MODE_FULL_HIGH_PERF, "PlayerService");
-                } else {
-                    wifiLock = wm.createWifiLock(WifiManager.WIFI_MODE_FULL, "PlayerService");
-                }
-            }
-            if (!wifiLock.isHeld()) {
-                if(BuildConfig.DEBUG) { Log.d(TAG, "acquire wifilock"); }
-                wifiLock.acquire();
-            }
-        } else {
-            Log.e(TAG, "could not aquire wifi lock");
-        }
-
-        radioPlayer.play(currentStationURL, isAlarm);
-    }
-
-    void ToastOnUi(final int messageId) {
+    private void toastOnUi(final int messageId) {
         Handler h = new Handler(itsContext.getMainLooper());
 
         h.post(new Runnable() {
@@ -560,37 +615,37 @@ public class PlayerService extends Service implements RadioPlayer.PlayerListener
         });
     }
 
-    private void UpdateNotification() {
+    private void updateNotification() {
         switch (radioPlayer.getPlayState()) {
             case Idle:
                 break;
             case CreateProxy:
-                SendMessage(currentStationName, itsContext.getResources().getString(R.string.notify_start_proxy), itsContext.getResources().getString(R.string.notify_start_proxy));
+                sendMessage(currentStationName, itsContext.getResources().getString(R.string.notify_start_proxy), itsContext.getResources().getString(R.string.notify_start_proxy));
                 break;
             case ClearOld:
-                SendMessage(currentStationName, itsContext.getResources().getString(R.string.notify_stop_player), itsContext.getResources().getString(R.string.notify_stop_player));
+                sendMessage(currentStationName, itsContext.getResources().getString(R.string.notify_stop_player), itsContext.getResources().getString(R.string.notify_stop_player));
                 break;
             case PrepareStream:
-                SendMessage(currentStationName, itsContext.getResources().getString(R.string.notify_prepare_stream), itsContext.getResources().getString(R.string.notify_prepare_stream));
+                sendMessage(currentStationName, itsContext.getResources().getString(R.string.notify_prepare_stream), itsContext.getResources().getString(R.string.notify_prepare_stream));
                 break;
             case PrePlaying:
-                SendMessage(currentStationName, itsContext.getResources().getString(R.string.notify_try_play), itsContext.getResources().getString(R.string.notify_try_play));
+                sendMessage(currentStationName, itsContext.getResources().getString(R.string.notify_try_play), itsContext.getResources().getString(R.string.notify_try_play));
                 break;
             case Playing:
                 if (liveInfo != null) {
                     String title = liveInfo.get("StreamTitle");
                     if (!TextUtils.isEmpty(title)) {
-                        if(BuildConfig.DEBUG) { Log.d(TAG, "update message:" + title); }
-                        SendMessage(currentStationName, title, title);
+                        if (BuildConfig.DEBUG) Log.d(TAG, "update message:" + title);
+                        sendMessage(currentStationName, title, title);
                     } else {
-                        SendMessage(currentStationName, itsContext.getResources().getString(R.string.notify_play), currentStationName);
+                        sendMessage(currentStationName, itsContext.getResources().getString(R.string.notify_play), currentStationName);
                     }
                 } else {
-                    SendMessage(currentStationName, itsContext.getResources().getString(R.string.notify_play), currentStationName);
+                    sendMessage(currentStationName, itsContext.getResources().getString(R.string.notify_play), currentStationName);
                 }
                 break;
             case Paused:
-                SendMessage(currentStationName, itsContext.getResources().getString(R.string.notify_paused), currentStationName);
+                sendMessage(currentStationName, itsContext.getResources().getString(R.string.notify_paused), currentStationName);
                 break;
         }
     }
@@ -606,16 +661,16 @@ public class PlayerService extends Service implements RadioPlayer.PlayerListener
             public void run() {
                 switch (state) {
                     case Paused:
-                        SetMediaPlaybackState(PlaybackStateCompat.STATE_PAUSED);
+                        setMediaPlaybackState(PlaybackStateCompat.STATE_PAUSED);
                         break;
                     case Playing:
-                        SetMediaPlaybackState(PlaybackStateCompat.STATE_PLAYING);
+                        setMediaPlaybackState(PlaybackStateCompat.STATE_PLAYING);
 
-                        CreateMediaSession();
+                        createMediaSession();
                         mediaSession.setActive(true);
                         break;
                     default:
-                        SetMediaPlaybackState(PlaybackStateCompat.STATE_NONE);
+                        setMediaPlaybackState(PlaybackStateCompat.STATE_NONE);
 
                         if (mediaSession != null) {
                             mediaSession.setActive(false);
@@ -623,14 +678,14 @@ public class PlayerService extends Service implements RadioPlayer.PlayerListener
                         break;
                 }
 
-                UpdateNotification();
+                updateNotification();
             }
         });
     }
 
     @Override
     public void onPlayerError(int messageId) {
-        ToastOnUi(messageId);
+        toastOnUi(messageId);
     }
 
     @Override
@@ -643,7 +698,8 @@ public class PlayerService extends Service implements RadioPlayer.PlayerListener
                     currentStationName = info.audioName.trim();
                 }
             }
-            if(BuildConfig.DEBUG) {
+
+            if (BuildConfig.DEBUG) {
                 Log.d(TAG, "Metadata offset:" + info.metadataOffset);
                 Log.d(TAG, "Bitrate:" + info.bitrate);
                 Log.d(TAG, "Name:" + info.audioName);
@@ -658,10 +714,14 @@ public class PlayerService extends Service implements RadioPlayer.PlayerListener
     @Override
     public void foundLiveStreamInfo(Map<String, String> liveInfo) {
         this.liveInfo = liveInfo;
-        for (String key : liveInfo.keySet()) {
-            if(BuildConfig.DEBUG) { Log.d(TAG, "INFO:" + key + "=" + liveInfo.get(key)); }
+
+        if (BuildConfig.DEBUG) {
+            for (String key : liveInfo.keySet()) {
+                Log.i(TAG, "INFO:" + key + "=" + liveInfo.get(key));
+            }
         }
+
         sendBroadCast(PLAYER_SERVICE_META_UPDATE);
-        UpdateNotification();
+        updateNotification();
     }
 }
