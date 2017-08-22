@@ -53,6 +53,10 @@
     <string name="settings_starred_at_startup_on">Favoriten beim Starten von RadioDroid anzeigen</string>
     <string name="settings_starred_at_startup_off">Alle Sender beim Starten von RadioDroid anzeigen</string>
 
+    <string name="settings_load_icons">Stations-Icons zeigen</string>
+    <string name="settings_load_icons_on">Icons werden heruntergeladen</string>
+    <string name="settings_load_icons_off">Icons werden nicht heruntergeladen</string>
+
     <string name="settings_alarm">Alarm</string>
     <string name="settings_alarm_external">Öffne extern</string>
     <string name="settings_alarm_external_desc">Öffne mit externem Abspieler</string>
