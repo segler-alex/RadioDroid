@@ -219,6 +219,9 @@ public class Utils {
 						externalActive = true;
 					}
                     if (CastHandler.isCastSessionAvailable()){
+						if (!externalActive) {
+							PlayerServiceUtil.stop(); // stop internal player and not continue playing
+						}
                         CastHandler.PlayRemote(station.Name, result, station.IconUrl);
 						externalActive = true;
                     }
