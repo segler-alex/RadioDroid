@@ -9,7 +9,7 @@ import net.programmierecke.radiodroid2.R;
 
 import java.io.IOException;
 
-public class MediaPlayerWrapper implements PlayerWrapper {
+class MediaPlayerWrapper implements PlayerWrapper {
 
     final private String TAG = "MediaPlayerWrapper";
 
