@@ -49,7 +49,7 @@ public class RadioPlayer implements IStreamProxyEventReceiver, PlayerWrapper.Pla
     private boolean isAlarm = false;
     private String stationUrl;
 
-    public RadioPlayer(Context mainContext, PlayerWrapper playerWrapper) {
+    RadioPlayer(Context mainContext, PlayerWrapper playerWrapper) {
         this.mainContext = mainContext;
         this.player = playerWrapper;
 

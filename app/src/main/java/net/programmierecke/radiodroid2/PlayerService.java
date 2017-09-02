@@ -28,9 +28,8 @@ import android.view.KeyEvent;
 import android.widget.Toast;
 
 import net.programmierecke.radiodroid2.data.ShoutcastInfo;
-import net.programmierecke.radiodroid2.players.ExoPlayerWrapper;
-import net.programmierecke.radiodroid2.players.MediaPlayerWrapper;
 import net.programmierecke.radiodroid2.players.RadioPlayer;
+import net.programmierecke.radiodroid2.players.RadioPlayerFactory;
 
 public class PlayerService extends Service implements RadioPlayer.PlayerListener {
     protected static final int NOTIFY_ID = 1;
@@ -336,14 +335,7 @@ public class PlayerService extends Service implements RadioPlayer.PlayerListener
         powerManager = (PowerManager) itsContext.getSystemService(Context.POWER_SERVICE);
         audioManager = (AudioManager) itsContext.getSystemService(Context.AUDIO_SERVICE);
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-            radioPlayer = new RadioPlayer(PlayerService.this, new ExoPlayerWrapper());
-        } else {
-            // use old MediaPlayer on API levels < 16
-            // https://github.com/google/ExoPlayer/issues/711
-            radioPlayer = new RadioPlayer(PlayerService.this, new MediaPlayerWrapper());
-        }
-
+        radioPlayer = RadioPlayerFactory.newRadioPlayer(PlayerService.this);
         radioPlayer.setPlayerListener(this);
     }
 
