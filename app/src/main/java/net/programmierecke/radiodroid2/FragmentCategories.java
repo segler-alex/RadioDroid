@@ -20,7 +20,6 @@ import java.net.URLEncoder;
 
 public class FragmentCategories extends FragmentBase {
     private ListView lv;
-    private DataCategory[] data = new DataCategory[0];
     private String baseSearchAdress = "";
     private SwipeRefreshLayout mySwipeRefreshLayout;
     private boolean singleUseFilter = false;
@@ -54,7 +53,7 @@ public class FragmentCategories extends FragmentBase {
             }
             boolean show_single_use_tags = sharedPref.getBoolean("single_use_tags", false);
 
-            data = DataCategory.DecodeJson(getUrlResult());
+            DataCategory[] data = DataCategory.DecodeJson(getUrlResult());
             ItemAdapterCategory adapterCategory = (ItemAdapterCategory) lv.getAdapter();
             adapterCategory.clear();
             for (DataCategory aData : data) {

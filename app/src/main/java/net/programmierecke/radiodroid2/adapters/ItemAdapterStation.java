@@ -130,8 +130,7 @@ public class ItemAdapterStation extends ArrayAdapter<DataRadioStation> implement
 			item.station = aStation;
 			listViewItems.add(item);
 		}else {
-			for (int i = 0; i < listViewItems.size(); i++) {
-				MyItem item = listViewItems.get(i);
+			for (MyItem item : listViewItems) {
 				View ref = item.v.get();
 				if (ref != null) {
 					if (convertView == ref) {
@@ -194,7 +193,7 @@ public class ItemAdapterStation extends ArrayAdapter<DataRadioStation> implement
 							anImageView.setVisibility(View.GONE);
 							itsQueuedDownloadJobs.put(new QueueItem(aStation.ID, aStation.IconUrl));
 						} catch (InterruptedException e2) {
-							Log.e("ICONS", "" + e2.getStackTrace());
+							Log.e("ICONS", e2.getStackTrace().toString());
 						}
 					}
 				}
@@ -380,8 +379,7 @@ public class ItemAdapterStation extends ArrayAdapter<DataRadioStation> implement
 								}
 
 								if (anIconScaled != null) {
-									for (int i = 0; i < listViewItems.size(); i++) {
-										MyItem item = listViewItems.get(i);
+									for (MyItem item : listViewItems) {
 										if (item.station != null) {
 											if (item.station.IconUrl != null) {
 												if (item.station.IconUrl.equals(anItem.itsURL)) {

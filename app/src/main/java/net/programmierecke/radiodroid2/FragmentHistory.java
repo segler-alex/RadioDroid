@@ -14,7 +14,6 @@ import net.programmierecke.radiodroid2.data.DataRadioStation;
 
 public class FragmentHistory extends Fragment {
     private ListView lv;
-    private DataRadioStation[] data = new DataRadioStation[0];
 
     public FragmentHistory() {
     }
@@ -36,7 +35,6 @@ public class FragmentHistory extends Fragment {
             HistoryManager favouriteManager = new HistoryManager(getActivity());
             ItemAdapterStation arrayAdapter = (ItemAdapterStation) lv.getAdapter();
             arrayAdapter.clear();
-            if(BuildConfig.DEBUG) { Log.d("ABC","Station count:"+data.length); }
             for (DataRadioStation aStation : favouriteManager.getList()) {
                 arrayAdapter.add(aStation);
             }

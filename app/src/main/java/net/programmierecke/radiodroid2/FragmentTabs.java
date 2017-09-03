@@ -27,7 +27,6 @@ public class FragmentTabs extends Fragment implements IFragmentRefreshable, IFra
     private String itsAdressWWWCountries = "https://www.radio-browser.info/webservice/json/countries";
     private String itsAdressWWWLanguages = "https://www.radio-browser.info/webservice/json/languages";
 
-    public static TabLayout tabLayout;
     public static ViewPager viewPager;
 
     FragmentBase[] fragments = new FragmentBase[8];
@@ -46,12 +45,12 @@ public class FragmentTabs extends Fragment implements IFragmentRefreshable, IFra
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View x =  inflater.inflate(R.layout.layout_tabs,null);
-        tabLayout = (TabLayout) x.findViewById(R.id.tabs);
+        final TabLayout tabLayout = (TabLayout) x.findViewById(R.id.tabs);
         viewPager = (ViewPager) x.findViewById(R.id.viewpager);
 
         setupViewPager(viewPager);
 
-        /**
+        /*
          * Now , this is a workaround ,
          * The setupWithViewPager dose't works without the runnable .
          * Maybe a Support Library Bug .

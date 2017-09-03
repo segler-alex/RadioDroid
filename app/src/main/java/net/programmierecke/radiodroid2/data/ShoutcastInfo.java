@@ -41,9 +41,9 @@ public class ShoutcastInfo {
 
         if (info.audioInfo != null){
             String[] items = info.audioInfo.split(";");
-            for (int i=0;i<items.length;i++){
-                String[] item = items[i].split("=");
-                if (item.length == 2){
+            for (String item1 : items) {
+                String[] item = item1.split("=");
+                if (item.length == 2) {
                     String key = item[0];
                     if (key.equals("ice-channels") || key.equals("channels")){
                         try {

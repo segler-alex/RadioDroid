@@ -45,8 +45,8 @@ public class PlayerService extends Service implements RadioPlayer.PlayerListener
     private final String ACTION_RESUME = "resume";
     private final String ACTION_STOP = "stop";
 
-    private final float FULL_VOLUME = 100f;
-    private final float DUCK_VOLUME = 40f;
+    private static final float FULL_VOLUME = 100f;
+    private static final float DUCK_VOLUME = 40f;
 
     private Context itsContext;
 

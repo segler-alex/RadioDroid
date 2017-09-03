@@ -29,9 +29,9 @@ public class PlaylistM3U {
 
     void decode(){
         String[] lines = getLines();
-        for (int i=0;i<lines.length;i++){
+        for (String line : lines) {
             try {
-                decodeLine(lines[i]);
+                decodeLine(line);
             } catch (MalformedURLException e) {
             }
         }

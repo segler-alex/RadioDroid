@@ -43,7 +43,7 @@ public class Utils {
     private static int loadIcons = -1;
 
     public static String getCacheFile(Context ctx, String theURI) {
-		StringBuffer chaine = new StringBuffer("");
+		StringBuilder chaine = new StringBuilder("");
 		try{
 			String aFileName = theURI.toLowerCase().replace("http://","");
 			aFileName = aFileName.toLowerCase().replace("https://","");
@@ -63,7 +63,7 @@ public class Utils {
 			if (hours < 1) {
 				FileInputStream aStream = new FileInputStream(file);
 				BufferedReader rd = new BufferedReader(new InputStreamReader(aStream));
-				String line = "";
+				String line;
 				while ((line = rd.readLine()) != null) {
 					chaine.append(line);
 				}
@@ -104,7 +104,7 @@ public class Utils {
 			}
 		}
 
-		StringBuffer chaine = new StringBuffer("");
+		StringBuilder chaine = new StringBuilder("");
 		try{
 			URL url = new URL(theURI);
 			HttpURLConnection connection = (HttpURLConnection)url.openConnection();
@@ -135,7 +135,7 @@ public class Utils {
 
 			InputStream inputStream = connection.getInputStream();
 			BufferedReader rd = new BufferedReader(new InputStreamReader(inputStream));
-			String line = "";
+			String line;
 			while ((line = rd.readLine()) != null) {
 				chaine.append(line);
 			}
@@ -154,7 +154,7 @@ public class Utils {
 	public static String getRealStationLink(Context ctx, String stationId){
 		String result = Utils.downloadFeed(ctx, "https://www.radio-browser.info/webservice/v2/json/url/" + stationId, true, null);
 		if (result != null) {
-			JSONObject jsonObj = null;
+			JSONObject jsonObj;
 			try {
 				jsonObj = new JSONObject(result);
 				return jsonObj.getString("url");
@@ -287,11 +287,11 @@ public class Utils {
 
 	public static String getReadableBytes(double bytes){
 		String[] str = new String[]{"B","KB","MB","GB","TB"};
-		for (int i=0;i<str.length;i++){
+		for (String aStr : str) {
 			if (bytes < 1024) {
-				return String.format(Locale.getDefault(), "%1$,.1f %2$s",bytes,str[i]);
+				return String.format(Locale.getDefault(), "%1$,.1f %2$s", bytes, aStr);
 			}
-			bytes = bytes/1024;
+			bytes = bytes / 1024;
 		}
 		return String.format(Locale.getDefault(), "%1$,.1f %2$s",bytes*1024,str[str.length-1]);
 	}
