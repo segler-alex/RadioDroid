@@ -17,7 +17,6 @@ import net.programmierecke.radiodroid2.data.DataRadioStation;
 
 public class FragmentStations extends FragmentBase {
     private ListView lv;
-    private DataRadioStation[] data = new DataRadioStation[0];
     private SwipeRefreshLayout mySwipeRefreshLayout;
     private SharedPreferences sharedPref;
 
@@ -44,7 +43,7 @@ public class FragmentStations extends FragmentBase {
             boolean show_broken = sharedPref.getBoolean("show_broken", false);
 
             if(BuildConfig.DEBUG) { Log.d("ABC", "LV != null"); }
-            data = DataRadioStation.DecodeJson(getUrlResult());
+            final DataRadioStation[] data = DataRadioStation.DecodeJson(getUrlResult());
             ItemAdapterStation arrayAdapter = (ItemAdapterStation) lv.getAdapter();
             arrayAdapter.clear();
             if(BuildConfig.DEBUG) { Log.d("ABC", "Station count:" + data.length); }

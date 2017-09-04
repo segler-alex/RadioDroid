@@ -25,6 +25,7 @@ public class MPDClient {
             return Integer.parseInt(str);
         }
         catch (Exception e){
+            Log.e(TAG, "could not parse integer " + str, e);
         }
         return defaultValue;
     }
@@ -79,7 +80,7 @@ public class MPDClient {
                             final String mpd_hostname = sharedPref.getString("mpd_hostname", "").trim();
                             final int mpd_port = StringToInt(sharedPref.getString("mpd_port", "6600"), 6600);
 
-                            if (mpd_hostname != ""){
+                            if (!"".equals(mpd_hostname)) {
                                 SetDiscoveredStatus(CheckConnection(mpd_hostname, mpd_port), listener);
                             }
                             // check every 5 seconds

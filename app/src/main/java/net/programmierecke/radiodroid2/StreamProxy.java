@@ -92,7 +92,7 @@ public class StreamProxy {
         int readBytesBuffer = 0;
 
         while (!isStopped) {
-            int readBytes = 0;
+            int readBytes;
             if (!streamHasMetaData || (bytesUntilMetaData > 0)) {
                 int bytesToRead = Math.min(buf.length - readBytesBuffer, in.available());
                 if (streamHasMetaData) {
@@ -132,7 +132,7 @@ public class StreamProxy {
         int metadataBytes = in.read() * 16;
         int metadataBytesToRead = metadataBytes;
         int readBytesBufferMetadata = 0;
-        int readBytes = 0;
+        int readBytes;
 
         if (BuildConfig.DEBUG) Log.d(TAG, "metadata size:" + metadataBytes);
         if (metadataBytes > 0) {
@@ -189,8 +189,8 @@ public class StreamProxy {
     }
 
     private boolean containsString(ArrayList<String> list, String item) {
-        for (int i = 0; i < list.size(); i++) {
-            if (item.equals(list.get(i))) {
+        for (String aList : list) {
+            if (item.equals(aList)) {
                 return true;
             }
         }
@@ -200,7 +200,7 @@ public class StreamProxy {
     private ArrayList<String> streamedFiles = new ArrayList<String>();
 
     private void hlsStream(URL path, int size, InputStream inM3U) throws Exception {
-        int readBytes = 0;
+        int readBytes;
         int readBytesBuffer = 0;
         int bytesToRead = size;
         byte bufM3U[] = new byte[size];
@@ -276,7 +276,7 @@ public class StreamProxy {
                     connection.connect();
 
                     if (BuildConfig.DEBUG) Log.d(TAG, "create serversocket..");
-                    ServerSocket proxyServer = null;
+                    ServerSocket proxyServer;
                     proxyServer = new ServerSocket(0, 1, InetAddress.getLocalHost());
                     int port = proxyServer.getLocalPort();
                     localAdress = String.format(Locale.US, "http://localhost:%d", port);

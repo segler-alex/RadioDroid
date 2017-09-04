@@ -10,6 +10,7 @@ import net.programmierecke.radiodroid2.data.DataRadioStation;
 import org.json.JSONArray;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class StationSaveManager {
@@ -53,10 +54,7 @@ public class StationSaveManager {
 
     public boolean has(String id){
         DataRadioStation station = getById(id);
-        if (station != null){
-            return true;
-        }
-        return false;
+        return station != null;
     }
 
     public DataRadioStation[] getList(){
@@ -70,9 +68,7 @@ public class StationSaveManager {
         String str = sharedPref.getString(getSaveId(), null);
         if (str != null){
             DataRadioStation[] arr =DataRadioStation.DecodeJson(str);
-            for (int i=0;i<arr.length;i++) {
-                listStations.add(arr[i]);
-            }
+            Collections.addAll(listStations, arr);
         }else{
             Log.w("SAVE","Load() no stations to load");
         }
