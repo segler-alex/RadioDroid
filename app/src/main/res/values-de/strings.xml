@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">RadioDost</string>
+    <string name="app_name">RadioDroid</string>
     <string name="detail_name">Name</string>
     <string name="detail_tags">Tags</string>
     <string name="detail_country">Land</string>
@@ -32,8 +32,20 @@
     <string name="nav_item_recordings">Aufnahmen</string>
     <string name="nav_item_player_status">Abspieler Status</string>
 
-    <string name="about_text">Diese app basiert auf dem freien Radioverzeichnis auf\nhttp://www.radio-browser.info\nJeder kann hier mithelfen, um das Verzeichnis aktuell zu halten. Es funktioniert im Prinzip so wie ein Wiki für Online(Streaming) Radio-Stationen.\n\nKontakt:\nsegler_alex@web.de\n\nBugtracker:\nhttps://github.com/segler-alex/RadioDroid/issues\n\nIch freue mich immer über Mails mit Verbesserungsvorschlägen. Falls ihr sonst irgendwie helfen wollt, gibt es immer bugs zu fixen :) Wenn du dein grafisches Talent sponsoren willst, wäre ich besonders dankbar! Speziell für schönere Icons, Hintergründe oder auch insgesamt ein besseres Design.\n\nDiese app steht wurde mit der GPLv3 lizenziert.\nhttps://www.gnu.org/licenses/gpl-3.0.html.</string>
-    <string name="about_version">Version: %1$s</string>
+    <string name="about_text">Diese app basiert auf dem freien Radioverzeichnis auf\n
+    https://www.radio-browser.info\n
+    Jeder kann hier mithelfen, um das Verzeichnis aktuell zu halten. Es funktioniert im Prinzip so wie ein Wiki für Online(Streaming) Radio-Stationen.\n
+    \n
+    Kontakt:\n
+    segler_alex@web.de\n
+    \n
+    Bugtracker:\n
+    https://github.com/segler-alex/RadioDroid/issues\n
+    \n
+    Ich freue mich immer über Mails mit Verbesserungsvorschlägen. Falls ihr sonst irgendwie helfen wollt, gibt es immer bugs zu fixen :) Wenn du dein grafisches Talent sponsoren willst, wäre ich besonders dankbar! Speziell für schönere Icons, Hintergründe oder auch insgesamt ein besseres Design.\n
+    \n
+    Diese app steht wurde mit der GPLv3 lizenziert.\n
+    https://www.gnu.org/licenses/gpl-3.0.html.</string>
     <string name="detail_star">Favorit</string>
     <string name="detail_unstar">Löschen</string>
     <string name="progress_loading">Lade...</string>
@@ -54,6 +66,10 @@
     <string name="settings_starred_at_startup_on">Favoriten beim Starten von RadioDroid anzeigen</string>
     <string name="settings_starred_at_startup_off">Alle Sender beim Starten von RadioDroid anzeigen</string>
 
+    <string name="settings_load_icons">Stations-Icons zeigen</string>
+    <string name="settings_load_icons_on">Icons werden heruntergeladen</string>
+    <string name="settings_load_icons_off">Icons werden nicht heruntergeladen</string>
+
     <string name="settings_alarm">Alarm</string>
     <string name="settings_alarm_external">Öffne extern</string>
     <string name="settings_alarm_external_desc">Öffne mit externem Abspieler</string>
@@ -64,11 +80,16 @@
     <string name="settings_play_external">Öffne extern</string>
     <string name="settings_play_external_desc">Spiele Radios mit externem Player ab</string>
 
+    <string name="settings_warn_no_wifi">Warnen ohne WLAN Verbindung</string>
+    <string name="settings_warn_no_wifi_on">Warnung when keine WLAN Verbindung besteht</string>
+    <string name="settings_warn_no_wifi_off">Keine Warnung wenn keine WLAN Verbindung besteht</string>
+
     <string name="notify_start_proxy">Starte proxy..</string>
     <string name="notify_stop_player">Stoppe alte Wiedergabe..</string>
     <string name="notify_prepare_stream">Bereite Stream vor..</string>
     <string name="notify_try_play">Versuche Wiedergabe</string>
     <string name="notify_play">Wiedergabe</string>
+    <string name="notify_paused">Angehalten</string>
 
     <string name="error_stream_url">Problem mit dem Internetlink</string>
     <string name="error_caching_stream">Problem mit dem Zwischenspeichern</string>
@@ -91,6 +112,16 @@
     <string name="image_button_delete">Löschen</string>
     <string name="image_button_more">Mehr</string>
 
+    <string name="media_route_menu_title">GoogleCast</string>
+    <string name="app_id">Hostname</string>
+
+    <string name="settings_mpd">Music Player Daemon</string>
+    <string name="settings_mpd_hostname">Hostname</string>
+    <string name="settings_mpd_port">Port</string>
+    <string name="action_mpd_nok">MPD nicht verbunden</string>
+    <string name="action_mpd_ok">MPD verbunden</string>
+    <string name="refresh">Aktualisieren</string>
+
     <string-array name="weekdays">
         <item>S</item>
         <item>M</item>
@@ -101,4 +132,6 @@
         <item>S</item>
     </string-array>
 
+    <string name="no_wifi_title">Keine WLAN Verbindung</string>
+    <string name="no_wifi_connection">Keine WLAN Verbindung zum Starten von %1$s. Drücken Sie \'Ok\' um fortzufahren.</string>
 </resources>
