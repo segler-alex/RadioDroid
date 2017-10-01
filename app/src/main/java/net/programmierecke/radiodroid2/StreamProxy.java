@@ -118,7 +118,6 @@ public class StreamProxy {
         }
 
         stopRecord();
-        responseBody.close();
     }
 
     private int readMetaData(InputStream inputStream) throws IOException {
@@ -165,26 +164,32 @@ public class StreamProxy {
                 .build();
 
         Response response = httpClient.newCall(request).execute();
-        ResponseBody responseBody = response.body();
 
-        InputStream inContent = responseBody.byteStream();
-        boolean recordActive = false;
-        if (fileOutputStream != null) {
-            recordActive = true;
-        }
+        try {
+            ResponseBody responseBody = response.body();
 
-        byte[] bufContent = new byte[1000];
-        while (!isStopped) {
-            int bytesRead = inContent.read(bufContent);
-            if (bytesRead < 0) {
-                break;
+            InputStream inContent = responseBody.byteStream();
+            boolean recordActive = false;
+            if (fileOutputStream != null) {
+                recordActive = true;
             }
-            connectionBytesTotal += bytesRead;
-            outStream.write(bufContent, 0, bytesRead);
-            if ((fileOutputStream != null) && recordActive) {
-                Log.v(TAG, "writing to record file..");
-                fileOutputStream.write(bufContent, 0, bytesRead);
+
+            byte[] bufContent = new byte[1000];
+            while (!isStopped) {
+                int bytesRead = inContent.read(bufContent);
+                if (bytesRead < 0) {
+                    break;
+                }
+                connectionBytesTotal += bytesRead;
+                outStream.write(bufContent, 0, bytesRead);
+                if ((fileOutputStream != null) && recordActive) {
+                    Log.v(TAG, "writing to record file..");
+                    fileOutputStream.write(bufContent, 0, bytesRead);
+                }
             }
+        } catch (Exception e) {
+            response.close();
+            throw e;
         }
     }
 
@@ -243,11 +248,17 @@ public class StreamProxy {
                         .build();
 
                 Response response = httpClient.newCall(request).execute();
-                ResponseBody newResponseBody = response.body();
 
-                URL newStreamUrl = request.url().url();
+                try {
+                    ResponseBody newResponseBody = response.body();
+                    URL newStreamUrl = request.url().url();
 
-                proxyHlsStream(newStreamUrl, newResponseBody, outStream);
+                    proxyHlsStream(newStreamUrl, newResponseBody, outStream);
+                } catch (Exception e) {
+                    response.close();
+                    throw e;
+                }
+
                 break;
             }
         }
@@ -258,6 +269,10 @@ public class StreamProxy {
             final int MaxRetries = 100;
             int retry = MaxRetries;
             while (!isStopped && retry > 0) {
+                ResponseBody responseBody = null;
+                Socket socketProxy = null;
+                OutputStream outputStream = null;
+
                 try {
                     // connect to stream
                     if (BuildConfig.DEBUG) {
@@ -274,7 +289,7 @@ public class StreamProxy {
                             .build();
 
                     final Response response = httpClient.newCall(request).execute();
-                    final ResponseBody responseBody = response.body();
+                    responseBody = response.body();
                     assert responseBody != null;
 
                     final MediaType contentType = responseBody.contentType();
@@ -294,12 +309,12 @@ public class StreamProxy {
                     }
 
                     callback.streamCreated(localAddress);
-                    final Socket socketProxy = proxyServer.accept();
+                    socketProxy = proxyServer.accept();
                     proxyServer.close();
 
                     // send ok message to local mediaplayer
                     if (BuildConfig.DEBUG) Log.d(TAG, "sending OK to the local media player");
-                    final OutputStream outputStream = socketProxy.getOutputStream();
+                    outputStream = socketProxy.getOutputStream();
                     outputStream.write(("HTTP/1.0 200 OK\r\n" +
                             "Pragma: no-cache\r\n" +
                             "Content-Type: " + contentType +
@@ -328,6 +343,20 @@ public class StreamProxy {
                     break;
                 } catch (Exception e) {
                     Log.e(TAG, "exception occurred inside the connection loop, retry.", e);
+                } finally {
+                    if (responseBody != null) {
+                        responseBody.close();
+                    }
+                    try {
+                        if (socketProxy != null) {
+                            socketProxy.close();
+                        }
+                        if (outputStream != null) {
+                            outputStream.close();
+                        }
+                    } catch (IOException e) {
+                        Log.e(TAG, "exception occurred while closing resources.", e);
+                    }
                 }
 
                 retry--;
