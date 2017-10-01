@@ -83,7 +83,7 @@ public class StreamProxy {
         int readBytesBuffer = 0;
 
         while (!isStopped) {
-            int readBytes = 0;
+            int readBytes;
             if (!streamHasMetaData || (bytesUntilMetaData > 0)) {
                 int bytesToRead = Math.min(buf.length - readBytesBuffer, inputStream.available());
                 if (streamHasMetaData) {
@@ -125,7 +125,7 @@ public class StreamProxy {
         int metadataBytes = inputStream.read() * 16;
         int metadataBytesToRead = metadataBytes;
         int readBytesBufferMetadata = 0;
-        int readBytes = 0;
+        int readBytes;
 
         if (BuildConfig.DEBUG) Log.d(TAG, "metadata size:" + metadataBytes);
         if (metadataBytes > 0) {
@@ -189,8 +189,8 @@ public class StreamProxy {
     }
 
     private boolean containsString(ArrayList<String> list, String item) {
-        for (int i = 0; i < list.size(); i++) {
-            if (item.equals(list.get(i))) {
+        for (String aList : list) {
+            if (item.equals(aList)) {
                 return true;
             }
         }

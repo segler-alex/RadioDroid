@@ -15,7 +15,6 @@ import net.programmierecke.radiodroid2.interfaces.IAdapterRefreshable;
 
 public class FragmentStarred extends Fragment implements IAdapterRefreshable {
     private ListView lv;
-    private DataRadioStation[] data = new DataRadioStation[0];
 
     public FragmentStarred() {
     }
@@ -37,7 +36,6 @@ public class FragmentStarred extends Fragment implements IAdapterRefreshable {
             FavouriteManager favouriteManager = new FavouriteManager(getActivity());
             ItemAdapterStation arrayAdapter = (ItemAdapterStation) lv.getAdapter();
             arrayAdapter.clear();
-            if(BuildConfig.DEBUG) { Log.d("ABC","Station count:"+data.length); }
             for (DataRadioStation aStation : favouriteManager.getList()) {
                 arrayAdapter.add(aStation);
             }

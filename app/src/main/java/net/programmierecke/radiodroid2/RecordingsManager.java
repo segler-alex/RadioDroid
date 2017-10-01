@@ -31,8 +31,7 @@ public class RecordingsManager {
         File folder = new File(path);
         File[] files = folder.listFiles();
         if (files != null) {
-            for (int i = 0; i < files.length; i++) {
-                File f = files[i];
+            for (File f : files) {
                 DataRecording dr = new DataRecording();
                 dr.Name = f.getName();
                 dr.Time = new Date(f.lastModified());

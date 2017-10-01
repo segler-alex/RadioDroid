@@ -15,7 +15,6 @@ import net.programmierecke.radiodroid2.data.DataRadioStationAlarm;
 import net.programmierecke.radiodroid2.interfaces.IChanged;
 
 public class FragmentAlarm extends Fragment implements TimePickerDialog.OnTimeSetListener, IChanged {
-    private ListView lv;
     private RadioAlarmManager ram;
     private ItemAdapterRadioAlarm adapterRadioAlarm;
 
@@ -29,7 +28,7 @@ public class FragmentAlarm extends Fragment implements TimePickerDialog.OnTimeSe
         View view = inflater.inflate(R.layout.layout_alarms, container, false);
 
         adapterRadioAlarm = new ItemAdapterRadioAlarm(getActivity());
-        lv = (ListView)view.findViewById(R.id.listViewAlarms);
+        ListView lv = (ListView) view.findViewById(R.id.listViewAlarms);
         lv.setAdapter(adapterRadioAlarm);
         lv.setClickable(true);
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {

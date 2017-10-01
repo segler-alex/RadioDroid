@@ -72,10 +72,10 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
 			File dir = new File(getFilesDir().getAbsolutePath());
 			if (dir.isDirectory()) {
 				String[] children = dir.list();
-				for (int i = 0; i < children.length; i++) {
-					if(BuildConfig.DEBUG) { Log.d("MAIN", "delete file:" + children[i]); }
+				for (String aChildren : children) {
+					if(BuildConfig.DEBUG) { Log.d("MAIN", "delete file:" + aChildren); }
 					try {
-						new File(dir, children[i]).delete();
+						new File(dir, aChildren).delete();
 					}
 					catch (Exception e){}
 				}
@@ -277,7 +277,7 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
 			sharedPref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 		}
 
-		Fragment first = null;
+		Fragment first;
 		if (sharedPref.getBoolean("starred_at_startup", false)) {
 			FragmentStarred fragStarred = new FragmentStarred();
 			getSupportActionBar().setTitle(R.string.nav_item_starred);
@@ -309,7 +309,7 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
 
 	@Override
 	public boolean onQueryTextSubmit(String query) {
-		String queryEncoded = null;
+		String queryEncoded;
 		try {
 			mSearchView.setQuery("", false);
 			mSearchView.clearFocus();

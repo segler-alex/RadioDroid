@@ -2,7 +2,6 @@ package net.programmierecke.radiodroid2.data;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 import android.content.Context;
 import android.text.TextUtils;

@@ -9,19 +9,14 @@ import android.support.v4.app.Fragment;
 import android.support.v7.preference.PreferenceManager;
 import android.text.TextUtils;
 import android.util.Log;
-import android.widget.ListView;
 import android.widget.Toast;
-
-import net.programmierecke.radiodroid2.data.DataRadioStation;
 
 import java.util.HashMap;
 
 public class FragmentBase extends Fragment {
     private ProgressDialog itsProgressLoading;
-    private ListView lv;
     private String url;
     private String urlResult;
-    private DataRadioStation[] stations = new DataRadioStation[0];
     private Context mycontext;
 
     public FragmentBase() {
