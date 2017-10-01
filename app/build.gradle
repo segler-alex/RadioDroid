@@ -37,6 +37,7 @@ dependencies {
     compile 'com.android.support:preference-v7:25.2.0'
     compile 'com.android.support:mediarouter-v7:25.2.0'
     compile 'com.google.code.gson:gson:2.7'
+    compile 'com.squareup.okhttp3:okhttp:3.9.0'
     compile 'com.google.android.exoplayer:exoplayer:r2.3.1'
     playCompile 'com.google.android.gms:play-services-cast:11.0.2'
     playCompile 'com.google.android.gms:play-services-cast-framework:11.0.2'
