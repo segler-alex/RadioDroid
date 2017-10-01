@@ -302,7 +302,7 @@ public class StreamProxy {
                     final OutputStream outputStream = socketProxy.getOutputStream();
                     outputStream.write(("HTTP/1.0 200 OK\r\n" +
                             "Pragma: no-cache\r\n" +
-                            "Content-Type: " + contentType.type() +
+                            "Content-Type: " + contentType +
                             "\r\n\r\n").getBytes("utf-8"));
 
                     final String type = contentType.toString().toLowerCase();
