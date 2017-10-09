@@ -49,9 +49,10 @@
     <string name="settings_show_broken_on">Show broken stations in lists</string>
     <string name="settings_show_broken_off">Do not show broken stations in lists</string>
 
-    <string name="settings_starred_at_startup">Starred stations at startup</string>
-    <string name="settings_starred_at_startup_on">Show starred stations when starting RadioDroid</string>
-    <string name="settings_starred_at_startup_off">Show all stations when starting RadioDroid</string>
+    <string name="startup_action_title">Start action</string>
+    <string name="startup_show_all_stations">show all stations</string>
+    <string name="startup_show_favorites">show favorites</string>
+    <string name="startup_show_history">show history</string>
 
     <string name="settings_load_icons">Show station icons</string>
     <string name="settings_load_icons_on">Icons will be downloaded</string>

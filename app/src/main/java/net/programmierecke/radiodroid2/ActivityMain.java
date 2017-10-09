@@ -278,12 +278,20 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
 		}
 
 		Fragment first;
-		if (sharedPref.getBoolean("starred_at_startup", false)) {
+		if (sharedPref.getString("startup_action", getResources().getString(R.string.startup_show_all_stations))
+				.equals(getResources().getString(R.string.startup_show_favorites))) {
 			FragmentStarred fragStarred = new FragmentStarred();
 			getSupportActionBar().setTitle(R.string.nav_item_starred);
 			fragSearchable = null;
 			fragRefreshable = null;
 			first = fragStarred;
+		} else if (sharedPref.getString("startup_action", getResources().getString(R.string.startup_show_all_stations))
+				.equals(getResources().getString(R.string.startup_show_history))) {
+			FragmentHistory fragHistory = new FragmentHistory();
+			getSupportActionBar().setTitle(R.string.nav_item_history);
+			fragSearchable = null;
+			fragRefreshable = null;
+			first = fragHistory;
 		} else {
 			FragmentTabs fragTabs = new FragmentTabs();
 			getSupportActionBar().setTitle(R.string.nav_item_stations);

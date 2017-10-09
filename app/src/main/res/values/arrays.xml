@@ -24,4 +24,16 @@
         <item>45</item>
         <item>60</item>
     </string-array>
+
+    <string-array name="startup_action_entries">
+        <item>@string/startup_show_all_stations</item>
+        <item>@string/startup_show_favorites</item>
+        <item>@string/startup_show_history</item>
+    </string-array>
+    <string-array name="startup_action_entryvalues">
+        <item>@string/startup_show_all_stations</item>
+        <item>@string/startup_show_favorites</item>
+        <item>@string/startup_show_history</item>
+    </string-array>
+
 </resources>
