@@ -49,9 +49,10 @@
     <string name="settings_show_broken_on">Zeige nicht funktionierende Stationen in Listen</string>
     <string name="settings_show_broken_off">Verstecke nicht funktionierende Stationen in Listen</string>
 
-    <string name="settings_starred_at_startup">Favoriten als erstes zeigen</string>
-    <string name="settings_starred_at_startup_on">Favoriten beim Starten von RadioDroid anzeigen</string>
-    <string name="settings_starred_at_startup_off">Alle Sender beim Starten von RadioDroid anzeigen</string>
+    <string name="startup_action_title">Startverhalten</string>
+    <string name="startup_show_all_stations">Starte mit der Liste aller Sender</string>
+    <string name="startup_show_favorites">Starte mit der Favoritenliste</string>
+    <string name="startup_show_history">Starte mit der Liste bisher gespielter Sender (Verlaufsanzeige)</string>
 
     <string name="settings_load_icons">Stations-Icons zeigen</string>
     <string name="settings_load_icons_on">Icons werden heruntergeladen</string>

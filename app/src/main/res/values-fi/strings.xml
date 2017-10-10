@@ -50,10 +50,6 @@
     <string name="settings_show_broken_on">Näytä rikkinäiset asemat</string>
     <string name="settings_show_broken_off">Älä näytä rikkinäisiä asemia</string>
 
-    <string name="settings_starred_at_startup">Suosikkiasemat käynnistyksen yhteydessä</string>
-    <string name="settings_starred_at_startup_on">Näytä suosikkiasemat RadioDroidin käynnistyksen yhteydessä</string>
-    <string name="settings_starred_at_startup_off">Näytä kaikki asemat RadioDroidin käynnistyksen yhteydessä</string>
-
     <string name="settings_alarm">Hälytys</string>
     <string name="settings_alarm_external">Avaa ulkoisella</string>
     <string name="settings_alarm_external_desc">Käytä ulkoista oletussovellusta</string>

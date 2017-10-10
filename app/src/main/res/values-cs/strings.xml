@@ -49,10 +49,6 @@
     <string name="settings_show_broken_on">Zobrazovat nefunkční stanice v seznamech</string>
     <string name="settings_show_broken_off">Nezobrazovat nefunkční stanice v seznamech</string>
 
-    <string name="settings_starred_at_startup">Oblíbené stanice po spuštění</string>
-    <string name="settings_starred_at_startup_on">Zobrazit oblíbené stanice po spuštění RadioDroid</string>
-    <string name="settings_starred_at_startup_off">Zobrazit všechny stanice po spuštění RadioDroid</string>
-
     <string name="settings_alarm">Alarm</string>
     <string name="settings_alarm_external">Otevřít externě</string>
     <string name="settings_alarm_external_desc">Otevřít alarm s výchozí externí aplikací</string>

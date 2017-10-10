@@ -49,10 +49,6 @@
     <string name="settings_show_broken_on">Afficher les stations défectueuses dans les listes de stations</string>
     <string name="settings_show_broken_off">Ne pas afficher les stations défectueuses dans les listes de stations</string>
     
-    <string name="settings_starred_at_startup">Favoris au démarrage</string>
-    <string name="settings_starred_at_startup_on">Montre les stations en favoris au démarrage de RadioDroid</string>
-    <string name="settings_starred_at_startup_off">Montre toutes les stations au démarrage de RadioDroid</string>
-    
     <string name="settings_alarm">Alarme</string>
     <string name="settings_alarm_external">Ouverture avec une application externe</string>
     <string name="settings_alarm_external_desc">Jouer l\'alarme avec l\'application externe par défaut</string>
