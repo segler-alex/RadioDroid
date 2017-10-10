@@ -36,3 +36,4 @@ local.properties
 .signing/
 
 build/*
+.DS_Store
