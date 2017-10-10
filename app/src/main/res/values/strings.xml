@@ -50,9 +50,10 @@
     <string name="settings_show_broken_off">Do not show broken stations in lists</string>
 
     <string name="startup_action_title">Start action</string>
-    <string name="startup_show_all_stations">show all stations</string>
-    <string name="startup_show_favorites">show favorites</string>
-    <string name="startup_show_history">show history</string>
+    <string name="startup_action_title_desc">%s</string>
+    <string name="startup_show_all_stations">Show all stations</string>
+    <string name="startup_show_favorites">Show favorites</string>
+    <string name="startup_show_history">Show history</string>
 
     <string name="settings_load_icons">Show station icons</string>
     <string name="settings_load_icons_on">Icons will be downloaded</string>

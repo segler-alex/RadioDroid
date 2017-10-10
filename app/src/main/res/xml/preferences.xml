@@ -21,8 +21,8 @@
             android:defaultValue="@string/startup_show_all_stations"
             android:entries="@array/startup_action_entries"
             android:entryValues="@array/startup_action_entryvalues"
-            android:summary="%s"
-            android:title="@string/startup_action_title" />
+            android:summary="@string/startup_action_title_desc"
+            android:title="@string/startup_action_title"/>
 
         <CheckBoxPreference
             android:key="load_icons"

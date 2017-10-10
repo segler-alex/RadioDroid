@@ -49,10 +49,6 @@
     <string name="settings_show_broken_on">V zozname sa zobrazia aj nefunkčné stanice</string>
     <string name="settings_show_broken_off">V zozname sa nezobrazia nefunkčné stanice</string>
 
-    <string name="settings_starred_at_startup">Obľúbené stanice po spustení</string>
-    <string name="settings_starred_at_startup_on">Po spustení RadioDroid sa zobrazia len obľúbené stanice</string>
-    <string name="settings_starred_at_startup_off">Po spustení RadioDroid sa zobrazia všetky stanice</string>
-
     <string name="settings_alarm">Budík</string>
     <string name="settings_alarm_external">Otvoriť externú aplikáciu</string>
     <string name="settings_alarm_external_desc">Budík sa otvorí v predvolenej externej aplikácii</string>

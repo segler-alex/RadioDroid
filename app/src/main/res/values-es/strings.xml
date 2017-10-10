@@ -49,10 +49,6 @@
     <string name="settings_show_broken_on">Mostrar estaciones rotas en las listas</string>
     <string name="settings_show_broken_off">No mostrar estaciones rotas en las listas</string>
 
-    <string name="settings_starred_at_startup">Estaciones favoritas al inicio</string>
-    <string name="settings_starred_at_startup_on">Mostrar las estaciones favoritas al iniciar RadioDroid</string>
-    <string name="settings_starred_at_startup_off">Mostrar todas las estaciones al iniciar RadioDroid</string>
-
     <string name="settings_alarm">Alarma</string>
     <string name="settings_alarm_external">Abrir externa</string>
     <string name="settings_alarm_external_desc">Abrir la alarma con la aplicación externa predeterminada</string>
