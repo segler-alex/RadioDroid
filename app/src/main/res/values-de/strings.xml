@@ -17,14 +17,14 @@
     <string name="action_tags">Tags</string>
     <string name="action_countries">Länder</string>
     <string name="action_languages">Sprachen</string>
-    <string name="error_station_load">Es konnte leider keine Verbindung zur Radiostation hergestellt werden.</string>
-    <string name="error_list_update">Verbindung mit radio browser server fehlgeschlagen.</string>
+    <string name="error_station_load">Es konnte keine Verbindung zur Radiostation hergestellt werden.</string>
+    <string name="error_list_update">Die Verbindung zur Stationsliste (Radio-Browser-Server) schlug fehl.</string>
 
-    <string name="share_action">Teile Radio-Internet Link mit..</string>
+    <string name="share_action">Teile Radio-Internet Link mit…</string>
 
     <string name="nav_item_stations">Radios</string>
     <string name="nav_item_starred">Favoriten</string>
-    <string name="nav_item_history">Verlauf</string>
+    <string name="nav_item_history">Bisher gespielt</string>
     <string name="nav_item_settings">Einstellungen</string>
     <string name="nav_item_alarm">Wecker</string>
     <string name="nav_item_statistics">Statistik</string>
@@ -32,31 +32,31 @@
     <string name="nav_item_recordings">Aufnahmen</string>
     <string name="nav_item_player_status">Abspieler Status</string>
 
-    <string name="about_text">Diese app basiert auf dem freien Radioverzeichnis auf\nhttps://www.radio-browser.info\nJeder kann hier mithelfen, um das Verzeichnis aktuell zu halten. Es funktioniert im Prinzip so wie ein Wiki für Online(Streaming) Radio-Stationen.\n\nKontakt:\nsegler_alex@web.de\n\nBugtracker:\nhttps://github.com/segler-alex/RadioDroid/issues\n\nIch freue mich immer über Mails mit Verbesserungsvorschlägen. Falls ihr sonst irgendwie helfen wollt, gibt es immer bugs zu fixen :) Wenn du dein grafisches Talent sponsoren willst, wäre ich besonders dankbar! Speziell für schönere Icons, Hintergründe oder auch insgesamt ein besseres Design.\n\nDiese app steht wurde mit der GPLv3 lizenziert.\nhttps://www.gnu.org/licenses/gpl-3.0.html.</string>
-    <string name="detail_star">Favorit</string>
-    <string name="detail_unstar">Löschen</string>
+    <string name="about_text">Diese App basiert auf dem freien Radioverzeichnis auf\nhttps://www.radio-browser.info\nDie Liste der Online(Streaming)-Radio-Stationen funktioniert nach dem Wiki-Prinzip: jeder kann hier mithelfen, das Stationsverzeichnis aktuell zu halten.\n\nKontakt:\nsegler_alex@web.de\n\nBugtracker:\nhttps://github.com/segler-alex/RadioDroid/issues\n\nIch freue mich immer über Mails mit Verbesserungsvorschlägen. Falls ihr sonst irgendwie helfen wollt, gibt es immer bugs zu fixen :) Wenn du dein grafisches Talent sponsoren willst, wäre ich besonders dankbar! Speziell für schönere Icons, Hintergründe oder auch insgesamt ein besseres Design.\n\nDiese app steht wurde mit der GPLv3 lizenziert.\nhttps://www.gnu.org/licenses/gpl-3.0.html.</string>
+    <string name="detail_star">Als Favorit setzen</string>
+    <string name="detail_unstar">Als Favorit löschen</string>
     <string name="progress_loading">Lade...</string>
 
     <string name="sleep_timer" formatted="true">Schlaftimer: %1$02d:%2$02d</string>
     <string name="nav_item_add_sleep">+15 mins</string>
 
     <string name="settings_general">Allgemein</string>
-    <string name="settings_single_use_tags">Zeige einmalige Tags</string>
-    <string name="settings_single_use_tags_desc_off">Zeige einmal vorkommende Tags nicht.</string>
-    <string name="settings_single_use_tags_desc_on">Zeige einmal vorkommende Tags.</string>
+    <string name="settings_single_use_tags">Tag-Anzeigefilter</string>
+    <string name="settings_single_use_tags_desc_off">Nur einmal vorkommende Tags werden nicht angezeigt.</string>
+    <string name="settings_single_use_tags_desc_on">Alle Tags werden angezeigt, auch nur einmal vorkommende.</string>
 
-    <string name="settings_show_broken">Defekte Stationen</string>
-    <string name="settings_show_broken_on">Zeige nicht funktionierende Stationen in Listen</string>
-    <string name="settings_show_broken_off">Verstecke nicht funktionierende Stationen in Listen</string>
+    <string name="settings_show_broken">Stations-Anzeigefilter</string>
+    <string name="settings_show_broken_on">Alle Stationen werden angezeigt, auch nicht funktionierende.</string>
+    <string name="settings_show_broken_off">Es werden nur funktionierende Stationen angezeigt, nicht funktionierende werden unterdrückt.</string>
 
     <string name="startup_action_title">Startverhalten</string>
-    <string name="startup_show_all_stations">Starte mit der Liste aller Sender</string>
-    <string name="startup_show_favorites">Starte mit der Favoritenliste</string>
-    <string name="startup_show_history">Starte mit der Liste bisher gespielter Sender (Verlaufsanzeige)</string>
+    <string name="startup_show_all_stations">Starte mit der Listenansicht aller verfügbaren Sender.</string>
+    <string name="startup_show_favorites">Starte mit Deiner Favoritenliste.</string>
+    <string name="startup_show_history">Starte mit der Liste Deiner bisher gespielten Sender (Verlaufsanzeige).</string>
 
-    <string name="settings_load_icons">Stations-Icons zeigen</string>
-    <string name="settings_load_icons_on">Icons werden heruntergeladen</string>
-    <string name="settings_load_icons_off">Icons werden nicht heruntergeladen</string>
+    <string name="settings_load_icons">Stations-Logos</string>
+    <string name="settings_load_icons_on">Die Stations-Logos werden im Hintergrund heruntergeladen; es kann einige Zeit dauern, bis alle Logos angezeigt werden.</string>
+    <string name="settings_load_icons_off">Es werden keine Stations-Logos heruntergeladen.</string>
 
     <string name="settings_alarm">Alarm</string>
     <string name="settings_alarm_external">Öffne extern</string>
@@ -66,23 +66,23 @@
     <string name="settings_alarm_sleep_timer_desc">Nach %1$s Minuten stoppen</string>
     <string name="settings_play">Abspieler</string>
     <string name="settings_play_external">Öffne extern</string>
-    <string name="settings_play_external_desc">Spiele Radios mit externem Player ab</string>
+    <string name="settings_play_external_desc">Spiele Radios mit externem Player ab.</string>
 
-    <string name="settings_warn_no_wifi">Warnen ohne WLAN Verbindung</string>
-    <string name="settings_warn_no_wifi_on">Warnung when keine WLAN Verbindung besteht</string>
-    <string name="settings_warn_no_wifi_off">Keine Warnung wenn keine WLAN Verbindung besteht</string>
+    <string name="settings_warn_no_wifi">WLAN-Verbindung</string>
+    <string name="settings_warn_no_wifi_on">Es wird eine Warnung angezeigt, wenn keine WLAN-Verbindung verfügbar ist.</string>
+    <string name="settings_warn_no_wifi_off">Es wird keine Warnung angezeigt, wenn keine WLAN-Verbindung verfügbar ist.</string>
 
-    <string name="notify_start_proxy">Starte proxy..</string>
-    <string name="notify_stop_player">Stoppe alte Wiedergabe..</string>
-    <string name="notify_prepare_stream">Bereite Stream vor..</string>
+    <string name="notify_start_proxy">Starte proxy…</string>
+    <string name="notify_stop_player">Stoppe Wiedergabe…</string>
+    <string name="notify_prepare_stream">Wiedergabe wird vorbereitet…</string>
     <string name="notify_try_play">Versuche Wiedergabe</string>
     <string name="notify_play">Wiedergabe</string>
 
     <string name="error_stream_url">Problem mit dem Internetlink</string>
     <string name="error_caching_stream">Problem mit dem Zwischenspeichern</string>
-    <string name="error_play_stream">Wiedergabe des Streams gescheitert</string>
+    <string name="error_play_stream">Stream-Wiedergabe schlug fehl.</string>
 
-    <string name="error_record_needs_write">Aufnahme benötigt Schreibberechtigung!</string>
+    <string name="error_record_needs_write">Die Aufnahmefunktion benötigt Schreibberechtigung!</string>
     <string name="error_grant_audiofocus">Das System gab den Audiokanal nicht frei.</string>
 
     <string name="player_info_status">STATUS:</string>
@@ -109,6 +109,6 @@
         <item>S</item>
     </string-array>
 
-    <string name="no_wifi_title">Keine WLAN Verbindung</string>
-    <string name="no_wifi_connection">Keine WLAN Verbindung zum Starten von %1$s. Drücken Sie \'Ok\' um fortzufahren.</string>
+    <string name="no_wifi_title">Keine WLAN-Verbindung</string>
+    <string name="no_wifi_connection">Es ist keine WLAN-Verbindung zum Starten von %1$s verfügbar.\n\nDrücken Sie \'OK\', um fortzufahren.</string>
 </resources>
