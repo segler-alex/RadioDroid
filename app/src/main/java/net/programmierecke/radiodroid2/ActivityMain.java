@@ -88,6 +88,8 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
 
 		PlayerServiceUtil.bind(this);
 
+		PreferenceManager.setDefaultValues (this, R.xml.preferences , false);
+
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 		getSupportActionBar().setHomeButtonEnabled(true);
 
