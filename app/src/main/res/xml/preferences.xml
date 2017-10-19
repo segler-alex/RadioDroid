@@ -4,18 +4,6 @@
     <PreferenceCategory
         android:title="@string/settings_general">
 
-        <CheckBoxPreference
-            android:key="single_use_tags"
-            android:title="@string/settings_single_use_tags"
-            android:summaryOn="@string/settings_single_use_tags_desc_on"
-            android:summaryOff="@string/settings_single_use_tags_desc_off" />
-
-        <CheckBoxPreference
-            android:key="show_broken"
-            android:title="@string/settings_show_broken"
-            android:summaryOn="@string/settings_show_broken_on"
-            android:summaryOff="@string/settings_show_broken_off" />
-
         <ListPreference
             android:key="startup_action"
             android:defaultValue="@string/startup_show_all_stations"
@@ -26,9 +14,22 @@
 
         <CheckBoxPreference
             android:key="load_icons"
+            android:defaultValue="true"
             android:title="@string/settings_load_icons"
             android:summaryOn="@string/settings_load_icons_on"
             android:summaryOff="@string/settings_load_icons_off" />
+
+        <CheckBoxPreference
+            android:key="show_broken"
+            android:title="@string/settings_show_broken"
+            android:summaryOn="@string/settings_show_broken_on"
+            android:summaryOff="@string/settings_show_broken_off" />
+
+        <CheckBoxPreference
+            android:key="single_use_tags"
+            android:title="@string/settings_single_use_tags"
+            android:summaryOn="@string/settings_single_use_tags_desc_on"
+            android:summaryOff="@string/settings_single_use_tags_desc_off" />
 
     </PreferenceCategory>
 
