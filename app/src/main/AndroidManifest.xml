@@ -33,7 +33,7 @@
 
         <activity
             android:name="net.programmierecke.radiodroid2.ActivityPlayerInfo"
-            android:label="PlayerInfo"
+            android:label="@string/nav_item_player_status"
             android:noHistory="true" />
 
         <receiver
