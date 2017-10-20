@@ -99,6 +99,12 @@ android.applicationVariants.all { variant ->
 
         resValue 'string', 'GIT_HASH', gitHash()
 
+        def getBuildDate = {
+            new Date().format('yyyy-MM-dd HH:mm:ss')
+        }
+
+        resValue 'string', 'BUILD_DATE', getBuildDate()
+
         def finalName = appName
 
         if (!versionName.isEmpty()) {
