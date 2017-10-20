@@ -12,7 +12,7 @@ android {
         minSdkVersion 14
         targetSdkVersion 23
 
-        versionCode 47
+        versionCode 48
         versionName "0.38"
 
         // Define your application name here.
@@ -61,9 +61,10 @@ android.applicationVariants.all { variant ->
 
         // get app_name field from defaultConfig
         def appName = variant.mergedFlavor.resValues.get('app_name').getValue()
+        appName = "${appName}"
 
         // concat new App name with each flavor's name
-        appName = "${appName}"
+
         variant.productFlavors.each { flavor ->
             appName += "-${flavor.name}"
         }
@@ -83,7 +84,7 @@ android.applicationVariants.all { variant ->
          * Gets the version name from the latest Git tag
          */
 
-        def getGitHash = { ->
+        def gitHash = { ->
             def stdout = new ByteArrayOutputStream()
             try {
                 exec {
@@ -96,8 +97,15 @@ android.applicationVariants.all { variant ->
             }
         }
 
-        def finalName = appName + "-" + versionName + "-"
-        finalName += getGitHash() + ".apk"
+        resValue 'string', 'GIT_HASH', gitHash()
+
+        def finalName = appName
+
+        if (!versionName.isEmpty()) {
+            finalName += "-" + versionName
+        }
+
+        finalName += "-" + gitHash() + ".apk"
         output.outputFile = new File(output.outputFile.parent, finalName)
 
     }

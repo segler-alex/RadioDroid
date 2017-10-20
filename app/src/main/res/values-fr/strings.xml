@@ -27,7 +27,7 @@
     <string name="nav_item_settings">Réglages</string>
     <string name="nav_item_alarm">Réveil</string>
     <string name="nav_item_statistics">Statistiques</string>
-    <string name="nav_item_about">À propos</string>
+    <string name="nav_item_about">À propos RadioDroid</string>
     <string name="nav_item_recordings">Enregistrements</string>
      <string name="nav_item_player_status">État du lecteur</string>
 

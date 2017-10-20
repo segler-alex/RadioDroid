@@ -21,18 +21,17 @@
 
     <string name="share_action">Teile Radio-Internet Link mit…</string>
 
-    <string name="nav_item_stations">Radios</string>
+    <string name="nav_item_stations">Stationsliste und -suche</string>
     <string name="nav_item_starred">Favoriten</string>
     <string name="nav_item_history">Bisher gespielt</string>
     <string name="nav_item_settings">Einstellungen</string>
     <string name="nav_item_alarm">Wecker</string>
     <string name="nav_item_statistics">Statistik</string>
-    <string name="nav_item_about">Über</string>
+    <string name="nav_item_about">Über RadioDroid</string>
     <string name="nav_item_recordings">Aufnahmen</string>
-    <string name="nav_item_player_status">Abspieler Status</string>
+    <string name="nav_item_player_status">Wiedergabestatus</string>
 
-    <string name="about_text">Diese App basiert auf dem freien Radioverzeichnis auf\nhttps://www.radio-browser.info\nDie Liste der Online(Streaming)-Radio-Stationen funktioniert nach dem Wiki-Prinzip: jeder kann hier mithelfen, das Stationsverzeichnis aktuell zu halten.\n\nKontakt:\nsegler_alex@web.de\n\nBugtracker:\nhttps://github.com/segler-alex/RadioDroid/issues\n\nIch freue mich immer über Mails mit Verbesserungsvorschlägen. Falls ihr sonst irgendwie helfen wollt, gibt es immer bugs zu fixen :) Wenn du dein grafisches Talent sponsoren willst, wäre ich besonders dankbar! Speziell für schönere Icons, Hintergründe oder auch insgesamt ein besseres Design.\n\nDiese app steht wurde mit der GPLv3 lizenziert.\nhttps://www.gnu.org/licenses/gpl-3.0.html.</string>
-    <string name="about_version">Version: %1$s</string>
+    <string name="about_text">Diese App basiert auf dem freien Internetradio-Stationsverzeichnis https://www.radio-browser.info .\n\nDas Stationsverzeichnis funktioniert nach dem Wiki-Prinzip: jeder, auch Du, kann mithelfen, es aktuell zu halten.\n\nKontakt:\nsegler_alex@web.de\n\nSourcecode und Bugtracker:\nhttps://github.com/segler-alex/RadioDroid/issues\n\nIch freue mich immer über Mails mit Verbesserungsvorschlägen. Falls Du sonst irgendwie helfen willst: es gibt immer Bugs zu fixen :). Wenn Du Dein grafisches Talent sponsoren willst, wäre ich besonders dankbar! Speziell für schönere Icons, Hintergründe oder auch insgesamt ein besseres Design.\n\nDiese App wurde mit der GPLv3 https://www.gnu.org/licenses/gpl-3.0.html lizenziert.</string>
     <string name="detail_star">Als Favorit setzen</string>
     <string name="detail_unstar">Als Favorit löschen</string>
     <string name="progress_loading">Lade...</string>
@@ -50,9 +49,9 @@
     <string name="settings_show_broken_off">Es werden nur funktionierende Stationen angezeigt, nicht funktionierende werden unterdrückt.</string>
 
     <string name="startup_action_title">Startverhalten</string>
-    <string name="startup_show_all_stations">Starte mit der Listenansicht aller verfügbaren Sender.</string>
+    <string name="startup_show_all_stations">Starte mit der Listenansicht aller verfügbaren Stationen.</string>
     <string name="startup_show_favorites">Starte mit Deiner Favoritenliste.</string>
-    <string name="startup_show_history">Starte mit der Liste Deiner bisher gespielten Sender (Verlaufsanzeige).</string>
+    <string name="startup_show_history">Starte mit der Liste Deiner bisher gespielten Stationen.</string>
 
     <string name="settings_load_icons">Stations-Logos</string>
     <string name="settings_load_icons_on">Die Stations-Logos werden im Hintergrund heruntergeladen; es kann einige Zeit dauern, bis alle Logos angezeigt werden.</string>
@@ -73,7 +72,7 @@
     <string name="settings_warn_no_wifi_off">Es wird keine Warnung angezeigt, wenn keine WLAN-Verbindung verfügbar ist.</string>
 
     <string name="notify_start_proxy">Starte proxy…</string>
-    <string name="notify_stop_player">Stoppe Wiedergabe…</string>
+    <string name="notify_stop_player">Stoppe laufende Wiedergabe…</string>
     <string name="notify_prepare_stream">Wiedergabe wird vorbereitet…</string>
     <string name="notify_try_play">Versuche Wiedergabe</string>
     <string name="notify_play">Wiedergabe</string>
