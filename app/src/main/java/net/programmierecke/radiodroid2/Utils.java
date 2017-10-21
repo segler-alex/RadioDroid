@@ -40,9 +40,9 @@ import java.util.Locale;
 import java.util.Map;
 
 public class Utils {
-    private static int loadIcons = -1;
+	private static int loadIcons = -1;
 
-    public static String getCacheFile(Context ctx, String theURI) {
+	public static String getCacheFile(Context ctx, String theURI) {
 		StringBuilder chaine = new StringBuilder("");
 		try{
 			String aFileName = theURI.toLowerCase().replace("http://","");
@@ -218,15 +218,15 @@ public class Utils {
 						MPDClient.Play(result, context);
 						externalActive = true;
 					}
-                    if (CastHandler.isCastSessionAvailable()){
+					if (CastHandler.isCastSessionAvailable()){
 						if (!externalActive) {
 							PlayerServiceUtil.stop(); // stop internal player and not continue playing
 						}
-                        CastHandler.PlayRemote(station.Name, result, station.IconUrl);
+						CastHandler.PlayRemote(station.Name, result, station.IconUrl);
 						externalActive = true;
-                    }
+					}
 
-                    if (!externalActive){
+					if (!externalActive){
 						if (external){
 							Intent share = new Intent(Intent.ACTION_VIEW);
 							share.setDataAndType(Uri.parse(result), "audio/*");
@@ -244,7 +244,7 @@ public class Utils {
 		}.execute();
 	}
 
-    public static boolean shouldLoadIcons(final Context context) {
+	public static boolean shouldLoadIcons(final Context context) {
 		switch(loadIcons) {
 			case -1:
 				if(PreferenceManager.getDefaultSharedPreferences(context.getApplicationContext()).getBoolean("load_icons", false)) {
@@ -296,8 +296,8 @@ public class Utils {
 		return String.format(Locale.getDefault(), "%1$,.1f %2$s",bytes*1024,str[str.length-1]);
 	}
 
-	public static String sanitizeName(String str){
-		return str.replaceAll("\\W+", "_");
+	public static String sanitizeName(String str) {
+		return str.replaceAll("\\W+", "_").replaceAll("^_+", "").replaceAll("_+$", "");
 	}
 
 	public static boolean hasWifiConnection(Context context) {

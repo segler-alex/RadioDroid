@@ -84,18 +84,21 @@
     <string name="error_record_needs_write">Die Aufnahmefunktion benötigt Schreibberechtigung!</string>
     <string name="error_grant_audiofocus">Das System gab den Audiokanal nicht frei.</string>
 
-    <string name="player_info_status">STATUS:</string>
-    <string name="player_info_status_stopped">Gestoppt</string>
-    <string name="player_info_status_playing">Aktiv</string>
+    <string name="player_info_status">Status:&#160;</string>
+    <string name="player_info_status_stopped">gestoppt</string>
+    <string name="player_info_status_playing">Wiedergabe läuft</string>
+    <string name="player_info_status_recording">Aufnahme läuft</string>
+    <string name="player_info_status_playing_and_recording">Aufnahme und Wiedergabe laufen</string>
     <string name="player_info_transferred">Übertragene Daten: %1$s</string>
-    <string name="player_info_record_to">Aufnahmeziel: %1$s</string>
+    <string name="player_info_recording_to">Wird aufgenommen als:\n%1$s</string>
+    <string name="player_info_recorded_to">Zuletzt aufgenommen:\n%1$s</string>
 
     <string name="station_detail_bitrate">%1$1d kbps</string>
     <string name="station_detail_broken">KAPUTT</string>
 
     <string name="image_button_disable">Deaktivieren</string>
-    <string name="image_button_record">Aufnehmen</string>
-    <string name="image_button_delete">Löschen</string>
+    <string name="image_button_record">Aufnahme starten</string>
+    <string name="image_button_delete">Sleeptimer löschen</string>
     <string name="image_button_more">Mehr</string>
 
     <string-array name="weekdays">

@@ -7,6 +7,7 @@
     <string name="detail_language">Language</string>
     <string name="detail_weblink">Weblink</string>
     <string name="detail_play">Play</string>
+    <string name="detail_pause">Pause</string>
     <string name="detail_stop">Stop</string>
     <string name="detail_share">Share</string>
     <string name="action_search">Search</string>
@@ -88,11 +89,14 @@
     <string name="error_record_needs_write">Need write permission for recording!</string>
     <string name="error_grant_audiofocus">Request for audio focus was not granted by the system.</string>
 
-    <string name="player_info_status">STATUS:</string>
-    <string name="player_info_status_stopped">Stopped</string>
-    <string name="player_info_status_playing">Playing</string>
+    <string name="player_info_status">Status:&#160;</string>
+    <string name="player_info_status_stopped">stopped</string>
+    <string name="player_info_status_playing">playing</string>
+    <string name="player_info_status_recording">recording</string>
+    <string name="player_info_status_playing_and_recording">playing and recording</string>
     <string name="player_info_transferred">Transferred data: %1$s</string>
-    <string name="player_info_record_to">Recording to: %1$s</string>
+    <string name="player_info_recording_to">Recording to:\n%1$s</string>
+    <string name="player_info_recorded_to">Last recording:\n%1$s</string>
 
     <string name="station_detail_bitrate">%1$1d kbps</string>
     <string name="station_detail_broken">BROKEN</string>
