@@ -376,9 +376,9 @@ public class StreamProxy {
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(System.currentTimeMillis());
         if (getIsHls())
-            outFileName = String.format(Locale.US, "%2$s - %1$tY_%1$tm_%1$td_%1$tH_%1$tM_%1$tS.ts", calendar, Utils.sanitizeName(stationName));
+            outFileName = String.format(Locale.US, "%1$tY%1$tm%1$td-%1$tH%1$tM%1$tS_%2$s.ts", calendar, Utils.sanitizeName(stationName));
         else
-            outFileName = String.format(Locale.US, "%2$s - %1$tY_%1$tm_%1$td_%1$tH_%1$tM_%1$tS.mp3", calendar, Utils.sanitizeName(stationName));
+            outFileName = String.format(Locale.US, "%1$tY%1$tm%1$td-%1$tH%1$tM%1$tS_%2$s.mp3", calendar, Utils.sanitizeName(stationName));
         recordInternal(outFileName);
     }
 
