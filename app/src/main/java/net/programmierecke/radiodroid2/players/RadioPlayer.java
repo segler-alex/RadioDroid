@@ -139,9 +139,9 @@ public class RadioPlayer implements IStreamProxyEventReceiver, PlayerWrapper.Pla
         player.setVolume(volume);
     }
 
-    public final void startRecording(final String fileName) {
+    public final void startRecording(final String fileName, final String streamTitle) {
         if (proxy != null) {
-            proxy.record(fileName);
+            proxy.record(fileName, streamTitle);
         }
     }
 

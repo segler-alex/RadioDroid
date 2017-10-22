@@ -190,7 +190,32 @@ public class PlayerService extends Service implements RadioPlayer.PlayerListener
         @Override
         public void startRecording() throws RemoteException {
             if (radioPlayer != null) {
-                radioPlayer.startRecording(currentStationName);
+
+                /* metadata init */
+                String streamTitle = "";
+                Integer maxloop = 20;
+
+                Map liveInfo = PlayerServiceUtil.getMetadataLive();
+                if (liveInfo != null) {
+                    streamTitle = (String) liveInfo.get("StreamTitle");
+                }
+
+                while (streamTitle.isEmpty() && maxloop > 0) {
+                    try {
+                        Thread.sleep(50);
+                    }
+                    catch(InterruptedException ex) {
+                        Thread.currentThread().interrupt();
+                    }
+
+                    liveInfo = PlayerServiceUtil.getMetadataLive();
+                    if (liveInfo != null) {
+                        streamTitle = (String) liveInfo.get("StreamTitle");
+                    }
+                    maxloop--;
+                };
+
+                radioPlayer.startRecording(currentStationName, streamTitle);
                 sendBroadCast(PLAYER_SERVICE_META_UPDATE);
             }
         }
