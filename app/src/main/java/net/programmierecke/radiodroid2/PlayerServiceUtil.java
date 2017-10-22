@@ -239,7 +239,7 @@ public class PlayerServiceUtil {
         return false;
     }
 
-    public static long getTransferedBytes() {
+    public static long getTransferredBytes() {
         if (itsPlayerService != null) {
             try {
                 return itsPlayerService.getTransferredBytes();

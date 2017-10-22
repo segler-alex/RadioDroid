@@ -87,7 +87,7 @@
     <string name="player_info_status">STATUS:</string>
     <string name="player_info_status_stopped">Gestoppt</string>
     <string name="player_info_status_playing">Aktiv</string>
-    <string name="player_info_transfered">Übertragene Daten: %1$s</string>
+    <string name="player_info_transferred">Übertragene Daten: %1$s</string>
     <string name="player_info_record_to">Aufnahmeziel: %1$s</string>
 
     <string name="station_detail_bitrate">%1$1d kbps</string>
