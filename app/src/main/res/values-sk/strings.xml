@@ -73,7 +73,7 @@
     <string name="player_info_status">STAV:</string>
     <string name="player_info_status_stopped">Zastavený</string>
     <string name="player_info_status_playing">Prehráva sa</string>
-    <string name="player_info_transfered">Prenesené údaje: %1$s</string>
+    <string name="player_info_transferred">Prenesené údaje: %1$s</string>
     <string name="player_info_record_to">Nahrávanie do: %1$s</string>
 
     <string name="station_detail_bitrate">%1$1d kbps</string>

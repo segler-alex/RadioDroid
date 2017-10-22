@@ -233,7 +233,7 @@ public class ActivityPlayerInfo extends AppCompatActivity {
 		if (PlayerServiceUtil.getMetadataBitrate() > 0) {
 			strExtra += "" + PlayerServiceUtil.getMetadataBitrate() + " kbps\n";
 		}
-		strExtra += getResources().getString(R.string.player_info_transfered,Utils.getReadableBytes(PlayerServiceUtil.getTransferedBytes()));
+		strExtra += getResources().getString(R.string.player_info_transferred,Utils.getReadableBytes(PlayerServiceUtil.getTransferredBytes()));
 		textViewExtraInfo.setText(strExtra);
 
 		if (!PlayerServiceUtil.isPlaying()){
