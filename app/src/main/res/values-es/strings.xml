@@ -74,7 +74,7 @@
     <string name="player_info_status_stopped">Parado</string>
     <string name="player_info_status_playing">Reproduciendo</string>
     <string name="player_info_transferred">Datos transferidos: %1$s</string>
-    <string name="player_info_record_to">Grabando a: %1$s</string>
+    <string name="player_info_recording_to">Grabando a: %1$s</string>
 
     <string name="station_detail_bitrate">%1$1d kbps</string>
     <string name="station_detail_broken">ROTO</string>

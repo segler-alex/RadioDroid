@@ -74,7 +74,7 @@
     <string name="player_info_status_stopped">Zastaveno</string>
     <string name="player_info_status_playing">Hrající</string>
     <string name="player_info_transferred">Přenesená data: %1$s</string>
-    <string name="player_info_record_to">Nahrává se do: %1$s</string>
+    <string name="player_info_recording_to">Nahrává se do: %1$s</string>
 
     <string name="station_detail_bitrate">%1$1d kbps</string>
     <string name="station_detail_broken">ROZBITÉ</string>

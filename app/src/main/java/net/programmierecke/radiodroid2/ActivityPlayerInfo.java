@@ -25,12 +25,15 @@ public class ActivityPlayerInfo extends AppCompatActivity {
 	ProgressDialog itsProgressLoading;
 	TextView aTextViewName;
 	ImageButton buttonStop;
+	ImageButton buttonPause;
 	ImageButton buttonAddTimeout;
 	ImageButton buttonClearTimeout;
 	private TextView textViewCountdown;
 	private BroadcastReceiver updateUIReciver;
 	private TextView textViewLiveInfo;
 	private TextView textViewExtraInfo;
+	private TextView textViewRecordingInfo;
+	private TextView textViewTransferredbytes;
 	private ImageButton buttonRecord;
 	private Thread t;
 	private LinearLayout layoutPlaying;
@@ -93,8 +96,33 @@ public class ActivityPlayerInfo extends AppCompatActivity {
 		}
 		textViewLiveInfo = (TextView) findViewById(R.id.textViewLiveInfo);
 		textViewExtraInfo = (TextView) findViewById(R.id.textViewExtraStreamInfo);
+		textViewRecordingInfo = (TextView) findViewById(R.id.textViewRecordingInfo);
+		textViewTransferredbytes = (TextView) findViewById(R.id.textViewTransferredBytes);
 		layoutPlaying = (LinearLayout) findViewById(R.id.LinearLayoutPlaying);
 		textViewStatus = (TextView) findViewById(R.id.detail_status);
+
+		buttonPause = (ImageButton) findViewById(R.id.buttonPause);
+		if (buttonPause != null){
+			buttonPause.setOnClickListener(new View.OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					if (PlayerServiceUtil.isPlaying()) {
+						textViewStatus.setText(getResources().getString(R.string.player_info_status)+getResources().getString(R.string.player_info_status_stopped));
+						buttonPause.setImageResource(R.drawable.mr_media_play_light);
+						PlayerServiceUtil.pause();
+						if (PlayerServiceUtil.isRecording()) {
+							buttonRecord.setImageResource(R.drawable.ic_fiber_manual_record_green_50dp);
+							String recordingInfo = getResources().getString(R.string.player_info_recorded_to, PlayerServiceUtil.getCurrentRecordFileName());
+							textViewRecordingInfo.setText(recordingInfo);
+							PlayerServiceUtil.stopRecording();
+						}
+					} else {
+						buttonPause.setImageResource(R.drawable.mr_media_pause_light);
+						PlayerServiceUtil.resume();
+					}
+				}
+			});
+		}
 
 		buttonStop = (ImageButton) findViewById(R.id.buttonStop);
 		if (buttonStop != null){
@@ -113,10 +141,19 @@ public class ActivityPlayerInfo extends AppCompatActivity {
 				@Override
 				public void onClick(View v) {
 					if (PlayerServiceUtil.isRecording()) {
+						buttonRecord.setImageResource(R.drawable.ic_fiber_manual_record_green_50dp);
+						String recordingInfo = getResources().getString(R.string.player_info_recorded_to,PlayerServiceUtil.getCurrentRecordFileName());
+						textViewRecordingInfo.setText(recordingInfo);
 						PlayerServiceUtil.stopRecording();
 					} else {
+						PlayerServiceUtil.resume();
 						if (Utils.verifyStoragePermissions(ActivityPlayerInfo.this)) {
+							buttonRecord.setImageResource(R.drawable.ic_fiber_manual_record_red_50dp);
 							PlayerServiceUtil.startRecording();
+							if (PlayerServiceUtil.getCurrentRecordFileName() != null && PlayerServiceUtil.isRecording()){
+								String recordingInfo = getResources().getString(R.string.player_info_recording_to,PlayerServiceUtil.getCurrentRecordFileName());
+								textViewRecordingInfo.setText(recordingInfo);
+							}
 						}
 					}
 				}
@@ -180,6 +217,23 @@ public class ActivityPlayerInfo extends AppCompatActivity {
 	}
 
 	private void UpdateOutput() {
+
+		buttonPause = (ImageButton) findViewById(R.id.buttonPause);
+		if (PlayerServiceUtil.isPlaying()) {
+			buttonPause.setImageResource(R.drawable.mr_media_pause_light);
+		} else {
+			buttonPause.setImageResource(R.drawable.mr_media_play_light);
+		}
+
+		buttonRecord = (ImageButton) findViewById(R.id.buttonRecord);
+		if (PlayerServiceUtil.isRecording()) {
+			buttonRecord.setImageResource(R.drawable.ic_fiber_manual_record_red_50dp);
+		} else if (android.os.Environment.getExternalStorageDirectory().canWrite()) {
+			buttonRecord.setImageResource(R.drawable.ic_fiber_manual_record_green_50dp);
+		} else {
+			buttonRecord.setImageResource(R.drawable.ic_fiber_manual_record_black_50dp);
+		}
+
 		if(BuildConfig.DEBUG) { Log.d("ARR","UpdateOutput()"); }
 
 		if (aTextViewName != null) {
@@ -217,44 +271,59 @@ public class ActivityPlayerInfo extends AppCompatActivity {
 			textViewLiveInfo.setVisibility(View.GONE);
 		}
 
+		if (PlayerServiceUtil.getCurrentRecordFileName() != null && PlayerServiceUtil.isRecording()){
+			String recordingInfo = getResources().getString(R.string.player_info_recording_to,PlayerServiceUtil.getCurrentRecordFileName());
+			textViewRecordingInfo.setText(recordingInfo);
+		}
+
 		String strExtra = "";
 		if (PlayerServiceUtil.getIsHls()){
 			strExtra += "HLS-Stream\n";
-		}
-		if (PlayerServiceUtil.getCurrentRecordFileName() != null){
-			strExtra += getResources().getString(R.string.player_info_record_to,PlayerServiceUtil.getCurrentRecordFileName()) + "\n";
 		}
 		if (PlayerServiceUtil.getMetadataGenre() != null) {
 			strExtra += PlayerServiceUtil.getMetadataGenre() + "\n";
 		}
 		if (PlayerServiceUtil.getMetadataHomepage() != null) {
-			strExtra += PlayerServiceUtil.getMetadataHomepage() + "\n";
+			strExtra += PlayerServiceUtil.getMetadataHomepage();
 		}
-		if (PlayerServiceUtil.getMetadataBitrate() > 0) {
-			strExtra += "" + PlayerServiceUtil.getMetadataBitrate() + " kbps\n";
-		}
-		strExtra += getResources().getString(R.string.player_info_transferred,Utils.getReadableBytes(PlayerServiceUtil.getTransferredBytes()));
 		textViewExtraInfo.setText(strExtra);
 
-		if (!PlayerServiceUtil.isPlaying()){
+		String byteInfo = getResources().getString(R.string.player_info_transferred,Utils.getReadableBytes(PlayerServiceUtil.getTransferredBytes()));
+		if (PlayerServiceUtil.getMetadataBitrate() > 0) {
+			byteInfo += " (" + PlayerServiceUtil.getMetadataBitrate() + " kbps)";
+		}
+		if (PlayerServiceUtil.isPlaying() || PlayerServiceUtil.isRecording()) {
+			textViewTransferredbytes.setText(byteInfo);
+		}
+
+		if (!PlayerServiceUtil.isPlaying() && !PlayerServiceUtil.isRecording()){
 			if(BuildConfig.DEBUG) { Log.d("ARR","exit.."); }
 			textViewStatus.setText(getResources().getString(R.string.player_info_status)+getResources().getString(R.string.player_info_status_stopped));
-			layoutPlaying.setVisibility(View.GONE);
-		}else{
-			textViewStatus.setText(getResources().getString(R.string.player_info_status)+getResources().getString(R.string.player_info_status_playing));
 			layoutPlaying.setVisibility(View.VISIBLE);
+		} else {
+				if (PlayerServiceUtil.isPlaying() && !PlayerServiceUtil.isRecording()) {
+					textViewStatus.setText(getResources().getString(R.string.player_info_status)+getResources().getString(R.string.player_info_status_playing));
+					layoutPlaying.setVisibility(View.VISIBLE);
+				} else {
+					textViewStatus.setText(getResources().getString(R.string.player_info_status)+getResources().getString(R.string.player_info_status_playing_and_recording));
+					layoutPlaying.setVisibility(View.VISIBLE);
+				}
 		}
 	}
 
 	@Override
 	public void onRequestPermissionsResult(int requestCode,
 										   String permissions[], int[] grantResults) {
+
+		buttonRecord = (ImageButton) findViewById(R.id.buttonRecord);
 		switch (requestCode) {
 			case Utils.REQUEST_EXTERNAL_STORAGE: {
 				// If request is cancelled, the result arrays are empty.
 				if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
 					PlayerServiceUtil.startRecording();
+					buttonRecord.setImageResource(R.drawable.ic_fiber_manual_record_red_50dp);
 				} else {
+					buttonRecord.setImageResource(R.drawable.ic_fiber_manual_record_black_50dp);
 					Toast toast = Toast.makeText(this, getResources().getString(R.string.error_record_needs_write), Toast.LENGTH_SHORT);
 					toast.show();
 				}
