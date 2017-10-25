@@ -11,6 +11,7 @@
     <string name="detail_stop">Stop</string>
     <string name="detail_share">Share</string>
     <string name="action_search">Search</string>
+    <string name="action_cancel">Cancel</string>
     <string name="action_top_click">TopClick</string>
     <string name="action_top_vote">TopVote</string>
     <string name="action_changed_lately">Changed lately</string>
@@ -124,6 +125,13 @@
         <item>T</item>
         <item>F</item>
         <item>S</item>
+    </string-array>
+
+    <string name="notify_stream_url_copied">Stream Url Successfully Copied!</string>
+
+    <string-array name="actions_station_link">
+        <item>Visit Website</item>
+        <item>Copy Stream Url</item>
     </string-array>
 
     <string name="no_wifi_title">No WiFi (WLAN) connection</string>

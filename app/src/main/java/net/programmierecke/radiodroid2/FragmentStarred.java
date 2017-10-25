@@ -2,70 +2,62 @@ package net.programmierecke.radiodroid2;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ListView;
 
 import net.programmierecke.radiodroid2.adapters.ItemAdapterStation;
 import net.programmierecke.radiodroid2.data.DataRadioStation;
 import net.programmierecke.radiodroid2.interfaces.IAdapterRefreshable;
 
 public class FragmentStarred extends Fragment implements IAdapterRefreshable {
-    private ListView lv;
+    private static final String TAG = "FragmentStarred";
 
-    public FragmentStarred() {
-    }
+    private RecyclerView rvStations;
 
-    void ClickOnItem(DataRadioStation theStation) {
-        ActivityMain activity = (ActivityMain)getActivity();
+    void onStationClick(DataRadioStation theStation) {
+        ActivityMain activity = (ActivityMain) getActivity();
 
-        Utils.Play(theStation,getContext());
+        Utils.Play(theStation, getContext());
 
         HistoryManager hm = new HistoryManager(activity.getApplicationContext());
         hm.add(theStation);
     }
 
-    public void RefreshListGui(){
-        if(BuildConfig.DEBUG) { Log.d("ABC", "RefreshListGUI()"); }
+    public void RefreshListGui() {
+        if (BuildConfig.DEBUG) Log.d(TAG, "refreshing the stations list.");
 
-        if (lv != null) {
-            if(BuildConfig.DEBUG) { Log.d("ABC","LV != null"); }
-            FavouriteManager favouriteManager = new FavouriteManager(getActivity());
-            ItemAdapterStation arrayAdapter = (ItemAdapterStation) lv.getAdapter();
-            arrayAdapter.clear();
-            for (DataRadioStation aStation : favouriteManager.getList()) {
-                arrayAdapter.add(aStation);
-            }
+        FavouriteManager favouriteManager = new FavouriteManager(getActivity());
+        ItemAdapterStation adapter = (ItemAdapterStation) rvStations.getAdapter();
 
-            lv.invalidate();
-        }else{
-            Log.e("NULL","LV == null");
-        }
+        if (BuildConfig.DEBUG) Log.d(TAG, "stations count:" + favouriteManager.listStations.size());
+
+        adapter.updateList(this, favouriteManager.listStations);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        ItemAdapterStation arrayAdapter = new ItemAdapterStation(getActivity(), R.layout.list_item_station);
-        arrayAdapter.setUpdate(this);
-
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_stations, container, false);
+        rvStations = (RecyclerView) view.findViewById(R.id.recyclerViewStations);
 
-        lv = (ListView) view.findViewById(R.id.listViewStations);
-        lv.setAdapter(arrayAdapter);
-        lv.setTextFilterEnabled(true);
-        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Object anObject = parent.getItemAtPosition(position);
-                if (anObject instanceof DataRadioStation) {
-                    ClickOnItem((DataRadioStation) anObject);
-                }
+        ItemAdapterStation adapter = new ItemAdapterStation(getActivity(), R.layout.list_item_station);
+        adapter.setStationClickListener(new ItemAdapterStation.StationClickListener() {
+            @Override
+            public void onStationClick(DataRadioStation station) {
+                FragmentStarred.this.onStationClick(station);
             }
         });
+
+        LinearLayoutManager llm = new LinearLayoutManager(getContext());
+        llm.setOrientation(LinearLayoutManager.VERTICAL);
+
+        rvStations.setAdapter(adapter);
+        rvStations.setLayoutManager(llm);
 
         RefreshListGui();
 

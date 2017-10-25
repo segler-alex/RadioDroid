@@ -1,41 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:title="@string/nav_item_stations"
-        android:id="@+id/nav_item_stations"
-        android:icon="@drawable/ic_list_24dp"/>
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_item_stations"
+            android:icon="@drawable/ic_list_24dp"
+            android:title="@string/nav_item_stations" />
 
-    <item android:title="@string/nav_item_starred"
-        android:id="@+id/nav_item_starred"
-        android:icon="@drawable/ic_star_black_24dp"/>
+        <item
+            android:id="@+id/nav_item_starred"
+            android:icon="@drawable/ic_star_black_24dp"
+            android:title="@string/nav_item_starred" />
 
-    <item android:title="@string/nav_item_history"
-        android:id="@+id/nav_item_history"
-        android:icon="@drawable/ic_restore_black_24dp"/>
+        <item
+            android:id="@+id/nav_item_history"
+            android:icon="@drawable/ic_restore_black_24dp"
+            android:title="@string/nav_item_history" />
 
-    <item android:title="@string/nav_item_alarm"
-        android:id="@+id/nav_item_alarm"
-        android:icon="@drawable/ic_query_builder_black_24dp"/>
-
-    <group android:id="@+id/group_settings_id">
-        <item android:title="@string/nav_item_player_status"
-            android:id="@+id/nav_item_player_status"
-            android:icon="@drawable/ic_play_arrow_24dp"/>
-
-        <item android:title="@string/nav_item_recordings"
-            android:id="@+id/nav_item_recordings"
-            android:icon="@drawable/ic_fiber_manual_record_black_24dp"/>
-
-        <item android:title="@string/nav_item_settings"
-            android:id="@+id/nav_item_settings"
-            android:icon="@drawable/ic_tune_24dp"/>
-
-        <item android:title="@string/nav_item_statistics"
-            android:id="@+id/nav_item_serverinfo"
-            android:icon="@drawable/ic_poll_24dp"/>
-
-        <item android:title="@string/nav_item_about"
-            android:id="@+id/nav_item_about"
-            android:icon="@drawable/ic_live_help_24dp"/>
+        <item
+            android:id="@+id/nav_item_alarm"
+            android:icon="@drawable/ic_query_builder_black_24dp"
+            android:title="@string/nav_item_alarm" />
     </group>
 
+    <group
+        android:id="@+id/group_settings_id"
+        android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_item_player_status"
+            android:icon="@drawable/ic_play_arrow_24dp"
+            android:title="@string/nav_item_player_status" />
+
+        <item
+            android:id="@+id/nav_item_recordings"
+            android:icon="@drawable/ic_fiber_manual_record_black_24dp"
+            android:title="@string/nav_item_recordings" />
+
+        <item
+            android:id="@+id/nav_item_settings"
+            android:icon="@drawable/ic_tune_24dp"
+            android:title="@string/nav_item_settings" />
+
+        <item
+            android:id="@+id/nav_item_serverinfo"
+            android:icon="@drawable/ic_poll_24dp"
+            android:title="@string/nav_item_statistics" />
+
+        <item
+            android:id="@+id/nav_item_about"
+            android:icon="@drawable/ic_live_help_24dp"
+            android:title="@string/nav_item_about" />
+    </group>
 </menu>

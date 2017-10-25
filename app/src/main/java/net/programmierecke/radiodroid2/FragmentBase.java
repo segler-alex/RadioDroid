@@ -14,10 +14,13 @@ import android.widget.Toast;
 import java.util.HashMap;
 
 public class FragmentBase extends Fragment {
+    private static final String TAG = "FragmentBase";
+
     private ProgressDialog itsProgressLoading;
     private String url;
     private String urlResult;
-    private Context mycontext;
+
+    private boolean isCreated = false;
 
     public FragmentBase() {
     }
@@ -25,43 +28,55 @@ public class FragmentBase extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        mycontext = getActivity();
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        Bundle bundle = this.getArguments();
-        url = bundle.getString("url");
+        isCreated = true;
+
+        if (url == null) {
+            Bundle bundle = this.getArguments();
+            url = bundle.getString("url");
+        }
 
         DownloadUrl(false);
     }
 
-    protected String getUrlResult(){
+    protected String getUrlResult() {
         return urlResult;
     }
 
     public void SetDownloadUrl(String theUrl) {
-        if(BuildConfig.DEBUG) { Log.d("","new url "+theUrl); }
+        if (BuildConfig.DEBUG) {
+            Log.d(TAG, "new url " + theUrl);
+        }
         url = theUrl;
         DownloadUrl(false);
     }
 
     public void DownloadUrl(final boolean forceUpdate) {
-        DownloadUrl(forceUpdate,true);
+        DownloadUrl(forceUpdate, true);
     }
 
     public void DownloadUrl(final boolean forceUpdate, final boolean displayProgress) {
+        if (!isCreated) {
+            return;
+        }
+
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getContext());
         final boolean show_broken = sharedPref.getBoolean("show_broken", false);
 
-        if(BuildConfig.DEBUG) { Log.d("DOWN","Download url:"+url); }
+        if (BuildConfig.DEBUG) {
+            Log.d(TAG, "Download url:" + url);
+        }
+
         if (TextUtils.isGraphic(url)) {
-            String cache = Utils.getCacheFile(getActivity(),url);
+            String cache = Utils.getCacheFile(getActivity(), url);
             if (cache == null || forceUpdate) {
-                if (mycontext != null && displayProgress) {
-                    itsProgressLoading = ProgressDialog.show(mycontext, "", getActivity().getString(R.string.progress_loading));
+                if (getContext() != null && displayProgress) {
+                    itsProgressLoading = ProgressDialog.show(getContext(), "", getActivity().getString(R.string.progress_loading));
                 }
                 new AsyncTask<Void, Void, String>() {
                     @Override
@@ -80,9 +95,13 @@ public class FragmentBase extends Fragment {
                             itsProgressLoading.dismiss();
                             itsProgressLoading = null;
                         }
-                        if(BuildConfig.DEBUG) { Log.d("DOWN", "Download url finished:" + url); }
+                        if (BuildConfig.DEBUG) {
+                            Log.d(TAG, "Download url finished:" + url);
+                        }
                         if (result != null) {
-                            if(BuildConfig.DEBUG) { Log.d("DOWN", "Download url OK:" + url); }
+                            if (BuildConfig.DEBUG) {
+                                Log.d(TAG, "Download url OK:" + url);
+                            }
                             urlResult = result;
                             RefreshListGui();
                         } else {
@@ -92,19 +111,20 @@ public class FragmentBase extends Fragment {
                         super.onPostExecute(result);
                     }
                 }.execute();
-            }else{
+            } else {
                 urlResult = cache;
-                RefreshListGui();
                 DownloadFinished();
+                RefreshListGui();
+
             }
-        }else{
+        } else {
             RefreshListGui();
         }
     }
 
-    protected void RefreshListGui(){
+    protected void RefreshListGui() {
     }
 
-    protected void DownloadFinished(){
+    protected void DownloadFinished() {
     }
 }

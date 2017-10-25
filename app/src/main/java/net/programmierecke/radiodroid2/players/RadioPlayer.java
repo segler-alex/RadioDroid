@@ -7,6 +7,7 @@ import android.os.HandlerThread;
 import android.os.Looper;
 import android.util.Log;
 
+import net.programmierecke.radiodroid2.BuildConfig;
 import net.programmierecke.radiodroid2.StreamProxy;
 import net.programmierecke.radiodroid2.data.ShoutcastInfo;
 import net.programmierecke.radiodroid2.interfaces.IStreamProxyEventReceiver;
@@ -71,7 +72,7 @@ public class RadioPlayer implements IStreamProxyEventReceiver, PlayerWrapper.Pla
             @Override
             public void run() {
                 if (proxy != null) {
-                    Log.d(TAG, "stopping old proxy.");
+                    if (BuildConfig.DEBUG) Log.d(TAG, "stopping old proxy.");
                     stopProxy();
                 }
 
@@ -184,7 +185,7 @@ public class RadioPlayer implements IStreamProxyEventReceiver, PlayerWrapper.Pla
     }
 
     private void setState(PlayState state) {
-        Log.d(TAG, String.format("set state '%s'", state.name()));
+        if (BuildConfig.DEBUG) Log.d(TAG, String.format("set state '%s'", state.name()));
 
         playState = state;
         playerListener.onStateChanged(state);
