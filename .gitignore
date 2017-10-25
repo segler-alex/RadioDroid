@@ -25,6 +25,7 @@ local.properties
 
 # Built application files
 /*/build/
+/*/play/
 
 # Local configuration file (sdk path, etc)
 local.properties
