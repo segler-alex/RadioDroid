@@ -199,6 +199,10 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
     @Override
     protected void onNewIntent(Intent intent) {
         final Bundle extras = intent.getExtras();
+        if (extras == null) {
+            return;
+        }
+
         final String searchTag = extras.getString(EXTRA_SEARCH_TAG);
         if (searchTag != null) {
             try {
