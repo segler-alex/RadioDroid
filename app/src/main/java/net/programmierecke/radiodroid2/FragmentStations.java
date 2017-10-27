@@ -5,93 +5,101 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.preference.PreferenceManager;
+import android.support.v7.widget.DividerItemDecoration;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ListView;
 
 import net.programmierecke.radiodroid2.adapters.ItemAdapterStation;
 import net.programmierecke.radiodroid2.data.DataRadioStation;
 
+import java.util.ArrayList;
+
 public class FragmentStations extends FragmentBase {
-    private ListView lv;
-    private SwipeRefreshLayout mySwipeRefreshLayout;
+    private static final String TAG = "FragmentStations";
+
+    private RecyclerView rvStations;
+    private DataRadioStation[] radioStations = new DataRadioStation[0];
+    private SwipeRefreshLayout swipeRefreshLayout;
     private SharedPreferences sharedPref;
 
-    public FragmentStations() {
-    }
+    void onStationClick(DataRadioStation theStation) {
+        ActivityMain a = (ActivityMain) getActivity();
 
-    void ClickOnItem(DataRadioStation theStation) {
-        ActivityMain a = (ActivityMain)getActivity();
-
-        Utils.Play(theStation,getContext());
+        Utils.Play(theStation, getContext());
 
         HistoryManager hm = new HistoryManager(a.getApplicationContext());
         hm.add(theStation);
     }
 
     @Override
-    protected void RefreshListGui(){
-        if(BuildConfig.DEBUG) { Log.d("ABC", "RefreshListGUI()"); }
-        Context ctx = getContext();
-        if (lv != null && ctx != null) {
-            if (sharedPref == null) {
-                sharedPref = PreferenceManager.getDefaultSharedPreferences(ctx);
-            }
-            boolean show_broken = sharedPref.getBoolean("show_broken", false);
-
-            if(BuildConfig.DEBUG) { Log.d("ABC", "LV != null"); }
-            final DataRadioStation[] data = DataRadioStation.DecodeJson(getUrlResult());
-            ItemAdapterStation arrayAdapter = (ItemAdapterStation) lv.getAdapter();
-            arrayAdapter.clear();
-            if(BuildConfig.DEBUG) { Log.d("ABC", "Station count:" + data.length); }
-            for (DataRadioStation aStation : data) {
-                if (show_broken || aStation.Working) {
-                    arrayAdapter.add(aStation);
-                }
-            }
-
-            lv.invalidate();
-        } else {
-            Log.e("NULL", "LV == null");
+    protected void RefreshListGui() {
+        if (rvStations == null) {
+            return;
         }
+
+        if (BuildConfig.DEBUG) Log.d(TAG, "refreshing the stations list.");
+
+        Context ctx = getContext();
+        if (sharedPref == null) {
+            sharedPref = PreferenceManager.getDefaultSharedPreferences(ctx);
+        }
+
+        boolean show_broken = sharedPref.getBoolean("show_broken", false);
+
+        ArrayList<DataRadioStation> filteredStationsList = new ArrayList<>();
+        radioStations = DataRadioStation.DecodeJson(getUrlResult());
+
+        if (BuildConfig.DEBUG) Log.d(TAG, "station count:" + radioStations.length);
+
+        for (DataRadioStation station : radioStations) {
+            if (show_broken || station.Working) {
+                filteredStationsList.add(station);
+            }
+        }
+
+        ItemAdapterStation adapter = (ItemAdapterStation) rvStations.getAdapter();
+        adapter.updateList(null, filteredStationsList);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        ItemAdapterStation arrayAdapter = new ItemAdapterStation(getActivity(), R.layout.list_item_station);
-
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_stations_remote, container, false);
+        rvStations = (RecyclerView) view.findViewById(R.id.recyclerViewStations);
 
-        lv = (ListView) view.findViewById(R.id.listViewStations);
-        lv.setAdapter(arrayAdapter);
-        lv.setTextFilterEnabled(true);
-        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Object anObject = parent.getItemAtPosition(position);
-                if (anObject instanceof DataRadioStation) {
-                    ClickOnItem((DataRadioStation) anObject);
-                }
+        ItemAdapterStation adapter = new ItemAdapterStation(getActivity(), R.layout.list_item_station);
+        adapter.setStationClickListener(new ItemAdapterStation.StationClickListener() {
+            @Override
+            public void onStationClick(DataRadioStation station) {
+                FragmentStations.this.onStationClick(station);
             }
         });
 
-        mySwipeRefreshLayout = (SwipeRefreshLayout)view.findViewById(R.id.swiperefresh);
-        if (mySwipeRefreshLayout != null) {
-            mySwipeRefreshLayout.setOnRefreshListener(
-                    new SwipeRefreshLayout.OnRefreshListener() {
-                        @Override
-                        public void onRefresh() {
-                            if(BuildConfig.DEBUG) { Log.d("ABC", "onRefresh called from SwipeRefreshLayout"); }
-                            //RefreshListGui();
-                            DownloadUrl(true,false);
-                        }
+        LinearLayoutManager llm = new LinearLayoutManager(getContext());
+        llm.setOrientation(LinearLayoutManager.VERTICAL);
+
+        rvStations.setLayoutManager(llm);
+        rvStations.setAdapter(adapter);
+
+        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(rvStations.getContext(),
+                llm.getOrientation());
+        rvStations.addItemDecoration(dividerItemDecoration);
+
+        swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swiperefresh);
+        swipeRefreshLayout.setOnRefreshListener(
+                new SwipeRefreshLayout.OnRefreshListener() {
+                    @Override
+                    public void onRefresh() {
+                        if (BuildConfig.DEBUG) Log.d(TAG, "swipe to refresh.");
+                        DownloadUrl(true, false);
                     }
-            );
-        }
+                }
+        );
 
         RefreshListGui();
 
@@ -100,8 +108,8 @@ public class FragmentStations extends FragmentBase {
 
     @Override
     protected void DownloadFinished() {
-        if (mySwipeRefreshLayout != null) {
-            mySwipeRefreshLayout.setRefreshing(false);
+        if (swipeRefreshLayout != null) {
+            swipeRefreshLayout.setRefreshing(false);
         }
     }
 }

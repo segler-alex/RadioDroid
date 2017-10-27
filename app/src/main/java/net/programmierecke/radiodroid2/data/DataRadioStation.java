@@ -40,20 +40,8 @@ public class DataRadioStation {
 		if (!Working){
 			aList.add(ctx.getResources().getString(R.string.station_detail_broken));
 		}
-		if (Hls){
-			aList.add("HLS");
-		}
-		if (Codec != null){
-			if (!Codec.trim().equals("")){
-				aList.add(Codec);
-			}
-		}
 		if (Bitrate > 0){
 			aList.add(ctx.getResources().getString(R.string.station_detail_bitrate, Bitrate));
-		}
-		if (Country != null) {
-			if (!Country.trim().equals(""))
-				aList.add(Country);
 		}
 		if (State != null) {
 			if (!State.trim().equals(""))
@@ -62,12 +50,6 @@ public class DataRadioStation {
 		if (Language != null) {
 			if (!Language.trim().equals(""))
 				aList.add(Language);
-		}
-		if (TagsAll != null) {
-			for (String aPart : TagsAll.split(",")) {
-				if (!aPart.trim().equals(""))
-					aList.add(aPart);
-			}
 		}
 		return TextUtils.join(", ", aList);
 	}

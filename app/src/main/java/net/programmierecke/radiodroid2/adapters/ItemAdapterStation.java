@@ -1,44 +1,42 @@
 package net.programmierecke.radiodroid2.adapters;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.lang.ref.WeakReference;
-import java.net.URLConnection;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.concurrent.ArrayBlockingQueue;
-import java.util.concurrent.BlockingQueue;
+import java.util.Arrays;
+import java.util.List;
 
 import android.app.ProgressDialog;
 import android.app.TimePickerDialog;
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Matrix;
+import android.content.SharedPreferences;
+import android.content.res.Resources;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.support.v4.app.FragmentActivity;
-import android.support.v7.widget.PopupMenu;
-import android.text.TextUtils;
+import android.support.v7.app.AlertDialog;
+import android.support.v7.preference.PreferenceManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
-import net.programmierecke.radiodroid2.BuildConfig;
+import com.squareup.picasso.Callback;
+import com.squareup.picasso.NetworkPolicy;
+import com.squareup.picasso.Picasso;
+
+import net.programmierecke.radiodroid2.ActivityMain;
+import net.programmierecke.radiodroid2.CountryFlagsLoader;
 import net.programmierecke.radiodroid2.data.DataRadioStation;
 import net.programmierecke.radiodroid2.FavouriteManager;
 import net.programmierecke.radiodroid2.FragmentStarred;
@@ -47,375 +45,397 @@ import net.programmierecke.radiodroid2.RadioAlarmManager;
 import net.programmierecke.radiodroid2.TimePickerFragment;
 import net.programmierecke.radiodroid2.Utils;
 import net.programmierecke.radiodroid2.interfaces.IAdapterRefreshable;
+import net.programmierecke.radiodroid2.views.TagsView;
 
-public class ItemAdapterStation extends ArrayAdapter<DataRadioStation> implements Runnable, TimePickerDialog.OnTimeSetListener {
-	private ProgressDialog itsProgressLoading;
-	IAdapterRefreshable refreshable;
+public class ItemAdapterStation extends RecyclerView.Adapter<ItemAdapterStation.StationViewHolder> implements TimePickerDialog.OnTimeSetListener {
+    private final String TAG = "AdapterStations";
 
-	final String TAG = "AdapterStations";
 
-	public void setUpdate(FragmentStarred refreshableList) {
-		refreshable = refreshableList;
-	}
+    public interface StationClickListener {
+        void onStationClick(DataRadioStation station);
+    }
 
-	public class QueueItem {
-		public String itsURL;
-		public String ID;
+    private List<DataRadioStation> stationsList;
 
-		public QueueItem(String ID, String theURL) {
-			itsURL = theURL;
-			this.ID = ID;
-		}
-	}
+    private int resourceId;
 
-	HashMap<String, Bitmap> itsIconCache = new HashMap<String, Bitmap>();
-	BlockingQueue<QueueItem> itsQueuedDownloadJobs = new ArrayBlockingQueue<QueueItem>(10000);
-	Thread itsThread;
+    private ProgressDialog progressLoading;
+    private IAdapterRefreshable refreshable;
 
-	public ItemAdapterStation(FragmentActivity context, int textViewResourceId) {
-		super(context, textViewResourceId);
-		activity = context;
-		itsThread = new Thread(this);
-		itsThread.start();
-	}
+    private FragmentActivity activity;
+    private DataRadioStation selectedStation;
 
-	FragmentActivity activity;
-	DataRadioStation itsStation;
+    private StationClickListener stationClickListener;
 
-	class MyItem{
-		public WeakReference<View> v = null;
-		public DataRadioStation station;
-		public int position;
+    private int expandedPosition = -1;
 
-		public void SetIcon(final Bitmap anIcon) {
-			if (anIcon != null) {
-				if (v != null) {
-					final View vHard = v.get();
-					if (vHard != null) {
-						vHard.post(new Runnable() {
-							public void run() {
-								final ImageView anImageView = (ImageView) vHard.findViewById(R.id.imageViewIcon);
+    private boolean shouldLoadIcons;
 
-								// set image in view
-								anImageView.setImageBitmap(anIcon);
-								anImageView.setVisibility(View.VISIBLE);
-								if(BuildConfig.DEBUG) { Log.d("ICONS","replaced icon:"+station.Name); }
-							}
-						});
-					}else{
-						if(BuildConfig.DEBUG) { Log.d("ICONS","vhard == null"); }
-					}
-				}else{
-					if(BuildConfig.DEBUG) { Log.d("ICONS","v == null"); }
-				}
-			}else{
-				if(BuildConfig.DEBUG) { Log.d("ICONS","icon == null"); }
-			}
-		}
-	}
-	ArrayList<MyItem> listViewItems = new ArrayList<MyItem>();
+    private TagsView.TagSelectionCallback tagSelectionCallback = new TagsView.TagSelectionCallback() {
+        @Override
+        public void onTagSelected(String tag) {
+            Intent i = new Intent(getContext(), ActivityMain.class);
+            i.putExtra(ActivityMain.EXTRA_SEARCH_TAG, tag);
+            i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            getContext().startActivity(i);
+        }
+    };
 
-	@Override
-	public View getView(int position, View convertView, ViewGroup parent) {
-		final DataRadioStation aStation = getItem(position);
+    class StationViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+        ImageView imageViewIcon;
+        TextView textViewTitle;
+        TextView textViewShortDescription;
+        TextView textViewTags;
+        ImageButton buttonMore;
 
-		View v = convertView;
-		if (v == null) {
-			LayoutInflater vi = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-			v = vi.inflate(R.layout.list_item_station, null);
+        View viewDetails;
+        ImageButton buttonStationWebLink;
+        ImageButton buttonShare;
+        ImageButton buttonBookmark;
+        ImageButton buttonSetTimer;
+        TagsView viewTags;
 
-			MyItem item = new MyItem();
-			item.v = new WeakReference<View>(v);
-			item.position = position;
-			item.station = aStation;
-			listViewItems.add(item);
-		}else {
-			for (MyItem item : listViewItems) {
-				View ref = item.v.get();
-				if (ref != null) {
-					if (convertView == ref) {
-						item.station = aStation;
-						item.position = position;
-						break;
-					}
-				}
-			}
-		}
+        StationViewHolder(View itemView) {
+            super(itemView);
+            imageViewIcon = (ImageView) itemView.findViewById(R.id.imageViewIcon);
+            textViewTitle = (TextView) itemView.findViewById(R.id.textViewTitle);
+            textViewShortDescription = (TextView) itemView.findViewById(R.id.textViewShortDescription);
+            textViewTags = (TextView) itemView.findViewById(R.id.textViewTags);
+            buttonMore = (ImageButton) itemView.findViewById(R.id.buttonMore);
 
-		if (aStation != null) {
-			ImageButton buttonMore = (ImageButton) v.findViewById(R.id.buttonMore);
-			buttonMore.setOnClickListener(new View.OnClickListener() {
-				@Override
-				public void onClick(View view) {
-					showMenu(aStation, view);
-				}
-			});
-			TextView aTextViewTop = (TextView) v.findViewById(R.id.textViewTop);
-			TextView aTextViewBottom = (TextView) v.findViewById(R.id.textViewBottom);
-			if (aTextViewTop != null) {
-				aTextViewTop.setText("" + aStation.Name);
-			}
-			if (aTextViewBottom != null) {
-				aTextViewBottom.setText("" + aStation.getShortDetails(getContext()));
-			}
-			ImageView anImageView = (ImageView) v.findViewById(R.id.imageViewIcon);
+            viewDetails = itemView.findViewById(R.id.layoutDetails);
+            viewTags = (TagsView) viewDetails.findViewById(R.id.viewTags);
+            buttonStationWebLink = (ImageButton) viewDetails.findViewById(R.id.buttonStationWebLink);
+            buttonShare = (ImageButton) viewDetails.findViewById(R.id.buttonShare);
+            buttonBookmark = (ImageButton) viewDetails.findViewById(R.id.buttonBookmark);
+            buttonSetTimer = (ImageButton) viewDetails.findViewById(R.id.buttonSetTimer);
 
-			if(!Utils.shouldLoadIcons(getContext())) {
-				anImageView.setVisibility(View.GONE);
-			} else {
-				if (itsIconCache.containsKey(aStation.IconUrl)) {
-					Bitmap aBitmap = itsIconCache.get(aStation.IconUrl);
-					if (aBitmap != null) {
-						anImageView.setVisibility(View.VISIBLE);
-						anImageView.setImageBitmap(aBitmap);
-					} else
-						anImageView.setVisibility(View.GONE);
-				} else {
-					try {
-						// check download cache
-						if(BuildConfig.DEBUG) { Log.d("ICONS", "check cache for " + aStation.IconUrl); }
-						if (TextUtils.isGraphic(aStation.IconUrl)) {
-							String aFileNameIcon = activity.getCacheDir().getAbsolutePath() + "/" + Utils.sanitizeName(aStation.IconUrl) + ".dat";
-							File f = new File(aFileNameIcon);
-							Bitmap anIcon = BitmapFactory.decodeStream(new FileInputStream(f));
-							itsIconCache.put(aStation.IconUrl, anIcon);
-							if (anIcon != null) {
-								anImageView.setImageBitmap(anIcon);
-								anImageView.setVisibility(View.VISIBLE);
-							} else {
-								anImageView.setVisibility(View.GONE);
-							}
-						} else {
-							anImageView.setVisibility(View.GONE);
-						}
-					} catch (Exception e) {
-						try {
-							anImageView.setVisibility(View.GONE);
-							itsQueuedDownloadJobs.put(new QueueItem(aStation.ID, aStation.IconUrl));
-						} catch (InterruptedException e2) {
-							Log.e("ICONS", e2.getStackTrace().toString());
-						}
-					}
-				}
-			}
-		}
-		return v;
-	}
+            itemView.setOnClickListener(this);
+        }
 
-	void showMenu(final DataRadioStation station, View view)
-	{
-		FavouriteManager fm = new FavouriteManager(activity.getApplicationContext());
+        @Override
+        public void onClick(View view) {
+            if (stationClickListener != null) {
+                stationClickListener.onStationClick(stationsList.get(getAdapterPosition()));
+            }
+        }
+    }
 
-		PopupMenu popup = new PopupMenu(getContext(), view);
-		popup.inflate(R.menu.menu_station_detail);
+    public ItemAdapterStation(FragmentActivity fragmentActivity, int resourceId) {
+        this.activity = fragmentActivity;
+        this.resourceId = resourceId;
+    }
 
-		Menu m = popup.getMenu();
-		boolean isStarred = fm.has(station.ID);
-		m.findItem(R.id.action_star).setVisible(!isStarred);
-		m.findItem(R.id.action_unstar).setVisible(isStarred);
+    public void setStationClickListener(StationClickListener stationClickListener) {
+        this.stationClickListener = stationClickListener;
+    }
 
-		popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-			@Override
-			public boolean onMenuItemClick(MenuItem item) {
+    public void updateList(FragmentStarred refreshableList, List<DataRadioStation> stationsList) {
+        this.refreshable = refreshableList;
+        this.stationsList = stationsList;
 
-				switch (item.getItemId()) {
-					case R.id.action_share:
-						Share(station);
-						return true;
+        expandedPosition = -1;
 
-					case R.id.action_homepage:
-						ShowHomepage(station);
-						return true;
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(activity.getApplicationContext());
+        shouldLoadIcons = sharedPreferences.getBoolean("load_icons", false);
 
-					case R.id.action_star:
-						Star(station);
-						return true;
+        notifyDataSetChanged();
+    }
 
-					case R.id.action_unstar:
-						UnStar(station);
-						return true;
+    @Override
+    public StationViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        LayoutInflater inflater = LayoutInflater.from(parent.getContext());
+        View v = inflater.inflate(resourceId, parent, false);
 
-					case R.id.action_set_alarm:
-						setAsAlarm(station);
-						return true;
+        return new StationViewHolder(v);
+    }
 
-					case R.id.action_play:
-						Utils.Play(station, getContext());
-						return true;
+    @Override
+    public void onBindViewHolder(final StationViewHolder holder, int position) {
+        final DataRadioStation station = stationsList.get(position);
 
-					default:
-						return false;
-				}
-			}
-		});
-		popup.show();
-	}
+        if (!shouldLoadIcons) {
+            holder.imageViewIcon.setVisibility(View.GONE);
+        } else {
+            if (!station.IconUrl.isEmpty()) {
+                Resources r = activity.getResources();
+                final float px = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 40, r.getDisplayMetrics());
 
-	private void ShowHomepage(DataRadioStation station) {
-		Intent share = new Intent(Intent.ACTION_VIEW);
-		share.setData(Uri.parse(station.HomePageUrl));
-		getContext().startActivity(share);
-	}
+                Callback cachedImageLoadCallback = new Callback() {
+                    @Override
+                    public void onSuccess() {
+                        //Offline cache hit
+                    }
 
-	private void Star(DataRadioStation station) {
-		if (station != null) {
-			FavouriteManager fm = new FavouriteManager(getContext().getApplicationContext());
-			fm.add(station);
-			Vote(station.ID);
-		}else{
-			Log.e(TAG,"empty station info");
-		}
-	}
+                    @Override
+                    public void onError() {
+                        Picasso.with(getContext())
+                                .load(station.IconUrl)
+                                .networkPolicy(NetworkPolicy.NO_CACHE)
+                                .resize((int) px, 0)
+                                .into(holder.imageViewIcon);
+                    }
+                };
 
-	private void Vote(final String stationID){
-		new AsyncTask<Void, Void, String>() {
-			@Override
-			protected String doInBackground(Void... params) {
-				return Utils.downloadFeed(activity,"https://www.radio-browser.info/webservice/json/vote/"+stationID,true, null);
-			}
+                Picasso.with(getContext())
+                        .load(station.IconUrl)
+                        .networkPolicy(NetworkPolicy.OFFLINE)
+                        .resize((int) px, 0)
+                        .placeholder(R.drawable.ic_photo_black_24dp)
+                        .into(holder.imageViewIcon, cachedImageLoadCallback);
+            } else {
+                holder.imageViewIcon.setImageResource(R.drawable.ic_photo_black_24dp);
+            }
+        }
 
-			@Override
-			protected void onPostExecute(String result) {
-				if(BuildConfig.DEBUG) { Log.d(TAG,result); }
-				super.onPostExecute(result);
-			}
-		}.execute();
-	}
+        final boolean isExpanded = position == expandedPosition;
+        holder.viewDetails.setVisibility(isExpanded ? View.VISIBLE : View.GONE);
+        holder.textViewTags.setVisibility(isExpanded ? View.GONE : View.VISIBLE);
 
-	private void UnStar(DataRadioStation station) {
-		if (station != null) {
-			FavouriteManager fm = new FavouriteManager(getContext().getApplicationContext());
-			fm.remove(station.ID);
-			if (refreshable != null) {
-				refreshable.RefreshListGui();
-			}
-		}else{
-			Log.e(TAG,"empty station info");
-		}
-	}
+        holder.buttonMore.setImageResource(isExpanded ? R.drawable.ic_expand_less_black_24dp : R.drawable.ic_expand_more_black_24dp);
+        holder.buttonMore.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // Notify prev item change
+                if (expandedPosition != -1) {
+                    notifyItemChanged(expandedPosition);
+                }
 
-	void setAsAlarm(DataRadioStation station){
-		if(BuildConfig.DEBUG) { Log.d(TAG,"setAsAlarm() 1"); }
-		if (station != null) {
-			itsStation = station;
-			if(BuildConfig.DEBUG) { Log.d(TAG,"setAsAlarm() 2"); }
-			TimePickerFragment newFragment = new TimePickerFragment();
-			newFragment.setCallback(this);
-			newFragment.show(activity.getSupportFragmentManager(), "timePicker");
-		}
-	}
+                int position = holder.getAdapterPosition();
+                expandedPosition = isExpanded ? -1 : position;
 
-	private void Share(final DataRadioStation station) {
-		itsProgressLoading = ProgressDialog.show(getContext(), "", getContext().getResources().getString(R.string.progress_loading));
-		new AsyncTask<Void, Void, String>() {
-			@Override
-			protected String doInBackground(Void... params) {
-				return Utils.getRealStationLink(getContext().getApplicationContext(), station.ID);
-			}
+                // Notify current item changed
+                if (expandedPosition != -1) {
+                    notifyItemChanged(expandedPosition);
+                }
+            }
+        });
 
-			@Override
-			protected void onPostExecute(String result) {
-				itsProgressLoading.dismiss();
+        holder.textViewTitle.setText(station.Name);
+        holder.textViewShortDescription.setText(station.getShortDetails(getContext()));
+        holder.textViewTags.setText(station.TagsAll);
 
-				if (result != null) {
-					Intent share = new Intent(Intent.ACTION_VIEW);
-					share.setDataAndType(Uri.parse(result), "audio/*");
-					String title = getContext().getResources().getString(R.string.share_action);
-					Intent chooser = Intent.createChooser(share, title);
+        Drawable flag = CountryFlagsLoader.getInstance().getFlag(activity, station.Country);
 
-					if (share.resolveActivity(getContext().getPackageManager()) != null) {
-						getContext().startActivity(chooser);
-					}
-				} else {
-					Toast toast = Toast.makeText(getContext().getApplicationContext(), getContext().getResources().getText(R.string.error_station_load), Toast.LENGTH_SHORT);
-					toast.show();
-				}
-				super.onPostExecute(result);
-			}
-		}.execute();
-	}
+        if (flag != null) {
+            float k = flag.getMinimumWidth() / (float) flag.getMinimumHeight();
+            float viewHeight = holder.textViewShortDescription.getTextSize();
+            flag.setBounds(0, 0, (int) (k * viewHeight), (int) viewHeight);
+        }
 
-	@Override
-	public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-		if(BuildConfig.DEBUG) { Log.d(TAG,"onTimeSet() "+hourOfDay); }
-		RadioAlarmManager ram = new RadioAlarmManager(getContext().getApplicationContext(),null);
-		ram.add(itsStation,hourOfDay,minute);
-	}
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+            holder.textViewShortDescription.setCompoundDrawablesRelative(flag, null, null, null);
+        } else {
+            holder.textViewShortDescription.setCompoundDrawables(flag, null, null, null);
+        }
 
-	@Override
-	public void run() {
-		if(Utils.shouldLoadIcons(getContext())) {
-			while (true) {
-				try {
-					final QueueItem anItem = itsQueuedDownloadJobs.take();
-					try {
-						if (!itsIconCache.containsKey(anItem.itsURL)) {
-							// load image from url
-							itsIconCache.put(anItem.itsURL, null);
-							if(BuildConfig.DEBUG) { Log.d("ICONS", "download from " + anItem.itsURL); }
-							URLConnection conn = new java.net.URL(anItem.itsURL).openConnection();
-							conn.setConnectTimeout(1000);
-							conn.setReadTimeout(2000);
-							InputStream in = conn.getInputStream();
-							final Bitmap anIcon = BitmapFactory.decodeStream(in);
-							Bitmap anIconScaled = null;
+        if (isExpanded) {
+            FavouriteManager fm = new FavouriteManager(getContext().getApplicationContext());
 
-							if (anIcon != null) {
-								// save image to file
-								String aFileName = activity.getCacheDir().getAbsolutePath() + "/" + Utils.sanitizeName(anItem.itsURL) + ".dat";
-								File f = new File(aFileName);
+            holder.buttonShare.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    share(station);
+                }
+            });
 
-								if(BuildConfig.DEBUG) { Log.d("ICONS", "download finished " + anItem.itsURL + " -> " + aFileName); }
-								try {
-									FileOutputStream aStream = new FileOutputStream(f);
-									anIconScaled = getResizedBitmap(anIcon, 60);
-									anIconScaled.compress(Bitmap.CompressFormat.PNG, 100, aStream);
-									aStream.close();
-									itsIconCache.put(anItem.itsURL, anIconScaled);
-								} catch (FileNotFoundException e) {
-									Log.e("ICONS", "my1" + e);
-								} catch (IOException e) {
-									Log.e("ICONS", "my2" + e);
-								}
+            holder.buttonStationWebLink.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    showLinks(station);
+                }
+            });
 
-								if (anIconScaled != null) {
-									for (MyItem item : listViewItems) {
-										if (item.station != null) {
-											if (item.station.IconUrl != null) {
-												if (item.station.IconUrl.equals(anItem.itsURL)) {
-													if(BuildConfig.DEBUG) { Log.d("ICONS", "refresh icon " + anItem.itsURL); }
-													item.SetIcon(anIconScaled);
-												}
-											}
-										}
-									}
-								}
-							}
-						}
-					} catch (Exception e) {
-						Log.e("ICONS", "Could not load " + anItem.itsURL + " " + e);
-						itsIconCache.put(anItem.itsURL, null);
-					}
-				} catch (Exception e) {
-					// TODO Auto-generated catch block
-					Log.e("ICONS", "" + e);
-				}
-			}
-		}
-	}
+            if (fm.has(station.ID)) {
+                holder.buttonBookmark.setImageResource(R.drawable.ic_star_black_24dp);
+                holder.buttonBookmark.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        unStar(station);
+                        int position = holder.getAdapterPosition();
+                        notifyItemChanged(position);
+                    }
+                });
+            } else {
+                holder.buttonBookmark.setImageResource(R.drawable.ic_star_border_black_24dp);
+                holder.buttonBookmark.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        star(station);
+                        int position = holder.getAdapterPosition();
+                        notifyItemChanged(position);
+                    }
+                });
+            }
 
-	public Bitmap getResizedBitmap(Bitmap bm, int newWidth) {
-		int width = bm.getWidth();
-		int height = bm.getHeight();
-		float scaleWidth = ((float) newWidth) / width;
-		// CREATE A MATRIX FOR THE MANIPULATION
-		Matrix matrix = new Matrix();
-		// RESIZE THE BIT MAP
-		matrix.postScale(scaleWidth, scaleWidth);
+            holder.buttonSetTimer.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    setAsAlarm(station);
+                }
+            });
 
-		// "RECREATE" THE NEW BITMAP
-		Bitmap resizedBitmap = Bitmap.createBitmap(bm, 0, 0, width, height, matrix, false);
-		bm.recycle();
-		return resizedBitmap;
-	}
+            String[] tags = station.TagsAll.split(",");
+            holder.viewTags.setTags(Arrays.asList(tags));
+            holder.viewTags.setTagSelectionCallback(tagSelectionCallback);
+        }
+    }
+
+    @Override
+    public int getItemCount() {
+        return stationsList.size();
+    }
+
+    @Override
+    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+        Log.w(TAG, "onTimeSet() " + hourOfDay);
+        RadioAlarmManager ram = new RadioAlarmManager(getContext().getApplicationContext(), null);
+        ram.add(selectedStation, hourOfDay, minute);
+    }
+
+    private void showLinks(final DataRadioStation station) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+
+        builder.setItems(R.array.actions_station_link, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                switch (i) {
+                    case 0:
+                        openStationHomeUrl(station);
+                        break;
+                    case 1:
+                        retrieveAndCopyStreamUrlToClipboard(station);
+                        break;
+                }
+            }
+        }).setNegativeButton(R.string.action_cancel, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
+            }
+        });
+
+        builder.create().show();
+    }
+
+    private void openStationHomeUrl(final DataRadioStation station) {
+        if (station.HomePageUrl != null && !station.HomePageUrl.isEmpty()) {
+            Uri stationUrl = Uri.parse(station.HomePageUrl);
+            if (stationUrl != null) {
+                Intent newIntent = new Intent(Intent.ACTION_VIEW, stationUrl);
+                activity.startActivity(newIntent);
+            }
+        }
+    }
+
+    private void retrieveAndCopyStreamUrlToClipboard(final DataRadioStation station) {
+        final ProgressDialog loadingDialog = ProgressDialog.show(getContext(), "", getContext().getResources().getText(R.string.progress_loading));
+        new AsyncTask<Void, Void, String>() {
+            @Override
+            protected String doInBackground(Void... params) {
+                return Utils.getRealStationLink(getContext().getApplicationContext(), station.ID);
+            }
+
+            @Override
+            protected void onPostExecute(String result) {
+                loadingDialog.dismiss();
+
+                if (result != null) {
+                    ClipboardManager clipboard = (ClipboardManager) getContext().getSystemService(Context.CLIPBOARD_SERVICE);
+                    ClipData clip = ClipData.newPlainText("Stream Url", result);
+                    clipboard.setPrimaryClip(clip);
+
+                    CharSequence toastText = getContext().getResources().getText(R.string.notify_stream_url_copied);
+                    Toast.makeText(getContext().getApplicationContext(), toastText, Toast.LENGTH_SHORT).show();
+                } else {
+                    CharSequence toastText = getContext().getResources().getText(R.string.error_station_load);
+                    Toast.makeText(getContext().getApplicationContext(), toastText, Toast.LENGTH_SHORT).show();
+                }
+                super.onPostExecute(result);
+            }
+        }.execute();
+    }
+
+    private void star(DataRadioStation station) {
+        if (station != null) {
+            FavouriteManager fm = new FavouriteManager(getContext().getApplicationContext());
+            fm.add(station);
+            vote(station.ID);
+        } else {
+            Log.e(TAG, "empty station info");
+        }
+    }
+
+    private void vote(final String stationID) {
+        new AsyncTask<Void, Void, String>() {
+            @Override
+            protected String doInBackground(Void... params) {
+                return Utils.downloadFeed(activity, "https://www.radio-browser.info/webservice/json/vote/" + stationID, true, null);
+            }
+
+            @Override
+            protected void onPostExecute(String result) {
+                Log.i(TAG, result);
+                super.onPostExecute(result);
+            }
+        }.execute();
+    }
+
+    private void unStar(DataRadioStation station) {
+        if (station != null) {
+            FavouriteManager fm = new FavouriteManager(getContext().getApplicationContext());
+            fm.remove(station.ID);
+            if (refreshable != null) {
+                refreshable.RefreshListGui();
+            }
+        } else {
+            Log.e(TAG, "empty station info");
+        }
+    }
+
+    private Context getContext() {
+        return activity;
+    }
+
+    private void setAsAlarm(DataRadioStation station) {
+        Log.w(TAG, "setAsAlarm() 1");
+        if (station != null) {
+            selectedStation = station;
+            Log.w(TAG, "setAsAlarm() 2");
+            TimePickerFragment newFragment = new TimePickerFragment();
+            newFragment.setCallback(this);
+            newFragment.show(activity.getSupportFragmentManager(), "timePicker");
+        }
+    }
+
+    private void share(final DataRadioStation station) {
+        progressLoading = ProgressDialog.show(getContext(), "", getContext().getResources().getString(R.string.progress_loading));
+        new AsyncTask<Void, Void, String>() {
+            @Override
+            protected String doInBackground(Void... params) {
+                return Utils.getRealStationLink(getContext().getApplicationContext(), station.ID);
+            }
+
+            @Override
+            protected void onPostExecute(String result) {
+                progressLoading.dismiss();
+
+                if (result != null) {
+                    Intent share = new Intent(Intent.ACTION_VIEW);
+                    share.setDataAndType(Uri.parse(result), "audio/*");
+                    String title = getContext().getResources().getString(R.string.share_action);
+                    Intent chooser = Intent.createChooser(share, title);
+
+                    if (share.resolveActivity(getContext().getPackageManager()) != null) {
+                        getContext().startActivity(chooser);
+                    }
+                } else {
+                    Toast toast = Toast.makeText(getContext().getApplicationContext(), getContext().getResources().getText(R.string.error_station_load), Toast.LENGTH_SHORT);
+                    toast.show();
+                }
+                super.onPostExecute(result);
+            }
+        }.execute();
+    }
 }

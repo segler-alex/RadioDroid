@@ -27,7 +27,9 @@ public class FragmentTabs extends Fragment implements IFragmentRefreshable, IFra
     private String itsAdressWWWCountries = "https://www.radio-browser.info/webservice/json/countries";
     private String itsAdressWWWLanguages = "https://www.radio-browser.info/webservice/json/languages";
 
-    public static ViewPager viewPager;
+    private ViewPager viewPager;
+
+    private String searchQuery; // Search may be requested before onCreateView so we should wait
 
     FragmentBase[] fragments = new FragmentBase[8];
     String[] adresses = new String[]{
@@ -44,11 +46,16 @@ public class FragmentTabs extends Fragment implements IFragmentRefreshable, IFra
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View x =  inflater.inflate(R.layout.layout_tabs,null);
+        View x = inflater.inflate(R.layout.layout_tabs, null);
         final TabLayout tabLayout = (TabLayout) x.findViewById(R.id.tabs);
         viewPager = (ViewPager) x.findViewById(R.id.viewpager);
 
         setupViewPager(viewPager);
+
+        if (searchQuery != null) {
+            Search(searchQuery);
+            searchQuery = null;
+        }
 
         /*
          * Now , this is a workaround ,
@@ -67,7 +74,7 @@ public class FragmentTabs extends Fragment implements IFragmentRefreshable, IFra
     }
 
     private void setupViewPager(ViewPager viewPager) {
-        for (int i=0;i<fragments.length;i++) {
+        for (int i = 0; i < fragments.length; i++) {
             if (i < 4)
                 fragments[i] = new FragmentStations();
             else if (i < 7)
@@ -79,10 +86,10 @@ public class FragmentTabs extends Fragment implements IFragmentRefreshable, IFra
             fragments[i].setArguments(bundle1);
         }
 
-        ((FragmentCategories)fragments[4]).EnableSingleUseFilter(true);
-        ((FragmentCategories)fragments[4]).SetBaseSearchLink("https://www.radio-browser.info/webservice/json/stations/bytagexact");
-        ((FragmentCategories)fragments[5]).SetBaseSearchLink("https://www.radio-browser.info/webservice/json/stations/bycountryexact");
-        ((FragmentCategories)fragments[6]).SetBaseSearchLink("https://www.radio-browser.info/webservice/json/stations/bylanguageexact");
+        ((FragmentCategories) fragments[4]).EnableSingleUseFilter(true);
+        ((FragmentCategories) fragments[4]).SetBaseSearchLink("https://www.radio-browser.info/webservice/json/stations/bytagexact");
+        ((FragmentCategories) fragments[5]).SetBaseSearchLink("https://www.radio-browser.info/webservice/json/stations/bycountryexact");
+        ((FragmentCategories) fragments[6]).SetBaseSearchLink("https://www.radio-browser.info/webservice/json/stations/bylanguageexact");
 
         FragmentManager m = getChildFragmentManager();
         ViewPagerAdapter adapter = new ViewPagerAdapter(m);
@@ -97,9 +104,13 @@ public class FragmentTabs extends Fragment implements IFragmentRefreshable, IFra
         viewPager.setAdapter(adapter);
     }
 
-    public void Search(String query) {
-        viewPager.setCurrentItem(7);
-        fragments[7].SetDownloadUrl(query);
+    public void Search(final String query) {
+        if (viewPager != null) {
+            viewPager.setCurrentItem(7, false);
+            fragments[7].SetDownloadUrl(query);
+        } else {
+            searchQuery = query;
+        }
     }
 
     @Override
