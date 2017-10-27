@@ -1,15 +1,18 @@
 apply plugin: 'com.android.application'
 
 android {
+
+    flavorDimensions "one"
+
     compileSdkVersion 25
-    buildToolsVersion "25.0.3"
+    buildToolsVersion '26.0.2'
     lintOptions {
         abortOnError true
     }
 
     defaultConfig {
         applicationId "net.programmierecke.radiodroid2"
-        minSdkVersion 14
+        minSdkVersion 21
         targetSdkVersion 23
 
         versionCode 49
@@ -38,8 +41,12 @@ android {
         }
     }
     productFlavors {
-        play
-        free
+        play {
+            dimension "one"
+        }
+        free {
+            dimension "one"
+        }
     }
 }
 
@@ -64,9 +71,12 @@ dependencies {
 // https://stackoverflow.com/questions/32092665/resolve-application-label-for-each-build-type/32220436#32220436
 // https://stackoverflow.com/questions/18332474/how-to-set-versionname-in-apk-filename-using-gradle
 
+// Gradle 3.0
+// https://stackoverflow.com/questions/44800028/change-apk-filename-in-gradle-failed-with-gradle3-0-0-alpha4
+
 android.applicationVariants.all { variant ->
 
-    variant.outputs.each { output ->
+    variant.outputs.all { output ->
 
         // get app_name field from defaultConfig
         def appName = variant.mergedFlavor.resValues.get('app_name').getValue()
@@ -121,7 +131,7 @@ android.applicationVariants.all { variant ->
         }
 
         finalName += "-" + gitHash() + ".apk"
-        output.outputFile = new File(output.outputFile.parent, finalName)
-
+        // outputFileName = "${variant.name}-${variant.versionName}.apk"
+        outputFileName = finalName
     }
 }
