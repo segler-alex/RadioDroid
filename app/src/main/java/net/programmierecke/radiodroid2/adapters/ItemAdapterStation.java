@@ -160,7 +160,7 @@ public class ItemAdapterStation extends RecyclerView.Adapter<ItemAdapterStation.
         } else {
             if (!station.IconUrl.isEmpty()) {
                 Resources r = activity.getResources();
-                final float px = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 40, r.getDisplayMetrics());
+                final float px = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 70, r.getDisplayMetrics());
 
                 Callback cachedImageLoadCallback = new Callback() {
                     @Override
