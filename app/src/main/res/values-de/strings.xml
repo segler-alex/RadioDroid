@@ -111,6 +111,13 @@
         <item>S</item>
     </string-array>
 
+    <string name="notify_stream_url_copied">Die Stream-Url wurde erfolgreich kopiert.</string>
+
+    <string-array name="actions_station_link">
+        <item>Zur Website gehen</item>
+        <item>Stream-Url ins Clipboard kopieren</item>
+    </string-array>
+
     <string name="no_wifi_title">Keine WLAN-Verbindung</string>
     <string name="no_wifi_connection">Es ist keine WLAN-Verbindung zum Starten von %1$s verfügbar.\n\nDrücken Sie \'OK\', um fortzufahren.</string>
 </resources>
