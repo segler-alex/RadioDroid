@@ -17,6 +17,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.preference.PreferenceManager;
 import android.support.v7.widget.RecyclerView;
@@ -64,6 +65,8 @@ public class ItemAdapterStation extends RecyclerView.Adapter<ItemAdapterStation.
 
     private FragmentActivity activity;
     private DataRadioStation selectedStation;
+
+    private Drawable stationImagePlaceholder;
 
     private StationClickListener stationClickListener;
 
@@ -125,6 +128,8 @@ public class ItemAdapterStation extends RecyclerView.Adapter<ItemAdapterStation.
     public ItemAdapterStation(FragmentActivity fragmentActivity, int resourceId) {
         this.activity = fragmentActivity;
         this.resourceId = resourceId;
+
+        stationImagePlaceholder = ContextCompat.getDrawable(fragmentActivity, R.drawable.ic_photo_black_24dp);
     }
 
     public void setStationClickListener(StationClickListener stationClickListener) {
@@ -182,10 +187,10 @@ public class ItemAdapterStation extends RecyclerView.Adapter<ItemAdapterStation.
                         .load(station.IconUrl)
                         .networkPolicy(NetworkPolicy.OFFLINE)
                         .resize((int) px, 0)
-                        .placeholder(R.drawable.ic_photo_black_24dp)
+                        .placeholder(stationImagePlaceholder)
                         .into(holder.imageViewIcon, cachedImageLoadCallback);
             } else {
-                holder.imageViewIcon.setImageResource(R.drawable.ic_photo_black_24dp);
+                holder.imageViewIcon.setImageDrawable(stationImagePlaceholder);
             }
         }
 
