@@ -187,7 +187,7 @@ public class ActivityRadioStationDetail extends AppCompatActivity implements Tim
 
 		TextView aTextViewTags = (TextView) findViewById(R.id.detail_station_tags_value);
 		if (aTextViewTags != null) {
-			aTextViewTags.setText(dataRadioStation.TagsAll);
+			aTextViewTags.setText(dataRadioStation.TagsAll.replace(",", ", "));
 		}
 
 		TextView aTextViewWWW = (TextView) findViewById(R.id.detail_station_www_value);
