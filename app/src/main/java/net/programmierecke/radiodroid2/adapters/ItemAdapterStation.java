@@ -214,7 +214,7 @@ public class ItemAdapterStation extends RecyclerView.Adapter<ItemAdapterStation.
 
         holder.textViewTitle.setText(station.Name);
         holder.textViewShortDescription.setText(station.getShortDetails(getContext()));
-        holder.textViewTags.setText(station.TagsAll);
+        holder.textViewTags.setText(station.TagsAll.replace(",", ", "));
 
         Drawable flag = CountryFlagsLoader.getInstance().getFlag(activity, station.Country);
 
