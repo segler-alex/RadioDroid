@@ -15,8 +15,8 @@ android {
         minSdkVersion 21
         targetSdkVersion 23
 
-        versionCode 49
-        versionName "0.39"
+        versionCode 50
+        versionName "0.40"
 
         // Define your application name here.
         // It must neither be present in /res/values/strings.xml
