@@ -19,6 +19,7 @@ import android.os.PowerManager;
 import android.os.RemoteException;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.res.ResourcesCompat;
+import android.support.v4.media.MediaMetadataCompat;
 import android.support.v4.media.session.MediaButtonReceiver;
 import android.support.v4.media.session.MediaSessionCompat;
 import android.support.v4.media.session.PlaybackStateCompat;
@@ -28,6 +29,7 @@ import android.view.KeyEvent;
 import android.widget.Toast;
 
 import net.programmierecke.radiodroid2.data.ShoutcastInfo;
+import net.programmierecke.radiodroid2.data.StreamLiveInfo;
 import net.programmierecke.radiodroid2.players.ExoPlayerWrapper;
 import net.programmierecke.radiodroid2.players.MediaPlayerWrapper;
 import net.programmierecke.radiodroid2.players.RadioPlayer;
@@ -69,7 +71,7 @@ public class PlayerService extends Service implements RadioPlayer.PlayerListener
     private CountDownTimer timer;
     private long seconds = 0;
 
-    private Map<String, String> liveInfo;
+    private StreamLiveInfo liveInfo = new StreamLiveInfo(null);
     private ShoutcastInfo streamInfo;
 
     private boolean isHls = false;
@@ -124,7 +126,7 @@ public class PlayerService extends Service implements RadioPlayer.PlayerListener
         }
 
         @Override
-        public Map getMetadataLive() throws RemoteException {
+        public StreamLiveInfo getMetadataLive() throws RemoteException {
             return PlayerService.this.liveInfo;
         }
 
@@ -190,32 +192,22 @@ public class PlayerService extends Service implements RadioPlayer.PlayerListener
         @Override
         public void startRecording() throws RemoteException {
             if (radioPlayer != null) {
-
-                /* metadata init */
-                String streamTitle = "";
                 Integer maxloop = 20;
 
-                Map liveInfo = PlayerServiceUtil.getMetadataLive();
-                if (liveInfo != null) {
-                    streamTitle = (String) liveInfo.get("StreamTitle");
-                }
+                StreamLiveInfo liveInfo = PlayerServiceUtil.getMetadataLive();
 
-                while (streamTitle.isEmpty() && maxloop > 0) {
+                while (liveInfo.getTitle().isEmpty() && maxloop > 0) {
                     try {
                         Thread.sleep(50);
-                    }
-                    catch(InterruptedException ex) {
+                    } catch (InterruptedException ex) {
                         Thread.currentThread().interrupt();
                     }
 
                     liveInfo = PlayerServiceUtil.getMetadataLive();
-                    if (liveInfo != null) {
-                        streamTitle = (String) liveInfo.get("StreamTitle");
-                    }
                     maxloop--;
-                };
+                }
 
-                radioPlayer.startRecording(currentStationName, streamTitle);
+                radioPlayer.startRecording(currentStationName, liveInfo.getTitle());
                 sendBroadCast(PLAYER_SERVICE_META_UPDATE);
             }
         }
@@ -445,7 +437,7 @@ public class PlayerService extends Service implements RadioPlayer.PlayerListener
 
         resumeOnFocusGain = false;
 
-        liveInfo = null;
+        liveInfo = new StreamLiveInfo(null);
         streamInfo = null;
 
         releaseAudioFocus();
@@ -462,7 +454,7 @@ public class PlayerService extends Service implements RadioPlayer.PlayerListener
     public void replayCurrent(final boolean isAlarm) {
         if (BuildConfig.DEBUG) Log.d(TAG, "replaying current.");
 
-        liveInfo = null;
+        liveInfo = new StreamLiveInfo(null);
         streamInfo = null;
 
         acquireWakeLockAndWifiLock();
@@ -657,17 +649,19 @@ public class PlayerService extends Service implements RadioPlayer.PlayerListener
                 sendMessage(currentStationName, itsContext.getResources().getString(R.string.notify_try_play), itsContext.getResources().getString(R.string.notify_try_play));
                 break;
             case Playing:
-                if (liveInfo != null) {
-                    String title = liveInfo.get("StreamTitle");
-                    if (!TextUtils.isEmpty(title)) {
-                        if (BuildConfig.DEBUG) Log.d(TAG, "update message:" + title);
-                        sendMessage(currentStationName, title, title);
-                    } else {
-                        sendMessage(currentStationName, itsContext.getResources().getString(R.string.notify_play), currentStationName);
-                    }
+                final String title = liveInfo.getTitle();
+                if (!TextUtils.isEmpty(title)) {
+                    if (BuildConfig.DEBUG) Log.d(TAG, "update message:" + title);
+                    sendMessage(currentStationName, title, title);
                 } else {
                     sendMessage(currentStationName, itsContext.getResources().getString(R.string.notify_play), currentStationName);
                 }
+
+                final MediaMetadataCompat.Builder builder = new MediaMetadataCompat.Builder();
+                builder.putString(MediaMetadataCompat.METADATA_KEY_ARTIST, liveInfo.getArtist());
+                builder.putString(MediaMetadataCompat.METADATA_KEY_TITLE, liveInfo.getTrack());
+                mediaSession.setMetadata(builder.build());
+
                 break;
             case Paused:
                 sendMessage(currentStationName, itsContext.getResources().getString(R.string.notify_paused), currentStationName);
@@ -737,12 +731,13 @@ public class PlayerService extends Service implements RadioPlayer.PlayerListener
     }
 
     @Override
-    public void foundLiveStreamInfo(Map<String, String> liveInfo) {
+    public void foundLiveStreamInfo(StreamLiveInfo liveInfo) {
         this.liveInfo = liveInfo;
 
         if (BuildConfig.DEBUG) {
-            for (String key : liveInfo.keySet()) {
-                Log.i(TAG, "INFO:" + key + "=" + liveInfo.get(key));
+            Map<String, String> rawMetadata = liveInfo.getRawMetadata();
+            for (String key : rawMetadata.keySet()) {
+                Log.i(TAG, "INFO:" + key + "=" + rawMetadata.get(key));
             }
         }
 

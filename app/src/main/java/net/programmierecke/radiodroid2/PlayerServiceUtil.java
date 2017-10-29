@@ -6,10 +6,10 @@ import android.content.Intent;
 import android.content.ServiceConnection;
 import android.os.IBinder;
 import android.os.RemoteException;
+import android.support.annotation.NonNull;
 import android.util.Log;
 
-import java.util.HashMap;
-import java.util.Map;
+import net.programmierecke.radiodroid2.data.StreamLiveInfo;
 
 public class PlayerServiceUtil {
     public static void bind(Context context){
@@ -120,7 +120,7 @@ public class PlayerServiceUtil {
         return 0;
     }
 
-    public static Map getMetadataLive() {
+    public static @NonNull StreamLiveInfo getMetadataLive() {
         if (itsPlayerService != null) {
             try {
                 return itsPlayerService.getMetadataLive();
@@ -128,7 +128,7 @@ public class PlayerServiceUtil {
                 Log.e("", "" + e);
             }
         }
-        return new HashMap<String,String>();
+        return new StreamLiveInfo(null);
     }
 
     public static String getStreamName() {

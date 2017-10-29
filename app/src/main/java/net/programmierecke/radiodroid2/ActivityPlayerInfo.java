@@ -19,7 +19,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.util.Map;
+import net.programmierecke.radiodroid2.data.StreamLiveInfo;
 
 public class ActivityPlayerInfo extends AppCompatActivity {
 	ProgressDialog itsProgressLoading;
@@ -258,18 +258,14 @@ public class ActivityPlayerInfo extends AppCompatActivity {
 			textViewCountdown.setVisibility(View.VISIBLE);
 		}
 
-		Map liveInfo = PlayerServiceUtil.getMetadataLive();
-		if (liveInfo != null){
-			String streamTitle = (String)liveInfo.get("StreamTitle");
-			if (!TextUtils.isEmpty(streamTitle)) {
-				textViewLiveInfo.setVisibility(View.VISIBLE);
-				textViewLiveInfo.setText(streamTitle);
-			}else {
-				textViewLiveInfo.setVisibility(View.GONE);
-			}
-		}else{
-			textViewLiveInfo.setVisibility(View.GONE);
-		}
+        StreamLiveInfo liveInfo = PlayerServiceUtil.getMetadataLive();
+        String streamTitle = liveInfo.getTitle();
+        if (!TextUtils.isEmpty(streamTitle)) {
+            textViewLiveInfo.setVisibility(View.VISIBLE);
+            textViewLiveInfo.setText(streamTitle);
+        } else {
+            textViewLiveInfo.setVisibility(View.GONE);
+        }
 
 		if (PlayerServiceUtil.getCurrentRecordFileName() != null && PlayerServiceUtil.isRecording()){
 			String recordingInfo = getResources().getString(R.string.player_info_recording_to,PlayerServiceUtil.getCurrentRecordFileName());
