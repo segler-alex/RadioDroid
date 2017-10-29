@@ -14,9 +14,9 @@
             android:id="@+id/textViewTop"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:ellipsize="end"
-            android:maxLines="1"
-            android:textSize="20sp" />
+            android:layout_marginTop="5px"
+            android:textStyle="bold"
+            android:textSize="12sp" />
 
         <TextView
             android:id="@+id/textViewBottom"
@@ -24,7 +24,12 @@
             android:layout_height="wrap_content"
             android:ellipsize="end"
             android:maxLines="1"
-            android:textSize="16sp" />
+            android:textSize="8sp" />
+
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="1dp"
+            android:background="#FF00FF" />
 
     </LinearLayout>
 
