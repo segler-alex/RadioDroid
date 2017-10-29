@@ -27,7 +27,7 @@ public class RadioPlayer implements IStreamProxyEventReceiver, PlayerWrapper.Pla
     }
 
     public interface PlayerListener {
-        void onStateChanged(PlayState status);
+        void onStateChanged(final PlayState status, final int audioSessionId);
 
         void onPlayerError(final int messageId);
 
@@ -66,7 +66,7 @@ public class RadioPlayer implements IStreamProxyEventReceiver, PlayerWrapper.Pla
         this.isAlarm = isAlarm;
         this.stationUrl = stationURL;
 
-        setState(PlayState.Idle);
+        setState(PlayState.Idle, getAudioSessionId());
 
         playerThreadHandler.post(new Runnable() {
             @Override
@@ -76,7 +76,7 @@ public class RadioPlayer implements IStreamProxyEventReceiver, PlayerWrapper.Pla
                     stopProxy();
                 }
 
-                setState(PlayState.CreateProxy);
+                setState(PlayState.CreateProxy, -1);
                 proxy = new StreamProxy(stationURL, RadioPlayer.this);
             }
         });
@@ -86,6 +86,7 @@ public class RadioPlayer implements IStreamProxyEventReceiver, PlayerWrapper.Pla
         playerThreadHandler.post(new Runnable() {
             @Override
             public void run() {
+                final int audioSessionId = getAudioSessionId();
                 player.pause();
 
                 if (proxy != null) {
@@ -94,7 +95,7 @@ public class RadioPlayer implements IStreamProxyEventReceiver, PlayerWrapper.Pla
                     proxy = null;
                 }
 
-                setState(PlayState.Paused);
+                setState(PlayState.Paused, audioSessionId);
             }
         });
     }
@@ -103,12 +104,14 @@ public class RadioPlayer implements IStreamProxyEventReceiver, PlayerWrapper.Pla
         playerThreadHandler.post(new Runnable() {
             @Override
             public void run() {
+                final int audioSessionId = getAudioSessionId();
+
                 player.stop();
 
                 if (proxy != null) {
                     stopProxy();
 
-                    setState(PlayState.Idle);
+                    setState(PlayState.Idle, audioSessionId);
                 }
             }
         });
@@ -134,6 +137,10 @@ public class RadioPlayer implements IStreamProxyEventReceiver, PlayerWrapper.Pla
 
     public final boolean isPlaying() {
         return player.isPlaying();
+    }
+
+    public final int getAudioSessionId() {
+        return player.getAudioSessionId();
     }
 
     public final void setVolume(float volume) {
@@ -184,11 +191,11 @@ public class RadioPlayer implements IStreamProxyEventReceiver, PlayerWrapper.Pla
         return playState;
     }
 
-    private void setState(PlayState state) {
+    private void setState(PlayState state, int audioSessionId) {
         if (BuildConfig.DEBUG) Log.d(TAG, String.format("set state '%s'", state.name()));
 
         playState = state;
-        playerListener.onStateChanged(state);
+        playerListener.onStateChanged(state, audioSessionId);
     }
 
     private void stopProxy() {
@@ -228,7 +235,7 @@ public class RadioPlayer implements IStreamProxyEventReceiver, PlayerWrapper.Pla
 
     @Override
     public void onStateChanged(PlayState state) {
-        setState(state);
+        setState(state, getAudioSessionId());
     }
 
     @Override

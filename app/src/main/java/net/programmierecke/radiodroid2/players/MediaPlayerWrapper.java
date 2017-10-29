@@ -72,6 +72,14 @@ public class MediaPlayerWrapper implements PlayerWrapper {
     }
 
     @Override
+    public int getAudioSessionId() {
+        if (mediaPlayer != null) {
+            return mediaPlayer.getAudioSessionId();
+        }
+        return 0;
+    }
+
+    @Override
     public void setVolume(float newVolume) {
         if (mediaPlayer != null) {
             mediaPlayer.setVolume(newVolume, newVolume);

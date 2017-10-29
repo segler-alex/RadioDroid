@@ -33,6 +33,8 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
 
     public static final String EXTRA_SEARCH_TAG = "search_tag";
 
+    public static final int LAUNCH_EQUALIZER_REQUEST = 1;
+
     private static final String TAG = "RadioDroid";
 
     private final String TAG_SEARCH_URL = "https://www.radio-browser.info/webservice/json/stations/bytagexact";

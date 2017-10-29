@@ -17,6 +17,8 @@ interface PlayerWrapper {
 
     boolean isPlaying();
 
+    int getAudioSessionId();
+
     void setVolume(float newVolume);
 
     void setStateListener(PlayStateListener listener);
