@@ -71,6 +71,7 @@
     <string name="settings_play">Player</string>
     <string name="settings_play_external">Open external</string>
     <string name="settings_play_external_desc">Should a single click on stations open external</string>
+    <string name="settings_equalizer">Equalizer</string>
 
     <string name="settings_warn_no_wifi">Warn when not on Wifi</string>
     <string name="settings_warn_no_wifi_on">Warn when playing without Wifi connection</string>
@@ -89,6 +90,8 @@
 
     <string name="error_record_needs_write">Need write permission for recording!</string>
     <string name="error_grant_audiofocus">Request for audio focus was not granted by the system.</string>
+
+    <string name="error_no_equalizer_found">No equalizer app found!</string>
 
     <string name="player_info_status">Status:&#160;</string>
     <string name="player_info_status_stopped">stopped</string>

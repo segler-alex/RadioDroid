@@ -8,8 +8,11 @@ import android.util.Log;
 
 import com.google.android.exoplayer2.DefaultLoadControl;
 import com.google.android.exoplayer2.ExoPlayerFactory;
+import com.google.android.exoplayer2.Format;
 import com.google.android.exoplayer2.LoadControl;
 import com.google.android.exoplayer2.SimpleExoPlayer;
+import com.google.android.exoplayer2.audio.AudioRendererEventListener;
+import com.google.android.exoplayer2.decoder.DecoderCounters;
 import com.google.android.exoplayer2.extractor.DefaultExtractorsFactory;
 import com.google.android.exoplayer2.extractor.ExtractorsFactory;
 import com.google.android.exoplayer2.source.ExtractorMediaSource;
@@ -52,6 +55,8 @@ public class ExoPlayerWrapper implements PlayerWrapper {
             // 3. Create the player
             player = ExoPlayerFactory.newSimpleInstance(context, trackSelector, loadControl);
             player.setAudioStreamType(isAlarm ? AudioManager.STREAM_ALARM : AudioManager.STREAM_MUSIC);
+
+            player.setAudioDebugListener(new AudioEventListener());
         }
         // Produces DataSource instances through which media data is loaded.
         DataSource.Factory dataSourceFactory = new DefaultDataSourceFactory(context, Util.getUserAgent(context, "yourApplicationName"), null);
@@ -63,7 +68,7 @@ public class ExoPlayerWrapper implements PlayerWrapper {
         player.prepare(videoSource);
         player.setPlayWhenReady(true);
 
-        stateListener.onStateChanged(RadioPlayer.PlayState.Playing);
+        // State changed will be called when audio session id is available.
     }
 
     @Override
@@ -95,6 +100,14 @@ public class ExoPlayerWrapper implements PlayerWrapper {
     }
 
     @Override
+    public int getAudioSessionId() {
+        if (player != null) {
+            return player.getAudioSessionId();
+        }
+        return 0;
+    }
+
+    @Override
     public void setVolume(float newVolume) {
         if (player != null) {
             player.setVolume(newVolume);
@@ -104,5 +117,37 @@ public class ExoPlayerWrapper implements PlayerWrapper {
     @Override
     public void setStateListener(PlayStateListener listener) {
         stateListener = listener;
+    }
+
+    private class AudioEventListener implements AudioRendererEventListener {
+        @Override
+        public void onAudioEnabled(DecoderCounters counters) {
+
+        }
+
+        @Override
+        public void onAudioSessionId(int audioSessionId) {
+            stateListener.onStateChanged(RadioPlayer.PlayState.Playing);
+        }
+
+        @Override
+        public void onAudioDecoderInitialized(String decoderName, long initializedTimestampMs, long initializationDurationMs) {
+
+        }
+
+        @Override
+        public void onAudioInputFormatChanged(Format format) {
+
+        }
+
+        @Override
+        public void onAudioTrackUnderrun(int bufferSize, long bufferSizeMs, long elapsedSinceLastFeedMs) {
+
+        }
+
+        @Override
+        public void onAudioDisabled(DecoderCounters counters) {
+
+        }
     }
 }

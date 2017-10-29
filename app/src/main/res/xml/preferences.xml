@@ -47,6 +47,9 @@
                 android:summaryOn="@string/settings_warn_no_wifi_on"
                 android:summaryOff="@string/settings_warn_no_wifi_off" />
 
+        <Preference
+            android:key="equalizer"
+            android:title="@string/settings_equalizer" />
     </PreferenceCategory>
 
     <PreferenceCategory

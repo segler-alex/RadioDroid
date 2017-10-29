@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.drawable.BitmapDrawable;
 import android.media.AudioManager;
+import android.media.audiofx.AudioEffect;
 import android.net.wifi.WifiManager;
 import android.os.Build;
 import android.os.CountDownTimer;
@@ -670,7 +671,7 @@ public class PlayerService extends Service implements RadioPlayer.PlayerListener
     }
 
     @Override
-    public void onStateChanged(final RadioPlayer.PlayState state) {
+    public void onStateChanged(final RadioPlayer.PlayState state, final int audioSessionId) {
         // State changed can be called from the player's thread.
 
         Handler h = new Handler(itsContext.getMainLooper());
@@ -682,19 +683,42 @@ public class PlayerService extends Service implements RadioPlayer.PlayerListener
                     case Paused:
                         setMediaPlaybackState(PlaybackStateCompat.STATE_PAUSED);
                         break;
-                    case Playing:
+                    case Playing: {
                         setMediaPlaybackState(PlaybackStateCompat.STATE_PLAYING);
 
                         createMediaSession();
                         mediaSession.setActive(true);
+
+                        if (BuildConfig.DEBUG) {
+                            Log.d(TAG, "Open audio effect control session, session id=" + audioSessionId);
+                        }
+
+                        Intent i = new Intent(AudioEffect.ACTION_OPEN_AUDIO_EFFECT_CONTROL_SESSION);
+                        i.putExtra(AudioEffect.EXTRA_AUDIO_SESSION, audioSessionId);
+                        i.putExtra(AudioEffect.EXTRA_PACKAGE_NAME, getPackageName());
+                        sendBroadcast(i);
                         break;
-                    default:
+                    }
+                    default: {
                         setMediaPlaybackState(PlaybackStateCompat.STATE_NONE);
 
                         if (mediaSession != null) {
                             mediaSession.setActive(false);
                         }
+
+                        if (audioSessionId > 0) {
+                            if (BuildConfig.DEBUG) {
+                                Log.d(TAG, "Close audio effect control session, session id=" + audioSessionId);
+                            }
+
+                            Intent i = new Intent(AudioEffect.ACTION_CLOSE_AUDIO_EFFECT_CONTROL_SESSION);
+                            i.putExtra(AudioEffect.EXTRA_AUDIO_SESSION, audioSessionId);
+                            i.putExtra(AudioEffect.EXTRA_PACKAGE_NAME, getPackageName());
+                            sendBroadcast(i);
+                        }
+
                         break;
+                    }
                 }
 
                 updateNotification();
