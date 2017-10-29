@@ -5,6 +5,7 @@ import android.util.Log;
 import net.programmierecke.radiodroid2.data.PlaylistM3U;
 import net.programmierecke.radiodroid2.data.PlaylistM3UEntry;
 import net.programmierecke.radiodroid2.data.ShoutcastInfo;
+import net.programmierecke.radiodroid2.data.StreamLiveInfo;
 import net.programmierecke.radiodroid2.interfaces.IStreamProxyEventReceiver;
 
 import java.io.FileNotFoundException;
@@ -142,9 +143,10 @@ public class StreamProxy {
                 if (metadataBytesToRead <= 0) {
                     String s = new String(buf, 0, metadataBytes, "utf-8");
                     if (BuildConfig.DEBUG) Log.d(TAG, "METADATA:" + s);
-                    Map<String, String> dict = decodeShoutcastMetadata(s);
-                    if (BuildConfig.DEBUG) Log.d(TAG, "META:" + dict.get("StreamTitle"));
-                    callback.foundLiveStreamInfo(dict);
+                    Map<String, String> rawMetadata = decodeShoutcastMetadata(s);
+                    StreamLiveInfo streamLiveInfo = new StreamLiveInfo(rawMetadata);
+                    if (BuildConfig.DEBUG) Log.d(TAG, "META:" + streamLiveInfo.getTitle());
+                    callback.foundLiveStreamInfo(streamLiveInfo);
                     break;
                 }
             }

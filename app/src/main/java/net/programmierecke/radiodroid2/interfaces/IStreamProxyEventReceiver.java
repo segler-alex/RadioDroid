@@ -1,12 +1,11 @@
 package net.programmierecke.radiodroid2.interfaces;
 
 import net.programmierecke.radiodroid2.data.ShoutcastInfo;
-
-import java.util.Map;
+import net.programmierecke.radiodroid2.data.StreamLiveInfo;
 
 public interface IStreamProxyEventReceiver {
     void foundShoutcastStream(ShoutcastInfo bitrate, boolean isHls);
-    void foundLiveStreamInfo(Map<String,String> liveInfo);
+    void foundLiveStreamInfo(StreamLiveInfo liveInfo);
     void streamCreated(String proxyConnection);
     void streamStopped();
 }

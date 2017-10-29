@@ -10,9 +10,8 @@ import android.util.Log;
 import net.programmierecke.radiodroid2.BuildConfig;
 import net.programmierecke.radiodroid2.StreamProxy;
 import net.programmierecke.radiodroid2.data.ShoutcastInfo;
+import net.programmierecke.radiodroid2.data.StreamLiveInfo;
 import net.programmierecke.radiodroid2.interfaces.IStreamProxyEventReceiver;
-
-import java.util.Map;
 
 public class RadioPlayer implements IStreamProxyEventReceiver, PlayerWrapper.PlayStateListener {
 
@@ -34,7 +33,7 @@ public class RadioPlayer implements IStreamProxyEventReceiver, PlayerWrapper.Pla
         // We are not interested in this events here so they will be forwarded to whoever hold RadioPlayer
         void foundShoutcastStream(ShoutcastInfo bitrate, boolean isHls);
 
-        void foundLiveStreamInfo(Map<String, String> liveInfo);
+        void foundLiveStreamInfo(StreamLiveInfo liveInfo);
     }
 
     private PlayerWrapper player;
@@ -206,7 +205,7 @@ public class RadioPlayer implements IStreamProxyEventReceiver, PlayerWrapper.Pla
     }
 
     @Override
-    public void foundLiveStreamInfo(Map<String, String> liveInfo) {
+    public void foundLiveStreamInfo(StreamLiveInfo liveInfo) {
         playerListener.foundLiveStreamInfo(liveInfo);
     }
 
