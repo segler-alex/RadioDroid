@@ -8,25 +8,23 @@
         android:orientation="horizontal"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp">
+        android:layout_margin="5dp" >
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:gravity="left"
+            android:gravity="start"
             android:textSize="15sp"
-            android:text="StatsName"
             android:textStyle="italic"
-            android:id="@+id/stats_name"/>
+            android:id="@+id/stats_name" />
 
         <TextView
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:gravity="right"
+            android:gravity="end"
             android:textSize="20sp"
-            android:text="StatsValue"
             android:textStyle="bold"
             android:id="@+id/stats_value" />
     </LinearLayout>
