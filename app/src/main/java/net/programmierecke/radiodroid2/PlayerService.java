@@ -595,9 +595,9 @@ public class PlayerService extends Service implements RadioPlayer.PlayerListener
                 .setWhen(System.currentTimeMillis())
                 .setTicker(theTicker)
                 .setOngoing(true)
-                .setSmallIcon(R.drawable.ic_play_arrow_24dp)
+                .setSmallIcon(R.drawable.ic_play_arrow_white_24dp)
                 .setLargeIcon((((BitmapDrawable) ResourcesCompat.getDrawable(getResources(), R.drawable.ic_launcher, null)).getBitmap()))
-                .addAction(R.drawable.ic_stop_24dp, "Stop", pendingIntentStop);
+                .addAction(R.drawable.ic_stop_white_24dp, "Stop", pendingIntentStop);
 
         RadioPlayer.PlayState currentPlayerState = radioPlayer.getPlayState();
 
@@ -606,14 +606,14 @@ public class PlayerService extends Service implements RadioPlayer.PlayerListener
             pauseIntent.setAction(ACTION_PAUSE);
             PendingIntent pendingIntentPause = PendingIntent.getService(itsContext, 0, pauseIntent, 0);
 
-            notificationBuilder.addAction(R.drawable.ic_pause_24dp, "Pause", pendingIntentPause);
+            notificationBuilder.addAction(R.drawable.ic_pause_white_24dp, "Pause", pendingIntentPause);
             notificationBuilder.setUsesChronometer(true);
         } else if (currentPlayerState == RadioPlayer.PlayState.Paused) {
             Intent resumeIntent = new Intent(itsContext, PlayerService.class);
             resumeIntent.setAction(ACTION_RESUME);
             PendingIntent pendingIntentResume = PendingIntent.getService(itsContext, 0, resumeIntent, 0);
 
-            notificationBuilder.addAction(R.drawable.ic_play_arrow_24dp, "Resume", pendingIntentResume);
+            notificationBuilder.addAction(R.drawable.ic_play_arrow_white_24dp, "Resume", pendingIntentResume);
             notificationBuilder.setUsesChronometer(false);
         }
 
