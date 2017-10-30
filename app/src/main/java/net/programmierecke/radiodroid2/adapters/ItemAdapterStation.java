@@ -194,6 +194,22 @@ public class ItemAdapterStation extends RecyclerView.Adapter<ItemAdapterStation.
             }
         }
 
+        holder.imageViewIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                FavouriteManager fm = new FavouriteManager(getContext().getApplicationContext());
+
+                if (fm.has(station.ID)) {
+                    unStar(station);
+                } else {
+                    star(station);
+                }
+
+                int position = holder.getAdapterPosition();
+                notifyItemChanged(position);
+            }
+        });
+
         final boolean isExpanded = position == expandedPosition;
         holder.viewDetails.setVisibility(isExpanded ? View.VISIBLE : View.GONE);
         holder.textViewTags.setVisibility(isExpanded ? View.GONE : View.VISIBLE);
