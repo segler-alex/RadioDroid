@@ -53,9 +53,13 @@
     <string name="startup_show_favorites">Starte mit Deiner Favoritenliste.</string>
     <string name="startup_show_history">Starte mit der Liste Deiner bisher gespielten Stationen.</string>
 
-    <string name="settings_load_icons">Stations-Logos</string>
-    <string name="settings_load_icons_on">Die Stations-Logos werden im Hintergrund heruntergeladen; es kann einige Zeit dauern, bis alle Logos angezeigt werden.</string>
-    <string name="settings_load_icons_off">Es werden keine Stations-Logos heruntergeladen.</string>
+    <string name="settings_load_icons">Stationslogos</string>
+    <string name="settings_load_icons_on">Die Stationslogos werden im Hintergrund heruntergeladen; es kann einige Zeit dauern, bis alle Logos angezeigt werden.</string>
+    <string name="settings_load_icons_off">Es werden keine Stationslogos heruntergeladen.</string>
+
+    <string name="settings_icon_click_toggles_favorite">Klickverhalten</string>
+    <string name="settings_icon_click_toggles_favorite_on">Ein Klick auf das Stationslogo setzt oder löscht die Station als Favorit.</string>
+    <string name="settings_icon_click_toggles_favorite_off">Ein Klick auf das Stationslogo startet das Abspielen.</string>
 
     <string name="settings_alarm">Alarm</string>
     <string name="settings_alarm_external">Öffne extern</string>
@@ -76,6 +80,8 @@
     <string name="notify_prepare_stream">Wiedergabe wird vorbereitet…</string>
     <string name="notify_try_play">Versuche Wiedergabe</string>
     <string name="notify_play">Wiedergabe</string>
+    <string name="notify_starred">Die Station wurde zur Favoritenliste hinzugefügt.</string>
+    <string name="notify_unstarred">Die Station wurde als Favorit gelöscht.</string>
 
     <string name="error_stream_url">Problem mit dem Internetlink</string>
     <string name="error_caching_stream">Problem mit dem Zwischenspeichern</string>
