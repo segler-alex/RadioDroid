@@ -192,23 +192,31 @@ public class ItemAdapterStation extends RecyclerView.Adapter<ItemAdapterStation.
             } else {
                 holder.imageViewIcon.setImageDrawable(stationImagePlaceholder);
             }
-        }
 
-        holder.imageViewIcon.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                FavouriteManager fm = new FavouriteManager(getContext().getApplicationContext());
+            if (PreferenceManager.getDefaultSharedPreferences(getContext().getApplicationContext()).getBoolean("icon_click_toggles_favorite", true)) {
 
-                if (fm.has(station.ID)) {
-                    unStar(station);
-                } else {
-                    star(station);
-                }
+                holder.imageViewIcon.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Context context = getContext().getApplicationContext();
+                        FavouriteManager fm = new FavouriteManager(context);
 
-                int position = holder.getAdapterPosition();
-                notifyItemChanged(position);
+                        if (fm.has(station.ID)) {
+                            unStar(station);
+                            Toast toast = Toast.makeText(context, context.getString(R.string.notify_unstarred), Toast.LENGTH_SHORT);
+                            toast.show();
+                        } else {
+                            star(station);
+                            Toast toast = Toast.makeText(context, context.getString(R.string.notify_starred), Toast.LENGTH_SHORT);
+                            toast.show();
+                        }
+
+                        int position = holder.getAdapterPosition();
+                        notifyItemChanged(position);
+                    }
+                });
             }
-        });
+        }
 
         final boolean isExpanded = position == expandedPosition;
         holder.viewDetails.setVisibility(isExpanded ? View.VISIBLE : View.GONE);

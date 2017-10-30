@@ -62,6 +62,10 @@
     <string name="settings_load_icons_on">Icons will be downloaded</string>
     <string name="settings_load_icons_off">Icons will not be downloaded</string>
 
+    <string name="settings_icon_click_toggles_favorite">Icon clicks</string>
+    <string name="settings_icon_click_toggles_favorite_on">Clicking station icon adds or removes this as favorite</string>
+    <string name="settings_icon_click_toggles_favorite_off">Clicking station icon starts playing</string>
+
     <string name="settings_alarm">Alarm</string>
     <string name="settings_alarm_external">Open external</string>
     <string name="settings_alarm_external_desc">Open the alarm with default external app</string>
@@ -83,6 +87,8 @@
     <string name="notify_try_play">Try playing</string>
     <string name="notify_play">Playing</string>
     <string name="notify_paused">Paused</string>
+    <string name="notify_starred">Station has been bookmarked as favorite</string>
+    <string name="notify_unstarred">Station has been removed from the favorite list</string>
 
     <string name="error_stream_url">Stream url problem</string>
     <string name="error_caching_stream">Stream caching problem</string>

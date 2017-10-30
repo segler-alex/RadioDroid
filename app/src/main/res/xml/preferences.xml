@@ -20,6 +20,14 @@
             android:summaryOff="@string/settings_load_icons_off" />
 
         <CheckBoxPreference
+            android:key="icon_click_toggles_favorite"
+            android:dependency="load_icons"
+            android:defaultValue="true"
+            android:title="@string/settings_icon_click_toggles_favorite"
+            android:summaryOn="@string/settings_icon_click_toggles_favorite_on"
+            android:summaryOff="@string/settings_icon_click_toggles_favorite_off" />
+
+        <CheckBoxPreference
             android:key="show_broken"
             android:title="@string/settings_show_broken"
             android:summaryOn="@string/settings_show_broken_on"
