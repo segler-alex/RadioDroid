@@ -24,6 +24,8 @@ public class FragmentHistory extends Fragment {
 
         HistoryManager hm = new HistoryManager(activity.getApplicationContext());
         hm.add(theStation);
+
+        RefreshListGui();
     }
 
     protected void RefreshListGui() {
