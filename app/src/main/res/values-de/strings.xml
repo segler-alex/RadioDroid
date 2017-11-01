@@ -21,7 +21,7 @@
 
     <string name="share_action">Teile Radio-Internet Link mit…</string>
 
-    <string name="nav_item_stations">Stationsliste und -suche</string>
+    <string name="nav_item_stations">Stationsliste</string>
     <string name="nav_item_starred">Favoriten</string>
     <string name="nav_item_history">Bisher gespielt</string>
     <string name="nav_item_settings">Einstellungen</string>

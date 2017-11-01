@@ -124,7 +124,7 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
                 if (menuItem.getItemId() == R.id.nav_item_stations) {
                     f = new FragmentTabs();
                     menuItemSearch.setVisible(true);
-                    myToolbar.setTitle(R.string.app_name);
+                    myToolbar.setTitle(R.string.nav_item_stations);
                 }
 
                 if (menuItem.getItemId() == R.id.nav_item_starred) {
