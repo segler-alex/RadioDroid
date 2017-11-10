@@ -87,6 +87,7 @@ public class ItemAdapterStation extends RecyclerView.Adapter<ItemAdapterStation.
 
     class StationViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         ImageView imageViewIcon;
+        ImageView starredStatusIcon;
         TextView textViewTitle;
         TextView textViewShortDescription;
         TextView textViewTags;
@@ -102,6 +103,7 @@ public class ItemAdapterStation extends RecyclerView.Adapter<ItemAdapterStation.
         StationViewHolder(View itemView) {
             super(itemView);
             imageViewIcon = (ImageView) itemView.findViewById(R.id.imageViewIcon);
+            starredStatusIcon = (ImageView) itemView.findViewById(R.id.starredStatusIcon);
             textViewTitle = (TextView) itemView.findViewById(R.id.textViewTitle);
             textViewShortDescription = (TextView) itemView.findViewById(R.id.textViewShortDescription);
             textViewTags = (TextView) itemView.findViewById(R.id.textViewTags);
@@ -245,6 +247,11 @@ public class ItemAdapterStation extends RecyclerView.Adapter<ItemAdapterStation.
         holder.textViewShortDescription.setText(station.getShortDetails(getContext()));
         holder.textViewTags.setText(station.TagsAll.replace(",", ", "));
 
+        Context context = getContext().getApplicationContext();
+        FavouriteManager fm = new FavouriteManager(context);
+
+        holder.starredStatusIcon.setVisibility(fm.has(station.ID) ? View.VISIBLE : View.GONE );
+
         Drawable flag = CountryFlagsLoader.getInstance().getFlag(activity, station.Country);
 
         if (flag != null) {
@@ -260,8 +267,6 @@ public class ItemAdapterStation extends RecyclerView.Adapter<ItemAdapterStation.
         }
 
         if (isExpanded) {
-            FavouriteManager fm = new FavouriteManager(getContext().getApplicationContext());
-
             holder.buttonShare.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {

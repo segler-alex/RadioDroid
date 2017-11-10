@@ -14,13 +14,30 @@
         android:descendantFocusability="blocksDescendants"
         android:minHeight="88dp">
 
+        <FrameLayout
+            android:layout_width="90dp"
+            android:layout_height="wrap_content"
+            android:measureAllChildren="true"
+            android:layout_gravity="center_vertical">
+
         <ImageView
             android:id="@+id/imageViewIcon"
             android:layout_width="70dp"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
+            android:layout_gravity="center|start"
             android:layout_marginLeft="5dp"
-            android:layout_marginStart="5dp" />
+            android:layout_marginStart="5dp"
+            android:layout_marginEnd="20dp" />
+
+        <ImageView
+            android:id="@+id/starredStatusIcon"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_gravity="top|end"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_star_transparent_with_border_24dp"/>
+
+        </FrameLayout>
 
         <LinearLayout
             android:layout_width="0dp"
@@ -29,8 +46,8 @@
             android:layout_weight="1"
             android:orientation="vertical"
             android:paddingBottom="8dp"
-            android:paddingLeft="16dp"
-            android:paddingStart="16dp"
+            android:paddingStart="5dp"
+            android:paddingLeft="5dp"
             android:paddingTop="8dp">
 
             <TextView
@@ -39,7 +56,7 @@
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
                 android:maxLines="1"
-                android:textAppearance="@style/TextAppearance.AppCompat.Body2" />
+                android:textAppearance="@style/TextAppearance.AppCompat.Body2"/>
 
             <TextView
                 android:id="@+id/textViewShortDescription"
@@ -49,7 +66,7 @@
                 android:ellipsize="end"
                 android:maxLines="1"
                 android:minLines="1"
-                android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1"/>
 
             <TextView
                 android:id="@+id/textViewTags"
@@ -58,7 +75,7 @@
                 android:ellipsize="end"
                 android:maxLines="1"
                 android:minLines="1"
-                android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1"/>
 
         </LinearLayout>
 
@@ -71,7 +88,7 @@
             android:contentDescription="@string/image_button_more"
             android:minWidth="50dp"
             android:padding="5dp"
-            app:srcCompat="@drawable/ic_expand_more_black_24dp" />
+            app:srcCompat="@drawable/ic_expand_more_black_24dp"/>
     </LinearLayout>
 
     <LinearLayout
