@@ -282,6 +282,9 @@ public class ItemAdapterStation extends RecyclerView.Adapter<ItemAdapterStation.
                     @Override
                     public void onClick(View view) {
                         unStar(station);
+                        Context context = getContext().getApplicationContext();
+                        Toast toast = Toast.makeText(context, context.getString(R.string.notify_unstarred), Toast.LENGTH_SHORT);
+                        toast.show();
                         int position = holder.getAdapterPosition();
                         notifyItemChanged(position);
                     }
@@ -292,6 +295,9 @@ public class ItemAdapterStation extends RecyclerView.Adapter<ItemAdapterStation.
                     @Override
                     public void onClick(View view) {
                         star(station);
+                        Context context = getContext().getApplicationContext();
+                        Toast toast = Toast.makeText(context, context.getString(R.string.notify_starred), Toast.LENGTH_SHORT);
+                        toast.show();
                         int position = holder.getAdapterPosition();
                         notifyItemChanged(position);
                     }
