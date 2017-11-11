@@ -1,12 +1,12 @@
 package net.programmierecke.radiodroid2;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.NavigationView;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
@@ -51,6 +51,7 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
 
     MenuItem menuItemSearch;
     MenuItem menuItemRefresh;
+    MenuItem menuItemDelete;
 
     private SharedPreferences sharedPref;
 
@@ -124,48 +125,56 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
                 if (menuItem.getItemId() == R.id.nav_item_stations) {
                     f = new FragmentTabs();
                     menuItemSearch.setVisible(true);
+                    menuItemDelete.setVisible(false);
                     myToolbar.setTitle(R.string.nav_item_stations);
                 }
 
                 if (menuItem.getItemId() == R.id.nav_item_starred) {
                     f = new FragmentStarred();
                     menuItemSearch.setVisible(false);
+                    menuItemDelete.setVisible(true);
                     myToolbar.setTitle(R.string.nav_item_starred);
                 }
 
                 if (menuItem.getItemId() == R.id.nav_item_history) {
                     f = new FragmentHistory();
                     menuItemSearch.setVisible(false);
+                    menuItemDelete.setVisible(true);
                     myToolbar.setTitle(R.string.nav_item_history);
                 }
 
                 if (menuItem.getItemId() == R.id.nav_item_serverinfo) {
                     f = new FragmentServerInfo();
                     menuItemSearch.setVisible(false);
+                    menuItemDelete.setVisible(false);
                     myToolbar.setTitle(R.string.nav_item_statistics);
                 }
 
                 if (menuItem.getItemId() == R.id.nav_item_recordings) {
                     f = new FragmentRecordings();
                     menuItemSearch.setVisible(false);
+                    menuItemDelete.setVisible(false);
                     myToolbar.setTitle(R.string.nav_item_recordings);
                 }
 
                 if (menuItem.getItemId() == R.id.nav_item_alarm) {
                     f = new FragmentAlarm();
                     menuItemSearch.setVisible(false);
+                    menuItemDelete.setVisible(false);
                     myToolbar.setTitle(R.string.nav_item_alarm);
                 }
 
                 if (menuItem.getItemId() == R.id.nav_item_settings) {
                     f = new FragmentSettings();
                     menuItemSearch.setVisible(false);
+                    menuItemDelete.setVisible(false);
                     myToolbar.setTitle(R.string.nav_item_settings);
                 }
 
                 if (menuItem.getItemId() == R.id.nav_item_about) {
                     f = new FragmentAbout();
                     menuItemSearch.setVisible(false);
+                    menuItemDelete.setVisible(false);
                     myToolbar.setTitle(R.string.nav_item_about);
                 }
 
@@ -273,6 +282,7 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
         getMenuInflater().inflate(R.menu.menu_main, menu);
 
         menuItemSearch = menu.findItem(R.id.action_search);
+        menuItemDelete = menu.findItem(R.id.action_delete);
         mSearchView = (SearchView) MenuItemCompat.getActionView(menuItemSearch);
         mSearchView.setOnQueryTextListener(this);
 
@@ -310,8 +320,8 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
+    public boolean onOptionsItemSelected(MenuItem menuItem) {
+        switch (menuItem.getItemId()) {
             case android.R.id.home:
                 mDrawerLayout.openDrawer(GravityCompat.START);  // OPEN DRAWER
                 return true;
@@ -326,8 +336,25 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
             case R.id.action_mpd_ok:
                 MPDClient.Disconnect(this, this);
                 return true;
+            case R.id.action_delete:
+                Context context = this.getApplicationContext();
+                if (selectedMenuItem == R.id.nav_item_history) {
+                    HistoryManager hm = new HistoryManager(context);
+                    hm.clear();
+                    Toast toast = Toast.makeText(context, context.getString(R.string.notify_deleted_history), Toast.LENGTH_SHORT);
+                    toast.show();
+                    recreate();
+                }
+                if (selectedMenuItem == R.id.nav_item_starred) {
+                    FavouriteManager fm = new FavouriteManager(this.getApplicationContext());
+                    fm.clear();
+                    Toast toast = Toast.makeText(context, context.getString(R.string.notify_deleted_favorites), Toast.LENGTH_SHORT);
+                    toast.show();
+                    recreate();
+                }
+                return true;
         }
-        return super.onOptionsItemSelected(item);
+        return super.onOptionsItemSelected(menuItem);
     }
 
     @Override

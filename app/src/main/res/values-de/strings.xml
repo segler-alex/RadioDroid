@@ -82,9 +82,11 @@
     <string name="notify_play">Wiedergabe</string>
     <string name="notify_starred">Die Station wurde zur Favoritenliste hinzugefügt.</string>
     <string name="notify_unstarred">Die Station wurde als Favorit gelöscht.</string>
+    <string name="notify_deleted_favorites">Die Favoritenliste wurde gelöscht.</string>
+    <string name="notify_deleted_history">Liste der bisher gespielten Sender wurde gelöscht.</string>
 
-    <string name="error_stream_url">Problem mit dem Internetlink</string>
-    <string name="error_caching_stream">Problem mit dem Zwischenspeichern</string>
+    <string name="error_stream_url">Es gibt ein Problem mit der Sender-Stream-Url.</string>
+    <string name="error_caching_stream">Es gibt ein Problem beim Zwischenspeichern.</string>
     <string name="error_play_stream">Stream-Wiedergabe schlug fehl.</string>
 
     <string name="error_record_needs_write">Die Aufnahmefunktion benötigt Schreibberechtigung!</string>
