@@ -133,15 +133,25 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
 
                 if (menuItem.getItemId() == R.id.nav_item_starred) {
                     f = new FragmentStarred();
-                    menuItemSearch.setVisible(false);
-                    menuItemDelete.setVisible(true).setTitle(R.string.action_delete_favorites);
+                    Context context = getApplication().getApplicationContext();
+                    FavouriteManager fm = new FavouriteManager(context);
+                    if (fm.isEmpty()) {
+                        menuItemDelete.setVisible(false);
+                    } else {
+                        menuItemDelete.setVisible(true).setTitle(R.string.action_delete_favorites);
+                    }
                     myToolbar.setTitle(R.string.nav_item_starred);
                 }
 
                 if (menuItem.getItemId() == R.id.nav_item_history) {
                     f = new FragmentHistory();
-                    menuItemSearch.setVisible(false);
-                    menuItemDelete.setVisible(true).setTitle(R.string.action_delete_history);
+                    Context context = getApplication().getApplicationContext();
+                    HistoryManager hm = new HistoryManager(context);
+                    if (hm.isEmpty()) {
+                        menuItemDelete.setVisible(false);
+                    } else {
+                        menuItemDelete.setVisible(true).setTitle(R.string.action_delete_history);
+                    }
                     myToolbar.setTitle(R.string.nav_item_history);
                 }
 
