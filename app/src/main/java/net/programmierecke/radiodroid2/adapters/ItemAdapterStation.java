@@ -21,6 +21,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.preference.PreferenceManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
@@ -38,6 +39,7 @@ import com.squareup.picasso.Picasso;
 
 import net.programmierecke.radiodroid2.ActivityMain;
 import net.programmierecke.radiodroid2.CountryFlagsLoader;
+import net.programmierecke.radiodroid2.RadioDroidApp;
 import net.programmierecke.radiodroid2.data.DataRadioStation;
 import net.programmierecke.radiodroid2.FavouriteManager;
 import net.programmierecke.radiodroid2.FragmentStarred;
@@ -46,33 +48,41 @@ import net.programmierecke.radiodroid2.RadioAlarmManager;
 import net.programmierecke.radiodroid2.TimePickerFragment;
 import net.programmierecke.radiodroid2.Utils;
 import net.programmierecke.radiodroid2.interfaces.IAdapterRefreshable;
+import net.programmierecke.radiodroid2.utils.RecyclerItemSwipeHelper;
+import net.programmierecke.radiodroid2.utils.SwipeableViewHolder;
 import net.programmierecke.radiodroid2.views.TagsView;
 
-public class ItemAdapterStation extends RecyclerView.Adapter<ItemAdapterStation.StationViewHolder> implements TimePickerDialog.OnTimeSetListener {
-    private final String TAG = "AdapterStations";
+public class ItemAdapterStation
+        extends RecyclerView.Adapter<ItemAdapterStation.StationViewHolder>
+        implements TimePickerDialog.OnTimeSetListener, RecyclerItemSwipeHelper.SwipeCallback<ItemAdapterStation.StationViewHolder> {
 
-
-    public interface StationClickListener {
+    public interface StationActionsListener {
         void onStationClick(DataRadioStation station);
+
+        void onStationSwiped(DataRadioStation station);
     }
+
+    private final String TAG = "AdapterStations";
 
     private List<DataRadioStation> stationsList;
 
     private int resourceId;
 
+    private StationActionsListener stationActionsListener;
+    private boolean supportsStationRemoval = false;
+
+    private boolean shouldLoadIcons;
+
     private ProgressDialog progressLoading;
     private IAdapterRefreshable refreshable;
-
     private FragmentActivity activity;
+
     private DataRadioStation selectedStation;
+    private int expandedPosition = -1;
 
     private Drawable stationImagePlaceholder;
 
-    private StationClickListener stationClickListener;
-
-    private int expandedPosition = -1;
-
-    private boolean shouldLoadIcons;
+    private FavouriteManager favouriteManager;
 
     private TagsView.TagSelectionCallback tagSelectionCallback = new TagsView.TagSelectionCallback() {
         @Override
@@ -85,7 +95,9 @@ public class ItemAdapterStation extends RecyclerView.Adapter<ItemAdapterStation.
         }
     };
 
-    class StationViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    class StationViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, SwipeableViewHolder {
+        View viewForeground;
+
         ImageView imageViewIcon;
         ImageView starredStatusIcon;
         TextView textViewTitle;
@@ -102,6 +114,9 @@ public class ItemAdapterStation extends RecyclerView.Adapter<ItemAdapterStation.
 
         StationViewHolder(View itemView) {
             super(itemView);
+
+            viewForeground = itemView.findViewById(R.id.station_foreground);
+
             imageViewIcon = (ImageView) itemView.findViewById(R.id.imageViewIcon);
             starredStatusIcon = (ImageView) itemView.findViewById(R.id.starredStatusIcon);
             textViewTitle = (TextView) itemView.findViewById(R.id.textViewTitle);
@@ -121,9 +136,14 @@ public class ItemAdapterStation extends RecyclerView.Adapter<ItemAdapterStation.
 
         @Override
         public void onClick(View view) {
-            if (stationClickListener != null) {
-                stationClickListener.onStationClick(stationsList.get(getAdapterPosition()));
+            if (stationActionsListener != null) {
+                stationActionsListener.onStationClick(stationsList.get(getAdapterPosition()));
             }
+        }
+
+        @Override
+        public View getForegroundView() {
+            return viewForeground;
         }
     }
 
@@ -132,10 +152,22 @@ public class ItemAdapterStation extends RecyclerView.Adapter<ItemAdapterStation.
         this.resourceId = resourceId;
 
         stationImagePlaceholder = ContextCompat.getDrawable(fragmentActivity, R.drawable.ic_photo_black_24dp);
+
+        RadioDroidApp radioDroidApp = (RadioDroidApp)fragmentActivity.getApplication();
+        favouriteManager = radioDroidApp.getFavouriteManager();
     }
 
-    public void setStationClickListener(StationClickListener stationClickListener) {
-        this.stationClickListener = stationClickListener;
+    public void setStationActionsListener(StationActionsListener stationActionsListener) {
+        this.stationActionsListener = stationActionsListener;
+    }
+
+    public void enableItemRemoval(RecyclerView recyclerView) {
+        if (!supportsStationRemoval) {
+            supportsStationRemoval = true;
+
+            RecyclerItemSwipeHelper<StationViewHolder> swipeHelper = new RecyclerItemSwipeHelper<>(0, ItemTouchHelper.LEFT, this);
+            new ItemTouchHelper(swipeHelper).attachToRecyclerView(recyclerView);
+        }
     }
 
     public void updateList(FragmentStarred refreshableList, List<DataRadioStation> stationsList) {
@@ -201,9 +233,8 @@ public class ItemAdapterStation extends RecyclerView.Adapter<ItemAdapterStation.
                     @Override
                     public void onClick(View view) {
                         Context context = getContext().getApplicationContext();
-                        FavouriteManager fm = new FavouriteManager(context);
 
-                        if (fm.has(station.ID)) {
+                        if (favouriteManager.has(station.ID)) {
                             unStar(station);
                             Toast toast = Toast.makeText(context, context.getString(R.string.notify_unstarred), Toast.LENGTH_SHORT);
                             toast.show();
@@ -248,9 +279,8 @@ public class ItemAdapterStation extends RecyclerView.Adapter<ItemAdapterStation.
         holder.textViewTags.setText(station.TagsAll.replace(",", ", "));
 
         Context context = getContext().getApplicationContext();
-        FavouriteManager fm = new FavouriteManager(context);
 
-        holder.starredStatusIcon.setVisibility(fm.has(station.ID) ? View.VISIBLE : View.GONE );
+        holder.starredStatusIcon.setVisibility(favouriteManager.has(station.ID) ? View.VISIBLE : View.GONE);
 
         Drawable flag = CountryFlagsLoader.getInstance().getFlag(activity, station.Country);
 
@@ -281,7 +311,7 @@ public class ItemAdapterStation extends RecyclerView.Adapter<ItemAdapterStation.
                 }
             });
 
-            if (fm.has(station.ID)) {
+            if (favouriteManager.has(station.ID)) {
                 holder.buttonBookmark.setImageResource(R.drawable.ic_star_black_24dp);
                 holder.buttonBookmark.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -332,6 +362,11 @@ public class ItemAdapterStation extends RecyclerView.Adapter<ItemAdapterStation.
         Log.w(TAG, "onTimeSet() " + hourOfDay);
         RadioAlarmManager ram = new RadioAlarmManager(getContext().getApplicationContext(), null);
         ram.add(selectedStation, hourOfDay, minute);
+    }
+
+    @Override
+    public void onSwiped(StationViewHolder viewHolder, int direction) {
+        stationActionsListener.onStationSwiped(stationsList.get(viewHolder.getAdapterPosition()));
     }
 
     private void showLinks(final DataRadioStation station) {
@@ -399,8 +434,7 @@ public class ItemAdapterStation extends RecyclerView.Adapter<ItemAdapterStation.
 
     private void star(DataRadioStation station) {
         if (station != null) {
-            FavouriteManager fm = new FavouriteManager(getContext().getApplicationContext());
-            fm.add(station);
+            favouriteManager.add(station);
             vote(station.ID);
         } else {
             Log.e(TAG, "empty station info");
@@ -424,8 +458,7 @@ public class ItemAdapterStation extends RecyclerView.Adapter<ItemAdapterStation.
 
     private void unStar(DataRadioStation station) {
         if (station != null) {
-            FavouriteManager fm = new FavouriteManager(getContext().getApplicationContext());
-            fm.remove(station.ID);
+            favouriteManager.remove(station.ID);
             if (refreshable != null) {
                 refreshable.RefreshListGui();
             }

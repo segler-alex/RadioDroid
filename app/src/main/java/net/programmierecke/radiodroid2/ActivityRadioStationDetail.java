@@ -28,6 +28,7 @@ public class ActivityRadioStationDetail extends AppCompatActivity implements Tim
 	private MenuItem m_Menu_UnStar;
 	private Menu m_Menu;
 	private String stationId;
+	private FavouriteManager favouriteManager;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +41,9 @@ public class ActivityRadioStationDetail extends AppCompatActivity implements Tim
 		Bundle anExtras = getIntent().getExtras();
 		final String aStationID = anExtras.getString("stationid");
 		stationId = aStationID;
+
+		RadioDroidApp radioDroidApp = (RadioDroidApp) getApplication();
+		favouriteManager = radioDroidApp.getFavouriteManager();
 
 		PlayerServiceUtil.bind(this);
 
@@ -70,14 +74,12 @@ public class ActivityRadioStationDetail extends AppCompatActivity implements Tim
 	}
 
 	void UpdateMenu() {
-		FavouriteManager fm = new FavouriteManager(getApplicationContext());
-
 		if (stationId != null) {
 			if (m_Menu_Star != null) {
-				m_Menu_Star.setVisible(!fm.has(stationId));
+				m_Menu_Star.setVisible(!favouriteManager.has(stationId));
 			}
 			if (m_Menu_UnStar != null) {
-				m_Menu_UnStar.setVisible(fm.has(stationId));
+				m_Menu_UnStar.setVisible(favouriteManager.has(stationId));
 			}
 		} else {
 			if (m_Menu_Star != null) {
@@ -129,8 +131,7 @@ public class ActivityRadioStationDetail extends AppCompatActivity implements Tim
 
 	private void UnStar() {
 		if (itsStation != null) {
-			FavouriteManager fm = new FavouriteManager(getApplicationContext());
-			fm.remove(itsStation.ID);
+			favouriteManager.remove(itsStation.ID);
 			UpdateMenu();
 		}else{
 			Log.e("ABC","empty station info");
@@ -139,8 +140,7 @@ public class ActivityRadioStationDetail extends AppCompatActivity implements Tim
 
 	private void Star() {
 		if (itsStation != null) {
-			FavouriteManager fm = new FavouriteManager(getApplicationContext());
-			fm.add(itsStation);
+			favouriteManager.add(itsStation);
 			UpdateMenu();
 		}else{
 			Log.e("ABC","empty station info");
