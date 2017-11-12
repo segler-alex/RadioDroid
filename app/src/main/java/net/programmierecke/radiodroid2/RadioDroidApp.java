@@ -7,6 +7,10 @@ import com.jakewharton.picasso.OkHttp3Downloader;
 import com.squareup.picasso.Picasso;
 
 public class RadioDroidApp extends Application {
+
+    private HistoryManager historyManager;
+    private FavouriteManager favouriteManager;
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -19,5 +23,16 @@ public class RadioDroidApp extends Application {
         Picasso.setSingletonInstance(picassoInstance);
 
         CountryFlagsLoader.getInstance().load(this);
+
+        historyManager = new HistoryManager(this);
+        favouriteManager = new FavouriteManager(this);
+    }
+
+    public HistoryManager getHistoryManager() {
+        return historyManager;
+    }
+
+    public FavouriteManager getFavouriteManager() {
+        return favouriteManager;
     }
 }
