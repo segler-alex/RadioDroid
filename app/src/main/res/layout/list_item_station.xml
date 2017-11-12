@@ -1,161 +1,169 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/LinearLayout1"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:descendantFocusability="blocksDescendants"
-    android:orientation="vertical">
+    android:background="@color/colorStationSwipeBackground"
+    android:descendantFocusability="blocksDescendants">
 
     <LinearLayout
-        android:id="@+id/layoutMain"
+        android:id="@+id/station_foreground"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:descendantFocusability="blocksDescendants"
-        android:minHeight="88dp">
-
-        <FrameLayout
-            android:layout_width="90dp"
-            android:layout_height="wrap_content"
-            android:measureAllChildren="true"
-            android:layout_gravity="center_vertical">
-
-        <ImageView
-            android:id="@+id/imageViewIcon"
-            android:layout_width="70dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center|start"
-            android:layout_marginLeft="5dp"
-            android:layout_marginStart="5dp"
-            android:layout_marginEnd="20dp" />
-
-        <ImageView
-            android:id="@+id/starredStatusIcon"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_gravity="top|end"
-            android:scaleType="fitCenter"
-            android:src="@drawable/ic_star_transparent_with_border_24dp"/>
-
-        </FrameLayout>
+        android:background="?android:colorBackground"
+        android:orientation="vertical">
 
         <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_weight="1"
-            android:orientation="vertical"
-            android:paddingBottom="8dp"
-            android:paddingStart="5dp"
-            android:paddingLeft="5dp"
-            android:paddingTop="8dp">
-
-            <TextView
-                android:id="@+id/textViewTitle"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:ellipsize="end"
-                android:maxLines="1"
-                android:textAppearance="@style/TextAppearance.AppCompat.Body2"/>
-
-            <TextView
-                android:id="@+id/textViewShortDescription"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:drawablePadding="4sp"
-                android:ellipsize="end"
-                android:maxLines="1"
-                android:minLines="1"
-                android:textAppearance="@style/TextAppearance.AppCompat.Body1"/>
-
-            <TextView
-                android:id="@+id/textViewTags"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:ellipsize="end"
-                android:maxLines="1"
-                android:minLines="1"
-                android:textAppearance="@style/TextAppearance.AppCompat.Body1"/>
-
-        </LinearLayout>
-
-        <ImageButton
-            android:id="@+id/buttonMore"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_gravity="center"
-            android:background="@android:color/transparent"
-            android:contentDescription="@string/image_button_more"
-            android:minWidth="50dp"
-            android:padding="5dp"
-            app:srcCompat="@drawable/ic_expand_more_black_24dp"/>
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/layoutDetails"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
-        android:layout_marginStart="16dp"
-        android:clickable="true"
-        android:descendantFocusability="blocksDescendants"
-        android:orientation="vertical">
-        <!--android:visibility="gone">-->
-
-        <net.programmierecke.radiodroid2.views.TagsView
-            android:id="@+id/viewTags"
+            android:id="@+id/layoutMain"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:lineSpacingMultiplier="1"
-            android:textSize="16sp"
-            app:cornerRadius="8dp"
-            app:tagBackgroundColor="#E0E0E0"
-            app:tagHeight="25sp"
-            app:textHorizontalPadding="8dp"
-            app:textVerticalMargin="4dp" />
+            android:descendantFocusability="blocksDescendants"
+            android:minHeight="88dp">
 
+            <FrameLayout
+                android:layout_width="90dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:measureAllChildren="true">
+
+                <ImageView
+                    android:id="@+id/imageViewIcon"
+                    android:layout_width="70dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center|start"
+                    android:layout_marginEnd="20dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginStart="5dp" />
+
+                <ImageView
+                    android:id="@+id/starredStatusIcon"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_gravity="top|end"
+                    android:scaleType="fitCenter"
+                    app:srcCompat="@drawable/ic_star_transparent_with_border_24dp" />
+
+            </FrameLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:paddingBottom="8dp"
+                android:paddingLeft="5dp"
+                android:paddingStart="5dp"
+                android:paddingTop="8dp">
+
+                <TextView
+                    android:id="@+id/textViewTitle"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Body2" />
+
+                <TextView
+                    android:id="@+id/textViewShortDescription"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:drawablePadding="4sp"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:minLines="1"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+
+                <TextView
+                    android:id="@+id/textViewTags"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:minLines="1"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+
+            </LinearLayout>
+
+            <ImageButton
+                android:id="@+id/buttonMore"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:background="@android:color/transparent"
+                android:contentDescription="@string/image_button_more"
+                android:minWidth="50dp"
+                android:padding="5dp"
+                app:srcCompat="@drawable/ic_expand_more_black_24dp" />
+        </LinearLayout>
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:id="@+id/layoutDetails"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:layout_marginEnd="16dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginStart="16dp"
+            android:clickable="true"
+            android:descendantFocusability="blocksDescendants"
+            android:orientation="vertical">
+            <!--android:visibility="gone">-->
 
-            <ImageButton
-                android:id="@+id/buttonStationWebLink"
-                style="@style/IconButton"
+            <net.programmierecke.radiodroid2.views.TagsView
+                android:id="@+id/viewTags"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:lineSpacingMultiplier="1"
+                android:textSize="16sp"
+                app:cornerRadius="8dp"
+                app:tagBackgroundColor="#E0E0E0"
+                app:tagHeight="25sp"
+                app:textHorizontalPadding="8dp"
+                app:textVerticalMargin="4dp" />
+
+
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:contentDescription="@string/detail_weblink"
-                app:srcCompat="@drawable/ic_store_black_24dp" />
+                android:orientation="horizontal">
 
-            <ImageButton
-                android:id="@+id/buttonShare"
-                style="@style/IconButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:contentDescription="@string/detail_share"
-                app:srcCompat="@drawable/ic_share_24dp" />
+                <ImageButton
+                    android:id="@+id/buttonStationWebLink"
+                    style="@style/IconButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:contentDescription="@string/detail_weblink"
+                    app:srcCompat="@drawable/ic_store_black_24dp" />
 
-            <ImageButton
-                android:id="@+id/buttonBookmark"
-                style="@style/IconButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:contentDescription="@string/detail_star"
-                app:srcCompat="@drawable/ic_star_border_black_24dp" />
+                <ImageButton
+                    android:id="@+id/buttonShare"
+                    style="@style/IconButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:contentDescription="@string/detail_share"
+                    app:srcCompat="@drawable/ic_share_24dp" />
 
-            <ImageButton
-                android:id="@+id/buttonSetTimer"
-                style="@style/IconButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:contentDescription="@string/nav_item_alarm"
-                app:srcCompat="@drawable/ic_query_builder_black_24dp" />
+                <ImageButton
+                    android:id="@+id/buttonBookmark"
+                    style="@style/IconButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:contentDescription="@string/detail_star"
+                    app:srcCompat="@drawable/ic_star_border_black_24dp" />
+
+                <ImageButton
+                    android:id="@+id/buttonSetTimer"
+                    style="@style/IconButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:contentDescription="@string/nav_item_alarm"
+                    app:srcCompat="@drawable/ic_query_builder_black_24dp" />
+
+            </LinearLayout>
 
         </LinearLayout>
 
     </LinearLayout>
-
-</LinearLayout>
+</FrameLayout>

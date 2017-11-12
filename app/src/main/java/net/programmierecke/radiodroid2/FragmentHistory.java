@@ -1,6 +1,8 @@
 package net.programmierecke.radiodroid2;
 
+import android.graphics.Color;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -17,13 +19,12 @@ public class FragmentHistory extends Fragment {
 
     private RecyclerView rvStations;
 
-    void onStationClick(DataRadioStation theStation) {
-        ActivityMain activity = (ActivityMain) getActivity();
+    private HistoryManager historyManager;
 
+    void onStationClick(DataRadioStation theStation) {
         Utils.Play(theStation, getContext());
 
-        HistoryManager hm = new HistoryManager(activity.getApplicationContext());
-        hm.add(theStation);
+        historyManager.add(theStation);
 
         RefreshListGui();
         rvStations.smoothScrollToPosition(0);
@@ -32,7 +33,6 @@ public class FragmentHistory extends Fragment {
     protected void RefreshListGui() {
         if (BuildConfig.DEBUG) Log.d(TAG, "refreshing the stations list.");
 
-        HistoryManager historyManager = new HistoryManager(getActivity());
         ItemAdapterStation adapter = (ItemAdapterStation) rvStations.getAdapter();
 
         if (BuildConfig.DEBUG) Log.d(TAG, "stations count:" + historyManager.listStations.size());
@@ -43,11 +43,34 @@ public class FragmentHistory extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        RadioDroidApp radioDroidApp = (RadioDroidApp) getActivity().getApplication();
+        historyManager = radioDroidApp.getHistoryManager();
+
         ItemAdapterStation adapter = new ItemAdapterStation(getActivity(), R.layout.list_item_station);
-        adapter.setStationClickListener(new ItemAdapterStation.StationClickListener() {
+        adapter.setStationActionsListener(new ItemAdapterStation.StationActionsListener() {
             @Override
             public void onStationClick(DataRadioStation station) {
                 FragmentHistory.this.onStationClick(station);
+            }
+
+            @Override
+            public void onStationSwiped(final DataRadioStation station) {
+                final int removedIdx = historyManager.remove(station.ID);
+
+                RefreshListGui();
+
+                Snackbar snackbar = Snackbar
+                        .make(rvStations, R.string.notify_station_removed_from_list, Snackbar.LENGTH_LONG);
+                snackbar.setAction(R.string.action_station_removed_from_list_undo, new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        historyManager.restore(station, removedIdx);
+                        RefreshListGui();
+                    }
+                });
+                snackbar.setActionTextColor(Color.GREEN);
+                snackbar.setDuration(Snackbar.LENGTH_LONG);
+                snackbar.show();
             }
         });
 
@@ -60,6 +83,8 @@ public class FragmentHistory extends Fragment {
         rvStations = (RecyclerView) view.findViewById(R.id.recyclerViewStations);
         rvStations.setAdapter(adapter);
         rvStations.setLayoutManager(llm);
+
+        adapter.enableItemRemoval(rvStations);
 
         RefreshListGui();
 
