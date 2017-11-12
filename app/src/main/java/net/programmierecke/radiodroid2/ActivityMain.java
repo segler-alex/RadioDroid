@@ -1,6 +1,7 @@
 package net.programmierecke.radiodroid2;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -13,6 +14,7 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.preference.PreferenceManager;
 import android.support.v7.widget.SearchView;
@@ -132,14 +134,14 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
                 if (menuItem.getItemId() == R.id.nav_item_starred) {
                     f = new FragmentStarred();
                     menuItemSearch.setVisible(false);
-                    menuItemDelete.setVisible(true);
+                    menuItemDelete.setVisible(true).setTitle(R.string.action_delete_favorites);
                     myToolbar.setTitle(R.string.nav_item_starred);
                 }
 
                 if (menuItem.getItemId() == R.id.nav_item_history) {
                     f = new FragmentHistory();
                     menuItemSearch.setVisible(false);
-                    menuItemDelete.setVisible(true);
+                    menuItemDelete.setVisible(true).setTitle(R.string.action_delete_history);
                     myToolbar.setTitle(R.string.nav_item_history);
                 }
 
@@ -337,20 +339,39 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
                 MPDClient.Disconnect(this, this);
                 return true;
             case R.id.action_delete:
-                Context context = this.getApplicationContext();
                 if (selectedMenuItem == R.id.nav_item_history) {
-                    HistoryManager hm = new HistoryManager(context);
-                    hm.clear();
-                    Toast toast = Toast.makeText(context, context.getString(R.string.notify_deleted_history), Toast.LENGTH_SHORT);
-                    toast.show();
-                    recreate();
+                    new AlertDialog.Builder(this)
+                            .setMessage(this.getString(R.string.alert_delete_history))
+                            .setCancelable(true)
+                            .setPositiveButton(this.getString(R.string.yes), new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    Context context = getApplication().getApplicationContext();
+                                    HistoryManager hm = new HistoryManager(context);
+                                    hm.clear();
+                                    Toast toast = Toast.makeText(context, context.getString(R.string.notify_deleted_history), Toast.LENGTH_SHORT);
+                                    toast.show();
+                                    recreate();
+                                }
+                            })
+                            .setNegativeButton(this.getString(R.string.no), null)
+                            .show();
                 }
                 if (selectedMenuItem == R.id.nav_item_starred) {
-                    FavouriteManager fm = new FavouriteManager(this.getApplicationContext());
-                    fm.clear();
-                    Toast toast = Toast.makeText(context, context.getString(R.string.notify_deleted_favorites), Toast.LENGTH_SHORT);
-                    toast.show();
-                    recreate();
+                    new AlertDialog.Builder(this)
+                            .setMessage(this.getString(R.string.alert_delete_favorites))
+                            .setCancelable(true)
+                            .setPositiveButton(this.getString(R.string.yes), new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    Context context = getApplication().getApplicationContext();
+                                    FavouriteManager fm = new FavouriteManager(context);
+                                    fm.clear();
+                                    Toast toast = Toast.makeText(context, context.getString(R.string.notify_deleted_favorites), Toast.LENGTH_SHORT);
+                                    toast.show();
+                                    recreate();
+                                }
+                            })
+                            .setNegativeButton(this.getString(R.string.no), null)
+                            .show();
                 }
                 return true;
         }
