@@ -26,6 +26,7 @@ public class FragmentHistory extends Fragment {
         hm.add(theStation);
 
         RefreshListGui();
+        rvStations.smoothScrollToPosition(0);
     }
 
     protected void RefreshListGui() {
