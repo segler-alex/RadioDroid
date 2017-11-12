@@ -52,6 +52,11 @@ public class StationSaveManager {
         }
     }
 
+    public void clear(){
+        listStations.clear();
+        Save();
+    }
+
     public boolean has(String id){
         DataRadioStation station = getById(id);
         return station != null;

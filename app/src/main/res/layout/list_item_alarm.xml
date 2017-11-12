@@ -61,7 +61,7 @@
         <ImageButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/buttonDelete"
+            android:id="@+id/buttonDeleteAlarm"
             app:srcCompat="@drawable/ic_delete_black_24dp"
             android:layout_gravity="center"
             android:background="@android:color/transparent"
