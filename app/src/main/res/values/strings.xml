@@ -12,6 +12,8 @@
     <string name="detail_share">Share</string>
     <string name="action_search">Search</string>
     <string name="action_delete">Delete</string>
+    <string name="action_delete_history">Delete history</string>
+    <string name="action_delete_favorites">Delete favorites</string>
     <string name="action_cancel">Cancel</string>
     <string name="action_top_click">TopClick</string>
     <string name="action_top_vote">TopVote</string>
@@ -92,6 +94,11 @@
     <string name="notify_unstarred">Station has been removed from the favorite list</string>
     <string name="notify_deleted_favorites">The favorites have been deleted.</string>
     <string name="notify_deleted_history">The history has been deleted.</string>
+
+    <string name="alert_delete_history">Do you really want to delete the history?</string>
+    <string name="alert_delete_favorites">Do you really want to delete all favorites?</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
 
     <string name="error_stream_url">Stream url problem</string>
     <string name="error_caching_stream">Stream caching problem</string>
