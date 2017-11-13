@@ -6,7 +6,7 @@
 
         <ListPreference
             android:key="startup_action"
-            android:defaultValue="@string/startup_show_all_stations"
+            android:defaultValue="@string/startup_show_history"
             android:entries="@array/startup_action_entries"
             android:entryValues="@array/startup_action_entryvalues"
             android:summary="@string/startup_action_title_desc"

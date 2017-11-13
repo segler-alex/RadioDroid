@@ -60,6 +60,7 @@
     <string name="startup_show_all_stations">Show all stations</string>
     <string name="startup_show_favorites">Show favorites</string>
     <string name="startup_show_history">Show history</string>
+    <string name="startup_show_last_view">Last view</string>
 
     <string name="settings_load_icons">Show station icons</string>
     <string name="settings_load_icons_on">Icons will be downloaded</string>

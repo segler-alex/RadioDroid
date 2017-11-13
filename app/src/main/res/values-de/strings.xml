@@ -35,7 +35,7 @@
     <string name="nav_item_recordings">Aufnahmen</string>
     <string name="nav_item_player_status">Wiedergabestatus</string>
 
-    <string name="about_text">Diese App basiert auf dem freien Internetradio-Stationsverzeichnis https://www.radio-browser.info .\n\nDas Stationsverzeichnis funktioniert nach dem Wiki-Prinzip: jeder, auch Du, kann mithelfen, es aktuell zu halten.\n\nKontakt:\nsegler_alex@web.de\n\nSourcecode und Bugtracker:\nhttps://github.com/segler-alex/RadioDroid/issues\n\nIch freue mich immer über Mails mit Verbesserungsvorschlägen. Falls Du sonst irgendwie helfen willst: es gibt immer Bugs zu fixen :). Wenn Du Dein grafisches Talent sponsoren willst, wäre ich besonders dankbar! Speziell für schönere Icons, Hintergründe oder auch insgesamt ein besseres Design.\n\nDiese App wurde mit der GPLv3 https://www.gnu.org/licenses/gpl-3.0.html lizenziert.</string>
+    <string name="about_text">Diese App basiert auf dem freien Internetradio-Stationsverzeichnis https://www.radio-browser.info .\n\nDas Stationsverzeichnis funktioniert nach dem Wiki-Prinzip: jeder, auch Du, kann mithelfen, es aktuell zu halten.\n\nKontakt:\nsegler_alex@web.de\n\nSourcecode und Bugtracker:\nhttps://github.com/segler-alex/RadioDroid/issues\n\nIch freue mich immer über Mails mit Verbesserungsvorschlägen. Falls Du sonst irgendwie helfen willst: es gibt immer Bugs zu fixen :). Wenn Du Dein grafisches Talent einbringen möchtest, wäre ich besonders dankbar, speziell für schönere Icons, Hintergründe oder auch ein insgesamt besseres Design.\n\nDiese App wurde mit der GPLv3 https://www.gnu.org/licenses/gpl-3.0.html lizenziert.</string>
     <string name="detail_star">Als Favorit setzen</string>
     <string name="detail_unstar">Als Favorit löschen</string>
     <string name="progress_loading">Lade...</string>
@@ -56,6 +56,7 @@
     <string name="startup_show_all_stations">Starte mit der Listenansicht aller verfügbaren Stationen.</string>
     <string name="startup_show_favorites">Starte mit Deiner Favoritenliste.</string>
     <string name="startup_show_history">Starte mit der Liste Deiner bisher gespielten Stationen.</string>
+    <string name="startup_show_last_view">Starte mit der letzten Ansicht.</string>
 
     <string name="settings_load_icons">Stationslogos</string>
     <string name="settings_load_icons_on">Die Stationslogos werden im Hintergrund heruntergeladen; es kann einige Zeit dauern, bis alle Logos angezeigt werden.</string>

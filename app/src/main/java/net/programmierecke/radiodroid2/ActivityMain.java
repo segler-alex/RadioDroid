@@ -57,7 +57,7 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
 
     private SharedPreferences sharedPref;
 
-    private int selectedMenuItem = -1;
+    private int selectedMenuItem;
 
     @Override
     public void changed() {
@@ -75,10 +75,6 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_main);
-
-        if (savedInstanceState != null) {
-            selectedMenuItem = savedInstanceState.getInt(SAVE_LAST_MENU_ITEM, -1);
-        }
 
         try {
             File dir = new File(getFilesDir().getAbsolutePath());
@@ -103,6 +99,12 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
         PlayerServiceUtil.bind(this);
 
         PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
+
+        if (sharedPref == null) {
+            sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
+        }
+
+        selectedMenuItem = sharedPref.getInt("last_selectedMenuItem", -1);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
@@ -272,19 +274,17 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
 
     @Override
     protected void onPause() {
+
+        SharedPreferences.Editor ed = sharedPref.edit();
+        ed.putInt("last_selectedMenuItem", selectedMenuItem);
+        ed.apply();
+
         if (BuildConfig.DEBUG) {
             Log.d(TAG, "PAUSED");
         }
         super.onPause();
         CastHandler.onPause();
         MPDClient.StopDiscovery();
-    }
-
-    @Override
-    protected void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-
-        outState.putInt(SAVE_LAST_MENU_ITEM, selectedMenuItem);
     }
 
     @Override
@@ -315,17 +315,33 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
 
         MenuItem mediaRouteMenuItem = CastHandler.getRouteItem(getApplicationContext(), menu);
 
-        if (selectedMenuItem < 0) {
-            final String startupAction = sharedPref.getString("startup_action", getResources().getString(R.string.startup_show_all_stations));
-            if (startupAction.equals(getResources().getString(R.string.startup_show_favorites))) {
-                selectMenuItem(R.id.nav_item_starred);
-            } else if (startupAction.equals(getResources().getString(R.string.startup_show_history))) {
-                selectMenuItem(R.id.nav_item_history);
-            } else {
-                selectMenuItem(R.id.nav_item_stations);
-            }
+        // Context context = getApplication().getApplicationContext();
+        HistoryManager hm = new HistoryManager(this);
+        FavouriteManager fm = new FavouriteManager(this);
+
+        final String startupAction = sharedPref.getString("startup_action", getResources().getString(R.string.startup_show_history));
+
+        if (startupAction.equals(getResources().getString(R.string.startup_show_history)) && hm.isEmpty()) {
+            selectMenuItem(R.id.nav_item_stations);
+            return true;
+        }
+
+        if (startupAction.equals(getResources().getString(R.string.startup_show_favorites)) && fm.isEmpty()) {
+            selectMenuItem(R.id.nav_item_stations);
+            return true;
+        }
+
+        if (startupAction.equals(getResources().getString(R.string.startup_show_history))) {
+            selectMenuItem(R.id.nav_item_history);
+        } else if (startupAction.equals(getResources().getString(R.string.startup_show_favorites))) {
+            selectMenuItem(R.id.nav_item_starred);
         } else {
-            selectMenuItem(selectedMenuItem);
+            // user preference: startup with the last view
+            if (selectedMenuItem < 0) {
+                selectMenuItem(R.id.nav_item_stations);
+            } else {
+                selectMenuItem(selectedMenuItem);
+            }
         }
 
         return true;
