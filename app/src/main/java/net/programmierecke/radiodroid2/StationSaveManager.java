@@ -17,42 +17,52 @@ public class StationSaveManager {
     Context context;
     List<DataRadioStation> listStations = new ArrayList<DataRadioStation>();
 
-    public StationSaveManager(Context ctx){
+    public StationSaveManager(Context ctx) {
         this.context = ctx;
         Load();
     }
 
-    protected String getSaveId(){
+    protected String getSaveId() {
         return "default";
     }
 
-    public void add(DataRadioStation station){
+    public void add(DataRadioStation station) {
         listStations.add(station);
         Save();
     }
 
-    public void addFront(DataRadioStation station){
+    public void addFront(DataRadioStation station) {
         listStations.add(0, station);
         Save();
     }
 
-    DataRadioStation getById(String id){
-        for(DataRadioStation station: listStations){
-            if (id.equals(station.ID)){
+    DataRadioStation getById(String id) {
+        for (DataRadioStation station : listStations) {
+            if (id.equals(station.ID)) {
                 return station;
             }
         }
         return null;
     }
 
-    public void remove(String id){
-        if (has(id)) {
-            listStations.remove(getById(id));
-            Save();
+    public int remove(String id) {
+        for (int i = 0; i < listStations.size(); i++) {
+            if (listStations.get(i).ID.equals(id)) {
+                listStations.remove(i);
+                Save();
+                return i;
+            }
         }
+
+        return -1;
     }
 
-    public void clear(){
+    public void restore(DataRadioStation station, int pos) {
+        listStations.add(pos, station);
+        Save();
+    }
+
+    public void clear() {
         listStations.clear();
         Save();
     }
@@ -70,33 +80,35 @@ public class StationSaveManager {
         return station != null;
     }
 
-    public DataRadioStation[] getList(){
+    public DataRadioStation[] getList() {
         return listStations.toArray(new DataRadioStation[0]);
     }
 
-    void Load(){
+    void Load() {
         listStations.clear();
 
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
         String str = sharedPref.getString(getSaveId(), null);
-        if (str != null){
-            DataRadioStation[] arr =DataRadioStation.DecodeJson(str);
+        if (str != null) {
+            DataRadioStation[] arr = DataRadioStation.DecodeJson(str);
             Collections.addAll(listStations, arr);
-        }else{
-            Log.w("SAVE","Load() no stations to load");
+        } else {
+            Log.w("SAVE", "Load() no stations to load");
         }
     }
 
-    void Save(){
+    void Save() {
         JSONArray arr = new JSONArray();
-        for (DataRadioStation station: listStations){
+        for (DataRadioStation station : listStations) {
             arr.put(station.toJson());
         }
 
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
         SharedPreferences.Editor editor = sharedPref.edit();
         String str = arr.toString();
-        if(BuildConfig.DEBUG) { Log.d("SAVE","wrote: "+str); }
+        if (BuildConfig.DEBUG) {
+            Log.d("SAVE", "wrote: " + str);
+        }
         editor.putString(getSaveId(), str);
         editor.commit();
     }

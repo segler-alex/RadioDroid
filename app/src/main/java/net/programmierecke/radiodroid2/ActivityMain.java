@@ -355,10 +355,12 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
                             .setCancelable(true)
                             .setPositiveButton(this.getString(R.string.yes), new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int id) {
-                                    Context context = getApplication().getApplicationContext();
-                                    HistoryManager hm = new HistoryManager(context);
-                                    hm.clear();
-                                    Toast toast = Toast.makeText(context, context.getString(R.string.notify_deleted_history), Toast.LENGTH_SHORT);
+                                    RadioDroidApp radioDroidApp = (RadioDroidApp) getApplication();
+                                    HistoryManager historyManager = radioDroidApp.getHistoryManager();
+
+                                    historyManager.clear();
+
+                                    Toast toast = Toast.makeText(getApplicationContext(), getString(R.string.notify_deleted_history), Toast.LENGTH_SHORT);
                                     toast.show();
                                     recreate();
                                 }
@@ -372,10 +374,12 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
                             .setCancelable(true)
                             .setPositiveButton(this.getString(R.string.yes), new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int id) {
-                                    Context context = getApplication().getApplicationContext();
-                                    FavouriteManager fm = new FavouriteManager(context);
-                                    fm.clear();
-                                    Toast toast = Toast.makeText(context, context.getString(R.string.notify_deleted_favorites), Toast.LENGTH_SHORT);
+                                    RadioDroidApp radioDroidApp = (RadioDroidApp) getApplication();
+                                    FavouriteManager favouriteManager = radioDroidApp.getFavouriteManager();
+
+                                    favouriteManager.clear();
+
+                                    Toast toast = Toast.makeText(getApplicationContext(), getString(R.string.notify_deleted_favorites), Toast.LENGTH_SHORT);
                                     toast.show();
                                     recreate();
                                 }

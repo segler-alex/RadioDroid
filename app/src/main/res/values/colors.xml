@@ -7,4 +7,5 @@
     <color name="navigationBarColor">#000000</color>
     <color name="colorAccent">#1d6293</color>
     <color name="colorTabUnderline">#e0347f</color>
+    <color name="colorStationSwipeBackground">#ff4081</color>
 </resources>

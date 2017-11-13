@@ -22,17 +22,17 @@ public class FragmentStations extends FragmentBase {
     private static final String TAG = "FragmentStations";
 
     private RecyclerView rvStations;
-    private DataRadioStation[] radioStations = new DataRadioStation[0];
     private SwipeRefreshLayout swipeRefreshLayout;
     private SharedPreferences sharedPref;
 
     void onStationClick(DataRadioStation theStation) {
-        ActivityMain a = (ActivityMain) getActivity();
+        ActivityMain activityMain = (ActivityMain) getActivity();
 
         Utils.Play(theStation, getContext());
 
-        HistoryManager hm = new HistoryManager(a.getApplicationContext());
-        hm.add(theStation);
+        RadioDroidApp radioDroidApp = (RadioDroidApp) activityMain.getApplication();
+        HistoryManager historyManager = radioDroidApp.getHistoryManager();
+        historyManager.add(theStation);
     }
 
     @Override
@@ -51,7 +51,7 @@ public class FragmentStations extends FragmentBase {
         boolean show_broken = sharedPref.getBoolean("show_broken", false);
 
         ArrayList<DataRadioStation> filteredStationsList = new ArrayList<>();
-        radioStations = DataRadioStation.DecodeJson(getUrlResult());
+        DataRadioStation[] radioStations = DataRadioStation.DecodeJson(getUrlResult());
 
         if (BuildConfig.DEBUG) Log.d(TAG, "station count:" + radioStations.length);
 
@@ -73,10 +73,14 @@ public class FragmentStations extends FragmentBase {
         rvStations = (RecyclerView) view.findViewById(R.id.recyclerViewStations);
 
         ItemAdapterStation adapter = new ItemAdapterStation(getActivity(), R.layout.list_item_station);
-        adapter.setStationClickListener(new ItemAdapterStation.StationClickListener() {
+        adapter.setStationActionsListener(new ItemAdapterStation.StationActionsListener() {
             @Override
             public void onStationClick(DataRadioStation station) {
                 FragmentStations.this.onStationClick(station);
+            }
+
+            @Override
+            public void onStationSwiped(DataRadioStation station) {
             }
         });
 
