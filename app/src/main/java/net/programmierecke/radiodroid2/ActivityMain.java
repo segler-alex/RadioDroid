@@ -135,6 +135,7 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
 
                 if (menuItem.getItemId() == R.id.nav_item_starred) {
                     f = new FragmentStarred();
+                    menuItemSearch.setVisible(true);
                     Context context = getApplication().getApplicationContext();
                     FavouriteManager fm = new FavouriteManager(context);
                     if (fm.isEmpty()) {
@@ -147,6 +148,7 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
 
                 if (menuItem.getItemId() == R.id.nav_item_history) {
                     f = new FragmentHistory();
+                    menuItemSearch.setVisible(true);
                     Context context = getApplication().getApplicationContext();
                     HistoryManager hm = new HistoryManager(context);
                     if (hm.isEmpty()) {
