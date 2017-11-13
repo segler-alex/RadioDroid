@@ -38,11 +38,12 @@
 
                 <ImageView
                     android:id="@+id/starredStatusIcon"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:alpha="0.8"
                     android:layout_gravity="top|end"
                     android:scaleType="fitCenter"
-                    app:srcCompat="@drawable/ic_star_transparent_with_border_24dp" />
+                    app:srcCompat="@drawable/ic_green_checkmark" />
 
             </FrameLayout>
 
