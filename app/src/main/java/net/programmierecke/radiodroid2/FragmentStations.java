@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import net.programmierecke.radiodroid2.adapters.ItemAdapterStation;
 import net.programmierecke.radiodroid2.data.DataRadioStation;
@@ -23,16 +24,25 @@ public class FragmentStations extends FragmentBase {
 
     private RecyclerView rvStations;
     private SwipeRefreshLayout swipeRefreshLayout;
+
     private SharedPreferences sharedPref;
+    private HistoryManager historyManager;
+    private FavouriteManager favouriteManager;
 
     void onStationClick(DataRadioStation theStation) {
-        ActivityMain activityMain = (ActivityMain) getActivity();
+        Context context = getContext();
+        Utils.Play(theStation, context);
 
-        Utils.Play(theStation, getContext());
-
-        RadioDroidApp radioDroidApp = (RadioDroidApp) activityMain.getApplication();
-        HistoryManager historyManager = radioDroidApp.getHistoryManager();
         historyManager.add(theStation);
+
+        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
+        final Boolean autoFavorite = sharedPref.getBoolean("auto_favorite", true);
+        if (autoFavorite && !favouriteManager.has(theStation.ID)) {
+            favouriteManager.add(theStation);
+            Toast toast = Toast.makeText(context, context.getString(R.string.notify_autostarred), Toast.LENGTH_SHORT);
+            toast.show();
+            RefreshListGui();
+        }
     }
 
     @Override
@@ -71,6 +81,10 @@ public class FragmentStations extends FragmentBase {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_stations_remote, container, false);
         rvStations = (RecyclerView) view.findViewById(R.id.recyclerViewStations);
+
+        RadioDroidApp radioDroidApp = (RadioDroidApp) getActivity().getApplication();
+        historyManager = radioDroidApp.getHistoryManager();
+        favouriteManager = radioDroidApp.getFavouriteManager();
 
         ItemAdapterStation adapter = new ItemAdapterStation(getActivity(), R.layout.list_item_station);
         adapter.setStationActionsListener(new ItemAdapterStation.StationActionsListener() {
