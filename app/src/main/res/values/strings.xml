@@ -66,6 +66,10 @@
     <string name="settings_load_icons_on">Icons will be downloaded</string>
     <string name="settings_load_icons_off">Icons will not be downloaded</string>
 
+    <string name="settings_auto_favorite">Auto-favorites</string>
+    <string name="settings_auto_favorite_on">Set stations automatically as favorites when playing</string>
+    <string name="settings_auto_favorite_off">Do not set stations automatically as favorites when playing</string>
+
     <string name="settings_icon_click_toggles_favorite">Icon clicks</string>
     <string name="settings_icon_click_toggles_favorite_on">Clicking station icon adds or removes this as favorite</string>
     <string name="settings_icon_click_toggles_favorite_off">Clicking station icon starts playing</string>
@@ -92,6 +96,7 @@
     <string name="notify_play">Playing</string>
     <string name="notify_paused">Paused</string>
     <string name="notify_starred">Station has been bookmarked as favorite</string>
+    <string name="notify_autostarred">Station has been automatically bookmarked as favorite</string>
     <string name="notify_unstarred">Station has been removed from the favorite list</string>
     <string name="notify_deleted_favorites">The favorites have been deleted.</string>
     <string name="notify_deleted_history">The history has been deleted.</string>

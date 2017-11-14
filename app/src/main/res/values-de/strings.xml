@@ -62,6 +62,10 @@
     <string name="settings_load_icons_on">Die Stationslogos werden im Hintergrund heruntergeladen; es kann einige Zeit dauern, bis alle Logos angezeigt werden.</string>
     <string name="settings_load_icons_off">Es werden keine Stationslogos heruntergeladen.</string>
 
+    <string name="settings_auto_favorite">Auto-Favoriten</string>
+    <string name="settings_auto_favorite_on">Stationen werden beim Abspielen automatisch als Favoriten gesetzt.</string>
+    <string name="settings_auto_favorite_off">Stationen werden beim Abspielen nicht automatisch als Favoriten gesetzt.</string>
+
     <string name="settings_icon_click_toggles_favorite">Klickverhalten</string>
     <string name="settings_icon_click_toggles_favorite_on">Ein Klick auf das Stationslogo setzt oder löscht die Station als Favorit.</string>
     <string name="settings_icon_click_toggles_favorite_off">Ein Klick auf das Stationslogo startet das Abspielen.</string>
@@ -86,6 +90,7 @@
     <string name="notify_try_play">Versuche Wiedergabe</string>
     <string name="notify_play">Wiedergabe</string>
     <string name="notify_starred">Die Station wurde zur Favoritenliste hinzugefügt.</string>
+    <string name="notify_autostarred">Die Station wurde automatisch zur Favoritenliste hinzugefügt.</string>
     <string name="notify_unstarred">Die Station wurde als Favorit gelöscht.</string>
     <string name="notify_deleted_favorites">Die Favoritenliste wurde gelöscht.</string>
     <string name="notify_deleted_history">Liste der bisher gespielten Sender wurde gelöscht.</string>
