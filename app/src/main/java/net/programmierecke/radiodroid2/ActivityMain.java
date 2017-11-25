@@ -284,9 +284,16 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
         if (BuildConfig.DEBUG) {
             Log.d(TAG, "PAUSED");
         }
+
         super.onPause();
-        CastHandler.onPause();
-        MPDClient.StopDiscovery();
+
+        if (!PlayerServiceUtil.isPlaying()) {
+            PlayerServiceUtil.shutdownService();
+        } else {
+            CastHandler.onPause();
+            MPDClient.StopDiscovery();
+        }
+
     }
 
     @Override
