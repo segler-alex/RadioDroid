@@ -53,19 +53,19 @@ android {
 }
 
 dependencies {
-    compile 'com.android.support:support-v4:25.2.0'
-    compile 'com.android.support:appcompat-v7:25.2.0'
-    compile 'com.android.support:recyclerview-v7:25.2.0'
-    compile 'com.android.support:design:25.2.0'
-    compile 'com.android.support:preference-v7:25.2.0'
-    compile 'com.android.support:mediarouter-v7:25.2.0'
-    compile 'com.google.code.gson:gson:2.7'
+    compile 'com.android.support:support-v4:25.4.0'
+    compile 'com.android.support:appcompat-v7:25.4.0'
+    compile 'com.android.support:recyclerview-v7:25.4.0'
+    compile 'com.android.support:design:25.4.0'
+    compile 'com.android.support:preference-v7:25.4.0'
+    compile 'com.android.support:mediarouter-v7:25.4.0'
+    compile 'com.google.code.gson:gson:2.8.0'
     compile 'com.squareup.okhttp3:okhttp:3.9.0'
     compile 'com.squareup.picasso:picasso:2.5.2'
     compile 'com.jakewharton.picasso:picasso2-okhttp3-downloader:1.1.0'
-    compile 'com.google.android.exoplayer:exoplayer:r2.3.1'
-    playCompile 'com.google.android.gms:play-services-cast:11.0.2'
-    playCompile 'com.google.android.gms:play-services-cast-framework:11.0.2'
+    compile 'com.google.android.exoplayer:exoplayer:r2.5.4'
+    playCompile 'com.google.android.gms:play-services-cast:11.6.0'
+    playCompile 'com.google.android.gms:play-services-cast-framework:11.6.0'
 }
 
 
