@@ -86,31 +86,31 @@ public class StreamProxy {
         while (!isStopped) {
             int readBytes;
             if (!streamHasMetaData || (bytesUntilMetaData > 0)) {
-                    int bytesToRead = Math.min(buf.length - readBytesBuffer, inputStream.available());
-                    if (streamHasMetaData) {
-                        bytesToRead = Math.min(bytesUntilMetaData, bytesToRead);
-                    }
-                    readBytes = inputStream.read(buf, readBytesBuffer, bytesToRead);
-                    if (readBytes == 0) {
-                        continue;
-                    }
-                    if (readBytes < 0) {
-                        break;
-                    }
-                    readBytesBuffer += readBytes;
-                    connectionBytesTotal += readBytes;
-                    if (streamHasMetaData) {
-                        bytesUntilMetaData -= readBytes;
-                    }
+                int bytesToRead = Math.min(buf.length - readBytesBuffer, inputStream.available());
+                if (streamHasMetaData) {
+                    bytesToRead = Math.min(bytesUntilMetaData, bytesToRead);
+                }
+                readBytes = inputStream.read(buf, readBytesBuffer, bytesToRead);
+                if (readBytes == 0) {
+                    continue;
+                }
+                if (readBytes < 0) {
+                    break;
+                }
+                readBytesBuffer += readBytes;
+                connectionBytesTotal += readBytes;
+                if (streamHasMetaData) {
+                    bytesUntilMetaData -= readBytes;
+                }
 
-                    if (BuildConfig.DEBUG) Log.d(TAG, "stream bytes relayed:" + readBytes);
+                if (BuildConfig.DEBUG) Log.d(TAG, "stream bytes relayed:" + readBytes);
 
-                    outStream.write(buf, 0, readBytesBuffer);
-                    if (fileOutputStream != null) {
-                        if (BuildConfig.DEBUG) Log.d(TAG, "writing to record file..");
-                        fileOutputStream.write(buf, 0, readBytesBuffer);
-                    }
-                    readBytesBuffer = 0;
+                outStream.write(buf, 0, readBytesBuffer);
+                if (fileOutputStream != null) {
+                    if (BuildConfig.DEBUG) Log.d(TAG, "writing to record file..");
+                    fileOutputStream.write(buf, 0, readBytesBuffer);
+                }
+                readBytesBuffer = 0;
             } else {
                 readBytes = readMetaData(inputStream);
                 bytesUntilMetaData = info.metadataOffset;
