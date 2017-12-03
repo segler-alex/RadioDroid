@@ -36,6 +36,7 @@ public class CastHandler {
         activityMain = activity;
         mCastContext = CastContext.getSharedInstance(activityMain);
         mSessionManager = mCastContext.getSessionManager();
+        mSessionManager.addSessionManagerListener(mSessionManagerListener);
     }
 
     public static void onPause() {
