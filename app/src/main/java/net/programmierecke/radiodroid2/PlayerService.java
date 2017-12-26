@@ -56,6 +56,7 @@ public class PlayerService extends Service implements RadioPlayer.PlayerListener
     private String currentStationID;
     private String currentStationName;
     private String currentStationURL;
+    private String currentStationIconUrl;
 
     private RadioPlayer radioPlayer;
 
@@ -85,8 +86,8 @@ public class PlayerService extends Service implements RadioPlayer.PlayerListener
 
     private final IPlayerService.Stub itsBinder = new IPlayerService.Stub() {
 
-        public void Play(String theUrl, String theName, String theID, boolean isAlarm) throws RemoteException {
-            PlayerService.this.playUrl(theUrl, theName, theID, isAlarm);
+        public void Play(String theUrl, String theName, String theID, String theIconUrl, boolean isAlarm) throws RemoteException {
+            PlayerService.this.playUrl(theUrl, theName, theID, theIconUrl, isAlarm);
         }
 
         public void Pause() throws RemoteException {
@@ -124,6 +125,11 @@ public class PlayerService extends Service implements RadioPlayer.PlayerListener
         @Override
         public String getStationName() throws RemoteException {
             return currentStationName;
+        }
+
+        @Override
+        public String getStationIconUrl() throws RemoteException {
+            return currentStationIconUrl;
         }
 
         @Override
@@ -398,12 +404,13 @@ public class PlayerService extends Service implements RadioPlayer.PlayerListener
         return super.onStartCommand(intent, flags, startId);
     }
 
-    public void playUrl(String theURL, String theName, String theID, final boolean isAlarm) {
+    public void playUrl(String theURL, String theName, String theID, String theIconUrl, final boolean isAlarm) {
         Log.i(TAG, String.format("playing url '%s'.", theURL));
 
         currentStationID = theID;
         currentStationName = theName;
         currentStationURL = theURL;
+        currentStationIconUrl = theIconUrl;
 
         int result = acquireAudioFocus();
         if (result == AudioManager.AUDIOFOCUS_REQUEST_GRANTED) {

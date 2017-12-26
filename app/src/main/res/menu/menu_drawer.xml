@@ -25,10 +25,6 @@
     <group
         android:id="@+id/group_settings_id"
         android:checkableBehavior="single">
-        <item
-            android:id="@+id/nav_item_player_status"
-            android:icon="@drawable/ic_play_arrow_24dp"
-            android:title="@string/nav_item_player_status" />
 
         <item
             android:id="@+id/nav_item_recordings"

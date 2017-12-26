@@ -34,11 +34,6 @@
             android:name=".ActivityRadioStationDetail"
             android:label="Station" />
 
-        <activity
-            android:name="net.programmierecke.radiodroid2.ActivityPlayerInfo"
-            android:label="@string/nav_item_player_status"
-            android:noHistory="true" />
-
         <receiver
             android:name="net.programmierecke.radiodroid2.AlarmReceiver"
             android:enabled="true">

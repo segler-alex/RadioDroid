@@ -4,16 +4,24 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
+import android.content.res.Resources;
+import android.graphics.drawable.Drawable;
 import android.os.IBinder;
 import android.os.RemoteException;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
+import android.util.TypedValue;
+import android.widget.ImageView;
+import com.squareup.picasso.Callback;
+import com.squareup.picasso.NetworkPolicy;
+import com.squareup.picasso.Picasso;
 import net.programmierecke.radiodroid2.data.StreamLiveInfo;
 
 public class PlayerServiceUtil {
 
     private static Context mainContext = null;
+    private Drawable stationIcon;
 
     public static void bind(Context context){
         Intent anIntent = new Intent(context, PlayerService.class);
@@ -76,10 +84,10 @@ public class PlayerServiceUtil {
         }
     }
 
-    public static void play(String result, String name, String id) {
+    public static void play(String result, String name, String id, String iconUrl) {
         if (itsPlayerService != null) {
             try {
-                itsPlayerService.Play(result,name,id,false);
+                itsPlayerService.Play(result,name,id,iconUrl,false);
             } catch (RemoteException e) {
                 Log.e("", "" + e);
             }
@@ -168,6 +176,46 @@ public class PlayerServiceUtil {
             }
         }
         return null;
+    }
+
+    public static String getStationIconUrl() {
+        if (itsPlayerService != null) {
+            try {
+                return itsPlayerService.getStationIconUrl();
+            } catch (RemoteException e) {
+                Log.e("", "" + e);
+            }
+        }
+        return null;
+    }
+
+    public static void getStationIcon(final ImageView holder) {
+        if (getStationIconUrl() != null) {
+            Resources r = mainContext.getResources();
+            final float px = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 70, r.getDisplayMetrics());
+
+            Callback cachedImageLoadCallback = new Callback() {
+                @Override
+                public void onSuccess() {
+                    //Offline cache hit
+                }
+
+                @Override
+                public void onError() {
+                    Picasso.with(mainContext)
+                            .load(getStationIconUrl())
+                            .networkPolicy(NetworkPolicy.NO_CACHE)
+                            .resize((int) px, 0)
+                            .into(holder);
+                }
+            };
+
+            Picasso.with(mainContext)
+                    .load(getStationIconUrl())
+                    .networkPolicy(NetworkPolicy.OFFLINE)
+                    .resize((int) px, 0)
+                    .into(holder, cachedImageLoadCallback);
+        }
     }
 
     public static int getMetadataBitrate() {

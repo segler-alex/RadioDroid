@@ -120,12 +120,6 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
                 mDrawerLayout.closeDrawers();
                 android.support.v4.app.Fragment f = null;
 
-                if (menuItem.getItemId() == R.id.nav_item_player_status) {
-                    Intent intent = new Intent(ActivityMain.this, ActivityPlayerInfo.class);
-                    startActivity(intent);
-                    return false;
-                }
-
                 if (menuItem.getItemId() == R.id.nav_item_stations) {
                     f = new FragmentTabs();
                     menuItemSearch.setVisible(true);
@@ -212,6 +206,10 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
                 return false;
             }
         });
+
+        ActivityPlayerInfo f = new ActivityPlayerInfo();
+        FragmentTransaction xfragmentTransaction = mFragmentManager.beginTransaction();
+        xfragmentTransaction.replace(R.id.playerView, f).commit();
 
         //myToolbar = (android.support.v7.widget.Toolbar) findViewById(R.id.main_toolbar);
         ActionBarDrawerToggle mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, R.string.app_name, R.string.app_name);

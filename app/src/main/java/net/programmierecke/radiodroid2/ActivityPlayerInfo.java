@@ -7,26 +7,21 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
+import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
+import android.support.v7.preference.PreferenceManager;
 import android.text.TextUtils;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
-import android.widget.ImageButton;
-import android.widget.LinearLayout;
-import android.widget.TextView;
-import android.widget.Toast;
+import android.view.*;
+import android.widget.*;
 
 import net.programmierecke.radiodroid2.data.StreamLiveInfo;
 
-public class ActivityPlayerInfo extends AppCompatActivity {
+public class ActivityPlayerInfo extends Fragment {
 	ProgressDialog itsProgressLoading;
 	TextView aTextViewName;
 	ImageButton buttonStop;
 	ImageButton buttonPause;
-	ImageButton buttonAddTimeout;
 	ImageButton buttonClearTimeout;
 	private TextView textViewCountdown;
 	private BroadcastReceiver updateUIReciver;
@@ -35,21 +30,39 @@ public class ActivityPlayerInfo extends AppCompatActivity {
 	private TextView textViewRecordingInfo;
 	private TextView textViewTransferredbytes;
 	private ImageButton buttonRecord;
+	private ImageView imageViewIcon;
 	private Thread t;
-	private LinearLayout layoutPlaying;
-	private TextView textViewStatus;
+	private RelativeLayout layoutPlaying;
+	private RelativeLayout layoutRecording;
 
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.layout_player_status);
+	public View onCreateView(LayoutInflater inflater, ViewGroup container,
+							 Bundle savedInstanceState) {
+		// Inflate the layout for this fragment
+		View view = inflater.inflate(R.layout.layout_player_status, container, false);
 
-		Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
-		setSupportActionBar(myToolbar);
+        PlayerServiceUtil.bind(getContext());
 
-		Bundle anExtras = getIntent().getExtras();
+        IntentFilter filter = new IntentFilter();
 
-		PlayerServiceUtil.bind(this);
+        filter.addAction(PlayerService.PLAYER_SERVICE_TIMER_UPDATE);
+        filter.addAction(PlayerService.PLAYER_SERVICE_STATUS_UPDATE);
+        filter.addAction(PlayerService.PLAYER_SERVICE_META_UPDATE);
+
+        updateUIReciver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                UpdateOutput();
+            }
+        };
+        getContext().registerReceiver(updateUIReciver,filter);
+
+		return view;
+	}
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
 
 		InitControls();
 		UpdateOutput();
@@ -60,7 +73,7 @@ public class ActivityPlayerInfo extends AppCompatActivity {
 				try {
 					while (!isInterrupted()) {
 						Thread.sleep(1000);
-						runOnUiThread(new Runnable() {
+						getActivity().runOnUiThread(new Runnable() {
 							@Override
 							public void run() {
 								UpdateOutput();
@@ -72,83 +85,72 @@ public class ActivityPlayerInfo extends AppCompatActivity {
 			}
 		};
 		t.start();
-
-		IntentFilter filter = new IntentFilter();
-
-		filter.addAction(PlayerService.PLAYER_SERVICE_TIMER_UPDATE);
-		filter.addAction(PlayerService.PLAYER_SERVICE_STATUS_UPDATE);
-		filter.addAction(PlayerService.PLAYER_SERVICE_META_UPDATE);
-
-		updateUIReciver = new BroadcastReceiver() {
-			@Override
-			public void onReceive(Context context, Intent intent) {
-				UpdateOutput();
-			}
-		};
-		registerReceiver(updateUIReciver,filter);
 	}
 
 	private void InitControls() {
-		aTextViewName = (TextView) findViewById(R.id.detail_station_name_value);
-		textViewCountdown = (TextView) findViewById(R.id.textViewCountdown);
+		aTextViewName = (TextView) getActivity().findViewById(R.id.detail_station_name_value);
+		textViewCountdown = (TextView) getActivity().findViewById(R.id.textViewCountdown);
 		if (textViewCountdown != null){
 			textViewCountdown.setText("");
 		}
-		textViewLiveInfo = (TextView) findViewById(R.id.textViewLiveInfo);
-		textViewExtraInfo = (TextView) findViewById(R.id.textViewExtraStreamInfo);
-		textViewRecordingInfo = (TextView) findViewById(R.id.textViewRecordingInfo);
-		textViewTransferredbytes = (TextView) findViewById(R.id.textViewTransferredBytes);
-		layoutPlaying = (LinearLayout) findViewById(R.id.LinearLayoutPlaying);
-		textViewStatus = (TextView) findViewById(R.id.detail_status);
+		textViewLiveInfo = (TextView) getActivity().findViewById(R.id.textViewLiveInfo);
+		textViewExtraInfo = (TextView) getActivity().findViewById(R.id.textViewExtraStreamInfo);
+		textViewRecordingInfo = (TextView) getActivity().findViewById(R.id.textViewRecordingInfo);
+		textViewTransferredbytes = (TextView) getActivity().findViewById(R.id.textViewTransferredBytes);
+		layoutPlaying = (RelativeLayout) getActivity().findViewById(R.id.RelativeLayout1);
+        layoutRecording = (RelativeLayout) getActivity().findViewById(R.id.RelativeLayout2);
+		imageViewIcon = (ImageView) getActivity().findViewById(R.id.playerRadioImage);
 
-		buttonPause = (ImageButton) findViewById(R.id.buttonPause);
+		buttonPause = (ImageButton) getActivity().findViewById(R.id.buttonPause);
 		if (buttonPause != null){
 			buttonPause.setOnClickListener(new View.OnClickListener() {
 				@Override
 				public void onClick(View v) {
 					if (PlayerServiceUtil.isPlaying()) {
-						textViewStatus.setText(getResources().getString(R.string.player_info_status)+getResources().getString(R.string.player_info_status_stopped));
-						buttonPause.setImageResource(R.drawable.mr_media_play_light);
-						PlayerServiceUtil.pause();
+						buttonPause.setImageResource(R.drawable.ic_play_circle);
 						if (PlayerServiceUtil.isRecording()) {
-							buttonRecord.setImageResource(R.drawable.ic_fiber_manual_record_green_50dp);
+							buttonRecord.setImageResource(R.drawable.ic_start_recording);
 							String recordingInfo = getResources().getString(R.string.player_info_recorded_to, PlayerServiceUtil.getCurrentRecordFileName());
 							textViewRecordingInfo.setText(recordingInfo);
 							PlayerServiceUtil.stopRecording();
+							layoutPlaying.setVisibility(View.GONE);
 						}
+                        PlayerServiceUtil.stop();
 					} else {
-						buttonPause.setImageResource(R.drawable.mr_media_pause_light);
+						buttonPause.setImageResource(R.drawable.ic_pause_circle);
 						PlayerServiceUtil.resume();
 					}
 				}
 			});
 		}
 
-		buttonStop = (ImageButton) findViewById(R.id.buttonStop);
+		// Actually, we don't need this button. If user paused radio from the app we just send stop event.
+        // If he paused radio from notification we just send pause event.
+		buttonStop = (ImageButton) getActivity().findViewById(R.id.buttonStop);
 		if (buttonStop != null){
 			buttonStop.setOnClickListener(new View.OnClickListener() {
 				@Override
 				public void onClick(View v) {
 					PlayerServiceUtil.stop();
-					finish();
+					//finish();
 				}
 			});
 		}
 
-		buttonRecord = (ImageButton) findViewById(R.id.buttonRecord);
+		buttonRecord = (ImageButton) getActivity().findViewById(R.id.buttonRecord);
 		if (buttonRecord != null){
 			buttonRecord.setOnClickListener(new View.OnClickListener() {
 				@Override
 				public void onClick(View v) {
 					if (PlayerServiceUtil.isRecording()) {
-						buttonRecord.setImageResource(R.drawable.ic_fiber_manual_record_green_50dp);
+						buttonRecord.setImageResource(R.drawable.ic_start_recording);
 						String recordingInfo = getResources().getString(R.string.player_info_recorded_to,PlayerServiceUtil.getCurrentRecordFileName());
 						textViewRecordingInfo.setText(recordingInfo);
 						PlayerServiceUtil.stopRecording();
-					} else {
+					} else if(PlayerServiceUtil.getStationName() != null) {
 						PlayerServiceUtil.resume();
-						if (Utils.verifyStoragePermissions(ActivityPlayerInfo.this)) {
-							buttonRecord.setImageResource(R.drawable.ic_fiber_manual_record_red_50dp);
+						if (Utils.verifyStoragePermissions(getActivity())) {
+							buttonRecord.setImageResource(R.drawable.ic_stop_recording);
 							PlayerServiceUtil.startRecording();
 							if (PlayerServiceUtil.getCurrentRecordFileName() != null && PlayerServiceUtil.isRecording()){
 								String recordingInfo = getResources().getString(R.string.player_info_recording_to,PlayerServiceUtil.getCurrentRecordFileName());
@@ -160,7 +162,7 @@ public class ActivityPlayerInfo extends AppCompatActivity {
 			});
 		}
 
-		buttonClearTimeout = (ImageButton) findViewById(R.id.buttonCancelCountdown);
+		buttonClearTimeout = (ImageButton) getActivity().findViewById(R.id.buttonCancelCountdown);
 		if (buttonClearTimeout != null){
 			buttonClearTimeout.setVisibility(View.GONE);
 			buttonClearTimeout.setOnClickListener(new View.OnClickListener() {
@@ -170,9 +172,23 @@ public class ActivityPlayerInfo extends AppCompatActivity {
 				}
 			});
 		}
+
+        layoutPlaying.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                v.setVisibility(View.GONE);
+            }
+        });
+
+        layoutRecording.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                layoutPlaying.setVisibility(View.VISIBLE);
+            }
+        });
 	}
 
-	@Override
+	/*@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getMenuInflater().inflate(R.menu.menu_player_info, menu);
 		return true;
@@ -193,7 +209,7 @@ public class ActivityPlayerInfo extends AppCompatActivity {
 				// Invoke the superclass to handle it.
 				return super.onOptionsItemSelected(item);
 		}
-	}
+	}*/
 
 	private void clearTime() {
 		PlayerServiceUtil.clearTimer();
@@ -209,27 +225,28 @@ public class ActivityPlayerInfo extends AppCompatActivity {
 			t.interrupt();
 		}
 		super.onDestroy();
-		PlayerServiceUtil.unBind(this);
+		PlayerServiceUtil.unBind(getContext());
 		if (updateUIReciver != null) {
-			unregisterReceiver(updateUIReciver);
+			getContext().unregisterReceiver(updateUIReciver);
 			updateUIReciver = null;
 		}
 	}
 
 	private void UpdateOutput() {
+	if(getView() == null) return;
 
-		buttonPause = (ImageButton) findViewById(R.id.buttonPause);
+		buttonPause = (ImageButton) getActivity().findViewById(R.id.buttonPause);
 		if (PlayerServiceUtil.isPlaying()) {
-			buttonPause.setImageResource(R.drawable.mr_media_pause_light);
+			buttonPause.setImageResource(R.drawable.ic_pause_circle);
 		} else {
-			buttonPause.setImageResource(R.drawable.mr_media_play_light);
+			buttonPause.setImageResource(R.drawable.ic_play_circle);
 		}
 
-		buttonRecord = (ImageButton) findViewById(R.id.buttonRecord);
+		buttonRecord = (ImageButton) getActivity().findViewById(R.id.buttonRecord);
 		if (PlayerServiceUtil.isRecording()) {
-			buttonRecord.setImageResource(R.drawable.ic_fiber_manual_record_red_50dp);
+			buttonRecord.setImageResource(R.drawable.ic_stop_recording);
 		} else if (android.os.Environment.getExternalStorageDirectory().canWrite()) {
-			buttonRecord.setImageResource(R.drawable.ic_fiber_manual_record_green_50dp);
+			buttonRecord.setImageResource(R.drawable.ic_start_recording);
 		} else {
 			buttonRecord.setImageResource(R.drawable.ic_fiber_manual_record_black_50dp);
 		}
@@ -263,8 +280,10 @@ public class ActivityPlayerInfo extends AppCompatActivity {
         if (!TextUtils.isEmpty(streamTitle)) {
             textViewLiveInfo.setVisibility(View.VISIBLE);
             textViewLiveInfo.setText(streamTitle);
+            aTextViewName.setGravity(Gravity.BOTTOM);
         } else {
             textViewLiveInfo.setVisibility(View.GONE);
+            aTextViewName.setGravity(Gravity.CENTER_VERTICAL);
         }
 
 		if (PlayerServiceUtil.getCurrentRecordFileName() != null && PlayerServiceUtil.isRecording()){
@@ -284,34 +303,30 @@ public class ActivityPlayerInfo extends AppCompatActivity {
 		}
 		textViewExtraInfo.setText(strExtra);
 
-		String byteInfo = getResources().getString(R.string.player_info_transferred,Utils.getReadableBytes(PlayerServiceUtil.getTransferredBytes()));
+		//String byteInfo = getResources().getString(R.string.player_info_transferred,Utils.getReadableBytes(PlayerServiceUtil.getTransferredBytes()));
+		// Simple is better
+		String byteInfo = Utils.getReadableBytes(PlayerServiceUtil.getTransferredBytes());
 		if (PlayerServiceUtil.getMetadataBitrate() > 0) {
 			byteInfo += " (" + PlayerServiceUtil.getMetadataBitrate() + " kbps)";
 		}
+
 		if (PlayerServiceUtil.isPlaying() || PlayerServiceUtil.isRecording()) {
 			textViewTransferredbytes.setText(byteInfo);
 		}
 
-		if (!PlayerServiceUtil.isPlaying() && !PlayerServiceUtil.isRecording()){
-			if(BuildConfig.DEBUG) { Log.d("ARR","exit.."); }
-			textViewStatus.setText(getResources().getString(R.string.player_info_status)+getResources().getString(R.string.player_info_status_stopped));
-			layoutPlaying.setVisibility(View.VISIBLE);
-		} else {
-				if (PlayerServiceUtil.isPlaying() && !PlayerServiceUtil.isRecording()) {
-					textViewStatus.setText(getResources().getString(R.string.player_info_status)+getResources().getString(R.string.player_info_status_playing));
-					layoutPlaying.setVisibility(View.VISIBLE);
-				} else {
-					textViewStatus.setText(getResources().getString(R.string.player_info_status)+getResources().getString(R.string.player_info_status_playing_and_recording));
-					layoutPlaying.setVisibility(View.VISIBLE);
-				}
-		}
+			if (!PreferenceManager.getDefaultSharedPreferences(getContext().getApplicationContext()).getBoolean("load_icons", false)) {
+                imageViewIcon.setVisibility(View.GONE);
+			} else {
+                PlayerServiceUtil.getStationIcon(imageViewIcon);
+			}
+
 	}
 
 	@Override
 	public void onRequestPermissionsResult(int requestCode,
 										   String permissions[], int[] grantResults) {
 
-		buttonRecord = (ImageButton) findViewById(R.id.buttonRecord);
+		buttonRecord = (ImageButton) getActivity().findViewById(R.id.buttonRecord);
 		switch (requestCode) {
 			case Utils.REQUEST_EXTERNAL_STORAGE: {
 				// If request is cancelled, the result arrays are empty.
@@ -320,7 +335,7 @@ public class ActivityPlayerInfo extends AppCompatActivity {
 					buttonRecord.setImageResource(R.drawable.ic_fiber_manual_record_red_50dp);
 				} else {
 					buttonRecord.setImageResource(R.drawable.ic_fiber_manual_record_black_50dp);
-					Toast toast = Toast.makeText(this, getResources().getString(R.string.error_record_needs_write), Toast.LENGTH_SHORT);
+					Toast toast = Toast.makeText(getActivity(), getResources().getString(R.string.error_record_needs_write), Toast.LENGTH_SHORT);
 					toast.show();
 				}
 				return;
