@@ -9,10 +9,7 @@
 
     <View android:layout_width="match_parent"
                   android:layout_height="1dp"
-                  android:background="#e5e5e5"
-                  android:padding="0dp"
-                  android:layout_margin="0dp"
-    />
+                  android:background="@color/colorPlayerShadow"/>
 
     <RelativeLayout
             android:id="@+id/RelativeLayout2"
@@ -21,17 +18,6 @@
             android:layout_height="match_parent"
             android:background="#fff"
             android:layout_marginTop="1dp">
-
-        <!--<ImageButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/buttonAddTimeout"
-        android:layout_gravity="center"
-        android:minHeight="20dp"
-        android:minWidth="30dp"
-        android:src="@drawable/ic_add_alarm_black_24dp"
-        android:layout_margin="10dp"
-        android:layout_weight="1" />-->
 
         <TextView
                 android:id="@+id/textViewRecordingInfo"
@@ -43,7 +29,7 @@
                 android:layout_toLeftOf="@id/buttonRecord"
                 android:layout_alignParentLeft="true"
                 android:textStyle="italic"
-                android:textColor="#777"
+                android:textColor="@color/textColorSecondary"
                 android:scrollHorizontally="false"
                 android:ellipsize="none"
                 android:maxLines="3"
@@ -58,6 +44,7 @@
                 android:contentDescription="@string/image_button_record"
                 app:srcCompat="@drawable/ic_start_recording"
                 android:layout_alignParentRight="true"/>
+
     </RelativeLayout>
 
     <RelativeLayout
@@ -69,12 +56,12 @@
             android:layout_marginTop="1dp">
 
         <ImageView
+                android:id="@+id/playerRadioImage"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-                tools:src="@drawable/flag_nl"
-                android:id="@+id/playerRadioImage"
                 android:layout_centerVertical="true"
-                android:layout_marginLeft="8dp"/>
+                android:layout_marginLeft="8dp"
+                tools:src="@drawable/flag_nl"/>
 
         <LinearLayout
                 android:layout_width="match_parent"
@@ -82,7 +69,7 @@
                 android:orientation="vertical"
                 android:layout_toRightOf="@id/playerRadioImage"
                 android:layout_toLeftOf="@id/textViewTransferredBytes"
-                android:layout_marginLeft="10dp"
+                android:layout_marginLeft="8dp"
                 android:layout_marginRight="8dp">
 
             <TextView
@@ -99,82 +86,38 @@
 
             <TextView
                     android:id="@+id/textViewLiveInfo"
-                    tools:text="Eminem - Solder"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:textSize="12sp"
-                    android:textColor="#777"
+                    android:textColor="@color/textColorSecondary"
                     android:gravity="top"
                     android:layout_weight="0.5"
                     android:lines="1"
-            />
+                    android:visibility="gone"
+                    tools:text="Eminem - Solder"/>
 
         </LinearLayout>
 
         <TextView
                 android:id="@+id/textViewTransferredBytes"
-                tools:text="4MB"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="12sp"
                 android:textStyle="italic"
-                android:textColor="#777"
+                android:textColor="@color/textColorSecondary"
                 android:layout_centerVertical="true"
-                android:layout_toLeftOf="@+id/LinearLayout1"/>
-
-        <LinearLayout
-                android:id="@+id/LinearLayout1"
-                android:orientation="horizontal"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_alignParentRight="true">
-
-            <ImageButton
-                    android:id="@+id/buttonStop"
-                    android:layout_width="?android:attr/actionBarSize"
-                    android:layout_height="?android:attr/actionBarSize"
-                    android:layout_gravity="center_vertical"
-                    android:background="#ffffff"
-                    android:contentDescription="@string/detail_stop"
-                    android:visibility="gone"
-                    app:srcCompat="@drawable/ic_stop"/>
-
-            <ImageButton
-                    android:id="@+id/buttonPause"
-                    android:layout_width="?android:attr/actionBarSize"
-                    android:layout_height="?android:attr/actionBarSize"
-                    android:background="#ffffff"
-                    android:layout_gravity="center_vertical"
-                    android:contentDescription="@string/detail_pause"
-                    app:srcCompat="@drawable/ic_pause_circle"
-            />
-
-        </LinearLayout>
-
-        <TextView
-                android:id="@+id/textViewCountdown"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:textSize="20sp"
-                android:gravity="center"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp"
-                android:layout_marginTop="5dp"
-                android:layout_marginBottom="0dp"
-                android:text=""
-                android:visibility="gone"/>
+                android:layout_toLeftOf="@+id/buttonPause"
+                tools:text="4MB"/>
 
         <ImageButton
-                android:id="@+id/buttonCancelCountdown"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_margin="10dp"
-                android:contentDescription="@string/image_button_disable"
-                android:minHeight="100dp"
-                android:minWidth="100dp"
-                app:srcCompat="@drawable/ic_delete_black_55dp"
-                android:visibility="gone"/>
+                android:id="@+id/buttonPause"
+                android:layout_width="?android:attr/actionBarSize"
+                android:layout_height="?android:attr/actionBarSize"
+                android:background="#ffffff"
+                android:layout_gravity="center_vertical"
+                android:layout_alignParentRight="true"
+                android:contentDescription="@string/detail_play"
+                app:srcCompat="@drawable/ic_play_circle"/>
 
         <TextView
                 android:id="@+id/textViewExtraStreamInfo"

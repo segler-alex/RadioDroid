@@ -189,8 +189,9 @@ public class PlayerServiceUtil {
         return null;
     }
 
-    public static void getStationIcon(final ImageView holder) {
-        if (getStationIconUrl() != null) {
+    public static void getStationIcon(final ImageView holder, String fromUrl) {
+        final String iconUrl = fromUrl != null? fromUrl : getStationIconUrl();
+        if (iconUrl != null) {
             Resources r = mainContext.getResources();
             final float px = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 70, r.getDisplayMetrics());
 
@@ -203,7 +204,7 @@ public class PlayerServiceUtil {
                 @Override
                 public void onError() {
                     Picasso.with(mainContext)
-                            .load(getStationIconUrl())
+                            .load(iconUrl)
                             .networkPolicy(NetworkPolicy.NO_CACHE)
                             .resize((int) px, 0)
                             .into(holder);
@@ -211,7 +212,7 @@ public class PlayerServiceUtil {
             };
 
             Picasso.with(mainContext)
-                    .load(getStationIconUrl())
+                    .load(iconUrl)
                     .networkPolicy(NetworkPolicy.OFFLINE)
                     .resize((int) px, 0)
                     .into(holder, cachedImageLoadCallback);

@@ -61,9 +61,9 @@
 
 
     <RelativeLayout
+            android:id="@+id/playerView"
             android:layout_width="match_parent"
-            android:layout_height="?android:attr/actionBarSize"
-            android:id="@+id/playerView">
+            android:layout_height="?android:attr/actionBarSize">
     </RelativeLayout>
 
 </LinearLayout>

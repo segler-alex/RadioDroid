@@ -586,7 +586,7 @@ public class PlayerService extends Service implements RadioPlayer.PlayerListener
     }
 
     private void sendMessage(String theTitle, String theMessage, String theTicker) {
-        Intent notificationIntent = new Intent(itsContext, ActivityPlayerInfo.class);
+        Intent notificationIntent = new Intent(itsContext, FragmentPlayer.class);
         notificationIntent.putExtra("stationid", currentStationID);
         notificationIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 

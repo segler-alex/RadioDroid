@@ -43,6 +43,9 @@
     <string name="progress_loading">Loading...</string>
 
     <string name="sleep_timer" formatted="true">Sleep timer: %1$02d:%2$02d</string>
+    <string name="sleep_timer_title">How many minutes before stop?</string>
+    <string name="sleep_timer_apply">Apply</string>
+    <string name="sleep_timer_clear">Clear</string>
     <string name="nav_item_add_sleep">+15 mins</string>
 
     <string name="settings_general">General</string>

@@ -1,10 +1,7 @@
 package net.programmierecke.radiodroid2;
 
 import android.app.ProgressDialog;
-import android.content.BroadcastReceiver;
-import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
+import android.content.*;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -15,15 +12,13 @@ import android.util.Log;
 import android.view.*;
 import android.widget.*;
 
+import net.programmierecke.radiodroid2.data.DataRadioStation;
 import net.programmierecke.radiodroid2.data.StreamLiveInfo;
 
-public class ActivityPlayerInfo extends Fragment {
+public class FragmentPlayer extends Fragment {
 	ProgressDialog itsProgressLoading;
 	TextView aTextViewName;
-	ImageButton buttonStop;
 	ImageButton buttonPause;
-	ImageButton buttonClearTimeout;
-	private TextView textViewCountdown;
 	private BroadcastReceiver updateUIReciver;
 	private TextView textViewLiveInfo;
 	private TextView textViewExtraInfo;
@@ -65,6 +60,7 @@ public class ActivityPlayerInfo extends Fragment {
         super.onActivityCreated(savedInstanceState);
 
 		InitControls();
+		SetInfoFromHistory(false);
 		UpdateOutput();
 
 		t = new Thread() {
@@ -89,10 +85,6 @@ public class ActivityPlayerInfo extends Fragment {
 
 	private void InitControls() {
 		aTextViewName = (TextView) getActivity().findViewById(R.id.detail_station_name_value);
-		textViewCountdown = (TextView) getActivity().findViewById(R.id.textViewCountdown);
-		if (textViewCountdown != null){
-			textViewCountdown.setText("");
-		}
 		textViewLiveInfo = (TextView) getActivity().findViewById(R.id.textViewLiveInfo);
 		textViewExtraInfo = (TextView) getActivity().findViewById(R.id.textViewExtraStreamInfo);
 		textViewRecordingInfo = (TextView) getActivity().findViewById(R.id.textViewRecordingInfo);
@@ -118,21 +110,11 @@ public class ActivityPlayerInfo extends Fragment {
                         PlayerServiceUtil.stop();
 					} else {
 						buttonPause.setImageResource(R.drawable.ic_pause_circle);
-						PlayerServiceUtil.resume();
+						if(PlayerServiceUtil.getStationName() != null)
+						    PlayerServiceUtil.resume();
+						else
+						    SetInfoFromHistory(true);
 					}
-				}
-			});
-		}
-
-		// Actually, we don't need this button. If user paused radio from the app we just send stop event.
-        // If he paused radio from notification we just send pause event.
-		buttonStop = (ImageButton) getActivity().findViewById(R.id.buttonStop);
-		if (buttonStop != null){
-			buttonStop.setOnClickListener(new View.OnClickListener() {
-				@Override
-				public void onClick(View v) {
-					PlayerServiceUtil.stop();
-					//finish();
 				}
 			});
 		}
@@ -147,8 +129,7 @@ public class ActivityPlayerInfo extends Fragment {
 						String recordingInfo = getResources().getString(R.string.player_info_recorded_to,PlayerServiceUtil.getCurrentRecordFileName());
 						textViewRecordingInfo.setText(recordingInfo);
 						PlayerServiceUtil.stopRecording();
-					} else if(PlayerServiceUtil.getStationName() != null) {
-						PlayerServiceUtil.resume();
+					} else if(PlayerServiceUtil.isPlaying()) {
 						if (Utils.verifyStoragePermissions(getActivity())) {
 							buttonRecord.setImageResource(R.drawable.ic_stop_recording);
 							PlayerServiceUtil.startRecording();
@@ -162,62 +143,39 @@ public class ActivityPlayerInfo extends Fragment {
 			});
 		}
 
-		buttonClearTimeout = (ImageButton) getActivity().findViewById(R.id.buttonCancelCountdown);
-		if (buttonClearTimeout != null){
-			buttonClearTimeout.setVisibility(View.GONE);
-			buttonClearTimeout.setOnClickListener(new View.OnClickListener() {
-				@Override
-				public void onClick(View v) {
-					clearTime();
-				}
-			});
-		}
-
-        layoutPlaying.setOnClickListener(new View.OnClickListener() {
+		View.OnClickListener onClickListener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                v.setVisibility(View.GONE);
+                int currentVisibility = layoutPlaying.getVisibility();
+                layoutPlaying.setVisibility(currentVisibility == View.GONE ? View.VISIBLE : View.GONE);
             }
-        });
+        };
 
-        layoutRecording.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                layoutPlaying.setVisibility(View.VISIBLE);
+        layoutPlaying.setOnClickListener(onClickListener);
+        layoutRecording.setOnClickListener(onClickListener);
+	}
+
+	private void SetInfoFromHistory(boolean startPlaying) {
+	    if(PlayerServiceUtil.getStationName() != null) return;
+
+        RadioDroidApp radioDroidApp = (RadioDroidApp) getActivity().getApplication();
+        HistoryManager historyManager = radioDroidApp.getHistoryManager();
+        DataRadioStation[] history = historyManager.getList();
+
+        if(history.length > 0) {
+            DataRadioStation lastStation = history[0];
+            if(startPlaying)
+                Utils.Play(lastStation, getContext());
+            else {
+                aTextViewName.setText(lastStation.Name);
+
+                if (!PreferenceManager.getDefaultSharedPreferences(getContext().getApplicationContext()).getBoolean("load_icons", false))
+                    imageViewIcon.setVisibility(View.GONE);
+                else
+                    PlayerServiceUtil.getStationIcon(imageViewIcon, lastStation.IconUrl);
             }
-        });
-	}
-
-	/*@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		getMenuInflater().inflate(R.menu.menu_player_info, menu);
-		return true;
-	}
-
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		if (!PlayerServiceUtil.isPlaying()){
-			return super.onOptionsItemSelected(item);
-		}
-		switch (item.getItemId()) {
-			case R.id.action_set_alarm:
-				addTime();
-				return true;
-
-			default:
-				// If we got here, the user's action was not recognized.
-				// Invoke the superclass to handle it.
-				return super.onOptionsItemSelected(item);
-		}
-	}*/
-
-	private void clearTime() {
-		PlayerServiceUtil.clearTimer();
-	}
-
-	private void addTime() {
-		PlayerServiceUtil.addTimer(10 * 60);
-	}
+        }
+    }
 
 	@Override
 	public void onDestroy() {
@@ -233,7 +191,7 @@ public class ActivityPlayerInfo extends Fragment {
 	}
 
 	private void UpdateOutput() {
-	if(getView() == null) return;
+	if(getView() == null || PlayerServiceUtil.getStationName() == null) return;
 
 		buttonPause = (ImageButton) getActivity().findViewById(R.id.buttonPause);
 		if (PlayerServiceUtil.isPlaying()) {
@@ -261,18 +219,6 @@ public class ActivityPlayerInfo extends Fragment {
 			}else{
 				aTextViewName.setText(stationName);
 			}
-		}
-
-		long seconds = PlayerServiceUtil.getTimerSeconds();
-
-		if (seconds <= 0){
-			buttonClearTimeout.setVisibility(View.GONE);
-			textViewCountdown.setText("");
-			textViewCountdown.setVisibility(View.GONE);
-		}else{
-			buttonClearTimeout.setVisibility(View.VISIBLE);
-			textViewCountdown.setText(getResources().getString(R.string.sleep_timer,seconds / 60, seconds % 60));
-			textViewCountdown.setVisibility(View.VISIBLE);
 		}
 
         StreamLiveInfo liveInfo = PlayerServiceUtil.getMetadataLive();
@@ -303,8 +249,6 @@ public class ActivityPlayerInfo extends Fragment {
 		}
 		textViewExtraInfo.setText(strExtra);
 
-		//String byteInfo = getResources().getString(R.string.player_info_transferred,Utils.getReadableBytes(PlayerServiceUtil.getTransferredBytes()));
-		// Simple is better
 		String byteInfo = Utils.getReadableBytes(PlayerServiceUtil.getTransferredBytes());
 		if (PlayerServiceUtil.getMetadataBitrate() > 0) {
 			byteInfo += " (" + PlayerServiceUtil.getMetadataBitrate() + " kbps)";
@@ -317,7 +261,7 @@ public class ActivityPlayerInfo extends Fragment {
 			if (!PreferenceManager.getDefaultSharedPreferences(getContext().getApplicationContext()).getBoolean("load_icons", false)) {
                 imageViewIcon.setVisibility(View.GONE);
 			} else {
-                PlayerServiceUtil.getStationIcon(imageViewIcon);
+                PlayerServiceUtil.getStationIcon(imageViewIcon, null);
 			}
 
 	}
