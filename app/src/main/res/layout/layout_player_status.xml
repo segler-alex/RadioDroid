@@ -1,186 +1,138 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent" >
-    
-    <LinearLayout
-        android:id="@+id/LinearLayout1"
+<RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_height="?android:attr/actionBarSize"
+>
 
-        <android.support.v7.widget.Toolbar
-            xmlns:android="http://schemas.android.com/apk/res/android"
-            android:id="@+id/my_toolbar"
+    <View android:layout_width="match_parent"
+                  android:layout_height="1dp"
+                  android:background="@color/colorPlayerShadow"/>
+
+    <RelativeLayout
+            android:id="@+id/RelativeLayout2"
+            android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary"
-            android:elevation="4dp"
-            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-            app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
+            android:layout_height="match_parent"
+            android:background="#fff"
+            android:layout_marginTop="1dp">
 
         <TextView
-            android:id="@+id/detail_status"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:textSize="12sp"
-            android:gravity="center"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp"
-            android:layout_marginTop="5dp"
-            android:layout_marginBottom="5dp" />
+                android:id="@+id/textViewRecordingInfo"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:textSize="12sp"
+                android:layout_marginLeft="8dp"
+                android:layout_toLeftOf="@id/buttonRecord"
+                android:layout_alignParentLeft="true"
+                android:textStyle="italic"
+                android:textColor="@color/textColorSecondary"
+                android:scrollHorizontally="false"
+                android:ellipsize="none"
+                android:maxLines="3"
+                tools:text="Last recording\n20200220_Dance.fm - Something from Someone"/>
 
-    <LinearLayout
-        android:id="@+id/LinearLayoutPlaying"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
-
-        <TextView
-            android:id="@+id/detail_station_name_value"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:textSize="20sp"
-            android:gravity="center"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp"
-            android:layout_marginTop="5dp"
-            android:layout_marginBottom="0dp" />
-
-        <TextView
-            android:id="@+id/textViewLiveInfo"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:textSize="20sp"
-            android:gravity="center"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp"
-            android:layout_marginTop="5dp"
-            android:layout_marginBottom="0dp"
-            android:textStyle="italic" />
-
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:layout_gravity="center_horizontal">
-
-            <ImageButton
-                android:id="@+id/buttonPause"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="left"
-                android:layout_margin="10dp"
-                android:contentDescription="@string/detail_pause"
-                android:minHeight="100dp"
-                android:minWidth="100dp"
-                android:src="@drawable/mr_media_pause_light"
-                />
-
-            <ImageButton
-                android:id="@+id/buttonStop"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="right"
-                android:layout_margin="10dp"
-                android:contentDescription="@string/detail_stop"
-                android:minHeight="100dp"
-                android:minWidth="100dp"
-                app:srcCompat="@drawable/ic_stop_black_60dp"/>
-        </LinearLayout>
-
-
-        <TextView
-            android:id="@+id/textViewCountdown"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:textSize="20sp"
-            android:gravity="center"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp"
-            android:layout_marginTop="5dp"
-            android:layout_marginBottom="0dp"
-            android:text="" />
-
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:layout_gravity="center_horizontal">
-
-            <!--<ImageButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/buttonAddTimeout"
-                android:layout_gravity="center"
-                android:minHeight="20dp"
-                android:minWidth="30dp"
-                android:src="@drawable/ic_add_alarm_black_24dp"
-                android:layout_margin="10dp"
-                android:layout_weight="1" />-->
-
-            <ImageButton
-                android:id="@+id/buttonCancelCountdown"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_margin="10dp"
-                android:contentDescription="@string/image_button_disable"
-                android:minHeight="100dp"
-                android:minWidth="100dp"
-                app:srcCompat="@drawable/ic_delete_black_55dp"/>
-
-            <ImageButton
+        <ImageButton
                 android:id="@+id/buttonRecord"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_margin="10dp"
+                android:layout_width="?android:attr/actionBarSize"
+                android:layout_height="?android:attr/actionBarSize"
+                android:layout_centerVertical="true"
+                android:background="#ffffff"
                 android:contentDescription="@string/image_button_record"
-                android:minHeight="100dp"
-                android:minWidth="100dp"
-                app:srcCompat="@drawable/ic_fiber_manual_record_black_50dp"/>
+                app:srcCompat="@drawable/ic_start_recording"
+                android:layout_alignParentRight="true"/>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+            android:id="@+id/RelativeLayout1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:background="#fff"
+            android:layout_marginTop="1dp">
+
+        <ImageView
+                android:id="@+id/playerRadioImage"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="8dp"
+                tools:src="@drawable/flag_nl"/>
+
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:layout_toRightOf="@id/playerRadioImage"
+                android:layout_toLeftOf="@id/textViewTransferredBytes"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp">
+
+            <TextView
+                    android:id="@+id/detail_station_name_value"
+                    tools:text="Dance.fm - the best radio station"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:textSize="12sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/colorAccent"
+                    android:gravity="center_vertical"
+                    android:layout_weight="0.5"
+                    android:lines="1"/>
+
+            <TextView
+                    android:id="@+id/textViewLiveInfo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:textSize="12sp"
+                    android:textColor="@color/textColorSecondary"
+                    android:gravity="top"
+                    android:layout_weight="0.5"
+                    android:lines="1"
+                    android:visibility="gone"
+                    tools:text="Eminem - Solder"/>
+
         </LinearLayout>
 
         <TextView
-            android:id="@+id/textViewTransferredBytes"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:textSize="12sp"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp"
-            android:layout_marginTop="5dp"
-            android:layout_marginBottom="0dp"
-            android:textStyle="italic" />
+                android:id="@+id/textViewTransferredBytes"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="12sp"
+                android:textStyle="italic"
+                android:textColor="@color/textColorSecondary"
+                android:layout_centerVertical="true"
+                android:layout_toLeftOf="@+id/buttonPause"
+                tools:text="4MB"/>
+
+        <ImageButton
+                android:id="@+id/buttonPause"
+                android:layout_width="?android:attr/actionBarSize"
+                android:layout_height="?android:attr/actionBarSize"
+                android:background="#ffffff"
+                android:layout_gravity="center_vertical"
+                android:layout_alignParentRight="true"
+                android:contentDescription="@string/detail_play"
+                app:srcCompat="@drawable/ic_play_circle"/>
 
         <TextView
-            android:id="@+id/textViewRecordingInfo"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:textSize="12sp"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp"
-            android:layout_marginTop="5dp"
-            android:layout_marginBottom="0dp"
-            android:textStyle="italic" />
+                android:id="@+id/textViewExtraStreamInfo"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:textSize="12sp"
+                android:gravity="center"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:textStyle="italic"
+                android:visibility="gone"/>
 
-        <TextView
-            android:id="@+id/textViewExtraStreamInfo"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:textSize="12sp"
-            android:gravity="center"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp"
-            android:layout_marginTop="5dp"
-            android:layout_marginBottom="5dp"
-            android:textStyle="italic" />
-    </LinearLayout>
 
-    </LinearLayout>
-</ScrollView>
+    </RelativeLayout>
+
+</RelativeLayout>

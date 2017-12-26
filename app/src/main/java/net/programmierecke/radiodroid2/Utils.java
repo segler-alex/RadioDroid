@@ -232,7 +232,7 @@ public class Utils {
 							share.setDataAndType(Uri.parse(result), "audio/*");
 							context.startActivity(share);
 						}else {
-							PlayerServiceUtil.play(result, station.Name, station.ID);
+							PlayerServiceUtil.play(result, station.Name, station.ID, station.IconUrl);
 						}
 					}
 				} else {

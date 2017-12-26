@@ -22,6 +22,9 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.SeekBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import net.programmierecke.radiodroid2.interfaces.IFragmentRefreshable;
@@ -54,6 +57,7 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
     MenuItem menuItemSearch;
     MenuItem menuItemRefresh;
     MenuItem menuItemDelete;
+    MenuItem menuItemAlarm;
 
     private SharedPreferences sharedPref;
 
@@ -119,12 +123,6 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
             public boolean onNavigationItemSelected(MenuItem menuItem) {
                 mDrawerLayout.closeDrawers();
                 android.support.v4.app.Fragment f = null;
-
-                if (menuItem.getItemId() == R.id.nav_item_player_status) {
-                    Intent intent = new Intent(ActivityMain.this, ActivityPlayerInfo.class);
-                    startActivity(intent);
-                    return false;
-                }
 
                 if (menuItem.getItemId() == R.id.nav_item_stations) {
                     f = new FragmentTabs();
@@ -206,12 +204,21 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
                 }
                 menuItemRefresh.setVisible(fragRefreshable != null);
 
+                // Remove this line if you want to see refresh button
+                menuItemRefresh.setVisible(false);
+                menuItemAlarm.setVisible(f instanceof FragmentHistory
+                        || f instanceof FragmentStarred
+                        || f instanceof FragmentTabs);
                 menuItem.setChecked(true);
                 selectedMenuItem = menuItem.getItemId();
 
                 return false;
             }
         });
+
+        FragmentPlayer f = new FragmentPlayer();
+        FragmentTransaction xfragmentTransaction = mFragmentManager.beginTransaction();
+        xfragmentTransaction.replace(R.id.playerView, f).commit();
 
         //myToolbar = (android.support.v7.widget.Toolbar) findViewById(R.id.main_toolbar);
         ActionBarDrawerToggle mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, R.string.app_name, R.string.app_name);
@@ -308,6 +315,7 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
         mSearchView.setOnQueryTextListener(this);
 
         menuItemRefresh = menu.findItem(R.id.action_refresh);
+        menuItemAlarm = menu.findItem(R.id.action_set_alarm);
         MenuItem menuItemMPDNok = menu.findItem(R.id.action_mpd_nok);
         MenuItem menuItemMPDOK = menu.findItem(R.id.action_mpd_ok);
 
@@ -319,6 +327,8 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
             menuItemRefresh.setVisible(false);
         }
 
+        // Remove this line if you want to see refresh button
+        menuItemRefresh.setVisible(false);
         menuItemMPDOK.setVisible(MPDClient.Discovered() && MPDClient.Connected());
         menuItemMPDNok.setVisible(MPDClient.Discovered() && !MPDClient.Connected());
 
@@ -366,6 +376,9 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
                 if (fragRefreshable != null) {
                     fragRefreshable.Refresh();
                 }
+                return true;
+            case R.id.action_set_alarm:
+                changeTimer();
                 return true;
             case R.id.action_mpd_nok:
                 MPDClient.Connect(this);
@@ -463,5 +476,53 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
     private void selectMenuItem(int itemId) {
         mNavigationView.setCheckedItem(itemId);
         mNavigationView.getMenu().performIdentifierAction(itemId, 0);
+    }
+
+    private void changeTimer() {
+
+        final AlertDialog.Builder seekDialog = new AlertDialog.Builder(this);
+        View seekView = View.inflate(this, R.layout.layout_timer_chooser, null);
+
+        seekDialog.setTitle(R.string.sleep_timer_title);
+        seekDialog.setView(seekView);
+
+        final TextView seekTextView = (TextView) seekView.findViewById(R.id.timerTextView);
+        final SeekBar seekBar = (SeekBar) seekView.findViewById(R.id.timerSeekBar);
+        seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                seekTextView.setText(String.valueOf(progress));
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
+
+        long currentTimer = PlayerServiceUtil.getTimerSeconds() > 60? Math.abs(PlayerServiceUtil.getTimerSeconds() / 60) : 1;
+        seekBar.setProgress((int) currentTimer);
+        seekDialog.setPositiveButton(R.string.sleep_timer_apply, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                PlayerServiceUtil.clearTimer();
+                PlayerServiceUtil.addTimer(seekBar.getProgress() * 60);
+            }
+        });
+
+        seekDialog.setNegativeButton(R.string.sleep_timer_clear, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                PlayerServiceUtil.clearTimer();
+            }
+        });
+
+        seekDialog.create();
+        seekDialog.show();
     }
 }

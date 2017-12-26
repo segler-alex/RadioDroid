@@ -8,4 +8,6 @@
     <color name="colorAccent">#1d6293</color>
     <color name="colorTabUnderline">#e0347f</color>
     <color name="colorStationSwipeBackground">#ff4081</color>
+    <color name="colorPlayerShadow">#e5e5e5</color>
+    <color name="textColorSecondary">#777</color>
 </resources>

@@ -4,7 +4,7 @@ import net.programmierecke.radiodroid2.data.StreamLiveInfo;
 
 interface IPlayerService
 {
-void Play(String theUrl,String theName,String theID, boolean isAlarm);
+void Play(String theUrl,String theName,String theID, String theIconUrl, boolean isAlarm);
 void Pause();
 void Resume();
 void Stop();
@@ -13,6 +13,7 @@ void clearTimer();
 long getTimerSeconds();
 String getCurrentStationID();
 String getStationName();
+String getStationIconUrl();
 StreamLiveInfo getMetadataLive();
 String getMetadataStreamName();
 String getMetadataServerName();

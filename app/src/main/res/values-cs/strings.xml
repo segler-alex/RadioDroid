@@ -29,7 +29,6 @@
     <string name="nav_item_statistics">Statistiky</string>
     <string name="nav_item_about">O aplikaci</string>
     <string name="nav_item_recordings">Nahrávky</string>
-    <string name="nav_item_player_status">Přehrávač</string>
 
     <string name="about_text">Tato aplikace používá volně dostupný adresář rádií\nhttps://www.radio-browser.info\nKaždý může přidávat nové stanice nebo měnit ty existující. Web funguje ve stylu wiki pro online (streamované) radiostanice.\n\nKontakt:\nsegler_alex@web.de\n\nHlášení chyb:\nhttps://github.com/segler-alex/RadioDroid/issues\n\nPokud se vám tento software líbí a chtěli byste pomoci, můžete mi poslat email. Opravdu potřebuji někoho se zkušeností s prací s grafikou, aby aplikace získala hezčí vzhled. Možná někdo, kdo umí kreslit ikony a obrázky... Ale také programátory opravující chyby nebo implementující nové funkce.\nNápady na nové funkce jsou také vítány!\n\nTato aplikace je svobodný software licencovaný pod GPLv3\nhttps://www.gnu.org/licenses/gpl-3.0.html.</string>
     <string name="detail_star">Záložka</string>
