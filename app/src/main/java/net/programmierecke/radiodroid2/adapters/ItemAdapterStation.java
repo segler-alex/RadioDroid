@@ -93,6 +93,8 @@ public class ItemAdapterStation
 
     class StationViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, SwipeableViewHolder {
         View viewForeground;
+        LinearLayout layoutMain;
+        FrameLayout frameLayout;
 
         ImageView imageViewIcon;
         ImageView transparentImageView;
@@ -113,6 +115,8 @@ public class ItemAdapterStation
             super(itemView);
 
             viewForeground = itemView.findViewById(R.id.station_foreground);
+            layoutMain = (LinearLayout) itemView.findViewById(R.id.layoutMain);
+            frameLayout = (FrameLayout) itemView.findViewById(R.id.frameLayout);
 
             imageViewIcon = (ImageView) itemView.findViewById(R.id.imageViewIcon);
             transparentImageView = (ImageView) itemView.findViewById(R.id.transparentCircle);
@@ -192,7 +196,9 @@ public class ItemAdapterStation
     public void onBindViewHolder(final StationViewHolder holder, int position) {
         final DataRadioStation station = stationsList.get(position);
 
-        boolean useCircularIcons = PreferenceManager.getDefaultSharedPreferences(getContext().getApplicationContext()).getBoolean("circular_icons", false);
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getContext().getApplicationContext());
+        boolean useCircularIcons = prefs.getBoolean("circular_icons", false);
+
         if (!shouldLoadIcons) {
             holder.imageViewIcon.setVisibility(View.GONE);
         } else {
@@ -227,7 +233,10 @@ public class ItemAdapterStation
                 holder.imageViewIcon.setImageDrawable(stationImagePlaceholder);
             }
 
-            if (PreferenceManager.getDefaultSharedPreferences(getContext().getApplicationContext()).getBoolean("icon_click_toggles_favorite", true)) {
+            if(prefs.getBoolean("compact_style", false))
+                setupCompactStyle(holder);
+
+            if (prefs.getBoolean("icon_click_toggles_favorite", true)) {
 
                 holder.imageViewIcon.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -515,8 +524,20 @@ public class ItemAdapterStation
     private void setupIcon(boolean useCircularIcons, ImageView imageView, ImageView transparentImageView) {
         if(useCircularIcons) {
             transparentImageView.setVisibility(View.VISIBLE);
-            imageView.getLayoutParams().height = imageView.getLayoutParams().width;
+            imageView.getLayoutParams().height = imageView.getLayoutParams().height = imageView.getLayoutParams().width;
             imageView.setBackgroundColor(getContext().getResources().getColor(android.R.color.black));
+        }
+    }
+    private void setupCompactStyle(final StationViewHolder holder) {
+        holder.layoutMain.setMinimumHeight((int) getContext().getResources().getDimension(R.dimen.compact_style_item_minimum_height));
+        holder.frameLayout.getLayoutParams().width = (int) getContext().getResources().getDimension(R.dimen.compact_style_icon_container_width);
+        holder.imageViewIcon.getLayoutParams().width = (int) getContext().getResources().getDimension(R.dimen.compact_style_icon_width);
+
+        holder.textViewShortDescription.setVisibility(View.GONE);
+        if(holder.transparentImageView.getVisibility() == View.VISIBLE) {
+            holder.transparentImageView.getLayoutParams().height  = (int) getContext().getResources().getDimension(R.dimen.compact_style_icon_height);
+            holder.transparentImageView.getLayoutParams().width  = (int) getContext().getResources().getDimension(R.dimen.compact_style_icon_width);
+            holder.imageViewIcon.getLayoutParams().height = (int) getContext().getResources().getDimension(R.dimen.compact_style_icon_height);
         }
     }
 }

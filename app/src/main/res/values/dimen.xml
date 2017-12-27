@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="compact_style_icon_height">40dp</dimen>
+    <dimen name="compact_style_icon_width">40dp</dimen>
+    <dimen name="compact_style_icon_container_width">50dp</dimen>
+    <dimen name="compact_style_item_minimum_height">60dp</dimen>
+</resources>

@@ -18,9 +18,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:descendantFocusability="blocksDescendants"
-            android:minHeight="88dp">
+            android:minHeight="90dp">
 
             <FrameLayout
+                android:id="@+id/frameLayout"
                 android:layout_width="90dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
@@ -94,6 +95,7 @@
                     android:ellipsize="end"
                     android:maxLines="1"
                     android:minLines="1"
+                    android:textColor="@color/textColorSecondary"
                     android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 
             </LinearLayout>

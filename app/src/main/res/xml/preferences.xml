@@ -16,6 +16,11 @@
                 android:defaultValue="false"
                 android:title="@string/settings_circular_icons" />
 
+        <CheckBoxPreference
+                android:key="compact_style"
+                android:defaultValue="false"
+                android:title="@string/settings_compact_style" />
+
     </PreferenceCategory>
 
     <PreferenceCategory
