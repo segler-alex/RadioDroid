@@ -63,6 +63,16 @@
                 android:layout_marginLeft="8dp"
                 tools:src="@drawable/flag_nl"/>
 
+        <ImageView
+                android:id="@+id/transparentCircle"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="8dp"
+                android:tint="?android:attr/windowBackground"
+                app:srcCompat="@drawable/ic_transparent_circle"
+                android:visibility="gone"/>
+
         <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"

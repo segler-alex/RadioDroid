@@ -34,7 +34,19 @@
                     android:layout_marginEnd="20dp"
                     android:layout_marginLeft="5dp"
                     android:layout_marginRight="20dp"
-                    android:layout_marginStart="5dp" />
+                    android:layout_marginStart="5dp"/>
+
+                <ImageView
+                    android:id="@+id/transparentCircle"
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
+                    android:layout_marginEnd="20dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginStart="5dp"
+                    android:tint="?android:attr/windowBackground"
+                    app:srcCompat="@drawable/ic_transparent_circle"
+                    android:visibility="gone"/>
 
                 <ImageView
                     android:id="@+id/starredStatusIcon"

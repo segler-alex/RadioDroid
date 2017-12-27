@@ -27,11 +27,7 @@ import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
-import android.widget.ImageView;
-import android.widget.TextView;
-import android.widget.TimePicker;
-import android.widget.Toast;
+import android.widget.*;
 
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.NetworkPolicy;
@@ -99,6 +95,7 @@ public class ItemAdapterStation
         View viewForeground;
 
         ImageView imageViewIcon;
+        ImageView transparentImageView;
         ImageView starredStatusIcon;
         TextView textViewTitle;
         TextView textViewShortDescription;
@@ -118,6 +115,7 @@ public class ItemAdapterStation
             viewForeground = itemView.findViewById(R.id.station_foreground);
 
             imageViewIcon = (ImageView) itemView.findViewById(R.id.imageViewIcon);
+            transparentImageView = (ImageView) itemView.findViewById(R.id.transparentCircle);
             starredStatusIcon = (ImageView) itemView.findViewById(R.id.starredStatusIcon);
             textViewTitle = (TextView) itemView.findViewById(R.id.textViewTitle);
             textViewShortDescription = (TextView) itemView.findViewById(R.id.textViewShortDescription);
@@ -194,6 +192,7 @@ public class ItemAdapterStation
     public void onBindViewHolder(final StationViewHolder holder, int position) {
         final DataRadioStation station = stationsList.get(position);
 
+        boolean useCircularIcons = PreferenceManager.getDefaultSharedPreferences(getContext().getApplicationContext()).getBoolean("circular_icons", false);
         if (!shouldLoadIcons) {
             holder.imageViewIcon.setVisibility(View.GONE);
         } else {
@@ -223,6 +222,7 @@ public class ItemAdapterStation
                         .resize((int) px, 0)
                         .placeholder(stationImagePlaceholder)
                         .into(holder.imageViewIcon, cachedImageLoadCallback);
+                setupIcon(useCircularIcons, holder.imageViewIcon, holder.transparentImageView);
             } else {
                 holder.imageViewIcon.setImageDrawable(stationImagePlaceholder);
             }
@@ -510,5 +510,13 @@ public class ItemAdapterStation
                 super.onPostExecute(result);
             }
         }.execute();
+    }
+
+    private void setupIcon(boolean useCircularIcons, ImageView imageView, ImageView transparentImageView) {
+        if(useCircularIcons) {
+            transparentImageView.setVisibility(View.VISIBLE);
+            imageView.getLayoutParams().height = imageView.getLayoutParams().width;
+            imageView.setBackgroundColor(getContext().getResources().getColor(android.R.color.black));
+        }
     }
 }

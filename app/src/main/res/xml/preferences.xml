@@ -9,7 +9,12 @@
                 android:defaultValue="@string/theme_light"
                 android:entries="@array/theme_entries"
                 android:entryValues="@array/theme_values"
-                android:title="@string/theme_selection_title"/>
+                android:title="@string/settings_theme_selection_title"/>
+
+        <CheckBoxPreference
+                android:key="circular_icons"
+                android:defaultValue="false"
+                android:title="@string/settings_circular_icons" />
 
     </PreferenceCategory>
 

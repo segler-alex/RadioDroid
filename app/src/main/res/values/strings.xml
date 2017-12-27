@@ -49,9 +49,10 @@
     <string name="nav_item_add_sleep">+15 mins</string>
 
     <string name="settings_interface">UI</string>
-    <string name="theme_selection_title">Theme</string>
+    <string name="settings_theme_selection_title">Theme</string>
     <string name="theme_light">Light</string>
     <string name="theme_dark">Dark</string>
+    <string name="settings_circular_icons">Use circular icons</string>
 
     <string name="settings_general">General</string>
     <string name="settings_single_use_tags">Show single use tags</string>
