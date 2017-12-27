@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.preference.PreferenceManager;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -99,6 +100,9 @@ public class FragmentHistory extends Fragment {
         rvStations = (RecyclerView) view.findViewById(R.id.recyclerViewStations);
         rvStations.setAdapter(adapter);
         rvStations.setLayoutManager(llm);
+        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(rvStations.getContext(),
+                llm.getOrientation());
+        rvStations.addItemDecoration(dividerItemDecoration);
 
         adapter.enableItemRemoval(rvStations);
 

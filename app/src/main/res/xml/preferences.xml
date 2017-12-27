@@ -2,6 +2,18 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <PreferenceCategory
+        android:title="@string/settings_interface">
+
+        <ListPreference
+                android:key="theme_name"
+                android:defaultValue="@string/theme_light"
+                android:entries="@array/theme_entries"
+                android:entryValues="@array/theme_values"
+                android:title="@string/theme_selection_title"/>
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
         android:title="@string/settings_general">
 
         <ListPreference

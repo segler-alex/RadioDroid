@@ -1,6 +1,7 @@
 package net.programmierecke.radiodroid2;
 
 import android.content.Intent;
+import android.content.res.TypedArray;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -52,6 +53,11 @@ public class FragmentRecordings extends Fragment implements IFragmentRefreshable
                 }
             }
         });
+
+        final int[] attrs = new int[] {android.R.attr.listDivider};
+        final TypedArray a = getContext().obtainStyledAttributes(attrs);
+        lv.setDivider(a.getDrawable(0));
+        a.recycle();
 
         RefreshListGui();
 

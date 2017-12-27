@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:android="urn:oasis:names:tc:xliff:document:1.2">
+    <attr name="colorPlayerShadow" format="reference"/>
+
+    <attr name="menuTextColorSelected" format="reference"/>
+    <attr name="menuTextColorDefault" format="reference"/>
+
+    <attr name="colorTabUnderline" format="reference"/>
+</resources>

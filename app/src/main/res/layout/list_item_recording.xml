@@ -31,11 +31,6 @@
             android:textSize="12sp"
             android:layout_marginBottom="2dp" />
 
-        <View
-            android:layout_width="fill_parent"
-            android:layout_height="1dp"
-            android:background="#FF00FF" />
-
     </LinearLayout>
 
 </LinearLayout>

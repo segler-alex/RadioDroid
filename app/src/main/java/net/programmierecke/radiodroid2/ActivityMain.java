@@ -78,6 +78,16 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        if (sharedPref == null) {
+            PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
+            sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
+        }
+        String selectedTheme = sharedPref.getString("theme_name", getResources().getString(R.string.theme_light));
+        // Set theme before the view is loaded
+        if(selectedTheme.equals(getResources().getString(R.string.theme_dark)))
+            setTheme(R.style.MyMaterialTheme_Dark);
+
         setContentView(R.layout.layout_main);
 
         try {
@@ -101,12 +111,6 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
         setSupportActionBar(myToolbar);
 
         PlayerServiceUtil.bind(this);
-
-        PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
-
-        if (sharedPref == null) {
-            sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
-        }
 
         selectedMenuItem = sharedPref.getInt("last_selectedMenuItem", -1);
 

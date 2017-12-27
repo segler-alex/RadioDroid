@@ -38,4 +38,13 @@
         <item>@string/startup_show_last_view</item>
     </string-array>
 
+    <string-array name="theme_entries">
+        <item>@string/theme_light</item>
+        <item>@string/theme_dark</item>
+    </string-array>
+    <string-array name="theme_values">
+        <item>@string/theme_light</item>
+        <item>@string/theme_dark</item>
+    </string-array>
+
 </resources>

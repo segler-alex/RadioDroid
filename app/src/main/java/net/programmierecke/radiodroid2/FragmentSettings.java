@@ -60,6 +60,11 @@ public class FragmentSettings extends PreferenceFragmentCompat implements Shared
                 newFragment.show(getActivity().getSupportFragmentManager(), "appPicker");
             }
         }
+        if (key.equals("theme_name")) {
+            Intent intent = getActivity().getPackageManager().getLaunchIntentForPackage(getActivity().getPackageName());
+            getActivity().finish();
+            startActivity(intent);
+        }
     }
 
     @Override
