@@ -30,7 +30,6 @@ import android.view.ViewGroup;
 import android.widget.*;
 
 import com.squareup.picasso.Callback;
-import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
 
 import net.programmierecke.radiodroid2.ActivityMain;
@@ -206,29 +205,22 @@ public class ItemAdapterStation
                 Resources r = activity.getResources();
                 final float px = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 70, r.getDisplayMetrics());
 
-                Callback cachedImageLoadCallback = new Callback() {
+                setupIcon(useCircularIcons, holder.imageViewIcon, holder.transparentImageView);
+                Callback imageLoadCallback = new Callback() {
                     @Override
                     public void onSuccess() {
-                        //Offline cache hit
                     }
 
                     @Override
                     public void onError() {
-                        Picasso.with(getContext())
-                                .load(station.IconUrl)
-                                .networkPolicy(NetworkPolicy.NO_CACHE)
-                                .resize((int) px, 0)
-                                .into(holder.imageViewIcon);
                     }
                 };
 
                 Picasso.with(getContext())
                         .load(station.IconUrl)
-                        .networkPolicy(NetworkPolicy.OFFLINE)
                         .resize((int) px, 0)
                         .placeholder(stationImagePlaceholder)
-                        .into(holder.imageViewIcon, cachedImageLoadCallback);
-                setupIcon(useCircularIcons, holder.imageViewIcon, holder.transparentImageView);
+                        .into(holder.imageViewIcon, imageLoadCallback);
             } else {
                 holder.imageViewIcon.setImageDrawable(stationImagePlaceholder);
             }
