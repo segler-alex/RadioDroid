@@ -5,8 +5,9 @@
     android:weightSum="1">
 
     <android.support.v7.widget.ListViewCompat
+        android:id="@+id/listViewStatistics"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/listViewStatistics"></android.support.v7.widget.ListViewCompat>
+        android:layout_height="match_parent">
+    </android.support.v7.widget.ListViewCompat>
 
 </LinearLayout>

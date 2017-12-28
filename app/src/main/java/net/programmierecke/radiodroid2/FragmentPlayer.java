@@ -62,6 +62,7 @@ public class FragmentPlayer extends Fragment {
 		InitControls();
 		SetInfoFromHistory(false);
 		UpdateOutput();
+		setupIcon();
 
 		t = new Thread() {
 			@Override
@@ -174,6 +175,15 @@ public class FragmentPlayer extends Fragment {
                 else
                     PlayerServiceUtil.getStationIcon(imageViewIcon, lastStation.IconUrl);
             }
+        }
+    }
+
+    private void setupIcon() {
+        boolean useCircularIcons = PreferenceManager.getDefaultSharedPreferences(getContext().getApplicationContext()).getBoolean("circular_icons", false);
+        if(useCircularIcons) {
+            imageViewIcon.setBackgroundColor(getContext().getResources().getColor(android.R.color.black));
+            ImageView transparentCircle = (ImageView) getView().findViewById(R.id.transparentCircle);
+            transparentCircle.setVisibility(View.VISIBLE);
         }
     }
 

@@ -9,14 +9,14 @@
 
     <View android:layout_width="match_parent"
                   android:layout_height="1dp"
-                  android:background="@color/colorPlayerShadow"/>
+                  android:background="?attr/colorPlayerShadow"/>
 
     <RelativeLayout
             android:id="@+id/RelativeLayout2"
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="#fff"
+            android:background="?android:windowBackground"
             android:layout_marginTop="1dp">
 
         <TextView
@@ -40,7 +40,7 @@
                 android:layout_width="?android:attr/actionBarSize"
                 android:layout_height="?android:attr/actionBarSize"
                 android:layout_centerVertical="true"
-                android:background="#ffffff"
+                android:background="?android:attr/windowBackground"
                 android:contentDescription="@string/image_button_record"
                 app:srcCompat="@drawable/ic_start_recording"
                 android:layout_alignParentRight="true"/>
@@ -52,7 +52,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="horizontal"
-            android:background="#fff"
+            android:background="?android:colorBackground"
             android:layout_marginTop="1dp">
 
         <ImageView
@@ -62,6 +62,16 @@
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="8dp"
                 tools:src="@drawable/flag_nl"/>
+
+        <ImageView
+                android:id="@+id/transparentCircle"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="8dp"
+                android:tint="?android:attr/windowBackground"
+                app:srcCompat="@drawable/ic_transparent_circle"
+                android:visibility="gone"/>
 
         <LinearLayout
                 android:layout_width="match_parent"
@@ -79,7 +89,7 @@
                     android:layout_height="match_parent"
                     android:textSize="12sp"
                     android:textStyle="bold"
-                    android:textColor="@color/colorAccent"
+                    android:textColor="?attr/colorAccent"
                     android:gravity="center_vertical"
                     android:layout_weight="0.5"
                     android:lines="1"/>
@@ -113,7 +123,7 @@
                 android:id="@+id/buttonPause"
                 android:layout_width="?android:attr/actionBarSize"
                 android:layout_height="?android:attr/actionBarSize"
-                android:background="#ffffff"
+                android:background="?android:windowBackground"
                 android:layout_gravity="center_vertical"
                 android:layout_alignParentRight="true"
                 android:contentDescription="@string/detail_play"

@@ -1,13 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="colorPrimary">#125688</color>
-    <color name="colorPrimaryDark">#125688</color>
+    <color name="colorPrimaryDark">#232325</color>
     <color name="textColorPrimary">#FFFFFF</color>
     <color name="windowBackground">#FFFFFF</color>
     <color name="navigationBarColor">#000000</color>
     <color name="colorAccent">#1d6293</color>
+    <color name="colorAccentDark">#1d6293</color>
     <color name="colorTabUnderline">#e0347f</color>
+    <color name="colorTabUnderlineDark">@color/colorAccentDark</color>
     <color name="colorStationSwipeBackground">#ff4081</color>
     <color name="colorPlayerShadow">#e5e5e5</color>
+    <color name="colorPlayerShadowDark">#000</color>
     <color name="textColorSecondary">#777</color>
+    <color name="tagBackgroundColor">#E0E0E0</color>
+    <color name="tagBackgroundColorDark">#212121</color>
+
+    <color name="menuTextColorSelected">@color/colorPrimary</color>
+    <color name="menuTextColorSelectedDark">@android:color/white</color>
+    <color name="menuTextColorDefault">@android:color/black</color>
+    <color name="menuTextColorDefaultDark">@android:color/white</color>
+
+    <color name="iconsInItemBackgroundColor">@android:color/black</color>
+    <color name="iconsInItemBackgroundColorDark">@android:color/white</color>
 </resources>

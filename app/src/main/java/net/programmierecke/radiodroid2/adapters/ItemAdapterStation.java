@@ -27,14 +27,9 @@ import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
-import android.widget.ImageView;
-import android.widget.TextView;
-import android.widget.TimePicker;
-import android.widget.Toast;
+import android.widget.*;
 
 import com.squareup.picasso.Callback;
-import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
 
 import net.programmierecke.radiodroid2.ActivityMain;
@@ -97,8 +92,11 @@ public class ItemAdapterStation
 
     class StationViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, SwipeableViewHolder {
         View viewForeground;
+        LinearLayout layoutMain;
+        FrameLayout frameLayout;
 
         ImageView imageViewIcon;
+        ImageView transparentImageView;
         ImageView starredStatusIcon;
         TextView textViewTitle;
         TextView textViewShortDescription;
@@ -116,8 +114,11 @@ public class ItemAdapterStation
             super(itemView);
 
             viewForeground = itemView.findViewById(R.id.station_foreground);
+            layoutMain = (LinearLayout) itemView.findViewById(R.id.layoutMain);
+            frameLayout = (FrameLayout) itemView.findViewById(R.id.frameLayout);
 
             imageViewIcon = (ImageView) itemView.findViewById(R.id.imageViewIcon);
+            transparentImageView = (ImageView) itemView.findViewById(R.id.transparentCircle);
             starredStatusIcon = (ImageView) itemView.findViewById(R.id.starredStatusIcon);
             textViewTitle = (TextView) itemView.findViewById(R.id.textViewTitle);
             textViewShortDescription = (TextView) itemView.findViewById(R.id.textViewShortDescription);
@@ -194,6 +195,9 @@ public class ItemAdapterStation
     public void onBindViewHolder(final StationViewHolder holder, int position) {
         final DataRadioStation station = stationsList.get(position);
 
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getContext().getApplicationContext());
+        boolean useCircularIcons = prefs.getBoolean("circular_icons", false);
+
         if (!shouldLoadIcons) {
             holder.imageViewIcon.setVisibility(View.GONE);
         } else {
@@ -201,33 +205,30 @@ public class ItemAdapterStation
                 Resources r = activity.getResources();
                 final float px = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 70, r.getDisplayMetrics());
 
-                Callback cachedImageLoadCallback = new Callback() {
+                setupIcon(useCircularIcons, holder.imageViewIcon, holder.transparentImageView);
+                Callback imageLoadCallback = new Callback() {
                     @Override
                     public void onSuccess() {
-                        //Offline cache hit
                     }
 
                     @Override
                     public void onError() {
-                        Picasso.with(getContext())
-                                .load(station.IconUrl)
-                                .networkPolicy(NetworkPolicy.NO_CACHE)
-                                .resize((int) px, 0)
-                                .into(holder.imageViewIcon);
                     }
                 };
 
                 Picasso.with(getContext())
                         .load(station.IconUrl)
-                        .networkPolicy(NetworkPolicy.OFFLINE)
                         .resize((int) px, 0)
                         .placeholder(stationImagePlaceholder)
-                        .into(holder.imageViewIcon, cachedImageLoadCallback);
+                        .into(holder.imageViewIcon, imageLoadCallback);
             } else {
                 holder.imageViewIcon.setImageDrawable(stationImagePlaceholder);
             }
 
-            if (PreferenceManager.getDefaultSharedPreferences(getContext().getApplicationContext()).getBoolean("icon_click_toggles_favorite", true)) {
+            if(prefs.getBoolean("compact_style", false))
+                setupCompactStyle(holder);
+
+            if (prefs.getBoolean("icon_click_toggles_favorite", true)) {
 
                 holder.imageViewIcon.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -510,5 +511,25 @@ public class ItemAdapterStation
                 super.onPostExecute(result);
             }
         }.execute();
+    }
+
+    private void setupIcon(boolean useCircularIcons, ImageView imageView, ImageView transparentImageView) {
+        if(useCircularIcons) {
+            transparentImageView.setVisibility(View.VISIBLE);
+            imageView.getLayoutParams().height = imageView.getLayoutParams().height = imageView.getLayoutParams().width;
+            imageView.setBackgroundColor(getContext().getResources().getColor(android.R.color.black));
+        }
+    }
+    private void setupCompactStyle(final StationViewHolder holder) {
+        holder.layoutMain.setMinimumHeight((int) getContext().getResources().getDimension(R.dimen.compact_style_item_minimum_height));
+        holder.frameLayout.getLayoutParams().width = (int) getContext().getResources().getDimension(R.dimen.compact_style_icon_container_width);
+        holder.imageViewIcon.getLayoutParams().width = (int) getContext().getResources().getDimension(R.dimen.compact_style_icon_width);
+
+        holder.textViewShortDescription.setVisibility(View.GONE);
+        if(holder.transparentImageView.getVisibility() == View.VISIBLE) {
+            holder.transparentImageView.getLayoutParams().height  = (int) getContext().getResources().getDimension(R.dimen.compact_style_icon_height);
+            holder.transparentImageView.getLayoutParams().width  = (int) getContext().getResources().getDimension(R.dimen.compact_style_icon_width);
+            holder.imageViewIcon.getLayoutParams().height = (int) getContext().getResources().getDimension(R.dimen.compact_style_icon_height);
+        }
     }
 }

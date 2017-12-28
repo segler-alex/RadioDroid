@@ -35,6 +35,7 @@
         android:layout_width="match_parent"
         android:id="@+id/drawerLayout"
         android:layout_weight="0.5"
+        android:background="?android:attr/windowBackground"
         >
 
         <!-- The rest of your content view -->
@@ -53,6 +54,8 @@
             android:layout_height="match_parent"
             android:layout_gravity="start"
             android:id="@+id/my_navigation_view"
+            app:itemTextColor="@color/menu_text_color"
+            app:itemIconTint="@color/menu_text_color"
             app:menu="@menu/menu_drawer"
             android:layout_marginTop="0dp"
             />

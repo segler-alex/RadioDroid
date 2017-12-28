@@ -8,7 +8,10 @@ import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
+import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.media.AudioManager;
 import android.media.audiofx.AudioEffect;
 import android.net.wifi.WifiManager;
@@ -20,15 +23,21 @@ import android.os.PowerManager;
 import android.os.RemoteException;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.res.ResourcesCompat;
+import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
+import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
 import android.support.v4.media.MediaMetadataCompat;
 import android.support.v4.media.session.MediaButtonReceiver;
 import android.support.v4.media.session.MediaSessionCompat;
 import android.support.v4.media.session.PlaybackStateCompat;
+import android.support.v7.preference.PreferenceManager;
 import android.text.TextUtils;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.KeyEvent;
 import android.widget.Toast;
 
+import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Target;
 import net.programmierecke.radiodroid2.data.ShoutcastInfo;
 import net.programmierecke.radiodroid2.data.StreamLiveInfo;
 import net.programmierecke.radiodroid2.players.ExoPlayerWrapper;
@@ -57,6 +66,8 @@ public class PlayerService extends Service implements RadioPlayer.PlayerListener
     private String currentStationName;
     private String currentStationURL;
     private String currentStationIconUrl;
+
+    private BitmapDrawable radioIcon;
 
     private RadioPlayer radioPlayer;
 
@@ -359,6 +370,7 @@ public class PlayerService extends Service implements RadioPlayer.PlayerListener
         timer = null;
         powerManager = (PowerManager) itsContext.getSystemService(Context.POWER_SERVICE);
         audioManager = (AudioManager) itsContext.getSystemService(Context.AUDIO_SERVICE);
+        radioIcon = ((BitmapDrawable) ResourcesCompat.getDrawable(getResources(), R.drawable.ic_launcher, null));
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
             radioPlayer = new RadioPlayer(PlayerService.this, new ExoPlayerWrapper());
@@ -411,6 +423,11 @@ public class PlayerService extends Service implements RadioPlayer.PlayerListener
         currentStationName = theName;
         currentStationURL = theURL;
         currentStationIconUrl = theIconUrl;
+
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext().getApplicationContext());
+        final boolean loadIcons = prefs.getBoolean("load_icons", false);
+        if(loadIcons)
+            downloadRadioIcon();
 
         int result = acquireAudioFocus();
         if (result == AudioManager.AUDIOFOCUS_REQUEST_GRANTED) {
@@ -603,7 +620,7 @@ public class PlayerService extends Service implements RadioPlayer.PlayerListener
                 .setTicker(theTicker)
                 .setOngoing(true)
                 .setSmallIcon(R.drawable.ic_play_arrow_white_24dp)
-                .setLargeIcon((((BitmapDrawable) ResourcesCompat.getDrawable(getResources(), R.drawable.ic_launcher, null)).getBitmap()))
+                .setLargeIcon(radioIcon.getBitmap())
                 .addAction(R.drawable.ic_stop_white_24dp, "Stop", pendingIntentStop);
 
         RadioPlayer.PlayState currentPlayerState = radioPlayer.getPlayState();
@@ -675,6 +692,42 @@ public class PlayerService extends Service implements RadioPlayer.PlayerListener
                 sendMessage(currentStationName, itsContext.getResources().getString(R.string.notify_paused), currentStationName);
                 break;
         }
+    }
+
+    private void downloadRadioIcon() {
+        final float px = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 70, getResources().getDisplayMetrics());
+
+        if(currentStationIconUrl == null) return;
+
+        Picasso.with(getApplicationContext())
+                .load(currentStationIconUrl)
+                .resize((int) px, 0)
+                .into(new Target() {
+                    @Override
+                    public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
+                        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext().getApplicationContext());
+                        final boolean useCircularIcons = prefs.getBoolean("circular_icons", false);
+                        if(!useCircularIcons)
+                            radioIcon = new BitmapDrawable(getResources(), bitmap);
+                        else {
+                            // Icon is not circular with this code. So we need to create custom notification view and then use RoundedBitmapDrawable there
+                            RoundedBitmapDrawable rb = RoundedBitmapDrawableFactory.create(getResources(), bitmap);
+                            rb.setCircular(true);
+                            radioIcon = new BitmapDrawable(getResources(), rb.getBitmap());
+                        }
+                        updateNotification();
+                    }
+
+                    @Override
+                    public void onBitmapFailed(Drawable errorDrawable) {
+
+                    }
+
+                    @Override
+                    public void onPrepareLoad(Drawable placeHolderDrawable) {
+
+                    }
+                });
     }
 
     @Override

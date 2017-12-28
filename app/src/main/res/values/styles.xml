@@ -1,17 +1,53 @@
 <resources>
 
     <style name="MyMaterialTheme" parent="MyMaterialTheme.Base">
+    </style>
 
+    <style name="MyMaterialTheme.Dark" parent="MyMaterialTheme.Base.Dark">
     </style>
 
     <style name="MyMaterialTheme.Base" parent="Theme.AppCompat.Light">
         <item name="windowNoTitle">true</item>
         <item name="windowActionBar">false</item>
+        <item name="android:statusBarColor">@color/colorPrimary</item>
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
 
         <item name="preferenceTheme">@style/PreferenceThemeOverlay</item>
+
+
+        <item name="colorPlayerShadow">@color/colorPlayerShadow</item>
+        <item name="tagBackgroundColor">@color/tagBackgroundColor</item>
+
+        <item name="menuTextColorSelected">@color/menuTextColorSelected</item>
+        <item name="menuTextColorDefault">@color/menuTextColorDefault</item>
+
+        <item name="colorTabUnderline">@color/colorTabUnderline</item>
+
+        <item name="iconsInItemBackgroundColor">@color/iconsInItemBackgroundColor</item>
+    </style>
+
+    <style name="MyMaterialTheme.Base.Dark" parent="Theme.AppCompat">
+        <item name="windowNoTitle">true</item>
+        <item name="windowActionBar">false</item>
+        <item name="android:statusBarColor">@color/colorPrimaryDark</item>
+        <item name="colorPrimary">@color/colorPrimaryDark</item>
+        <item name="colorPrimaryDark">@color/colorPrimary</item>
+        <item name="colorAccent">@color/colorAccentDark</item>
+
+        <item name="preferenceTheme">@style/PreferenceThemeOverlay</item>
+
+
+        <item name="colorPlayerShadow">@color/colorPlayerShadowDark</item>
+        <item name="tagBackgroundColor">@color/tagBackgroundColorDark</item>
+
+        <item name="menuTextColorSelected">@color/menuTextColorSelectedDark</item>
+        <item name="menuTextColorDefault">@color/menuTextColorDefaultDark</item>
+
+        <item name="colorTabUnderline">@color/colorTabUnderlineDark</item>
+
+        <item name="iconsInItemBackgroundColor">@color/iconsInItemBackgroundColorDark</item>
     </style>
 
     <style name="IconButton" parent="Base.Widget.AppCompat.Button">
