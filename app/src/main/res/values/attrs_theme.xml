@@ -6,4 +6,6 @@
     <attr name="menuTextColorDefault" format="reference"/>
 
     <attr name="colorTabUnderline" format="reference"/>
+
+    <attr name="iconsInItemBackgroundColor" format="reference" />
 </resources>

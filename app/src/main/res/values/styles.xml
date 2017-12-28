@@ -9,6 +9,7 @@
     <style name="MyMaterialTheme.Base" parent="Theme.AppCompat.Light">
         <item name="windowNoTitle">true</item>
         <item name="windowActionBar">false</item>
+        <item name="android:statusBarColor">@color/colorPrimary</item>
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
@@ -23,11 +24,14 @@
         <item name="menuTextColorDefault">@color/menuTextColorDefault</item>
 
         <item name="colorTabUnderline">@color/colorTabUnderline</item>
+
+        <item name="iconsInItemBackgroundColor">@color/iconsInItemBackgroundColor</item>
     </style>
 
     <style name="MyMaterialTheme.Base.Dark" parent="Theme.AppCompat">
         <item name="windowNoTitle">true</item>
         <item name="windowActionBar">false</item>
+        <item name="android:statusBarColor">@color/colorPrimaryDark</item>
         <item name="colorPrimary">@color/colorPrimaryDark</item>
         <item name="colorPrimaryDark">@color/colorPrimary</item>
         <item name="colorAccent">@color/colorAccentDark</item>
@@ -42,6 +46,8 @@
         <item name="menuTextColorDefault">@color/menuTextColorDefaultDark</item>
 
         <item name="colorTabUnderline">@color/colorTabUnderlineDark</item>
+
+        <item name="iconsInItemBackgroundColor">@color/iconsInItemBackgroundColorDark</item>
     </style>
 
     <style name="IconButton" parent="Base.Widget.AppCompat.Button">

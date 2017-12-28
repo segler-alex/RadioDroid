@@ -109,6 +109,7 @@
                 android:contentDescription="@string/image_button_more"
                 android:minWidth="50dp"
                 android:padding="5dp"
+                android:tint="?attr/iconsInItemBackgroundColor"
                 app:srcCompat="@drawable/ic_expand_more_black_24dp" />
         </LinearLayout>
 
@@ -149,7 +150,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:contentDescription="@string/detail_weblink"
-                    app:srcCompat="@drawable/ic_store_black_24dp" />
+                    android:tint="?attr/iconsInItemBackgroundColor"
+                    app:srcCompat="@drawable/ic_store_black_24dp"/>
 
                 <ImageButton
                     android:id="@+id/buttonShare"
@@ -157,6 +159,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:contentDescription="@string/detail_share"
+                    android:tint="?attr/iconsInItemBackgroundColor"
                     app:srcCompat="@drawable/ic_share_24dp" />
 
                 <ImageButton
@@ -165,6 +168,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:contentDescription="@string/detail_star"
+                    android:tint="?attr/iconsInItemBackgroundColor"
                     app:srcCompat="@drawable/ic_star_border_black_24dp" />
 
                 <ImageButton
@@ -173,6 +177,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:contentDescription="@string/nav_item_alarm"
+                    android:tint="?attr/iconsInItemBackgroundColor"
                     app:srcCompat="@drawable/ic_query_builder_black_24dp" />
 
             </LinearLayout>
