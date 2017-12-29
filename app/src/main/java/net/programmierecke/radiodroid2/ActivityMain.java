@@ -85,11 +85,7 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
             PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
             sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
         }
-        String selectedTheme = sharedPref.getString("theme_name", getResources().getString(R.string.theme_light));
-        // Set theme before the view is loaded
-        if(selectedTheme.equals(getResources().getString(R.string.theme_dark)))
-            setTheme(R.style.MyMaterialTheme_Dark);
-
+        setTheme(Utils.getThemeResId(this));
         setContentView(R.layout.layout_main);
 
         try {
@@ -513,7 +509,6 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
     }
 
     private void changeTimer() {
-
         final AlertDialog.Builder seekDialog = new AlertDialog.Builder(this);
         View seekView = View.inflate(this, R.layout.layout_timer_chooser, null);
 

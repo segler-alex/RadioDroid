@@ -424,9 +424,7 @@ public class PlayerService extends Service implements RadioPlayer.PlayerListener
         currentStationURL = theURL;
         currentStationIconUrl = theIconUrl;
 
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext().getApplicationContext());
-        final boolean loadIcons = prefs.getBoolean("load_icons", false);
-        if(loadIcons)
+        if(Utils.shouldLoadIcons(itsContext))
             downloadRadioIcon();
 
         int result = acquireAudioFocus();
@@ -705,8 +703,7 @@ public class PlayerService extends Service implements RadioPlayer.PlayerListener
                 .into(new Target() {
                     @Override
                     public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
-                        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext().getApplicationContext());
-                        final boolean useCircularIcons = prefs.getBoolean("circular_icons", false);
+                        final boolean useCircularIcons = Utils.useCircularIcons(itsContext);
                         if(!useCircularIcons)
                             radioIcon = new BitmapDrawable(getResources(), bitmap);
                         else {

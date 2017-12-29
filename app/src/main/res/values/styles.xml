@@ -9,6 +9,9 @@
     <style name="MyMaterialTheme.Base" parent="Theme.AppCompat.Light">
         <item name="windowNoTitle">true</item>
         <item name="windowActionBar">false</item>
+        <item name="dialogTheme">@style/DialogTheme</item>
+        <item name="alertDialogTheme">@style/AlertTheme</item>
+        <item name="android:windowBackground">@color/windowBackground</item>
         <item name="android:statusBarColor">@color/colorPrimary</item>
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
@@ -17,6 +20,7 @@
         <item name="preferenceTheme">@style/PreferenceThemeOverlay</item>
 
 
+        <item name="colorPlayerBackground">@color/colorPlayerBackground</item>
         <item name="colorPlayerShadow">@color/colorPlayerShadow</item>
         <item name="tagBackgroundColor">@color/tagBackgroundColor</item>
 
@@ -31,6 +35,9 @@
     <style name="MyMaterialTheme.Base.Dark" parent="Theme.AppCompat">
         <item name="windowNoTitle">true</item>
         <item name="windowActionBar">false</item>
+        <item name="dialogTheme">@style/DialogTheme.Dark</item>
+        <item name="alertDialogTheme">@style/AlertTheme.Dark</item>
+        <item name="android:windowBackground">@color/windowBackgroundDark</item>
         <item name="android:statusBarColor">@color/colorPrimaryDark</item>
         <item name="colorPrimary">@color/colorPrimaryDark</item>
         <item name="colorPrimaryDark">@color/colorPrimary</item>
@@ -38,8 +45,9 @@
 
         <item name="preferenceTheme">@style/PreferenceThemeOverlay</item>
 
-
+        <item name="colorPlayerBackground">@color/colorPlayerBackgroundDark</item>
         <item name="colorPlayerShadow">@color/colorPlayerShadowDark</item>
+
         <item name="tagBackgroundColor">@color/tagBackgroundColorDark</item>
 
         <item name="menuTextColorSelected">@color/menuTextColorSelectedDark</item>
@@ -58,6 +66,22 @@
         <item name="android:focusable">true</item>
         <item name="android:clickable">true</item>
         <item name="android:gravity">center_vertical|center_horizontal</item>
+    </style>
+
+    <style name="DialogTheme" parent="Theme.AppCompat.Light.Dialog">
+        <item name="android:windowBackground">@color/windowBackground</item>
+    </style>
+
+    <style name="DialogTheme.Dark" parent="Theme.AppCompat.Dialog">
+        <item name="android:windowBackground">@color/windowBackgroundDark</item>
+    </style>
+
+    <style name="AlertTheme" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <item name="android:windowBackground">@color/windowBackground</item>
+    </style>
+
+    <style name="AlertTheme.Dark" parent="Theme.AppCompat.Dialog.Alert">
+        <item name="android:windowBackground">@color/windowBackgroundDark</item>
     </style>
 
 </resources>

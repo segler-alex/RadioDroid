@@ -170,7 +170,7 @@ public class FragmentPlayer extends Fragment {
             else {
                 aTextViewName.setText(lastStation.Name);
 
-                if (!PreferenceManager.getDefaultSharedPreferences(getContext().getApplicationContext()).getBoolean("load_icons", false))
+                if (!Utils.shouldLoadIcons(getContext()))
                     imageViewIcon.setVisibility(View.GONE);
                 else
                     PlayerServiceUtil.getStationIcon(imageViewIcon, lastStation.IconUrl);
@@ -268,7 +268,7 @@ public class FragmentPlayer extends Fragment {
 			textViewTransferredbytes.setText(byteInfo);
 		}
 
-			if (!PreferenceManager.getDefaultSharedPreferences(getContext().getApplicationContext()).getBoolean("load_icons", false)) {
+			if (!Utils.shouldLoadIcons(getContext())) {
                 imageViewIcon.setVisibility(View.GONE);
 			} else {
                 PlayerServiceUtil.getStationIcon(imageViewIcon, null);

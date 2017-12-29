@@ -262,7 +262,34 @@ public class Utils {
 		return false;
 	}
 
-	// Storage Permissions
+	public static String getTheme(final Context context) {
+        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
+        return sharedPref.getString("theme_name", context.getResources().getString(R.string.theme_light));
+	}
+
+    public static int getThemeResId(final Context context) {
+        String selectedTheme = getTheme(context);
+	    if(selectedTheme.equals(context.getResources().getString(R.string.theme_dark)))
+            return R.style.MyMaterialTheme_Dark;
+	    else
+	        return R.style.MyMaterialTheme;
+    }
+
+    public static int getTimePickerThemeResId(final Context context) {
+        int theme;
+        if(getThemeResId(context) == R.style.MyMaterialTheme_Dark)
+            theme = R.style.DialogTheme_Dark;
+        else
+            theme = R.style.DialogTheme;
+        return theme;
+    }
+
+    public static boolean useCircularIcons(final Context context) {
+        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
+        return sharedPref.getBoolean("circular_icons", false);
+    }
+
+    // Storage Permissions
 	public static final int REQUEST_EXTERNAL_STORAGE = 1;
 	private static String[] PERMISSIONS_STORAGE = {
 			Manifest.permission.WRITE_EXTERNAL_STORAGE

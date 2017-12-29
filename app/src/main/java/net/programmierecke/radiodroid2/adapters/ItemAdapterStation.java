@@ -177,8 +177,7 @@ public class ItemAdapterStation
 
         expandedPosition = -1;
 
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(activity.getApplicationContext());
-        shouldLoadIcons = sharedPreferences.getBoolean("load_icons", false);
+        shouldLoadIcons = Utils.shouldLoadIcons(getContext());
 
         notifyDataSetChanged();
     }
@@ -196,7 +195,7 @@ public class ItemAdapterStation
         final DataRadioStation station = stationsList.get(position);
 
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getContext().getApplicationContext());
-        boolean useCircularIcons = prefs.getBoolean("circular_icons", false);
+        boolean useCircularIcons = Utils.useCircularIcons(getContext());
 
         if (!shouldLoadIcons) {
             holder.imageViewIcon.setVisibility(View.GONE);
