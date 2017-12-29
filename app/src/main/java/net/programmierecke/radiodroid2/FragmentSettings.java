@@ -61,9 +61,7 @@ public class FragmentSettings extends PreferenceFragmentCompat implements Shared
             }
         }
         if (key.equals("theme_name") || key.equals("circular_icons")) {
-            Intent intent = getActivity().getPackageManager().getLaunchIntentForPackage(getActivity().getPackageName());
-            getActivity().finish();
-            startActivity(intent);
+            getActivity().recreate();
         }
     }
 

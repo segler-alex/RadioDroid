@@ -59,7 +59,7 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
     MenuItem menuItemDelete;
     MenuItem menuItemAlarm;
 
-    boolean fromBackStack = false;
+    private boolean fromBackStack = false;
 
     private SharedPreferences sharedPref;
 
@@ -141,7 +141,6 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
         final Toolbar myToolbar = (Toolbar) findViewById(R.id.my_awesome_toolbar);
         mDrawerLayout.closeDrawers();
         android.support.v4.app.Fragment f = null;
-        int backStackCount = mFragmentManager.getBackStackEntryCount();
         String backStackTag = String.valueOf(menuItem.getItemId());
         int menuItemId = menuItem.getItemId();
 
@@ -364,6 +363,15 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
 
         MenuItem mediaRouteMenuItem = CastHandler.getRouteItem(getApplicationContext(), menu);
 
+        if(mFragmentManager.getBackStackEntryCount() > 0) {
+            // We need it when calling getActivity.recreate() from settings or when orientation changes
+            fromBackStack = true;
+            FragmentManager.BackStackEntry backStackEntry = mFragmentManager.getBackStackEntryAt(mFragmentManager.getBackStackEntryCount()-1);
+            MenuItem menuItem = mNavigationView.getMenu().findItem(Integer.parseInt(backStackEntry.getName()));
+            if(menuItem != null)
+                onNavigationItemSelected(menuItem);
+            return true;
+        }
         // Context context = getApplication().getApplicationContext();
         HistoryManager hm = new HistoryManager(this);
         FavouriteManager fm = new FavouriteManager(this);
