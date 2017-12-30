@@ -11,7 +11,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -23,14 +22,10 @@ import android.support.v7.preference.PreferenceManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
-import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.*;
-
-import com.squareup.picasso.Callback;
-import com.squareup.picasso.Picasso;
 
 import net.programmierecke.radiodroid2.ActivityMain;
 import net.programmierecke.radiodroid2.CountryFlagsLoader;
@@ -41,6 +36,7 @@ import net.programmierecke.radiodroid2.FragmentStarred;
 import net.programmierecke.radiodroid2.R;
 import net.programmierecke.radiodroid2.RadioAlarmManager;
 import net.programmierecke.radiodroid2.TimePickerFragment;
+import net.programmierecke.radiodroid2.PlayerServiceUtil;
 import net.programmierecke.radiodroid2.Utils;
 import net.programmierecke.radiodroid2.interfaces.IAdapterRefreshable;
 import net.programmierecke.radiodroid2.utils.RecyclerItemSwipeHelper;
@@ -201,25 +197,8 @@ public class ItemAdapterStation
             holder.imageViewIcon.setVisibility(View.GONE);
         } else {
             if (!station.IconUrl.isEmpty()) {
-                Resources r = activity.getResources();
-                final float px = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 70, r.getDisplayMetrics());
-
                 setupIcon(useCircularIcons, holder.imageViewIcon, holder.transparentImageView);
-                Callback imageLoadCallback = new Callback() {
-                    @Override
-                    public void onSuccess() {
-                    }
-
-                    @Override
-                    public void onError() {
-                    }
-                };
-
-                Picasso.with(getContext())
-                        .load(station.IconUrl)
-                        .resize((int) px, 0)
-                        .placeholder(stationImagePlaceholder)
-                        .into(holder.imageViewIcon, imageLoadCallback);
+                PlayerServiceUtil.getStationIcon(holder.imageViewIcon, station.IconUrl);
             } else {
                 holder.imageViewIcon.setImageDrawable(stationImagePlaceholder);
             }
