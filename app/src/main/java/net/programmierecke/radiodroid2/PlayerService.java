@@ -96,9 +96,13 @@ public class PlayerService extends Service implements RadioPlayer.PlayerListener
     }
 
     private final IPlayerService.Stub itsBinder = new IPlayerService.Stub() {
-
-        public void Play(String theUrl, String theName, String theID, String theIconUrl, boolean isAlarm) throws RemoteException {
-            PlayerService.this.playUrl(theUrl, theName, theID, theIconUrl, isAlarm);
+        // This method exist because we need to set information about current radio station
+        // and then use it in playerFragment when MPD player is working.
+        public void SaveInfo(String theUrl, String theName, String theID, String theIconUrl) {
+            PlayerService.this.saveInfo(theUrl, theName, theID, theIconUrl);
+        }
+        public void Play(boolean isAlarm) throws RemoteException {
+            PlayerService.this.playUrl(isAlarm);
         }
 
         public void Pause() throws RemoteException {
@@ -416,17 +420,17 @@ public class PlayerService extends Service implements RadioPlayer.PlayerListener
         return super.onStartCommand(intent, flags, startId);
     }
 
-    public void playUrl(String theURL, String theName, String theID, String theIconUrl, final boolean isAlarm) {
-        Log.i(TAG, String.format("playing url '%s'.", theURL));
-
+    public void saveInfo(String theURL, String theName, String theID, String theIconUrl) {
         currentStationID = theID;
         currentStationName = theName;
         currentStationURL = theURL;
         currentStationIconUrl = theIconUrl;
+    }
 
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext().getApplicationContext());
-        final boolean loadIcons = prefs.getBoolean("load_icons", false);
-        if(loadIcons)
+    public void playUrl(final boolean isAlarm) {
+        Log.i(TAG, String.format("playing url '%s'.", currentStationURL));
+
+        if(Utils.shouldLoadIcons(itsContext))
             downloadRadioIcon();
 
         int result = acquireAudioFocus();
@@ -705,8 +709,7 @@ public class PlayerService extends Service implements RadioPlayer.PlayerListener
                 .into(new Target() {
                     @Override
                     public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
-                        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext().getApplicationContext());
-                        final boolean useCircularIcons = prefs.getBoolean("circular_icons", false);
+                        final boolean useCircularIcons = Utils.useCircularIcons(itsContext);
                         if(!useCircularIcons)
                             radioIcon = new BitmapDrawable(getResources(), bitmap);
                         else {

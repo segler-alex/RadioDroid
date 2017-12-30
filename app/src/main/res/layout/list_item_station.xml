@@ -10,7 +10,7 @@
         android:id="@+id/station_foreground"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="?android:colorBackground"
+        android:background="?android:attr/windowBackground"
         android:orientation="vertical">
 
         <LinearLayout

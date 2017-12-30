@@ -9,11 +9,13 @@ import android.graphics.drawable.Drawable;
 import android.os.IBinder;
 import android.os.RemoteException;
 import android.support.annotation.NonNull;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 
 import android.util.TypedValue;
 import android.widget.ImageView;
 import com.squareup.picasso.Callback;
+import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
 import net.programmierecke.radiodroid2.data.StreamLiveInfo;
 
@@ -83,10 +85,21 @@ public class PlayerServiceUtil {
         }
     }
 
+    public static void saveInfo(String result, String name, String id, String iconUrl) {
+        if (itsPlayerService != null) {
+            try {
+                itsPlayerService.SaveInfo(result,name,id,iconUrl);
+            } catch (RemoteException e) {
+                Log.e("", "" + e);
+            }
+        }
+    }
+
     public static void play(String result, String name, String id, String iconUrl) {
         if (itsPlayerService != null) {
             try {
-                itsPlayerService.Play(result,name,id,iconUrl,false);
+                itsPlayerService.SaveInfo(result,name,id,iconUrl);
+                itsPlayerService.Play(false);
             } catch (RemoteException e) {
                 Log.e("", "" + e);
             }
@@ -201,12 +214,20 @@ public class PlayerServiceUtil {
 
                 @Override
                 public void onError() {
+                    Picasso.with(mainContext)
+                            .load(iconUrl)
+                            .placeholder(ContextCompat.getDrawable(mainContext, R.drawable.ic_photo_black_24dp))
+                            .resize((int) px, 0)
+                            .networkPolicy(NetworkPolicy.NO_CACHE)
+                            .into(holder);
                 }
             };
 
             Picasso.with(mainContext)
                     .load(iconUrl)
+                    .placeholder(ContextCompat.getDrawable(mainContext, R.drawable.ic_photo_black_24dp))
                     .resize((int) px, 0)
+                    .networkPolicy(NetworkPolicy.OFFLINE)
                     .into(holder, imageLoadCallback);
         }
     }

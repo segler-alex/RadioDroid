@@ -58,6 +58,7 @@
             app:itemIconTint="@color/menu_text_color"
             app:menu="@menu/menu_drawer"
             android:layout_marginTop="0dp"
+            android:background="?android:attr/windowBackground"
             />
 
     </android.support.v4.widget.DrawerLayout>
