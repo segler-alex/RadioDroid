@@ -40,7 +40,7 @@
                 android:layout_width="?android:attr/actionBarSize"
                 android:layout_height="?android:attr/actionBarSize"
                 android:layout_centerVertical="true"
-                android:background="?android:attr/windowBackground"
+                android:background="?attr/colorPlayerBackground"
                 android:contentDescription="@string/image_button_record"
                 app:srcCompat="@drawable/ic_start_recording"
                 android:layout_alignParentRight="true"/>
