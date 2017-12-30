@@ -85,10 +85,21 @@ public class PlayerServiceUtil {
         }
     }
 
+    public static void saveInfo(String result, String name, String id, String iconUrl) {
+        if (itsPlayerService != null) {
+            try {
+                itsPlayerService.SaveInfo(result,name,id,iconUrl);
+            } catch (RemoteException e) {
+                Log.e("", "" + e);
+            }
+        }
+    }
+
     public static void play(String result, String name, String id, String iconUrl) {
         if (itsPlayerService != null) {
             try {
-                itsPlayerService.Play(result,name,id,iconUrl,false);
+                itsPlayerService.SaveInfo(result,name,id,iconUrl);
+                itsPlayerService.Play(false);
             } catch (RemoteException e) {
                 Log.e("", "" + e);
             }

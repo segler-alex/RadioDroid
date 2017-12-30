@@ -18,7 +18,8 @@ interface IMPDClientStatusChange{
 
 public class MPDClient {
     static final String TAG = "MPD";
-    private static boolean connected;
+    public static boolean connected;
+    public static boolean isPlaying;
 
     public static int StringToInt(String str, int defaultValue){
         try{
@@ -142,7 +143,7 @@ public class MPDClient {
 
     private static boolean StopInternal(String mpd_hostname, int mpd_port) {
         Boolean result = false;
-
+        isPlaying = false;
         try {
             if(BuildConfig.DEBUG) { Log.d(TAG, "Check connection..."); }
             Socket s = new Socket(mpd_hostname, mpd_port);
@@ -175,6 +176,7 @@ public class MPDClient {
 
     private static Boolean PlayRemoteMPD(String mpd_hostname, int mpd_port, String url){
         Boolean result = false;
+        isPlaying = true;
         try {
             if(BuildConfig.DEBUG) { Log.d("MPD", "Start"); }
             Socket s = new Socket(mpd_hostname, mpd_port);

@@ -216,6 +216,7 @@ public class Utils {
 					boolean externalActive = false;
 					if (MPDClient.Connected() && MPDClient.Discovered()){
 						MPDClient.Play(result, context);
+						PlayerServiceUtil.saveInfo(result, station.Name, station.ID, station.IconUrl);
 						externalActive = true;
 					}
 					if (CastHandler.isCastSessionAvailable()){

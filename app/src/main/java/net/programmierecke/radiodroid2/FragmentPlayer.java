@@ -99,7 +99,7 @@ public class FragmentPlayer extends Fragment {
 			buttonPause.setOnClickListener(new View.OnClickListener() {
 				@Override
 				public void onClick(View v) {
-					if (PlayerServiceUtil.isPlaying()) {
+					if (PlayerServiceUtil.isPlaying() || MPDClient.isPlaying) {
 						buttonPause.setImageResource(R.drawable.ic_play_circle);
 						if (PlayerServiceUtil.isRecording()) {
 							buttonRecord.setImageResource(R.drawable.ic_start_recording);
@@ -109,12 +109,10 @@ public class FragmentPlayer extends Fragment {
 							layoutPlaying.setVisibility(View.GONE);
 						}
                         PlayerServiceUtil.stop();
+						MPDClient.Stop(getContext());
 					} else {
 						buttonPause.setImageResource(R.drawable.ic_pause_circle);
-						if(PlayerServiceUtil.getStationName() != null)
-						    PlayerServiceUtil.resume();
-						else
-						    SetInfoFromHistory(true);
+						SetInfoFromHistory(true);
 					}
 				}
 			});
@@ -157,8 +155,6 @@ public class FragmentPlayer extends Fragment {
 	}
 
 	private void SetInfoFromHistory(boolean startPlaying) {
-	    if(PlayerServiceUtil.getStationName() != null) return;
-
         RadioDroidApp radioDroidApp = (RadioDroidApp) getActivity().getApplication();
         HistoryManager historyManager = radioDroidApp.getHistoryManager();
         DataRadioStation[] history = historyManager.getList();
@@ -204,7 +200,7 @@ public class FragmentPlayer extends Fragment {
 	if(getView() == null || PlayerServiceUtil.getStationName() == null) return;
 
 		buttonPause = (ImageButton) getActivity().findViewById(R.id.buttonPause);
-		if (PlayerServiceUtil.isPlaying()) {
+		if (PlayerServiceUtil.isPlaying() || MPDClient.isPlaying) {
 			buttonPause.setImageResource(R.drawable.ic_pause_circle);
 		} else {
 			buttonPause.setImageResource(R.drawable.ic_play_circle);
