@@ -108,8 +108,11 @@ public class FragmentPlayer extends Fragment {
 							PlayerServiceUtil.stopRecording();
 							layoutPlaying.setVisibility(View.GONE);
 						}
-                        PlayerServiceUtil.stop();
-						MPDClient.Stop(getContext());
+						if(PlayerServiceUtil.isPlaying())
+							PlayerServiceUtil.stop();
+						// Don't stop MPD playback when a user is listening in the app
+						else if(MPDClient.isPlaying)
+							MPDClient.Stop(getContext());
 					} else {
 						buttonPause.setImageResource(R.drawable.ic_pause_circle);
 						SetInfoFromHistory(true);

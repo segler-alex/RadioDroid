@@ -38,8 +38,11 @@ public class MPDClient {
 
     public static void Disconnect(Context context, IMPDClientStatusChange listener){
         connected = false;
+        isPlaying = false;
         listener.changed();
-        Stop(context);
+        // Don't stop playback in that case. User can listen via MPD and via the app
+        // User can stop playback via MPD with pause button
+        //Stop(context);
     }
 
     public static void Play(final String url, final Context context) {
