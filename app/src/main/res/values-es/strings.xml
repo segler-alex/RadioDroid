@@ -57,10 +57,6 @@
     <string name="settings_play_external">Abrir externo</string>
     <string name="settings_play_external_desc">Un solo clic en las estaciones abre el reproductor externo</string>
 
-    <string name="notify_start_proxy">Iniciando proxy..</string>
-    <string name="notify_stop_player">Parando reproductor antiguo..</string>
-    <string name="notify_prepare_stream">Preparando la recepción de la emisión...</string>
-    <string name="notify_try_play">Intentar reproducir</string>
     <string name="notify_play">Reproduciendo</string>
 
     <string name="error_stream_url">Problema en la URL de la emisión</string>

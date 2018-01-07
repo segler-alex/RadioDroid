@@ -57,10 +57,6 @@
     <string name="settings_play_external">Ouverture avec une application externe</string>
     <string name="settings_play_external_desc">Lire les radios avec un lecteur externe</string>
 
-    <string name="notify_start_proxy">Démarrage du proxy..</string>
-    <string name="notify_stop_player">Stopper l\'ancien lecteur...</string>
-    <string name="notify_prepare_stream">Préparation du stream...</string>
-    <string name="notify_try_play">Essai de lecture</string>
     <string name="notify_play">En lecture</string>
 
     <string name="error_stream_url">Problème avec le lien internet</string>

@@ -1,34 +1,46 @@
 package net.programmierecke.radiodroid2.players;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Build;
+import android.os.CountDownTimer;
 import android.os.Handler;
 import android.os.HandlerThread;
 import android.os.Looper;
+import android.support.annotation.NonNull;
+import android.support.v7.preference.PreferenceManager;
 import android.util.Log;
 
 import net.programmierecke.radiodroid2.BuildConfig;
-import net.programmierecke.radiodroid2.StreamProxy;
+import net.programmierecke.radiodroid2.HttpClient;
 import net.programmierecke.radiodroid2.data.ShoutcastInfo;
 import net.programmierecke.radiodroid2.data.StreamLiveInfo;
-import net.programmierecke.radiodroid2.interfaces.IStreamProxyEventReceiver;
+import net.programmierecke.radiodroid2.players.exoplayer.ExoPlayerWrapper;
+import net.programmierecke.radiodroid2.players.mediaplayer.MediaPlayerWrapper;
+import net.programmierecke.radiodroid2.recording.Recordable;
+import net.programmierecke.radiodroid2.recording.RecordableListener;
 
-public class RadioPlayer implements IStreamProxyEventReceiver, PlayerWrapper.PlayStateListener {
+import java.util.concurrent.TimeUnit;
+
+import okhttp3.OkHttpClient;
+
+public class RadioPlayer implements PlayerWrapper.PlayListener, Recordable {
 
     final private String TAG = "RadioPlayer";
 
     public enum PlayState {
         Idle,
-        CreateProxy,
-        ClearOld,
-        PrepareStream,
-        PrePlaying, Playing, Paused
+        PrePlaying,
+        Playing,
+        Paused
     }
 
     public interface PlayerListener {
         void onStateChanged(final PlayState status, final int audioSessionId);
 
         void onPlayerError(final int messageId);
+
+        void onBufferedTimeUpdate(final long bufferedMs);
 
         // We are not interested in this events here so they will be forwarded to whoever hold RadioPlayer
         void foundShoutcastStream(ShoutcastInfo bitrate, boolean isHls);
@@ -37,8 +49,10 @@ public class RadioPlayer implements IStreamProxyEventReceiver, PlayerWrapper.Pla
     }
 
     private PlayerWrapper player;
-    private StreamProxy proxy;
+    private OkHttpClient httpClient;
     private Context mainContext;
+
+    private String streamName;
 
     private HandlerThread playerThread;
     private Handler playerThreadHandler;
@@ -46,37 +60,63 @@ public class RadioPlayer implements IStreamProxyEventReceiver, PlayerWrapper.Pla
     private PlayerListener playerListener;
     private PlayState playState = PlayState.Idle;
 
-    private boolean isAlarm = false;
-    private String stationUrl;
+    private CountDownTimer bufferCheckTimer = new CountDownTimer(Long.MAX_VALUE, 2000) {
+        @Override
+        public void onTick(long l) {
+            final long bufferTimeMs = player.getBufferedMs();
 
-    public RadioPlayer(Context mainContext, PlayerWrapper playerWrapper) {
+            playerListener.onBufferedTimeUpdate(bufferTimeMs);
+
+            if (BuildConfig.DEBUG) Log.d(TAG, String.format("buffered %d ms.", bufferTimeMs));
+        }
+
+        @Override
+        public void onFinish() {
+
+        }
+    };
+
+    public RadioPlayer(Context mainContext) {
         this.mainContext = mainContext;
-        this.player = playerWrapper;
 
         playerThread = new HandlerThread("PlayerThread");
         playerThread.start();
 
         playerThreadHandler = new Handler(playerThread.getLooper());
 
+        httpClient = HttpClient.getInstance().newBuilder()
+                .retryOnConnectionFailure(true)
+                .build();
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+            player = new ExoPlayerWrapper();
+        } else {
+            // use old MediaPlayer on API levels < 16
+            // https://github.com/google/ExoPlayer/issues/711
+            player = new MediaPlayerWrapper(playerThreadHandler);
+        }
+
         player.setStateListener(this);
     }
 
-    public final void play(final String stationURL, boolean isAlarm) {
-        this.isAlarm = isAlarm;
-        this.stationUrl = stationURL;
+    public final void play(final String stationURL, final String streamName, final boolean isAlarm) {
+        setState(PlayState.PrePlaying, -1);
 
-        setState(PlayState.Idle, getAudioSessionId());
+        this.streamName = streamName;
+
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(mainContext.getApplicationContext());
+        final int connectTimeout = prefs.getInt("stream_connect_timeout", 4);
+        final int readTimeout = prefs.getInt("stream_read_timeout", 10);
+
+        final OkHttpClient customizedHttpClient = httpClient.newBuilder()
+                .connectTimeout(connectTimeout, TimeUnit.SECONDS)
+                .readTimeout(readTimeout, TimeUnit.SECONDS)
+                .build();
 
         playerThreadHandler.post(new Runnable() {
             @Override
             public void run() {
-                if (proxy != null) {
-                    if (BuildConfig.DEBUG) Log.d(TAG, "stopping old proxy.");
-                    stopProxy();
-                }
-
-                setState(PlayState.CreateProxy, -1);
-                proxy = new StreamProxy(stationURL, RadioPlayer.this);
+                player.playRemote(customizedHttpClient, stationURL, mainContext, isAlarm);
             }
         });
     }
@@ -88,10 +128,8 @@ public class RadioPlayer implements IStreamProxyEventReceiver, PlayerWrapper.Pla
                 final int audioSessionId = getAudioSessionId();
                 player.pause();
 
-                if (proxy != null) {
-                    stopProxy();
-
-                    proxy = null;
+                if (BuildConfig.DEBUG) {
+                    bufferCheckTimer.cancel();
                 }
 
                 setState(PlayState.Paused, audioSessionId);
@@ -100,6 +138,10 @@ public class RadioPlayer implements IStreamProxyEventReceiver, PlayerWrapper.Pla
     }
 
     public final void stop() {
+        if (playState == PlayState.Idle) {
+            return;
+        }
+
         playerThreadHandler.post(new Runnable() {
             @Override
             public void run() {
@@ -107,11 +149,11 @@ public class RadioPlayer implements IStreamProxyEventReceiver, PlayerWrapper.Pla
 
                 player.stop();
 
-                if (proxy != null) {
-                    stopProxy();
-
-                    setState(PlayState.Idle, audioSessionId);
+                if (BuildConfig.DEBUG) {
+                    bufferCheckTimer.cancel();
                 }
+
+                setState(PlayState.Idle, audioSessionId);
             }
         });
     }
@@ -146,36 +188,34 @@ public class RadioPlayer implements IStreamProxyEventReceiver, PlayerWrapper.Pla
         player.setVolume(volume);
     }
 
-    public final void startRecording(final String fileName, final String streamTitle) {
-        if (proxy != null) {
-            proxy.record(fileName, streamTitle);
-        }
+    @Override
+    public boolean canRecord() {
+        return player.canRecord();
     }
 
-    public final void stopRecording() {
-        if (proxy != null) {
-            proxy.stopRecord();
-        }
+    @Override
+    public void startRecording(@NonNull RecordableListener recordableListener) {
+        player.startRecording(recordableListener);
     }
 
-    public final boolean isRecording() {
-        return proxy != null && proxy.getOutFileName() != null;
+    @Override
+    public void stopRecording() {
+        player.stopRecording();
     }
 
-    public final String getRecordFileName() {
-        if (proxy != null) {
-            return proxy.getOutFileName();
-        }
-
-        return "";
+    @Override
+    public boolean isRecording() {
+        return player.isRecording();
     }
 
-    public final long getRecordedBytes() {
-        if (proxy != null) {
-            return proxy.getTotalBytes();
-        }
+    @Override
+    public String getTitle() {
+        return streamName;
+    }
 
-        return 0;
+    @Override
+    public String getExtension() {
+        return player.getExtension();
     }
 
     public final void runInPlayerThread(Runnable runnable) {
@@ -193,43 +233,25 @@ public class RadioPlayer implements IStreamProxyEventReceiver, PlayerWrapper.Pla
     private void setState(PlayState state, int audioSessionId) {
         if (BuildConfig.DEBUG) Log.d(TAG, String.format("set state '%s'", state.name()));
 
+        if (BuildConfig.DEBUG) {
+            if (state == PlayState.Playing) {
+                bufferCheckTimer.cancel();
+                bufferCheckTimer.start();
+            } else {
+                bufferCheckTimer.cancel();
+            }
+        }
+
         playState = state;
         playerListener.onStateChanged(state, audioSessionId);
     }
 
-    private void stopProxy() {
-        try {
-            proxy.stop();
-        } catch (Exception e) {
-            Log.e(TAG, "proxy stop exception: ", e);
-        }
-        proxy = null;
+    public long getTotalTransferredBytes() {
+        return player.getTotalTransferredBytes();
     }
 
-    @Override
-    public void foundShoutcastStream(ShoutcastInfo bitrate, boolean isHls) {
-        playerListener.foundShoutcastStream(bitrate, isHls);
-    }
-
-    @Override
-    public void foundLiveStreamInfo(StreamLiveInfo liveInfo) {
-        playerListener.foundLiveStreamInfo(liveInfo);
-    }
-
-    @Override
-    public void streamCreated(final String proxyConnection) {
-        playerThreadHandler.post(new Runnable() {
-            @Override
-            public void run() {
-                player.play(proxyConnection, mainContext, isAlarm);
-            }
-        });
-    }
-
-    @Override
-    public void streamStopped() {
-        stop();
-        play(stationUrl, isAlarm);
+    public long getCurrentPlaybackTransferredBytes() {
+        return player.getCurrentPlaybackTransferredBytes();
     }
 
     @Override
@@ -241,5 +263,15 @@ public class RadioPlayer implements IStreamProxyEventReceiver, PlayerWrapper.Pla
     public void onPlayerError(int messageId) {
         stop();
         playerListener.onPlayerError(messageId);
+    }
+
+    @Override
+    public void onDataSourceShoutcastInfo(ShoutcastInfo shoutcastInfo, boolean isHls) {
+        playerListener.foundShoutcastStream(shoutcastInfo, isHls);
+    }
+
+    @Override
+    public void onDataSourceStreamLiveInfo(StreamLiveInfo liveInfo) {
+        playerListener.foundLiveStreamInfo(liveInfo);
     }
 }

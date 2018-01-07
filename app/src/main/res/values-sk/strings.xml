@@ -57,10 +57,6 @@
     <string name="settings_play_external">Otvoriť externú aplikáciu</string>
     <string name="settings_play_external_desc">Klepnutím na názov stanice otvorí externý prehrávač</string>
 
-    <string name="notify_start_proxy">Spustenie servera proxy.</string>
-    <string name="notify_stop_player">Zastavenie pôvodného prehrávača..</string>
-    <string name="notify_prepare_stream">Príprava streamu...</string>
-    <string name="notify_try_play">Pokus o prehrávanie</string>
     <string name="notify_play">Prehrávanie</string>
 
     <string name="error_stream_url">Vyskytol sa problém s URL adresou streamu</string>
