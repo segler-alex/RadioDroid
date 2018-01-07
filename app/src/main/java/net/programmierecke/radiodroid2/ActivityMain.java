@@ -27,12 +27,15 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import net.programmierecke.radiodroid2.data.MPDServer;
 import net.programmierecke.radiodroid2.interfaces.IFragmentRefreshable;
 import net.programmierecke.radiodroid2.interfaces.IFragmentSearchable;
 
 import java.io.File;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ActivityMain extends AppCompatActivity implements SearchView.OnQueryTextListener, IMPDClientStatusChange, NavigationView.OnNavigationItemSelectedListener {
 
@@ -419,7 +422,7 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
                 changeTimer();
                 return true;
             case R.id.action_mpd_nok:
-                MPDClient.Connect(this);
+                selectMPDServer();
                 return true;
             case R.id.action_mpd_ok:
                 MPDClient.Disconnect(this, this);
@@ -561,5 +564,41 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
 
         seekDialog.create();
         seekDialog.show();
+    }
+
+    private void selectMPDServer() {
+        final List<MPDServer> servers = Utils.getMPDServers(this);
+        final List<MPDServer> connectedServers = new ArrayList<>();
+        List<String> serversNames = new ArrayList<>();
+        for (MPDServer server : servers) {
+            if(server.connected) {
+                serversNames.add(server.name);
+                connectedServers.add(server);
+            }
+        }
+        if(connectedServers.size() == 1)
+        {
+            MPDServer selectedServer = servers.get(connectedServers.get(0).id);
+            selectedServer.selected = true;
+            Utils.saveMPDServers(servers, getApplicationContext());
+            MPDClient.Connect(this);
+            return;
+        }
+
+        new AlertDialog.Builder(this)
+                .setItems(serversNames.toArray(new String[serversNames.size()]), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        for (MPDServer server : servers) {
+                            server.selected = false;
+                        }
+                        MPDServer selectedServer = servers.get(connectedServers.get(which).id);
+                        selectedServer.selected = true;
+                        Utils.saveMPDServers(servers, getApplicationContext());
+                        MPDClient.Connect(ActivityMain.this);
+                    }
+                })
+                .setTitle(R.string.alert_select_mpd_server)
+                .show();
     }
 }

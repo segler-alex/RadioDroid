@@ -116,12 +116,8 @@
 
     <PreferenceCategory
         android:title="@string/settings_mpd">
-        <EditTextPreference
-            android:title="@string/settings_mpd_hostname"
-            android:key="mpd_hostname" />
-        <EditTextPreference
-            android:title="@string/settings_mpd_port"
-            android:key="mpd_port"
-            android:defaultValue="6600"/>
+        <Preference
+            android:title="@string/settings_view_mpd_servers"
+            android:key="mpd_servers_viewer" />
     </PreferenceCategory>
 </PreferenceScreen>

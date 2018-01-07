@@ -1,16 +1,16 @@
 package net.programmierecke.radiodroid2;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.AsyncTask;
-import android.support.v7.preference.PreferenceManager;
 import android.util.Log;
+import net.programmierecke.radiodroid2.data.MPDServer;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.Socket;
+import java.util.List;
 
 interface IMPDClientStatusChange{
     void changed();
@@ -46,13 +46,24 @@ public class MPDClient {
     }
 
     public static void Play(final String url, final Context context) {
-        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
-        final String mpd_hostname = sharedPref.getString("mpd_hostname", null);
-        final int mpd_port = StringToInt(sharedPref.getString("mpd_port", "6600"), 6600);
+        final List<MPDServer> servers = Utils.getMPDServers(context);
 
         new AsyncTask<Void, Void, Boolean>() {
             @Override
             protected Boolean doInBackground(Void... params) {
+                String mpd_hostname = "";
+                int mpd_port = 0;
+
+                for (MPDServer server: servers) {
+                    if(server.selected) {
+                        mpd_hostname = server.hostname.trim();
+                        mpd_port = server.port;
+                        break;
+                    }
+                }
+                if(mpd_port == 0)
+                    return null;
+
                 return PlayRemoteMPD(mpd_hostname, mpd_port, url);
             }
 
@@ -72,8 +83,6 @@ public class MPDClient {
     }
 
     public static void StartDiscovery(final Context context, final IMPDClientStatusChange listener){
-        final SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
-
         if (t == null) {
             discoveryActive = true;
             t = new Thread(new Runnable() {
@@ -81,12 +90,20 @@ public class MPDClient {
                 public void run() {
                     while(discoveryActive){
                         try {
-                            final String mpd_hostname = sharedPref.getString("mpd_hostname", "").trim();
-                            final int mpd_port = StringToInt(sharedPref.getString("mpd_port", "6600"), 6600);
+                            List<MPDServer> servers = Utils.getMPDServers(context);
+                            boolean hasOneOrMoreConnections = false;
+                            for (MPDServer server: servers) {
+                                final String mpd_hostname = server.hostname.trim();
+                                final int mpd_port = server.port;
 
-                            if (!"".equals(mpd_hostname)) {
-                                SetDiscoveredStatus(CheckConnection(mpd_hostname, mpd_port), listener);
+                                if (!"".equals(mpd_hostname)) {
+                                    boolean isConnected = CheckConnection(mpd_hostname, mpd_port);
+                                    server.connected = isConnected;
+                                    hasOneOrMoreConnections = hasOneOrMoreConnections? hasOneOrMoreConnections : isConnected;
+                                }
                             }
+                            Utils.saveMPDServers(servers, context);
+                            SetDiscoveredStatus(hasOneOrMoreConnections, listener);
                             // check every 5 seconds
                             Thread.sleep(5*1000);
                         } catch (Exception e) {
@@ -132,14 +149,21 @@ public class MPDClient {
     }
 
 
-    public static void Stop(Context context) {
-        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
-        final String mpd_hostname = sharedPref.getString("mpd_hostname", "").trim();
-        final int mpd_port = StringToInt(sharedPref.getString("mpd_port", "6600"), 6600);
+    public static void Stop(final Context context) {
+        final List<MPDServer> servers = Utils.getMPDServers(context);
+
         new Thread(new Runnable() {
             @Override
             public void run() {
-                StopInternal(mpd_hostname, mpd_port);
+                for (MPDServer server: servers) {
+                    if(server.selected) {
+                        final String mpd_hostname = server.hostname.trim();
+                        final int mpd_port = server.port;
+
+                        StopInternal(mpd_hostname, mpd_port);
+                        break;
+                    }
+                }
             }
         }).start();
     }
