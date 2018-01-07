@@ -238,6 +238,56 @@ public class MPDClient {
         return result;
     }
 
+    public static void SetVolume(final String mpd_hostname, final int mpd_port, final int volume) {
+        // Volume can be +something or -something
+
+        new AsyncTask<Void, Void, Boolean>() {
+            @Override
+            protected Boolean doInBackground(Void... params) {
+                try {
+                    if(BuildConfig.DEBUG) { Log.d("MPD", "Start"); }
+                    Socket s = new Socket(mpd_hostname, mpd_port);
+                    BufferedReader reader = new BufferedReader(new InputStreamReader(s.getInputStream()));
+                    BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(s.getOutputStream()));
+                    String info = reader.readLine();
+                    if(BuildConfig.DEBUG) { Log.d("MPD", info); }
+                    if (info.startsWith("OK")){
+                        String cmd = "status";
+                        writer.write(cmd);
+                        writer.newLine();
+                        writer.flush();
+
+                        info = reader.readLine();
+                        if(BuildConfig.DEBUG) { Log.d("MPD", info); }
+                        if (info.startsWith("volume:")){
+                            int currentVolume = Integer.parseInt(info.substring(8).trim());
+                            int newVolume = currentVolume + volume;
+                            // Max == 100, min == 0
+                            newVolume = Math.min(newVolume,100);
+                            newVolume = Math.max(newVolume,0);
+                            cmd = "setvol "+ newVolume;
+                            writer.write(cmd);
+                            writer.newLine();
+                            writer.flush();
+                            if(BuildConfig.DEBUG) { Log.d("MPD", "OK"); }
+                        }
+                    }
+                    reader.close();
+                    writer.close();
+                    s.close();
+                } catch (Exception e) {
+                    Log.e("MPD",e.toString());
+                }
+                return null;
+            }
+
+            @Override
+            protected void onPostExecute(Boolean result) {
+                super.onPostExecute(result);
+            }
+        }.execute();
+    }
+
     public static boolean Connected() {
         return connected;
     }

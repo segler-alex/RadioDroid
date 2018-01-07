@@ -20,6 +20,7 @@ import android.support.v7.preference.PreferenceManager;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -512,6 +513,41 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
     @Override
     public boolean onQueryTextChange(String newText) {
         return false;
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if(MPDClient.connected && (keyCode == KeyEvent.KEYCODE_VOLUME_DOWN || keyCode == KeyEvent.KEYCODE_VOLUME_UP))
+            return true;
+
+        return super.onKeyDown(keyCode, event);
+    }
+
+    @Override
+    public boolean onKeyUp(int keyCode, KeyEvent event) {
+        String mpd_hostname = "";
+        int mpd_port = 0;
+        for (MPDServer server: Utils.getMPDServers(this)) {
+            if(server.selected) {
+                mpd_hostname = server.hostname.trim();
+                mpd_port = server.port;
+                break;
+            }
+        }
+        if(mpd_port == 0 || !MPDClient.connected)
+            return super.onKeyUp(keyCode, event);
+
+        switch (keyCode) {
+            case KeyEvent.KEYCODE_VOLUME_DOWN:
+                MPDClient.SetVolume(mpd_hostname, mpd_port, -5);
+                return true;
+            case KeyEvent.KEYCODE_VOLUME_UP:
+                MPDClient.SetVolume(mpd_hostname, mpd_port, 5);
+                return true;
+            default:
+                break;
+        }
+        return super.onKeyUp(keyCode, event);
     }
 
     private void selectMenuItem(int itemId) {
