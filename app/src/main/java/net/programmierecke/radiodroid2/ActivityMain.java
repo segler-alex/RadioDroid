@@ -136,8 +136,6 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
         mDrawerToggle.syncState();
 
         CastHandler.onCreate(this);
-
-        MPDClient.StartDiscovery(this, this);
     }
 
     @Override
@@ -311,7 +309,7 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
     public void onDestroy() {
         super.onDestroy();
         PlayerServiceUtil.unBind(this);
-        MPDClient.StopDiscovery();
+        MPDClient.StopDiscovery(this);
     }
 
     @Override
@@ -331,9 +329,21 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
             PlayerServiceUtil.shutdownService();
         } else {
             CastHandler.onPause();
-            MPDClient.StopDiscovery();
         }
 
+        MPDClient.StopDiscovery(this);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        if (BuildConfig.DEBUG) {
+            Log.d(TAG, "RESUMED");
+        }
+
+        CastHandler.onResume();
+        MPDClient.StartDiscovery(this, this);
     }
 
     @Override
@@ -472,20 +482,6 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
         return super.onOptionsItemSelected(menuItem);
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-
-        if (sharedPref == null) {
-            sharedPref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-
-            CastHandler.onResume();
-
-            Log.i(TAG, "RESUMED");
-            MPDClient.StartDiscovery(this, this);
-        }
-    }
-
     public void Search(String query) {
         selectMenuItem(R.id.nav_item_stations);
 
@@ -607,6 +603,7 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
         final List<MPDServer> connectedServers = new ArrayList<>();
         List<String> serversNames = new ArrayList<>();
         for (MPDServer server : servers) {
+            server.selected = false;
             if(server.connected) {
                 serversNames.add(server.name);
                 connectedServers.add(server);

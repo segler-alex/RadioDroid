@@ -147,6 +147,9 @@ public class FragmentSettings extends PreferenceFragmentCompat implements Shared
                     public void onCancel(DialogInterface dialog) {
                         if(Utils.getMPDServers(getContext()).size() > 0)
                             showAllMPDServers();
+
+                        MPDClient.StopDiscovery((ActivityMain) getActivity());
+                        MPDClient.StartDiscovery(getActivity(), (ActivityMain) getActivity());
                     }
                 })
                 .setTitle(R.string.alert_add_or_edit_mpd_server).create();
@@ -155,7 +158,7 @@ public class FragmentSettings extends PreferenceFragmentCompat implements Shared
             @Override
             public void onShow(DialogInterface dialogInterface) {
                 Button positive = dialog.getButton(AlertDialog.BUTTON_POSITIVE);
-                Button neutral = dialog.getButton(AlertDialog.BUTTON_NEUTRAL);
+                Button remove = dialog.getButton(AlertDialog.BUTTON_NEUTRAL);
 
                 positive.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -183,7 +186,7 @@ public class FragmentSettings extends PreferenceFragmentCompat implements Shared
                     }
                 });
 
-                neutral.setOnClickListener(new View.OnClickListener() {
+                remove.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         if(server != null) {

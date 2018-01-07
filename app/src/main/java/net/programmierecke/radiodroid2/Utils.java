@@ -347,7 +347,7 @@ public class Utils {
 		Gson gson = new Gson();
         Type type = new TypeToken<ArrayList<MPDServer>>(){}.getType();
 		List <MPDServer> serversList = gson.fromJson(serversFromPrefs, type);
-		return serversList;
+		return serversList != null? serversList : new ArrayList<MPDServer>();
 	}
 
     public static void saveMPDServers(List<MPDServer> servers, Context context) {

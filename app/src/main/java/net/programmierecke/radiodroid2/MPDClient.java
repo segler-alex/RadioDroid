@@ -9,6 +9,7 @@ import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
+import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.util.List;
 
@@ -33,13 +34,15 @@ public class MPDClient {
 
     public static void Connect(IMPDClientStatusChange listener){
         connected = true;
-        listener.changed();
+        if(listener != null)
+            listener.changed();
     }
 
     public static void Disconnect(Context context, IMPDClientStatusChange listener){
         connected = false;
         isPlaying = false;
-        listener.changed();
+        if(listener != null)
+            listener.changed();
         // Don't stop playback in that case. User can listen via MPD and via the app
         // User can stop playback via MPD with pause button
         //Stop(context);
@@ -121,7 +124,8 @@ public class MPDClient {
     private static void SetDiscoveredStatus(boolean status, IMPDClientStatusChange listener){
         if (status != discovered){
             discovered = status;
-            listener.changed();
+            if(listener != null)
+                listener.changed();
         }
     }
 
@@ -130,7 +134,9 @@ public class MPDClient {
 
         try {
             if(BuildConfig.DEBUG) { Log.d(TAG, "Check connection..."); }
-            Socket s = new Socket(mpd_hostname, mpd_port);
+            Socket s = new Socket();
+            // If you'll create the socket with default constructor new Socket(hostname, port) you will get 3 min timeout if the server is unreachable
+            s.connect(new InetSocketAddress(mpd_hostname, mpd_port), 5*1000);
             BufferedReader reader = new BufferedReader(new InputStreamReader(s.getInputStream()));
             BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(s.getOutputStream()));
             String info = reader.readLine();
@@ -172,8 +178,9 @@ public class MPDClient {
         Boolean result = false;
         isPlaying = false;
         try {
-            if(BuildConfig.DEBUG) { Log.d(TAG, "Check connection..."); }
-            Socket s = new Socket(mpd_hostname, mpd_port);
+            if(BuildConfig.DEBUG) { Log.d(TAG, "Check connection before stop..."); }
+            Socket s = new Socket();
+            s.connect(new InetSocketAddress(mpd_hostname, mpd_port), 15*1000);
             BufferedReader reader = new BufferedReader(new InputStreamReader(s.getInputStream()));
             BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(s.getOutputStream()));
             String info = reader.readLine();
@@ -195,9 +202,9 @@ public class MPDClient {
         return result;
     }
 
-    public static void StopDiscovery(){
+    public static void StopDiscovery(IMPDClientStatusChange listener){
         discoveryActive = false;
-        discovered = false;
+        SetDiscoveredStatus(false, listener);
         t = null;
     }
 
@@ -206,7 +213,8 @@ public class MPDClient {
         isPlaying = true;
         try {
             if(BuildConfig.DEBUG) { Log.d("MPD", "Start"); }
-            Socket s = new Socket(mpd_hostname, mpd_port);
+            Socket s = new Socket();
+            s.connect(new InetSocketAddress(mpd_hostname, mpd_port), 5*1000);
             BufferedReader reader = new BufferedReader(new InputStreamReader(s.getInputStream()));
             BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(s.getOutputStream()));
             String info = reader.readLine();
@@ -246,7 +254,8 @@ public class MPDClient {
             protected Boolean doInBackground(Void... params) {
                 try {
                     if(BuildConfig.DEBUG) { Log.d("MPD", "Start"); }
-                    Socket s = new Socket(mpd_hostname, mpd_port);
+                    Socket s = new Socket();
+                    s.connect(new InetSocketAddress(mpd_hostname, mpd_port), 5*1000);
                     BufferedReader reader = new BufferedReader(new InputStreamReader(s.getInputStream()));
                     BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(s.getOutputStream()));
                     String info = reader.readLine();
@@ -258,7 +267,7 @@ public class MPDClient {
                         writer.flush();
 
                         info = reader.readLine();
-                        if(BuildConfig.DEBUG) { Log.d("MPD", info); }
+                        if(BuildConfig.DEBUG) { Log.d("MPD volume", info); }
                         if (info.startsWith("volume:")){
                             int currentVolume = Integer.parseInt(info.substring(8).trim());
                             int newVolume = currentVolume + volume;
