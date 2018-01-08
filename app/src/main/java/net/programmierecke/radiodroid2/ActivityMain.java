@@ -20,6 +20,7 @@ import android.support.v7.preference.PreferenceManager;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -27,12 +28,15 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import net.programmierecke.radiodroid2.data.MPDServer;
 import net.programmierecke.radiodroid2.interfaces.IFragmentRefreshable;
 import net.programmierecke.radiodroid2.interfaces.IFragmentSearchable;
 
 import java.io.File;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ActivityMain extends AppCompatActivity implements SearchView.OnQueryTextListener, IMPDClientStatusChange, NavigationView.OnNavigationItemSelectedListener {
 
@@ -132,8 +136,6 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
         mDrawerToggle.syncState();
 
         CastHandler.onCreate(this);
-
-        MPDClient.StartDiscovery(this, this);
     }
 
     @Override
@@ -307,7 +309,7 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
     public void onDestroy() {
         super.onDestroy();
         PlayerServiceUtil.unBind(this);
-        MPDClient.StopDiscovery();
+        MPDClient.StopDiscovery(this);
     }
 
     @Override
@@ -327,9 +329,21 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
             PlayerServiceUtil.shutdownService();
         } else {
             CastHandler.onPause();
-            MPDClient.StopDiscovery();
         }
 
+        MPDClient.StopDiscovery(this);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        if (BuildConfig.DEBUG) {
+            Log.d(TAG, "RESUMED");
+        }
+
+        CastHandler.onResume();
+        MPDClient.StartDiscovery(this, this);
     }
 
     @Override
@@ -419,7 +433,7 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
                 changeTimer();
                 return true;
             case R.id.action_mpd_nok:
-                MPDClient.Connect(this);
+                selectMPDServer();
                 return true;
             case R.id.action_mpd_ok:
                 MPDClient.Disconnect(this, this);
@@ -468,20 +482,6 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
         return super.onOptionsItemSelected(menuItem);
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-
-        if (sharedPref == null) {
-            sharedPref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-
-            CastHandler.onResume();
-
-            Log.i(TAG, "RESUMED");
-            MPDClient.StartDiscovery(this, this);
-        }
-    }
-
     public void Search(String query) {
         selectMenuItem(R.id.nav_item_stations);
 
@@ -509,6 +509,41 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
     @Override
     public boolean onQueryTextChange(String newText) {
         return false;
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if(MPDClient.connected && (keyCode == KeyEvent.KEYCODE_VOLUME_DOWN || keyCode == KeyEvent.KEYCODE_VOLUME_UP))
+            return true;
+
+        return super.onKeyDown(keyCode, event);
+    }
+
+    @Override
+    public boolean onKeyUp(int keyCode, KeyEvent event) {
+        String mpd_hostname = "";
+        int mpd_port = 0;
+        for (MPDServer server: Utils.getMPDServers(this)) {
+            if(server.selected) {
+                mpd_hostname = server.hostname.trim();
+                mpd_port = server.port;
+                break;
+            }
+        }
+        if(mpd_port == 0 || !MPDClient.connected)
+            return super.onKeyUp(keyCode, event);
+
+        switch (keyCode) {
+            case KeyEvent.KEYCODE_VOLUME_DOWN:
+                MPDClient.SetVolume(mpd_hostname, mpd_port, -5);
+                return true;
+            case KeyEvent.KEYCODE_VOLUME_UP:
+                MPDClient.SetVolume(mpd_hostname, mpd_port, 5);
+                return true;
+            default:
+                break;
+        }
+        return super.onKeyUp(keyCode, event);
     }
 
     private void selectMenuItem(int itemId) {
@@ -561,5 +596,46 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
 
         seekDialog.create();
         seekDialog.show();
+    }
+
+    private void selectMPDServer() {
+        final List<MPDServer> servers = Utils.getMPDServers(this);
+        final List<MPDServer> connectedServers = new ArrayList<>();
+        List<String> serversNames = new ArrayList<>();
+        for (MPDServer server : servers) {
+            server.selected = false;
+            if(server.connected) {
+                serversNames.add(server.name);
+                connectedServers.add(server);
+            }
+        }
+        if(connectedServers.size() == 1)
+        {
+            MPDServer selectedServer = servers.get(connectedServers.get(0).id);
+            selectedServer.selected = true;
+            Utils.saveMPDServers(servers, getApplicationContext());
+            MPDClient.Connect(this);
+
+            // Since we connected to one server but have many user should know server's name
+            if(servers.size() > 1)
+                Toast.makeText(this, getString(R.string.action_mpd_connected, selectedServer.name), Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        new AlertDialog.Builder(this)
+                .setItems(serversNames.toArray(new String[serversNames.size()]), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        for (MPDServer server : servers) {
+                            server.selected = false;
+                        }
+                        MPDServer selectedServer = servers.get(connectedServers.get(which).id);
+                        selectedServer.selected = true;
+                        Utils.saveMPDServers(servers, getApplicationContext());
+                        MPDClient.Connect(ActivityMain.this);
+                    }
+                })
+                .setTitle(R.string.alert_select_mpd_server)
+                .show();
     }
 }

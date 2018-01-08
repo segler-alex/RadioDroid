@@ -123,6 +123,17 @@
     <string name="yes">Yes</string>
     <string name="no">No</string>
 
+    <string name="alert_select_mpd_server">Which server?</string>
+    <string name="alert_select_mpd_server_name">Server name</string>
+    <string name="alert_select_mpd_server_hostname">Hostname</string>
+    <string name="alert_select_mpd_server_port">Port</string>
+
+    <string name="alert_select_mpd_server_add">Add</string>
+    <string name="alert_select_mpd_server_save">Save</string>
+    <string name="alert_select_mpd_server_remove">Remove</string>
+    <string name="alert_add_or_edit_mpd_server">Enter details about a server</string>
+
+
     <string name="error_stream_url">Stream url problem</string>
     <string name="error_caching_stream">Stream caching problem</string>
     <string name="error_play_stream">Unable to play stream</string>
@@ -154,10 +165,10 @@
     <string name="app_id">5A97BAE4</string>
 
     <string name="settings_mpd">Music Player Daemon</string>
-    <string name="settings_mpd_hostname">Hostname</string>
-    <string name="settings_mpd_port">Port</string>
+    <string name="settings_view_mpd_servers">Your servers</string>
     <string name="action_mpd_nok">MPD not connected</string>
     <string name="action_mpd_ok">MPD connected</string>
+    <string name="action_mpd_connected">Connected to server: %1$s</string>
     <string name="refresh">Refresh</string>
 
     <string-array name="weekdays">

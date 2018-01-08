@@ -22,8 +22,11 @@ import android.support.v7.preference.PreferenceManager;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import net.programmierecke.radiodroid2.data.DataRadioStation;
 
+import net.programmierecke.radiodroid2.data.MPDServer;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
@@ -33,9 +36,12 @@ import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
+import java.lang.reflect.Type;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
@@ -334,4 +340,22 @@ public class Utils {
 
 		return mWifi.isConnected();
 	}
+
+	public static List<MPDServer> getMPDServers(Context context) {
+		SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
+		String serversFromPrefs = sharedPref.getString("mpd_servers", "");
+		Gson gson = new Gson();
+        Type type = new TypeToken<ArrayList<MPDServer>>(){}.getType();
+		List <MPDServer> serversList = gson.fromJson(serversFromPrefs, type);
+		return serversList != null? serversList : new ArrayList<MPDServer>();
+	}
+
+    public static void saveMPDServers(List<MPDServer> servers, Context context) {
+        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
+        SharedPreferences.Editor editor = sharedPref.edit();
+        Gson gson = new Gson();
+        String serversJson = gson.toJson(servers);
+        editor.putString("mpd_servers", serversJson);
+        editor.commit();
+    }
 }
