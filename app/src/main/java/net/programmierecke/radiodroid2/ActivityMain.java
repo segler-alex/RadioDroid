@@ -615,6 +615,10 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
             selectedServer.selected = true;
             Utils.saveMPDServers(servers, getApplicationContext());
             MPDClient.Connect(this);
+
+            // Since we connected to one server but have many user should know server's name
+            if(servers.size() > 1)
+                Toast.makeText(this, getString(R.string.action_mpd_connected, selectedServer.name), Toast.LENGTH_SHORT).show();
             return;
         }
 
