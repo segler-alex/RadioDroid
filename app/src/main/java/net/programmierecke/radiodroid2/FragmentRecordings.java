@@ -16,6 +16,7 @@ import android.widget.AdapterView;
 import net.programmierecke.radiodroid2.adapters.ItemAdapterRecordings;
 import net.programmierecke.radiodroid2.data.DataRecording;
 import net.programmierecke.radiodroid2.interfaces.IFragmentRefreshable;
+import net.programmierecke.radiodroid2.recording.RecordingsManager;
 
 import java.io.File;
 

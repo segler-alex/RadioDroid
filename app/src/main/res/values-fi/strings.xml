@@ -58,10 +58,6 @@
     <string name="settings_play_external">Avaa ulkoisella</string>
     <string name="settings_play_external_desc">Avaa asemat ulkoisella sovelluksella</string>
 
-    <string name="notify_start_proxy">Käynnistetään proxya..</string>
-    <string name="notify_stop_player">Suljetaan aiempaa soitinta..</string>
-    <string name="notify_prepare_stream">Valmistellaan toistoa..</string>
-    <string name="notify_try_play">Yritetään toistaa</string>
     <string name="notify_play">Toistetaan</string>
 
     <string name="error_stream_url">Ongelma URL-osoitteen avaamisessa</string>

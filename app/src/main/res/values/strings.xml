@@ -94,14 +94,19 @@
     <string name="settings_play_external_desc">Should a single click on stations open external</string>
     <string name="settings_equalizer">Equalizer</string>
 
+    <string name="settings_connectivity">Connectivity</string>
+    <string name="settings_connect_timeout">Stream connection timeout</string>
+    <string name="settings_read_timeout">Stream read timeout</string>
+    <string name="settings_retry_timeout">Stream retry timeout</string>
+    <string name="settings_retry_delay">Reconnects delay</string>
+    <string name="settings_seconds_format">%d seconds</string>
+    <string name="settings_milliseconds_format">%d milliseconds</string>
+
     <string name="settings_warn_no_wifi">Warn when not on Wifi</string>
     <string name="settings_warn_no_wifi_on">Warn when playing without Wifi connection</string>
     <string name="settings_warn_no_wifi_off">No warning when not on Wifi connection</string>
 
-    <string name="notify_start_proxy">Starting proxy..</string>
-    <string name="notify_stop_player">Stop old player..</string>
-    <string name="notify_prepare_stream">Preparing stream..</string>
-    <string name="notify_try_play">Try playing</string>
+    <string name="notify_pre_play">Connecting</string>
     <string name="notify_play">Playing</string>
     <string name="notify_paused">Paused</string>
     <string name="notify_starred">Station has been bookmarked as favorite</string>
@@ -132,6 +137,7 @@
     <string name="error_stream_url">Stream url problem</string>
     <string name="error_caching_stream">Stream caching problem</string>
     <string name="error_play_stream">Unable to play stream</string>
+    <string name="error_stream_reconnect_timeout">Unable to reconnect to the stream: timeout.</string>
 
     <string name="error_record_needs_write">Need write permission for recording!</string>
     <string name="error_grant_audiofocus">Request for audio focus was not granted by the system.</string>

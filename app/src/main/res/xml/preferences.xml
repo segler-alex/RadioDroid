@@ -1,106 +1,102 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-    <PreferenceCategory
-        android:title="@string/settings_interface">
+    <PreferenceCategory android:title="@string/settings_interface">
 
         <ListPreference
-                android:key="theme_name"
-                android:defaultValue="@string/theme_light"
-                android:entries="@array/theme_entries"
-                android:entryValues="@array/theme_values"
-                android:title="@string/settings_theme_selection_title"/>
+            android:defaultValue="@string/theme_light"
+            android:entries="@array/theme_entries"
+            android:entryValues="@array/theme_values"
+            android:key="theme_name"
+            android:title="@string/settings_theme_selection_title" />
 
         <CheckBoxPreference
-                android:key="circular_icons"
-                android:defaultValue="false"
-                android:title="@string/settings_circular_icons" />
+            android:defaultValue="false"
+            android:key="circular_icons"
+            android:title="@string/settings_circular_icons" />
 
         <CheckBoxPreference
-                android:key="compact_style"
-                android:defaultValue="false"
-                android:title="@string/settings_compact_style" />
+            android:defaultValue="false"
+            android:key="compact_style"
+            android:title="@string/settings_compact_style" />
 
     </PreferenceCategory>
 
-    <PreferenceCategory
-        android:title="@string/settings_general">
+    <PreferenceCategory android:title="@string/settings_general">
 
         <ListPreference
-            android:key="startup_action"
             android:defaultValue="@string/startup_show_history"
             android:entries="@array/startup_action_entries"
             android:entryValues="@array/startup_action_entryvalues"
+            android:key="startup_action"
             android:summary="@string/startup_action_title_desc"
-            android:title="@string/startup_action_title"/>
+            android:title="@string/startup_action_title" />
 
         <CheckBoxPreference
+            android:defaultValue="true"
             android:key="load_icons"
-            android:defaultValue="true"
-            android:title="@string/settings_load_icons"
+            android:summaryOff="@string/settings_load_icons_off"
             android:summaryOn="@string/settings_load_icons_on"
-            android:summaryOff="@string/settings_load_icons_off" />
+            android:title="@string/settings_load_icons" />
 
         <CheckBoxPreference
-            android:key="icon_click_toggles_favorite"
+            android:defaultValue="true"
             android:dependency="load_icons"
-            android:defaultValue="true"
-            android:title="@string/settings_icon_click_toggles_favorite"
+            android:key="icon_click_toggles_favorite"
+            android:summaryOff="@string/settings_icon_click_toggles_favorite_off"
             android:summaryOn="@string/settings_icon_click_toggles_favorite_on"
-            android:summaryOff="@string/settings_icon_click_toggles_favorite_off" />
+            android:title="@string/settings_icon_click_toggles_favorite" />
 
         <CheckBoxPreference
-            android:key="auto_favorite"
             android:defaultValue="true"
-            android:title="@string/settings_auto_favorite"
+            android:key="auto_favorite"
+            android:summaryOff="@string/settings_auto_favorite_off"
             android:summaryOn="@string/settings_auto_favorite_on"
-            android:summaryOff="@string/settings_auto_favorite_off" />
+            android:title="@string/settings_auto_favorite" />
 
         <CheckBoxPreference
             android:key="show_broken"
-            android:title="@string/settings_show_broken"
+            android:summaryOff="@string/settings_show_broken_off"
             android:summaryOn="@string/settings_show_broken_on"
-            android:summaryOff="@string/settings_show_broken_off" />
+            android:title="@string/settings_show_broken" />
 
         <CheckBoxPreference
             android:key="single_use_tags"
-            android:title="@string/settings_single_use_tags"
+            android:summaryOff="@string/settings_single_use_tags_desc_off"
             android:summaryOn="@string/settings_single_use_tags_desc_on"
-            android:summaryOff="@string/settings_single_use_tags_desc_off" />
+            android:title="@string/settings_single_use_tags" />
 
     </PreferenceCategory>
 
-    <PreferenceCategory
-        android:title="@string/settings_play">
+    <PreferenceCategory android:title="@string/settings_play">
 
         <CheckBoxPreference
             android:key="play_external"
-            android:title="@string/settings_play_external"
-            android:summary="@string/settings_play_external_desc" />
+            android:summary="@string/settings_play_external_desc"
+            android:title="@string/settings_play_external" />
 
         <CheckBoxPreference
-                android:key="warn_no_wifi"
-                android:title="@string/settings_warn_no_wifi"
-                android:summaryOn="@string/settings_warn_no_wifi_on"
-                android:summaryOff="@string/settings_warn_no_wifi_off" />
+            android:key="warn_no_wifi"
+            android:summaryOff="@string/settings_warn_no_wifi_off"
+            android:summaryOn="@string/settings_warn_no_wifi_on"
+            android:title="@string/settings_warn_no_wifi" />
 
         <Preference
             android:key="equalizer"
             android:title="@string/settings_equalizer" />
     </PreferenceCategory>
 
-    <PreferenceCategory
-        android:title="@string/settings_alarm">
+    <PreferenceCategory android:title="@string/settings_alarm">
 
         <CheckBoxPreference
             android:disableDependentsState="true"
             android:key="alarm_external"
-            android:title="@string/settings_alarm_external"
-            android:summary="@string/settings_alarm_external_desc" />
+            android:summary="@string/settings_alarm_external_desc"
+            android:title="@string/settings_alarm_external" />
 
         <Preference
-            android:key="shareapp_package"
             android:enabled="false"
+            android:key="shareapp_package"
             android:title="@string/settings_alarm_audio_player" />
 
         <ListPreference
@@ -119,5 +115,34 @@
         <Preference
             android:title="@string/settings_view_mpd_servers"
             android:key="mpd_servers_viewer" />
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:key="pref_category_connectivity"
+        android:title="@string/settings_connectivity">
+        <net.programmierecke.radiodroid2.views.IntEditTextPreference
+            android:defaultValue="4"
+            android:key="stream_connect_timeout"
+            android:maxLength="2"
+            android:title="@string/settings_connect_timeout"
+            android:summary="@string/settings_seconds_format"/>
+        <net.programmierecke.radiodroid2.views.IntEditTextPreference
+            android:defaultValue="10"
+            android:key="stream_read_timeout"
+            android:maxLength="2"
+            android:title="@string/settings_read_timeout"
+            android:summary="@string/settings_seconds_format"/>
+        <net.programmierecke.radiodroid2.views.IntEditTextPreference
+            android:defaultValue="99999999"
+            android:key="settings_retry_timeout"
+            android:maxLength="8"
+            android:title="@string/settings_retry_timeout"
+            android:summary="@string/settings_seconds_format"/>
+        <net.programmierecke.radiodroid2.views.IntEditTextPreference
+            android:defaultValue="0"
+            android:key="settings_retry_delay"
+            android:maxLength="8"
+            android:title="@string/settings_retry_delay"
+            android:summary="@string/settings_milliseconds_format"/>
     </PreferenceCategory>
 </PreferenceScreen>
