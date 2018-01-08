@@ -6,6 +6,10 @@
     <attr name="menuTextColorSelected" format="reference"/>
     <attr name="menuTextColorDefault" format="reference"/>
 
+    <attr name="menuBottomTextColorSelected" format="reference"/>
+    <attr name="menuBottomTextColorDefault" format="reference"/>
+    <attr name="menuBottomBackgroundColor" format="reference"/>
+
     <attr name="colorTabUnderline" format="reference"/>
 
     <attr name="iconsInItemBackgroundColor" format="reference" />

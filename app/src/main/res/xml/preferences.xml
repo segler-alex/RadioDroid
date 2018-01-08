@@ -20,6 +20,11 @@
             android:key="compact_style"
             android:title="@string/settings_compact_style" />
 
+        <CheckBoxPreference
+                android:key="bottom_navigation"
+                android:defaultValue="true"
+                android:title="@string/settings_bottom_navigation" />
+
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/settings_general">
@@ -144,5 +149,18 @@
             android:maxLength="8"
             android:title="@string/settings_retry_delay"
             android:summary="@string/settings_milliseconds_format"/>
+    </PreferenceCategory>
+
+    <PreferenceCategory
+            android:title="@string/settings_other">
+
+        <Preference
+                android:title="@string/settings_statistics"
+                android:key="show_statistics" />
+
+        <Preference
+                android:title="@string/settings_about"
+                android:key="show_about" />
+
     </PreferenceCategory>
 </PreferenceScreen>

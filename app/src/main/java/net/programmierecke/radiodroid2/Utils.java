@@ -358,4 +358,9 @@ public class Utils {
         editor.putString("mpd_servers", serversJson);
         editor.commit();
     }
+
+    public static boolean bottomNavigationEnabled(Context context) {
+        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
+        return sharedPref.getBoolean("bottom_navigation", true);
+    }
 }

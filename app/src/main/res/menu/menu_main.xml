@@ -34,12 +34,6 @@
         app:showAsAction="always"/>
 
     <item
-        android:id="@+id/action_refresh"
-        android:title="@string/refresh"
-        android:icon="@drawable/ic_sync_black_24dp"
-        app:showAsAction="always" />
-
-    <item
             android:id="@+id/action_set_alarm"
             android:icon="@drawable/ic_add_alarm_black_24dp"
             android:title="@string/nav_item_add_sleep"

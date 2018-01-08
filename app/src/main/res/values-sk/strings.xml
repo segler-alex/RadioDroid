@@ -26,8 +26,6 @@
     <string name="nav_item_history">História</string>
     <string name="nav_item_settings">Nastavenia</string>
     <string name="nav_item_alarm">Budík</string>
-    <string name="nav_item_statistics">Štatistika</string>
-    <string name="nav_item_about">O programe</string>
     <string name="nav_item_recordings">Nahrávky</string>
 
     <string name="about_text">Táto aplikácia používa bezplatný zoznam rádio staníc na adrese\nhttps://www.radio-browser.info\nKaždý môže upravovať alebo pridávať stanice do tohoto zoznamu. Služba Radio browser funguje na princípe wiki s tým rozdieľom, že členovia komunity neupravujú články ale udržujú zoznam online (streamovateľných) rádio staníc.\n\nKontakt:\nsegler_alex@web.de\n\nNahlasovanie chýb:\nhttps://github.com/segler-alex/RadioDroid/issues\n\nAk sa vám táto aplikácia páči a radi by ste pomohli, prosím ozvite sa emailom. Rád by som našiel niekoho so skúsenosťami v oblasti grafiky, aby mi pomohol zatraktívniť aplikáciu tak, aby bola krajšia na pohľad :) možno niekto z vás dokáže nakresliť ikony a obrázky... alebo tiež šikovní vývojári, ktorí dokážete opraviť chyby a pridať nové (vlastnosti nie chyby ;)\nNápady na nové vylepšenia sú tiež vítané!\n\nTáto aplikácia je poskytovaná zdarma pod licenciou GPLv3\nhttps://www.gnu.org/licenses/gpl-3.0.html.</string>
@@ -56,6 +54,9 @@
     <string name="settings_play">Prehrávač</string>
     <string name="settings_play_external">Otvoriť externú aplikáciu</string>
     <string name="settings_play_external_desc">Klepnutím na názov stanice otvorí externý prehrávač</string>
+
+    <string name="settings_statistics">Štatistika</string>
+    <string name="settings_about">O programe</string>
 
     <string name="notify_play">Prehrávanie</string>
 

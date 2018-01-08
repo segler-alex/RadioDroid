@@ -26,6 +26,14 @@
     <color name="menuTextColorDefault">@android:color/black</color>
     <color name="menuTextColorDefaultDark">@android:color/white</color>
 
+    <color name="menuBottomTextColorSelected">@android:color/white</color>
+    <color name="menuBottomTextColorSelectedDark">@android:color/white</color>
+    <color name="menuBottomTextColorDefault">#e1e1e1</color>
+    <color name="menuBottomTextColorDefaultDark">#d7d7d7</color>
+    <color name="menuBottomBackgroundColor">@color/colorAccent</color>
+    <color name="menuBottomBackgroundColorDark">#1a1a1b</color>
+
+
     <color name="iconsInItemBackgroundColor">@android:color/black</color>
     <color name="iconsInItemBackgroundColorDark">@android:color/white</color>
 </resources>

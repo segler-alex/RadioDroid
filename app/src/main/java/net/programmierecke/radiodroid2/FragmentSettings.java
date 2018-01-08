@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.media.audiofx.AudioEffect;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.preference.Preference;
 import android.support.v7.preference.PreferenceFragmentCompat;
@@ -22,6 +23,8 @@ import net.programmierecke.radiodroid2.interfaces.IApplicationSelected;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static net.programmierecke.radiodroid2.ActivityMain.FRAGMENT_FROM_BACKSTACK;
 
 public class FragmentSettings extends PreferenceFragmentCompat implements SharedPreferences.OnSharedPreferenceChangeListener, IApplicationSelected {
 
@@ -51,6 +54,29 @@ public class FragmentSettings extends PreferenceFragmentCompat implements Shared
                 return false;
             }
         });
+
+        findPreference("show_statistics").setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                ((ActivityMain)getActivity()).getToolbar().setTitle(R.string.settings_statistics);
+                FragmentServerInfo f = new FragmentServerInfo();
+                FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+                fragmentTransaction.replace(R.id.containerView, f).addToBackStack(String.valueOf(FRAGMENT_FROM_BACKSTACK)).commit();
+                return false;
+            }
+        });
+
+        findPreference("show_about").setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                ((ActivityMain)getActivity()).getToolbar().setTitle(R.string.settings_about);
+                FragmentAbout f = new FragmentAbout();
+                FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+                fragmentTransaction.replace(R.id.containerView, f).addToBackStack(String.valueOf(FRAGMENT_FROM_BACKSTACK)).commit();
+                return false;
+            }
+        });
+
 
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN) {
             findPreference("settings_retry_timeout").setVisible(false);
@@ -84,7 +110,7 @@ public class FragmentSettings extends PreferenceFragmentCompat implements Shared
                 newFragment.show(getActivity().getSupportFragmentManager(), "appPicker");
             }
         }
-        if (key.equals("theme_name") || key.equals("circular_icons")) {
+        if (key.equals("theme_name") || key.equals("circular_icons") || key.equals("bottom_navigation")) {
             getActivity().recreate();
         }
     }

@@ -32,8 +32,6 @@
     <string name="nav_item_history">Historique</string>
     <string name="nav_item_settings">Réglages</string>
     <string name="nav_item_alarm">Réveil</string>
-    <string name="nav_item_statistics">Statistiques</string>
-    <string name="nav_item_about">À propos RadioDroid</string>
     <string name="nav_item_recordings">Enregistrements</string>
 
     <string name="about_text">Cette application utilise le répertoire libre de stations radios à l\'adresse\n
@@ -112,6 +110,9 @@
     <string name="settings_warn_no_wifi_on">Alerter lors de la lecture sans connexion Wi-Fi</string>
     <string name="settings_warn_no_wifi_off">Pas d\'alerte lors de la lecture sans connexion Wi-Fi</string>
 
+    <string name="settings_statistics">Statistiques</string>
+    <string name="settings_about">À propos RadioDroid</string>
+
     <string name="notify_play">En lecture</string>
     <string name="notify_paused">En pause</string>
     <string name="notify_starred">La station a été mise en favoris</string>
@@ -159,11 +160,8 @@
     <string name="app_id">5A97BAE4</string>
 
     <string name="settings_mpd">Music Player Daemon</string>
-    <string name="settings_mpd_hostname">Nom de domaine</string>
-    <string name="settings_mpd_port">Port</string>
     <string name="action_mpd_nok">MPD non connecté</string>
     <string name="action_mpd_ok">MPD connecté</string>
-    <string name="refresh">Rafraîchir</string>
 
     <string-array name="weekdays">
         <item>D</item>
