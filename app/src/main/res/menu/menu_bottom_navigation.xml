@@ -1,39 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-    <group android:checkableBehavior="single">
-        <item
+    <item
             android:id="@+id/nav_item_stations"
             android:icon="@drawable/ic_list_24dp"
             android:title="@string/nav_item_stations" />
 
-        <item
+    <item
             android:id="@+id/nav_item_starred"
             android:icon="@drawable/ic_star_black_24dp"
             android:title="@string/nav_item_starred" />
 
-        <item
+    <item
             android:id="@+id/nav_item_history"
             android:icon="@drawable/ic_restore_black_24dp"
             android:title="@string/nav_item_history" />
 
-        <item
+    <item
             android:id="@+id/nav_item_alarm"
             android:icon="@drawable/ic_query_builder_black_24dp"
             android:title="@string/nav_item_alarm" />
-    </group>
 
-    <group
-        android:id="@+id/group_settings_id"
-        android:checkableBehavior="single">
-
-        <item
-            android:id="@+id/nav_item_recordings"
-            android:icon="@drawable/ic_fiber_manual_record_black_24dp"
-            android:title="@string/nav_item_recordings" />
-
-        <item
+    <item
             android:id="@+id/nav_item_settings"
             android:icon="@drawable/ic_tune_24dp"
             android:title="@string/nav_item_settings" />
-    </group>
+
 </menu>

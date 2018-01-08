@@ -24,8 +24,6 @@
     <string name="nav_item_history">Geçmiş</string>
     <string name="nav_item_settings">Ayarlar</string>
     <string name="nav_item_alarm">Alarm</string>
-    <string name="nav_item_statistics">İstatistikler</string>
-    <string name="nav_item_about">Hakkında</string>
 
     <string name="about_text">Bu uygulama özgür radyo istasyon dizini kullanır \nhttps://www.radio-browser.info\nHerkes buraya yeni istasyon ekleyebilir veya var olanları düzenleyebilir (viki gibi çalışır)\n\nİletişim:\nsegler_alex@web.de\n\nHata takibi:\nhttps://github.com/segler-alex/RadioDroid/issues\n\nEğer uygulamayı beğendin ve yardım etmek istersen, e-posta göndermekten çekinme. Göze hoş görünen uygulama yapmak için gerçekten grafik deneyimi olan birine ihtiyacım var :) Belki biri ikonlar, resimler çizebilir...Ayrıca hataları düzeltecek veya yenisini yapacak programcılara ihtiyaç var\nBi de yeni özellikler için düşüncelerin oldu mu takdire şayan!\n\nBu uygulama GPLv3 lisanslanmış özgür yazılımdır\nhttp://ozgurlisanslar.org.tr/gpl/gpl-v3/</string>
     <string name="detail_star">Yerimi</string>
@@ -41,4 +39,7 @@
     <string name="settings_play">Oynatıcı</string>
     <string name="settings_play_external">Hariciyle aç</string>
     <string name="settings_play_external_desc">İstasyonları harici uygulamayla açmak için bir defa tıklanmalı</string>
+
+    <string name="settings_statistics">İstatistikler</string>
+    <string name="settings_about">Hakkında</string>
 </resources>

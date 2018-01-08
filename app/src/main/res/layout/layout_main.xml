@@ -70,4 +70,15 @@
             android:layout_height="?android:attr/actionBarSize">
     </RelativeLayout>
 
+    <android.support.design.widget.BottomNavigationView
+            android:id="@+id/bottom_navigation"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start"
+            android:background="?attr/menuBottomBackgroundColor"
+            app:itemBackground="?attr/menuBottomBackgroundColor"
+            app:itemTextColor="@color/menu_bottom_text_color"
+            app:itemIconTint="@color/menu_bottom_text_color"
+            app:menu="@menu/menu_bottom_navigation" />
+
 </LinearLayout>

@@ -6,7 +6,9 @@ import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.preference.PreferenceManager;
+import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.*;
@@ -14,6 +16,8 @@ import android.widget.*;
 
 import net.programmierecke.radiodroid2.data.DataRadioStation;
 import net.programmierecke.radiodroid2.data.StreamLiveInfo;
+
+import static net.programmierecke.radiodroid2.ActivityMain.FRAGMENT_FROM_BACKSTACK;
 
 public class FragmentPlayer extends Fragment {
 	ProgressDialog itsProgressLoading;
@@ -25,6 +29,7 @@ public class FragmentPlayer extends Fragment {
 	private TextView textViewRecordingInfo;
 	private TextView textViewTransferredbytes;
 	private ImageButton buttonRecord;
+	private ImageButton buttonRecordings;
 	private ImageView imageViewIcon;
 	private Thread t;
 	private RelativeLayout layoutPlaying;
@@ -144,6 +149,27 @@ public class FragmentPlayer extends Fragment {
 				}
 			});
 		}
+
+        buttonRecordings = (ImageButton) getActivity().findViewById(R.id.buttonRecordings);
+        buttonRecordings.setVisibility(Utils.bottomNavigationEnabled(getContext())? View.VISIBLE : View.GONE);
+		if (buttonRecordings != null){
+            buttonRecordings.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Toolbar toolbar = ((ActivityMain)getActivity()).getToolbar();
+                    // Don't add fragment twice
+                    if(toolbar.getTitle().toString().equals(getString(R.string.nav_item_recordings))) {
+                        getActivity().onBackPressed();
+                        return;
+                    }
+
+                    toolbar.setTitle(getString(R.string.nav_item_recordings));
+                    FragmentRecordings f = new FragmentRecordings();
+                    FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+                    fragmentTransaction.replace(R.id.containerView, f).addToBackStack(String.valueOf(FRAGMENT_FROM_BACKSTACK)).commit();
+                }
+            });
+        }
 
 		View.OnClickListener onClickListener = new View.OnClickListener() {
             @Override

@@ -27,6 +27,10 @@
         <item name="menuTextColorSelected">@color/menuTextColorSelected</item>
         <item name="menuTextColorDefault">@color/menuTextColorDefault</item>
 
+        <item name="menuBottomTextColorSelected">@color/menuBottomTextColorSelected</item>
+        <item name="menuBottomTextColorDefault">@color/menuBottomTextColorDefault</item>
+        <item name="menuBottomBackgroundColor">@color/menuBottomBackgroundColor</item>
+
         <item name="colorTabUnderline">@color/colorTabUnderline</item>
 
         <item name="iconsInItemBackgroundColor">@color/iconsInItemBackgroundColor</item>
@@ -52,6 +56,10 @@
 
         <item name="menuTextColorSelected">@color/menuTextColorSelectedDark</item>
         <item name="menuTextColorDefault">@color/menuTextColorDefaultDark</item>
+
+        <item name="menuBottomTextColorSelected">@color/menuBottomTextColorSelectedDark</item>
+        <item name="menuBottomTextColorDefault">@color/menuBottomTextColorDefaultDark</item>
+        <item name="menuBottomBackgroundColor">@color/menuBottomBackgroundColorDark</item>
 
         <item name="colorTabUnderline">@color/colorTabUnderlineDark</item>
 

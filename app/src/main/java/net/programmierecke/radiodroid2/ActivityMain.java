@@ -7,7 +7,9 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
@@ -30,19 +32,19 @@ import android.widget.Toast;
 
 import net.programmierecke.radiodroid2.data.MPDServer;
 import net.programmierecke.radiodroid2.interfaces.IFragmentRefreshable;
-import net.programmierecke.radiodroid2.interfaces.IFragmentSearchable;
-
 import java.io.File;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ActivityMain extends AppCompatActivity implements SearchView.OnQueryTextListener, IMPDClientStatusChange, NavigationView.OnNavigationItemSelectedListener {
+public class ActivityMain extends AppCompatActivity implements SearchView.OnQueryTextListener, IMPDClientStatusChange, NavigationView.OnNavigationItemSelectedListener, BottomNavigationView.OnNavigationItemSelectedListener {
 
     public static final String EXTRA_SEARCH_TAG = "search_tag";
 
     public static final int LAUNCH_EQUALIZER_REQUEST = 1;
+
+    public static final int FRAGMENT_FROM_BACKSTACK = 777;
 
     private static final String TAG = "RadioDroid";
 
@@ -53,21 +55,18 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
 
     DrawerLayout mDrawerLayout;
     NavigationView mNavigationView;
+    BottomNavigationView mBottomNavigationView;
     FragmentManager mFragmentManager;
 
-    IFragmentRefreshable fragRefreshable = null;
-    IFragmentSearchable fragSearchable = null;
-
     MenuItem menuItemSearch;
-    MenuItem menuItemRefresh;
     MenuItem menuItemDelete;
     MenuItem menuItemAlarm;
-
-    private boolean fromBackStack = false;
 
     private SharedPreferences sharedPref;
 
     private int selectedMenuItem;
+
+    private boolean instanceStateWasSaved;
 
     @Override
     public void changed() {
@@ -115,144 +114,105 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
         PlayerServiceUtil.bind(this);
 
         selectedMenuItem = sharedPref.getInt("last_selectedMenuItem", -1);
-
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setHomeButtonEnabled(true);
-
+        instanceStateWasSaved = savedInstanceState != null;
         mFragmentManager = getSupportFragmentManager();
 
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
         mNavigationView = (NavigationView) findViewById(R.id.my_navigation_view);
+        mBottomNavigationView = (BottomNavigationView) findViewById(R.id.bottom_navigation);
 
-        mNavigationView.setNavigationItemSelectedListener(this);
+        if(Utils.bottomNavigationEnabled(this)) {
+            mBottomNavigationView.setOnNavigationItemSelectedListener(this);
+            mNavigationView.setVisibility(View.GONE);
+            mNavigationView.getLayoutParams().width = 0;
+        }
+        else {
+            mNavigationView.setNavigationItemSelectedListener(this);
+            mBottomNavigationView.setVisibility(View.GONE);
+
+            ActionBarDrawerToggle mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, R.string.app_name, R.string.app_name);
+            mDrawerLayout.addDrawerListener(mDrawerToggle);
+            mDrawerToggle.syncState();
+
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setHomeButtonEnabled(true);
+        }
 
         FragmentPlayer f = new FragmentPlayer();
         FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.playerView, f).commit();
 
-        //myToolbar = (android.support.v7.widget.Toolbar) findViewById(R.id.main_toolbar);
-        ActionBarDrawerToggle mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, R.string.app_name, R.string.app_name);
-        mDrawerLayout.addDrawerListener(mDrawerToggle);
-        mDrawerToggle.syncState();
-
         CastHandler.onCreate(this);
+
+        setupStartUpFragment();
     }
 
     @Override
     public boolean onNavigationItemSelected(MenuItem menuItem) {
-        final Toolbar myToolbar = (Toolbar) findViewById(R.id.my_awesome_toolbar);
         mDrawerLayout.closeDrawers();
         android.support.v4.app.Fragment f = null;
         String backStackTag = String.valueOf(menuItem.getItemId());
-        int menuItemId = menuItem.getItemId();
+        selectedMenuItem = menuItem.getItemId();
 
-        switch (menuItemId) {
+        switch (selectedMenuItem) {
             case R.id.nav_item_stations:
-                if(!fromBackStack)
-                    f = new FragmentTabs();
-                menuItemSearch.setVisible(true);
-                menuItemDelete.setVisible(false);
-                myToolbar.setTitle(R.string.nav_item_stations);
+                f = new FragmentTabs();
                 break;
             case R.id.nav_item_starred:
-                if(!fromBackStack)
-                    f = new FragmentStarred();
-                menuItemSearch.setVisible(true);
-                Context context = getApplication().getApplicationContext();
-                FavouriteManager fm = new FavouriteManager(context);
-                if (fm.isEmpty()) {
-                    menuItemDelete.setVisible(false);
-                } else {
-                    menuItemDelete.setVisible(true).setTitle(R.string.action_delete_favorites);
-                }
-                myToolbar.setTitle(R.string.nav_item_starred);
+                f = new FragmentStarred();
                 break;
             case R.id.nav_item_history:
-                if(!fromBackStack)
-                    f = new FragmentHistory();
-                menuItemSearch.setVisible(true);
-                HistoryManager hm = new HistoryManager(getApplication().getApplicationContext());
-                if (hm.isEmpty()) {
-                    menuItemDelete.setVisible(false);
-                } else {
-                    menuItemDelete.setVisible(true).setTitle(R.string.action_delete_history);
-                }
-                myToolbar.setTitle(R.string.nav_item_history);
-                break;
-            case R.id.nav_item_serverinfo:
-                if(!fromBackStack)
-                    f = new FragmentServerInfo();
-                menuItemSearch.setVisible(false);
-                menuItemDelete.setVisible(false);
-                myToolbar.setTitle(R.string.nav_item_statistics);
+                f = new FragmentHistory();
                 break;
             case R.id.nav_item_recordings:
-                if(!fromBackStack)
-                    f = new FragmentRecordings();
-                menuItemSearch.setVisible(false);
-                menuItemDelete.setVisible(false);
-                myToolbar.setTitle(R.string.nav_item_recordings);
+                f = new FragmentRecordings();
                 break;
             case R.id.nav_item_alarm:
-                if(!fromBackStack)
-                    f = new FragmentAlarm();
-                menuItemSearch.setVisible(false);
-                menuItemDelete.setVisible(false);
-                myToolbar.setTitle(R.string.nav_item_alarm);
+                f = new FragmentAlarm();
                 break;
             case R.id.nav_item_settings:
-                if(!fromBackStack)
-                    f = new FragmentSettings();
-                menuItemSearch.setVisible(false);
-                menuItemDelete.setVisible(false);
-                myToolbar.setTitle(R.string.nav_item_settings);
-                break;
-            case R.id.nav_item_about:
-                if(!fromBackStack)
-                    f = new FragmentAbout();
-                menuItemSearch.setVisible(false);
-                menuItemDelete.setVisible(false);
-                myToolbar.setTitle(R.string.nav_item_about);
+                f = new FragmentSettings();
                 break;
             default:
         }
 
         FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
-        if(!fromBackStack)
+        if (Utils.bottomNavigationEnabled(this))
+            fragmentTransaction.replace(R.id.containerView, f).commit();
+        else
             fragmentTransaction.replace(R.id.containerView, f).addToBackStack(backStackTag).commit();
 
-        fragRefreshable = null;
-        fragSearchable = null;
-        if (f instanceof IFragmentRefreshable) {
-            fragRefreshable = (IFragmentRefreshable) f;
-        }
-        if (f instanceof IFragmentSearchable) {
-            fragSearchable = (IFragmentSearchable) f;
-        }
-        menuItemRefresh.setVisible(fragRefreshable != null);
-
-        // Remove this line if you want to see refresh button
-        menuItemRefresh.setVisible(false);
-        menuItemAlarm.setVisible(menuItemId == R.id.nav_item_history
-                || menuItemId == R.id.nav_item_starred
-                || menuItemId == R.id.nav_item_stations);
-
         menuItem.setChecked(true);
-        selectedMenuItem = menuItemId;
-        fromBackStack = false;
+        invalidateOptionsMenu();
         return false;
     }
     
     @Override
     public void onBackPressed() {
         int backStackCount = mFragmentManager.getBackStackEntryCount();
-        fromBackStack = true;
+        FragmentManager.BackStackEntry backStackEntry;
+
+        if(backStackCount > 0) {
+            // FRAGMENT_FROM_BACKSTACK value added as a backstack name for non-root fragments
+            backStackEntry = mFragmentManager.getBackStackEntryAt(mFragmentManager.getBackStackEntryCount()-1);
+            int parsedID = Integer.parseInt(backStackEntry.getName());
+            if(parsedID == FRAGMENT_FROM_BACKSTACK) {
+                super.onBackPressed();
+                invalidateOptionsMenu();
+                return;
+            }
+        }
+
         if(backStackCount > 1) {
-            FragmentManager.BackStackEntry backStackEntry;
             backStackEntry = mFragmentManager.getBackStackEntryAt(mFragmentManager.getBackStackEntryCount()-2);
-            MenuItem menuItem = mNavigationView.getMenu().findItem(Integer.parseInt(backStackEntry.getName()));
-            if(menuItem != null)
-                onNavigationItemSelected(menuItem);
+
+            selectedMenuItem = Integer.parseInt(backStackEntry.getName());
+
+            if (!Utils.bottomNavigationEnabled(this)) {
+                mNavigationView.setCheckedItem(selectedMenuItem);
+            }
+            invalidateOptionsMenu();
+
         }
         else {
             finish();
@@ -290,11 +250,12 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
             case Utils.REQUEST_EXTERNAL_STORAGE: {
                 // If request is cancelled, the result arrays are empty.
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    if (fragRefreshable != null) {
+                    Fragment currentFragment = mFragmentManager.getFragments().get(mFragmentManager.getFragments().size()-1);
+                    if (currentFragment instanceof IFragmentRefreshable) {
                         if (BuildConfig.DEBUG) {
                             Log.d(TAG, "REFRESH VIEW");
                         }
-                        fragRefreshable.Refresh();
+                        ((IFragmentRefreshable)currentFragment).Refresh();
                     }
                 } else {
                     Toast toast = Toast.makeText(this, getResources().getString(R.string.error_record_needs_write), Toast.LENGTH_SHORT);
@@ -352,69 +313,61 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
 
+        final Toolbar myToolbar = (Toolbar) findViewById(R.id.my_awesome_toolbar);
+        menuItemAlarm = menu.findItem(R.id.action_set_alarm);
         menuItemSearch = menu.findItem(R.id.action_search);
         menuItemDelete = menu.findItem(R.id.action_delete);
         mSearchView = (SearchView) MenuItemCompat.getActionView(menuItemSearch);
         mSearchView.setOnQueryTextListener(this);
 
-        menuItemRefresh = menu.findItem(R.id.action_refresh);
-        menuItemAlarm = menu.findItem(R.id.action_set_alarm);
         MenuItem menuItemMPDNok = menu.findItem(R.id.action_mpd_nok);
         MenuItem menuItemMPDOK = menu.findItem(R.id.action_mpd_ok);
 
-        if (fragSearchable == null) {
-            menuItemSearch.setVisible(false);
-        }
-
-        if (fragRefreshable == null) {
-            menuItemRefresh.setVisible(false);
-        }
-
-        // Remove this line if you want to see refresh button
-        menuItemRefresh.setVisible(false);
+        menuItemAlarm.setVisible(false);
+        menuItemSearch.setVisible(false);
+        menuItemDelete.setVisible(false);
         menuItemMPDOK.setVisible(MPDClient.Discovered() && MPDClient.Connected());
         menuItemMPDNok.setVisible(MPDClient.Discovered() && !MPDClient.Connected());
 
-        MenuItem mediaRouteMenuItem = CastHandler.getRouteItem(getApplicationContext(), menu);
-
-        if(mFragmentManager.getBackStackEntryCount() > 0) {
-            // We need it when calling getActivity.recreate() from settings or when orientation changes
-            fromBackStack = true;
-            FragmentManager.BackStackEntry backStackEntry = mFragmentManager.getBackStackEntryAt(mFragmentManager.getBackStackEntryCount()-1);
-            MenuItem menuItem = mNavigationView.getMenu().findItem(Integer.parseInt(backStackEntry.getName()));
-            if(menuItem != null)
-                onNavigationItemSelected(menuItem);
-            return true;
-        }
-        // Context context = getApplication().getApplicationContext();
-        HistoryManager hm = new HistoryManager(this);
-        FavouriteManager fm = new FavouriteManager(this);
-
-        final String startupAction = sharedPref.getString("startup_action", getResources().getString(R.string.startup_show_history));
-
-        if (startupAction.equals(getResources().getString(R.string.startup_show_history)) && hm.isEmpty()) {
-            selectMenuItem(R.id.nav_item_stations);
-            return true;
-        }
-
-        if (startupAction.equals(getResources().getString(R.string.startup_show_favorites)) && fm.isEmpty()) {
-            selectMenuItem(R.id.nav_item_stations);
-            return true;
-        }
-
-        if (startupAction.equals(getResources().getString(R.string.startup_show_history))) {
-            selectMenuItem(R.id.nav_item_history);
-        } else if (startupAction.equals(getResources().getString(R.string.startup_show_favorites))) {
-            selectMenuItem(R.id.nav_item_starred);
-        } else {
-            // user preference: startup with the last view
-            if (selectedMenuItem < 0) {
-                selectMenuItem(R.id.nav_item_stations);
-            } else {
-                selectMenuItem(selectedMenuItem);
-            }
+        switch (selectedMenuItem) {
+            case R.id.nav_item_stations:
+                menuItemAlarm.setVisible(true);
+                menuItemSearch.setVisible(true);
+                myToolbar.setTitle(R.string.nav_item_stations);
+                break;
+            case R.id.nav_item_starred:
+                menuItemAlarm.setVisible(true);
+                menuItemSearch.setVisible(true);
+                Context context = getApplication().getApplicationContext();
+                FavouriteManager fm = new FavouriteManager(context);
+                if (fm.isEmpty()) {
+                    menuItemDelete.setVisible(false);
+                } else {
+                    menuItemDelete.setVisible(true).setTitle(R.string.action_delete_favorites);
+                }
+                myToolbar.setTitle(R.string.nav_item_starred);
+                break;
+            case R.id.nav_item_history:
+                menuItemAlarm.setVisible(true);
+                menuItemSearch.setVisible(true);
+                HistoryManager hm = new HistoryManager(getApplication().getApplicationContext());
+                if (!hm.isEmpty()) {
+                    menuItemDelete.setVisible(true).setTitle(R.string.action_delete_history);
+                }
+                myToolbar.setTitle(R.string.nav_item_history);
+                break;
+            case R.id.nav_item_recordings:
+                myToolbar.setTitle(R.string.nav_item_recordings);
+                break;
+            case R.id.nav_item_alarm:
+                myToolbar.setTitle(R.string.nav_item_alarm);
+                break;
+            case R.id.nav_item_settings:
+                myToolbar.setTitle(R.string.nav_item_settings);
+                break;
         }
 
+        //MenuItem mediaRouteMenuItem = CastHandler.getRouteItem(getApplicationContext(), menu);
         return true;
     }
 
@@ -423,11 +376,6 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
         switch (menuItem.getItemId()) {
             case android.R.id.home:
                 mDrawerLayout.openDrawer(GravityCompat.START);  // OPEN DRAWER
-                return true;
-            case R.id.action_refresh:
-                if (fragRefreshable != null) {
-                    fragRefreshable.Refresh();
-                }
                 return true;
             case R.id.action_set_alarm:
                 changeTimer();
@@ -482,12 +430,81 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
         return super.onOptionsItemSelected(menuItem);
     }
 
-    public void Search(String query) {
-        selectMenuItem(R.id.nav_item_stations);
+    private void setupStartUpFragment() {
+        // This will restore fragment that was shown before activity was recreated
+        if(instanceStateWasSaved){
+            invalidateOptionsMenu();
+            MenuItem item;
+            if (Utils.bottomNavigationEnabled(this))
+                item = mBottomNavigationView.getMenu().findItem(selectedMenuItem);
+            else
+                item = mNavigationView.getMenu().findItem(selectedMenuItem);
 
-        if (fragSearchable != null) {
-            fragSearchable.Search(query);
+            if(item != null)
+                item.setChecked(true);
+            return;
         }
+
+        HistoryManager hm = new HistoryManager(this);
+        FavouriteManager fm = new FavouriteManager(this);
+
+        final String startupAction = sharedPref.getString("startup_action", getResources().getString(R.string.startup_show_history));
+
+        if (startupAction.equals(getResources().getString(R.string.startup_show_history)) && hm.isEmpty()) {
+            selectMenuItem(R.id.nav_item_stations);
+            return;
+        }
+
+        if (startupAction.equals(getResources().getString(R.string.startup_show_favorites)) && fm.isEmpty()) {
+            selectMenuItem(R.id.nav_item_stations);
+            return;
+        }
+
+        if (startupAction.equals(getResources().getString(R.string.startup_show_history))) {
+            selectMenuItem(R.id.nav_item_history);
+        } else if (startupAction.equals(getResources().getString(R.string.startup_show_favorites))) {
+            selectMenuItem(R.id.nav_item_starred);
+        } else if (startupAction.equals(getResources().getString(R.string.startup_show_all_stations)) || selectedMenuItem < 0) {
+            selectMenuItem(R.id.nav_item_stations);
+        } else {
+            selectMenuItem(selectedMenuItem);
+        }
+    }
+
+    private void selectMenuItem(int itemId) {
+        selectedMenuItem = itemId;
+
+        mNavigationView.getMenu().findItem(itemId).setChecked(true);
+        mNavigationView.getMenu().performIdentifierAction(itemId, 0);
+
+        if(mBottomNavigationView.getMenu().findItem(itemId) != null)
+            mBottomNavigationView.setSelectedItemId(itemId);
+        else
+            mBottomNavigationView.setSelectedItemId(R.id.nav_item_stations);
+    }
+
+    public void Search(String query) {
+        Fragment currentFragment = mFragmentManager.getFragments().get(mFragmentManager.getFragments().size()-1);
+        if (currentFragment instanceof FragmentTabs) {
+            ((FragmentTabs) currentFragment).Search(query);
+        }
+        else {
+            String backStackTag = String.valueOf(R.id.nav_item_stations);
+            FragmentTabs f = new FragmentTabs();
+            FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
+            if (Utils.bottomNavigationEnabled(this)) {
+                fragmentTransaction.replace(R.id.containerView, f).commit();
+                mBottomNavigationView.getMenu().findItem(R.id.nav_item_stations).setChecked(true);
+            } else {
+                fragmentTransaction.replace(R.id.containerView, f).addToBackStack(backStackTag).commit();
+                mNavigationView.getMenu().findItem(R.id.nav_item_stations).setChecked(true);
+            }
+
+            f.Search(query);
+            selectedMenuItem = R.id.nav_item_stations;
+            invalidateOptionsMenu();
+        }
+
     }
 
     @Override
@@ -544,11 +561,6 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
                 break;
         }
         return super.onKeyUp(keyCode, event);
-    }
-
-    private void selectMenuItem(int itemId) {
-        mNavigationView.setCheckedItem(itemId);
-        mNavigationView.getMenu().performIdentifierAction(itemId, 0);
     }
 
     private void changeTimer() {
@@ -637,5 +649,9 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
                 })
                 .setTitle(R.string.alert_select_mpd_server)
                 .show();
+    }
+
+    public final Toolbar getToolbar() {
+        return (Toolbar) findViewById(R.id.my_awesome_toolbar);
     }
 }
