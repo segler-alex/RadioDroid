@@ -83,10 +83,6 @@
     <string name="settings_warn_no_wifi_on">Es wird eine Warnung angezeigt, wenn keine WLAN-Verbindung verfügbar ist.</string>
     <string name="settings_warn_no_wifi_off">Es wird keine Warnung angezeigt, wenn keine WLAN-Verbindung verfügbar ist.</string>
 
-    <string name="notify_start_proxy">Starte proxy…</string>
-    <string name="notify_stop_player">Stoppe laufende Wiedergabe…</string>
-    <string name="notify_prepare_stream">Wiedergabe wird vorbereitet…</string>
-    <string name="notify_try_play">Versuche Wiedergabe</string>
     <string name="notify_play">Wiedergabe</string>
     <string name="notify_starred">Die Station wurde zur Favoritenliste hinzugefügt.</string>
     <string name="notify_autostarred">Die Station wurde automatisch zur Favoritenliste hinzugefügt.</string>

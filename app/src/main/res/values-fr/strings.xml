@@ -112,10 +112,6 @@
     <string name="settings_warn_no_wifi_on">Alerter lors de la lecture sans connexion Wi-Fi</string>
     <string name="settings_warn_no_wifi_off">Pas d\'alerte lors de la lecture sans connexion Wi-Fi</string>
 
-    <string name="notify_start_proxy">Démarrage du proxy..</string>
-    <string name="notify_stop_player">Stopper l\'ancien lecteur...</string>
-    <string name="notify_prepare_stream">Préparation du stream...</string>
-    <string name="notify_try_play">Essai de lecture</string>
     <string name="notify_play">En lecture</string>
     <string name="notify_paused">En pause</string>
     <string name="notify_starred">La station a été mise en favoris</string>

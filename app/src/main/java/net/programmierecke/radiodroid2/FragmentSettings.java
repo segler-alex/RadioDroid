@@ -3,6 +3,7 @@ package net.programmierecke.radiodroid2;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.media.audiofx.AudioEffect;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.preference.Preference;
 import android.support.v7.preference.PreferenceFragmentCompat;
@@ -32,6 +33,11 @@ public class FragmentSettings extends PreferenceFragmentCompat implements Shared
                 return false;
             }
         });
+
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN) {
+            findPreference("settings_retry_timeout").setVisible(false);
+            findPreference("settings_retry_delay").setVisible(false);
+        }
     }
 
     @Override

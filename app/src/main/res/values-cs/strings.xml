@@ -57,10 +57,6 @@
     <string name="settings_play_external">Otevřít externě</string>
     <string name="settings_play_external_desc">Má dotyk na stanice otevřít externí</string>
 
-    <string name="notify_start_proxy">Spouštění proxy..</string>
-    <string name="notify_stop_player">Ukončení starého přehrávače..</string>
-    <string name="notify_prepare_stream">Připravování streamu..</string>
-    <string name="notify_try_play">Zkus přehrát</string>
     <string name="notify_play">Hrající</string>
 
     <string name="error_stream_url">Problém s URL streamu</string>

@@ -6,10 +6,13 @@ import android.support.v7.app.AppCompatDelegate;
 import com.jakewharton.picasso.OkHttp3Downloader;
 import com.squareup.picasso.Picasso;
 
+import net.programmierecke.radiodroid2.recording.RecordingsManager;
+
 public class RadioDroidApp extends Application {
 
     private HistoryManager historyManager;
     private FavouriteManager favouriteManager;
+    private RecordingsManager recordingsManager;
 
     @Override
     public void onCreate() {
@@ -26,6 +29,7 @@ public class RadioDroidApp extends Application {
 
         historyManager = new HistoryManager(this);
         favouriteManager = new FavouriteManager(this);
+        recordingsManager = new RecordingsManager();
     }
 
     public HistoryManager getHistoryManager() {
@@ -34,5 +38,9 @@ public class RadioDroidApp extends Application {
 
     public FavouriteManager getFavouriteManager() {
         return favouriteManager;
+    }
+
+    public RecordingsManager getRecordingsManager() {
+        return recordingsManager;
     }
 }
