@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <resources>
     <string name="detail_name">Nom</string>
     <string name="detail_tags">Tags</string>
@@ -6,9 +7,14 @@
     <string name="detail_language">Langue</string>
     <string name="detail_weblink">Lien Web</string>
     <string name="detail_play">Lire</string>
+    <string name="detail_pause">Pause</string>
     <string name="detail_stop">Arrêter</string>
     <string name="detail_share">Partager</string>
     <string name="action_search">Recherche</string>
+    <string name="action_delete">Supprimer</string>
+    <string name="action_delete_history">Supprimer l\'historique</string>
+    <string name="action_delete_favorites">Supprimer les favoris</string>
+    <string name="action_cancel">Annuler</string>
     <string name="action_top_click">Top Clics</string>
     <string name="action_top_vote">Top Votes</string>
     <string name="action_changed_lately">Modification récente</string>
@@ -30,13 +36,38 @@
     <string name="nav_item_about">À propos RadioDroid</string>
     <string name="nav_item_recordings">Enregistrements</string>
 
-    <string name="about_text">Cette application utilise le répertoire libre de stations radios à l\'adresse\nhttps://www.radio-browser.info\nChacun peut y ajouter des stations ou éditer celles déjà existantes. Ce répertoire fonctionne comme un wiki pour recenser les stations de webradios (en streaming).\n\nContact:\nsegler_alex@web.de\n\nBugtracker:\nhttps://github.com/segler-alex/RadioDroid/issues\n\nSi vous appréciez cette application et que vous voulez soutenir le développement, n\'hésitez pas à m\'envoyer un mail. Si vous avez de l\'expérience en graphisme, vous êtes le bienvenu pour rendre RadioDroid plus agréable à regarder ;) Je cherche aussi des programmeurs pour résoudre les bugs, et implémenter de nouvelles fonctionnalités !\nLes idées de nouvelles fonctionnalités sont d\'ailleurs toujours les bienvenues!\n\nCette application est un logiciel libre, sa licence est la GNU GPLv3\nhttps://www.gnu.org/licenses/gpl-3.0.html.</string>
+    <string name="about_text">Cette application utilise le répertoire libre de stations radios à l\'adresse\n
+            https://www.radio-browser.info\n
+            Chacun peut y ajouter des stations ou éditer celles déjà existantes. Ce répertoire fonctionne comme un wiki pour recenser les stations de webradios (en streaming).\n
+            \n
+            Contact:\n
+            segler_alex@web.de\n
+            \n
+            Bugtracker:\n
+            https://github.com/segler-alex/RadioDroid/issues\n
+            \n
+            Si vous appréciez cette application et que vous voulez soutenir le développement, n\'hésitez pas à m\'envoyer un mail. Si vous avez de l\'expérience en graphisme, vous êtes le bienvenu pour rendre RadioDroid plus agréable à regarder ;) Je cherche aussi des programmeurs pour résoudre les bugs, et implémenter de nouvelles fonctionnalités !\n
+            Les idées de nouvelles fonctionnalités sont d\'ailleurs toujours les bienvenues!\n
+            \n
+            Cette application est un logiciel libre, sa licence est la GNU GPLv3\n
+            https://www.gnu.org/licenses/gpl-3.0.html.</string>
+    <string name="about_version">Version : %1$s</string>
     <string name="detail_star">Favoris</string>
     <string name="detail_unstar">Supprimer</string>
     <string name="progress_loading">Chargement...</string>
 
     <string name="sleep_timer" formatted="true">Temps de sommeil : %1$02d:%2$02d</string>
+    <string name="sleep_timer_title">Combien de minutes avant l\'arrêt?</string>
+    <string name="sleep_timer_apply">Appliquer</string>
+    <string name="sleep_timer_clear">Effacer</string>
     <string name="nav_item_add_sleep">+15 mins</string>
+
+    <string name="settings_interface">UI</string>
+    <string name="settings_theme_selection_title">Thème</string>
+    <string name="theme_light">Clair</string>
+    <string name="theme_dark">Noir</string>
+    <string name="settings_circular_icons">Utiliser des icônes circulaires</string>
+    <string name="settings_compact_style">Mode compact</string>
 
     <string name="settings_general">Général</string>
     <string name="settings_single_use_tags">Montrer les tags uniques</string>
@@ -46,7 +77,26 @@
     <string name="settings_show_broken">Stations défectueuses</string>
     <string name="settings_show_broken_on">Afficher les stations défectueuses dans les listes de stations</string>
     <string name="settings_show_broken_off">Ne pas afficher les stations défectueuses dans les listes de stations</string>
-    
+
+    <string name="startup_action_title">Commencer l\'action</string>
+    <string name="startup_action_title_desc">%s</string>
+    <string name="startup_show_all_stations">Afficher toutes les stations</string>
+    <string name="startup_show_favorites">Afficher les favoris</string>
+    <string name="startup_show_history">Afficher l\'historique</string>
+    <string name="startup_show_last_view">Dernière vue</string>
+
+    <string name="settings_load_icons">Afficher les icônes des stations</string>
+    <string name="settings_load_icons_on">Les icônes seront téléchargées</string>
+    <string name="settings_load_icons_off">Les icônes ne seront pas téléchargées</string>
+
+    <string name="settings_auto_favorite">Mise en favoris auto</string>
+    <string name="settings_auto_favorite_on">Met automatiquement les stations en favoris lors de la lecture</string>
+    <string name="settings_auto_favorite_off">Ne met pas les stations automatiquement en favoris lors de la lecture</string>
+
+    <string name="settings_icon_click_toggles_favorite">Clic sur une icône</string>
+    <string name="settings_icon_click_toggles_favorite_on">Un clic sur l\'icône d\'une station l\'ajoute ou l\'enlève des favoris</string>
+    <string name="settings_icon_click_toggles_favorite_off">Un clic sur l\'icône d\'une station lance la lecture</string>
+
     <string name="settings_alarm">Alarme</string>
     <string name="settings_alarm_external">Ouverture avec une application externe</string>
     <string name="settings_alarm_external_desc">Jouer l\'alarme avec l\'application externe par défaut</string>
@@ -56,12 +106,31 @@
     <string name="settings_play">Lecteur</string>
     <string name="settings_play_external">Ouverture avec une application externe</string>
     <string name="settings_play_external_desc">Lire les radios avec un lecteur externe</string>
+    <string name="settings_equalizer">Égaliseur</string>
+
+    <string name="settings_warn_no_wifi">Alerter lors de la lecture sans Wi-Fi</string>
+    <string name="settings_warn_no_wifi_on">Alerter lors de la lecture sans connexion Wi-Fi</string>
+    <string name="settings_warn_no_wifi_off">Pas d\'alerte lors de la lecture sans connexion Wi-Fi</string>
 
     <string name="notify_start_proxy">Démarrage du proxy..</string>
     <string name="notify_stop_player">Stopper l\'ancien lecteur...</string>
     <string name="notify_prepare_stream">Préparation du stream...</string>
     <string name="notify_try_play">Essai de lecture</string>
     <string name="notify_play">En lecture</string>
+    <string name="notify_paused">En pause</string>
+    <string name="notify_starred">La station a été mise en favoris</string>
+    <string name="notify_autostarred">La station a été automatiquement mise en favoris</string>
+    <string name="notify_unstarred">La station a été supprimée de la liste des favoris</string>
+    <string name="notify_deleted_favorites">Les favoris ont été supprimés.</string>
+    <string name="notify_deleted_history">L\'historique a été supprimé.</string>
+
+    <string name="notify_station_removed_from_list">1 Supprimée</string>
+    <string name="action_station_removed_from_list_undo">ANNULER</string>
+
+    <string name="alert_delete_history">Voulez-vous vraiment supprimer votre historique?</string>
+    <string name="alert_delete_favorites">Voulez-vous vraiment supprimer tous vos favoris?</string>
+    <string name="yes">Oui</string>
+    <string name="no">Non</string>
 
     <string name="error_stream_url">Problème avec le lien internet</string>
     <string name="error_caching_stream">Problème avec le cache du stream</string>
@@ -70,11 +139,17 @@
     <string name="error_record_needs_write">Droits d\'écriture requis pour l\'enregistrement!</string>
     <string name="error_grant_audiofocus">La demande de focus audio n\'a pas été accordée par le système.</string>
 
+    <string name="error_no_equalizer_found">Aucun égaliseur trouve !</string>
+
     <string name="player_info_status">STATUS :</string>
     <string name="player_info_status_stopped">Arrêté</string>
     <string name="player_info_status_playing">En lecture</string>
+    <string name="player_info_status_recording">en enregistrement</string>
+    <string name="player_info_status_playing_and_recording">en lecture et enregistrement</string>
     <string name="player_info_transferred">Données transmises : %1$s</string>
     <string name="player_info_recording_to">Enregistrement à : %1$s</string>
+    <string name="player_info_recorded_to">Dernier enregistrement :\n
+          %1$s</string>
 
     <string name="station_detail_bitrate">%1$1d kbps</string>
     <string name="station_detail_broken">INDISPONIBLE</string>
@@ -83,7 +158,17 @@
     <string name="image_button_record">Enregistrer</string>
     <string name="image_button_delete">Supprimer</string>
     <string name="image_button_more">Plus</string>
-    
+
+    <string name="media_route_menu_title">GoogleCast</string>
+    <string name="app_id">5A97BAE4</string>
+
+    <string name="settings_mpd">Music Player Daemon</string>
+    <string name="settings_mpd_hostname">Nom de domaine</string>
+    <string name="settings_mpd_port">Port</string>
+    <string name="action_mpd_nok">MPD non connecté</string>
+    <string name="action_mpd_ok">MPD connecté</string>
+    <string name="refresh">Rafraîchir</string>
+
     <string-array name="weekdays">
         <item>D</item>
         <item>L</item>
@@ -93,4 +178,14 @@
         <item>V</item>
         <item>S</item>
     </string-array>
+
+    <string name="notify_stream_url_copied">URL du flux copié avec succès !</string>
+
+    <string-array name="actions_station_link">
+        <item>Visiter le site web</item>
+        <item>Copier l\'URL du flux</item>
+    </string-array>
+
+    <string name="no_wifi_title">Pas de connexion Wi-Fi (WLAN)</string>
+    <string name="no_wifi_connection">Pas de connexion Wi-Fi (WLAN) lors du démarrage de %1$s. Veuillez appuyer sur \'OK\' pour continuer.</string>
 </resources>
