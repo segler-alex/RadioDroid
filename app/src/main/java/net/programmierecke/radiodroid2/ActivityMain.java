@@ -36,6 +36,7 @@ import java.io.File;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class ActivityMain extends AppCompatActivity implements SearchView.OnQueryTextListener, IMPDClientStatusChange, NavigationView.OnNavigationItemSelectedListener, BottomNavigationView.OnNavigationItemSelectedListener {
@@ -67,6 +68,8 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
     private int selectedMenuItem;
 
     private boolean instanceStateWasSaved;
+
+    private Date lastExitTry;
 
     @Override
     public void changed() {
@@ -193,12 +196,26 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
         FragmentManager.BackStackEntry backStackEntry;
 
         if(backStackCount > 0) {
-            // FRAGMENT_FROM_BACKSTACK value added as a backstack name for non-root fragments
+            // FRAGMENT_FROM_BACKSTACK value added as a backstack name for non-root fragments like Recordings, About, etc
             backStackEntry = mFragmentManager.getBackStackEntryAt(mFragmentManager.getBackStackEntryCount()-1);
-            int parsedID = Integer.parseInt(backStackEntry.getName());
-            if(parsedID == FRAGMENT_FROM_BACKSTACK) {
+            int parsedId = Integer.parseInt(backStackEntry.getName());
+            if(parsedId == FRAGMENT_FROM_BACKSTACK) {
                 super.onBackPressed();
                 invalidateOptionsMenu();
+                return;
+            }
+        }
+
+        // Don't support backstack with BottomNavigationView
+        if(Utils.bottomNavigationEnabled(this)) {
+            // I'm giving 3 seconds on making a choice
+            if (lastExitTry != null && new Date().getTime() < lastExitTry.getTime() + 3 * 1000) {
+                PlayerServiceUtil.stop();
+                finish();
+            }
+            else {
+                Toast.makeText(this, R.string.alert_press_back_to_exit, Toast.LENGTH_SHORT).show();
+                lastExitTry = new Date();
                 return;
             }
         }
