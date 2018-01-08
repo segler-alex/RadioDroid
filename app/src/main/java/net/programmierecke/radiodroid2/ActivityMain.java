@@ -152,10 +152,13 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
 
     @Override
     public boolean onNavigationItemSelected(MenuItem menuItem) {
+        // If menuItem == null method was executed manually
+        if(menuItem != null)
+            selectedMenuItem = menuItem.getItemId();
+
         mDrawerLayout.closeDrawers();
         android.support.v4.app.Fragment f = null;
-        String backStackTag = String.valueOf(menuItem.getItemId());
-        selectedMenuItem = menuItem.getItemId();
+        String backStackTag = String.valueOf(selectedMenuItem);
 
         switch (selectedMenuItem) {
             case R.id.nav_item_stations:
@@ -185,8 +188,9 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
         else
             fragmentTransaction.replace(R.id.containerView, f).addToBackStack(backStackTag).commit();
 
-        menuItem.setChecked(true);
         invalidateOptionsMenu();
+        checkMenuItems();
+
         return false;
     }
     
@@ -451,14 +455,7 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
         // This will restore fragment that was shown before activity was recreated
         if(instanceStateWasSaved){
             invalidateOptionsMenu();
-            MenuItem item;
-            if (Utils.bottomNavigationEnabled(this))
-                item = mBottomNavigationView.getMenu().findItem(selectedMenuItem);
-            else
-                item = mNavigationView.getMenu().findItem(selectedMenuItem);
-
-            if(item != null)
-                item.setChecked(true);
+            checkMenuItems();
             return;
         }
 
@@ -489,15 +486,27 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
     }
 
     private void selectMenuItem(int itemId) {
-        selectedMenuItem = itemId;
-
-        mNavigationView.getMenu().findItem(itemId).setChecked(true);
-        mNavigationView.getMenu().performIdentifierAction(itemId, 0);
-
-        if(mBottomNavigationView.getMenu().findItem(itemId) != null)
-            mBottomNavigationView.setSelectedItemId(itemId);
+        MenuItem item;
+        if(Utils.bottomNavigationEnabled(this))
+            item = mBottomNavigationView.getMenu().findItem(itemId);
         else
-            mBottomNavigationView.setSelectedItemId(R.id.nav_item_stations);
+            item = mNavigationView.getMenu().findItem(itemId);
+
+        if(item != null) {
+            onNavigationItemSelected(item);
+        }
+        else {
+            selectedMenuItem = R.id.nav_item_stations;
+            onNavigationItemSelected(null);
+        }
+    }
+
+    private void checkMenuItems() {
+        if(mBottomNavigationView.getMenu().findItem(selectedMenuItem) != null)
+            mBottomNavigationView.getMenu().findItem(selectedMenuItem).setChecked(true);
+
+        if(mNavigationView.getMenu().findItem(selectedMenuItem) != null)
+            mNavigationView.getMenu().findItem(selectedMenuItem).setChecked(true);
     }
 
     public void Search(String query) {
