@@ -25,6 +25,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewStub;
 import android.widget.*;
 
 import net.programmierecke.radiodroid2.ActivityMain;
@@ -100,6 +101,7 @@ public class ItemAdapterStation
         ImageButton buttonMore;
 
         View viewDetails;
+        ViewStub stubDetails;
         ImageButton buttonStationWebLink;
         ImageButton buttonShare;
         ImageButton buttonBookmark;
@@ -120,13 +122,7 @@ public class ItemAdapterStation
             textViewShortDescription = (TextView) itemView.findViewById(R.id.textViewShortDescription);
             textViewTags = (TextView) itemView.findViewById(R.id.textViewTags);
             buttonMore = (ImageButton) itemView.findViewById(R.id.buttonMore);
-
-            viewDetails = itemView.findViewById(R.id.layoutDetails);
-            viewTags = (TagsView) viewDetails.findViewById(R.id.viewTags);
-            buttonStationWebLink = (ImageButton) viewDetails.findViewById(R.id.buttonStationWebLink);
-            buttonShare = (ImageButton) viewDetails.findViewById(R.id.buttonShare);
-            buttonBookmark = (ImageButton) viewDetails.findViewById(R.id.buttonBookmark);
-            buttonSetTimer = (ImageButton) viewDetails.findViewById(R.id.buttonSetTimer);
+            stubDetails = (ViewStub) itemView.findViewById(R.id.stubDetails);
 
             itemView.setOnClickListener(this);
         }
@@ -231,7 +227,6 @@ public class ItemAdapterStation
         }
 
         final boolean isExpanded = position == expandedPosition;
-        holder.viewDetails.setVisibility(isExpanded ? View.VISIBLE : View.GONE);
         holder.textViewTags.setVisibility(isExpanded ? View.GONE : View.VISIBLE);
 
         holder.buttonMore.setImageResource(isExpanded ? R.drawable.ic_expand_less_black_24dp : R.drawable.ic_expand_more_black_24dp);
@@ -257,8 +252,6 @@ public class ItemAdapterStation
         holder.textViewShortDescription.setText(station.getShortDetails(getContext()));
         holder.textViewTags.setText(station.TagsAll.replace(",", ", "));
 
-        Context context = getContext().getApplicationContext();
-
         holder.starredStatusIcon.setVisibility(favouriteManager.has(station.ID) ? View.VISIBLE : View.GONE);
 
         Drawable flag = CountryFlagsLoader.getInstance().getFlag(activity, station.Country);
@@ -276,6 +269,14 @@ public class ItemAdapterStation
         }
 
         if (isExpanded) {
+            holder.viewDetails = holder.stubDetails == null? holder.viewDetails : holder.stubDetails.inflate();
+            holder.stubDetails = null;
+            holder.viewTags = (TagsView) holder.viewDetails.findViewById(R.id.viewTags);
+            holder.buttonStationWebLink = (ImageButton) holder.viewDetails.findViewById(R.id.buttonStationWebLink);
+            holder.buttonShare = (ImageButton) holder.viewDetails.findViewById(R.id.buttonShare);
+            holder.buttonBookmark = (ImageButton) holder.viewDetails.findViewById(R.id.buttonBookmark);
+            holder.buttonSetTimer = (ImageButton) holder.viewDetails.findViewById(R.id.buttonSetTimer);
+
             holder.buttonShare.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -329,6 +330,8 @@ public class ItemAdapterStation
             holder.viewTags.setTags(Arrays.asList(tags));
             holder.viewTags.setTagSelectionCallback(tagSelectionCallback);
         }
+        if(holder.viewDetails != null)
+            holder.viewDetails.setVisibility(isExpanded ? View.VISIBLE : View.GONE);
     }
 
     @Override
