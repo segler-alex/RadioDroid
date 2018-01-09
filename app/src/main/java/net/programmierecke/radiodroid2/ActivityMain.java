@@ -36,6 +36,7 @@ import java.io.File;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class ActivityMain extends AppCompatActivity implements SearchView.OnQueryTextListener, IMPDClientStatusChange, NavigationView.OnNavigationItemSelectedListener, BottomNavigationView.OnNavigationItemSelectedListener {
@@ -67,6 +68,8 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
     private int selectedMenuItem;
 
     private boolean instanceStateWasSaved;
+
+    private Date lastExitTry;
 
     @Override
     public void changed() {
@@ -149,10 +152,13 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
 
     @Override
     public boolean onNavigationItemSelected(MenuItem menuItem) {
+        // If menuItem == null method was executed manually
+        if(menuItem != null)
+            selectedMenuItem = menuItem.getItemId();
+
         mDrawerLayout.closeDrawers();
         android.support.v4.app.Fragment f = null;
-        String backStackTag = String.valueOf(menuItem.getItemId());
-        selectedMenuItem = menuItem.getItemId();
+        String backStackTag = String.valueOf(selectedMenuItem);
 
         switch (selectedMenuItem) {
             case R.id.nav_item_stations:
@@ -182,8 +188,9 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
         else
             fragmentTransaction.replace(R.id.containerView, f).addToBackStack(backStackTag).commit();
 
-        menuItem.setChecked(true);
         invalidateOptionsMenu();
+        checkMenuItems();
+
         return false;
     }
     
@@ -193,12 +200,26 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
         FragmentManager.BackStackEntry backStackEntry;
 
         if(backStackCount > 0) {
-            // FRAGMENT_FROM_BACKSTACK value added as a backstack name for non-root fragments
+            // FRAGMENT_FROM_BACKSTACK value added as a backstack name for non-root fragments like Recordings, About, etc
             backStackEntry = mFragmentManager.getBackStackEntryAt(mFragmentManager.getBackStackEntryCount()-1);
-            int parsedID = Integer.parseInt(backStackEntry.getName());
-            if(parsedID == FRAGMENT_FROM_BACKSTACK) {
+            int parsedId = Integer.parseInt(backStackEntry.getName());
+            if(parsedId == FRAGMENT_FROM_BACKSTACK) {
                 super.onBackPressed();
                 invalidateOptionsMenu();
+                return;
+            }
+        }
+
+        // Don't support backstack with BottomNavigationView
+        if(Utils.bottomNavigationEnabled(this)) {
+            // I'm giving 3 seconds on making a choice
+            if (lastExitTry != null && new Date().getTime() < lastExitTry.getTime() + 3 * 1000) {
+                PlayerServiceUtil.stop();
+                finish();
+            }
+            else {
+                Toast.makeText(this, R.string.alert_press_back_to_exit, Toast.LENGTH_SHORT).show();
+                lastExitTry = new Date();
                 return;
             }
         }
@@ -434,14 +455,7 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
         // This will restore fragment that was shown before activity was recreated
         if(instanceStateWasSaved){
             invalidateOptionsMenu();
-            MenuItem item;
-            if (Utils.bottomNavigationEnabled(this))
-                item = mBottomNavigationView.getMenu().findItem(selectedMenuItem);
-            else
-                item = mNavigationView.getMenu().findItem(selectedMenuItem);
-
-            if(item != null)
-                item.setChecked(true);
+            checkMenuItems();
             return;
         }
 
@@ -472,15 +486,27 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
     }
 
     private void selectMenuItem(int itemId) {
-        selectedMenuItem = itemId;
-
-        mNavigationView.getMenu().findItem(itemId).setChecked(true);
-        mNavigationView.getMenu().performIdentifierAction(itemId, 0);
-
-        if(mBottomNavigationView.getMenu().findItem(itemId) != null)
-            mBottomNavigationView.setSelectedItemId(itemId);
+        MenuItem item;
+        if(Utils.bottomNavigationEnabled(this))
+            item = mBottomNavigationView.getMenu().findItem(itemId);
         else
-            mBottomNavigationView.setSelectedItemId(R.id.nav_item_stations);
+            item = mNavigationView.getMenu().findItem(itemId);
+
+        if(item != null) {
+            onNavigationItemSelected(item);
+        }
+        else {
+            selectedMenuItem = R.id.nav_item_stations;
+            onNavigationItemSelected(null);
+        }
+    }
+
+    private void checkMenuItems() {
+        if(mBottomNavigationView.getMenu().findItem(selectedMenuItem) != null)
+            mBottomNavigationView.getMenu().findItem(selectedMenuItem).setChecked(true);
+
+        if(mNavigationView.getMenu().findItem(selectedMenuItem) != null)
+            mNavigationView.getMenu().findItem(selectedMenuItem).setChecked(true);
     }
 
     public void Search(String query) {

@@ -132,6 +132,7 @@
     <string name="alert_select_mpd_server_remove">Remove</string>
     <string name="alert_add_or_edit_mpd_server">Enter details about a server</string>
 
+    <string name="alert_press_back_to_exit">Press back once more to exit</string>
 
     <string name="error_stream_url">Stream url problem</string>
     <string name="error_caching_stream">Stream caching problem</string>
