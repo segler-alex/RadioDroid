@@ -271,18 +271,33 @@ public class PlayerService extends Service implements RadioPlayer.PlayerListener
         public boolean onMediaButtonEvent(Intent mediaButtonEvent) {
             final KeyEvent event = mediaButtonEvent.getParcelableExtra(Intent.EXTRA_KEY_EVENT);
 
-            if (event != null && event.getAction() == KeyEvent.ACTION_DOWN) {
-                switch (event.getKeyCode()) {
-                    case KeyEvent.KEYCODE_MEDIA_PAUSE:
+            if (event.getKeyCode() == KeyEvent.KEYCODE_HEADSETHOOK) {
+                if (event.getAction() == KeyEvent.ACTION_UP && !event.isLongPress()) {
+                    if (PlayerServiceUtil.isPlaying()) {
                         PlayerServiceUtil.pause();
-                        break;
-                    case KeyEvent.KEYCODE_MEDIA_PLAY:
+                    } else {
                         PlayerServiceUtil.resume();
-                        break;
+                    }
                 }
+                return true;
+            } else {
+                return super.onMediaButtonEvent(mediaButtonEvent);
             }
+        }
 
-            return true;
+        @Override
+        public void onPause() {
+            PlayerServiceUtil.pause();
+        }
+
+        @Override
+        public void onPlay() {
+            PlayerServiceUtil.resume();
+        }
+
+        @Override
+        public void onStop() {
+            PlayerServiceUtil.stop();
         }
     };
 
