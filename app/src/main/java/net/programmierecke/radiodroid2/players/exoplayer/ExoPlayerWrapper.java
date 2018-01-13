@@ -41,6 +41,8 @@ import net.programmierecke.radiodroid2.data.StreamLiveInfo;
 import net.programmierecke.radiodroid2.players.PlayerWrapper;
 import net.programmierecke.radiodroid2.players.RadioPlayer;
 
+import java.util.Map;
+
 import okhttp3.OkHttpClient;
 
 public class ExoPlayerWrapper implements PlayerWrapper, IcyDataSource.IcyDataSourceListener {
@@ -239,7 +241,7 @@ public class ExoPlayerWrapper implements PlayerWrapper, IcyDataSource.IcyDataSou
     }
 
     @Override
-    public String getTitle() {
+    public Map<String, String> getNameFormattingArgs() {
         return null;
     }
 

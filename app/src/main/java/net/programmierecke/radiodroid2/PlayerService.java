@@ -220,7 +220,7 @@ public class PlayerService extends Service implements RadioPlayer.PlayerListener
                 RadioDroidApp radioDroidApp = (RadioDroidApp) getApplication();
                 RecordingsManager recordingsManager = radioDroidApp.getRecordingsManager();
 
-                recordingsManager.record(radioPlayer);
+                recordingsManager.record(PlayerService.this, radioPlayer);
 
                 sendBroadCast(PLAYER_SERVICE_META_UPDATE);
             }

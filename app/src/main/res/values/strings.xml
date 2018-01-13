@@ -109,6 +109,19 @@
     <string name="settings_warn_no_wifi_on">Warn when playing without Wifi connection</string>
     <string name="settings_warn_no_wifi_off">No warning when not on Wifi connection</string>
 
+    <string name="settings_recordings">Recordings</string>
+    <string name="settings_record_name_formatting">Name formatting</string>
+
+    <string name="settings_record_name_formatting_default" translatable="false">${station}+${artist}+${track}+${date}+${time}</string>
+    <string name="settings_record_name_formatting_1" translatable="false">${station}+${artist}+${track}</string>
+    <string name="settings_record_name_formatting_2" translatable="false">${station}+${date}+${time}</string>
+    <string name="settings_record_name_formatting_3" translatable="false">${index}+${station}+${date}</string>
+
+    <string name="settings_record_name_formatting_default_display">station+artist+track+\u200bdate+\u200btime</string>
+    <string name="settings_record_name_formatting_1_display">station+artist+\u200btrack</string>
+    <string name="settings_record_name_formatting_2_display">station+date+\u200btime</string>
+    <string name="settings_record_name_formatting_3_display">index+station+\u200bdate</string>
+
     <string name="notify_pre_play">Connecting</string>
     <string name="notify_play">Playing</string>
     <string name="notify_paused">Paused</string>

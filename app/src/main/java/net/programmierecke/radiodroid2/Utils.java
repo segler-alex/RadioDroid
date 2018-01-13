@@ -363,4 +363,24 @@ public class Utils {
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
         return sharedPref.getBoolean("bottom_navigation", true);
     }
+
+    public static String formatStringWithNamedArgs(String format, Map<String, String> args) {
+	    StringBuilder builder = new StringBuilder(format);
+		for (Map.Entry<String, String> entry : args.entrySet()) {
+		    final String key = "${" + entry.getKey() + "}";
+		    int startIdx = 0;
+		    while (true) {
+                final int keyIdx = builder.indexOf(key, startIdx);
+
+                if (keyIdx == -1) {
+                    break;
+                }
+
+                builder.replace(keyIdx, keyIdx + key.length(), entry.getValue());
+                startIdx = keyIdx + entry.getValue().length();
+            }
+		}
+
+		return builder.toString();
+	}
 }
