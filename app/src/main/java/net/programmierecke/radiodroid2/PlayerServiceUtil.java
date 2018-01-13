@@ -179,6 +179,17 @@ public class PlayerServiceUtil {
         return null;
     }
 
+    public static String getStationId() {
+        if (itsPlayerService != null) {
+            try {
+                return itsPlayerService.getCurrentStationID();
+            } catch (RemoteException e) {
+                Log.e("", "" + e);
+            }
+        }
+        return null;
+    }
+
     public static String getStationName() {
         if (itsPlayerService != null) {
             try {

@@ -1,8 +1,10 @@
 package net.programmierecke.radiodroid2;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
@@ -26,6 +28,7 @@ import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -47,6 +50,9 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
 
     public static final int FRAGMENT_FROM_BACKSTACK = 777;
 
+    public static final String ACTION_SHOW_LOADING = "net.programmierecke.radiodroid2.show_loading";
+    public static final String ACTION_HIDE_LOADING = "net.programmierecke.radiodroid2.hide_loading";
+
     private static final String TAG = "RadioDroid";
 
     private final String TAG_SEARCH_URL = "https://www.radio-browser.info/webservice/json/stations/bytagexact";
@@ -58,6 +64,8 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
     NavigationView mNavigationView;
     BottomNavigationView mBottomNavigationView;
     FragmentManager mFragmentManager;
+
+    BroadcastReceiver broadcastReceiver;
 
     MenuItem menuItemSearch;
     MenuItem menuItemDelete;
@@ -115,6 +123,7 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
         setSupportActionBar(myToolbar);
 
         PlayerServiceUtil.bind(this);
+        setupBroadcastReceiver();
 
         selectedMenuItem = sharedPref.getInt("last_selectedMenuItem", -1);
         instanceStateWasSaved = savedInstanceState != null;
@@ -292,6 +301,7 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
         super.onDestroy();
         PlayerServiceUtil.unBind(this);
         MPDClient.StopDiscovery(this);
+        unregisterReceiver(broadcastReceiver);
     }
 
     @Override
@@ -587,6 +597,35 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
                 break;
         }
         return super.onKeyUp(keyCode, event);
+    }
+
+    private void setupBroadcastReceiver() {
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(ACTION_HIDE_LOADING);
+        filter.addAction(ACTION_SHOW_LOADING);
+        broadcastReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                Intent mIntent = intent;
+                if(mIntent.getAction().equals(ACTION_HIDE_LOADING))
+                    hideLoadingIcon();
+                else if(mIntent.getAction().equals(ACTION_SHOW_LOADING))
+                    showLoadingIcon();
+            }
+        };
+        registerReceiver(broadcastReceiver, filter);
+    }
+
+    // Loading listener
+    private void showLoadingIcon() {
+        MenuItem menuItem = getToolbar().getMenu().findItem(R.id.action_loading);
+        menuItem.setActionView(new ProgressBar(this));
+        menuItem.setVisible(true);
+    }
+    private void hideLoadingIcon() {
+        MenuItem menuItem = getToolbar().getMenu().findItem(R.id.action_loading);
+        menuItem.setActionView(null);
+        menuItem.setVisible(false);
     }
 
     private void changeTimer() {

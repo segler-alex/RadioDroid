@@ -1,6 +1,5 @@
 package net.programmierecke.radiodroid2;
 
-import android.app.ProgressDialog;
 import android.content.*;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
@@ -20,7 +19,6 @@ import net.programmierecke.radiodroid2.data.StreamLiveInfo;
 import static net.programmierecke.radiodroid2.ActivityMain.FRAGMENT_FROM_BACKSTACK;
 
 public class FragmentPlayer extends Fragment {
-	ProgressDialog itsProgressLoading;
 	TextView aTextViewName;
 	ImageButton buttonPause;
 	private BroadcastReceiver updateUIReciver;

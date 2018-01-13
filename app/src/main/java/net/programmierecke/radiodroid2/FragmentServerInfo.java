@@ -1,6 +1,6 @@
 package net.programmierecke.radiodroid2;
 
-import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -17,7 +17,6 @@ import net.programmierecke.radiodroid2.interfaces.IFragmentRefreshable;
 
 public class FragmentServerInfo extends Fragment implements IFragmentRefreshable {
     private ItemAdapterStatistics itemAdapterStatistics;
-    private ProgressDialog itsProgressLoading;
 
     @Nullable
     @Override
@@ -37,7 +36,7 @@ public class FragmentServerInfo extends Fragment implements IFragmentRefreshable
     }
 
     void Download(final boolean forceUpdate){
-        itsProgressLoading = ProgressDialog.show(getActivity(), "", getActivity().getString(R.string.progress_loading));
+        getContext().sendBroadcast(new Intent(ActivityMain.ACTION_SHOW_LOADING));
         new AsyncTask<Void, Void, String>() {
             @Override
             protected String doInBackground(Void... params) {
@@ -46,7 +45,7 @@ public class FragmentServerInfo extends Fragment implements IFragmentRefreshable
 
             @Override
             protected void onPostExecute(String result) {
-                itsProgressLoading.dismiss();
+                getContext().sendBroadcast(new Intent(ActivityMain.ACTION_HIDE_LOADING));
                 if (result != null) {
                     itemAdapterStatistics.clear();
                     DataStatistics[] items = DataStatistics.DecodeJson(result);

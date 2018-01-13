@@ -1,7 +1,7 @@
 package net.programmierecke.radiodroid2;
 
-import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -16,7 +16,6 @@ import java.util.HashMap;
 public class FragmentBase extends Fragment {
     private static final String TAG = "FragmentBase";
 
-    private ProgressDialog itsProgressLoading;
     private String url;
     private String urlResult;
 
@@ -76,7 +75,7 @@ public class FragmentBase extends Fragment {
             String cache = Utils.getCacheFile(getActivity(), url);
             if (cache == null || forceUpdate) {
                 if (getContext() != null && displayProgress) {
-                    itsProgressLoading = ProgressDialog.show(getContext(), "", getActivity().getString(R.string.progress_loading));
+                    getActivity().sendBroadcast(new Intent(ActivityMain.ACTION_SHOW_LOADING));
                 }
                 new AsyncTask<Void, Void, String>() {
                     @Override
@@ -91,10 +90,7 @@ public class FragmentBase extends Fragment {
                     @Override
                     protected void onPostExecute(String result) {
                         DownloadFinished();
-                        if (itsProgressLoading != null) {
-                            itsProgressLoading.dismiss();
-                            itsProgressLoading = null;
-                        }
+                        getActivity().sendBroadcast(new Intent(ActivityMain.ACTION_HIDE_LOADING));
                         if (BuildConfig.DEBUG) {
                             Log.d(TAG, "Download url finished:" + url);
                         }

@@ -3,7 +3,6 @@ package net.programmierecke.radiodroid2.adapters;
 import java.util.Arrays;
 import java.util.List;
 
-import android.app.ProgressDialog;
 import android.app.TimePickerDialog;
 import android.content.ClipData;
 import android.content.ClipboardManager;
@@ -11,6 +10,8 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -22,6 +23,7 @@ import android.support.v7.preference.PreferenceManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -65,12 +67,12 @@ public class ItemAdapterStation
 
     private boolean shouldLoadIcons;
 
-    private ProgressDialog progressLoading;
     private IAdapterRefreshable refreshable;
     private FragmentActivity activity;
 
     private DataRadioStation selectedStation;
     private int expandedPosition = -1;
+    public int playingStationPosition = -1;
 
     private Drawable stationImagePlaceholder;
 
@@ -132,6 +134,11 @@ public class ItemAdapterStation
             if (stationActionsListener != null) {
                 stationActionsListener.onStationClick(stationsList.get(getAdapterPosition()));
             }
+            if(playingStationPosition > -1) {
+                notifyItemChanged(playingStationPosition);
+            }
+            playingStationPosition = getAdapterPosition();
+            notifyItemChanged(playingStationPosition);
         }
 
         @Override
@@ -168,9 +175,16 @@ public class ItemAdapterStation
         this.stationsList = stationsList;
 
         expandedPosition = -1;
+        playingStationPosition = -1;
 
         shouldLoadIcons = Utils.shouldLoadIcons(getContext());
 
+        for (int i = 0; i < stationsList.size(); i++) {
+            if(stationsList.get(i).ID.equals(PlayerServiceUtil.getStationId())) {
+                playingStationPosition = i;
+                break;
+            }
+        }
         notifyDataSetChanged();
     }
 
@@ -247,6 +261,18 @@ public class ItemAdapterStation
                 }
             }
         });
+
+        TypedValue tv = new TypedValue();
+        if(playingStationPosition == position) {
+            getContext().getTheme().resolveAttribute(R.attr.colorAccentMy, tv, true);
+            holder.textViewTitle.setTextColor(tv.data);
+            holder.textViewTitle.setTypeface(null, Typeface.BOLD);
+        }
+        else {
+            holder.textViewTitle.setTypeface(holder.textViewShortDescription.getTypeface());
+            getContext().getTheme().resolveAttribute(R.attr.iconsInItemBackgroundColor, tv, true);
+            holder.textViewTitle.setTextColor(tv.data);
+        }
 
         holder.textViewTitle.setText(station.Name);
         holder.textViewShortDescription.setText(station.getShortDetails(getContext()));
@@ -387,7 +413,7 @@ public class ItemAdapterStation
     }
 
     private void retrieveAndCopyStreamUrlToClipboard(final DataRadioStation station) {
-        final ProgressDialog loadingDialog = ProgressDialog.show(getContext(), "", getContext().getResources().getText(R.string.progress_loading));
+        getContext().sendBroadcast(new Intent(ActivityMain.ACTION_SHOW_LOADING));
         new AsyncTask<Void, Void, String>() {
             @Override
             protected String doInBackground(Void... params) {
@@ -396,7 +422,7 @@ public class ItemAdapterStation
 
             @Override
             protected void onPostExecute(String result) {
-                loadingDialog.dismiss();
+                getContext().sendBroadcast(new Intent(ActivityMain.ACTION_HIDE_LOADING));
 
                 if (result != null) {
                     ClipboardManager clipboard = (ClipboardManager) getContext().getSystemService(Context.CLIPBOARD_SERVICE);
@@ -465,7 +491,7 @@ public class ItemAdapterStation
     }
 
     private void share(final DataRadioStation station) {
-        progressLoading = ProgressDialog.show(getContext(), "", getContext().getResources().getString(R.string.progress_loading));
+        getContext().sendBroadcast(new Intent(ActivityMain.ACTION_SHOW_LOADING));
         new AsyncTask<Void, Void, String>() {
             @Override
             protected String doInBackground(Void... params) {
@@ -474,7 +500,7 @@ public class ItemAdapterStation
 
             @Override
             protected void onPostExecute(String result) {
-                progressLoading.dismiss();
+                getContext().sendBroadcast(new Intent(ActivityMain.ACTION_HIDE_LOADING));
 
                 if (result != null) {
                     Intent share = new Intent(Intent.ACTION_VIEW);

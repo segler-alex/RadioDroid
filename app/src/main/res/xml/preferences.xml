@@ -8,7 +8,8 @@
             android:entries="@array/theme_entries"
             android:entryValues="@array/theme_values"
             android:key="theme_name"
-            android:title="@string/settings_theme_selection_title" />
+            android:title="@string/settings_theme_selection_title"
+            android:summary="%s"/>
 
         <CheckBoxPreference
             android:defaultValue="false"

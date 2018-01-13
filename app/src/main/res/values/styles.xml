@@ -34,6 +34,9 @@
         <item name="colorTabUnderline">@color/colorTabUnderline</item>
 
         <item name="iconsInItemBackgroundColor">@color/iconsInItemBackgroundColor</item>
+
+        <!-- workaround for lower API -->
+        <item name="colorAccentMy">@color/colorAccent</item>
     </style>
 
     <style name="MyMaterialTheme.Base.Dark" parent="Theme.AppCompat">
@@ -64,6 +67,9 @@
         <item name="colorTabUnderline">@color/colorTabUnderlineDark</item>
 
         <item name="iconsInItemBackgroundColor">@color/iconsInItemBackgroundColorDark</item>
+
+        <!-- workaround for lower API -->
+        <item name="colorAccentMy">@color/colorAccentDark</item>
     </style>
 
     <style name="IconButton" parent="Base.Widget.AppCompat.Button">
