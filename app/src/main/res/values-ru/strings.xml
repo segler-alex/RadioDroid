@@ -107,10 +107,10 @@
     <string name="settings_recordings">Записи</string>
     <string name="settings_record_name_formatting">Формат имени</string>
 
-    <string name="settings_record_name_formatting_default_display">станция+артист+трек+\u200bдата+\u200bвремя</string>
-    <string name="settings_record_name_formatting_1_display">станция+артист+\u200bтрек</string>
-    <string name="settings_record_name_formatting_2_display">станция+дата+\u200bвремя</string>
-    <string name="settings_record_name_formatting_3_display">номер+станция+\u200bдата</string>
+    <string name="settings_record_name_formatting_default_display">станция_артист_трек_\u200bдата_\u200bвремя</string>
+    <string name="settings_record_name_formatting_1_display">станция_артист_\u200bтрек</string>
+    <string name="settings_record_name_formatting_2_display">станция_дата_\u200bвремя</string>
+    <string name="settings_record_name_formatting_3_display">номер_станция_\u200bдата</string>
 
     <string name="notify_pre_play">Подключение</string>
     <string name="notify_play">Играет</string>
