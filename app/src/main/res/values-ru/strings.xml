@@ -104,6 +104,14 @@
     <string name="settings_warn_no_wifi_on">Предупреждать при начале проигрывания без Wifi соединения</string>
     <string name="settings_warn_no_wifi_off">Не предупреждать при проигрывании без Wifi соединения</string>
 
+    <string name="settings_recordings">Записи</string>
+    <string name="settings_record_name_formatting">Формат имени</string>
+
+    <string name="settings_record_name_formatting_default_display">станция_артист_трек_\u200bдата_\u200bвремя</string>
+    <string name="settings_record_name_formatting_1_display">станция_артист_\u200bтрек</string>
+    <string name="settings_record_name_formatting_2_display">станция_дата_\u200bвремя</string>
+    <string name="settings_record_name_formatting_3_display">номер_станция_\u200bдата</string>
+
     <string name="notify_pre_play">Подключение</string>
     <string name="notify_play">Играет</string>
     <string name="notify_paused">Приостановлена</string>

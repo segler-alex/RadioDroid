@@ -337,8 +337,8 @@ public class StreamProxy implements Recordable {
     }
 
     @Override
-    public String getTitle() {
-        return "";
+    public Map<String, String> getNameFormattingArgs() {
+        return null;
     }
 
     @Override

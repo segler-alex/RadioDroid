@@ -21,9 +21,9 @@
             android:title="@string/settings_compact_style" />
 
         <CheckBoxPreference
-                android:key="bottom_navigation"
-                android:defaultValue="true"
-                android:title="@string/settings_bottom_navigation" />
+            android:defaultValue="true"
+            android:key="bottom_navigation"
+            android:title="@string/settings_bottom_navigation" />
 
     </PreferenceCategory>
 
@@ -60,12 +60,14 @@
             android:title="@string/settings_auto_favorite" />
 
         <CheckBoxPreference
+            android:defaultValue="false"
             android:key="show_broken"
             android:summaryOff="@string/settings_show_broken_off"
             android:summaryOn="@string/settings_show_broken_on"
             android:title="@string/settings_show_broken" />
 
         <CheckBoxPreference
+            android:defaultValue="false"
             android:key="single_use_tags"
             android:summaryOff="@string/settings_single_use_tags_desc_off"
             android:summaryOn="@string/settings_single_use_tags_desc_on"
@@ -81,6 +83,7 @@
             android:title="@string/settings_play_external" />
 
         <CheckBoxPreference
+            android:defaultValue="false"
             android:key="warn_no_wifi"
             android:summaryOff="@string/settings_warn_no_wifi_off"
             android:summaryOn="@string/settings_warn_no_wifi_on"
@@ -115,11 +118,20 @@
 
     </PreferenceCategory>
 
-    <PreferenceCategory
-        android:title="@string/settings_mpd">
+    <PreferenceCategory android:title="@string/settings_recordings">
+        <ListPreference
+            android:defaultValue="@string/settings_record_name_formatting_default"
+            android:entries="@array/settings_record_name_formatting_list_display"
+            android:entryValues="@array/settings_record_name_formatting_list"
+            android:key="record_name_formatting"
+            android:summary="%s"
+            android:title="@string/settings_record_name_formatting" />
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/settings_mpd">
         <Preference
-            android:title="@string/settings_view_mpd_servers"
-            android:key="mpd_servers_viewer" />
+            android:key="mpd_servers_viewer"
+            android:title="@string/settings_view_mpd_servers" />
     </PreferenceCategory>
 
     <PreferenceCategory
@@ -129,38 +141,37 @@
             android:defaultValue="4"
             android:key="stream_connect_timeout"
             android:maxLength="2"
-            android:title="@string/settings_connect_timeout"
-            android:summary="@string/settings_seconds_format"/>
+            android:summary="@string/settings_seconds_format"
+            android:title="@string/settings_connect_timeout" />
         <net.programmierecke.radiodroid2.views.IntEditTextPreference
             android:defaultValue="10"
             android:key="stream_read_timeout"
             android:maxLength="2"
-            android:title="@string/settings_read_timeout"
-            android:summary="@string/settings_seconds_format"/>
+            android:summary="@string/settings_seconds_format"
+            android:title="@string/settings_read_timeout" />
         <net.programmierecke.radiodroid2.views.IntEditTextPreference
             android:defaultValue="99999999"
             android:key="settings_retry_timeout"
             android:maxLength="8"
-            android:title="@string/settings_retry_timeout"
-            android:summary="@string/settings_seconds_format"/>
+            android:summary="@string/settings_seconds_format"
+            android:title="@string/settings_retry_timeout" />
         <net.programmierecke.radiodroid2.views.IntEditTextPreference
             android:defaultValue="0"
             android:key="settings_retry_delay"
             android:maxLength="8"
-            android:title="@string/settings_retry_delay"
-            android:summary="@string/settings_milliseconds_format"/>
+            android:summary="@string/settings_milliseconds_format"
+            android:title="@string/settings_retry_delay" />
     </PreferenceCategory>
 
-    <PreferenceCategory
-            android:title="@string/settings_other">
+    <PreferenceCategory android:title="@string/settings_other">
 
         <Preference
-                android:title="@string/settings_statistics"
-                android:key="show_statistics" />
+            android:key="show_statistics"
+            android:title="@string/settings_statistics" />
 
         <Preference
-                android:title="@string/settings_about"
-                android:key="show_about" />
+            android:key="show_about"
+            android:title="@string/settings_about" />
 
     </PreferenceCategory>
 </PreferenceScreen>

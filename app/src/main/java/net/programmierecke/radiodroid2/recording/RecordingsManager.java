@@ -1,10 +1,14 @@
 package net.programmierecke.radiodroid2.recording;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Environment;
 import android.support.annotation.NonNull;
+import android.support.v7.preference.PreferenceManager;
 import android.util.Log;
 
 import net.programmierecke.radiodroid2.BuildConfig;
+import net.programmierecke.radiodroid2.R;
 import net.programmierecke.radiodroid2.Utils;
 import net.programmierecke.radiodroid2.data.DataRecording;
 
@@ -25,7 +29,8 @@ import java.util.Map;
 
 public class RecordingsManager {
     private final static String TAG = "Recordings";
-    private DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd_HH-mm", Locale.US);
+    private DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
+    private DateFormat timeFormatter = new SimpleDateFormat("HH-mm", Locale.US);
 
     private class RunningRecordableListener implements RecordableListener {
         private RunningRecordingInfo runningRecordingInfo;
@@ -66,7 +71,7 @@ public class RecordingsManager {
 
     private Map<Recordable, RunningRecordingInfo> runningRecordings = new HashMap<>();
 
-    public void record(@NonNull Recordable recordable) {
+    public void record(@NonNull Context context, @NonNull Recordable recordable) {
         if (!recordable.canRecord()) {
             return;
         }
@@ -75,15 +80,32 @@ public class RecordingsManager {
             RunningRecordingInfo info = new RunningRecordingInfo();
 
             info.setRecordable(recordable);
-            info.setTitle(recordable.getTitle());
+
+            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context.getApplicationContext());
+
+            final String fileNameFormat = prefs.getString("record_name_formatting", context.getString(R.string.settings_record_name_formatting_default));
+
+            final Map<String, String> formattingArgs = new HashMap<>();
+            formattingArgs.putAll(recordable.getNameFormattingArgs());
 
             Calendar calendar = Calendar.getInstance();
             calendar.setTimeInMillis(System.currentTimeMillis());
 
-            String dataStr = dateFormatter.format(calendar.getTime());
-            String sanitizedTitle = Utils.sanitizeName(info.getTitle());
+            final Date currentTime = calendar.getTime();
 
-            info.setFileName(String.format(Locale.US, "%s_%s.%s", sanitizedTitle, dataStr, recordable.getExtension()));
+            String dateStr = dateFormatter.format(currentTime);
+            String timeStr = timeFormatter.format(currentTime);
+
+            formattingArgs.put("date", dateStr);
+            formattingArgs.put("time", timeStr);
+
+            final int recordNum = prefs.getInt("record_num", 1);
+            formattingArgs.put("index", Integer.toString(recordNum));
+
+            final String recordTitle = Utils.formatStringWithNamedArgs(fileNameFormat, formattingArgs);
+
+            info.setTitle(recordTitle);
+            info.setFileName(String.format("%s.%s", recordTitle, recordable.getExtension()));
 
             //TODO: check available disk space here
 
@@ -98,6 +120,8 @@ public class RecordingsManager {
             recordable.startRecording(new RunningRecordableListener(info));
 
             runningRecordings.put(recordable, info);
+
+            prefs.edit().putInt("record_num", recordNum + 1).apply();
         }
     }
 

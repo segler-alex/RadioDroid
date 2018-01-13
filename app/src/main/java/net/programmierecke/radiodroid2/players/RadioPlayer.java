@@ -13,6 +13,7 @@ import android.util.Log;
 
 import net.programmierecke.radiodroid2.BuildConfig;
 import net.programmierecke.radiodroid2.HttpClient;
+import net.programmierecke.radiodroid2.Utils;
 import net.programmierecke.radiodroid2.data.ShoutcastInfo;
 import net.programmierecke.radiodroid2.data.StreamLiveInfo;
 import net.programmierecke.radiodroid2.players.exoplayer.ExoPlayerWrapper;
@@ -20,6 +21,8 @@ import net.programmierecke.radiodroid2.players.mediaplayer.MediaPlayerWrapper;
 import net.programmierecke.radiodroid2.recording.Recordable;
 import net.programmierecke.radiodroid2.recording.RecordableListener;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.OkHttpClient;
@@ -59,6 +62,8 @@ public class RadioPlayer implements PlayerWrapper.PlayListener, Recordable {
 
     private PlayerListener playerListener;
     private PlayState playState = PlayState.Idle;
+
+    private StreamLiveInfo lastLiveInfo;
 
     private CountDownTimer bufferCheckTimer = new CountDownTimer(Long.MAX_VALUE, 2000) {
         @Override
@@ -209,8 +214,19 @@ public class RadioPlayer implements PlayerWrapper.PlayListener, Recordable {
     }
 
     @Override
-    public String getTitle() {
-        return streamName;
+    public Map<String, String> getNameFormattingArgs() {
+        Map<String, String> args = new HashMap<>();
+        args.put("station", Utils.sanitizeName(streamName));
+
+        if (lastLiveInfo != null) {
+            args.put("artist", Utils.sanitizeName(lastLiveInfo.getArtist()));
+            args.put("track", Utils.sanitizeName(lastLiveInfo.getTrack()));
+        } else {
+            args.put("artist", "-");
+            args.put("track", "-");
+        }
+
+        return args;
     }
 
     @Override
@@ -272,6 +288,7 @@ public class RadioPlayer implements PlayerWrapper.PlayListener, Recordable {
 
     @Override
     public void onDataSourceStreamLiveInfo(StreamLiveInfo liveInfo) {
+        lastLiveInfo = liveInfo;
         playerListener.foundLiveStreamInfo(liveInfo);
     }
 }

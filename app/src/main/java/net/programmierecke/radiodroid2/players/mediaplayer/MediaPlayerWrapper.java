@@ -16,6 +16,7 @@ import net.programmierecke.radiodroid2.players.RadioPlayer;
 import net.programmierecke.radiodroid2.recording.RecordableListener;
 
 import java.io.IOException;
+import java.util.Map;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import okhttp3.OkHttpClient;
@@ -210,7 +211,7 @@ public class MediaPlayerWrapper implements PlayerWrapper, StreamProxyListener {
     }
 
     @Override
-    public String getTitle() {
+    public Map<String, String> getNameFormattingArgs() {
         return null;
     }
 
