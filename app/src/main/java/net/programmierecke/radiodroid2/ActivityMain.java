@@ -388,7 +388,7 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
                 break;
         }
 
-        //MenuItem mediaRouteMenuItem = CastHandler.getRouteItem(getApplicationContext(), menu);
+        MenuItem mediaRouteMenuItem = CastHandler.getRouteItem(getApplicationContext(), menu);
         return true;
     }
 
