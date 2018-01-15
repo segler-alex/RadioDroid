@@ -45,7 +45,8 @@ public class FragmentServerInfo extends Fragment implements IFragmentRefreshable
 
             @Override
             protected void onPostExecute(String result) {
-                getContext().sendBroadcast(new Intent(ActivityMain.ACTION_HIDE_LOADING));
+                if(getContext() != null)
+                    getContext().sendBroadcast(new Intent(ActivityMain.ACTION_HIDE_LOADING));
                 if (result != null) {
                     itemAdapterStatistics.clear();
                     DataStatistics[] items = DataStatistics.DecodeJson(result);

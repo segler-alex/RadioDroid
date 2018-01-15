@@ -28,7 +28,6 @@ import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ProgressBar;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -618,14 +617,10 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
 
     // Loading listener
     private void showLoadingIcon() {
-        MenuItem menuItem = getToolbar().getMenu().findItem(R.id.action_loading);
-        menuItem.setActionView(new ProgressBar(this));
-        menuItem.setVisible(true);
+        findViewById(R.id.progressBarLoading).setVisibility(View.VISIBLE);
     }
     private void hideLoadingIcon() {
-        MenuItem menuItem = getToolbar().getMenu().findItem(R.id.action_loading);
-        menuItem.setActionView(null);
-        menuItem.setVisible(false);
+        findViewById(R.id.progressBarLoading).setVisibility(View.GONE);
     }
 
     private void changeTimer() {

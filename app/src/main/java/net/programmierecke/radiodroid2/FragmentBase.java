@@ -75,7 +75,7 @@ public class FragmentBase extends Fragment {
             String cache = Utils.getCacheFile(getActivity(), url);
             if (cache == null || forceUpdate) {
                 if (getContext() != null && displayProgress) {
-                    getActivity().sendBroadcast(new Intent(ActivityMain.ACTION_SHOW_LOADING));
+                    getContext().sendBroadcast(new Intent(ActivityMain.ACTION_SHOW_LOADING));
                 }
                 new AsyncTask<Void, Void, String>() {
                     @Override
@@ -90,7 +90,8 @@ public class FragmentBase extends Fragment {
                     @Override
                     protected void onPostExecute(String result) {
                         DownloadFinished();
-                        getActivity().sendBroadcast(new Intent(ActivityMain.ACTION_HIDE_LOADING));
+                        if(getContext() != null)
+                            getContext().sendBroadcast(new Intent(ActivityMain.ACTION_HIDE_LOADING));
                         if (BuildConfig.DEBUG) {
                             Log.d(TAG, "Download url finished:" + url);
                         }

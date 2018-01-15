@@ -4,13 +4,14 @@ import java.util.Arrays;
 import java.util.List;
 
 import android.app.TimePickerDialog;
+import android.content.BroadcastReceiver;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
@@ -30,17 +31,8 @@ import android.view.ViewGroup;
 import android.view.ViewStub;
 import android.widget.*;
 
-import net.programmierecke.radiodroid2.ActivityMain;
-import net.programmierecke.radiodroid2.CountryFlagsLoader;
-import net.programmierecke.radiodroid2.RadioDroidApp;
+import net.programmierecke.radiodroid2.*;
 import net.programmierecke.radiodroid2.data.DataRadioStation;
-import net.programmierecke.radiodroid2.FavouriteManager;
-import net.programmierecke.radiodroid2.FragmentStarred;
-import net.programmierecke.radiodroid2.R;
-import net.programmierecke.radiodroid2.RadioAlarmManager;
-import net.programmierecke.radiodroid2.TimePickerFragment;
-import net.programmierecke.radiodroid2.PlayerServiceUtil;
-import net.programmierecke.radiodroid2.Utils;
 import net.programmierecke.radiodroid2.interfaces.IAdapterRefreshable;
 import net.programmierecke.radiodroid2.utils.RecyclerItemSwipeHelper;
 import net.programmierecke.radiodroid2.utils.SwipeableViewHolder;
@@ -69,6 +61,8 @@ public class ItemAdapterStation
 
     private IAdapterRefreshable refreshable;
     private FragmentActivity activity;
+
+    private BroadcastReceiver updateUIReceiver;
 
     private DataRadioStation selectedStation;
     private int expandedPosition = -1;
@@ -134,11 +128,6 @@ public class ItemAdapterStation
             if (stationActionsListener != null) {
                 stationActionsListener.onStationClick(stationsList.get(getAdapterPosition()));
             }
-            if(playingStationPosition > -1) {
-                notifyItemChanged(playingStationPosition);
-            }
-            playingStationPosition = getAdapterPosition();
-            notifyItemChanged(playingStationPosition);
         }
 
         @Override
@@ -155,6 +144,17 @@ public class ItemAdapterStation
 
         RadioDroidApp radioDroidApp = (RadioDroidApp)fragmentActivity.getApplication();
         favouriteManager = radioDroidApp.getFavouriteManager();
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(PlayerService.PLAYER_SERVICE_META_UPDATE);
+
+        this.updateUIReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                highlightCurrentStation();
+            }
+        };
+        getContext().registerReceiver(this.updateUIReceiver,filter);
+
     }
 
     public void setStationActionsListener(StationActionsListener stationActionsListener) {
@@ -179,12 +179,8 @@ public class ItemAdapterStation
 
         shouldLoadIcons = Utils.shouldLoadIcons(getContext());
 
-        for (int i = 0; i < stationsList.size(); i++) {
-            if(stationsList.get(i).ID.equals(PlayerServiceUtil.getStationId())) {
-                playingStationPosition = i;
-                break;
-            }
-        }
+        highlightCurrentStation();
+
         notifyDataSetChanged();
     }
 
@@ -377,6 +373,11 @@ public class ItemAdapterStation
         stationActionsListener.onStationSwiped(stationsList.get(viewHolder.getAdapterPosition()));
     }
 
+    @Override
+    public void onDetachedFromRecyclerView(RecyclerView recyclerView) {
+        getContext().unregisterReceiver(updateUIReceiver);
+    }
+
     private void showLinks(final DataRadioStation station) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
 
@@ -422,7 +423,8 @@ public class ItemAdapterStation
 
             @Override
             protected void onPostExecute(String result) {
-                getContext().sendBroadcast(new Intent(ActivityMain.ACTION_HIDE_LOADING));
+                if(getContext() != null)
+                    getContext().sendBroadcast(new Intent(ActivityMain.ACTION_HIDE_LOADING));
 
                 if (result != null) {
                     ClipboardManager clipboard = (ClipboardManager) getContext().getSystemService(Context.CLIPBOARD_SERVICE);
@@ -500,7 +502,8 @@ public class ItemAdapterStation
 
             @Override
             protected void onPostExecute(String result) {
-                getContext().sendBroadcast(new Intent(ActivityMain.ACTION_HIDE_LOADING));
+                if(getContext() != null)
+                    getContext().sendBroadcast(new Intent(ActivityMain.ACTION_HIDE_LOADING));
 
                 if (result != null) {
                     Intent share = new Intent(Intent.ACTION_VIEW);
@@ -537,6 +540,25 @@ public class ItemAdapterStation
             holder.transparentImageView.getLayoutParams().height  = (int) getContext().getResources().getDimension(R.dimen.compact_style_icon_height);
             holder.transparentImageView.getLayoutParams().width  = (int) getContext().getResources().getDimension(R.dimen.compact_style_icon_width);
             holder.imageViewIcon.getLayoutParams().height = (int) getContext().getResources().getDimension(R.dimen.compact_style_icon_height);
+        }
+    }
+    
+    private void  highlightCurrentStation() {
+        if(!PlayerServiceUtil.isPlaying()) return;
+
+        int oldPlayingStationPosition = playingStationPosition;
+
+        for (int i = 0; i < stationsList.size(); i++) {
+            if (stationsList.get(i).ID.equals(PlayerServiceUtil.getStationId())) {
+                playingStationPosition = i;
+                break;
+            }
+        }
+        if(playingStationPosition != oldPlayingStationPosition) {
+            if(oldPlayingStationPosition > -1)
+                notifyItemChanged(oldPlayingStationPosition);
+            if(playingStationPosition > -1)
+                notifyItemChanged(playingStationPosition);
         }
     }
 }
