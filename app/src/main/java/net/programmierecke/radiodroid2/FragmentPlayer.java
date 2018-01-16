@@ -1,6 +1,5 @@
 package net.programmierecke.radiodroid2;
 
-import android.app.ProgressDialog;
 import android.content.*;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
@@ -20,7 +19,6 @@ import net.programmierecke.radiodroid2.data.StreamLiveInfo;
 import static net.programmierecke.radiodroid2.ActivityMain.FRAGMENT_FROM_BACKSTACK;
 
 public class FragmentPlayer extends Fragment {
-	ProgressDialog itsProgressLoading;
 	TextView aTextViewName;
 	ImageButton buttonPause;
 	private BroadcastReceiver updateUIReciver;
@@ -40,8 +38,6 @@ public class FragmentPlayer extends Fragment {
 							 Bundle savedInstanceState) {
 		// Inflate the layout for this fragment
 		View view = inflater.inflate(R.layout.layout_player_status, container, false);
-
-        PlayerServiceUtil.bind(getContext());
 
         IntentFilter filter = new IntentFilter();
 
@@ -218,7 +214,6 @@ public class FragmentPlayer extends Fragment {
 			t.interrupt();
 		}
 		super.onDestroy();
-		PlayerServiceUtil.unBind(getContext());
 		if (updateUIReciver != null) {
 			getContext().unregisterReceiver(updateUIReciver);
 			updateUIReciver = null;

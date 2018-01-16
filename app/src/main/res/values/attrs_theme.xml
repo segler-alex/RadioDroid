@@ -13,4 +13,6 @@
     <attr name="colorTabUnderline" format="reference"/>
 
     <attr name="iconsInItemBackgroundColor" format="reference" />
+
+    <attr name="colorAccentMy" format="reference" />
 </resources>

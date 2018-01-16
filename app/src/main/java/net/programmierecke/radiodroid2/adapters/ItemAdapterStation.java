@@ -3,14 +3,16 @@ package net.programmierecke.radiodroid2.adapters;
 import java.util.Arrays;
 import java.util.List;
 
-import android.app.ProgressDialog;
 import android.app.TimePickerDialog;
+import android.content.BroadcastReceiver;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -22,23 +24,15 @@ import android.support.v7.preference.PreferenceManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewStub;
 import android.widget.*;
 
-import net.programmierecke.radiodroid2.ActivityMain;
-import net.programmierecke.radiodroid2.CountryFlagsLoader;
-import net.programmierecke.radiodroid2.RadioDroidApp;
+import net.programmierecke.radiodroid2.*;
 import net.programmierecke.radiodroid2.data.DataRadioStation;
-import net.programmierecke.radiodroid2.FavouriteManager;
-import net.programmierecke.radiodroid2.FragmentStarred;
-import net.programmierecke.radiodroid2.R;
-import net.programmierecke.radiodroid2.RadioAlarmManager;
-import net.programmierecke.radiodroid2.TimePickerFragment;
-import net.programmierecke.radiodroid2.PlayerServiceUtil;
-import net.programmierecke.radiodroid2.Utils;
 import net.programmierecke.radiodroid2.interfaces.IAdapterRefreshable;
 import net.programmierecke.radiodroid2.utils.RecyclerItemSwipeHelper;
 import net.programmierecke.radiodroid2.utils.SwipeableViewHolder;
@@ -65,12 +59,14 @@ public class ItemAdapterStation
 
     private boolean shouldLoadIcons;
 
-    private ProgressDialog progressLoading;
     private IAdapterRefreshable refreshable;
     private FragmentActivity activity;
 
+    private BroadcastReceiver updateUIReceiver;
+
     private DataRadioStation selectedStation;
     private int expandedPosition = -1;
+    public int playingStationPosition = -1;
 
     private Drawable stationImagePlaceholder;
 
@@ -148,6 +144,17 @@ public class ItemAdapterStation
 
         RadioDroidApp radioDroidApp = (RadioDroidApp)fragmentActivity.getApplication();
         favouriteManager = radioDroidApp.getFavouriteManager();
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(PlayerService.PLAYER_SERVICE_META_UPDATE);
+
+        this.updateUIReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                highlightCurrentStation();
+            }
+        };
+        getContext().registerReceiver(this.updateUIReceiver,filter);
+
     }
 
     public void setStationActionsListener(StationActionsListener stationActionsListener) {
@@ -168,8 +175,11 @@ public class ItemAdapterStation
         this.stationsList = stationsList;
 
         expandedPosition = -1;
+        playingStationPosition = -1;
 
         shouldLoadIcons = Utils.shouldLoadIcons(getContext());
+
+        highlightCurrentStation();
 
         notifyDataSetChanged();
     }
@@ -247,6 +257,18 @@ public class ItemAdapterStation
                 }
             }
         });
+
+        TypedValue tv = new TypedValue();
+        if(playingStationPosition == position) {
+            getContext().getTheme().resolveAttribute(R.attr.colorAccentMy, tv, true);
+            holder.textViewTitle.setTextColor(tv.data);
+            holder.textViewTitle.setTypeface(null, Typeface.BOLD);
+        }
+        else {
+            holder.textViewTitle.setTypeface(holder.textViewShortDescription.getTypeface());
+            getContext().getTheme().resolveAttribute(R.attr.iconsInItemBackgroundColor, tv, true);
+            holder.textViewTitle.setTextColor(tv.data);
+        }
 
         holder.textViewTitle.setText(station.Name);
         holder.textViewShortDescription.setText(station.getShortDetails(getContext()));
@@ -351,6 +373,11 @@ public class ItemAdapterStation
         stationActionsListener.onStationSwiped(stationsList.get(viewHolder.getAdapterPosition()));
     }
 
+    @Override
+    public void onDetachedFromRecyclerView(RecyclerView recyclerView) {
+        getContext().unregisterReceiver(updateUIReceiver);
+    }
+
     private void showLinks(final DataRadioStation station) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
 
@@ -387,7 +414,7 @@ public class ItemAdapterStation
     }
 
     private void retrieveAndCopyStreamUrlToClipboard(final DataRadioStation station) {
-        final ProgressDialog loadingDialog = ProgressDialog.show(getContext(), "", getContext().getResources().getText(R.string.progress_loading));
+        getContext().sendBroadcast(new Intent(ActivityMain.ACTION_SHOW_LOADING));
         new AsyncTask<Void, Void, String>() {
             @Override
             protected String doInBackground(Void... params) {
@@ -396,7 +423,8 @@ public class ItemAdapterStation
 
             @Override
             protected void onPostExecute(String result) {
-                loadingDialog.dismiss();
+                if(getContext() != null)
+                    getContext().sendBroadcast(new Intent(ActivityMain.ACTION_HIDE_LOADING));
 
                 if (result != null) {
                     ClipboardManager clipboard = (ClipboardManager) getContext().getSystemService(Context.CLIPBOARD_SERVICE);
@@ -465,7 +493,7 @@ public class ItemAdapterStation
     }
 
     private void share(final DataRadioStation station) {
-        progressLoading = ProgressDialog.show(getContext(), "", getContext().getResources().getString(R.string.progress_loading));
+        getContext().sendBroadcast(new Intent(ActivityMain.ACTION_SHOW_LOADING));
         new AsyncTask<Void, Void, String>() {
             @Override
             protected String doInBackground(Void... params) {
@@ -474,7 +502,8 @@ public class ItemAdapterStation
 
             @Override
             protected void onPostExecute(String result) {
-                progressLoading.dismiss();
+                if(getContext() != null)
+                    getContext().sendBroadcast(new Intent(ActivityMain.ACTION_HIDE_LOADING));
 
                 if (result != null) {
                     Intent share = new Intent(Intent.ACTION_VIEW);
@@ -511,6 +540,25 @@ public class ItemAdapterStation
             holder.transparentImageView.getLayoutParams().height  = (int) getContext().getResources().getDimension(R.dimen.compact_style_icon_height);
             holder.transparentImageView.getLayoutParams().width  = (int) getContext().getResources().getDimension(R.dimen.compact_style_icon_width);
             holder.imageViewIcon.getLayoutParams().height = (int) getContext().getResources().getDimension(R.dimen.compact_style_icon_height);
+        }
+    }
+    
+    private void  highlightCurrentStation() {
+        if(!PlayerServiceUtil.isPlaying()) return;
+
+        int oldPlayingStationPosition = playingStationPosition;
+
+        for (int i = 0; i < stationsList.size(); i++) {
+            if (stationsList.get(i).ID.equals(PlayerServiceUtil.getStationId())) {
+                playingStationPosition = i;
+                break;
+            }
+        }
+        if(playingStationPosition != oldPlayingStationPosition) {
+            if(oldPlayingStationPosition > -1)
+                notifyItemChanged(oldPlayingStationPosition);
+            if(playingStationPosition > -1)
+                notifyItemChanged(playingStationPosition);
         }
     }
 }

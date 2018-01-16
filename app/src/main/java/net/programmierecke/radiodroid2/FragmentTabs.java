@@ -59,14 +59,15 @@ public class FragmentTabs extends Fragment implements IFragmentRefreshable, IFra
 
         /*
          * Now , this is a workaround ,
-         * The setupWithViewPager dose't works without the runnable .
+         * The setupWithViewPager doesn't works without the runnable .
          * Maybe a Support Library Bug .
          */
 
         tabLayout.post(new Runnable() {
             @Override
             public void run() {
-                tabLayout.setupWithViewPager(viewPager);
+                if(getContext() != null)
+                    tabLayout.setupWithViewPager(viewPager);
             }
         });
 

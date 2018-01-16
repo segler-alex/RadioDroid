@@ -3,7 +3,6 @@ package net.programmierecke.radiodroid2;
 import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -207,7 +206,7 @@ public class Utils {
 	}
 
 	private static void playInternal(final DataRadioStation station, final Context context, final boolean external) {
-		final ProgressDialog itsProgressLoading = ProgressDialog.show(context, "", context.getResources().getText(R.string.progress_loading));
+        context.sendBroadcast(new Intent(ActivityMain.ACTION_SHOW_LOADING));
 		new AsyncTask<Void, Void, String>() {
 			@Override
 			protected String doInBackground(Void... params) {
@@ -216,7 +215,7 @@ public class Utils {
 
 			@Override
 			protected void onPostExecute(String result) {
-				itsProgressLoading.dismiss();
+                context.sendBroadcast(new Intent(ActivityMain.ACTION_HIDE_LOADING));
 
 				if (result != null) {
 					boolean externalActive = false;

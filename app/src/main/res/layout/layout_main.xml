@@ -18,7 +18,19 @@
         android:minHeight="?attr/actionBarSize"
         android:background="?attr/colorPrimary"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
+
+        <ProgressBar
+                android:id="@+id/progressBarLoading"
+                android:layout_width="34dp"
+                android:layout_height="34dp"
+                android:layout_marginLeft="22dp"
+                android:layout_marginStart="22dp"
+                android:indeterminate="true"
+                android:theme="@style/ProgressBarCircle"
+                android:visibility="gone"/>
+
+    </android.support.v7.widget.Toolbar>
 
     <android.support.v7.app.MediaRouteButton
         android:id="@+id/media_route_button"

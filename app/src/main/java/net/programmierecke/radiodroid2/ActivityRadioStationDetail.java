@@ -2,7 +2,6 @@ package net.programmierecke.radiodroid2;
 
 import java.util.Locale;
 
-import android.app.ProgressDialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.net.Uri;
@@ -22,7 +21,6 @@ import android.widget.TimePicker;
 import net.programmierecke.radiodroid2.data.DataRadioStation;
 
 public class ActivityRadioStationDetail extends AppCompatActivity implements TimePickerDialog.OnTimeSetListener {
-	private ProgressDialog itsProgressLoading;
 	private DataRadioStation itsStation;
 	private MenuItem m_Menu_Star;
 	private MenuItem m_Menu_UnStar;
@@ -49,7 +47,7 @@ public class ActivityRadioStationDetail extends AppCompatActivity implements Tim
 
 		UpdateMenu();
 
-		itsProgressLoading = ProgressDialog.show(ActivityRadioStationDetail.this, "", getResources().getText(R.string.progress_loading));
+		getApplicationContext().sendBroadcast(new Intent(ActivityMain.ACTION_SHOW_LOADING));
 		new AsyncTask<Void, Void, String>() {
 			@Override
 			protected String doInBackground(Void... params) {
@@ -66,7 +64,7 @@ public class ActivityRadioStationDetail extends AppCompatActivity implements Tim
 						}
 					}
 				}
-				itsProgressLoading.dismiss();
+				getApplicationContext().sendBroadcast(new Intent(ActivityMain.ACTION_HIDE_LOADING));
 				super.onPostExecute(result);
 			}
 
