@@ -22,30 +22,39 @@ import net.programmierecke.radiodroid2.data.StreamLiveInfo;
 public class PlayerServiceUtil {
 
     private static Context mainContext = null;
-    private Drawable stationIcon;
+    private static boolean mBound;
+    private static ServiceConnection serviceConnection;
 
     public static void bind(Context context){
+        if(mBound) return;
+
         Intent anIntent = new Intent(context, PlayerService.class);
         mainContext = context;
-        context.bindService(anIntent, svcConn, Context.BIND_AUTO_CREATE);
+        serviceConnection = getServiceConnection();
         context.startService(anIntent);
+        context.bindService(anIntent, serviceConnection, Context.BIND_AUTO_CREATE);
+        mBound = true;
     }
 
     public static void unBind(Context context){
-        PlayerService thisService = new PlayerService();
         try {
-            context.unbindService(svcConn);
+            context.unbindService(serviceConnection);
         } catch (Exception e) {
         }
+        serviceConnection = null;
+        mBound = false;
     }
 
     public static void shutdownService() {
         if (mainContext != null) {
             try {
-                Intent anIntent = new Intent(mainContext, PlayerService.class);
-                // context.bindService(anIntent, svcConn, Context.BIND_AUTO_CREATE);
                 if(BuildConfig.DEBUG) { Log.d("PlayerServiceUtil", "PlayerServiceUtil: shutdownService"); }
+
+                Intent anIntent = new Intent(mainContext, PlayerService.class);
+                unBind(mainContext);
                 mainContext.stopService(anIntent);
+                itsPlayerService = null;
+                serviceConnection = null;
             } catch(Exception e) {
                 if(BuildConfig.DEBUG) { Log.d("PlayerServiceUtil", "PlayerServiceUtil: shutdownService E001:" + e.getMessage()); }
             }
@@ -53,17 +62,23 @@ public class PlayerServiceUtil {
     }
 
     static IPlayerService itsPlayerService;
-    private static ServiceConnection svcConn = new ServiceConnection() {
-        public void onServiceConnected(ComponentName className, IBinder binder) {
-            if(BuildConfig.DEBUG) { Log.d("PLAYER", "Service came online"); }
-            itsPlayerService = IPlayerService.Stub.asInterface(binder);
-        }
+    private static ServiceConnection getServiceConnection() {
+        return new ServiceConnection() {
+            public void onServiceConnected(ComponentName className, IBinder binder) {
+                if (BuildConfig.DEBUG) {
+                    Log.d("PLAYER", "Service came online");
+                }
+                itsPlayerService = IPlayerService.Stub.asInterface(binder);
+            }
 
-        public void onServiceDisconnected(ComponentName className) {
-            if(BuildConfig.DEBUG) { Log.d("PLAYER", "Service offline"); }
-            itsPlayerService = null;
-        }
-    };
+            public void onServiceDisconnected(ComponentName className) {
+                if (BuildConfig.DEBUG) {
+                    Log.d("PLAYER", "Service offline");
+                }
+                unBind(mainContext);
+            }
+        };
+    }
 
     public static boolean isPlaying(){
         if (itsPlayerService != null){

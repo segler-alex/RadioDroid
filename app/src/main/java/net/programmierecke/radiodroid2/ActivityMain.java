@@ -222,7 +222,7 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
         if(Utils.bottomNavigationEnabled(this)) {
             // I'm giving 3 seconds on making a choice
             if (lastExitTry != null && new Date().getTime() < lastExitTry.getTime() + 3 * 1000) {
-                PlayerServiceUtil.stop();
+                PlayerServiceUtil.shutdownService();
                 finish();
             }
             else {
@@ -333,6 +333,7 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
             Log.d(TAG, "RESUMED");
         }
 
+        PlayerServiceUtil.bind(this);
         CastHandler.onResume();
         MPDClient.StartDiscovery(this, this);
     }

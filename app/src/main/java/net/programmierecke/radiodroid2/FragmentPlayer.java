@@ -39,8 +39,6 @@ public class FragmentPlayer extends Fragment {
 		// Inflate the layout for this fragment
 		View view = inflater.inflate(R.layout.layout_player_status, container, false);
 
-        PlayerServiceUtil.bind(getContext());
-
         IntentFilter filter = new IntentFilter();
 
         filter.addAction(PlayerService.PLAYER_SERVICE_TIMER_UPDATE);
@@ -216,7 +214,6 @@ public class FragmentPlayer extends Fragment {
 			t.interrupt();
 		}
 		super.onDestroy();
-		PlayerServiceUtil.unBind(getContext());
 		if (updateUIReciver != null) {
 			getContext().unregisterReceiver(updateUIReciver);
 			updateUIReciver = null;
