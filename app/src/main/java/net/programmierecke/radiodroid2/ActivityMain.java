@@ -196,6 +196,8 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
         else
             fragmentTransaction.replace(R.id.containerView, f).addToBackStack(backStackTag).commit();
 
+        // User selected a menuItem. Let's hide progressBar
+        sendBroadcast(new Intent(ActivityMain.ACTION_HIDE_LOADING));
         invalidateOptionsMenu();
         checkMenuItems();
 
