@@ -88,7 +88,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="start"
             android:background="?attr/menuBottomBackgroundColor"
-            app:itemBackground="?attr/menuBottomBackgroundColor"
+            app:itemBackground="?attr/selectableItemBackgroundBorderless"
             app:itemTextColor="@color/menu_bottom_text_color"
             app:itemIconTint="@color/menu_bottom_text_color"
             app:menu="@menu/menu_bottom_navigation" />

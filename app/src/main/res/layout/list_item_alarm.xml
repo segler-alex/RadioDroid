@@ -65,7 +65,7 @@
             android:tint="?attr/iconsInItemBackgroundColor"
             app:srcCompat="@drawable/ic_delete_black_24dp"
             android:layout_gravity="center"
-            android:background="@android:color/transparent"
+            android:background="?attr/selectableItemBackgroundBorderless"
             android:contentDescription="@string/image_button_delete" />
 
         <ImageButton
@@ -75,9 +75,8 @@
             android:tint="?attr/iconsInItemBackgroundColor"
             app:srcCompat="@drawable/ic_refresh_black_24dp"
             android:layout_gravity="center"
-            android:background="@android:color/transparent"
+            android:background="?attr/selectableItemBackgroundBorderless"
             android:layout_margin="20dp" />
-
 
     </LinearLayout>
 
