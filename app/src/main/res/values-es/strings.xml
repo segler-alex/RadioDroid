@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <resources>
     <string name="detail_name">Nombre</string>
     <string name="detail_tags">Etiquetas</string>
@@ -6,11 +7,16 @@
     <string name="detail_language">Idioma</string>
     <string name="detail_weblink">Enlace web</string>
     <string name="detail_play">Reproducir</string>
+    <string name="detail_pause">Pausar</string>
     <string name="detail_stop">Parar</string>
     <string name="detail_share">Compartir</string>
     <string name="action_search">Buscar</string>
-    <string name="action_top_click">Más Clics</string>
-    <string name="action_top_vote">Más Votos</string>
+    <string name="action_delete">Borrar</string>
+    <string name="action_delete_history">Borrar historial</string>
+    <string name="action_delete_favorites">Borrar favoritos</string>
+    <string name="action_cancel">Cancelar</string>
+    <string name="action_top_click">Más clics</string>
+    <string name="action_top_vote">Más votos</string>
     <string name="action_changed_lately">Cambiado recientemente</string>
     <string name="action_currently_playing">Emitiendo</string>
     <string name="action_tags">Etiquetas</string>
@@ -21,31 +27,61 @@
 
     <string name="share_action">Compartir enlace a la estación con...</string>
 
-    <string name="nav_item_stations">Estaciones</string>
+    <string name="nav_item_stations">Radios</string>
     <string name="nav_item_starred">Favoritos</string>
     <string name="nav_item_history">Historial</string>
     <string name="nav_item_settings">Ajustes</string>
     <string name="nav_item_alarm">Alarma</string>
     <string name="nav_item_recordings">Grabaciones</string>
 
-    <string name="about_text">Esta aplicación usa el directorio libre de radios en\nhttps://www.radio-browser.info\nCualquiera puede agregar estaciones o editar las existentes. Funciona como una wiki para estaciones de radio que emiten por internet (streaming).\n\nContacto:\nsegler_alex@web.de\n\nGestor de incidencias:\nhttps://github.com/segler-alex/RadioDroid/issues\n\nSi te gusta este software y quisieras ayudar, siéntete libre de enviar un correo. Realmente necesitaría alguien con experiencia en gráficos para hacer la aplicación más agradable de ver :) Quizá alguien que pueda dibujar iconos, imágenes... Pero también programadores para arregar fallos, o implementar nuevas características (no fallos ;)\n¡También se agradecen siempre ideas para nuevas características!\n\nEsta aplicación es software libre bajo la licencia GPLv3\nhttps://www.gnu.org/licenses/gpl-3.0.html.</string>
-    <string name="detail_star">Marcar</string>
-    <string name="detail_unstar">Borrar</string>
+    <string name="about_text">Esta aplicación usa el directorio libre de radios en\nhttps://www.radio-browser.info\nCualquiera puede agregar estaciones o editar las existentes. Funciona como una wiki para estaciones de radio que emiten por internet (streaming).\n\nContacto:\nsegler_alex@web.de\n\nGestor de incidencias:\nhttps://github.com/segler-alex/RadioDroid/issues\n\nSi te gusta este software y quieres ayudar, siéntete libre de enviar un correo. Realmente necesitaría alguien con experiencia en gráficos para hacer la aplicación más agradable de ver :) Quizá alguien que pueda dibujar iconos, imágenes... Pero también programadores para arregar fallos, o implementar nuevas características. ;)\n¡También se agradecen siempre ideas para nuevas características!\n\nEsta aplicación es software libre bajo la licencia GPLv3\nhttps://www.gnu.org/licenses/gpl-3.0.html.</string>
+    <string name="about_version">Versión : %1$s</string>
+    <string name="detail_star">Marcar como favorito</string>
+    <string name="detail_unstar">Quitar como favorito</string>
     <string name="progress_loading">Cargando...</string>
 
     <string name="sleep_timer" formatted="true">Tiempo para dormir: %1$02d:%2$02d</string>
+    <string name="sleep_timer_title">¿Cuántos minutos antes de parar?</string>
+    <string name="sleep_timer_apply">Aplicar</string>
+    <string name="sleep_timer_clear">Borrar</string>
     <string name="nav_item_add_sleep">+15 mins</string>
 
+    <string name="settings_interface">UI</string>
+    <string name="settings_theme_selection_title">Tema</string>
+    <string name="theme_light">Claro</string>
+    <string name="theme_dark">Oscuro</string>
+    <string name="settings_circular_icons">Usar iconos circulares</string>
+    <string name="settings_compact_style">Modo compacto</string>
+
     <string name="settings_general">General</string>
-    <string name="settings_single_use_tags">Mostrar etiquetas de un solo uso</string>
-    <string name="settings_single_use_tags_desc_off">No mostrar etiquetas de un solo uso</string>
-    <string name="settings_single_use_tags_desc_on">Mostrar etiquetas de un solo uso</string>
+    <string name="settings_single_use_tags">Mostrar etiquetas únicas</string>
+    <string name="settings_single_use_tags_desc_off">Las etiquetas únicas no se mostrarán</string>
+    <string name="settings_single_use_tags_desc_on">Las etiquetas únicas serán mostradas</string>
 
     <string name="settings_show_broken">Estaciones rotas</string>
     <string name="settings_show_broken_on">Mostrar estaciones rotas en las listas</string>
     <string name="settings_show_broken_off">No mostrar estaciones rotas en las listas</string>
 
-    <string name="settings_alarm">Alarma</string>
+    <string name="startup_action_title">Iniciar acción</string>
+    <string name="startup_action_title_desc">%s</string>
+    <string name="startup_show_all_stations">Mostrar todas las estaciones</string>
+    <string name="startup_show_favorites">Mostrar favoritos</string>
+    <string name="startup_show_history">Mostrar historial</string>
+    <string name="startup_show_last_view">Última vista</string>
+
+    <string name="settings_load_icons">Mostrar iconos de las estaciones</string>
+    <string name="settings_load_icons_on">Los iconos se descargarán</string>
+    <string name="settings_load_icons_off">Los iconos no se descargarán</string>
+
+    <string name="settings_auto_favorite">Auto-favoritos</string>
+    <string name="settings_auto_favorite_on">Las estaciones serán puestas automáticamente como favoritas cuando se reproduzcan</string>
+    <string name="settings_auto_favorite_off">Las estaciones no serán puestas automáticamente como favoritas cuando se reproduzcan</string>
+
+    <string name="settings_icon_click_toggles_favorite">Clic del icono</string>
+    <string name="settings_icon_click_toggles_favorite_on">Un clic en el icono de la estación la añade o quita de favoritos</string>
+    <string name="settings_icon_click_toggles_favorite_off">Un clic en el icono de la estación empieza a reproducir</string>
+
+	<string name="settings_alarm">Alarma</string>
     <string name="settings_alarm_external">Abrir externa</string>
     <string name="settings_alarm_external_desc">Abrir la alarma con la aplicación externa predeterminada</string>
     <string name="settings_alarm_audio_player">Reproductor de audio</string>
@@ -54,23 +90,81 @@
     <string name="settings_play">Reproductor</string>
     <string name="settings_play_external">Abrir externo</string>
     <string name="settings_play_external_desc">Un solo clic en las estaciones abre el reproductor externo</string>
+    <string name="settings_equalizer">Ecualizador</string>
 
-    <string name="settings_statistics">Estadísticas</string>
-    <string name="settings_about">Acerca de</string>
+	<string name="settings_connectivity">Conexión</string>
+    <string name="settings_connect_timeout">Tiempo de espera de conexión de la transmisión agotado</string>
+    <string name="settings_read_timeout">Tiempo de espera de lectura de la transmisión</string>
+    <string name="settings_retry_timeout">Tiempo de espera de reanudación de la transmisión agotado</string>
+    <string name="settings_retry_delay">Retraso al volver a conectar</string>
+    <string name="settings_seconds_format">%d segundos</string>
+    <string name="settings_milliseconds_format">%d milisegundos</string>
 
+    <string name="settings_warn_no_wifi">Avisar cuando no haya Wi-Fi</string>
+    <string name="settings_warn_no_wifi_on">Avisar cuando se reproduzca sin conexión Wi-Fi</string>
+    <string name="settings_warn_no_wifi_off">No avisar cuando se reproduzca sin conexión Wi-Fi</string>
+
+	<string name="settings_recordings">Grabaciones</string>
+    <string name="settings_record_name_formatting">Formato de nombre</string>
+
+    <string name="settings_record_name_formatting_default" translatable="false">${station}_${artist}_${track}_${date}_${time}</string>
+    <string name="settings_record_name_formatting_1" translatable="false">${station}_${artist}_${track}</string>
+    <string name="settings_record_name_formatting_2" translatable="false">${station}_${date}_${time}</string>
+    <string name="settings_record_name_formatting_3" translatable="false">${index}_${station}_${date}</string>
+
+    <string name="settings_record_name_formatting_default_display">station_artist_track_\u200bdate_\u200btime</string>
+    <string name="settings_record_name_formatting_1_display">station_artist_\u200btrack</string>
+    <string name="settings_record_name_formatting_2_display">station_date_\u200btime</string>
+    <string name="settings_record_name_formatting_3_display">index_station_\u200bdate</string>
+
+    <string name="notify_pre_play">Conectando</string>
     <string name="notify_play">Reproduciendo</string>
+    <string name="notify_paused">En pausa</string>
+    <string name="notify_starred">La estación ha sido marcada como favorita</string>
+    <string name="notify_autostarred">La estación ha sido marcada automáticamente como favorita</string>
+    <string name="notify_unstarred">La estación ha sido borrada de la lista de favoritos</string>
+    <string name="notify_deleted_favorites">Los favoritos han sido borrados.</string>
+    <string name="notify_deleted_history">El historial ha sido borrado.</string>
+
+    <string name="notify_station_removed_from_list">1 borrada</string>
+    <string name="action_station_removed_from_list_undo">DESHACER</string>
+
+    <string name="alert_delete_history">¿Realmente quieres borrar el historial?</string>
+    <string name="alert_delete_favorites">¿Realmente quieres eliminar todos los favoritos?</string>
+    <string name="yes">Sí</string>
+    <string name="no">No</string>
+
+	<string name="alert_select_mpd_server">¿En qué servidor?</string>
+    <string name="alert_select_mpd_server_name">Nombre del servidor</string>
+    <string name="alert_select_mpd_server_hostname">Nombre del host</string>
+    <string name="alert_select_mpd_server_port">Puerto</string>
+
+    <string name="alert_select_mpd_server_add">Añadir</string>
+    <string name="alert_select_mpd_server_save">Guardar</string>
+    <string name="alert_select_mpd_server_remove">Quitar</string>
+    <string name="alert_add_or_edit_mpd_server">Escribir detalles sobre un servidor</string>
+
+    <string name="alert_press_back_to_exit">Presiona atrás una vez más para salir</string>
 
     <string name="error_stream_url">Problema en la URL de la emisión</string>
     <string name="error_caching_stream">Problema al «cachear» la emisión</string>
     <string name="error_play_stream">No se puede reproducir la emisión</string>
+	<string name="error_stream_reconnect_timeout">No se puede volver a conectar a la transmisión: tiempo de espera agotado.</string>
 
     <string name="error_record_needs_write">¡Necesito permisos de escritura para grabar!</string>
+    <string name="error_grant_audiofocus">La solicitud de enfoque de audio no fue otorgada por el sistema.</string>
+
+    <string name="error_no_equalizer_found">¡Ninguna aplicación de ecualización encontrada!</string>
 
     <string name="player_info_status">ESTADO:</string>
-    <string name="player_info_status_stopped">Parado</string>
-    <string name="player_info_status_playing">Reproduciendo</string>
+    <string name="player_info_status_stopped">parado</string>
+    <string name="player_info_status_playing">reproduciendo</string>
+    <string name="player_info_status_recording">grabando</string>
+    <string name="player_info_status_playing_and_recording">reproduciendo y grabando</string>
     <string name="player_info_transferred">Datos transferidos: %1$s</string>
     <string name="player_info_recording_to">Grabando a: %1$s</string>
+    <string name="player_info_recorded_to">Última grabación:\n
+          %1$s</string>
 
     <string name="station_detail_bitrate">%1$1d kbps</string>
     <string name="station_detail_broken">ROTO</string>
@@ -79,4 +173,40 @@
     <string name="image_button_record">Grabar</string>
     <string name="image_button_delete">Borrar</string>
     <string name="image_button_more">Más</string>
+
+    <string name="media_route_menu_title">GoogleCast</string>
+    <string name="app_id">5A97BAE4</string>
+
+    <string name="settings_mpd">Music Player Daemon</string>
+	<string name="settings_view_mpd_servers">Tus servidores</string>
+    <string name="action_mpd_nok">MPD no conectado</string>
+    <string name="action_mpd_ok">MPD conectado</string>
+
+	<string name="settings_other">Otro</string>
+	<string name="settings_statistics">Estadísticas</string>
+    <string name="settings_about">Sobre RadioDroid</string>
+
+    <string-array name="weekdays">
+        <item>D</item>
+        <item>L</item>
+        <item>M</item>
+        <item>M</item>
+        <item>J</item>
+        <item>V</item>
+        <item>S</item>
+    </string-array>
+
+    <string name="notify_stream_url_copied">¡URL de la transmisión copiado con éxito!</string>
+
+    <string-array name="actions_station_link">
+        <item>Visitar página web</item>
+        <item>Copiar URL de la transmisión</item>
+    </string-array>
+
+    <string name="no_wifi_title">No hay conexión WiFi (WLAN)</string>
+    <string name="no_wifi_connection">No hay conexión WiFi (WLAN) cuando empieza a los %1$s. Presiona \'Ok\' para continuar.</string>
+    <string name="nav_item_statistics">Estadísticas</string>
+    <string name="nav_item_about">Sobre</string>
+    <string name="settings_mpd_port">Puerto MPD</string>
+    <string name="refresh">Recargar</string>
 </resources>
