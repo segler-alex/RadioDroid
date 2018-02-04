@@ -125,6 +125,12 @@ public class FragmentStations extends FragmentBase {
     }
 
     @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        rvStations.setAdapter(null);
+    }
+
+    @Override
     protected void DownloadFinished() {
         if (swipeRefreshLayout != null) {
             swipeRefreshLayout.setRefreshing(false);

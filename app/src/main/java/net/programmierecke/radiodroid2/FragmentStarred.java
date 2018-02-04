@@ -95,4 +95,10 @@ public class FragmentStarred extends Fragment implements IAdapterRefreshable {
 
         return view;
     }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        rvStations.setAdapter(null);
+    }
 }

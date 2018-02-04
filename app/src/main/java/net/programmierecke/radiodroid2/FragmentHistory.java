@@ -110,4 +110,10 @@ public class FragmentHistory extends Fragment {
 
         return view;
     }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        rvStations.setAdapter(null);
+    }
 }
