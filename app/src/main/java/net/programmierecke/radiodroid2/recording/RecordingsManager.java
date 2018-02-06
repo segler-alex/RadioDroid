@@ -21,6 +21,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -165,6 +166,15 @@ public class RecordingsManager {
                 dr.Time = new Date(f.lastModified());
                 list.add(dr);
             }
+
+            Collections.sort(list, new Comparator<DataRecording>() {
+                @Override
+                public int compare(DataRecording o1, DataRecording o2) {
+                    if(o1.Time.getTime() > o2.Time.getTime()) return 1;
+                    else if(o1.Time.getTime() < o2.Time.getTime()) return -1;
+                    else return 0;
+                }
+            });
         } else {
             Log.e(TAG, "could not enumerate files in recordings directory");
         }
