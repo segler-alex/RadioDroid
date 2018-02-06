@@ -10,6 +10,7 @@ import android.support.v7.preference.PreferenceManager;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.*;
 import android.widget.*;
 
@@ -231,12 +232,18 @@ public class FragmentPlayer extends Fragment {
 		}
 
 		buttonRecord = (ImageButton) getActivity().findViewById(R.id.buttonRecord);
+		TypedValue tv = new TypedValue();
+		getContext().getTheme().resolveAttribute(R.attr.colorAccentMy, tv, true);
+
 		if (PlayerServiceUtil.isRecording()) {
 			buttonRecord.setImageResource(R.drawable.ic_stop_recording);
+			aTextViewName.setTextColor(getResources().getColor(R.color.startRecordingColor));
 		} else if (android.os.Environment.getExternalStorageDirectory().canWrite()) {
 			buttonRecord.setImageResource(R.drawable.ic_start_recording);
+			aTextViewName.setTextColor(tv.data);
 		} else {
 			buttonRecord.setImageResource(R.drawable.ic_fiber_manual_record_black_50dp);
+			aTextViewName.setTextColor(tv.data);
 		}
 
 		if(BuildConfig.DEBUG) { Log.d("ARR","UpdateOutput()"); }

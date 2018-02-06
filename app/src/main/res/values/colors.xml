@@ -36,4 +36,6 @@
 
     <color name="iconsInItemBackgroundColor">@android:color/black</color>
     <color name="iconsInItemBackgroundColorDark">@android:color/white</color>
+
+    <color name="startRecordingColor">#ff3333</color>
 </resources>
