@@ -710,6 +710,7 @@ public class PlayerService extends Service implements RadioPlayer.PlayerListener
         final float px = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 70, getResources().getDisplayMetrics());
 
         if (currentStationIconUrl == null) return;
+        if (currentStationIconUrl.trim().equals("")) return;
 
         Picasso.with(getApplicationContext())
                 .load(currentStationIconUrl)
