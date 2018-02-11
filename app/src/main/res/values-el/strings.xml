@@ -174,7 +174,7 @@
 
     <string name="error_no_equalizer_found">Δεν βρέθηκε εφαρμογή ισοστάθμισης.</string>
 
-    <string name="player_info_status">Κατάσταση:</string>
+    <string name="player_info_status">Κατάσταση: </string>
     <string name="player_info_status_stopped">σταματημένο</string>
     <string name="player_info_status_playing">παίζει</string>
     <string name="player_info_status_recording">ηχογραφεί</string>
