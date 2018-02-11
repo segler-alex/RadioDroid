@@ -1,4 +1,3 @@
-<!-- File "strings.xml" -->
 <?xml version="1.0" encoding="utf-8"?>
 
 <resources>
@@ -232,6 +231,3 @@
     <string name="settings_mpd_port">Θύρα MPD</string>
     <string name="refresh">Ανανέωση</string>
 </resources>
-
-<!-- File "strings2.xml" -->
-
