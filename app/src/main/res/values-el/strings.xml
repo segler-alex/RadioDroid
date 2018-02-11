@@ -1,0 +1,237 @@
+<!-- File "strings.xml" -->
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+    <string name="detail_name">Όνομα</string>
+    <string name="detail_tags">Καρτέλες</string>
+    <string name="detail_country">Χώρα</string>
+    <string name="detail_language">Γλώσσα</string>
+    <string name="detail_weblink">Διαδικτυακός δεσμός</string>
+    <string name="detail_play">Αναπαραγωγή</string>
+    <string name="detail_pause">Παύση</string>
+    <string name="detail_stop">Διακοπή</string>
+    <string name="detail_share">Κοινή Χρήση</string>
+
+    <string name="action_pause">Παύση</string>
+    <string name="action_resume">Ξεκίνημα, ξανά</string>
+    <string name="action_stop">Σταμάτημα</string>
+    <string name="action_search">Αναζήτηση</string>
+    <string name="action_delete">Διαγραφή</string>
+    <string name="action_delete_history">Διαγραφή του ιστορικού</string>
+    <string name="action_delete_favorites">Διαγραφή των αγαπημένων</string>
+    <string name="action_cancel">Ακύρωση</string>
+    <string name="action_changed_lately">Άλλαξαν πρόσφατα</string>
+    <string name="action_currently_playing">Παίζει</string>
+    <string name="action_tags">Καρτέλες</string>
+    <string name="action_countries">Χώρες</string>
+    <string name="action_languages">Γλώσσες</string>
+    <string name="error_station_load">Αδυναμία σύνδεσης στο σταθμό</string>
+    <string name="error_list_update">Αδυναμία σύνδεσης στον εξυπηρετητή πλοήγησης ραδιοφωνικών σταθμών</string>
+
+    <string name="share_action">Μοίρασμα του σταθμού με...</string>
+
+    <string name="nav_item_stations">Σταθμοί</string>
+    <string name="nav_item_starred">Αστρικά</string>
+    <string name="nav_item_history">Ιστορικό</string>
+    <string name="nav_item_settings">Ρυθμίσεις</string>
+    <string name="nav_item_alarm">Ξυπνητήρι</string>
+    <string name="nav_item_recordings">Ηχογραφήσεις</string>
+
+    <string name="about_text">Αυτή η εφαρμογή χρησιμοποιεί τον ελεύθερο κατάλογο ραδιοφωνικών σταθμών, στο...\n
+  https://www.radio-browser.info\n
+  Ο καθένας μπορεί να προσθέσει σταθμούς σε αυτόν, ή να επεξεργαστεί υπάρχοντες σταθμούς.\n
+  Λειτουργεί σαν ένα γουίκι για διαδικτυακούς ραδιοφωνικούς σταθμούς (ροές).\n
+  \n
+  Επικοινωνία:\n
+  segler_alex@web.de\n
+  \n
+  Εποπτεία Δυσλειτουργιών:\n
+  https://github.com/segler-alex/RadioDroid/issues\n
+  \n
+  Αν σου αρέσει αυτό το λογισμικό και θα ήθελες να βοηθήσεις, μην διστάσεις να μου στείλεις ένα ηλεκτρονικό γράμμα.\n
+  Πραγματικά χρειάζομαι κάποιον με εμπειρία στα γραφικά, για να κάνω την εφαρμογή ευχάριστη στο μάτι :) .\n
+  Ίσως κάποιος που μπορεί να ζωγραφίζει εικονίδια, εικόνες...\n
+  Αλλά, επίσης, προγραμματιστές που διορθώνουν δυσλειτουργίες, ή εφαρμόζουν νέες \n
+  (λειτουργίες και χαρακτηριστικά, όχι δυσλειτουργίες ;)  ) .\n
+  Επίσης,  ιδέες για νέα χαρακτηριστικά είναι πάντα καλοδεχούμενες!\n
+  \n
+  Η παρούσα εφαρμογή είναι ελεύθερο λογισμικό υπό την άδεια GPLv3\n
+  https://www.gnu.org/licenses/gpl-3.0.html.</string>
+    <string name="about_version">Έκδοση: %1$s</string>
+    <string name="detail_star">Προσθήκη στους σελιδοδείκτες των αγαπημένων</string>
+    <string name="detail_unstar">Διαγραφή από τα αγαπημένα</string>
+    <string name="progress_loading">Φορτώνει...</string>
+
+    <string name="sleep_timer" formatted="true">Χρονοδιακόπτης ύπνου: %1$02d:%2$02d</string>
+    <string name="sleep_timer_title">Πόσα λεπτά πριν τη διακοπή;</string>
+    <string name="sleep_timer_apply">Εφαρμογή</string>
+    <string name="sleep_timer_clear">Καθάρισμα</string>
+    <string name="nav_item_add_sleep">+15 λεπτά</string>
+
+    <string name="settings_interface">Περιβάλλον Χρήστη</string>
+    <string name="settings_theme_selection_title">Θέμα</string>
+    <string name="theme_light">Φωτεινό</string>
+    <string name="theme_dark">Σκοτεινό</string>
+    <string name="settings_circular_icons">Χρήση κυκλικών εικονιδίων</string>
+    <string name="settings_compact_style">Συμπαγής κατάσταση λειτουργίας</string>
+    <string name="settings_bottom_navigation">Η πλοήγηση κάτω</string>
+
+    <string name="settings_general">Γενικά</string>
+    <string name="settings_single_use_tags">Εμφάνιση των καρτελών μονής χρήσης</string>
+    <string name="settings_single_use_tags_desc_off">Οι καρτέλες μονής χρήσης δεν θα εμφανίζονται</string>
+    <string name="settings_single_use_tags_desc_on">Οι καρτέλες μονής χρήσης θα εμφανίζονται</string>
+
+    <string name="settings_show_broken">Χαλασμένοι σταθμοί</string>
+    <string name="settings_show_broken_on">Να εμφανίζονται οι χαλασμένοι σταθμοί στα κατάστιχα</string>
+    <string name="settings_show_broken_off">Να μην εμφανίζονται οι χαλασμένοι σταθμοί στα κατάστιχα</string>
+
+    <string name="startup_action_title">Εκκίνηση της δράσης</string>
+    <string name="startup_action_title_desc">%s</string>
+    <string name="startup_show_all_stations">Εμφάνιση όλων των σταθμών</string>
+    <string name="startup_show_favorites">Εμφάνιση των αγαπημένων</string>
+    <string name="startup_show_history">Εμφάνιση του ιστορικού</string>
+    <string name="startup_show_last_view">Τελευταία προβολή</string>
+
+    <string name="settings_load_icons">Εμφάνιση των εικονιδίων των σταθμών</string>
+    <string name="settings_load_icons_on">Τα εικονίδια θα λαμβάνονται</string>
+    <string name="settings_load_icons_off">Τα εικονίδια δεν θα λαμβάνονται</string>
+
+    <string name="settings_auto_favorite">Αυτόματα-αγαπημένα</string>
+    <string name="settings_auto_favorite_on">Να ορίζονται, αυτόματα, οι σταθμοί ως αγαπημένοι, όταν παίζουν</string>
+    <string name="settings_auto_favorite_off">Να μην ορίζονται, αυτόματα, οι σταθμοί ως αγαπημένοι, όταν παίζουν</string>
+
+    <string name="settings_icon_click_toggles_favorite">Κλικαρίσματα των εικονιδίων</string>
+    <string name="settings_icon_click_toggles_favorite_on">Το κλικάρισμα στο εικονίδιο του σταθμού, τον προσθέτει ή τον αφαιρεί από τα αγαπημένα</string>
+    <string name="settings_icon_click_toggles_favorite_off">Το κλικάρισμα στο εικονίδιο του σταθμού αρχίζει την αναπαραγωγή</string>
+
+    <string name="settings_alarm">Ξυπνητήρι</string>
+    <string name="settings_alarm_external">Άνοιγμα εξωτερικού</string>
+    <string name="settings_alarm_external_desc">Άνοιγμα του ξυπνητηριού με την προεπιλεγμένη εξωτερική εφαρμογή</string>
+    <string name="settings_alarm_audio_player">Αναπαραγωγός Ήχου</string>
+    <string name="settings_alarm_sleep_timer">Χρονόμετρο ύπνου</string>
+    <string name="settings_alarm_sleep_timer_desc">Σταμάτημα της αναπαραγωγής μετά από %1$s λεπτά</string>
+    <string name="settings_play">Αναπαραγωγός</string>
+    <string name="settings_play_external">Άνοιγμα εξωτερικού</string>
+    <string name="settings_play_external_desc">Αν θα πρέπει ένα μονό κλικ στους σταθμούς να ανοίγει το εξωτερικό</string>
+    <string name="settings_equalizer">Ισοσταθμιστής</string>
+
+    <string name="settings_connectivity">Συνδεσιμότητα</string>
+    <string name="settings_connect_timeout">Λήξη του χρόνου σύνδεσης της ροής</string>
+    <string name="settings_read_timeout">Χρόνος λήξης της ανάγνωσης της ροής</string>
+    <string name="settings_retry_timeout">Χρόνος λήξης της προσπάθειας ξανά στη ροή</string>
+    <string name="settings_retry_delay">Καθυστέρηση επανασυνδέσεων</string>
+    <string name="settings_seconds_format">%d δευτερόλεπτα</string>
+    <string name="settings_milliseconds_format">%d χιλιοστά του δευτερόλεπτου</string>
+
+    <string name="settings_warn_no_wifi">Προειδοποίηση όταν δεν είναι σε Γουάι-Φάι</string>
+    <string name="settings_warn_no_wifi_on">Προειδοποίηση όταν παίζει χωρίς σύνδεση Γουάι-Φάι</string>
+    <string name="settings_warn_no_wifi_off">Καμία προειδοποίηση όταν δεν είναι σε σύνδεση Γουάι-Φάι</string>
+
+    <string name="settings_recordings">Ηχογραφήσεις</string>
+    <string name="settings_record_name_formatting">Μόρφωση του ονόματος</string>
+
+
+    <string name="settings_record_name_formatting_default_display">σταθμός_καλλιτέχνης_κομμάτι_\\u200bχρόνος</string>
+    <string name="settings_record_name_formatting_1_display">σταθμός_καλλιτέχνης_\\u200bκομμάτι</string>
+    <string name="settings_record_name_formatting_2_display">σταθμός_ημερομηνία_\\u200bχρόνος</string>
+    <string name="settings_record_name_formatting_3_display">περιεχόμενα_σταθμός_\\u200bημερομηνία</string>
+
+    <string name="notify_pre_play">Συνδέεται</string>
+    <string name="notify_play">Παίζει</string>
+    <string name="notify_paused">Παυμένο</string>
+    <string name="notify_starred">Ο σταθμός έχει προστεθεί στους σελιδοδείκτες των αγαπημένων</string>
+    <string name="notify_autostarred">Ο σταθμός έχει προστεθεί, αυτόματα, στους σελιδοδείκτες των αγαπημένων</string>
+    <string name="notify_unstarred">Ο σταθμός έχει απομακρυνθεί από το κατάστιχο των αγαπημένων</string>
+    <string name="notify_deleted_favorites">Τα αγαπημένα έχουν διαγραφεί.</string>
+    <string name="notify_deleted_history">Το ιστορικό έχει διαγραφεί.</string>
+
+    <string name="notify_station_removed_from_list">1 Απομακρύνθηκε</string>
+    <string name="action_station_removed_from_list_undo">ΑΝΑΙΡΕΣΗ</string>
+
+    <string name="alert_delete_history">Θέλεις πραγματικά να διαγράψεις το ιστορικό;</string>
+    <string name="alert_delete_favorites">Θέλεις πραγματικά να διαγράψεις όλα τα αγαπημένα;</string>
+    <string name="yes">Ναι</string>
+    <string name="no">Όχι</string>
+
+    <string name="alert_select_mpd_server">Ποιον εξυπηρετητή;</string>
+    <string name="alert_select_mpd_server_name">Όνομα του εξυπηρετητή</string>
+    <string name="alert_select_mpd_server_hostname">Όνομα του οικοδεσπότη</string>
+    <string name="alert_select_mpd_server_port">Θύρα</string>
+
+    <string name="alert_select_mpd_server_add">Προσθήκη</string>
+    <string name="alert_select_mpd_server_save">Αποθήκευση</string>
+    <string name="alert_select_mpd_server_remove">Απομάκρυνση</string>
+    <string name="alert_add_or_edit_mpd_server">Εισαγωγή λεπτομερειών για τον εξυπηρετητή</string>
+
+    <string name="alert_press_back_to_exit">Πίεσε το «Επιστροφή» ακόμη μία φορά, για την έξοδο</string>
+
+    <string name="error_stream_url">Πρόβλημα στη διεύθυνση url της ροής</string>
+    <string name="error_caching_stream">Πρόβλημα μικραποθήκευσης της ροής</string>
+    <string name="error_play_stream">Αδυναμία αναπαραγωγής της ροής</string>
+    <string name="error_stream_reconnect_timeout">Αδυναμία επανασύνδεσης στη ροή: λήξη του χρόνου</string>
+
+    <string name="error_record_needs_write">Απαιτείται άδεια εγγραφής για την ηχογράφηση.</string>
+    <string name="error_grant_audiofocus">Το αίτημα εστίασης στον ήχο δεν παραχωρήθηκε από το σύστημα.</string>
+
+    <string name="error_no_equalizer_found">Δεν βρέθηκε εφαρμογή ισοστάθμισης.</string>
+
+    <string name="player_info_status">Κατάσταση:</string>
+    <string name="player_info_status_stopped">σταματημένο</string>
+    <string name="player_info_status_playing">παίζει</string>
+    <string name="player_info_status_recording">ηχογραφεί</string>
+    <string name="player_info_status_playing_and_recording">παίζει και ηχογραφείται</string>
+    <string name="player_info_transferred">Μεταφέρθηκαν δεδομένα: %1$s</string>
+    <string name="player_info_recording_to">Ηχογραφείται στο:\n
+    %1$s</string>
+    <string name="player_info_recorded_to">Τελευταία ηχογράφηση:\n
+    %1$s</string>
+
+    <string name="station_detail_bitrate">%1$1d χιλιομπίτιανάδευτερόλεπτο</string>
+    <string name="station_detail_broken">ΧΑΛΑΣΜΕΝΟΣ</string>
+
+    <string name="image_button_disable">Απενεργοποίηση</string>
+    <string name="image_button_record">Ηχογράφηση</string>
+    <string name="image_button_delete">Διαγραφή</string>
+    <string name="image_button_more">Περισσότερα</string>
+
+    <string name="media_route_menu_title">GoogleCast</string>
+
+    <string name="settings_mpd">Δαίμονας Αναπαραγωγής Μουσικής</string>
+    <string name="settings_view_mpd_servers">Οι εξυπηρετητές</string>
+    <string name="action_mpd_nok">Δεν συνδέθηκε το MPD</string>
+    <string name="action_mpd_ok">Συνδέθηκε το MPD</string>
+    <string name="action_mpd_connected">Συνδέθηκε στον εξυπηρετητή:  %1$s</string>
+
+    <string name="settings_other">Άλλα</string>
+    <string name="settings_statistics">Στατιστικά</string>
+    <string name="settings_about">Σχετικά με το ΡάδιοΔροειδές</string>
+
+    <string-array name="weekdays">
+        <item>Κ</item>
+        <item>Δ</item>
+        <item>Τ</item>
+        <item>Τ</item>
+        <item>Π</item>
+        <item>Π</item>
+        <item>Σ</item>
+    </string-array>
+
+    <string name="notify_stream_url_copied">Η Διεύθυνση Url της Ροής Έχει Αντιγραφεί με Επιτυχία!</string>
+
+    <string-array name="actions_station_link">
+        <item>Επίσκεψη στον Ιστότοπο</item>
+        <item>Αντιγραφή της Διεύθυνσης Url της Ροής</item>
+    </string-array>
+
+    <string name="no_wifi_title">Καμία σύνδεση Γουάι-Φάι (Τοπικό Δίκτυο)</string>
+    <string name="no_wifi_connection">Καμία σύνδεση Γουάι-Φάι (Τοπικό Δίκτυο) κατά την εκκίνηση του %1$s. \n
+    \n
+    Πίεσε το «Εντάξει» για να συνεχίσεις.</string>
+    <string name="nav_item_statistics">Στατιστικά</string>
+    <string name="nav_item_about">Σχετικά με...</string>
+    <string name="settings_mpd_port">Θύρα MPD</string>
+    <string name="refresh">Ανανέωση</string>
+</resources>
+
+<!-- File "strings2.xml" -->
+
