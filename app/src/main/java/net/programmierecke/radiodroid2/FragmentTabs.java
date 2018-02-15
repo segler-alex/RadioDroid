@@ -19,13 +19,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class FragmentTabs extends Fragment implements IFragmentRefreshable, IFragmentSearchable {
-    private String itsAdressWWWTopClick = "https://www.radio-browser.info/webservice/json/stations/topclick/100";
-    private String itsAdressWWWTopVote = "https://www.radio-browser.info/webservice/json/stations/topvote/100";
-    private String itsAdressWWWChangedLately = "https://www.radio-browser.info/webservice/json/stations/lastchange/100";
-    private String itsAdressWWWCurrentlyHeard = "https://www.radio-browser.info/webservice/json/stations/lastclick/100";
-    private String itsAdressWWWTags = "https://www.radio-browser.info/webservice/json/tags";
-    private String itsAdressWWWCountries = "https://www.radio-browser.info/webservice/json/countries";
-    private String itsAdressWWWLanguages = "https://www.radio-browser.info/webservice/json/languages";
+    private String itsAdressWWWTopClick = RadioBrowserServerManager.getWebserviceEndpoint("json/stations/topclick/100");
+    private String itsAdressWWWTopVote = RadioBrowserServerManager.getWebserviceEndpoint("json/stations/topvote/100");
+    private String itsAdressWWWChangedLately = RadioBrowserServerManager.getWebserviceEndpoint("json/stations/lastchange/100");
+    private String itsAdressWWWCurrentlyHeard = RadioBrowserServerManager.getWebserviceEndpoint("json/stations/lastclick/100");
+    private String itsAdressWWWTags = RadioBrowserServerManager.getWebserviceEndpoint("json/tags");
+    private String itsAdressWWWCountries = RadioBrowserServerManager.getWebserviceEndpoint("json/countries");
+    private String itsAdressWWWLanguages = RadioBrowserServerManager.getWebserviceEndpoint("json/languages");
 
     private ViewPager viewPager;
 
@@ -88,9 +88,9 @@ public class FragmentTabs extends Fragment implements IFragmentRefreshable, IFra
         }
 
         ((FragmentCategories) fragments[4]).EnableSingleUseFilter(true);
-        ((FragmentCategories) fragments[4]).SetBaseSearchLink("https://www.radio-browser.info/webservice/json/stations/bytagexact");
-        ((FragmentCategories) fragments[5]).SetBaseSearchLink("https://www.radio-browser.info/webservice/json/stations/bycountryexact");
-        ((FragmentCategories) fragments[6]).SetBaseSearchLink("https://www.radio-browser.info/webservice/json/stations/bylanguageexact");
+        ((FragmentCategories) fragments[4]).SetBaseSearchLink(RadioBrowserServerManager.getWebserviceEndpoint("json/stations/bytagexact"));
+        ((FragmentCategories) fragments[5]).SetBaseSearchLink(RadioBrowserServerManager.getWebserviceEndpoint("json/stations/bycountryexact"));
+        ((FragmentCategories) fragments[6]).SetBaseSearchLink(RadioBrowserServerManager.getWebserviceEndpoint("json/stations/bylanguageexact"));
 
         FragmentManager m = getChildFragmentManager();
         ViewPagerAdapter adapter = new ViewPagerAdapter(m);

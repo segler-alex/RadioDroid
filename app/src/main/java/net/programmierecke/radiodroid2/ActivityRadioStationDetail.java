@@ -51,7 +51,7 @@ public class ActivityRadioStationDetail extends AppCompatActivity implements Tim
 		new AsyncTask<Void, Void, String>() {
 			@Override
 			protected String doInBackground(Void... params) {
-				return Utils.downloadFeed(getApplicationContext(), String.format(Locale.US, "https://www.radio-browser.info/webservice/json/stations/byid/%s", aStationID),true,null);
+				return Utils.downloadFeed(getApplicationContext(), RadioBrowserServerManager.getWebserviceEndpoint(String.format(Locale.US, "json/stations/byid/%s", aStationID)),true,null);
 			}
 
 			@Override
