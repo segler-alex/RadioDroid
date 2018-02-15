@@ -41,7 +41,7 @@ public class FragmentCategories extends FragmentBase {
         try {
             String queryEncoded = URLEncoder.encode(theData.Name, "utf-8");
             queryEncoded = queryEncoded.replace("+", "%20");
-            m.Search(baseSearchAddress + "/" + queryEncoded);
+            m.Search(RadioBrowserServerManager.getWebserviceEndpoint(m,baseSearchAddress + "/" + queryEncoded));
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }

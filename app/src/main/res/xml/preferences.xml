@@ -170,6 +170,14 @@
             android:key="show_statistics"
             android:title="@string/settings_statistics" />
 
+        <ListPreference
+            android:defaultValue="@string/settings_radiobrowser_servers_default"
+            android:entries="@array/settings_radiobrowser_servers_display"
+            android:entryValues="@array/settings_radiobrowser_servers"
+            android:key="radiobrowser_server"
+            android:summary="%s"
+            android:title="@string/settings_radiobrowser_servers" />
+
         <Preference
             android:key="show_about"
             android:title="@string/settings_about" />
