@@ -48,17 +48,11 @@
     </string-array>
 
     <string-array name="settings_radiobrowser_servers" translatable="false">
-        <item>https://www.radio-browser.info/webservice</item>
-        <item>https://at1.api.radio-browser.info</item>
-        <item>https://gb1.api.radio-browser.info</item>
-        <item>https://us1.api.radio-browser.info</item>
+        <item>loading</item>
     </string-array>
 
     <string-array name="settings_radiobrowser_servers_display" translatable="false">
-        <item>www.radio-browser.info (Default Server)</item>
-        <item>at1.api.radio-browser.info</item>
-        <item>gb1.api.radio-browser.info</item>
-        <item>us1.api.radio-browser.info</item>
+        <item>loading</item>
     </string-array>
 
     <string-array name="settings_record_name_formatting_list">

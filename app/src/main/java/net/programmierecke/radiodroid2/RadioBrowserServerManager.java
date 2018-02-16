@@ -12,7 +12,7 @@ public class RadioBrowserServerManager {
     public static String getServerAddress(Context context){
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context.getApplicationContext());
 
-        return prefs.getString("radiobrowser_server", context.getString(R.string.settings_radiobrowser_servers_default));
+        return "https://" + prefs.getString("radiobrowser_server", context.getString(R.string.settings_radiobrowser_servers_default));
         //return "https://www.radio-browser.info/webservice";
         //return "https://gb1.api.radio-browser.info";
     }
