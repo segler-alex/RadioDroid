@@ -114,9 +114,12 @@ public class FragmentSettings extends PreferenceFragmentCompat implements Shared
             @Override
             protected String[] doInBackground(Void... params) {
                 Vector<String> listResult = new Vector<String>();
+                // add default server
                 listResult.add("www.radio-browser.info/webservice");
+                // add round robin server
                 listResult.add("api.radio-browser.info");
                 try {
+                    // add all round robin servers one by one to select them separately
                     InetAddress[] list = InetAddress.getAllByName("all.api.radio-browser.info");
                     for (InetAddress item : list) {
                         Log.e("XXX", item.toString() + " -> " + item.getCanonicalHostName());
