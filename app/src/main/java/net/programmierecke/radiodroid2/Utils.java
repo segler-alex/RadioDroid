@@ -157,7 +157,7 @@ public class Utils {
 	}
 
 	public static String getRealStationLink(Context ctx, String stationId){
-		String result = Utils.downloadFeed(ctx, RadioBrowserServerManager.getWebserviceEndpoint("v2/json/url/" + stationId), true, null);
+		String result = Utils.downloadFeed(ctx, RadioBrowserServerManager.getWebserviceEndpoint(ctx, "v2/json/url/" + stationId), true, null);
 		if (result != null) {
 			JSONObject jsonObj;
 			try {

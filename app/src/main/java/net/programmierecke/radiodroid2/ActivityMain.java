@@ -54,7 +54,7 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
 
     private static final String TAG = "RadioDroid";
 
-    private final String TAG_SEARCH_URL = RadioBrowserServerManager.getWebserviceEndpoint("json/stations/bytagexact");
+    private final String TAG_SEARCH_URL = "json/stations/bytagexact";
     private final String SAVE_LAST_MENU_ITEM = "LAST_MENU_ITEM";
 
     private SearchView mSearchView;
@@ -264,7 +264,7 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
             try {
                 String queryEncoded = URLEncoder.encode(searchTag, "utf-8");
                 queryEncoded = queryEncoded.replace("+", "%20");
-                Search(TAG_SEARCH_URL + "/" + queryEncoded);
+                Search(RadioBrowserServerManager.getWebserviceEndpoint(this,TAG_SEARCH_URL + "/" + queryEncoded));
             } catch (UnsupportedEncodingException e) {
                 e.printStackTrace();
             }
@@ -554,7 +554,7 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
             mSearchView.setIconified(true);
             queryEncoded = URLEncoder.encode(query, "utf-8");
             queryEncoded = queryEncoded.replace("+", "%20");
-            Search(RadioBrowserServerManager.getWebserviceEndpoint("json/stations/byname/" + queryEncoded));
+            Search(RadioBrowserServerManager.getWebserviceEndpoint(this, "json/stations/byname/" + queryEncoded));
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }

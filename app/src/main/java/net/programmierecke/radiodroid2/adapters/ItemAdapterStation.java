@@ -455,7 +455,7 @@ public class ItemAdapterStation
         new AsyncTask<Void, Void, String>() {
             @Override
             protected String doInBackground(Void... params) {
-                return Utils.downloadFeed(activity, RadioBrowserServerManager.getWebserviceEndpoint("json/vote/" + stationID), true, null);
+                return Utils.downloadFeed(activity, RadioBrowserServerManager.getWebserviceEndpoint(activity,"json/vote/" + stationID), true, null);
             }
 
             @Override

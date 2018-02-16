@@ -4,12 +4,15 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.media.audiofx.AudioEffect;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.preference.ListPreference;
 import android.support.v7.preference.Preference;
 import android.support.v7.preference.PreferenceFragmentCompat;
+import android.support.v7.preference.Preference.OnPreferenceClickListener;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,8 +24,11 @@ import android.widget.Toast;
 import net.programmierecke.radiodroid2.data.MPDServer;
 import net.programmierecke.radiodroid2.interfaces.IApplicationSelected;
 
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Vector;
 
 import static net.programmierecke.radiodroid2.ActivityMain.FRAGMENT_FROM_BACKSTACK;
 
@@ -31,6 +37,17 @@ public class FragmentSettings extends PreferenceFragmentCompat implements Shared
     @Override
     public void onCreatePreferences(Bundle bundle, String s) {
         addPreferencesFromResource(R.xml.preferences);
+        final ListPreference servers = (ListPreference) findPreference("radiobrowser_server");
+        updateDnsList(servers);
+        /*servers.setOnPreferenceClickListener(
+                new OnPreferenceClickListener() {
+                    @Override
+                    public boolean onPreferenceClick(Preference preference) {
+                        updateDnsList((ListPreference)preference);
+                        return false;
+                    }
+                }
+        );*/
         findPreference("shareapp_package").setSummary(getPreferenceManager().getSharedPreferences().getString("shareapp_package", ""));
         findPreference("equalizer").setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override
@@ -82,6 +99,44 @@ public class FragmentSettings extends PreferenceFragmentCompat implements Shared
             findPreference("settings_retry_timeout").setVisible(false);
             findPreference("settings_retry_delay").setVisible(false);
         }
+    }
+
+    private void setServersData(String[] list, ListPreference servers) {
+        servers.setEntries(list);
+        if (list.length > 0){
+            servers.setDefaultValue(list[0]);
+        }
+        servers.setEntryValues(list);
+    }
+
+    void updateDnsList(final ListPreference lp){
+        final AsyncTask<Void, Void, String[]> xxx = new AsyncTask<Void, Void, String[]>() {
+            @Override
+            protected String[] doInBackground(Void... params) {
+                Vector<String> listResult = new Vector<String>();
+                // add default server
+                listResult.add("www.radio-browser.info/webservice");
+                // add round robin server
+                listResult.add("api.radio-browser.info");
+                try {
+                    // add all round robin servers one by one to select them separately
+                    InetAddress[] list = InetAddress.getAllByName("all.api.radio-browser.info");
+                    for (InetAddress item : list) {
+                        Log.e("XXX", item.toString() + " -> " + item.getCanonicalHostName());
+                        listResult.add(item.getCanonicalHostName());
+                    }
+                } catch (UnknownHostException e) {
+                    e.printStackTrace();
+                }
+                return listResult.toArray(new String[0]);
+            }
+
+            @Override
+            protected void onPostExecute(String[] result) {
+                setServersData(result, lp);
+                super.onPostExecute(result);
+            }
+        }.execute();
     }
 
     @Override
