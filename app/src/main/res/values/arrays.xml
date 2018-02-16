@@ -24,4 +24,41 @@
         <item>45</item>
         <item>60</item>
     </string-array>
+
+    <string-array name="startup_action_entries">
+        <item>@string/startup_show_history</item>
+        <item>@string/startup_show_favorites</item>
+        <item>@string/startup_show_all_stations</item>
+        <item>@string/startup_show_last_view</item>
+    </string-array>
+    <string-array name="startup_action_entryvalues">
+        <item>@string/startup_show_history</item>
+        <item>@string/startup_show_favorites</item>
+        <item>@string/startup_show_all_stations</item>
+        <item>@string/startup_show_last_view</item>
+    </string-array>
+
+    <string-array name="theme_entries">
+        <item>@string/theme_light</item>
+        <item>@string/theme_dark</item>
+    </string-array>
+    <string-array name="theme_values">
+        <item>@string/theme_light</item>
+        <item>@string/theme_dark</item>
+    </string-array>
+
+    <string-array name="settings_record_name_formatting_list">
+        <item>@string/settings_record_name_formatting_default</item>
+        <item>@string/settings_record_name_formatting_1</item>
+        <item>@string/settings_record_name_formatting_2</item>
+        <item>@string/settings_record_name_formatting_3</item>
+    </string-array>
+
+    <string-array name="settings_record_name_formatting_list_display">
+        <item>@string/settings_record_name_formatting_default_display</item>
+        <item>@string/settings_record_name_formatting_1_display</item>
+        <item>@string/settings_record_name_formatting_2_display</item>
+        <item>@string/settings_record_name_formatting_3_display</item>
+    </string-array>
+
 </resources>

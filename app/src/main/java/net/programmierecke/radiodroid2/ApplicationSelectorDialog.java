@@ -9,6 +9,7 @@ import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
@@ -22,6 +23,7 @@ import java.util.List;
 public class ApplicationSelectorDialog extends DialogFragment {
     ArrayList<ActivityInfo> listInfos = new ArrayList<ActivityInfo>();
 
+    @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(getActivity(),android.R.layout.select_dialog_singlechoice);
@@ -32,7 +34,7 @@ public class ApplicationSelectorDialog extends DialogFragment {
         List<ResolveInfo> resolveInfos = pm.queryIntentActivities(mainIntent, PackageManager.MATCH_DEFAULT_ONLY);
         for(ResolveInfo info : resolveInfos) {
             ApplicationInfo applicationInfo = info.activityInfo.applicationInfo;
-            Log.w("UUU", ""+applicationInfo.packageName + " -- "+ info.activityInfo.name+ " -> ");
+            if(BuildConfig.DEBUG) { Log.d("UUU", ""+applicationInfo.packageName + " -- "+ info.activityInfo.name+ " -> "); }
             arrayAdapter.add(""+pm.getApplicationLabel(applicationInfo));
             listInfos.add(info.activityInfo);
         }
@@ -42,7 +44,7 @@ public class ApplicationSelectorDialog extends DialogFragment {
         builder.setTitle("Choose audio player");
         builder.setAdapter(arrayAdapter, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
-                Log.e("AAA","choose : "+which);
+                if(BuildConfig.DEBUG) { Log.d("AAA","choose : "+which); }
                 if (callback != null){
                     ActivityInfo info = listInfos.get(which);
                     callback.onAppSelected(info.packageName,info.name);

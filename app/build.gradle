@@ -1,20 +1,35 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 23
-    buildToolsVersion "23.0.3"
 
+    flavorDimensions "one"
+
+    compileSdkVersion 25
+    buildToolsVersion '26.0.2'
     lintOptions {
         abortOnError true
     }
 
     defaultConfig {
         applicationId "net.programmierecke.radiodroid2"
-        minSdkVersion 8
+        minSdkVersion 15
         targetSdkVersion 23
 
-        versionCode 36
-        versionName "0.26"
+        versionCode 63
+        versionName "0.53"
+
+        vectorDrawables.useSupportLibrary = true
+
+        // Define your application name here.
+        // It must neither be present in /res/values/strings.xml
+        // nor in /res/values/string_no_translate.xml
+        resValue 'string', 'app_name', 'RadioDroid'
+    }
+
+    sourceSets {
+        // Store flaags in subfolder to not pollute drawables
+        // https://antonioleiva.com/android-multiple-resource-folders/
+        main.res.srcDirs += ["src/main/res/drawable/flags"]
     }
 
     buildTypes {
@@ -27,11 +42,98 @@ android {
             }
         }
     }
+    productFlavors {
+        play {
+            dimension "one"
+        }
+        free {
+            dimension "one"
+        }
+    }
 }
 
 dependencies {
-    compile 'com.android.support:support-v4:23.2.1'
-    compile 'com.android.support:appcompat-v7:23.2.1'
-    compile 'com.android.support:design:23.2.1'
-    compile 'com.android.support:preference-v7:23.2.1'
+    compile 'com.android.support:support-v4:25.4.0'
+    compile 'com.android.support:appcompat-v7:25.4.0'
+    compile 'com.android.support:recyclerview-v7:25.4.0'
+    compile 'com.android.support:design:25.4.0'
+    compile 'com.android.support:preference-v7:25.4.0'
+    compile 'com.android.support:mediarouter-v7:25.4.0'
+    compile 'com.google.code.gson:gson:2.8.0'
+    compile 'com.squareup.okhttp3:okhttp:3.9.0'
+    compile 'com.squareup.picasso:picasso:2.5.2'
+    compile 'com.jakewharton.picasso:picasso2-okhttp3-downloader:1.1.0'
+    compile 'com.google.android.exoplayer:exoplayer:r2.5.4'
+    playCompile 'com.google.android.gms:play-services-cast:11.8.0'
+    playCompile 'com.google.android.gms:play-services-cast-framework:11.8.0'
+}
+
+
+// https://stackoverflow.com/questions/24649240/build-release-apk-with-customize-name-format-in-android-studio
+// https://stackoverflow.com/questions/32092665/resolve-application-label-for-each-build-type/32220436#32220436
+// https://stackoverflow.com/questions/18332474/how-to-set-versionname-in-apk-filename-using-gradle
+
+// Gradle 3.0
+// https://stackoverflow.com/questions/44800028/change-apk-filename-in-gradle-failed-with-gradle3-0-0-alpha4
+
+android.applicationVariants.all { variant ->
+
+    variant.outputs.all { output ->
+
+        // get app_name field from defaultConfig
+        def appName = variant.mergedFlavor.resValues.get('app_name').getValue()
+        appName = "${appName}"
+
+        // concat new App name with each flavor's name
+
+        variant.productFlavors.each { flavor ->
+            appName += "-${flavor.name}"
+        }
+
+        // optionally add buildType name
+        appName += "-${variant.buildType.name}"
+
+        // your requirement: if buildType == debug, add DEV to App name
+        if (variant.buildType.name == "debug") {
+            appName += "-DEV"
+        }
+
+        // if you want, you can set a new resValue
+        // variant.resValue 'string', 'app_name', appName
+
+        /*
+         * Gets the version name from the latest Git tag
+         */
+
+        def gitHash = { ->
+            def stdout = new ByteArrayOutputStream()
+            try {
+                exec {
+                    commandLine 'git', 'rev-parse', '--short', 'HEAD'
+                    standardOutput = stdout
+                }
+                return stdout.toString().trim()
+            } catch (Exception ignored) {
+                return "No commit hash"
+            }
+        }
+
+        resValue 'string', 'GIT_HASH', gitHash()
+
+        def getBuildDate = {
+            new Date().format('yyyy-MM-dd HH:mm:ss')
+        }
+
+        resValue 'string', 'BUILD_DATE', getBuildDate()
+
+        def finalName = appName
+
+        if (!versionName.isEmpty()) {
+            finalName += "-" + versionName
+        }
+
+        finalName += "-" + gitHash() + ".apk"
+        // outputFileName = "${variant.name}-${variant.versionName}.apk"
+        outputFileName = finalName
+    }
 }

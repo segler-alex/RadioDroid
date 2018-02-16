@@ -1,44 +1,77 @@
 package net.programmierecke.radiodroid2.adapters;
 
-import android.content.Context;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import net.programmierecke.radiodroid2.data.DataCategory;
 import net.programmierecke.radiodroid2.R;
 
-public class ItemAdapterCategory extends ArrayAdapter<DataCategory> {
-	private Context context;
-	private int resourceId;
+import java.util.List;
 
-	public ItemAdapterCategory(Context context, int resourceId) {
-		super(context, resourceId);
-		this.resourceId = resourceId;
-		this.context = context;
-	}
+public class ItemAdapterCategory extends RecyclerView.Adapter<ItemAdapterCategory.CategoryViewHolder> {
 
-	@Override
-	public View getView(int position, View convertView, ViewGroup parent) {
-		DataCategory aData = getItem(position);
+    public interface CategoryClickListener {
+        void onCategoryClick(DataCategory category);
+    }
 
-		View v = convertView;
-		if (v == null) {
-			LayoutInflater vi = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-			v = vi.inflate(resourceId, null);
-		}
+    private List<DataCategory> categoriesList;
+    private int resourceId;
+    private CategoryClickListener categoryClickListener;
 
-		TextView aTextViewTop = (TextView) v.findViewById(R.id.textViewTop);
-		TextView aTextViewBottom = (TextView) v.findViewById(R.id.textViewBottom);
-		if (aTextViewTop != null) {
-			aTextViewTop.setText("" + aData.Name);
-		}
-		if (aTextViewBottom != null) {
-			aTextViewBottom.setText("" + aData.UsedCount);
-		}
+    class CategoryViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+        TextView textViewName;
+        TextView textViewCount;
 
-		return v;
-	}
+        CategoryViewHolder(View itemView) {
+            super(itemView);
+            textViewName = (TextView) itemView.findViewById(R.id.textViewTop);
+            textViewCount = (TextView) itemView.findViewById(R.id.textViewBottom);
+            itemView.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View view) {
+            if (categoryClickListener != null) {
+                categoryClickListener.onCategoryClick(categoriesList.get(getAdapterPosition()));
+            }
+        }
+    }
+
+    public ItemAdapterCategory(int resourceId) {
+        this.resourceId = resourceId;
+    }
+
+    public void setCategoryClickListener(CategoryClickListener categoryClickListener) {
+        this.categoryClickListener = categoryClickListener;
+    }
+
+    public void updateList(List<DataCategory> categoriesList) {
+        this.categoriesList = categoriesList;
+
+        notifyDataSetChanged();
+    }
+
+    @Override
+    public CategoryViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        LayoutInflater inflater = LayoutInflater.from(parent.getContext());
+        View v = inflater.inflate(resourceId, parent, false);
+
+        return new CategoryViewHolder(v);
+    }
+
+    @Override
+    public void onBindViewHolder(CategoryViewHolder holder, int position) {
+        final DataCategory category = categoriesList.get(position);
+
+        holder.textViewName.setText(category.Name);
+        holder.textViewCount.setText(String.valueOf(category.UsedCount));
+    }
+
+    @Override
+    public int getItemCount() {
+        return categoriesList.size();
+    }
 }

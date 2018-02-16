@@ -5,24 +5,26 @@
     android:layout_height="match_parent" >
 
     <LinearLayout
-        android:orientation="vertical"
-        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp">
+        android:layout_margin="5dp" >
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="start"
             android:textSize="15sp"
-            android:text="ServerName"
             android:textStyle="italic"
-            android:id="@+id/stats_name"/>
+            android:id="@+id/stats_name" />
 
         <TextView
-            android:layout_width="match_parent"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:textSize="30sp"
-            android:text="abc"
+            android:layout_weight="1"
+            android:gravity="end"
+            android:textSize="20sp"
             android:textStyle="bold"
             android:id="@+id/stats_value" />
     </LinearLayout>

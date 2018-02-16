@@ -1,0 +1,9 @@
+<resources>
+    <declare-styleable name="TagsView">
+        <attr name="tagBackgroundColor" format="color" />
+        <attr name="cornerRadius" format="dimension" />
+        <attr name="textHorizontalPadding" format="dimension" />
+        <attr name="textVerticalMargin" format="dimension" />
+        <attr name="tagHeight" format="dimension" />
+    </declare-styleable>
+</resources>

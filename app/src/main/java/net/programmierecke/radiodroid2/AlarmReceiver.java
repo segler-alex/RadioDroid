@@ -30,21 +30,21 @@ public class AlarmReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        Log.w(TAG,"received broadcast");
+        if(BuildConfig.DEBUG) { Log.d(TAG,"received broadcast"); }
         aquireLocks(context);
         
         Toast toast = Toast.makeText(context, "Alarm!", Toast.LENGTH_SHORT);
         toast.show();
 
         alarmId = intent.getIntExtra("id",-1);
-        Log.w(TAG,"alarm id:"+alarmId);
+        if(BuildConfig.DEBUG) { Log.d(TAG,"alarm id:"+alarmId); }
 
         RadioAlarmManager ram = new RadioAlarmManager(context.getApplicationContext(),null);
         station = ram.getStation(alarmId);
         ram.resetAllAlarms();
 
         if (station != null && alarmId >= 0) {
-            Log.w(TAG,"radio id:"+alarmId);
+            if(BuildConfig.DEBUG) { Log.d(TAG,"radio id:"+alarmId); }
             Play(context, station.ID);
         }else{
             toast = Toast.makeText(context, "not enough info for alarm!", Toast.LENGTH_SHORT);
@@ -58,7 +58,7 @@ public class AlarmReceiver extends BroadcastReceiver {
             wakeLock = powerManager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "AlarmReceiver");
         }
         if (!wakeLock.isHeld()) {
-            Log.i(TAG,"acquire wakelock");
+            if(BuildConfig.DEBUG) { Log.d(TAG,"acquire wakelock"); }
             wakeLock.acquire();
         }
         WifiManager wm = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
@@ -71,11 +71,11 @@ public class AlarmReceiver extends BroadcastReceiver {
                 }
             }
             if (!wifiLock.isHeld()) {
-                Log.i(TAG,"acquire wifilock");
+                if(BuildConfig.DEBUG) { Log.d(TAG,"acquire wifilock"); }
                 wifiLock.acquire();
             }
         }else{
-            Log.e(TAG,"could not aquire wifi lock");
+            Log.e(TAG,"could not acquire wifi lock");
         }
     }
 
@@ -83,22 +83,23 @@ public class AlarmReceiver extends BroadcastReceiver {
         if (wakeLock != null) {
             wakeLock.release();
             wakeLock = null;
-            Log.i(TAG,"release wakelock");
+            if(BuildConfig.DEBUG) { Log.d(TAG,"release wakelock"); }
         }
         if (wifiLock != null) {
             wifiLock.release();
             wifiLock = null;
-            Log.i(TAG,"release wifilock");
+            if(BuildConfig.DEBUG) { Log.d(TAG,"release wifilock"); }
         }
     }
 
     IPlayerService itsPlayerService;
     private ServiceConnection svcConn = new ServiceConnection() {
         public void onServiceConnected(ComponentName className, IBinder binder) {
-            Log.v(TAG, "Service came online");
+            if(BuildConfig.DEBUG) { Log.d(TAG, "Service came online"); }
             itsPlayerService = IPlayerService.Stub.asInterface(binder);
             try {
-                itsPlayerService.Play(url, station.Name, station.ID, true);
+                itsPlayerService.SaveInfo(url, station.Name, station.ID, station.IconUrl);
+                itsPlayerService.Play(true);
                 // default timeout 1 hour
                 itsPlayerService.addTimer(timeout*60);
             } catch (RemoteException e) {
@@ -109,7 +110,7 @@ public class AlarmReceiver extends BroadcastReceiver {
         }
 
         public void onServiceDisconnected(ComponentName className) {
-            Log.v(TAG, "Service offline");
+            if(BuildConfig.DEBUG) { Log.d(TAG, "Service offline"); }
             itsPlayerService = null;
         }
     };

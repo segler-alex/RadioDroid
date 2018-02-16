@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">RadioDroid</string>
     <string name="detail_name">Názov</string>
     <string name="detail_tags">Značky</string>
     <string name="detail_country">Krajina</string>
@@ -27,12 +26,9 @@
     <string name="nav_item_history">História</string>
     <string name="nav_item_settings">Nastavenia</string>
     <string name="nav_item_alarm">Budík</string>
-    <string name="nav_item_statistics">Štatistika</string>
-    <string name="nav_item_about">O programe</string>
     <string name="nav_item_recordings">Nahrávky</string>
-    <string name="nav_item_player_status">Stav prehrávača</string>
 
-    <string name="about_text">Táto aplikácia používa bezplatný zoznam rádio staníc na adrese\nhttp://www.radio-browser.info\nKaždý môže upravovať alebo pridávať stanice do tohoto zoznamu. Služba Radio browser funguje na princípe wiki s tým rozdieľom, že členovia komunity neupravujú články ale udržujú zoznam online (streamovateľných) rádio staníc.\n\nKontakt:\nsegler_alex@web.de\n\nNahlasovanie chýb:\nhttps://github.com/segler-alex/RadioDroid/issues\n\nAk sa vám táto aplikácia páči a radi by ste pomohli, prosím ozvite sa emailom. Rád by som našiel niekoho so skúsenosťami v oblasti grafiky, aby mi pomohol zatraktívniť aplikáciu tak, aby bola krajšia na pohľad :) možno niekto z vás dokáže nakresliť ikony a obrázky... alebo tiež šikovní vývojári, ktorí dokážete opraviť chyby a pridať nové (vlastnosti nie chyby ;)\nNápady na nové vylepšenia sú tiež vítané!\n\nTáto aplikácia je poskytovaná zdarma pod licenciou GPLv3\nhttps://www.gnu.org/licenses/gpl-3.0.html.</string>
+    <string name="about_text">Táto aplikácia používa bezplatný zoznam rádio staníc na adrese\nhttps://www.radio-browser.info\nKaždý môže upravovať alebo pridávať stanice do tohoto zoznamu. Služba Radio browser funguje na princípe wiki s tým rozdieľom, že členovia komunity neupravujú články ale udržujú zoznam online (streamovateľných) rádio staníc.\n\nKontakt:\nsegler_alex@web.de\n\nNahlasovanie chýb:\nhttps://github.com/segler-alex/RadioDroid/issues\n\nAk sa vám táto aplikácia páči a radi by ste pomohli, prosím ozvite sa emailom. Rád by som našiel niekoho so skúsenosťami v oblasti grafiky, aby mi pomohol zatraktívniť aplikáciu tak, aby bola krajšia na pohľad :) možno niekto z vás dokáže nakresliť ikony a obrázky... alebo tiež šikovní vývojári, ktorí dokážete opraviť chyby a pridať nové (vlastnosti nie chyby ;)\nNápady na nové vylepšenia sú tiež vítané!\n\nTáto aplikácia je poskytovaná zdarma pod licenciou GPLv3\nhttps://www.gnu.org/licenses/gpl-3.0.html.</string>
     <string name="detail_star">Do obľúbených</string>
     <string name="detail_unstar">Odstrániť z obľúbených</string>
     <string name="progress_loading">Načítavanie...</string>
@@ -49,10 +45,6 @@
     <string name="settings_show_broken_on">V zozname sa zobrazia aj nefunkčné stanice</string>
     <string name="settings_show_broken_off">V zozname sa nezobrazia nefunkčné stanice</string>
 
-    <string name="settings_starred_at_startup">Obľúbené stanice po spustení</string>
-    <string name="settings_starred_at_startup_on">Po spustení RadioDroid sa zobrazia len obľúbené stanice</string>
-    <string name="settings_starred_at_startup_off">Po spustení RadioDroid sa zobrazia všetky stanice</string>
-
     <string name="settings_alarm">Budík</string>
     <string name="settings_alarm_external">Otvoriť externú aplikáciu</string>
     <string name="settings_alarm_external_desc">Budík sa otvorí v predvolenej externej aplikácii</string>
@@ -63,10 +55,9 @@
     <string name="settings_play_external">Otvoriť externú aplikáciu</string>
     <string name="settings_play_external_desc">Klepnutím na názov stanice otvorí externý prehrávač</string>
 
-    <string name="notify_start_proxy">Spustenie servera proxy.</string>
-    <string name="notify_stop_player">Zastavenie pôvodného prehrávača..</string>
-    <string name="notify_prepare_stream">Príprava streamu...</string>
-    <string name="notify_try_play">Pokus o prehrávanie</string>
+    <string name="settings_statistics">Štatistika</string>
+    <string name="settings_about">O programe</string>
+
     <string name="notify_play">Prehrávanie</string>
 
     <string name="error_stream_url">Vyskytol sa problém s URL adresou streamu</string>
@@ -78,8 +69,8 @@
     <string name="player_info_status">STAV:</string>
     <string name="player_info_status_stopped">Zastavený</string>
     <string name="player_info_status_playing">Prehráva sa</string>
-    <string name="player_info_transfered">Prenesené údaje: %1$s</string>
-    <string name="player_info_record_to">Nahrávanie do: %1$s</string>
+    <string name="player_info_transferred">Prenesené údaje: %1$s</string>
+    <string name="player_info_recording_to">Nahrávanie do: %1$s</string>
 
     <string name="station_detail_bitrate">%1$1d kbps</string>
     <string name="station_detail_broken">NEFUNKČNÁ</string>

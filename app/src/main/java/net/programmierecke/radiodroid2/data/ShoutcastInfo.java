@@ -1,6 +1,9 @@
 package net.programmierecke.radiodroid2.data;
 
-import java.net.URLConnection;
+import java.util.LinkedHashMap;
+import java.util.Map;
+
+import okhttp3.Response;
 
 public class ShoutcastInfo {
     public int metadataOffset;
@@ -24,52 +27,65 @@ public class ShoutcastInfo {
     public int channels;
     public int sampleRate;
 
-    public static ShoutcastInfo Decode(URLConnection connection) {
+    public static ShoutcastInfo Decode(Response response) {
         ShoutcastInfo info = new ShoutcastInfo();
-        info.metadataOffset = connection.getHeaderFieldInt("icy-metaint", 0);
-        info.bitrate = connection.getHeaderFieldInt("icy-br", 0);
+        info.metadataOffset = parseWithDefault(response.header("icy-metaint"), 0);
+        info.bitrate = parseWithDefault(response.header("icy-br"), 0);
         // e.g.: ice-audio-info: ice-samplerate=44100;ice-bitrate=128;ice-channels=2
-        info.audioInfo = connection.getHeaderField("ice-audio-info");
-        info.audioDesc = connection.getHeaderField("icy-description");
+        info.audioInfo = response.header("ice-audio-info");
+        info.audioDesc = response.header("icy-description");
         // e.g.: icy-genre:Pop / Rock
-        info.audioGenre = connection.getHeaderField("icy-genre");
-        info.audioName = connection.getHeaderField("icy-name");
-        info.audioHP = connection.getHeaderField("icy-url");
+        info.audioGenre = response.header("icy-genre");
+        info.audioName = response.header("icy-name");
+        info.audioHP = response.header("icy-url");
         // e.g.: Server: Icecast 2.3.2
-        info.serverName = connection.getHeaderField("Server");
-        info.serverPublic = connection.getHeaderFieldInt("icy-pub",0) > 0;
+        info.serverName = response.header("Server");
+        info.serverPublic = parseWithDefault(response.header("icy-pub"), 0) > 0;
 
-        if (info.audioInfo != null){
-            String[] items = info.audioInfo.split(";");
-            for (int i=0;i<items.length;i++){
-                String[] item = items[i].split("=");
-                if (item.length == 2){
-                    String key = item[0];
-                    if (key.equals("ice-channels") || key.equals("channels")){
-                        try {
-                            info.channels = Integer.parseInt(item[1]);
-                        }catch(Exception e){};
-                    } else if (key.equals("ice-samplerate") || key.equals("samplerate")){
-                        try {
-                            info.sampleRate = Integer.parseInt(item[1]);
-                        }catch(Exception e){};
-                    } else if (key.equals("ice-bitrate") || key.equals("bitrate")){
-                        if (info.bitrate == 0) {
-                            try {
-                                info.bitrate = Integer.parseInt(item[1]);
-                            } catch (Exception e) {
-                            }
-                        }
-                    }
+        if (info.audioInfo != null) {
+            Map<String, String> audioInfoParams = splitAudioInfo(info.audioInfo);
+
+            info.channels = parseWithDefault(audioInfoParams.get("ice-channels"), 0);
+            if (info.channels == 0) {
+                info.channels = parseWithDefault(audioInfoParams.get("channels"), 0);
+            }
+
+            info.sampleRate = parseWithDefault(audioInfoParams.get("ice-samplerate"), 0);
+            if (info.sampleRate == 0) {
+                info.sampleRate = parseWithDefault(audioInfoParams.get("samplerate"), 0);
+            }
+
+            if (info.bitrate == 0) {
+                info.bitrate = parseWithDefault(audioInfoParams.get("ice-bitrate"), 0);
+                if (info.bitrate == 0) {
+                    info.bitrate = parseWithDefault(audioInfoParams.get("bitrate"), 0);
                 }
             }
         }
 
         // info needs at least metadataoffset
-        if (info.metadataOffset == 0){
+        if (info.metadataOffset == 0) {
             return null;
         }
 
         return info;
+    }
+
+    private static int parseWithDefault(String number, int defaultVal) {
+        try {
+            return Integer.parseInt(number);
+        } catch (NumberFormatException e) {
+            return defaultVal;
+        }
+    }
+
+    private static Map<String, String> splitAudioInfo(String audioInfo) {
+        Map<String, String> params = new LinkedHashMap<>();
+        String[] pairs = audioInfo.split(";");
+        for (String pair : pairs) {
+            int idx = pair.indexOf("=");
+            params.put(pair.substring(0, idx), pair.substring(idx + 1));
+        }
+        return params;
     }
 }

@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">RadioDroid</string>
     <string name="detail_name">Jméno</string>
     <string name="detail_tags">Tagy</string>
     <string name="detail_country">Země</string>
@@ -27,12 +26,9 @@
     <string name="nav_item_history">Historie</string>
     <string name="nav_item_settings">Nastavení</string>
     <string name="nav_item_alarm">Alarm</string>
-    <string name="nav_item_statistics">Statistiky</string>
-    <string name="nav_item_about">O aplikaci</string>
     <string name="nav_item_recordings">Nahrávky</string>
-    <string name="nav_item_player_status">Přehrávač</string>
 
-    <string name="about_text">Tato aplikace používá volně dostupný adresář rádií\nhttp://www.radio-browser.info\nKaždý může přidávat nové stanice nebo měnit ty existující. Web funguje ve stylu wiki pro online (streamované) radiostanice.\n\nKontakt:\nsegler_alex@web.de\n\nHlášení chyb:\nhttps://github.com/segler-alex/RadioDroid/issues\n\nPokud se vám tento software líbí a chtěli byste pomoci, můžete mi poslat email. Opravdu potřebuji někoho se zkušeností s prací s grafikou, aby aplikace získala hezčí vzhled. Možná někdo, kdo umí kreslit ikony a obrázky... Ale také programátory opravující chyby nebo implementující nové funkce.\nNápady na nové funkce jsou také vítány!\n\nTato aplikace je svobodný software licencovaný pod GPLv3\nhttps://www.gnu.org/licenses/gpl-3.0.html.</string>
+    <string name="about_text">Tato aplikace používá volně dostupný adresář rádií\nhttps://www.radio-browser.info\nKaždý může přidávat nové stanice nebo měnit ty existující. Web funguje ve stylu wiki pro online (streamované) radiostanice.\n\nKontakt:\nsegler_alex@web.de\n\nHlášení chyb:\nhttps://github.com/segler-alex/RadioDroid/issues\n\nPokud se vám tento software líbí a chtěli byste pomoci, můžete mi poslat email. Opravdu potřebuji někoho se zkušeností s prací s grafikou, aby aplikace získala hezčí vzhled. Možná někdo, kdo umí kreslit ikony a obrázky... Ale také programátory opravující chyby nebo implementující nové funkce.\nNápady na nové funkce jsou také vítány!\n\nTato aplikace je svobodný software licencovaný pod GPLv3\nhttps://www.gnu.org/licenses/gpl-3.0.html.</string>
     <string name="detail_star">Záložka</string>
     <string name="detail_unstar">Smazat</string>
     <string name="progress_loading">Načítání...</string>
@@ -49,10 +45,6 @@
     <string name="settings_show_broken_on">Zobrazovat nefunkční stanice v seznamech</string>
     <string name="settings_show_broken_off">Nezobrazovat nefunkční stanice v seznamech</string>
 
-    <string name="settings_starred_at_startup">Oblíbené stanice po spuštění</string>
-    <string name="settings_starred_at_startup_on">Zobrazit oblíbené stanice po spuštění RadioDroid</string>
-    <string name="settings_starred_at_startup_off">Zobrazit všechny stanice po spuštění RadioDroid</string>
-
     <string name="settings_alarm">Alarm</string>
     <string name="settings_alarm_external">Otevřít externě</string>
     <string name="settings_alarm_external_desc">Otevřít alarm s výchozí externí aplikací</string>
@@ -63,10 +55,9 @@
     <string name="settings_play_external">Otevřít externě</string>
     <string name="settings_play_external_desc">Má dotyk na stanice otevřít externí</string>
 
-    <string name="notify_start_proxy">Spouštění proxy..</string>
-    <string name="notify_stop_player">Ukončení starého přehrávače..</string>
-    <string name="notify_prepare_stream">Připravování streamu..</string>
-    <string name="notify_try_play">Zkus přehrát</string>
+    <string name="settings_statistics">Statistiky</string>
+    <string name="settings_about">O aplikaci</string>
+
     <string name="notify_play">Hrající</string>
 
     <string name="error_stream_url">Problém s URL streamu</string>
@@ -78,8 +69,8 @@
     <string name="player_info_status">STAV:</string>
     <string name="player_info_status_stopped">Zastaveno</string>
     <string name="player_info_status_playing">Hrající</string>
-    <string name="player_info_transfered">Přenesená data: %1$s</string>
-    <string name="player_info_record_to">Nahrává se do: %1$s</string>
+    <string name="player_info_transferred">Přenesená data: %1$s</string>
+    <string name="player_info_recording_to">Nahrává se do: %1$s</string>
 
     <string name="station_detail_bitrate">%1$1d kbps</string>
     <string name="station_detail_broken">ROZBITÉ</string>

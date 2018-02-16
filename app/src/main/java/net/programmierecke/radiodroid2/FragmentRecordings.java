@@ -1,6 +1,7 @@
 package net.programmierecke.radiodroid2;
 
 import android.content.Intent;
+import android.content.res.TypedArray;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -15,6 +16,7 @@ import android.widget.AdapterView;
 import net.programmierecke.radiodroid2.adapters.ItemAdapterRecordings;
 import net.programmierecke.radiodroid2.data.DataRecording;
 import net.programmierecke.radiodroid2.interfaces.IFragmentRefreshable;
+import net.programmierecke.radiodroid2.recording.RecordingsManager;
 
 import java.io.File;
 
@@ -25,7 +27,7 @@ public class FragmentRecordings extends Fragment implements IFragmentRefreshable
 
     void ClickOnItem(DataRecording theData) {
         String path = RecordingsManager.getRecordDir() + "/" + theData.Name;
-        Log.w(TAG,"play :"+path);
+        if(BuildConfig.DEBUG) { Log.d(TAG,"play :"+path); }
         Intent i = new Intent(path);
         i.setAction(android.content.Intent.ACTION_VIEW);
         File file = new File(path);
@@ -53,24 +55,29 @@ public class FragmentRecordings extends Fragment implements IFragmentRefreshable
             }
         });
 
+        final int[] attrs = new int[] {android.R.attr.listDivider};
+        final TypedArray a = getContext().obtainStyledAttributes(attrs);
+        lv.setDivider(a.getDrawable(0));
+        a.recycle();
+
         RefreshListGui();
 
         return view;
     }
 
     protected void RefreshListGui(){
-        Log.d(TAG, "RefreshListGUI()");
+        if(BuildConfig.DEBUG) { Log.d(TAG, "RefreshListGUI()"); }
 
         if (!Utils.verifyStoragePermissions(getActivity())){
             Log.e(TAG,"could not get permissions");
         }
 
         if (lv != null) {
-            Log.d(TAG,"LV != null");
+            if(BuildConfig.DEBUG) { Log.d(TAG,"LV != null"); }
             ItemAdapterRecordings arrayAdapter = (ItemAdapterRecordings) lv.getAdapter();
             arrayAdapter.clear();
             DataRecording[] recordings = RecordingsManager.getRecordings();
-            Log.d(TAG,"Station count:"+recordings.length);
+            if(BuildConfig.DEBUG) { Log.d(TAG,"Station count:"+recordings.length); }
             for (DataRecording aRecording : recordings) {
                 if (!aRecording.Name.equals(PlayerServiceUtil.getCurrentRecordFileName())) {
                     arrayAdapter.add(aRecording);

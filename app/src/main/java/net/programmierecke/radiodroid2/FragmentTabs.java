@@ -19,16 +19,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class FragmentTabs extends Fragment implements IFragmentRefreshable, IFragmentSearchable {
-    private String itsAdressWWWTopClick = "http://www.radio-browser.info/webservice/json/stations/topclick/100";
-    private String itsAdressWWWTopVote = "http://www.radio-browser.info/webservice/json/stations/topvote/100";
-    private String itsAdressWWWChangedLately = "http://www.radio-browser.info/webservice/json/stations/lastchange/100";
-    private String itsAdressWWWCurrentlyHeard = "http://www.radio-browser.info/webservice/json/stations/lastclick/100";
-    private String itsAdressWWWTags = "http://www.radio-browser.info/webservice/json/tags";
-    private String itsAdressWWWCountries = "http://www.radio-browser.info/webservice/json/countries";
-    private String itsAdressWWWLanguages = "http://www.radio-browser.info/webservice/json/languages";
+    private String itsAdressWWWTopClick = RadioBrowserServerManager.getWebserviceEndpoint("json/stations/topclick/100");
+    private String itsAdressWWWTopVote = RadioBrowserServerManager.getWebserviceEndpoint("json/stations/topvote/100");
+    private String itsAdressWWWChangedLately = RadioBrowserServerManager.getWebserviceEndpoint("json/stations/lastchange/100");
+    private String itsAdressWWWCurrentlyHeard = RadioBrowserServerManager.getWebserviceEndpoint("json/stations/lastclick/100");
+    private String itsAdressWWWTags = RadioBrowserServerManager.getWebserviceEndpoint("json/tags");
+    private String itsAdressWWWCountries = RadioBrowserServerManager.getWebserviceEndpoint("json/countries");
+    private String itsAdressWWWLanguages = RadioBrowserServerManager.getWebserviceEndpoint("json/languages");
 
-    public static TabLayout tabLayout;
-    public static ViewPager viewPager;
+    private ViewPager viewPager;
+
+    private String searchQuery; // Search may be requested before onCreateView so we should wait
 
     FragmentBase[] fragments = new FragmentBase[8];
     String[] adresses = new String[]{
@@ -45,22 +46,28 @@ public class FragmentTabs extends Fragment implements IFragmentRefreshable, IFra
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View x =  inflater.inflate(R.layout.layout_tabs,null);
-        tabLayout = (TabLayout) x.findViewById(R.id.tabs);
+        View x = inflater.inflate(R.layout.layout_tabs, null);
+        final TabLayout tabLayout = (TabLayout) x.findViewById(R.id.tabs);
         viewPager = (ViewPager) x.findViewById(R.id.viewpager);
 
         setupViewPager(viewPager);
 
-        /**
+        if (searchQuery != null) {
+            Search(searchQuery);
+            searchQuery = null;
+        }
+
+        /*
          * Now , this is a workaround ,
-         * The setupWithViewPager dose't works without the runnable .
+         * The setupWithViewPager doesn't works without the runnable .
          * Maybe a Support Library Bug .
          */
 
         tabLayout.post(new Runnable() {
             @Override
             public void run() {
-                tabLayout.setupWithViewPager(viewPager);
+                if(getContext() != null)
+                    tabLayout.setupWithViewPager(viewPager);
             }
         });
 
@@ -68,7 +75,7 @@ public class FragmentTabs extends Fragment implements IFragmentRefreshable, IFra
     }
 
     private void setupViewPager(ViewPager viewPager) {
-        for (int i=0;i<fragments.length;i++) {
+        for (int i = 0; i < fragments.length; i++) {
             if (i < 4)
                 fragments[i] = new FragmentStations();
             else if (i < 7)
@@ -80,10 +87,10 @@ public class FragmentTabs extends Fragment implements IFragmentRefreshable, IFra
             fragments[i].setArguments(bundle1);
         }
 
-        ((FragmentCategories)fragments[4]).EnableSingleUseFilter(true);
-        ((FragmentCategories)fragments[4]).SetBaseSearchLink("http://www.radio-browser.info/webservice/json/stations/bytagexact");
-        ((FragmentCategories)fragments[5]).SetBaseSearchLink("http://www.radio-browser.info/webservice/json/stations/bycountryexact");
-        ((FragmentCategories)fragments[6]).SetBaseSearchLink("http://www.radio-browser.info/webservice/json/stations/bylanguageexact");
+        ((FragmentCategories) fragments[4]).EnableSingleUseFilter(true);
+        ((FragmentCategories) fragments[4]).SetBaseSearchLink(RadioBrowserServerManager.getWebserviceEndpoint("json/stations/bytagexact"));
+        ((FragmentCategories) fragments[5]).SetBaseSearchLink(RadioBrowserServerManager.getWebserviceEndpoint("json/stations/bycountryexact"));
+        ((FragmentCategories) fragments[6]).SetBaseSearchLink(RadioBrowserServerManager.getWebserviceEndpoint("json/stations/bylanguageexact"));
 
         FragmentManager m = getChildFragmentManager();
         ViewPagerAdapter adapter = new ViewPagerAdapter(m);
@@ -98,9 +105,13 @@ public class FragmentTabs extends Fragment implements IFragmentRefreshable, IFra
         viewPager.setAdapter(adapter);
     }
 
-    public void Search(String query) {
-        viewPager.setCurrentItem(7);
-        fragments[7].SetDownloadUrl(query);
+    public void Search(final String query) {
+        if (viewPager != null) {
+            viewPager.setCurrentItem(7, false);
+            fragments[7].SetDownloadUrl(query);
+        } else {
+            searchQuery = query;
+        }
     }
 
     @Override
