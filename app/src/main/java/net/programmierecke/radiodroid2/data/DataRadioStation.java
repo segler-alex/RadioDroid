@@ -29,6 +29,7 @@ public class DataRadioStation {
 	public String TagsAll;
 	public String Language;
 	public int ClickCount;
+	public int ClickTrend;
 	public int Votes;
 	public int Bitrate;
 	public String Codec;
@@ -76,6 +77,7 @@ public class DataRadioStation {
 							aStation.IconUrl = anObject.getString("favicon");
 							aStation.Language = anObject.getString("language");
 							aStation.ClickCount = anObject.getInt("clickcount");
+							aStation.ClickTrend = anObject.getInt("clicktrend");
 							if (anObject.has("bitrate")) {
 								aStation.Bitrate = anObject.getInt("bitrate");
 							}
@@ -121,6 +123,7 @@ public class DataRadioStation {
 					aStation.IconUrl = anObject.getString("favicon");
 					aStation.Language = anObject.getString("language");
 					aStation.ClickCount = anObject.getInt("clickcount");
+					aStation.ClickTrend = anObject.getInt("clicktrend");
 					if (anObject.has(("bitrate"))) {
 						aStation.Bitrate = anObject.getInt("bitrate");
 					}
@@ -152,6 +155,7 @@ public class DataRadioStation {
 			obj.put("tags",TagsAll);
 			obj.put("language",Language);
 			obj.put("clickcount",ClickCount);
+			obj.put("clicktrend",ClickTrend);
 			obj.put("votes",Votes);
 			obj.put("bitrate",""+Bitrate);
 			obj.put("codec",Codec);

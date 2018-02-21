@@ -46,6 +46,14 @@
                     android:visibility="gone"/>
 
             <ImageView
+                android:id="@+id/trendStatusIcon"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_gravity="top|start"
+                android:scaleType="fitCenter"
+                app:srcCompat="@drawable/ic_trending_flat_black_24dp" />
+
+            <ImageView
                     android:id="@+id/starredStatusIcon"
                     android:layout_width="30dp"
                     android:layout_height="30dp"

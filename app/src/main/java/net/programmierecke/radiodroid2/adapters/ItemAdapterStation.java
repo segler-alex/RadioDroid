@@ -14,6 +14,7 @@ import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
+import android.media.Image;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -101,6 +102,7 @@ public class ItemAdapterStation
         ImageButton buttonStationWebLink;
         ImageButton buttonShare;
         ImageButton buttonBookmark;
+        ImageView imageTrend;
         ImageButton buttonSetTimer;
         TagsView viewTags;
 
@@ -112,6 +114,7 @@ public class ItemAdapterStation
             frameLayout = (FrameLayout) itemView.findViewById(R.id.frameLayout);
 
             imageViewIcon = (ImageView) itemView.findViewById(R.id.imageViewIcon);
+            imageTrend = (ImageView) itemView.findViewById(R.id.trendStatusIcon);
             transparentImageView = (ImageView) itemView.findViewById(R.id.transparentCircle);
             starredStatusIcon = (ImageView) itemView.findViewById(R.id.starredStatusIcon);
             textViewTitle = (TextView) itemView.findViewById(R.id.textViewTitle);
@@ -275,6 +278,13 @@ public class ItemAdapterStation
         holder.textViewTags.setText(station.TagsAll.replace(",", ", "));
 
         holder.starredStatusIcon.setVisibility(favouriteManager.has(station.ID) ? View.VISIBLE : View.GONE);
+
+        if (station.ClickTrend < 0)
+            holder.imageTrend.setImageResource(R.drawable.ic_trending_down_black_24dp);
+        else if (station.ClickTrend > 0)
+            holder.imageTrend.setImageResource(R.drawable.ic_trending_up_black_24dp);
+        else
+            holder.imageTrend.setImageResource(R.drawable.ic_trending_flat_black_24dp);
 
         Drawable flag = CountryFlagsLoader.getInstance().getFlag(activity, station.Country);
 
