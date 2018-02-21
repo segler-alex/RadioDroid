@@ -25,7 +25,8 @@ public class RadioDroidApp extends Application {
         Picasso picassoInstance = builder.build();
         Picasso.setSingletonInstance(picassoInstance);
 
-        CountryFlagsLoader.getInstance().load(this);
+        CountryCodeDictionary.getInstance().load(this);
+        CountryFlagsLoader.getInstance();
 
         historyManager = new HistoryManager(this);
         favouriteManager = new FavouriteManager(this);

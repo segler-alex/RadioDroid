@@ -116,9 +116,9 @@ public class FragmentSettings extends PreferenceFragmentCompat implements Shared
                 Vector<String> listResult = new Vector<String>();
                 // add default server
                 listResult.add("www.radio-browser.info/webservice");
-                // add automatic best server basend on geodns location
-                listResult.add("api.radio-browser.info");
-                // add round robin adress
+                // add best server based on geodns location
+                listResult.add("api.radio-browser.online");
+                // add round robin address
                 listResult.add("all.api.radio-browser.info");
                 try {
                     // add all round robin servers one by one to select them separately
