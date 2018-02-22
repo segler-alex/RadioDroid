@@ -12,7 +12,7 @@
             android:layout_height="25dp"
             android:layout_marginTop="15dp"
             android:layout_marginBottom="15dp"
-            android:max="120"
+            android:max="240"
             />
 
     <TextView
