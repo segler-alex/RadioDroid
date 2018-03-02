@@ -5,7 +5,7 @@ android {
     flavorDimensions "one"
 
     compileSdkVersion 25
-    buildToolsVersion '26.0.2'
+    buildToolsVersion '27.0.3'
     lintOptions {
         abortOnError true
     }
