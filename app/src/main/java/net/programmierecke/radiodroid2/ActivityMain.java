@@ -34,8 +34,10 @@ import android.widget.Toast;
 
 import net.programmierecke.radiodroid2.data.MPDServer;
 import net.programmierecke.radiodroid2.interfaces.IFragmentRefreshable;
+
 import java.io.File;
 import java.io.UnsupportedEncodingException;
+import java.lang.ref.WeakReference;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Date;
@@ -132,12 +134,11 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
         mNavigationView = (NavigationView) findViewById(R.id.my_navigation_view);
         mBottomNavigationView = (BottomNavigationView) findViewById(R.id.bottom_navigation);
 
-        if(Utils.bottomNavigationEnabled(this)) {
+        if (Utils.bottomNavigationEnabled(this)) {
             mBottomNavigationView.setOnNavigationItemSelectedListener(this);
             mNavigationView.setVisibility(View.GONE);
             mNavigationView.getLayoutParams().width = 0;
-        }
-        else {
+        } else {
             mNavigationView.setNavigationItemSelectedListener(this);
             mBottomNavigationView.setVisibility(View.GONE);
 
@@ -161,7 +162,7 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
     @Override
     public boolean onNavigationItemSelected(MenuItem menuItem) {
         // If menuItem == null method was executed manually
-        if(menuItem != null)
+        if (menuItem != null)
             selectedMenuItem = menuItem.getItemId();
 
         mDrawerLayout.closeDrawers();
@@ -203,17 +204,17 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
 
         return false;
     }
-    
+
     @Override
     public void onBackPressed() {
         int backStackCount = mFragmentManager.getBackStackEntryCount();
         FragmentManager.BackStackEntry backStackEntry;
 
-        if(backStackCount > 0) {
+        if (backStackCount > 0) {
             // FRAGMENT_FROM_BACKSTACK value added as a backstack name for non-root fragments like Recordings, About, etc
-            backStackEntry = mFragmentManager.getBackStackEntryAt(mFragmentManager.getBackStackEntryCount()-1);
+            backStackEntry = mFragmentManager.getBackStackEntryAt(mFragmentManager.getBackStackEntryCount() - 1);
             int parsedId = Integer.parseInt(backStackEntry.getName());
-            if(parsedId == FRAGMENT_FROM_BACKSTACK) {
+            if (parsedId == FRAGMENT_FROM_BACKSTACK) {
                 super.onBackPressed();
                 invalidateOptionsMenu();
                 return;
@@ -221,21 +222,20 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
         }
 
         // Don't support backstack with BottomNavigationView
-        if(Utils.bottomNavigationEnabled(this)) {
+        if (Utils.bottomNavigationEnabled(this)) {
             // I'm giving 3 seconds on making a choice
             if (lastExitTry != null && new Date().getTime() < lastExitTry.getTime() + 3 * 1000) {
                 PlayerServiceUtil.shutdownService();
                 finish();
-            }
-            else {
+            } else {
                 Toast.makeText(this, R.string.alert_press_back_to_exit, Toast.LENGTH_SHORT).show();
                 lastExitTry = new Date();
                 return;
             }
         }
 
-        if(backStackCount > 1) {
-            backStackEntry = mFragmentManager.getBackStackEntryAt(mFragmentManager.getBackStackEntryCount()-2);
+        if (backStackCount > 1) {
+            backStackEntry = mFragmentManager.getBackStackEntryAt(mFragmentManager.getBackStackEntryCount() - 2);
 
             selectedMenuItem = Integer.parseInt(backStackEntry.getName());
 
@@ -244,8 +244,7 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
             }
             invalidateOptionsMenu();
 
-        }
-        else {
+        } else {
             finish();
             return;
         }
@@ -264,7 +263,7 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
             try {
                 String queryEncoded = URLEncoder.encode(searchTag, "utf-8");
                 queryEncoded = queryEncoded.replace("+", "%20");
-                Search(RadioBrowserServerManager.getWebserviceEndpoint(this,TAG_SEARCH_URL + "/" + queryEncoded));
+                Search(RadioBrowserServerManager.getWebserviceEndpoint(this, TAG_SEARCH_URL + "/" + queryEncoded));
             } catch (UnsupportedEncodingException e) {
                 e.printStackTrace();
             }
@@ -281,12 +280,12 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
             case Utils.REQUEST_EXTERNAL_STORAGE: {
                 // If request is cancelled, the result arrays are empty.
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    Fragment currentFragment = mFragmentManager.getFragments().get(mFragmentManager.getFragments().size()-1);
+                    Fragment currentFragment = mFragmentManager.getFragments().get(mFragmentManager.getFragments().size() - 1);
                     if (currentFragment instanceof IFragmentRefreshable) {
                         if (BuildConfig.DEBUG) {
                             Log.d(TAG, "REFRESH VIEW");
                         }
-                        ((IFragmentRefreshable)currentFragment).Refresh();
+                        ((IFragmentRefreshable) currentFragment).Refresh();
                     }
                 } else {
                     Toast toast = Toast.makeText(this, getResources().getString(R.string.error_record_needs_write), Toast.LENGTH_SHORT);
@@ -301,7 +300,7 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
     public void onDestroy() {
         super.onDestroy();
         PlayerServiceUtil.unBind(this);
-        MPDClient.StopDiscovery(this);
+        MPDClient.StopDiscovery();
         unregisterReceiver(broadcastReceiver);
     }
 
@@ -324,7 +323,8 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
             CastHandler.onPause();
         }
 
-        MPDClient.StopDiscovery(this);
+        MPDClient.StopDiscovery();
+        MPDClient.setStateChangeListener(null);
     }
 
     @Override
@@ -337,7 +337,9 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
 
         PlayerServiceUtil.bind(this);
         CastHandler.onResume();
-        MPDClient.StartDiscovery(this, this);
+
+        MPDClient.setStateChangeListener(this);
+        MPDClient.StartDiscovery(new WeakReference<Context>(this));
     }
 
     @Override
@@ -363,41 +365,48 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
         menuItemMPDNok.setVisible(MPDClient.Discovered() && !MPDClient.Connected());
 
         switch (selectedMenuItem) {
-            case R.id.nav_item_stations:
+            case R.id.nav_item_stations: {
                 menuItemAlarm.setVisible(true);
                 menuItemSearch.setVisible(true);
                 myToolbar.setTitle(R.string.nav_item_stations);
                 break;
-            case R.id.nav_item_starred:
+            }
+            case R.id.nav_item_starred: {
                 menuItemAlarm.setVisible(true);
                 menuItemSearch.setVisible(true);
-                Context context = getApplication().getApplicationContext();
-                FavouriteManager fm = new FavouriteManager(context);
-                if (fm.isEmpty()) {
+
+                RadioDroidApp radioDroidApp = (RadioDroidApp) getApplication();
+                if (radioDroidApp.getFavouriteManager().isEmpty()) {
                     menuItemDelete.setVisible(false);
                 } else {
                     menuItemDelete.setVisible(true).setTitle(R.string.action_delete_favorites);
                 }
                 myToolbar.setTitle(R.string.nav_item_starred);
                 break;
-            case R.id.nav_item_history:
+            }
+            case R.id.nav_item_history: {
                 menuItemAlarm.setVisible(true);
                 menuItemSearch.setVisible(true);
-                HistoryManager hm = new HistoryManager(getApplication().getApplicationContext());
-                if (!hm.isEmpty()) {
+
+                RadioDroidApp radioDroidApp = (RadioDroidApp) getApplication();
+                if (!radioDroidApp.getHistoryManager().isEmpty()) {
                     menuItemDelete.setVisible(true).setTitle(R.string.action_delete_history);
                 }
                 myToolbar.setTitle(R.string.nav_item_history);
                 break;
-            case R.id.nav_item_recordings:
+            }
+            case R.id.nav_item_recordings: {
                 myToolbar.setTitle(R.string.nav_item_recordings);
                 break;
-            case R.id.nav_item_alarm:
+            }
+            case R.id.nav_item_alarm: {
                 myToolbar.setTitle(R.string.nav_item_alarm);
                 break;
-            case R.id.nav_item_settings:
+            }
+            case R.id.nav_item_settings: {
                 myToolbar.setTitle(R.string.nav_item_settings);
                 break;
+            }
         }
 
         MenuItem mediaRouteMenuItem = CastHandler.getRouteItem(getApplicationContext(), menu);
@@ -417,7 +426,7 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
                 selectMPDServer();
                 return true;
             case R.id.action_mpd_ok:
-                MPDClient.Disconnect(this, this);
+                MPDClient.Disconnect();
                 return true;
             case R.id.action_delete:
                 if (selectedMenuItem == R.id.nav_item_history) {
@@ -465,14 +474,15 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
 
     private void setupStartUpFragment() {
         // This will restore fragment that was shown before activity was recreated
-        if(instanceStateWasSaved){
+        if (instanceStateWasSaved) {
             invalidateOptionsMenu();
             checkMenuItems();
             return;
         }
 
-        HistoryManager hm = new HistoryManager(this);
-        FavouriteManager fm = new FavouriteManager(this);
+        RadioDroidApp radioDroidApp = (RadioDroidApp) getApplication();
+        HistoryManager hm = radioDroidApp.getHistoryManager();
+        FavouriteManager fm = radioDroidApp.getFavouriteManager();
 
         final String startupAction = sharedPref.getString("startup_action", getResources().getString(R.string.startup_show_history));
 
@@ -499,34 +509,32 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
 
     private void selectMenuItem(int itemId) {
         MenuItem item;
-        if(Utils.bottomNavigationEnabled(this))
+        if (Utils.bottomNavigationEnabled(this))
             item = mBottomNavigationView.getMenu().findItem(itemId);
         else
             item = mNavigationView.getMenu().findItem(itemId);
 
-        if(item != null) {
+        if (item != null) {
             onNavigationItemSelected(item);
-        }
-        else {
+        } else {
             selectedMenuItem = R.id.nav_item_stations;
             onNavigationItemSelected(null);
         }
     }
 
     private void checkMenuItems() {
-        if(mBottomNavigationView.getMenu().findItem(selectedMenuItem) != null)
+        if (mBottomNavigationView.getMenu().findItem(selectedMenuItem) != null)
             mBottomNavigationView.getMenu().findItem(selectedMenuItem).setChecked(true);
 
-        if(mNavigationView.getMenu().findItem(selectedMenuItem) != null)
+        if (mNavigationView.getMenu().findItem(selectedMenuItem) != null)
             mNavigationView.getMenu().findItem(selectedMenuItem).setChecked(true);
     }
 
     public void Search(String query) {
-        Fragment currentFragment = mFragmentManager.getFragments().get(mFragmentManager.getFragments().size()-1);
+        Fragment currentFragment = mFragmentManager.getFragments().get(mFragmentManager.getFragments().size() - 1);
         if (currentFragment instanceof FragmentTabs) {
             ((FragmentTabs) currentFragment).Search(query);
-        }
-        else {
+        } else {
             String backStackTag = String.valueOf(R.id.nav_item_stations);
             FragmentTabs f = new FragmentTabs();
             FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
@@ -568,7 +576,7 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if(MPDClient.connected && (keyCode == KeyEvent.KEYCODE_VOLUME_DOWN || keyCode == KeyEvent.KEYCODE_VOLUME_UP))
+        if (MPDClient.connected && (keyCode == KeyEvent.KEYCODE_VOLUME_DOWN || keyCode == KeyEvent.KEYCODE_VOLUME_UP))
             return true;
 
         return super.onKeyDown(keyCode, event);
@@ -578,14 +586,14 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
     public boolean onKeyUp(int keyCode, KeyEvent event) {
         String mpd_hostname = "";
         int mpd_port = 0;
-        for (MPDServer server: Utils.getMPDServers(this)) {
-            if(server.selected) {
+        for (MPDServer server : Utils.getMPDServers(this)) {
+            if (server.selected) {
                 mpd_hostname = server.hostname.trim();
                 mpd_port = server.port;
                 break;
             }
         }
-        if(mpd_port == 0 || !MPDClient.connected)
+        if (mpd_port == 0 || !MPDClient.connected)
             return super.onKeyUp(keyCode, event);
 
         switch (keyCode) {
@@ -609,9 +617,9 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
             @Override
             public void onReceive(Context context, Intent intent) {
                 Intent mIntent = intent;
-                if(mIntent.getAction().equals(ACTION_HIDE_LOADING))
+                if (mIntent.getAction().equals(ACTION_HIDE_LOADING))
                     hideLoadingIcon();
-                else if(mIntent.getAction().equals(ACTION_SHOW_LOADING))
+                else if (mIntent.getAction().equals(ACTION_SHOW_LOADING))
                     showLoadingIcon();
             }
         };
@@ -622,6 +630,7 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
     private void showLoadingIcon() {
         findViewById(R.id.progressBarLoading).setVisibility(View.VISIBLE);
     }
+
     private void hideLoadingIcon() {
         findViewById(R.id.progressBarLoading).setVisibility(View.GONE);
     }
@@ -652,7 +661,7 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
             }
         });
 
-        long currentTimer = PlayerServiceUtil.getTimerSeconds() > 60? Math.abs(PlayerServiceUtil.getTimerSeconds() / 60) : 1;
+        long currentTimer = PlayerServiceUtil.getTimerSeconds() > 60 ? Math.abs(PlayerServiceUtil.getTimerSeconds() / 60) : 1;
         seekBar.setProgress((int) currentTimer);
         seekDialog.setPositiveButton(R.string.sleep_timer_apply, new DialogInterface.OnClickListener() {
             @Override
@@ -679,20 +688,19 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
         List<String> serversNames = new ArrayList<>();
         for (MPDServer server : servers) {
             server.selected = false;
-            if(server.connected) {
+            if (server.connected) {
                 serversNames.add(server.name);
                 connectedServers.add(server);
             }
         }
-        if(connectedServers.size() == 1)
-        {
+        if (connectedServers.size() == 1) {
             MPDServer selectedServer = servers.get(connectedServers.get(0).id);
             selectedServer.selected = true;
             Utils.saveMPDServers(servers, getApplicationContext());
-            MPDClient.Connect(this);
+            MPDClient.Connect();
 
             // Since we connected to one server but have many user should know server's name
-            if(servers.size() > 1)
+            if (servers.size() > 1)
                 Toast.makeText(this, getString(R.string.action_mpd_connected, selectedServer.name), Toast.LENGTH_SHORT).show();
             return;
         }
@@ -707,7 +715,7 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
                         MPDServer selectedServer = servers.get(connectedServers.get(which).id);
                         selectedServer.selected = true;
                         Utils.saveMPDServers(servers, getApplicationContext());
-                        MPDClient.Connect(ActivityMain.this);
+                        MPDClient.Connect();
                     }
                 })
                 .setTitle(R.string.alert_select_mpd_server)

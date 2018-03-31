@@ -1,5 +1,6 @@
 package net.programmierecke.radiodroid2;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -24,6 +25,7 @@ import android.widget.Toast;
 import net.programmierecke.radiodroid2.data.MPDServer;
 import net.programmierecke.radiodroid2.interfaces.IApplicationSelected;
 
+import java.lang.ref.WeakReference;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
@@ -237,8 +239,8 @@ public class FragmentSettings extends PreferenceFragmentCompat implements Shared
                         if(Utils.getMPDServers(getContext()).size() > 0)
                             showAllMPDServers();
 
-                        MPDClient.StopDiscovery((ActivityMain) getActivity());
-                        MPDClient.StartDiscovery(getActivity(), (ActivityMain) getActivity());
+                        MPDClient.StopDiscovery();
+                        MPDClient.StartDiscovery(new WeakReference<Context>(getActivity()));
                     }
                 })
                 .setTitle(R.string.alert_add_or_edit_mpd_server).create();
