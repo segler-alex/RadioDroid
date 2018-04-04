@@ -279,12 +279,16 @@ public class ItemAdapterStation
 
         holder.starredStatusIcon.setVisibility(favouriteManager.has(station.ID) ? View.VISIBLE : View.GONE);
 
-        if (station.ClickTrend < 0)
-            holder.imageTrend.setImageResource(R.drawable.ic_trending_down_black_24dp);
-        else if (station.ClickTrend > 0)
-            holder.imageTrend.setImageResource(R.drawable.ic_trending_up_black_24dp);
-        else
-            holder.imageTrend.setImageResource(R.drawable.ic_trending_flat_black_24dp);
+        if (prefs.getBoolean("click_trend_icon_visible", true)) {
+            if (station.ClickTrend < 0)
+                holder.imageTrend.setImageResource(R.drawable.ic_trending_down_black_24dp);
+            else if (station.ClickTrend > 0)
+                holder.imageTrend.setImageResource(R.drawable.ic_trending_up_black_24dp);
+            else
+                holder.imageTrend.setImageResource(R.drawable.ic_trending_flat_black_24dp);
+        } else {
+            holder.imageTrend.setVisibility(View.GONE);
+        }
 
         Drawable flag = CountryFlagsLoader.getInstance().getFlag(activity, station.Country);
 

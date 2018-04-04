@@ -87,6 +87,10 @@
     <string name="settings_icon_click_toggles_favorite_on">Clicking station icon adds or removes this as favorite</string>
     <string name="settings_icon_click_toggles_favorite_off">Clicking station icon starts playing</string>
 
+    <string name="settings_click_trend_icon_visible">Click trend icon</string>
+    <string name="settings_click_trend_icon_visible_on">Icon will be visible</string>
+    <string name="settings_click_trend_icon_visible_off">Icon will be hidden</string>
+
     <string name="settings_alarm">Alarm</string>
     <string name="settings_alarm_external">Open external</string>
     <string name="settings_alarm_external_desc">Open the alarm with default external app</string>
