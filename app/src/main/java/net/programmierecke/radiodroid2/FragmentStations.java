@@ -72,7 +72,9 @@ public class FragmentStations extends FragmentBase {
         }
 
         ItemAdapterStation adapter = (ItemAdapterStation) rvStations.getAdapter();
-        adapter.updateList(null, filteredStationsList);
+        if (adapter != null) {
+            adapter.updateList(null, filteredStationsList);
+        }
     }
 
     @Override
