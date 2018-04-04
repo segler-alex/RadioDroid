@@ -41,9 +41,10 @@ public class MPDClient {
         isPlaying = false;
         if (stateChangeListener != null)
             stateChangeListener.changed();
-        // Don't stop playback in that case. User can listen via MPD and via the app
-        // User can stop playback via MPD with pause button
-        //Stop(context);
+        /*
+         * Don't stop playback in that case. User can listen via MPD and via the app
+         * User can stop playback via MPD with pause button
+         */
     }
 
     public static void Play(final String url, final Context context) {
@@ -143,9 +144,21 @@ public class MPDClient {
                 Log.d(TAG, "Check connection...");
             }
             Socket s = new Socket();
-            // Timeout for local addresses should be as low as possible. Or you'll be waiting many seconds for a couple of servers if one (or more) of them will be unreachable
-            int timeout = mpd_hostname.startsWith("192.168.") || mpd_hostname.startsWith("127.0.") || mpd_hostname.startsWith("localhost") || mpd_hostname.startsWith("10.") || mpd_hostname.contains(".local") ? 500 : 3 * 1000;
-            // If you'll create the socket with default constructor new Socket(hostname, port) you will get 3 min timeout if the server is unreachable
+            /*
+             * Timeout for local addresses should be as low as possible.
+             * Or you'll be waiting many seconds for a couple of servers if one (or more) of them will be unreachable
+             */
+            int timeout = mpd_hostname.startsWith("192.168.")
+                    || mpd_hostname.startsWith("127.0.")
+                    || mpd_hostname.startsWith("localhost")
+                    || mpd_hostname.startsWith("10.")
+                    || mpd_hostname.contains(".local") ? 1000
+                    : 3 * 1000;
+            /*
+             * If you'll create the socket with default constructor:
+             * new Socket(hostname, port)
+             * you will get 3 min timeout if the server is unreachable
+             */
             s.connect(new InetSocketAddress(mpd_hostname, mpd_port), timeout);
             BufferedReader reader = new BufferedReader(new InputStreamReader(s.getInputStream()));
             BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(s.getOutputStream()));

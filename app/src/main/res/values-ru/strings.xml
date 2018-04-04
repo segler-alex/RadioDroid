@@ -81,6 +81,10 @@
     <string name="settings_icon_click_toggles_favorite_on">Нажатие на иконку станции добавит или удалит её из избранного</string>
     <string name="settings_icon_click_toggles_favorite_off">Нажатие на иконку начнёт проигрывание</string>
 
+    <string name="settings_click_trend_icon_visible">Иконка тренда</string>
+    <string name="settings_click_trend_icon_visible_on">Иконка тренда будет видна на каждой станции</string>
+    <string name="settings_click_trend_icon_visible_off">Иконка тренда будет скрыта</string>
+
     <string name="settings_alarm">Будильник</string>
     <string name="settings_alarm_external">Запускать в приложении</string>
     <string name="settings_alarm_external_desc">Запускать будильник, используя другое приложение</string>
