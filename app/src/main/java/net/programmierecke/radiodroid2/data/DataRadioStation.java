@@ -77,7 +77,9 @@ public class DataRadioStation {
 							aStation.IconUrl = anObject.getString("favicon");
 							aStation.Language = anObject.getString("language");
 							aStation.ClickCount = anObject.getInt("clickcount");
-							aStation.ClickTrend = anObject.getInt("clicktrend");
+							if (anObject.has("clicktrend")) {
+								aStation.ClickTrend = anObject.getInt("clicktrend");
+							}
 							if (anObject.has("bitrate")) {
 								aStation.Bitrate = anObject.getInt("bitrate");
 							}
@@ -123,7 +125,9 @@ public class DataRadioStation {
 					aStation.IconUrl = anObject.getString("favicon");
 					aStation.Language = anObject.getString("language");
 					aStation.ClickCount = anObject.getInt("clickcount");
-					aStation.ClickTrend = anObject.getInt("clicktrend");
+					if (anObject.has("clicktrend")) {
+						aStation.ClickTrend = anObject.getInt("clicktrend");
+					}
 					if (anObject.has(("bitrate"))) {
 						aStation.Bitrate = anObject.getInt("bitrate");
 					}

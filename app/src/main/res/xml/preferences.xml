@@ -68,6 +68,13 @@
             android:title="@string/settings_show_broken" />
 
         <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="click_trend_icon_visible"
+            android:summaryOff="@string/settings_click_trend_icon_visible_off"
+            android:summaryOn="@string/settings_click_trend_icon_visible_on"
+            android:title="@string/settings_click_trend_icon_visible" />
+
+        <CheckBoxPreference
             android:defaultValue="false"
             android:key="single_use_tags"
             android:summaryOff="@string/settings_single_use_tags_desc_off"
