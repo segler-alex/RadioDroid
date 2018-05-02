@@ -5,9 +5,9 @@
     <string name="detail_country">Krajina</string>
     <string name="detail_language">Jazyk</string>
     <string name="detail_weblink">URL Adresa</string>
-    <string name="detail_play">PREHRAŤ</string>
-    <string name="detail_pause">POZASTAVIŤ</string>
-    <string name="detail_stop">ZASTAVIŤ</string>
+    <string name="detail_play">Prehrať</string>
+    <string name="detail_pause">Pozastaviť</string>
+    <string name="detail_stop">Zastaviť</string>
     <string name="detail_share">Zdieľať</string>
 
     <string name="action_local">Miestne</string>
