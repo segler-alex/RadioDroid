@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <resources>
     <string name="detail_name">Názov</string>
     <string name="detail_tags">Značky</string>
@@ -6,9 +6,19 @@
     <string name="detail_language">Jazyk</string>
     <string name="detail_weblink">URL Adresa</string>
     <string name="detail_play">Prehrať</string>
+    <string name="detail_pause">Pozastaviť</string>
     <string name="detail_stop">Zastaviť</string>
     <string name="detail_share">Zdieľať</string>
+
+    <string name="action_local">Miestne</string>
+    <string name="action_pause">Pozastaviť</string>
+    <string name="action_resume">Pokračovať</string>
+    <string name="action_stop">Zastaviť</string>
     <string name="action_search">Hľadať</string>
+    <string name="action_delete">Vymazať</string>
+    <string name="action_delete_history">Vymazať históriu</string>
+    <string name="action_delete_favorites">Vymazať obľúbené</string>
+    <string name="action_cancel">Zrušiť</string>
     <string name="action_top_click">Najlepšie (Kliknutia)</string>
     <string name="action_top_vote">Najlepšie (Hlasovanie)</string>
     <string name="action_changed_lately">Naposledy zmenené</string>
@@ -28,13 +38,39 @@
     <string name="nav_item_alarm">Budík</string>
     <string name="nav_item_recordings">Nahrávky</string>
 
-    <string name="about_text">Táto aplikácia používa bezplatný zoznam rádio staníc na adrese\nhttps://www.radio-browser.info\nKaždý môže upravovať alebo pridávať stanice do tohoto zoznamu. Služba Radio browser funguje na princípe wiki s tým rozdieľom, že členovia komunity neupravujú články ale udržujú zoznam online (streamovateľných) rádio staníc.\n\nKontakt:\nsegler_alex@web.de\n\nNahlasovanie chýb:\nhttps://github.com/segler-alex/RadioDroid/issues\n\nAk sa vám táto aplikácia páči a radi by ste pomohli, prosím ozvite sa emailom. Rád by som našiel niekoho so skúsenosťami v oblasti grafiky, aby mi pomohol zatraktívniť aplikáciu tak, aby bola krajšia na pohľad :) možno niekto z vás dokáže nakresliť ikony a obrázky... alebo tiež šikovní vývojári, ktorí dokážete opraviť chyby a pridať nové (vlastnosti nie chyby ;)\nNápady na nové vylepšenia sú tiež vítané!\n\nTáto aplikácia je poskytovaná zdarma pod licenciou GPLv3\nhttps://www.gnu.org/licenses/gpl-3.0.html.</string>
+    <string name="about_text">Táto aplikácia používa bezplatný zoznam rádio staníc na adrese\n
+   https://www.radio-browser.info\n
+   Každý môže upravovať alebo pridávať stanice do tohoto zoznamu. Služba Radio browser funguje na princípe wiki s tým rozdieľom, že členovia komunity neupravujú články ale udržujú zoznam online (streamovateľných) rádio staníc.\n
+   \n
+   Kontakt:\n
+   segler_alex@web.de\n
+   \n
+   Nahlasovanie chýb:\n
+   https://github.com/segler-alex/RadioDroid/issues\n
+   \n
+   Ak sa vám táto aplikácia páči a radi by ste pomohli, prosím ozvite sa emailom. Rád by som našiel niekoho so skúsenosťami v oblasti grafiky, aby mi pomohol zatraktívniť aplikáciu tak, aby bola krajšia na pohľad :) možno niekto z vás dokáže nakresliť ikony a obrázky... alebo tiež šikovní vývojári, ktorí dokážete opraviť chyby a pridať nové (vlastnosti nie chyby ;)\n
+   Nápady na nové vylepšenia sú tiež vítané!\n
+   \n
+   Táto aplikácia je poskytovaná zdarma pod licenciou GPLv3\n
+   https://www.gnu.org/licenses/gpl-3.0.html.</string>
+    <string name="about_version">Verzia: %1$s</string>
     <string name="detail_star">Do obľúbených</string>
     <string name="detail_unstar">Odstrániť z obľúbených</string>
     <string name="progress_loading">Načítavanie...</string>
 
     <string name="sleep_timer" formatted="true">Časovač zaspávania: %1$02d:%2$02d</string>
+    <string name="sleep_timer_title">Koľko minút do automatického zastavenia</string>
+    <string name="sleep_timer_apply">Použiť</string>
+    <string name="sleep_timer_clear">Vynulovať</string>
     <string name="nav_item_add_sleep">+15 minút</string>
+
+    <string name="settings_interface">Rozhranie</string>
+    <string name="settings_theme_selection_title">Vzhľad</string>
+    <string name="theme_light">Svetlý</string>
+    <string name="theme_dark">Tmavý</string>
+    <string name="settings_circular_icons">Okrúhle ikony</string>
+    <string name="settings_compact_style">Kompaktný režim</string>
+    <string name="settings_bottom_navigation">Navigácia na spodku obrazovky</string>
 
     <string name="settings_general">Všeobecné</string>
     <string name="settings_single_use_tags">Zobraziť značky použité len raz</string>
@@ -45,6 +81,28 @@
     <string name="settings_show_broken_on">V zozname sa zobrazia aj nefunkčné stanice</string>
     <string name="settings_show_broken_off">V zozname sa nezobrazia nefunkčné stanice</string>
 
+    <string name="startup_action_title">Akcia po spustení</string>
+    <string name="startup_show_all_stations">Zobraziť všetky stanice</string>
+    <string name="startup_show_favorites">Zobraziť obľúbené</string>
+    <string name="startup_show_history">Zobraziť históriu</string>
+    <string name="startup_show_last_view">Posledné zobrazenie</string>
+
+    <string name="settings_load_icons">Zobrazovať ikony</string>
+    <string name="settings_load_icons_on">Ikony staníc budú stiahnuté automaticky</string>
+    <string name="settings_load_icons_off">Ikony staníc nebudú stiahnuté</string>
+
+    <string name="settings_auto_favorite">Automatické obľúbené</string>
+    <string name="settings_auto_favorite_on">Automaticky pridávať stanice do obľúbených pri spustení prehrávania</string>
+    <string name="settings_auto_favorite_off">Nepridávať stanice do obľúbených pri spustení prehrávania</string>
+
+    <string name="settings_icon_click_toggles_favorite">Klik na ikonu</string>
+    <string name="settings_icon_click_toggles_favorite_on">Klik na ikonu stanice pridá / odstráni z obľúbených</string>
+    <string name="settings_icon_click_toggles_favorite_off">Klik na ikonu stanice spustí prehrávanie</string>
+
+    <string name="settings_click_trend_icon_visible">Ikona najlepšie (kliknutia)</string>
+    <string name="settings_click_trend_icon_visible_on">Ikona bude zobrazená</string>
+    <string name="settings_click_trend_icon_visible_off">Ikona bude skrytá</string>
+
     <string name="settings_alarm">Budík</string>
     <string name="settings_alarm_external">Otvoriť externú aplikáciu</string>
     <string name="settings_alarm_external_desc">Budík sa otvorí v predvolenej externej aplikácii</string>
@@ -54,23 +112,77 @@
     <string name="settings_play">Prehrávač</string>
     <string name="settings_play_external">Otvoriť externú aplikáciu</string>
     <string name="settings_play_external_desc">Klepnutím na názov stanice otvorí externý prehrávač</string>
+    <string name="settings_equalizer">Ekvalizér</string>
 
-    <string name="settings_statistics">Štatistika</string>
-    <string name="settings_about">O programe</string>
+    <string name="settings_connectivity">Pripojenie</string>
+    <string name="settings_connect_timeout">Časový limit pripájania</string>
+    <string name="settings_read_timeout">Časový limit čítania streamu</string>
+    <string name="settings_retry_timeout">Časový limit opakovaného ripájania</string>
+    <string name="settings_retry_delay">Oneskorenie pri znovu fripájaní</string>
+    <string name="settings_seconds_format">%d sekúnd</string>
+    <string name="settings_milliseconds_format">%d milisekúnd</string>
 
+    <string name="settings_warn_no_wifi">Upozorniť na nepripojené WiFi</string>
+    <string name="settings_warn_no_wifi_on">Upozorňovať na prehrávanie cez mobilné dáta</string>
+    <string name="settings_warn_no_wifi_off">Neupozorňovať, keď nie ste pripojení k WiFi</string>
+
+    <string name="settings_recordings">Nahrávky</string>
+    <string name="settings_record_name_formatting">Formát názvu</string>
+
+
+    <string name="settings_record_name_formatting_default_display">stanica_interprét_skladba_\\200bdátum_\\200bčas</string>
+    <string name="settings_record_name_formatting_1_display">stanica_interprét_\\200bskladba</string>
+    <string name="settings_record_name_formatting_2_display">stanica_dátum_\\200bčas</string>
+    <string name="settings_record_name_formatting_3_display">index_stanica_\\200bdátum</string>
+
+    <string name="notify_pre_play">Pripájanie</string>
     <string name="notify_play">Prehrávanie</string>
+    <string name="notify_paused">Pozastavené</string>
+    <string name="notify_starred">Stanica bola pridaná do obľúbených</string>
+    <string name="notify_autostarred">Stanica bola automaticky pridaná do obľúbených</string>
+    <string name="notify_unstarred">Stanica bola odstránená zo zoznamu obľúbených</string>
+    <string name="notify_deleted_favorites">Obľúbené stanice boli vymazané.</string>
+    <string name="notify_deleted_history">História prehrávania bola vymazaná.</string>
+
+    <string name="notify_station_removed_from_list">1 Odstránená</string>
+    <string name="action_station_removed_from_list_undo">Vrátiť späť</string>
+
+    <string name="alert_delete_history">Naozaj chcete vymazať históriu prehrávania?</string>
+    <string name="alert_delete_favorites">Naozaj chcete vymazať všetky obľúbené?</string>
+    <string name="yes">Áno</string>
+    <string name="no">Nie</string>
+
+    <string name="alert_select_mpd_server">Ktorý server?</string>
+    <string name="alert_select_mpd_server_name">Názouv servera</string>
+    <string name="alert_select_mpd_server_hostname">Názov hostiteľa</string>
+    <string name="alert_select_mpd_server_port">Port</string>
+
+    <string name="alert_select_mpd_server_add">Pridať</string>
+    <string name="alert_select_mpd_server_save">Uložiť</string>
+    <string name="alert_select_mpd_server_remove">Odstrániť</string>
+    <string name="alert_add_or_edit_mpd_server">Zadajte podrobnosti servera</string>
+
+    <string name="alert_press_back_to_exit">Ukončíte opätovným stlačením tlačidla Späť</string>
 
     <string name="error_stream_url">Vyskytol sa problém s URL adresou streamu</string>
     <string name="error_caching_stream">Vyskytol sa problém pri ukladaní streamu do vyrovnávacej pamäte</string>
     <string name="error_play_stream">Nie je možné prehrať stream</string>
+    <string name="error_stream_reconnect_timeout">Nie je možné znovu sa pripojiť ku streamu: časový limit vypršal.</string>
 
     <string name="error_record_needs_write">Pre možnosť nahrávania je vyžadované oprávnenie na zápis!</string>
+    <string name="error_grant_audiofocus">Systém odmietol žiadosť o audio fokus</string>
+
+    <string name="error_no_equalizer_found">Nie je možné nájsť žiadnu aplikáciu ekvalizér!</string>
 
     <string name="player_info_status">STAV:</string>
     <string name="player_info_status_stopped">Zastavený</string>
     <string name="player_info_status_playing">Prehráva sa</string>
+    <string name="player_info_status_recording">Nahrávanie</string>
+    <string name="player_info_status_playing_and_recording">Prehrávanie aj nahrávanie</string>
     <string name="player_info_transferred">Prenesené údaje: %1$s</string>
     <string name="player_info_recording_to">Nahrávanie do: %1$s</string>
+    <string name="player_info_recorded_to">Posledná nahrávka:\n
+  %1$s</string>
 
     <string name="station_detail_bitrate">%1$1d kbps</string>
     <string name="station_detail_broken">NEFUNKČNÁ</string>
@@ -79,4 +191,25 @@
     <string name="image_button_record">Nahrávať</string>
     <string name="image_button_delete">Odstrániť</string>
     <string name="image_button_more">Viac</string>
+
+
+    <string name="settings_view_mpd_servers">Vaše servery</string>
+    <string name="action_mpd_nok">Nepripojené ku MPD</string>
+    <string name="action_mpd_ok">Pripojené ku MPD</string>
+    <string name="action_mpd_connected">Pripojené k serveru: %1$s</string>
+
+
+    <string name="settings_other">Ostatné</string>
+    <string name="settings_statistics">Štatistika</string>
+    <string name="settings_about">O programe</string>
+
+
+    <string name="notify_stream_url_copied">Adresa URL streamu úspešne skopírovaná</string>
+
+
+    <string name="no_wifi_title">Žiadne pripojenie WiFi</string>
+    <string name="no_wifi_connection">Pri spúšťaní %1$s nie ste pripojení k sieti WiFi. Pokračujte klepnutím na tlačidlo \'Ok\'.</string>
+    <string name="nav_item_statistics">Štatistika</string>
+    <string name="nav_item_about">O aplikácii</string>
+    <string name="refresh">Obnoviť</string>
 </resources>
