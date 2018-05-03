@@ -217,6 +217,8 @@ public class ItemAdapterStation
 
             if (prefs.getBoolean("icon_click_toggles_favorite", true)) {
 
+                final boolean isInFavorites = favouriteManager.has(station.ID);
+                holder.imageViewIcon.setContentDescription(getContext().getApplicationContext().getString(isInFavorites ? R.string.detail_unstar : R.string.detail_star));
                 holder.imageViewIcon.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -243,6 +245,7 @@ public class ItemAdapterStation
         holder.textViewTags.setVisibility(isExpanded ? View.GONE : View.VISIBLE);
 
         holder.buttonMore.setImageResource(isExpanded ? R.drawable.ic_expand_less_black_24dp : R.drawable.ic_expand_more_black_24dp);
+        holder.buttonMore.setContentDescription(getContext().getApplicationContext().getString(isExpanded ? R.string.image_button_less : R.string.image_button_more));
         holder.buttonMore.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -329,6 +332,7 @@ public class ItemAdapterStation
 
             if (favouriteManager.has(station.ID)) {
                 holder.buttonBookmark.setImageResource(R.drawable.ic_star_black_24dp);
+                holder.buttonBookmark.setContentDescription(getContext().getApplicationContext().getString(R.string.detail_unstar));
                 holder.buttonBookmark.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -342,6 +346,7 @@ public class ItemAdapterStation
                 });
             } else {
                 holder.buttonBookmark.setImageResource(R.drawable.ic_star_border_black_24dp);
+                holder.buttonBookmark.setContentDescription(getContext().getApplicationContext().getString(R.string.detail_star));
                 holder.buttonBookmark.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {

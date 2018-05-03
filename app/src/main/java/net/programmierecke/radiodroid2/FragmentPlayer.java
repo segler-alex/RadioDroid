@@ -103,8 +103,10 @@ public class FragmentPlayer extends Fragment {
 				public void onClick(View v) {
 					if (PlayerServiceUtil.isPlaying() || MPDClient.isPlaying) {
 						buttonPause.setImageResource(R.drawable.ic_play_circle);
+						buttonPause.setContentDescription(getResources().getString(R.string.detail_play));
 						if (PlayerServiceUtil.isRecording()) {
 							buttonRecord.setImageResource(R.drawable.ic_start_recording);
+							buttonRecord.setContentDescription(getResources().getString(R.string.image_button_record));
 							String recordingInfo = getResources().getString(R.string.player_info_recorded_to, PlayerServiceUtil.getCurrentRecordFileName());
 							textViewRecordingInfo.setText(recordingInfo);
 							PlayerServiceUtil.stopRecording();
@@ -117,6 +119,7 @@ public class FragmentPlayer extends Fragment {
 							MPDClient.Stop(getContext());
 					} else {
 						buttonPause.setImageResource(R.drawable.ic_pause_circle);
+	buttonPause.setContentDescription(getResources().getString(R.string.detail_pause));
 						SetInfoFromHistory(true);
 					}
 				}
@@ -130,12 +133,14 @@ public class FragmentPlayer extends Fragment {
 				public void onClick(View v) {
 					if (PlayerServiceUtil.isRecording()) {
 						buttonRecord.setImageResource(R.drawable.ic_start_recording);
+						buttonRecord.setContentDescription(getResources().getString(R.string.image_button_record));
 						String recordingInfo = getResources().getString(R.string.player_info_recorded_to,PlayerServiceUtil.getCurrentRecordFileName());
 						textViewRecordingInfo.setText(recordingInfo);
 						PlayerServiceUtil.stopRecording();
 					} else if(PlayerServiceUtil.isPlaying()) {
 						if (Utils.verifyStoragePermissions(getActivity())) {
 							buttonRecord.setImageResource(R.drawable.ic_stop_recording);
+							buttonRecord.setContentDescription(getResources().getString(R.string.detail_stop));
 							PlayerServiceUtil.startRecording();
 							if (PlayerServiceUtil.getCurrentRecordFileName() != null && PlayerServiceUtil.isRecording()){
 								String recordingInfo = getResources().getString(R.string.player_info_recording_to,PlayerServiceUtil.getCurrentRecordFileName());
@@ -227,8 +232,10 @@ public class FragmentPlayer extends Fragment {
 		buttonPause = (ImageButton) getActivity().findViewById(R.id.buttonPause);
 		if (PlayerServiceUtil.isPlaying() || MPDClient.isPlaying) {
 			buttonPause.setImageResource(R.drawable.ic_pause_circle);
+			buttonPause.setContentDescription(getResources().getString(R.string.detail_pause));
 		} else {
 			buttonPause.setImageResource(R.drawable.ic_play_circle);
+			buttonPause.setContentDescription(getResources().getString(R.string.detail_play));
 		}
 
 		buttonRecord = (ImageButton) getActivity().findViewById(R.id.buttonRecord);
@@ -237,12 +244,15 @@ public class FragmentPlayer extends Fragment {
 
 		if (PlayerServiceUtil.isRecording()) {
 			buttonRecord.setImageResource(R.drawable.ic_stop_recording);
+			buttonRecord.setContentDescription(getResources().getString(R.string.detail_stop));
 			aTextViewName.setTextColor(getResources().getColor(R.color.startRecordingColor));
 		} else if (android.os.Environment.getExternalStorageDirectory().canWrite()) {
 			buttonRecord.setImageResource(R.drawable.ic_start_recording);
+			buttonRecord.setContentDescription(getResources().getString(R.string.image_button_record));
 			aTextViewName.setTextColor(tv.data);
 		} else {
 			buttonRecord.setImageResource(R.drawable.ic_fiber_manual_record_black_50dp);
+			buttonRecord.setContentDescription(getResources().getString(R.string.image_button_record_request_permission));
 			aTextViewName.setTextColor(tv.data);
 		}
 
@@ -314,8 +324,10 @@ public class FragmentPlayer extends Fragment {
 				if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
 					PlayerServiceUtil.startRecording();
 					buttonRecord.setImageResource(R.drawable.ic_fiber_manual_record_red_50dp);
+					buttonRecord.setContentDescription(getResources().getString(R.string.detail_stop));
 				} else {
 					buttonRecord.setImageResource(R.drawable.ic_fiber_manual_record_black_50dp);
+			buttonRecord.setContentDescription(getResources().getString(R.string.image_button_record_request_permission));
 					Toast toast = Toast.makeText(getActivity(), getResources().getString(R.string.error_record_needs_write), Toast.LENGTH_SHORT);
 					toast.show();
 				}
