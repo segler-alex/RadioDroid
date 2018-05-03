@@ -184,6 +184,7 @@
     <string name="image_button_recordings">Recordings</string>
     <string name="image_button_delete">Delete</string>
     <string name="image_button_more">More</string>
+    <string name="image_button_less">Less</string>
     <string name="image_button_repeat">Repeat</string>
     <string name="image_button_dont_repeat">Do not repeat</string>
 
