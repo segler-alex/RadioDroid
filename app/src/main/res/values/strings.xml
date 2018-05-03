@@ -180,6 +180,7 @@
 
     <string name="image_button_disable">Disable</string>
     <string name="image_button_record">Record</string>
+    <string name="image_button_record_request_permission">Request permissions and record</string>
     <string name="image_button_recordings">Recordings</string>
     <string name="image_button_delete">Delete</string>
     <string name="image_button_more">More</string>
