@@ -183,6 +183,8 @@
     <string name="image_button_recordings">Recordings</string>
     <string name="image_button_delete">Delete</string>
     <string name="image_button_more">More</string>
+    <string name="image_button_repeat">Repeat</string>
+    <string name="image_button_dont_repeat">Do not repeat</string>
 
     <string name="media_route_menu_title">GoogleCast</string>
     <string name="app_id">5A97BAE4</string>

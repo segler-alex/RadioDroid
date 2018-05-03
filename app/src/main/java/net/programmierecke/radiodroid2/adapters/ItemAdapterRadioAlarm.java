@@ -85,6 +85,7 @@ public class ItemAdapterRadioAlarm extends ArrayAdapter<DataRadioStationAlarm> {
 			});
 		}
 		repeatDaysView.setVisibility(aData.repeating ? View.VISIBLE : View.GONE);
+		buttonRepeating.setContentDescription(this.context.getResources().getString(aData.repeating ? R.string.image_button_dont_repeat : R.string.image_button_repeat));
 		return v;
 	}
 
