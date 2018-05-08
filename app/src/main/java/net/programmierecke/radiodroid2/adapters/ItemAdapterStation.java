@@ -283,12 +283,16 @@ public class ItemAdapterStation
         holder.starredStatusIcon.setVisibility(favouriteManager.has(station.ID) ? View.VISIBLE : View.GONE);
 
         if (prefs.getBoolean("click_trend_icon_visible", true)) {
-            if (station.ClickTrend < 0)
+            if (station.ClickTrend < 0) {
                 holder.imageTrend.setImageResource(R.drawable.ic_trending_down_black_24dp);
-            else if (station.ClickTrend > 0)
+                holder.imageTrend.setContentDescription(getContext().getApplicationContext().getString(R.string.icon_click_trend_decreasing));
+            } else if (station.ClickTrend > 0) {
                 holder.imageTrend.setImageResource(R.drawable.ic_trending_up_black_24dp);
-            else
+                holder.imageTrend.setContentDescription(getContext().getApplicationContext().getString(R.string.icon_click_trend_increasing));
+            } else {
                 holder.imageTrend.setImageResource(R.drawable.ic_trending_flat_black_24dp);
+                holder.imageTrend.setContentDescription(getContext().getApplicationContext().getString(R.string.icon_click_trend_stable));
+            }
         } else {
             holder.imageTrend.setVisibility(View.GONE);
         }
