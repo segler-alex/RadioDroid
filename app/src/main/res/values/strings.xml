@@ -187,6 +187,9 @@
     <string name="image_button_less">Less</string>
     <string name="image_button_repeat">Repeat</string>
     <string name="image_button_dont_repeat">Do not repeat</string>
+    <string name="icon_click_trend_decreasing">Popularity decreasing</string>
+    <string name="icon_click_trend_increasing">Popularity increasing</string>
+    <string name="icon_click_trend_stable">Popularity stable</string>
 
     <string name="media_route_menu_title">GoogleCast</string>
     <string name="app_id">5A97BAE4</string>
