@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="utf-8"?>
+
 <resources>
     <string name="detail_name">Názov</string>
     <string name="detail_tags">Značky</string>
@@ -39,20 +40,20 @@
     <string name="nav_item_recordings">Nahrávky</string>
 
     <string name="about_text">Táto aplikácia používa bezplatný zoznam rádio staníc na adrese\n
-   https://www.radio-browser.info\n
-   Každý môže upravovať alebo pridávať stanice do tohoto zoznamu. Služba Radio browser funguje na princípe wiki s tým rozdieľom, že členovia komunity neupravujú články ale udržujú zoznam online (streamovateľných) rádio staníc.\n
-   \n
-   Kontakt:\n
-   segler_alex@web.de\n
-   \n
-   Nahlasovanie chýb:\n
-   https://github.com/segler-alex/RadioDroid/issues\n
-   \n
-   Ak sa vám táto aplikácia páči a radi by ste pomohli, prosím ozvite sa emailom. Rád by som našiel niekoho so skúsenosťami v oblasti grafiky, aby mi pomohol zatraktívniť aplikáciu tak, aby bola krajšia na pohľad :) možno niekto z vás dokáže nakresliť ikony a obrázky... alebo tiež šikovní vývojári, ktorí dokážete opraviť chyby a pridať nové (vlastnosti nie chyby ;)\n
-   Nápady na nové vylepšenia sú tiež vítané!\n
-   \n
-   Táto aplikácia je poskytovaná zdarma pod licenciou GPLv3\n
-   https://www.gnu.org/licenses/gpl-3.0.html.</string>
+    https://www.radio-browser.info\n
+    Každý môže upravovať alebo pridávať stanice do tohoto zoznamu. Služba Radio browser funguje na princípe wiki s tým rozdieľom, že členovia komunity neupravujú články ale udržujú zoznam online (streamovateľných) rádio staníc.\n
+    \n
+    Kontakt:\n
+    segler_alex@web.de\n
+    \n
+    Nahlasovanie chýb:\n
+    https://github.com/segler-alex/RadioDroid/issues\n
+    \n
+    Ak sa vám táto aplikácia páči a radi by ste pomohli, prosím ozvite sa emailom. Rád by som našiel niekoho so skúsenosťami v oblasti grafiky, aby mi pomohol zatraktívniť aplikáciu tak, aby bola krajšia na pohľad :) možno niekto z vás dokáže nakresliť ikony a obrázky... alebo tiež šikovní vývojári, ktorí dokážete opraviť chyby a pridať nové (vlastnosti nie chyby ;)\n
+    Nápady na nové vylepšenia sú tiež vítané!\n
+    \n
+    Táto aplikácia je poskytovaná zdarma pod licenciou GPLv3\n
+    https://www.gnu.org/licenses/gpl-3.0.html.</string>
     <string name="about_version">Verzia: %1$s</string>
     <string name="detail_star">Do obľúbených</string>
     <string name="detail_unstar">Odstrániť z obľúbených</string>
@@ -95,13 +96,13 @@
     <string name="settings_auto_favorite_on">Automaticky pridávať stanice do obľúbených pri spustení prehrávania</string>
     <string name="settings_auto_favorite_off">Nepridávať stanice do obľúbených pri spustení prehrávania</string>
 
-    <string name="settings_icon_click_toggles_favorite">Klik na ikonu</string>
-    <string name="settings_icon_click_toggles_favorite_on">Klik na ikonu stanice pridá / odstráni z obľúbených</string>
-    <string name="settings_icon_click_toggles_favorite_off">Klik na ikonu stanice spustí prehrávanie</string>
+    <string name="settings_icon_click_toggles_favorite">Klepnutie na ikonu</string>
+    <string name="settings_icon_click_toggles_favorite_on">Klepnutím na ikonu stanice pridáte do / odstránite z obľúbených</string>
+    <string name="settings_icon_click_toggles_favorite_off">Klepnutím na ikonu stanice spustíte prehrávanie</string>
 
-    <string name="settings_click_trend_icon_visible">Ikona najlepšie (kliknutia)</string>
-    <string name="settings_click_trend_icon_visible_on">Ikona bude zobrazená</string>
-    <string name="settings_click_trend_icon_visible_off">Ikona bude skrytá</string>
+    <string name="settings_click_trend_icon_visible">Znázorniť trend kliknutí</string>
+    <string name="settings_click_trend_icon_visible_on">V zozname staníc sa bude zobrazovať ikona znázorňujúca popularitu</string>
+    <string name="settings_click_trend_icon_visible_off">V zozname staníc sa nebude zobrazovať ikona znázorňujúca popularitu</string>
 
     <string name="settings_alarm">Budík</string>
     <string name="settings_alarm_external">Otvoriť externú aplikáciu</string>
@@ -111,14 +112,14 @@
     <string name="settings_alarm_sleep_timer_desc">Zastaviť prehrávanie po %1$s minútach</string>
     <string name="settings_play">Prehrávač</string>
     <string name="settings_play_external">Otvoriť externú aplikáciu</string>
-    <string name="settings_play_external_desc">Klepnutím na názov stanice otvorí externý prehrávač</string>
+    <string name="settings_play_external_desc">Klepnutím na názov stanice otvoríte externý prehrávač</string>
     <string name="settings_equalizer">Ekvalizér</string>
 
     <string name="settings_connectivity">Pripojenie</string>
     <string name="settings_connect_timeout">Časový limit pripájania</string>
     <string name="settings_read_timeout">Časový limit čítania streamu</string>
-    <string name="settings_retry_timeout">Časový limit opakovaného ripájania</string>
-    <string name="settings_retry_delay">Oneskorenie pri znovu fripájaní</string>
+    <string name="settings_retry_timeout">Časový limit opakovaného pripájania</string>
+    <string name="settings_retry_delay">Oneskorenie pri opätovnom pripájaní</string>
     <string name="settings_seconds_format">%d sekúnd</string>
     <string name="settings_milliseconds_format">%d milisekúnd</string>
 
@@ -167,7 +168,7 @@
     <string name="error_stream_url">Vyskytol sa problém s URL adresou streamu</string>
     <string name="error_caching_stream">Vyskytol sa problém pri ukladaní streamu do vyrovnávacej pamäte</string>
     <string name="error_play_stream">Nie je možné prehrať stream</string>
-    <string name="error_stream_reconnect_timeout">Nie je možné znovu sa pripojiť ku streamu: časový limit vypršal.</string>
+    <string name="error_stream_reconnect_timeout">Nie je možné znovu sa pripojiť ku streamu: časový limit uplynul</string>
 
     <string name="error_record_needs_write">Pre možnosť nahrávania je vyžadované oprávnenie na zápis!</string>
     <string name="error_grant_audiofocus">Systém odmietol žiadosť o audio fokus</string>
@@ -175,22 +176,30 @@
     <string name="error_no_equalizer_found">Nie je možné nájsť žiadnu aplikáciu ekvalizér!</string>
 
     <string name="player_info_status">STAV:</string>
-    <string name="player_info_status_stopped">Zastavený</string>
-    <string name="player_info_status_playing">Prehráva sa</string>
+    <string name="player_info_status_stopped">Zastavené</string>
+    <string name="player_info_status_playing">Prehrávanie</string>
     <string name="player_info_status_recording">Nahrávanie</string>
     <string name="player_info_status_playing_and_recording">Prehrávanie aj nahrávanie</string>
     <string name="player_info_transferred">Prenesené údaje: %1$s</string>
     <string name="player_info_recording_to">Nahrávanie do: %1$s</string>
     <string name="player_info_recorded_to">Posledná nahrávka:\n
-  %1$s</string>
+   %1$s</string>
 
     <string name="station_detail_bitrate">%1$1d kbps</string>
     <string name="station_detail_broken">NEFUNKČNÁ</string>
 
     <string name="image_button_disable">Zakázať</string>
     <string name="image_button_record">Nahrávať</string>
+    <string name="image_button_record_request_permission">Vyžiadať oprávnenia potrebné pre nahrávanie</string>
+    <string name="image_button_recordings">Nahrávky</string>
     <string name="image_button_delete">Odstrániť</string>
     <string name="image_button_more">Viac</string>
+    <string name="image_button_less">Menej</string>
+    <string name="image_button_repeat">Opakovať</string>
+    <string name="image_button_dont_repeat">Neopakovať</string>
+    <string name="icon_click_trend_decreasing">Klesajúca popularita</string>
+    <string name="icon_click_trend_increasing">Stúpajúca popularita</string>
+    <string name="icon_click_trend_stable">Stabilná popularita</string>
 
 
     <string name="settings_view_mpd_servers">Vaše servery</string>
@@ -198,6 +207,7 @@
     <string name="action_mpd_ok">Pripojené ku MPD</string>
     <string name="action_mpd_connected">Pripojené k serveru: %1$s</string>
 
+    <string name="settings_radiobrowser_servers">Servery služby RadioBrowser</string>
 
     <string name="settings_other">Ostatné</string>
     <string name="settings_statistics">Štatistika</string>
