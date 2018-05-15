@@ -15,6 +15,8 @@ import com.google.android.gms.cast.framework.SessionManager;
 import com.google.android.gms.cast.framework.SessionManagerListener;
 import com.google.android.gms.cast.MediaInfo;
 import com.google.android.gms.cast.MediaMetadata;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.android.gms.common.images.WebImage;
 
 import java.lang.reflect.Method;
@@ -35,19 +37,27 @@ public class CastHandler {
 
     public static void onCreate(ActivityMain activity) {
         activityMain = activity;
-        mCastContext = CastContext.getSharedInstance(activityMain);
-        mSessionManager = mCastContext.getSessionManager();
-        mSessionManager.addSessionManagerListener(mSessionManagerListener);
+        GoogleApiAvailability googleAPI = GoogleApiAvailability.getInstance();
+        int result = googleAPI.isGooglePlayServicesAvailable(activity);
+        if (result != ConnectionResult.SUCCESS) {
+            mCastContext = CastContext.getSharedInstance(activityMain);
+            mSessionManager = mCastContext.getSessionManager();
+            mSessionManager.addSessionManagerListener(mSessionManagerListener);
+        }
     }
 
     public static void onPause() {
-        mSessionManager.removeSessionManagerListener(mSessionManagerListener);
-        mCastSession = null;
+        if (mSessionManager != null) {
+            mSessionManager.removeSessionManagerListener(mSessionManagerListener);
+            mCastSession = null;
+        }
     }
 
     public static void onResume() {
-        mCastSession = mSessionManager.getCurrentCastSession();
-        mSessionManager.addSessionManagerListener(mSessionManagerListener);
+        if (mSessionManager != null) {
+            mCastSession = mSessionManager.getCurrentCastSession();
+            mSessionManager.addSessionManagerListener(mSessionManagerListener);
+        }
     }
 
     public static MenuItem getRouteItem(Context context, Menu menu) {
@@ -61,23 +71,25 @@ public class CastHandler {
     }
 
     public static void PlayRemote(String title, String url, String iconurl){
-        Log.i("CAST",title);
-        MediaMetadata movieMetadata = new MediaMetadata(MediaMetadata.MEDIA_TYPE_MUSIC_TRACK);
+        if (mSessionManager != null) {
+            Log.i("CAST", title);
+            MediaMetadata movieMetadata = new MediaMetadata(MediaMetadata.MEDIA_TYPE_MUSIC_TRACK);
 
-        movieMetadata.putString(MediaMetadata.KEY_TITLE, title);
-        //movieMetadata.putString(MediaMetadata.KEY_SUBTITLE, "MySubTitle");
-        movieMetadata.addImage(new WebImage(Uri.parse(iconurl)));
-        //movieMetadata.addImage(new WebImage(Uri.parse(mSelectedMedia.getImage(1))));
+            movieMetadata.putString(MediaMetadata.KEY_TITLE, title);
+            //movieMetadata.putString(MediaMetadata.KEY_SUBTITLE, "MySubTitle");
+            movieMetadata.addImage(new WebImage(Uri.parse(iconurl)));
+            //movieMetadata.addImage(new WebImage(Uri.parse(mSelectedMedia.getImage(1))));
 
 
-        MediaInfo mediaInfo = new MediaInfo.Builder(url)
-                .setStreamType(MediaInfo.STREAM_TYPE_LIVE)
-                .setContentType("audio/ogg")
-                .setMetadata(movieMetadata)
-                //.setStreamDuration(mSelectedMedia.getDuration() * 1000)
-                .build();
-        RemoteMediaClient remoteMediaClient = mCastSession.getRemoteMediaClient();
-        remoteMediaClient.load(mediaInfo, true);
+            MediaInfo mediaInfo = new MediaInfo.Builder(url)
+                    .setStreamType(MediaInfo.STREAM_TYPE_LIVE)
+                    .setContentType("audio/ogg")
+                    .setMetadata(movieMetadata)
+                    //.setStreamDuration(mSelectedMedia.getDuration() * 1000)
+                    .build();
+            RemoteMediaClient remoteMediaClient = mCastSession.getRemoteMediaClient();
+            remoteMediaClient.load(mediaInfo, true);
+        }
     }
 
     //TODO: Replace this
@@ -100,7 +112,9 @@ public class CastHandler {
         public void onSessionStarted(Session session, String sessionId) {
             Log.i("CAST","onSessionStarted");
             invalidateOptions();
-            mCastSession = mSessionManager.getCurrentCastSession();
+            if (mSessionManager != null) {
+                mCastSession = mSessionManager.getCurrentCastSession();
+            }
         }
 
         @Override
@@ -117,7 +131,9 @@ public class CastHandler {
         public void onSessionResumed(Session session, boolean wasSuspended) {
             Log.i("CAST","onSessionStarting");
             invalidateOptions();
-            mCastSession = mSessionManager.getCurrentCastSession();
+            if (mSessionManager != null) {
+                mCastSession = mSessionManager.getCurrentCastSession();
+            }
         }
 
         @Override

@@ -15,8 +15,8 @@ android {
         minSdkVersion 15
         targetSdkVersion 23
 
-        versionCode 66
-        versionName "0.56"
+        versionCode 67
+        versionName "0.57"
 
         vectorDrawables.useSupportLibrary = true
 
@@ -135,5 +135,16 @@ android.applicationVariants.all { variant ->
         finalName += "-" + gitHash() + ".apk"
         // outputFileName = "${variant.name}-${variant.versionName}.apk"
         outputFileName = finalName
+    }
+}
+
+configurations.all {
+    resolutionStrategy.eachDependency { DependencyResolveDetails details ->
+        def requested = details.requested
+        if (requested.group == 'com.android.support') {
+            if (!requested.name.startsWith("multidex")) {
+                details.useVersion '25.4.0'
+            }
+        }
     }
 }
