@@ -102,8 +102,13 @@ public class FragmentBase extends Fragment {
                             urlResult = result;
                             RefreshListGui();
                         } else {
-                            Toast toast = Toast.makeText(getContext(), getResources().getText(R.string.error_list_update), Toast.LENGTH_SHORT);
-                            toast.show();
+                            try {
+                                Toast toast = Toast.makeText(getContext(), getResources().getText(R.string.error_list_update), Toast.LENGTH_SHORT);
+                                toast.show();
+                            }
+                            catch(Exception e){
+                                Log.e("ERR",e.toString());
+                            }
                         }
                         super.onPostExecute(result);
                     }
