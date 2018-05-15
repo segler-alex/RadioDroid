@@ -64,8 +64,8 @@ dependencies {
     compile 'com.squareup.picasso:picasso:2.5.2'
     compile 'com.jakewharton.picasso:picasso2-okhttp3-downloader:1.1.0'
     compile 'com.google.android.exoplayer:exoplayer:r2.5.4'
-    playCompile 'com.google.android.gms:play-services-cast:15.0.0'
-    playCompile 'com.google.android.gms:play-services-cast-framework:15.0.0'
+    playCompile 'com.google.android.gms:play-services-cast:15.0.1'
+    playCompile 'com.google.android.gms:play-services-cast-framework:15.0.1'
 }
 
 
