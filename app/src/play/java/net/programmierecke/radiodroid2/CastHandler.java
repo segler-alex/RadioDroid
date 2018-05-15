@@ -39,7 +39,7 @@ public class CastHandler {
         activityMain = activity;
         GoogleApiAvailability googleAPI = GoogleApiAvailability.getInstance();
         int result = googleAPI.isGooglePlayServicesAvailable(activity);
-        if (result != ConnectionResult.SUCCESS) {
+        if (result == ConnectionResult.SUCCESS) {
             mCastContext = CastContext.getSharedInstance(activityMain);
             mSessionManager = mCastContext.getSessionManager();
             mSessionManager.addSessionManagerListener(mSessionManagerListener);
