@@ -15,8 +15,8 @@ android {
         minSdkVersion 15
         targetSdkVersion 23
 
-        versionCode 65
-        versionName "0.55"
+        versionCode 66
+        versionName "0.56"
 
         vectorDrawables.useSupportLibrary = true
 
@@ -27,7 +27,7 @@ android {
     }
 
     sourceSets {
-        // Store flaags in subfolder to not pollute drawables
+        // Store flags in subfolder to not pollute drawables
         // https://antonioleiva.com/android-multiple-resource-folders/
         main.res.srcDirs += ["src/main/res/drawable/flags"]
     }

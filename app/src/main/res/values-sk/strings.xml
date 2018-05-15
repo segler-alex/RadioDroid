@@ -207,7 +207,7 @@
     <string name="action_mpd_ok">Pripojené ku MPD</string>
     <string name="action_mpd_connected">Pripojené k serveru: %1$s</string>
 
-    <string name="settings_radiobrowser_servers">Servery služby RadioBrowser</string>
+    <!--<string name="settings_radiobrowser_servers">Servery služby RadioBrowser</string>-->
 
     <string name="settings_other">Ostatné</string>
     <string name="settings_statistics">Štatistika</string>
