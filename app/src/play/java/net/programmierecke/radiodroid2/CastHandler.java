@@ -37,12 +37,17 @@ public class CastHandler {
 
     public static void onCreate(ActivityMain activity) {
         activityMain = activity;
-        GoogleApiAvailability googleAPI = GoogleApiAvailability.getInstance();
-        int result = googleAPI.isGooglePlayServicesAvailable(activity);
-        if (result == ConnectionResult.SUCCESS) {
-            mCastContext = CastContext.getSharedInstance(activityMain);
-            mSessionManager = mCastContext.getSessionManager();
-            mSessionManager.addSessionManagerListener(mSessionManagerListener);
+        try {
+            GoogleApiAvailability googleAPI = GoogleApiAvailability.getInstance();
+            int result = googleAPI.isGooglePlayServicesAvailable(activity);
+            if (result == ConnectionResult.SUCCESS) {
+                mCastContext = CastContext.getSharedInstance(activityMain);
+                mSessionManager = mCastContext.getSessionManager();
+                mSessionManager.addSessionManagerListener(mSessionManagerListener);
+            }
+        }
+        catch(Exception e){
+            Log.e("ERR",e.toString());
         }
     }
 
