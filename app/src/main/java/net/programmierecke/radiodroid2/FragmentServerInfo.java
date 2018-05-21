@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.ListViewCompat;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -40,7 +41,11 @@ public class FragmentServerInfo extends Fragment implements IFragmentRefreshable
         new AsyncTask<Void, Void, String>() {
             @Override
             protected String doInBackground(Void... params) {
-                return Utils.downloadFeed(getActivity(), RadioBrowserServerManager.getWebserviceEndpoint(getActivity(),"json/stats"), forceUpdate, null);
+                String endpoint = RadioBrowserServerManager.getWebserviceEndpoint(getActivity(),"json/stats");
+                if (endpoint != null) {
+                    return Utils.downloadFeed(getActivity(), endpoint, forceUpdate, null);
+                }
+                return null;
             }
 
             @Override
@@ -54,8 +59,13 @@ public class FragmentServerInfo extends Fragment implements IFragmentRefreshable
                         itemAdapterStatistics.add(item);
                     }
                 }else{
-                    Toast toast = Toast.makeText(getContext(), getResources().getText(R.string.error_list_update), Toast.LENGTH_SHORT);
-                    toast.show();
+                    try {
+                        Toast toast = Toast.makeText(getContext(), getResources().getText(R.string.error_list_update), Toast.LENGTH_SHORT);
+                        toast.show();
+                    }
+                    catch(Exception e){
+                        Log.e("ERR",e.toString());
+                    }
                 }
                 super.onPostExecute(result);
             }
