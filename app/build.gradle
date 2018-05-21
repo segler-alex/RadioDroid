@@ -4,7 +4,7 @@ android {
 
     flavorDimensions "one"
 
-    compileSdkVersion 25
+    compileSdkVersion 26
     buildToolsVersion '27.0.3'
     lintOptions {
         abortOnError true
@@ -13,10 +13,10 @@ android {
     defaultConfig {
         applicationId "net.programmierecke.radiodroid2"
         minSdkVersion 15
-        targetSdkVersion 23
+        targetSdkVersion 26
 
-        versionCode 69
-        versionName "0.59"
+        versionCode 70
+        versionName "0.60"
 
         vectorDrawables.useSupportLibrary = true
 

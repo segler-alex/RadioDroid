@@ -195,7 +195,7 @@
     <string name="action_mpd_ok">MPD bağlandı</string>
     <string name="action_mpd_connected">Bağlanılan sunucu: %1$s</string>
 
-    <string name="settings_radiobrowser_servers">RadioBrowser sunucuları</string>
+    <!--<string name="settings_radiobrowser_servers">RadioBrowser sunucuları</string>-->
     <string name="settings_radiobrowser_servers_default">www.radio-browser.info/webservice</string>
 
     <string name="settings_other">Diğer</string>
