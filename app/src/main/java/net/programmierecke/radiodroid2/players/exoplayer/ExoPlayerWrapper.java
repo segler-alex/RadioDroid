@@ -65,6 +65,11 @@ public class ExoPlayerWrapper implements PlayerWrapper, IcyDataSource.IcyDataSou
 
     @Override
     public void playRemote(@NonNull OkHttpClient httpClient, @NonNull String streamUrl, @NonNull Context context, boolean isAlarm) {
+        // I don't know why, but it is still possible that streamUrl is null,
+        // I still get exceptions from this from google
+        if (streamUrl == null){
+            return;
+        }
         if (!streamUrl.equals(this.streamUrl)) {
             currentPlaybackTransferredBytes = 0;
         }
