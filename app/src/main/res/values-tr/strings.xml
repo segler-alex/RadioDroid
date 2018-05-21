@@ -39,7 +39,7 @@
     <string name="nav_item_alarm">Alarm</string>
     <string name="nav_item_recordings">Kayıtlar</string>
 
-    <string name="about_text">Bu uygulama özgür radyo istasyon dizini kullanır:\nhttps://www.radio-browser.info\nHerkes istasyon ekleyebilir veya var olan istasyonları düzenleyebilir. Çevrimiçi (yayın yapan) radyo istasyonlarının bir vikisi gibi çalışır.\n\nİletişim:\nsegler_alex@web.de\n\nHata izleyiciBugtracker:\nhttps://github.com/segler-alex/RadioDroid/issues\n\nBu yazılımı beğendiyseniz ve yardım etmek isterseniz, bana bir eposta göndermekten çekinmeyin. I really need someone with graphical experience to make the app nicer to the eye :) Maybe someone who can draw for icons, images...But also programmers who fix bugs, or implement new ones (features not bugs ;)\nAlso ideas for new features are always appreciated!\n\nThis app is free software licensed under the GPLv3\nhttps://www.gnu.org/licenses/gpl-3.0.html.</string>
+    <string name="about_text">Bu uygulama özgür radyo istasyon dizini kullanır:\nhttps://www.radio-browser.info\nHerkes istasyon ekleyebilir veya var olan istasyonları düzenleyebilir. Çevrimiçi (yayın yapan) radyo istasyonlarının bir vikisi gibi çalışır.\n\nİletişim:\nsegler_alex@web.de\n\nHata izleyici:\nhttps://github.com/segler-alex/RadioDroid/issues\n\nBu yazılımı beğendiyseniz ve yardım etmek isterseniz, bana bir eposta göndermekten çekinmeyin. Uygulamanını göze iyi görünmesi için gerçekten grafik deneyimi olan birine ihtiyacım var :) Belki simgeler, resimler için çizebilen biri...Ama hataları düzeltmek için programcılar da, veya yenilerini eklemek için (özellikler hatalar değil ;)\nAyrıca yeni özellikler için fikirler hep iyi karşılanır!\n\nBu uygulama GPLv3 altında lisanslanmış özgür yazılımdır\nhttps://www.gnu.org/licenses/gpl-3.0.html.</string>
     <string name="about_version">Sürüm: %1$s</string>
     <string name="detail_star">Beğenilen olarak işaretle</string>
     <string name="detail_unstar">Beğenileni sil</string>
@@ -87,84 +87,79 @@
     <string name="settings_icon_click_toggles_favorite_on">İstasyon simgesine tıklamak onu beğenilen olarak ekler veya kaldırır</string>
     <string name="settings_icon_click_toggles_favorite_off">İstasyon simgesine tıklamak oynatmayı başlatır</string>
 
-    <string name="settings_click_trend_icon_visible">Click trend icon</string>
-    <string name="settings_click_trend_icon_visible_on">Icon will be visible</string>
-    <string name="settings_click_trend_icon_visible_off">Icon will be hidden</string>
+    <string name="settings_click_trend_icon_visible">Trend simgesine tıklama</string>
+    <string name="settings_click_trend_icon_visible_on">Simge görünür olacak</string>
+    <string name="settings_click_trend_icon_visible_off">Simge gizlenmiş olacak</string>
 
     <string name="settings_alarm">Alarm</string>
-    <string name="settings_alarm_external">Open external</string>
-    <string name="settings_alarm_external_desc">Open the alarm with default external app</string>
-    <string name="settings_alarm_audio_player">Audio player</string>
-    <string name="settings_alarm_sleep_timer">Sleep timer</string>
-    <string name="settings_alarm_sleep_timer_desc">Stop playing after %1$s minutes</string>
-    <string name="settings_play">Player</string>
-    <string name="settings_play_external">Open external</string>
-    <string name="settings_play_external_desc">Should a single click on stations open external</string>
-    <string name="settings_equalizer">Equalizer</string>
+    <string name="settings_alarm_external">Hariciyi aç</string>
+    <string name="settings_alarm_external_desc">Alarmı öntanımlı harici uygulama ile aç</string>
+    <string name="settings_alarm_audio_player">Ses Oynatıcı</string>
+    <string name="settings_alarm_sleep_timer">Uyku zamanlayıcı</string>
+    <string name="settings_alarm_sleep_timer_desc">%1$s dakika sonra oynatmayı durdur</string>
+    <string name="settings_play">Oynatıcı</string>
+    <string name="settings_play_external">Hariciyi aç</string>
+    <string name="settings_play_external_desc">İstasyonların üzerine tek tık hariciyi açsın mı</string>
+    <string name="settings_equalizer">Ekolayzır</string>
 
-    <string name="settings_connectivity">Connectivity</string>
-    <string name="settings_connect_timeout">Stream connection timeout</string>
-    <string name="settings_read_timeout">Stream read timeout</string>
-    <string name="settings_retry_timeout">Stream retry timeout</string>
-    <string name="settings_retry_delay">Reconnects delay</string>
-    <string name="settings_seconds_format">%d seconds</string>
-    <string name="settings_milliseconds_format">%d milliseconds</string>
+    <string name="settings_connectivity">Bağlanılabilirlik</string>
+    <string name="settings_connect_timeout">Yayın bağlantı zaman aşımı</string>
+    <string name="settings_read_timeout">Yayın okuma zaman aşımı</string>
+    <string name="settings_retry_timeout">Yayın yeniden deneme zaman aşımı</string>
+    <string name="settings_retry_delay">Yeniden bağlantı gecikmesi</string>
+    <string name="settings_seconds_format">%d saniye</string>
+    <string name="settings_milliseconds_format">%d milisaniye</string>
 
-    <string name="settings_warn_no_wifi">Warn when not on Wifi</string>
-    <string name="settings_warn_no_wifi_on">Warn when playing without Wifi connection</string>
-    <string name="settings_warn_no_wifi_off">No warning when not on Wifi connection</string>
+    <string name="settings_warn_no_wifi">Kablosuzda değilken uyar</string>
+    <string name="settings_warn_no_wifi_on">Kablosuz bağlantı olmadan oynatırken uyar</string>
+    <string name="settings_warn_no_wifi_off">Kablosuz bağlantıda değilken uyarma</string>
 
-    <string name="settings_recordings">Recordings</string>
-    <string name="settings_record_name_formatting">Name formatting</string>
+    <string name="settings_recordings">Kayıtlar</string>
+    <string name="settings_record_name_formatting">Ad biçimi</string>
 
-    <string name="settings_record_name_formatting_default" translatable="false">${station}_${artist}_${track}_${date}_${time}</string>
-    <string name="settings_record_name_formatting_1" translatable="false">${station}_${artist}_${track}</string>
-    <string name="settings_record_name_formatting_2" translatable="false">${station}_${date}_${time}</string>
-    <string name="settings_record_name_formatting_3" translatable="false">${index}_${station}_${date}</string>
+    <string name="settings_record_name_formatting_default_display">istasyon_artist_iz_\u200btarih_\u200bsaat</string>
+    <string name="settings_record_name_formatting_1_display">istasyon_artist_\u200biz</string>
+    <string name="settings_record_name_formatting_2_display">istasyon_tarih_\u200bsaat</string>
+    <string name="settings_record_name_formatting_3_display">indeks_istasyon_\u200btarih</string>
 
-    <string name="settings_record_name_formatting_default_display">station_artist_track_\u200bdate_\u200btime</string>
-    <string name="settings_record_name_formatting_1_display">station_artist_\u200btrack</string>
-    <string name="settings_record_name_formatting_2_display">station_date_\u200btime</string>
-    <string name="settings_record_name_formatting_3_display">index_station_\u200bdate</string>
+    <string name="notify_pre_play">Bağlanılıyor</string>
+    <string name="notify_play">Oynatılıyor</string>
+    <string name="notify_paused">Duraklatıldı</string>
+    <string name="notify_starred">İstasyon beğenilen olarak işaretlendi</string>
+    <string name="notify_autostarred">İstasyon beğenilen olarak kendiliğinden işaretlendi</string>
+    <string name="notify_unstarred">İstasyon beğenilenler listesinden kaldırıldı</string>
+    <string name="notify_deleted_favorites">Beğenilen silindi.</string>
+    <string name="notify_deleted_history">Geçmiş silindi.</string>
 
-    <string name="notify_pre_play">Connecting</string>
-    <string name="notify_play">Playing</string>
-    <string name="notify_paused">Paused</string>
-    <string name="notify_starred">Station has been bookmarked as favorite</string>
-    <string name="notify_autostarred">Station has been automatically bookmarked as favorite</string>
-    <string name="notify_unstarred">Station has been removed from the favorite list</string>
-    <string name="notify_deleted_favorites">The favorites have been deleted.</string>
-    <string name="notify_deleted_history">The history has been deleted.</string>
+    <string name="notify_station_removed_from_list">1 Kaldırıldı</string>
+    <string name="action_station_removed_from_list_undo">GERİ AL</string>
 
-    <string name="notify_station_removed_from_list">1 Removed</string>
-    <string name="action_station_removed_from_list_undo">UNDO</string>
+    <string name="alert_delete_history">Geçmişi gerçekten silmek istiyor musunuz?</string>
+    <string name="alert_delete_favorites">Tüm beğenilenleri gerçekten silmek istiyor musunuz?</string>
+    <string name="yes">Evet</string>
+    <string name="no">Hayır</string>
 
-    <string name="alert_delete_history">Do you really want to delete the history?</string>
-    <string name="alert_delete_favorites">Do you really want to delete all favorites?</string>
-    <string name="yes">Yes</string>
-    <string name="no">No</string>
-
-    <string name="alert_select_mpd_server">Which server?</string>
-    <string name="alert_select_mpd_server_name">Server name</string>
-    <string name="alert_select_mpd_server_hostname">Hostname</string>
+    <string name="alert_select_mpd_server">Hangi sunucu?</string>
+    <string name="alert_select_mpd_server_name">Sunucu adı</string>
+    <string name="alert_select_mpd_server_hostname">Alan adı</string>
     <string name="alert_select_mpd_server_port">Port</string>
 
-    <string name="alert_select_mpd_server_add">Add</string>
-    <string name="alert_select_mpd_server_save">Save</string>
-    <string name="alert_select_mpd_server_remove">Remove</string>
-    <string name="alert_add_or_edit_mpd_server">Enter details about a server</string>
+    <string name="alert_select_mpd_server_add">Ekle</string>
+    <string name="alert_select_mpd_server_save">Kaydet</string>
+    <string name="alert_select_mpd_server_remove">Kaldır</string>
+    <string name="alert_add_or_edit_mpd_server">Bir sunucu için ayrıntıları gir</string>
 
-    <string name="alert_press_back_to_exit">Press back once more to exit</string>
+    <string name="alert_press_back_to_exit">Çıkmak için geriye bir daha basın</string>
 
-    <string name="error_stream_url">Stream url problem</string>
-    <string name="error_caching_stream">Stream caching problem</string>
-    <string name="error_play_stream">Unable to play stream</string>
-    <string name="error_stream_reconnect_timeout">Unable to reconnect to the stream: timeout.</string>
+    <string name="error_stream_url">Yayın url sorunu</string>
+    <string name="error_caching_stream">Yayın önbellekleme sorunu</string>
+    <string name="error_play_stream">Yayın oynatılamıyor</string>
+    <string name="error_stream_reconnect_timeout">Yayına yeniden bağlanılamıyor: zaman aşımı.</string>
 
-    <string name="error_record_needs_write">Need write permission for recording!</string>
-    <string name="error_grant_audiofocus">Request for audio focus was not granted by the system.</string>
+    <string name="error_record_needs_write">Kayıt için yazma izni gerekiyor!</string>
+    <string name="error_grant_audiofocus">Ses odağı isteği sistem tarafından onaylanmadı.</string>
 
-    <string name="error_no_equalizer_found">No equalizer app found!</string>
+    <string name="error_no_equalizer_found">Ekolayzır uygulaması bulunmadı!</string>
 
     <string name="player_info_status">Durum:&#160;</string>
     <string name="player_info_status_stopped">durdu</string>
