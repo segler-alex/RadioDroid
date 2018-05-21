@@ -1,45 +1,233 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <resources>
-	<string name="detail_name">Ad</string>
+    <string name="detail_name">Ad</string>
     <string name="detail_tags">Etiketler</string>
     <string name="detail_country">Ülke</string>
     <string name="detail_language">Dil</string>
     <string name="detail_weblink">Web adresi</string>
     <string name="detail_play">Oynat</string>
+    <string name="detail_pause">Duraklat</string>
     <string name="detail_stop">Durdur</string>
     <string name="detail_share">Paylaş</string>
+
+    <string name="action_local">Yerel</string>
+    <string name="action_pause">Duraklat</string>
+    <string name="action_resume">Devam et</string>
+    <string name="action_stop">Durdur</string>
     <string name="action_search">Ara</string>
+    <string name="action_delete">Sil</string>
+    <string name="action_delete_history">Geçmişi sil</string>
+    <string name="action_delete_favorites">Beğenilenleri sil</string>
+    <string name="action_cancel">İptal</string>
     <string name="action_top_click">ÇokTıklanan</string>
     <string name="action_top_vote">ÇokOylanan</string>
-    <string name="action_changed_lately">Son değişen</string>
+    <string name="action_changed_lately">Yakında değişen</string>
     <string name="action_currently_playing">Oynatılıyor</string>
     <string name="action_tags">Etiketler</string>
     <string name="action_countries">Ülkeler</string>
     <string name="action_languages">Diller</string>
-    <string name="error_station_load">İstasyona bağlanamadı</string>
-    <string name="error_list_update">Radyo tarayıcı sunucusuna bağlanamadı</string>
+    <string name="error_station_load">İstasyona bağlanılamadı</string>
+    <string name="error_list_update">Radyo tarayıcı sunucusuna bağlanılamadı</string>
+
+    <string name="share_action">Share station link with..</string>
 
     <string name="nav_item_stations">İstasyonlar</string>
-    <string name="nav_item_starred">İş</string>
+    <string name="nav_item_starred">Yıldızlılar</string>
     <string name="nav_item_history">Geçmiş</string>
     <string name="nav_item_settings">Ayarlar</string>
     <string name="nav_item_alarm">Alarm</string>
+    <string name="nav_item_recordings">Kayıtlar</string>
 
-    <string name="about_text">Bu uygulama özgür radyo istasyon dizini kullanır \nhttps://www.radio-browser.info\nHerkes buraya yeni istasyon ekleyebilir veya var olanları düzenleyebilir (viki gibi çalışır)\n\nİletişim:\nsegler_alex@web.de\n\nHata takibi:\nhttps://github.com/segler-alex/RadioDroid/issues\n\nEğer uygulamayı beğendin ve yardım etmek istersen, e-posta göndermekten çekinme. Göze hoş görünen uygulama yapmak için gerçekten grafik deneyimi olan birine ihtiyacım var :) Belki biri ikonlar, resimler çizebilir...Ayrıca hataları düzeltecek veya yenisini yapacak programcılara ihtiyaç var\nBi de yeni özellikler için düşüncelerin oldu mu takdire şayan!\n\nBu uygulama GPLv3 lisanslanmış özgür yazılımdır\nhttp://ozgurlisanslar.org.tr/gpl/gpl-v3/</string>
-    <string name="detail_star">Yerimi</string>
-    <string name="detail_unstar">Sil</string>
+    <string name="about_text">Bu uygulama özgür radyo istasyon dizini kullanır:\nhttps://www.radio-browser.info\nHerkes istasyon ekleyebilir veya var olan istasyonları düzenleyebilir. Çevrimiçi (yayın yapan) radyo istasyonlarının bir vikisi gibi çalışır.\n\nİletişim:\nsegler_alex@web.de\n\nHata izleyiciBugtracker:\nhttps://github.com/segler-alex/RadioDroid/issues\n\nBu yazılımı beğendiyseniz ve yardım etmek isterseniz, bana bir eposta göndermekten çekinmeyin. I really need someone with graphical experience to make the app nicer to the eye :) Maybe someone who can draw for icons, images...But also programmers who fix bugs, or implement new ones (features not bugs ;)\nAlso ideas for new features are always appreciated!\n\nThis app is free software licensed under the GPLv3\nhttps://www.gnu.org/licenses/gpl-3.0.html.</string>
+    <string name="about_version">Sürüm: %1$s</string>
+    <string name="detail_star">Beğenilen olarak işaretle</string>
+    <string name="detail_unstar">Beğenileni sil</string>
     <string name="progress_loading">Yükleniyor...</string>
 
-    <string name="sleep_timer" formatted="true">Otomatik kapanma: %1$02d:%2$02d</string>
+    <string name="sleep_timer" formatted="true">Uyku zamanlayıcı: %1$02d:%2$02d</string>
+    <string name="sleep_timer_title">Durmadan önce kaç dakika?</string>
+    <string name="sleep_timer_apply">Uygula</string>
+    <string name="sleep_timer_clear">Temizle</string>
     <string name="nav_item_add_sleep">+15 dakika</string>
 
-    <string name="settings_alarm">Alarm</string>
-    <string name="settings_alarm_external">Hariciyle aç</string>
-    <string name="settings_alarm_external_desc">Alarmı harici uygulamayla aç</string>
-    <string name="settings_play">Oynatıcı</string>
-    <string name="settings_play_external">Hariciyle aç</string>
-    <string name="settings_play_external_desc">İstasyonları harici uygulamayla açmak için bir defa tıklanmalı</string>
+    <string name="settings_interface">Arayüz</string>
+    <string name="settings_theme_selection_title">Tema</string>
+    <string name="theme_light">Aydınlık</string>
+    <string name="theme_dark">Karanlık</string>
+    <string name="settings_circular_icons">Yuvarlak simgeler kullan</string>
+    <string name="settings_compact_style">Tıkız kip</string>
+    <string name="settings_bottom_navigation">Alt gezinme</string>
 
+    <string name="settings_general">Genel</string>
+    <string name="settings_single_use_tags">Tek kullanım etiketleri göster</string>
+    <string name="settings_single_use_tags_desc_off">Tek kullanım etiketler gösterilmeyecek</string>
+    <string name="settings_single_use_tags_desc_on">Tek kullanım etiketler gösterilecek</string>
+
+    <string name="settings_show_broken">Bozuk istasyonlar</string>
+    <string name="settings_show_broken_on">Bozuk istasyonları listelerde göster</string>
+    <string name="settings_show_broken_off">Bozuk istasyonları listelerde gösterme</string>
+
+    <string name="startup_action_title">Başlangıç eylemi</string>
+    <string name="startup_action_title_desc">%s</string>
+    <string name="startup_show_all_stations">Tüm istasyonları göster</string>
+    <string name="startup_show_favorites">Beğenilenleri göster</string>
+    <string name="startup_show_history">Geçmişi göster</string>
+    <string name="startup_show_last_view">Son gösterilen</string>
+
+    <string name="settings_load_icons">İstasyon simgelerini göster</string>
+    <string name="settings_load_icons_on">Simgeler indirilecek</string>
+    <string name="settings_load_icons_off">Simgeler indirilmeyecek</string>
+
+    <string name="settings_auto_favorite">Kendiliğinden beğen</string>
+    <string name="settings_auto_favorite_on">Oynatılırken istasyonu beğenilen olarak kendiliğinden ayarla</string>
+    <string name="settings_auto_favorite_off">Oynatılırken istasyonu beğenilen olarak kendiliğinden ayarlama</string>
+
+    <string name="settings_icon_click_toggles_favorite">Simge tıklama</string>
+    <string name="settings_icon_click_toggles_favorite_on">İstasyon simgesine tıklamak onu beğenilen olarak ekler veya kaldırır</string>
+    <string name="settings_icon_click_toggles_favorite_off">İstasyon simgesine tıklamak oynatmayı başlatır</string>
+
+    <string name="settings_click_trend_icon_visible">Click trend icon</string>
+    <string name="settings_click_trend_icon_visible_on">Icon will be visible</string>
+    <string name="settings_click_trend_icon_visible_off">Icon will be hidden</string>
+
+    <string name="settings_alarm">Alarm</string>
+    <string name="settings_alarm_external">Open external</string>
+    <string name="settings_alarm_external_desc">Open the alarm with default external app</string>
+    <string name="settings_alarm_audio_player">Audio player</string>
+    <string name="settings_alarm_sleep_timer">Sleep timer</string>
+    <string name="settings_alarm_sleep_timer_desc">Stop playing after %1$s minutes</string>
+    <string name="settings_play">Player</string>
+    <string name="settings_play_external">Open external</string>
+    <string name="settings_play_external_desc">Should a single click on stations open external</string>
+    <string name="settings_equalizer">Equalizer</string>
+
+    <string name="settings_connectivity">Connectivity</string>
+    <string name="settings_connect_timeout">Stream connection timeout</string>
+    <string name="settings_read_timeout">Stream read timeout</string>
+    <string name="settings_retry_timeout">Stream retry timeout</string>
+    <string name="settings_retry_delay">Reconnects delay</string>
+    <string name="settings_seconds_format">%d seconds</string>
+    <string name="settings_milliseconds_format">%d milliseconds</string>
+
+    <string name="settings_warn_no_wifi">Warn when not on Wifi</string>
+    <string name="settings_warn_no_wifi_on">Warn when playing without Wifi connection</string>
+    <string name="settings_warn_no_wifi_off">No warning when not on Wifi connection</string>
+
+    <string name="settings_recordings">Recordings</string>
+    <string name="settings_record_name_formatting">Name formatting</string>
+
+    <string name="settings_record_name_formatting_default" translatable="false">${station}_${artist}_${track}_${date}_${time}</string>
+    <string name="settings_record_name_formatting_1" translatable="false">${station}_${artist}_${track}</string>
+    <string name="settings_record_name_formatting_2" translatable="false">${station}_${date}_${time}</string>
+    <string name="settings_record_name_formatting_3" translatable="false">${index}_${station}_${date}</string>
+
+    <string name="settings_record_name_formatting_default_display">station_artist_track_\u200bdate_\u200btime</string>
+    <string name="settings_record_name_formatting_1_display">station_artist_\u200btrack</string>
+    <string name="settings_record_name_formatting_2_display">station_date_\u200btime</string>
+    <string name="settings_record_name_formatting_3_display">index_station_\u200bdate</string>
+
+    <string name="notify_pre_play">Connecting</string>
+    <string name="notify_play">Playing</string>
+    <string name="notify_paused">Paused</string>
+    <string name="notify_starred">Station has been bookmarked as favorite</string>
+    <string name="notify_autostarred">Station has been automatically bookmarked as favorite</string>
+    <string name="notify_unstarred">Station has been removed from the favorite list</string>
+    <string name="notify_deleted_favorites">The favorites have been deleted.</string>
+    <string name="notify_deleted_history">The history has been deleted.</string>
+
+    <string name="notify_station_removed_from_list">1 Removed</string>
+    <string name="action_station_removed_from_list_undo">UNDO</string>
+
+    <string name="alert_delete_history">Do you really want to delete the history?</string>
+    <string name="alert_delete_favorites">Do you really want to delete all favorites?</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+
+    <string name="alert_select_mpd_server">Which server?</string>
+    <string name="alert_select_mpd_server_name">Server name</string>
+    <string name="alert_select_mpd_server_hostname">Hostname</string>
+    <string name="alert_select_mpd_server_port">Port</string>
+
+    <string name="alert_select_mpd_server_add">Add</string>
+    <string name="alert_select_mpd_server_save">Save</string>
+    <string name="alert_select_mpd_server_remove">Remove</string>
+    <string name="alert_add_or_edit_mpd_server">Enter details about a server</string>
+
+    <string name="alert_press_back_to_exit">Press back once more to exit</string>
+
+    <string name="error_stream_url">Stream url problem</string>
+    <string name="error_caching_stream">Stream caching problem</string>
+    <string name="error_play_stream">Unable to play stream</string>
+    <string name="error_stream_reconnect_timeout">Unable to reconnect to the stream: timeout.</string>
+
+    <string name="error_record_needs_write">Need write permission for recording!</string>
+    <string name="error_grant_audiofocus">Request for audio focus was not granted by the system.</string>
+
+    <string name="error_no_equalizer_found">No equalizer app found!</string>
+
+    <string name="player_info_status">Durum:&#160;</string>
+    <string name="player_info_status_stopped">durdu</string>
+    <string name="player_info_status_playing">oynatılıyor</string>
+    <string name="player_info_status_recording">kaydediliyor</string>
+    <string name="player_info_status_playing_and_recording">oynatılıyor ve kaydediliyor</string>
+    <string name="player_info_transferred">Taşınan veri: %1$s</string>
+    <string name="player_info_recording_to">Kayıt yeri:\n%1$s</string>
+    <string name="player_info_recorded_to">Son kayıt:\n%1$s</string>
+
+    <string name="station_detail_bitrate">%1$1d kbps</string>
+    <string name="station_detail_broken">BOZUK</string>
+
+    <string name="image_button_disable">Devre dışı</string>
+    <string name="image_button_record">Kayıt</string>
+    <string name="image_button_record_request_permission">Kayıt için izinleri iste</string>
+    <string name="image_button_recordings">Kayıtlar</string>
+    <string name="image_button_delete">Sil</string>
+    <string name="image_button_more">Daha çok</string>
+    <string name="image_button_less">Daha az</string>
+    <string name="image_button_repeat">Tekrar et</string>
+    <string name="image_button_dont_repeat">Tekrar etme</string>
+    <string name="icon_click_trend_decreasing">Popülerlik azalan</string>
+    <string name="icon_click_trend_increasing">Popülerlik artan</string>
+    <string name="icon_click_trend_stable">Popülerlik dengeli</string>
+
+    <string name="media_route_menu_title">GoogleCast</string>
+    <string name="app_id">5A97BAE4</string>
+
+    <string name="settings_mpd">Music Player Daemon</string>
+    <string name="settings_view_mpd_servers">Sunucularınız</string>
+    <string name="action_mpd_nok">MPD bağlanmadı</string>
+    <string name="action_mpd_ok">MPD bağlandı</string>
+    <string name="action_mpd_connected">Bağlanılan sunucu: %1$s</string>
+
+    <string name="settings_radiobrowser_servers">RadioBrowser sunucuları</string>
+    <string name="settings_radiobrowser_servers_default">www.radio-browser.info/webservice</string>
+
+    <string name="settings_other">Diğer</string>
     <string name="settings_statistics">İstatistikler</string>
-    <string name="settings_about">Hakkında</string>
+    <string name="settings_about">RadioDroid Hakkında</string>
+
+    <string-array name="weekdays">
+        <item>Pz</item>
+        <item>Pt</item>
+        <item>Sa</item>
+        <item>Ça</item>
+        <item>Pe</item>
+        <item>Cu</item>
+        <item>Ct</item>
+    </string-array>
+
+    <string name="notify_stream_url_copied">Yayın Url\'si Başarıyla Kopyala!</string>
+
+    <string-array name="actions_station_link">
+        <item>Web sitesini ziyaret et</item>
+        <item>Yayın Url\'sini kopyala</item>
+    </string-array>
+
+    <string name="no_wifi_title">Kablosuz (WLAN) bağlantısı yok</string>
+    <string name="no_wifi_connection">%1$s başlatılırken kablosuz (WLAN) bağlantısı yok. Devam etmek için \'Tamam\'a basın.</string>
+    <string name="nav_item_statistics">İstatistikler</string>
+    <string name="nav_item_about">Hakkında</string>
+    <string name="settings_mpd_port">MPD portu</string>
+    <string name="refresh">Yenile</string>
 </resources>
