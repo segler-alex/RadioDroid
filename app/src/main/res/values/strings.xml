@@ -39,7 +39,7 @@
     <string name="nav_item_alarm">Alarm</string>
     <string name="nav_item_recordings">Recordings</string>
 
-    <string name="about_text">This app uses the free radio station directory at\nhttps://www.radio-browser.info\nEveryone can add stations to it or edit existing stations. It works like a wiki for online(streaming) radio stations.\n\nContact:\nsegler_alex@web.de\n\nBugtracker:\nhttps://github.com/segler-alex/RadioDroid/issues\n\nIf you like this software and want to help, feel free to send me an email. I really need someone with graphical experience to make the app nicer to the eye :) Maybe someone who can draw for icons, images...But also programmers who fix bugs, or implement new ones (features not bugs ;)\nAlso ideas for new features are always appreciated!\n\nThis app is free software licensed under the GPLv3\nhttps://www.gnu.org/licenses/gpl-3.0.html.</string>
+    <string name="about_text">This app uses the free radio station directory at\nhttps://www.radio-browser.info\nEveryone can add stations to it or edit existing stations. It works like a wiki for online(streaming) radio stations.\n\nContact:\nsegler_alex@web.de\n\nBugtracker:\nhttps://github.com/segler-alex/RadioDroid/issues\n\nIf you like this software and want to help, feel free to send me an email. I really need someone with graphical experience to make the app nicer to the eye :) Maybe someone who can draw for icons, images...But also programmers who fix bugs, or implement new ones (features not bugs ;)\nAlso ideas for new features are always appreciated!\n\nThis app is free software licensed under the GPLv3.\nhttps://www.gnu.org/licenses/gpl-3.0.html</string>
     <string name="about_version">Version: %1$s</string>
     <string name="detail_star">Bookmark as favorite</string>
     <string name="detail_unstar">Delete as favorite</string>
@@ -187,6 +187,9 @@
     <string name="image_button_less">Less</string>
     <string name="image_button_repeat">Repeat</string>
     <string name="image_button_dont_repeat">Do not repeat</string>
+    <string name="icon_click_trend_decreasing">Popularity decreasing</string>
+    <string name="icon_click_trend_increasing">Popularity increasing</string>
+    <string name="icon_click_trend_stable">Popularity stable</string>
 
     <string name="media_route_menu_title">GoogleCast</string>
     <string name="app_id">5A97BAE4</string>
