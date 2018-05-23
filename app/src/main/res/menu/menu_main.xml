@@ -34,8 +34,14 @@
         app:showAsAction="always"/>
 
     <item
-            android:id="@+id/action_set_alarm"
-            android:icon="@drawable/ic_add_alarm_black_24dp"
-            android:title="@string/nav_item_add_sleep"
-            app:showAsAction="always"/>
+        android:id="@+id/action_set_alarm"
+        android:icon="@drawable/ic_add_alarm_black_24dp"
+        android:title="@string/nav_item_add_sleep"
+        app:showAsAction="always"/>
+
+    <item
+        android:id="@+id/action_save"
+        android:icon="@drawable/ic_save_black_24dp"
+        android:title="@string/nav_item_save_playlist"
+        app:showAsAction="ifRoom"/>
 </menu>

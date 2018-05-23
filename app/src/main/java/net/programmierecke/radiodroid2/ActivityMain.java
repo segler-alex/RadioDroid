@@ -71,6 +71,7 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
     MenuItem menuItemSearch;
     MenuItem menuItemDelete;
     MenuItem menuItemAlarm;
+    MenuItem menuItemSave;
 
     private SharedPreferences sharedPref;
 
@@ -352,6 +353,7 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
         menuItemAlarm = menu.findItem(R.id.action_set_alarm);
         menuItemSearch = menu.findItem(R.id.action_search);
         menuItemDelete = menu.findItem(R.id.action_delete);
+        menuItemSave = menu.findItem(R.id.action_save);
         mSearchView = (SearchView) MenuItemCompat.getActionView(menuItemSearch);
         mSearchView.setOnQueryTextListener(this);
 
@@ -361,6 +363,7 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
         menuItemAlarm.setVisible(false);
         menuItemSearch.setVisible(false);
         menuItemDelete.setVisible(false);
+        menuItemSave.setVisible(false);
         menuItemMPDOK.setVisible(MPDClient.Discovered() && MPDClient.Connected());
         menuItemMPDNok.setVisible(MPDClient.Discovered() && !MPDClient.Connected());
 
@@ -374,6 +377,7 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
             case R.id.nav_item_starred: {
                 menuItemAlarm.setVisible(true);
                 menuItemSearch.setVisible(true);
+                menuItemSave.setVisible(true);
 
                 RadioDroidApp radioDroidApp = (RadioDroidApp) getApplication();
                 if (radioDroidApp.getFavouriteManager().isEmpty()) {
@@ -418,6 +422,11 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
         switch (menuItem.getItemId()) {
             case android.R.id.home:
                 mDrawerLayout.openDrawer(GravityCompat.START);  // OPEN DRAWER
+                return true;
+            case R.id.action_save:
+                RadioDroidApp radioDroidApp = (RadioDroidApp) getApplication();
+                FavouriteManager favouriteManager = radioDroidApp.getFavouriteManager();
+                favouriteManager.SaveM3U();
                 return true;
             case R.id.action_set_alarm:
                 changeTimer();

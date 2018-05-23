@@ -21,7 +21,7 @@ public class DataRadioStation {
 
 	public String ID;
 	public String Name;
-	//public String StreamUrl;
+	public String StreamUrl;
 	public String HomePageUrl;
 	public String IconUrl;
 	public String Country;
@@ -68,7 +68,10 @@ public class DataRadioStation {
 							DataRadioStation aStation = new DataRadioStation();
 							aStation.ID = anObject.getString("id");
 							aStation.Name = anObject.getString("name");
-							//aStation.StreamUrl = anObject.getString("url");
+							aStation.StreamUrl = "";
+							if (anObject.has("url")) {
+								aStation.StreamUrl = anObject.getString("url");
+							}
 							aStation.Votes = anObject.getInt("votes");
 							aStation.HomePageUrl = anObject.getString("homepage");
 							aStation.TagsAll = anObject.getString("tags");
@@ -116,7 +119,10 @@ public class DataRadioStation {
 					DataRadioStation aStation = new DataRadioStation();
 					aStation.ID = anObject.getString("id");
 					aStation.Name = anObject.getString("name");
-					//aStation.StreamUrl = anObject.getString("url");
+					aStation.StreamUrl = "";
+					if (anObject.has("url")) {
+						aStation.StreamUrl = anObject.getString("url");
+					}
 					aStation.Votes = anObject.getInt("votes");
 					aStation.HomePageUrl = anObject.getString("homepage");
 					aStation.TagsAll = anObject.getString("tags");
@@ -153,6 +159,7 @@ public class DataRadioStation {
 			obj.put("id",ID);
 			obj.put("name",Name);
 			obj.put("homepage",HomePageUrl);
+			obj.put("url",StreamUrl);
 			obj.put("favicon",IconUrl);
 			obj.put("country",Country);
 			obj.put("state",State);
