@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.media.MediaScannerConnection;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Environment;
 import android.preference.PreferenceManager;
@@ -136,15 +137,54 @@ public class StationSaveManager {
     }
 
     public void SaveM3U(){
-        String fileName = "radiodroid.m3u";
-        String filePath = StationSaveManager.getSaveDir() + "";
+        final String fileName = "radiodroid.m3u";
+        final String filePath = StationSaveManager.getSaveDir() + "";
+
+        new AsyncTask<Void, Void, Boolean>() {
+            @Override
+            protected Boolean doInBackground(Void... params) {
+                return SaveM3UInternal(filePath, fileName);
+            }
+
+            @Override
+            protected void onPostExecute(Boolean result) {
+                if (result.booleanValue()) {
+                    Log.i("SAVE","OK");
+                    Toast toast = Toast.makeText(context, "Wrote " + filePath + "/" + fileName, Toast.LENGTH_SHORT);
+                    toast.show();
+                }else{
+                    Log.i("SAVE","NOK");
+                    Toast toast = Toast.makeText(context, "Write failed: " + filePath + "/" + fileName, Toast.LENGTH_SHORT);
+                    toast.show();
+                }
+                super.onPostExecute(result);
+            }
+        }.execute();
+    }
+
+    boolean SaveM3UInternal(String filePath, String fileName){
         try {
             File f = new File(filePath, fileName);
             BufferedWriter bw = new BufferedWriter(new FileWriter(f, false));
             bw.write("#EXTM3U\n");
             for (DataRadioStation station : listStations) {
-                bw.write("#EXTINF:-1," + station.Name + "\n");
-                bw.write(station.StreamUrl + "\n\n");
+                String result = null;
+                for (int i=0;i<20;i++){
+                    result = Utils.getRealStationLink(context, station.ID);
+                    if (result != null){
+                        break;
+                    }
+                    try {
+                        Thread.sleep(500);
+                    } catch (InterruptedException e) {
+                        Log.e("ERR","Play() "+e);
+                    }
+                }
+
+                if (result != null){
+                    bw.write("#EXTINF:-1," + station.Name + "\n");
+                    bw.write(result + "\n\n");
+                }
             }
             bw.flush();
             bw.close();
@@ -156,14 +196,11 @@ public class StationSaveManager {
                         .scanFile(context, new String[]{f.getAbsolutePath()}, null, null);
             }
 
-            Toast toast = Toast.makeText(context, "Wrote " + f.getAbsolutePath(), Toast.LENGTH_SHORT);
-            toast.show();
+            return true;
         }
         catch (Exception e) {
             Log.e("Exception", "File write failed: " + e.toString());
-
-            Toast toast = Toast.makeText(context, "Write failed: " + filePath + "/" + fileName, Toast.LENGTH_SHORT);
-            toast.show();
+            return false;
         }
     }
 }
