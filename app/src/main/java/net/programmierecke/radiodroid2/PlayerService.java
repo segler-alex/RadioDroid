@@ -51,6 +51,7 @@ import net.programmierecke.radiodroid2.recording.RunningRecordingInfo;
 
 public class PlayerService extends Service implements RadioPlayer.PlayerListener {
     protected static final int NOTIFY_ID = 1;
+    private static final String NOTIFICATION_CHANNEL_ID = "default";
 
     public static final String PLAYER_SERVICE_TIMER_UPDATE = "net.programmierecke.radiodroid2.timerupdate";
     public static final String PLAYER_SERVICE_STATUS_UPDATE = "net.programmierecke.radiodroid2.statusupdate";
@@ -619,8 +620,6 @@ public class PlayerService extends Service implements RadioPlayer.PlayerListener
         }
     }
 
-    private static final String NOTIFICATION_CHANNEL_ID = "my_notification_channel";
-
     private void sendMessage(String theTitle, String theMessage, String theTicker) {
         Intent notificationIntent = new Intent(itsContext, ActivityMain.class);
         notificationIntent.putExtra("stationid", currentStationID);
@@ -644,7 +643,7 @@ public class PlayerService extends Service implements RadioPlayer.PlayerListener
         }
 
         PendingIntent contentIntent = PendingIntent.getActivity(itsContext, 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(itsContext,"default")
+        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(itsContext,NOTIFICATION_CHANNEL_ID)
                 .setContentIntent(contentIntent)
                 .setContentTitle(theTitle)
                 .setContentText(theMessage)
