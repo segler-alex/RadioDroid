@@ -53,19 +53,19 @@ android {
 }
 
 dependencies {
-    compile 'com.android.support:support-v4:25.4.0'
-    compile 'com.android.support:appcompat-v7:25.4.0'
-    compile 'com.android.support:recyclerview-v7:25.4.0'
-    compile 'com.android.support:design:25.4.0'
-    compile 'com.android.support:preference-v7:25.4.0'
-    compile 'com.android.support:mediarouter-v7:25.4.0'
-    compile 'com.google.code.gson:gson:2.8.0'
-    compile 'com.squareup.okhttp3:okhttp:3.9.0'
-    compile 'com.squareup.picasso:picasso:2.5.2'
-    compile 'com.jakewharton.picasso:picasso2-okhttp3-downloader:1.1.0'
-    compile 'com.google.android.exoplayer:exoplayer:r2.5.4'
-    playCompile 'com.google.android.gms:play-services-cast:15.0.1'
-    playCompile 'com.google.android.gms:play-services-cast-framework:15.0.1'
+    implementation 'com.android.support:support-v4:26.1.0'
+    implementation 'com.android.support:appcompat-v7:26.1.0'
+    implementation 'com.android.support:recyclerview-v7:26.1.0'
+    implementation 'com.android.support:design:26.1.0'
+    implementation 'com.android.support:preference-v7:26.1.0'
+    implementation 'com.android.support:mediarouter-v7:26.1.0'
+    implementation 'com.google.code.gson:gson:2.8.0'
+    implementation 'com.squareup.okhttp3:okhttp:3.9.0'
+    implementation 'com.squareup.picasso:picasso:2.5.2'
+    implementation 'com.jakewharton.picasso:picasso2-okhttp3-downloader:1.1.0'
+    implementation 'com.google.android.exoplayer:exoplayer:r2.5.4'
+    playImplementation 'com.google.android.gms:play-services-cast:15.0.1'
+    playImplementation 'com.google.android.gms:play-services-cast-framework:15.0.1'
 }
 
 
@@ -143,7 +143,7 @@ configurations.all {
         def requested = details.requested
         if (requested.group == 'com.android.support') {
             if (!requested.name.startsWith("multidex")) {
-                details.useVersion '25.4.0'
+                details.useVersion '26.1.0'
             }
         }
     }

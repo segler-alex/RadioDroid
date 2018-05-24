@@ -3,6 +3,8 @@ package net.programmierecke.radiodroid2;
 import java.util.Map;
 
 import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
@@ -10,6 +12,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.media.AudioManager;
@@ -616,6 +619,8 @@ public class PlayerService extends Service implements RadioPlayer.PlayerListener
         }
     }
 
+    private static final String NOTIFICATION_CHANNEL_ID = "my_notification_channel";
+
     private void sendMessage(String theTitle, String theMessage, String theTicker) {
         Intent notificationIntent = new Intent(itsContext, ActivityMain.class);
         notificationIntent.putExtra("stationid", currentStationID);
@@ -625,8 +630,21 @@ public class PlayerService extends Service implements RadioPlayer.PlayerListener
         stopIntent.setAction(ACTION_STOP);
         PendingIntent pendingIntentStop = PendingIntent.getService(itsContext, 0, stopIntent, 0);
 
+        NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            NotificationChannel notificationChannel = new NotificationChannel(NOTIFICATION_CHANNEL_ID, "My Notifications", NotificationManager.IMPORTANCE_DEFAULT);
+
+            // Configure the notification channel.
+            notificationChannel.setDescription("Channel description");
+            notificationChannel.enableLights(true);
+            notificationChannel.setLightColor(Color.RED);
+            notificationChannel.setVibrationPattern(new long[]{0, 1000, 500, 1000});
+            notificationChannel.enableVibration(true);
+            notificationManager.createNotificationChannel(notificationChannel);
+        }
+
         PendingIntent contentIntent = PendingIntent.getActivity(itsContext, 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(itsContext)
+        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(itsContext,"default")
                 .setContentIntent(contentIntent)
                 .setContentTitle(theTitle)
                 .setContentText(theMessage)
