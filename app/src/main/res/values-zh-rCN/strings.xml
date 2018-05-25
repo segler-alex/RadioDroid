@@ -49,7 +49,9 @@
     <string name="sleep_timer_title">运行多少分钟停止？</string>
     <string name="sleep_timer_apply">应用</string>
     <string name="sleep_timer_clear">清除</string>
-    <string name="nav_item_add_sleep">增加15分钟</string>
+    <string name="nav_item_add_sleep">+15分钟</string>
+
+    <string name="nav_item_save_playlist">保存到播放列表</string>
 
     <string name="settings_interface">界面</string>
     <string name="settings_theme_selection_title">主题</string>
