@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -32,6 +33,10 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.rustamg.filedialogs.FileDialog;
+import com.rustamg.filedialogs.OpenFileDialog;
+import com.rustamg.filedialogs.SaveFileDialog;
+
 import net.programmierecke.radiodroid2.data.MPDServer;
 import net.programmierecke.radiodroid2.interfaces.IFragmentRefreshable;
 
@@ -42,8 +47,9 @@ import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.regex.Pattern;
 
-public class ActivityMain extends AppCompatActivity implements SearchView.OnQueryTextListener, IMPDClientStatusChange, NavigationView.OnNavigationItemSelectedListener, BottomNavigationView.OnNavigationItemSelectedListener {
+public class ActivityMain extends AppCompatActivity implements SearchView.OnQueryTextListener, IMPDClientStatusChange, NavigationView.OnNavigationItemSelectedListener, BottomNavigationView.OnNavigationItemSelectedListener, FileDialog.OnFileSelectedListener {
 
     public static final String EXTRA_SEARCH_TAG = "search_tag";
 
@@ -421,20 +427,68 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
         return true;
     }
 
+    /*@Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == 1 && resultCode == RESULT_OK) {
+            String filePath = data.getStringExtra(FilePickerActivity.RESULT_FILE_PATH);
+            RadioDroidApp radioDroidApp = (RadioDroidApp) getApplication();
+            FavouriteManager favouriteManager = radioDroidApp.getFavouriteManager();
+            favouriteManager.SaveM3U(filePath, "radiodroid.m3u");
+        }
+    }*/
+
+    @Override
+    public void onFileSelected(FileDialog dialog, File file) {
+        try {
+            Log.i("MAIN", "save to " + file.getParent() + "/" + file.getName());
+            RadioDroidApp radioDroidApp = (RadioDroidApp) getApplication();
+            FavouriteManager favouriteManager = radioDroidApp.getFavouriteManager();
+
+            if (dialog instanceof SaveFileDialog){
+                favouriteManager.SaveM3U(file.getParent(), file.getName());
+            }else if (dialog instanceof OpenFileDialog) {
+                favouriteManager.LoadM3U(file.getParent(), file.getName());
+            }
+        }
+        catch(Exception e){
+            Log.e("MAIN",e.toString());
+        }
+    }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem menuItem) {
-        RadioDroidApp radioDroidApp = (RadioDroidApp) getApplication();
-        FavouriteManager favouriteManager = radioDroidApp.getFavouriteManager();
-
         switch (menuItem.getItemId()) {
             case android.R.id.home:
                 mDrawerLayout.openDrawer(GravityCompat.START);  // OPEN DRAWER
                 return true;
             case R.id.action_save:
-                favouriteManager.SaveM3U();
+                try{
+                    SaveFileDialog dialog = new SaveFileDialog();
+                    dialog.setStyle(DialogFragment.STYLE_NO_TITLE, R.style.MyMaterialTheme);
+                    Bundle args = new Bundle();
+                    args.putString(FileDialog.EXTENSION, ".m3u"); // file extension is optional
+                    dialog.setArguments(args);
+                    dialog.show(getSupportFragmentManager(), SaveFileDialog.class.getName());
+                }
+                catch(Exception e){
+                    Log.e("MAIN",e.toString());
+                }
+
                 return true;
             case R.id.action_load:
-                favouriteManager.LoadM3U();
+                try {
+                    OpenFileDialog dialogOpen = new OpenFileDialog();
+                    dialogOpen.setStyle(DialogFragment.STYLE_NO_TITLE, R.style.MyMaterialTheme);
+                    Bundle argsOpen = new Bundle();
+                    argsOpen.putString(FileDialog.EXTENSION, ".m3u"); // file extension is optional
+                    dialogOpen.setArguments(argsOpen);
+                    dialogOpen.show(getSupportFragmentManager(), OpenFileDialog.class.getName());
+                }
+                catch(Exception e){
+                    Log.e("MAIN",e.toString());
+                }
                 return true;
             case R.id.action_set_alarm:
                 changeTimer();

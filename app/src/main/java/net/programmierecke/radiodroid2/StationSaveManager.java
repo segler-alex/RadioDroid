@@ -139,10 +139,7 @@ public class StationSaveManager {
         return path;
     }
 
-    public void SaveM3U(){
-        final String fileName = "radiodroid.m3u";
-        final String filePath = StationSaveManager.getSaveDir() + "";
-
+    public void SaveM3U(final String filePath, final String fileName){
         Toast toast = Toast.makeText(context, "Writing to " + filePath + "/" + fileName + ".. Please wait..", Toast.LENGTH_SHORT);
         toast.show();
 
@@ -168,11 +165,8 @@ public class StationSaveManager {
         }.execute();
     }
 
-    public void LoadM3U(){
-        final String fileName = "radiodroid.m3u";
-        final String filePath = StationSaveManager.getSaveDir() + "";
-
-        Toast toast = Toast.makeText(context, "Writing to " + filePath + "/" + fileName + ".. Please wait..", Toast.LENGTH_SHORT);
+    public void LoadM3U(final String filePath, final String fileName){
+        Toast toast = Toast.makeText(context, "Loading from " + filePath + "/" + fileName + ".. Please wait..", Toast.LENGTH_SHORT);
         toast.show();
 
         new AsyncTask<Void, Void, DataRadioStation[]>() {
@@ -183,14 +177,15 @@ public class StationSaveManager {
 
             @Override
             protected void onPostExecute(DataRadioStation[] result) {
-                Log.i("LOAD","Loaded " + result.length + "stations");
                 if (result != null){
+                    Log.i("LOAD","Loaded " + result.length + "stations");
                     for (DataRadioStation station: result){
                         add(station);
                     }
                     Toast toast = Toast.makeText(context, "Loaded " + result.length + " stations from " + filePath + "/" + fileName, Toast.LENGTH_SHORT);
                     toast.show();
                 }else {
+                    Log.e("LOAD","Load failed");
                     Toast toast = Toast.makeText(context, "Could not load from " + filePath + "/" + fileName, Toast.LENGTH_SHORT);
                     toast.show();
                 }
