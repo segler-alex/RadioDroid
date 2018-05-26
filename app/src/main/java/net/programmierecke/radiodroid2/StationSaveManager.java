@@ -13,6 +13,7 @@ import android.util.Log;
 import android.widget.Toast;
 
 import net.programmierecke.radiodroid2.data.DataRadioStation;
+import net.programmierecke.radiodroid2.interfaces.IChanged;
 
 import org.json.JSONArray;
 
@@ -31,6 +32,7 @@ import java.util.Vector;
 public class StationSaveManager {
     Context context;
     List<DataRadioStation> listStations = new ArrayList<DataRadioStation>();
+    private IChanged changedHandler;
 
     public StationSaveManager(Context ctx) {
         this.context = ctx;
@@ -97,6 +99,10 @@ public class StationSaveManager {
 
     public DataRadioStation[] getList() {
         return listStations.toArray(new DataRadioStation[0]);
+    }
+
+    public void setChangedListener(IChanged handler){
+        this.changedHandler = handler;
     }
 
     void Load() {
@@ -188,6 +194,9 @@ public class StationSaveManager {
                     Log.e("LOAD","Load failed");
                     Toast toast = Toast.makeText(context, "Could not load from " + filePath + "/" + fileName, Toast.LENGTH_SHORT);
                     toast.show();
+                }
+                if (changedHandler != null){
+                    changedHandler.onChanged();
                 }
                 super.onPostExecute(result);
             }

@@ -15,8 +15,9 @@ import android.view.ViewGroup;
 import net.programmierecke.radiodroid2.adapters.ItemAdapterStation;
 import net.programmierecke.radiodroid2.data.DataRadioStation;
 import net.programmierecke.radiodroid2.interfaces.IAdapterRefreshable;
+import net.programmierecke.radiodroid2.interfaces.IChanged;
 
-public class FragmentStarred extends Fragment implements IAdapterRefreshable {
+public class FragmentStarred extends Fragment implements IAdapterRefreshable, IChanged {
     private static final String TAG = "FragmentStarred";
 
     private RecyclerView rvStations;
@@ -47,6 +48,7 @@ public class FragmentStarred extends Fragment implements IAdapterRefreshable {
         RadioDroidApp radioDroidApp = (RadioDroidApp) getActivity().getApplication();
         historyManager = radioDroidApp.getHistoryManager();
         favouriteManager = radioDroidApp.getFavouriteManager();
+        favouriteManager.setChangedListener(this);
 
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_stations, container, false);
@@ -100,5 +102,10 @@ public class FragmentStarred extends Fragment implements IAdapterRefreshable {
     public void onDestroyView() {
         super.onDestroyView();
         rvStations.setAdapter(null);
+    }
+
+    @Override
+    public void onChanged() {
+        RefreshListGui();
     }
 }
