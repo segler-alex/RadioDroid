@@ -170,6 +170,25 @@ public class Utils {
 		return null;
 	}
 
+	public static DataRadioStation getStationByUuid(Context ctx, String stationUuid){
+		Log.w("UTIL","Search by uuid:"+stationUuid);
+		String result = Utils.downloadFeed(ctx, RadioBrowserServerManager.getWebserviceEndpoint(ctx, "json/stations/byuuid/" + stationUuid), true, null);
+		if (result != null) {
+			try {
+				DataRadioStation[] list = DataRadioStation.DecodeJson(result);
+				if (list != null) {
+					if (list.length == 1) {
+						return list[0];
+					}
+					Log.e("UTIL", "stations by uuid did have length:" + list.length);
+				}
+			} catch (Exception e) {
+				Log.e("UTIL", "getStationByUuid() " + e);
+			}
+		}
+		return null;
+	}
+
 	public static void Play(final DataRadioStation station, final Context context) {
 		SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
 		boolean play_external = sharedPref.getBoolean("play_external", false);

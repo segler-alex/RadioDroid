@@ -52,6 +52,7 @@
     <string name="nav_item_add_sleep">+15 mins</string>
 
     <string name="nav_item_save_playlist">Save to playlist</string>
+    <string name="nav_item_load_playlist">Load from playlist</string>
 
     <string name="settings_interface">UI</string>
     <string name="settings_theme_selection_title">Theme</string>

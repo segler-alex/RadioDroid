@@ -21,6 +21,8 @@ public class DataRadioStation {
 
 	public String ID;
 	public String Name;
+	public String StationUuid="";
+	public String ChangeUuid="";
 	public String StreamUrl;
 	public String HomePageUrl;
 	public String IconUrl;
@@ -71,6 +73,12 @@ public class DataRadioStation {
 							aStation.StreamUrl = "";
 							if (anObject.has("url")) {
 								aStation.StreamUrl = anObject.getString("url");
+							}
+							if (anObject.has("stationuuid")) {
+								aStation.StationUuid = anObject.getString("stationuuid");
+							}
+							if (anObject.has("changeuuid")) {
+								aStation.ChangeUuid = anObject.getString("changeuuid");
 							}
 							aStation.Votes = anObject.getInt("votes");
 							aStation.HomePageUrl = anObject.getString("homepage");
@@ -123,6 +131,12 @@ public class DataRadioStation {
 					if (anObject.has("url")) {
 						aStation.StreamUrl = anObject.getString("url");
 					}
+					if (anObject.has("stationuuid")) {
+						aStation.StationUuid = anObject.getString("stationuuid");
+					}
+					if (anObject.has("changeuuid")) {
+						aStation.ChangeUuid = anObject.getString("changeuuid");
+					}
 					aStation.Votes = anObject.getInt("votes");
 					aStation.HomePageUrl = anObject.getString("homepage");
 					aStation.TagsAll = anObject.getString("tags");
@@ -157,6 +171,8 @@ public class DataRadioStation {
 		JSONObject obj = new JSONObject();
 		try {
 			obj.put("id",ID);
+			obj.put("stationuuid",StationUuid);
+			obj.put("changeuuid",ChangeUuid);
 			obj.put("name",Name);
 			obj.put("homepage",HomePageUrl);
 			obj.put("url",StreamUrl);

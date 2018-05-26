@@ -72,6 +72,7 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
     MenuItem menuItemDelete;
     MenuItem menuItemAlarm;
     MenuItem menuItemSave;
+    MenuItem menuItemLoad;
 
     private SharedPreferences sharedPref;
 
@@ -354,6 +355,7 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
         menuItemSearch = menu.findItem(R.id.action_search);
         menuItemDelete = menu.findItem(R.id.action_delete);
         menuItemSave = menu.findItem(R.id.action_save);
+        menuItemLoad = menu.findItem(R.id.action_load);
         mSearchView = (SearchView) MenuItemCompat.getActionView(menuItemSearch);
         mSearchView.setOnQueryTextListener(this);
 
@@ -364,6 +366,7 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
         menuItemSearch.setVisible(false);
         menuItemDelete.setVisible(false);
         menuItemSave.setVisible(false);
+        menuItemLoad.setVisible(false);
         menuItemMPDOK.setVisible(MPDClient.Discovered() && MPDClient.Connected());
         menuItemMPDNok.setVisible(MPDClient.Discovered() && !MPDClient.Connected());
 
@@ -378,6 +381,7 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
                 menuItemAlarm.setVisible(true);
                 menuItemSearch.setVisible(true);
                 menuItemSave.setVisible(true);
+                menuItemLoad.setVisible(true);
 
                 RadioDroidApp radioDroidApp = (RadioDroidApp) getApplication();
                 if (radioDroidApp.getFavouriteManager().isEmpty()) {
@@ -419,14 +423,18 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
 
     @Override
     public boolean onOptionsItemSelected(MenuItem menuItem) {
+        RadioDroidApp radioDroidApp = (RadioDroidApp) getApplication();
+        FavouriteManager favouriteManager = radioDroidApp.getFavouriteManager();
+
         switch (menuItem.getItemId()) {
             case android.R.id.home:
                 mDrawerLayout.openDrawer(GravityCompat.START);  // OPEN DRAWER
                 return true;
             case R.id.action_save:
-                RadioDroidApp radioDroidApp = (RadioDroidApp) getApplication();
-                FavouriteManager favouriteManager = radioDroidApp.getFavouriteManager();
                 favouriteManager.SaveM3U();
+                return true;
+            case R.id.action_load:
+                favouriteManager.LoadM3U();
                 return true;
             case R.id.action_set_alarm:
                 changeTimer();

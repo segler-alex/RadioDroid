@@ -44,4 +44,10 @@
         android:icon="@drawable/ic_save_black_24dp"
         android:title="@string/nav_item_save_playlist"
         app:showAsAction="ifRoom"/>
+
+    <item
+        android:id="@+id/action_load"
+        android:icon="@drawable/ic_load_playlist_24dp"
+        android:title="@string/nav_item_load_playlist"
+        app:showAsAction="ifRoom"/>
 </menu>

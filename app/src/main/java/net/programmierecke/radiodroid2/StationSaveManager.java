@@ -16,14 +16,17 @@ import net.programmierecke.radiodroid2.data.DataRadioStation;
 
 import org.json.JSONArray;
 
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Vector;
 
 public class StationSaveManager {
     Context context;
@@ -140,6 +143,9 @@ public class StationSaveManager {
         final String fileName = "radiodroid.m3u";
         final String filePath = StationSaveManager.getSaveDir() + "";
 
+        Toast toast = Toast.makeText(context, "Writing to " + filePath + "/" + fileName + ".. Please wait..", Toast.LENGTH_SHORT);
+        toast.show();
+
         new AsyncTask<Void, Void, Boolean>() {
             @Override
             protected Boolean doInBackground(Void... params) {
@@ -162,6 +168,39 @@ public class StationSaveManager {
         }.execute();
     }
 
+    public void LoadM3U(){
+        final String fileName = "radiodroid.m3u";
+        final String filePath = StationSaveManager.getSaveDir() + "";
+
+        Toast toast = Toast.makeText(context, "Writing to " + filePath + "/" + fileName + ".. Please wait..", Toast.LENGTH_SHORT);
+        toast.show();
+
+        new AsyncTask<Void, Void, DataRadioStation[]>() {
+            @Override
+            protected DataRadioStation[] doInBackground(Void... params) {
+                return LoadM3UInternal(filePath, fileName);
+            }
+
+            @Override
+            protected void onPostExecute(DataRadioStation[] result) {
+                Log.i("LOAD","Loaded " + result.length + "stations");
+                if (result != null){
+                    for (DataRadioStation station: result){
+                        add(station);
+                    }
+                    Toast toast = Toast.makeText(context, "Loaded " + result.length + " stations from " + filePath + "/" + fileName, Toast.LENGTH_SHORT);
+                    toast.show();
+                }else {
+                    Toast toast = Toast.makeText(context, "Could not load from " + filePath + "/" + fileName, Toast.LENGTH_SHORT);
+                    toast.show();
+                }
+                super.onPostExecute(result);
+            }
+        }.execute();
+    }
+
+    protected final String M3U_PREFIX = "#RADIOBROWSERUUID:";
+
     boolean SaveM3UInternal(String filePath, String fileName){
         try {
             File f = new File(filePath, fileName);
@@ -182,6 +221,7 @@ public class StationSaveManager {
                 }
 
                 if (result != null){
+                    bw.write(M3U_PREFIX+station.StationUuid+"\n");
                     bw.write("#EXTINF:-1," + station.Name + "\n");
                     bw.write(result + "\n\n");
                 }
@@ -202,5 +242,36 @@ public class StationSaveManager {
             Log.e("Exception", "File write failed: " + e.toString());
             return false;
         }
+    }
+
+    DataRadioStation[] LoadM3UInternal(String filePath, String fileName){
+        Vector<DataRadioStation> loadedItems = new Vector<>();
+        try {
+            File f = new File(filePath, fileName);
+
+            BufferedReader br = new BufferedReader(new FileReader(f));
+            String line;
+
+            while ((line = br.readLine()) != null) {
+                if (line.startsWith(M3U_PREFIX)){
+                    try {
+                        String uuid = line.substring(M3U_PREFIX.length()).trim();
+                        DataRadioStation station = Utils.getStationByUuid(context, uuid);
+                        if (station != null) {
+                            loadedItems.add(station);
+                        }
+                    }
+                    catch(Exception e){
+                        Log.e("LOAD",e.toString());
+                    }
+                }
+            }
+            br.close();
+        }
+        catch (Exception e) {
+            Log.e("LOAD", "File write failed: " + e.toString());
+            return null;
+        }
+        return loadedItems.toArray(new DataRadioStation[0]);
     }
 }
