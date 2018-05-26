@@ -465,12 +465,14 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
                 return true;
             case R.id.action_save:
                 try{
-                    SaveFileDialog dialog = new SaveFileDialog();
-                    dialog.setStyle(DialogFragment.STYLE_NO_TITLE, R.style.MyMaterialTheme);
-                    Bundle args = new Bundle();
-                    args.putString(FileDialog.EXTENSION, ".m3u"); // file extension is optional
-                    dialog.setArguments(args);
-                    dialog.show(getSupportFragmentManager(), SaveFileDialog.class.getName());
+                    if (Utils.verifyStoragePermissions(this)) {
+                        SaveFileDialog dialog = new SaveFileDialog();
+                        dialog.setStyle(DialogFragment.STYLE_NO_TITLE, R.style.MyMaterialTheme);
+                        Bundle args = new Bundle();
+                        args.putString(FileDialog.EXTENSION, ".m3u"); // file extension is optional
+                        dialog.setArguments(args);
+                        dialog.show(getSupportFragmentManager(), SaveFileDialog.class.getName());
+                    }
                 }
                 catch(Exception e){
                     Log.e("MAIN",e.toString());
@@ -479,12 +481,14 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
                 return true;
             case R.id.action_load:
                 try {
-                    OpenFileDialog dialogOpen = new OpenFileDialog();
-                    dialogOpen.setStyle(DialogFragment.STYLE_NO_TITLE, R.style.MyMaterialTheme);
-                    Bundle argsOpen = new Bundle();
-                    argsOpen.putString(FileDialog.EXTENSION, ".m3u"); // file extension is optional
-                    dialogOpen.setArguments(argsOpen);
-                    dialogOpen.show(getSupportFragmentManager(), OpenFileDialog.class.getName());
+                    if (Utils.verifyStoragePermissions(this)) {
+                        OpenFileDialog dialogOpen = new OpenFileDialog();
+                        dialogOpen.setStyle(DialogFragment.STYLE_NO_TITLE, R.style.MyMaterialTheme);
+                        Bundle argsOpen = new Bundle();
+                        argsOpen.putString(FileDialog.EXTENSION, ".m3u"); // file extension is optional
+                        dialogOpen.setArguments(argsOpen);
+                        dialogOpen.show(getSupportFragmentManager(), OpenFileDialog.class.getName());
+                    }
                 }
                 catch(Exception e){
                     Log.e("MAIN",e.toString());
