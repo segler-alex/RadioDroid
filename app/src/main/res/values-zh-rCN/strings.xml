@@ -52,7 +52,8 @@
     <string name="nav_item_add_sleep">+15分钟</string>
 
     <string name="nav_item_save_playlist">保存到播放列表</string>
-
+    <string name="nav_item_load_playlist">从播放列表载入</string> 
+    
     <string name="settings_interface">界面</string>
     <string name="settings_theme_selection_title">主题</string>
     <string name="theme_light">亮色</string>
