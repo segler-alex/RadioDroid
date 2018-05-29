@@ -17,6 +17,8 @@ import android.widget.*;
 import net.programmierecke.radiodroid2.data.DataRadioStation;
 import net.programmierecke.radiodroid2.data.StreamLiveInfo;
 
+import java.util.List;
+
 import static net.programmierecke.radiodroid2.ActivityMain.FRAGMENT_FROM_BACKSTACK;
 
 public class FragmentPlayer extends Fragment {
@@ -188,13 +190,13 @@ public class FragmentPlayer extends Fragment {
 	private void SetInfoFromHistory(boolean startPlaying) {
         RadioDroidApp radioDroidApp = (RadioDroidApp) getActivity().getApplication();
         HistoryManager historyManager = radioDroidApp.getHistoryManager();
-        DataRadioStation[] history = historyManager.getList();
+        List<DataRadioStation> history = historyManager.getList();
 
-        if(history.length > 0) {
-            DataRadioStation lastStation = history[0];
-            if(startPlaying) {
-				Utils.Play(radioDroidApp.getHttpClient(),lastStation, getContext());
-			} else {
+        if(history.size() > 0) {
+            DataRadioStation lastStation = history.get(0);
+            if(startPlaying)
+                Utils.Play(radioDroidApp.getHttpClient(), lastStation, getContext());
+            else {
                 aTextViewName.setText(lastStation.Name);
 
                 if (!Utils.shouldLoadIcons(getContext()))

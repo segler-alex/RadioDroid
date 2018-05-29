@@ -99,8 +99,8 @@ public class StationSaveManager {
         return station != null;
     }
 
-    public DataRadioStation[] getList() {
-        return listStations.toArray(new DataRadioStation[0]);
+    public List<DataRadioStation> getList() {
+        return Collections.unmodifiableList(listStations);
     }
 
     public void setChangedListener(IChanged handler){

@@ -1,6 +1,7 @@
 package net.programmierecke.radiodroid2;
 
 import net.programmierecke.radiodroid2.data.StreamLiveInfo;
+import android.support.v4.media.session.MediaSessionCompat;
 
 interface IPlayerService
 {
@@ -23,6 +24,7 @@ String getMetadataHomepage();
 int getMetadataBitrate();
 int getMetadataSampleRate();
 int getMetadataChannels();
+MediaSessionCompat.Token getMediaSessionToken();
 boolean isPlaying();
 void startRecording();
 void stopRecording();
