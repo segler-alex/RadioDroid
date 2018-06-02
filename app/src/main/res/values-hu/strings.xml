@@ -1,0 +1,236 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+    <string name="detail_name">Név</string>
+    <string name="detail_tags">Címkék</string>
+    <string name="detail_country">Ország</string>
+    <string name="detail_language">Nyelv</string>
+    <string name="detail_weblink">Webhivatkozás</string>
+    <string name="detail_play">Lejátszás</string>
+    <string name="detail_pause">Szünet</string>
+    <string name="detail_stop">Leállítás</string>
+    <string name="detail_share">Megosztás</string>
+
+    <string name="action_local">Helyi</string>
+    <string name="action_pause">Szünet</string>
+    <string name="action_resume">Folytatás</string>
+    <string name="action_stop">Leállítás</string>
+    <string name="action_search">Keresés</string>
+    <string name="action_delete">Törlés</string>
+    <string name="action_delete_history">Előzmények törlése</string>
+    <string name="action_delete_favorites">Kedvencek törlése</string>
+    <string name="action_cancel">Mégse</string>
+    <string name="action_top_click">Felkapott</string>
+    <string name="action_top_vote">Legnépszerűbb</string>
+    <string name="action_changed_lately">Nemrég változott</string>
+    <string name="action_currently_playing">Lejátszás</string>
+    <string name="action_tags">Címkék</string>
+    <string name="action_countries">Országok</string>
+    <string name="action_languages">Nyelvek</string>
+    <string name="error_station_load">Nem lehet kapcsolódni az állomáshoz</string>
+    <string name="error_list_update">Nem lehet kapcsolódni a rádióböngésző kiszolgálóhoz</string>
+
+    <string name="share_action">Állomáshivatkozás megosztása…</string>
+
+    <string name="nav_item_stations">Állomások</string>
+    <string name="nav_item_starred">Csillagozott</string>
+    <string name="nav_item_history">Előzmények</string>
+    <string name="nav_item_settings">Beállítások</string>
+    <string name="nav_item_alarm">Riasztások</string>
+    <string name="nav_item_recordings">Rögzítések</string>
+
+    <string name="about_text">Ez az alkalmazás az itt lévő rádióállomás-jegyzéket használja:\nhttps://www.radio-browser.info\Bárki adhat hozzá és szerkesztheti az állomásokat. Úgy működik, mint egy online rádióállomásokról szóló wiki.\n\nKapcsolat:\nsegler_alex@web.de\n\nHibakövető:\nhttps://github.com/segler-alex/RadioDroid/issues\n\nHa tetszik a szoftver, és segíteni szeretne, akkor küldjön nyugodtan e-mailt. Tényleg szükségem van valakira, akinek vannak grafikusi tapasztalati, hogy jobb érzés legyen az appra ránézni :) Talán valaki, aki tud ikonokat és képeket rajzolni… De programozókra is szükség van, akik kijavítják a hibákat, vagy újakat fejlesztenek (funkciókat, nem hibákat ;)\nAz új funkcióötleteket is értékeljük!\n\nEz az app szabad szoftver, és a GPLv3 licenc alatt érhető el.\nhttps://www.gnu.org/licenses/gpl-3.0.html</string>
+    <string name="about_version">Verzió: %1$s</string>
+    <string name="detail_star">Könyvjelzőzés kedvencként</string>
+    <string name="detail_unstar">Törlés a kedvencek közül</string>
+    <string name="progress_loading">Betöltés…</string>
+
+    <string name="sleep_timer" formatted="true">Alvási időzítő: %1$02d:%2$02d</string>
+    <string name="sleep_timer_title">Hány perc maradt a leállításig?</string>
+    <string name="sleep_timer_apply">Alkalmaz</string>
+    <string name="sleep_timer_clear">Törlés</string>
+    <string name="nav_item_add_sleep">+15 perc</string>
+
+    <string name="nav_item_save_playlist">Mentés lejátzólistára</string>
+    <string name="nav_item_load_playlist">Betöltés lejátszólistából</string>
+
+    <string name="settings_interface">Felület</string>
+    <string name="settings_theme_selection_title">Téma</string>
+    <string name="theme_light">Világos</string>
+    <string name="theme_dark">Sötét</string>
+    <string name="settings_circular_icons">Kerek ikonok használata</string>
+    <string name="settings_compact_style">Kompakt mód</string>
+    <string name="settings_bottom_navigation">Alsó navigáció</string>
+
+    <string name="settings_general">Általános</string>
+    <string name="settings_single_use_tags">Egyszer használt címkék megjelenítése</string>
+    <string name="settings_single_use_tags_desc_off">Az egyszer használt címkék nem jelennek meg</string>
+    <string name="settings_single_use_tags_desc_on">Az egyszer használt címkék megjelennek</string>
+
+    <string name="settings_show_broken">Törött állomások</string>
+    <string name="settings_show_broken_on">Törött állomások megjelenítése a listákban</string>
+    <string name="settings_show_broken_off">Ne jelenjenek meg a törött állomások a listákban</string>
+
+    <string name="startup_action_title">Indítási művelet</string>
+    <string name="startup_action_title_desc">%s</string>
+    <string name="startup_show_all_stations">Összes állomás megjelenítése</string>
+    <string name="startup_show_favorites">Kedvencek megjelenítése</string>
+    <string name="startup_show_history">Előzmények megjelenítése</string>
+    <string name="startup_show_last_view">Legutóbbi nézet</string>
+
+    <string name="settings_load_icons">Állapotikonok megjelenítése</string>
+    <string name="settings_load_icons_on">Az ikonok le lesznek töltve</string>
+    <string name="settings_load_icons_off">Az ikonok nem lesznek letöltve</string>
+
+    <string name="settings_auto_favorite">Automatikus kedvencek</string>
+    <string name="settings_auto_favorite_on">Állomások automatikus kedvenként beállítása lejátszáskor</string>
+    <string name="settings_auto_favorite_off">Ne állítsa be automatikusan kedvencnek a lejátszott állomásokat</string>
+
+    <string name="settings_icon_click_toggles_favorite">Ikonkattintások</string>
+    <string name="settings_icon_click_toggles_favorite_on">Az ikonra kattintás automatikus megjelöli kedvencként, vagy kiveszi azok közül</string>
+    <string name="settings_icon_click_toggles_favorite_off">Az állomásikonra kattintás elindítja a lejátszást</string>
+
+    <string name="settings_click_trend_icon_visible">Trend ikon</string>
+    <string name="settings_click_trend_icon_visible_on">Az ikon megjelenik</string>
+    <string name="settings_click_trend_icon_visible_off">Az ikon rejtve lesz</string>
+
+    <string name="settings_alarm">Riasztás</string>
+    <string name="settings_alarm_external">Külső megnyitás</string>
+    <string name="settings_alarm_external_desc">Riasztás megnyitása az alapértelmezett külső appal</string>
+    <string name="settings_alarm_audio_player">Zenelejátszó</string>
+    <string name="settings_alarm_sleep_timer">Alvási időzítő</string>
+    <string name="settings_alarm_sleep_timer_desc">Lejátszás leállítása %1$s perc után</string>
+    <string name="settings_play">Lejátszó</string>
+    <string name="settings_play_external">Külső megnyitása</string>
+    <string name="settings_play_external_desc">Az államosokon történő kattintás külső appot nyit meg<string>
+    <string name="settings_equalizer">Hangszínszabályzó</string>
+
+    <string name="settings_connectivity">Kapcsolódás</string>
+    <string name="settings_connect_timeout">Adatfolyam kapcsolódási időtúllépése</string>
+    <string name="settings_read_timeout">Adatfolyam olvasási időtúllépése</string>
+    <string name="settings_retry_timeout">Adafolyam újrapróbálkozási időtúllépése</string>
+    <string name="settings_retry_delay">Újrakapcsolódás késleltetése</string>
+    <string name="settings_seconds_format">%d másodperc</string>
+    <string name="settings_milliseconds_format">%d ezredmásodperc</string>
+
+    <string name="settings_warn_no_wifi">Figyelmeztessen, ha nincs Wifi</string>
+    <string name="settings_warn_no_wifi_on">Figyelmeztessen, ha Wifi kapcsolat nélkül játszik le</string>
+    <string name="settings_warn_no_wifi_off">Nincs figyelmeztetés, ha nincs Wifin</string>
+
+    <string name="settings_recordings">Rögzítések</string>
+    <string name="settings_record_name_formatting">Névformázás</string>
+
+    <string name="settings_record_name_formatting_default" translatable="false">${station}_${artist}_${track}_${date}_${time}</string>
+    <string name="settings_record_name_formatting_1" translatable="false">${station}_${artist}_${track}</string>
+    <string name="settings_record_name_formatting_2" translatable="false">${station}_${date}_${time}</string>
+    <string name="settings_record_name_formatting_3" translatable="false">${index}_${station}_${date}</string>
+
+    <string name="settings_record_name_formatting_default_display">állomás_előadó_szám_\u200bdátum_\u200bidő</string>
+    <string name="settings_record_name_formatting_1_display">állomás_előadó_\u200bszám</string>
+    <string name="settings_record_name_formatting_2_display">állomás_dátum_\u200bidő</string>
+    <string name="settings_record_name_formatting_3_display">index_állomás_\u200bdátum</string>
+
+    <string name="notify_pre_play">Kapcsolódás</string>
+    <string name="notify_play">Lejátszás</string>
+    <string name="notify_paused">Szüneteltetve</string>
+    <string name="notify_starred">Az állomás kedvencként könyvjelzőzve</string>
+    <string name="notify_autostarred">Az állomás automatikus kedvencként könyvjelzőzve</string>
+    <string name="notify_unstarred">Az állomás eltávolításra került a kedvencek listájáról</string>
+    <string name="notify_deleted_favorites">A kedvencek törölve lettek.</string>
+    <string name="notify_deleted_history">Az előzmények törölve lettek.</string>
+
+    <string name="notify_station_removed_from_list">1 eltávolítva</string>
+    <string name="action_station_removed_from_list_undo">VISSZAVONÁS</string>
+
+    <string name="alert_delete_history">Biztos törli az előzményeket?</string>
+    <string name="alert_delete_favorites">Biztos törli az összes kedvencet?</string>
+    <string name="yes">Igen</string>
+    <string name="no">Nem</string>
+
+    <string name="alert_select_mpd_server">Melyik kiszolgáló?</string>
+    <string name="alert_select_mpd_server_name">Kiszolgálónév</string>
+    <string name="alert_select_mpd_server_hostname">Gépnév</string>
+    <string name="alert_select_mpd_server_port">Port</string>
+
+    <string name="alert_select_mpd_server_add">Hozzáadás</string>
+    <string name="alert_select_mpd_server_save">Mentés</string>
+    <string name="alert_select_mpd_server_remove">Eltávolítás</string>
+    <string name="alert_add_or_edit_mpd_server">Adja meg a kiszolgáló részleteit</string>
+
+    <string name="alert_press_back_to_exit">A kilépéshez nyomja meg még egyszer a vissza gombot</string>
+
+    <string name="error_stream_url">Adatfolyam url probléma</string>
+    <string name="error_caching_stream">Adatfolyam gyorsítótárazási probléma</string>
+    <string name="error_play_stream">Az adatfolyam nem játszható le</string>
+    <string name="error_stream_reconnect_timeout">Nem lehet visszakapcsolódni az adatfolyamhoz: időtúllépés.</string>
+
+    <string name="error_record_needs_write">Írási engedély szükséges a rögzítéshez!</string>
+    <string name="error_grant_audiofocus">A hangfókusz kérést nem teljesítette a rendszer.</string>
+
+    <string name="error_no_equalizer_found">Nem található hangerőszabályzó alkalmazás!</string>
+
+    <string name="player_info_status">Állapot:&#160;</string>
+    <string name="player_info_status_stopped">leállítva</string>
+    <string name="player_info_status_playing">lejátszás</string>
+    <string name="player_info_status_recording">rögzítés</string>
+    <string name="player_info_status_playing_and_recording">lejátszás és rögzítés<string>
+    <string name="player_info_transferred">Átküldött adatok: %1$s</string>
+    <string name="player_info_recording_to">Rögzítés ide:\n%1$s</string>
+    <string name="player_info_recorded_to">Legutóbbi rögzítés:\n%1$s</string>
+
+    <string name="station_detail_bitrate">%1$1d kbps</string>
+    <string name="station_detail_broken">TÖRÖTT</string>
+
+    <string name="image_button_disable">Letiltás</string>
+    <string name="image_button_record">Rögzítés</string>
+    <string name="image_button_record_request_permission">Engedélykérés a rögzítéshez</string>
+    <string name="image_button_recordings">Rögzítések</string>
+    <string name="image_button_delete">Törlés</string>
+    <string name="image_button_more">Több</string>
+    <string name="image_button_less">Kevesebb</string>
+    <string name="image_button_repeat">Ismétlés</string>
+    <string name="image_button_dont_repeat">Ne legyen ismétlés</string>
+    <string name="icon_click_trend_decreasing">Csökkenő népszerűség<string>
+    <string name="icon_click_trend_increasing">Növekvő népszerűség</string>
+    <string name="icon_click_trend_stable">Stabil népszerűség</string>
+
+    <string name="media_route_menu_title">GoogleCast</string>
+    <string name="app_id">5A97BAE4</string>
+
+    <string name="settings_mpd">Zenelejátszó démon</string>
+    <string name="settings_view_mpd_servers">Saját kiszolgálók<string>
+    <string name="action_mpd_nok">MPD nincs csatlakoztatva</string>
+    <string name="action_mpd_ok">MPD csatlakoztatva</string>
+    <string name="action_mpd_connected">Kapcsolódva a kiszolgálóhoz: %1$s</string>
+
+    <string name="settings_radiobrowser_servers">RadioBrowser kiszolgálók</string>
+    <string name="settings_radiobrowser_servers_default">www.radio-browser.info/webservice</string>
+
+    <string name="settings_other">Egyéb</string>
+    <string name="settings_statistics">Statisztika</string>
+    <string name="settings_about">Az RadioDroid névjegye</string>
+
+    <string-array name="weekdays">
+        <item>V</item>
+        <item>H</item>
+        <item>K</item>
+        <item>Sz</item>
+        <item>Cs</item>
+        <item>P</item>
+        <item>Sz</item>
+    </string-array>
+
+    <string name="notify_stream_url_copied">Adatfolyam Url sikeresen másolva!</string>
+
+    <string-array name="actions_station_link">
+        <item>Webhely felkeresése</item>
+        <item>Adatfolyam Url másolása</item>
+    </string-array>
+
+    <string name="no_wifi_title">Nincs WiFi (WLAN) kapcsolat</string>
+    <string name="no_wifi_connection">Nincs WiFi (WLAN) kapcsolat a(z) %1$s indításakor. Kattintson az \'Ok\' gombra a folytatáshoz.</string>
+    <string name="nav_item_statistics">Statisztika</string>
+    <string name="nav_item_about">Névjegy</string>
+    <string name="settings_mpd_port">MPD port</string>
+    <string name="refresh">Frissítés</string>
+</resources>
