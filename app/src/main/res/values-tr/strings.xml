@@ -33,13 +33,13 @@
     <string name="share_action">Share station link with..</string>
 
     <string name="nav_item_stations">İstasyonlar</string>
-    <string name="nav_item_starred">Yıldızlılar</string>
+    <string name="nav_item_starred">Yıldızlı</string>
     <string name="nav_item_history">Geçmiş</string>
     <string name="nav_item_settings">Ayarlar</string>
     <string name="nav_item_alarm">Alarm</string>
     <string name="nav_item_recordings">Kayıtlar</string>
 
-    <string name="about_text">Bu uygulama özgür radyo istasyon dizini kullanır:\nhttps://www.radio-browser.info\nHerkes istasyon ekleyebilir veya var olan istasyonları düzenleyebilir. Çevrimiçi (yayın yapan) radyo istasyonlarının bir vikisi gibi çalışır.\n\nİletişim:\nsegler_alex@web.de\n\nHata izleyici:\nhttps://github.com/segler-alex/RadioDroid/issues\n\nBu yazılımı beğendiyseniz ve yardım etmek isterseniz, bana bir eposta göndermekten çekinmeyin. Uygulamanını göze iyi görünmesi için gerçekten grafik deneyimi olan birine ihtiyacım var :) Belki simgeler, resimler için çizebilen biri...Ama hataları düzeltmek için programcılar da, veya yenilerini eklemek için (özellikler hatalar değil ;)\nAyrıca yeni özellikler için fikirler hep iyi karşılanır!\n\nBu uygulama GPLv3 altında lisanslanmış özgür yazılımdır\nhttps://www.gnu.org/licenses/gpl-3.0.html.</string>
+    <string name="about_text">Bu uygulama özgür radyo istasyon dizini kullanır:\nhttps://www.radio-browser.info\nHerkes istasyon ekleyebilir veya var olan istasyonları düzenleyebilir. Çevrimiçi (yayın yapan) radyo istasyonlarının bir vikisi gibi çalışır.\n\nİletişim:\nsegler_alex@web.de\n\nHata izleyici:\nhttps://github.com/segler-alex/RadioDroid/issues\n\nBu yazılımı beğendiyseniz ve yardım etmek isterseniz, bana bir eposta göndermekten çekinmeyin. Uygulamanın göze iyi görünmesi için gerçekten grafik deneyimi olan birine ihtiyacım var :) Belki simgeler, resimler için çizebilen biri...Ama hataları düzeltmek için programcılar da, veya yenilerini eklemek için (özellikler hatalar değil ;)\nAyrıca yeni özellikler için fikirler hep iyi karşılanır!\n\nBu uygulama GPLv3 altında lisanslanmış özgür yazılımdır.\nhttps://www.gnu.org/licenses/gpl-3.0.html</string>
     <string name="about_version">Sürüm: %1$s</string>
     <string name="detail_star">Beğenilen olarak işaretle</string>
     <string name="detail_unstar">Beğenileni sil</string>
@@ -50,13 +50,16 @@
     <string name="sleep_timer_apply">Uygula</string>
     <string name="sleep_timer_clear">Temizle</string>
     <string name="nav_item_add_sleep">+15 dakika</string>
+    
+    <string name="nav_item_save_playlist">Oynatma listesine kaydet</string>
+    <string name="nav_item_load_playlist">Oynatma listesinden yükle</string>
 
     <string name="settings_interface">Arayüz</string>
     <string name="settings_theme_selection_title">Tema</string>
     <string name="theme_light">Aydınlık</string>
     <string name="theme_dark">Karanlık</string>
     <string name="settings_circular_icons">Yuvarlak simgeler kullan</string>
-    <string name="settings_compact_style">Tıkız kip</string>
+    <string name="settings_compact_style">Sıkışık düzen</string>
     <string name="settings_bottom_navigation">Alt gezinme</string>
 
     <string name="settings_general">Genel</string>
@@ -212,7 +215,7 @@
         <item>Ct</item>
     </string-array>
 
-    <string name="notify_stream_url_copied">Yayın Url\'si Başarıyla Kopyala!</string>
+    <string name="notify_stream_url_copied">Yayın Url\'si Başarıyla Kopyalandı!</string>
 
     <string-array name="actions_station_link">
         <item>Web sitesini ziyaret et</item>
