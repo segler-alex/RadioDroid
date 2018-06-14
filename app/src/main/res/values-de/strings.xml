@@ -38,7 +38,20 @@
     <string name="progress_loading">Lade...</string>
 
     <string name="sleep_timer" formatted="true">Schlaftimer: %1$02d:%2$02d</string>
+    <string name="sleep_timer_title">Wie viele Minuten bis zum stop?</string>
+    <string name="sleep_timer_apply">Anwenden</string>
+    <string name="sleep_timer_clear">Löschen</string>
     <string name="nav_item_add_sleep">+15 mins</string>
+
+    <string name="nav_item_save_playlist">In Playlist speichern</string>
+    <string name="nav_item_load_playlist">Von Playlist laden</string>
+
+    <string name="settings_interface">UI</string>
+    <string name="settings_theme_selection_title">Thema</string>
+    <string name="theme_light">Hell</string>
+    <string name="theme_dark">Dunkel</string>
+    <string name="settings_circular_icons">Runde Icons benutzen</string>
+    <string name="settings_compact_style">Kompakter Modus</string>
 
     <string name="settings_general">Allgemein</string>
     <string name="settings_single_use_tags">Tag-Anzeigefilter</string>
@@ -91,10 +104,23 @@
     <string name="notify_deleted_favorites">Die Favoritenliste wurde gelöscht.</string>
     <string name="notify_deleted_history">Liste der bisher gespielten Sender wurde gelöscht.</string>
 
+    <string name="notify_station_removed_from_list">1 entfernt</string>
+    <string name="action_station_removed_from_list_undo">Rückgängig</string>
+
     <string name="alert_delete_history">Soll die Liste der bisher gespielten Sender wirklich gelöscht werden?</string>
     <string name="alert_delete_favorites">Soll die Favoritenliste wirklich gelöscht werden?</string>
     <string name="yes">Ja</string>
     <string name="no">Nein</string>
+
+    <string name="alert_select_mpd_server">Welcher Server?</string>
+    <string name="alert_select_mpd_server_name">Servername</string>
+
+    <string name="alert_select_mpd_server_add">Hinzufügen</string>
+    <string name="alert_select_mpd_server_save">Speichern</string>
+    <string name="alert_select_mpd_server_remove">Löschen</string>
+    <string name="alert_add_or_edit_mpd_server">Gib Details über den Server an</string>
+
+    <string name="alert_press_back_to_exit">Drücke noch einmal, um die APP zu beenden</string>
 
     <string name="error_stream_url">Es gibt ein Problem mit der Sender-Stream-Url.</string>
     <string name="error_caching_stream">Es gibt ein Problem beim Zwischenspeichern.</string>
@@ -102,6 +128,8 @@
 
     <string name="error_record_needs_write">Die Aufnahmefunktion benötigt Schreibberechtigung!</string>
     <string name="error_grant_audiofocus">Das System gab den Audiokanal nicht frei.</string>
+
+    <string name="error_no_equalizer_found">Keine equalizer App gefunden!</string>
 
     <string name="player_info_status">Status:&#160;</string>
     <string name="player_info_status_stopped">gestoppt</string>
@@ -119,6 +147,10 @@
     <string name="image_button_record">Aufnahme starten</string>
     <string name="image_button_delete">Sleeptimer löschen</string>
     <string name="image_button_more">Mehr</string>
+
+    <string name="action_mpd_nok">MPD nicht verbunden</string>
+    <string name="action_mpd_ok">MPD verbunden</string>
+    <string name="action_mpd_connected">Verbunden mit Server: %1$s</string>
 
     <string-array name="weekdays">
         <item>S</item>
