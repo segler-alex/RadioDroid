@@ -38,7 +38,7 @@
     <string name="progress_loading">Lade...</string>
 
     <string name="sleep_timer" formatted="true">Schlaftimer: %1$02d:%2$02d</string>
-    <string name="sleep_timer_title">Wie viele Minuten bis zum stop?</string>
+    <string name="sleep_timer_title">Wie viele Minuten bis zum Stop?</string>
     <string name="sleep_timer_apply">Anwenden</string>
     <string name="sleep_timer_clear">Löschen</string>
     <string name="nav_item_add_sleep">+15 mins</string>
@@ -120,7 +120,7 @@
     <string name="alert_select_mpd_server_remove">Löschen</string>
     <string name="alert_add_or_edit_mpd_server">Gib Details über den Server an</string>
 
-    <string name="alert_press_back_to_exit">Drücke noch einmal, um die APP zu beenden</string>
+    <string name="alert_press_back_to_exit">Drücke noch einmal, um die App zu beenden</string>
 
     <string name="error_stream_url">Es gibt ein Problem mit der Sender-Stream-Url.</string>
     <string name="error_caching_stream">Es gibt ein Problem beim Zwischenspeichern.</string>
@@ -129,7 +129,7 @@
     <string name="error_record_needs_write">Die Aufnahmefunktion benötigt Schreibberechtigung!</string>
     <string name="error_grant_audiofocus">Das System gab den Audiokanal nicht frei.</string>
 
-    <string name="error_no_equalizer_found">Keine equalizer App gefunden!</string>
+    <string name="error_no_equalizer_found">Keine Equalizer-App gefunden!</string>
 
     <string name="player_info_status">Status:&#160;</string>
     <string name="player_info_status_stopped">gestoppt</string>
