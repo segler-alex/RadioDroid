@@ -24,6 +24,7 @@ import android.widget.Toast;
 
 import net.programmierecke.radiodroid2.data.MPDServer;
 import net.programmierecke.radiodroid2.interfaces.IApplicationSelected;
+import net.programmierecke.radiodroid2.proxy.ProxySettingsDialog;
 
 import java.lang.ref.WeakReference;
 import java.net.InetAddress;
@@ -66,6 +67,17 @@ public class FragmentSettings extends PreferenceFragmentCompat implements Shared
                 return false;
             }
         });
+
+        findPreference("settings_proxy").setOnPreferenceClickListener(new OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                ProxySettingsDialog proxySettingsDialog = new ProxySettingsDialog();
+                proxySettingsDialog.setCancelable(true);
+                proxySettingsDialog.show(getFragmentManager(), "");
+                return false;
+            }
+        });
+
         findPreference("mpd_servers_viewer").setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override
             public boolean onPreferenceClick(Preference preference) {

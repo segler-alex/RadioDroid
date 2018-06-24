@@ -144,8 +144,8 @@
 
     <string name="alert_select_mpd_server">Hangi sunucu?</string>
     <string name="alert_select_mpd_server_name">Sunucu adı</string>
-    <string name="alert_select_mpd_server_hostname">Alan adı</string>
-    <string name="alert_select_mpd_server_port">Port</string>
+    <string name="hostname">Alan adı</string>
+    <string name="port">Port</string>
 
     <string name="alert_select_mpd_server_add">Ekle</string>
     <string name="alert_select_mpd_server_save">Kaydet</string>

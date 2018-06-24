@@ -135,8 +135,8 @@
 
     <string name="alert_select_mpd_server">Выберите сервер</string>
     <string name="alert_select_mpd_server_name">Имя сервера</string>
-    <string name="alert_select_mpd_server_hostname">Имя хоста</string>
-    <string name="alert_select_mpd_server_port">Порт</string>
+    <string name="hostname">Имя хоста</string>
+    <string name="port">Порт</string>
 
     <string name="alert_select_mpd_server_add">Добавить</string>
     <string name="alert_select_mpd_server_save">Сохранить</string>

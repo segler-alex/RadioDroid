@@ -39,6 +39,8 @@ import net.programmierecke.radiodroid2.utils.RecyclerItemSwipeHelper;
 import net.programmierecke.radiodroid2.utils.SwipeableViewHolder;
 import net.programmierecke.radiodroid2.views.TagsView;
 
+import okhttp3.OkHttpClient;
+
 public class ItemAdapterStation
         extends RecyclerView.Adapter<ItemAdapterStation.StationViewHolder>
         implements TimePickerDialog.OnTimeSetListener, RecyclerItemSwipeHelper.SwipeCallback<ItemAdapterStation.StationViewHolder> {
@@ -438,10 +440,14 @@ public class ItemAdapterStation
 
     private void retrieveAndCopyStreamUrlToClipboard(final DataRadioStation station) {
         getContext().sendBroadcast(new Intent(ActivityMain.ACTION_SHOW_LOADING));
+
+        final RadioDroidApp radioDroidApp = (RadioDroidApp) getContext().getApplicationContext();
+        final OkHttpClient httpClient = radioDroidApp.getHttpClient();
+
         new AsyncTask<Void, Void, String>() {
             @Override
             protected String doInBackground(Void... params) {
-                return Utils.getRealStationLink(getContext().getApplicationContext(), station.ID);
+                return Utils.getRealStationLink(httpClient, radioDroidApp, station.ID);
             }
 
             @Override
@@ -475,10 +481,13 @@ public class ItemAdapterStation
     }
 
     private void vote(final String stationID) {
+        final RadioDroidApp radioDroidApp = (RadioDroidApp) getContext().getApplicationContext();
+        final OkHttpClient httpClient = radioDroidApp.getHttpClient();
+
         new AsyncTask<Void, Void, String>() {
             @Override
             protected String doInBackground(Void... params) {
-                return Utils.downloadFeed(activity, RadioBrowserServerManager.getWebserviceEndpoint(activity,"json/vote/" + stationID), true, null);
+                return Utils.downloadFeed(httpClient, activity, RadioBrowserServerManager.getWebserviceEndpoint(activity,"json/vote/" + stationID), true, null);
             }
 
             @Override
@@ -517,10 +526,14 @@ public class ItemAdapterStation
 
     private void share(final DataRadioStation station) {
         getContext().sendBroadcast(new Intent(ActivityMain.ACTION_SHOW_LOADING));
+
+        final RadioDroidApp radioDroidApp = (RadioDroidApp) getContext().getApplicationContext();
+        final OkHttpClient httpClient = radioDroidApp.getHttpClient();
+
         new AsyncTask<Void, Void, String>() {
             @Override
             protected String doInBackground(Void... params) {
-                return Utils.getRealStationLink(getContext().getApplicationContext(), station.ID);
+                return Utils.getRealStationLink(httpClient, radioDroidApp, station.ID);
             }
 
             @Override

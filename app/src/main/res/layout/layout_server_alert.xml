@@ -28,7 +28,7 @@
                 android:layout_margin="10dp"
                 android:maxLines="1"
                 android:inputType="text"
-                android:hint="@string/alert_select_mpd_server_hostname"
+                android:hint="@string/hostname"
                 android:layout_toLeftOf="@id/mpd_server_port"
                 android:layout_toStartOf="@id/mpd_server_port"/>
 
@@ -39,7 +39,7 @@
                 android:textSize="15sp"
                 android:layout_margin="10dp"
                 android:maxLines="1"
-                android:hint="@string/alert_select_mpd_server_port"
+                android:hint="@string/port"
                 android:text="6600"
                 android:layout_alignParentRight="true"
                 android:layout_alignParentEnd="true"/>

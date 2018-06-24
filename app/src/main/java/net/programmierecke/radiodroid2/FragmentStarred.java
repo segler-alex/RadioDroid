@@ -26,7 +26,9 @@ public class FragmentStarred extends Fragment implements IAdapterRefreshable, IC
     private HistoryManager historyManager;
 
     void onStationClick(DataRadioStation theStation) {
-        Utils.Play(theStation, getContext());
+        RadioDroidApp radioDroidApp = (RadioDroidApp) getActivity().getApplication();
+
+        Utils.Play(radioDroidApp.getHttpClient(), theStation, getContext());
 
         historyManager.add(theStation);
     }

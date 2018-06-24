@@ -15,9 +15,11 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.preference.PreferenceManager;
+import android.text.TextUtils;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -26,23 +28,34 @@ import com.google.gson.reflect.TypeToken;
 import net.programmierecke.radiodroid2.data.DataRadioStation;
 
 import net.programmierecke.radiodroid2.data.MPDServer;
+import net.programmierecke.radiodroid2.proxy.ProxySettings;
+
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.io.InputStream;
+import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
 import java.lang.reflect.Type;
-import java.net.HttpURLConnection;
-import java.net.URL;
+import java.net.InetSocketAddress;
+import java.net.Proxy;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+
+import okhttp3.Authenticator;
+import okhttp3.Credentials;
+import okhttp3.HttpUrl;
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
+import okhttp3.Route;
 
 public class Utils {
 	private static int loadIcons = -1;
@@ -101,7 +114,7 @@ public class Utils {
 		}
 	}
 
-	public static String downloadFeed(Context ctx, String theURI, boolean forceUpdate, Map<String,String> dictParams) {
+	public static String downloadFeed(OkHttpClient httpClient, Context ctx, String theURI, boolean forceUpdate, Map<String,String> dictParams) {
 		if (!forceUpdate) {
 			String cache = getCacheFile(ctx, theURI);
 			if (cache != null) {
@@ -109,46 +122,31 @@ public class Utils {
 			}
 		}
 
-		StringBuilder chaine = new StringBuilder("");
 		try{
-			URL url = new URL(theURI);
-			HttpURLConnection connection = (HttpURLConnection)url.openConnection();
-			connection.setConnectTimeout(4000);
-			connection.setReadTimeout(3000);
-			connection.setRequestProperty("User-Agent", "RadioDroid2/"+BuildConfig.VERSION_NAME);
-			connection.setDoInput(true);
-			if (dictParams != null) {
-				connection.setDoOutput(true);
-				connection.setRequestProperty("Content-Type", "application/json");
-				connection.setRequestProperty("Accept", "application/json");
-				connection.setRequestMethod("POST");
+			HttpUrl url = HttpUrl.parse(theURI);
+			Request.Builder requestBuilder = new Request.Builder().url(url);
+
+			if(dictParams != null) {
+				MediaType jsonMediaType = MediaType.parse("application/json; charset=utf-8");
+
+				Gson gson = new Gson();
+				String json = gson.toJson(dictParams);
+
+				okhttp3.RequestBody requestBody = RequestBody.create(jsonMediaType, json);
+
+				requestBuilder.post(requestBody);
 			} else {
-				connection.setRequestMethod("GET");
-			}
-			connection.connect();
-
-			if (dictParams != null) {
-				JSONObject jsonParams = new JSONObject();
-				for (String key: dictParams.keySet()){
-					jsonParams.put(key, dictParams.get(key));
-				}
-
-				OutputStreamWriter wr = new OutputStreamWriter(connection.getOutputStream());
-				wr.write(jsonParams.toString());
-				wr.flush();
+				requestBuilder.get();
 			}
 
-			InputStream inputStream = connection.getInputStream();
-			BufferedReader rd = new BufferedReader(new InputStreamReader(inputStream));
-			String line;
-			while ((line = rd.readLine()) != null) {
-				chaine.append(line);
-			}
+			Request request = requestBuilder.build();
+			okhttp3.Response response = httpClient.newCall(request).execute();
 
-			String s = chaine.toString();
-			writeFileCache(ctx,theURI,s);
+			String responseStr = response.body().string();
+
+			writeFileCache(ctx,theURI,responseStr);
 			if(BuildConfig.DEBUG) { Log.d("UTIL","wrote cache file for:"+theURI); }
-			return s;
+			return responseStr;
 		} catch (Exception e) {
 			Log.e("UTIL","downloadFeed() "+e);
 		}
@@ -156,8 +154,8 @@ public class Utils {
 		return null;
 	}
 
-	public static String getRealStationLink(Context ctx, String stationId){
-		String result = Utils.downloadFeed(ctx, RadioBrowserServerManager.getWebserviceEndpoint(ctx, "v2/json/url/" + stationId), true, null);
+	public static String getRealStationLink(OkHttpClient httpClient, Context ctx, String stationId){
+		String result = Utils.downloadFeed(httpClient, ctx, RadioBrowserServerManager.getWebserviceEndpoint(ctx, "v2/json/url/" + stationId), true, null);
 		if (result != null) {
 			JSONObject jsonObj;
 			try {
@@ -170,9 +168,9 @@ public class Utils {
 		return null;
 	}
 
-	public static DataRadioStation getStationByUuid(Context ctx, String stationUuid){
+	public static DataRadioStation getStationByUuid(OkHttpClient httpClient, Context ctx, String stationUuid){
 		Log.w("UTIL","Search by uuid:"+stationUuid);
-		String result = Utils.downloadFeed(ctx, RadioBrowserServerManager.getWebserviceEndpoint(ctx, "json/stations/byuuid/" + stationUuid), true, null);
+		String result = Utils.downloadFeed(httpClient, ctx, RadioBrowserServerManager.getWebserviceEndpoint(ctx, "json/stations/byuuid/" + stationUuid), true, null);
 		if (result != null) {
 			try {
 				DataRadioStation[] list = DataRadioStation.DecodeJson(result);
@@ -189,14 +187,14 @@ public class Utils {
 		return null;
 	}
 
-	public static void Play(final DataRadioStation station, final Context context) {
+	public static void Play(final OkHttpClient httpClient, final DataRadioStation station, final Context context) {
 		SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
 		boolean play_external = sharedPref.getBoolean("play_external", false);
 
-		Play(station,context,play_external);
+		Play(httpClient, station,context,play_external);
 	}
 
-	public static void Play(final DataRadioStation station, final Context context, final boolean external) {
+	public static void Play(final OkHttpClient httpClient, final DataRadioStation station, final Context context, final boolean external) {
 		SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
 		final boolean warn_no_wifi = sharedPref.getBoolean("warn_no_wifi", false);
 		if (warn_no_wifi && !Utils.hasWifiConnection(context)) {
@@ -214,22 +212,22 @@ public class Utils {
 					.setNegativeButton(android.R.string.cancel, null) // do not play on cancel
 					.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
 						@Override public void onClick(DialogInterface dialog, int which) {
-							playInternal(station, context, external);
+							playInternal(httpClient, station, context, external);
 						}
 					})
 					.create()
 					.show();
 		} else {
-			playInternal(station, context, external);
+			playInternal(httpClient, station, context, external);
 		}
 	}
 
-	private static void playInternal(final DataRadioStation station, final Context context, final boolean external) {
+	private static void playInternal(final OkHttpClient httpClient, final DataRadioStation station, final Context context, final boolean external) {
         context.sendBroadcast(new Intent(ActivityMain.ACTION_SHOW_LOADING));
 		new AsyncTask<Void, Void, String>() {
 			@Override
 			protected String doInBackground(Void... params) {
-				return Utils.getRealStationLink(context.getApplicationContext(), station.ID);
+				return Utils.getRealStationLink(httpClient, context.getApplicationContext(), station.ID);
 			}
 
 			@Override
@@ -400,5 +398,34 @@ public class Utils {
 		}
 
 		return builder.toString();
+	}
+
+	public static void setOkHttpProxy(@NonNull OkHttpClient.Builder builder, @NonNull final ProxySettings proxySettings) {
+		if (TextUtils.isEmpty(proxySettings.host)) {
+			return;
+		}
+
+		if (proxySettings.type == Proxy.Type.DIRECT) {
+			return;
+		}
+
+		InetSocketAddress proxyAddress = new InetSocketAddress(proxySettings.host, proxySettings.port);
+		Proxy proxy = new Proxy(proxySettings.type, proxyAddress);
+
+		builder.proxy(proxy);
+
+		if (!proxySettings.login.isEmpty()) {
+			Authenticator proxyAuthenticator = new Authenticator() {
+				@Override
+				public Request authenticate(Route route, Response response) throws IOException {
+					String credential = Credentials.basic(proxySettings.login, proxySettings.password);
+					return response.request().newBuilder()
+							.header("Proxy-Authorization", credential)
+							.build();
+				}
+			};
+
+			builder.authenticator(proxyAuthenticator);
+		}
 	}
 }

@@ -155,8 +155,8 @@
 
     <string name="alert_select_mpd_server">Ktorý server?</string>
     <string name="alert_select_mpd_server_name">Názouv servera</string>
-    <string name="alert_select_mpd_server_hostname">Názov hostiteľa</string>
-    <string name="alert_select_mpd_server_port">Port</string>
+    <string name="hostname">Názov hostiteľa</string>
+    <string name="port">Port</string>
 
     <string name="alert_select_mpd_server_add">Pridať</string>
     <string name="alert_select_mpd_server_save">Uložiť</string>

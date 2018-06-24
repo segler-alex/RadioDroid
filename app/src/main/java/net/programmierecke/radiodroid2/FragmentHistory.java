@@ -30,7 +30,8 @@ public class FragmentHistory extends Fragment {
     void onStationClick(DataRadioStation theStation) {
         Context context = getContext();
 
-        Utils.Play(theStation, context);
+        RadioDroidApp radioDroidApp = (RadioDroidApp) getActivity().getApplication();
+        Utils.Play(radioDroidApp.getHttpClient(), theStation, context);
 
         historyManager.add(theStation);
 
