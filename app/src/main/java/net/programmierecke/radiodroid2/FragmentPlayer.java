@@ -192,9 +192,9 @@ public class FragmentPlayer extends Fragment {
 
         if(history.length > 0) {
             DataRadioStation lastStation = history[0];
-            if(startPlaying)
-                Utils.Play(lastStation, getContext());
-            else {
+            if(startPlaying) {
+				Utils.Play(radioDroidApp.getHttpClient(),lastStation, getContext());
+			} else {
                 aTextViewName.setText(lastStation.Name);
 
                 if (!Utils.shouldLoadIcons(getContext()))

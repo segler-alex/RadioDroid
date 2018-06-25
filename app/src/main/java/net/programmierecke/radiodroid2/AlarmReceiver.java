@@ -19,6 +19,8 @@ import android.widget.Toast;
 
 import net.programmierecke.radiodroid2.data.DataRadioStation;
 
+import okhttp3.OkHttpClient;
+
 public class AlarmReceiver extends BroadcastReceiver {
     String url;
     int alarmId;
@@ -118,12 +120,15 @@ public class AlarmReceiver extends BroadcastReceiver {
     int timeout = 10;
 
     private void Play(final Context context, final String stationId) {
+        RadioDroidApp radioDroidApp = (RadioDroidApp) context.getApplicationContext();
+        final OkHttpClient httpClient = radioDroidApp.getHttpClient();
+
         new AsyncTask<Void, Void, String>() {
             @Override
             protected String doInBackground(Void... params) {
                 String result = null;
                 for (int i=0;i<20;i++){
-                    result = Utils.getRealStationLink(context, stationId);
+                    result = Utils.getRealStationLink(httpClient, context, stationId);
                     if (result != null){
                         return result;
                     }

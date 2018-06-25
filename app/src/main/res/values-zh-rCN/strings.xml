@@ -149,8 +149,8 @@
 
     <string name="alert_select_mpd_server">请选择服务器</string>
     <string name="alert_select_mpd_server_name">服务器名</string>
-    <string name="alert_select_mpd_server_hostname">主机名</string>
-    <string name="alert_select_mpd_server_port">端口</string>
+    <string name="hostname">主机名</string>
+    <string name="port">端口</string>
 
     <string name="alert_select_mpd_server_add">添加</string>
     <string name="alert_select_mpd_server_save">保存</string>

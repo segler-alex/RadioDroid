@@ -16,6 +16,8 @@ import net.programmierecke.radiodroid2.adapters.ItemAdapterStatistics;
 import net.programmierecke.radiodroid2.data.DataStatistics;
 import net.programmierecke.radiodroid2.interfaces.IFragmentRefreshable;
 
+import okhttp3.OkHttpClient;
+
 public class FragmentServerInfo extends Fragment implements IFragmentRefreshable {
     private ItemAdapterStatistics itemAdapterStatistics;
 
@@ -38,12 +40,16 @@ public class FragmentServerInfo extends Fragment implements IFragmentRefreshable
 
     void Download(final boolean forceUpdate){
         getContext().sendBroadcast(new Intent(ActivityMain.ACTION_SHOW_LOADING));
+
+        RadioDroidApp radioDroidApp = (RadioDroidApp) getActivity().getApplication();
+        final OkHttpClient httpClient = radioDroidApp.getHttpClient();
+
         new AsyncTask<Void, Void, String>() {
             @Override
             protected String doInBackground(Void... params) {
                 String endpoint = RadioBrowserServerManager.getWebserviceEndpoint(getActivity(),"json/stats");
                 if (endpoint != null) {
-                    return Utils.downloadFeed(getActivity(), endpoint, forceUpdate, null);
+                    return Utils.downloadFeed(httpClient, getActivity(), endpoint, forceUpdate, null);
                 }
                 return null;
             }

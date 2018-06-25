@@ -136,8 +136,8 @@
 
 	<string name="alert_select_mpd_server">¿En qué servidor?</string>
     <string name="alert_select_mpd_server_name">Nombre del servidor</string>
-    <string name="alert_select_mpd_server_hostname">Nombre del host</string>
-    <string name="alert_select_mpd_server_port">Puerto</string>
+    <string name="hostname">Nombre del host</string>
+    <string name="port">Puerto</string>
 
     <string name="alert_select_mpd_server_add">Añadir</string>
     <string name="alert_select_mpd_server_save">Guardar</string>

@@ -29,6 +29,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Vector;
 
+import okhttp3.OkHttpClient;
+
 public class StationSaveManager {
     Context context;
     List<DataRadioStation> listStations = new ArrayList<DataRadioStation>();
@@ -206,6 +208,9 @@ public class StationSaveManager {
     protected final String M3U_PREFIX = "#RADIOBROWSERUUID:";
 
     boolean SaveM3UInternal(String filePath, String fileName){
+        final RadioDroidApp radioDroidApp = (RadioDroidApp) context.getApplicationContext();
+        final OkHttpClient httpClient = radioDroidApp.getHttpClient();
+
         try {
             File f = new File(filePath, fileName);
             BufferedWriter bw = new BufferedWriter(new FileWriter(f, false));
@@ -213,7 +218,7 @@ public class StationSaveManager {
             for (DataRadioStation station : listStations) {
                 String result = null;
                 for (int i=0;i<20;i++){
-                    result = Utils.getRealStationLink(context, station.ID);
+                    result = Utils.getRealStationLink(httpClient, context, station.ID);
                     if (result != null){
                         break;
                     }
@@ -256,11 +261,14 @@ public class StationSaveManager {
             BufferedReader br = new BufferedReader(new FileReader(f));
             String line;
 
+            final RadioDroidApp radioDroidApp = (RadioDroidApp) context.getApplicationContext();
+            final OkHttpClient httpClient = radioDroidApp.getHttpClient();
+
             while ((line = br.readLine()) != null) {
                 if (line.startsWith(M3U_PREFIX)){
                     try {
                         String uuid = line.substring(M3U_PREFIX.length()).trim();
-                        DataRadioStation station = Utils.getStationByUuid(context, uuid);
+                        DataRadioStation station = Utils.getStationByUuid(httpClient, context, uuid);
                         if (station != null) {
                             loadedItems.add(station);
                         }

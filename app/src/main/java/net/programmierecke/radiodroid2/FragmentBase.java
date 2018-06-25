@@ -13,6 +13,8 @@ import android.widget.Toast;
 
 import java.util.HashMap;
 
+import okhttp3.OkHttpClient;
+
 public class FragmentBase extends Fragment {
     private static final String TAG = "FragmentBase";
 
@@ -77,6 +79,10 @@ public class FragmentBase extends Fragment {
                 if (getContext() != null && displayProgress) {
                     getContext().sendBroadcast(new Intent(ActivityMain.ACTION_SHOW_LOADING));
                 }
+
+                RadioDroidApp radioDroidApp = (RadioDroidApp) getActivity().getApplication();
+                final OkHttpClient httpClient = radioDroidApp.getHttpClient();
+
                 new AsyncTask<Void, Void, String>() {
                     @Override
                     protected String doInBackground(Void... params) {
@@ -84,7 +90,7 @@ public class FragmentBase extends Fragment {
                         if (!show_broken) {
                             p.put("hidebroken", "true");
                         }
-                        return Utils.downloadFeed(getActivity(), url, forceUpdate, p);
+                        return Utils.downloadFeed(httpClient, getActivity(), url, forceUpdate, p);
                     }
 
                     @Override

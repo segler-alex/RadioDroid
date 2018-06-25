@@ -19,6 +19,7 @@
     <string name="action_delete">Delete</string>
     <string name="action_delete_history">Delete history</string>
     <string name="action_delete_favorites">Delete favorites</string>
+    <string name="action_ok">OK</string>
     <string name="action_cancel">Cancel</string>
     <string name="action_top_click">TopClick</string>
     <string name="action_top_vote">TopVote</string>
@@ -110,6 +111,12 @@
     <string name="settings_read_timeout">Stream read timeout</string>
     <string name="settings_retry_timeout">Stream retry timeout</string>
     <string name="settings_retry_delay">Reconnects delay</string>
+    <string name="settings_proxy">Proxy</string>
+    <string name="settings_proxy_login">Login</string>
+    <string name="settings_proxy_password">Password</string>
+    <string name="settings_proxy_action_test">Test</string>
+    <string name="settings_proxy_working">Successfully connected to %s</string>
+    <string name="settings_proxy_not_working">Failed to connect to %s\n%s</string>
     <string name="settings_seconds_format">%d seconds</string>
     <string name="settings_milliseconds_format">%d milliseconds</string>
 
@@ -149,8 +156,8 @@
 
     <string name="alert_select_mpd_server">Which server?</string>
     <string name="alert_select_mpd_server_name">Server name</string>
-    <string name="alert_select_mpd_server_hostname">Hostname</string>
-    <string name="alert_select_mpd_server_port">Port</string>
+    <string name="hostname">Hostname</string>
+    <string name="port">Port</string>
 
     <string name="alert_select_mpd_server_add">Add</string>
     <string name="alert_select_mpd_server_save">Save</string>

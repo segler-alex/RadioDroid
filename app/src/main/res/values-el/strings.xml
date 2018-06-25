@@ -157,8 +157,8 @@
 
     <string name="alert_select_mpd_server">Ποιον εξυπηρετητή;</string>
     <string name="alert_select_mpd_server_name">Όνομα του εξυπηρετητή</string>
-    <string name="alert_select_mpd_server_hostname">Όνομα του οικοδεσπότη</string>
-    <string name="alert_select_mpd_server_port">Θύρα</string>
+    <string name="hostname">Όνομα του οικοδεσπότη</string>
+    <string name="port">Θύρα</string>
 
     <string name="alert_select_mpd_server_add">Προσθήκη</string>
     <string name="alert_select_mpd_server_save">Αποθήκευση</string>

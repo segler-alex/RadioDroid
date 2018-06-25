@@ -20,6 +20,8 @@ import android.widget.TimePicker;
 
 import net.programmierecke.radiodroid2.data.DataRadioStation;
 
+import okhttp3.OkHttpClient;
+
 public class ActivityRadioStationDetail extends AppCompatActivity implements TimePickerDialog.OnTimeSetListener {
 	private DataRadioStation itsStation;
 	private MenuItem m_Menu_Star;
@@ -48,10 +50,13 @@ public class ActivityRadioStationDetail extends AppCompatActivity implements Tim
 		UpdateMenu();
 
 		getApplicationContext().sendBroadcast(new Intent(ActivityMain.ACTION_SHOW_LOADING));
+
+		final OkHttpClient httpClient = radioDroidApp.getHttpClient();
+
 		new AsyncTask<Void, Void, String>() {
 			@Override
 			protected String doInBackground(Void... params) {
-				return Utils.downloadFeed(getApplicationContext(), RadioBrowserServerManager.getWebserviceEndpoint(getApplicationContext(), String.format(Locale.US, "json/stations/byid/%s", aStationID)),true,null);
+				return Utils.downloadFeed(httpClient, getApplicationContext(), RadioBrowserServerManager.getWebserviceEndpoint(getApplicationContext(), String.format(Locale.US, "json/stations/byid/%s", aStationID)),true,null);
 			}
 
 			@Override
@@ -100,13 +105,17 @@ public class ActivityRadioStationDetail extends AppCompatActivity implements Tim
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
-			case R.id.action_play:
-				Utils.Play(itsStation,this,false);
+			case R.id.action_play: {
+				RadioDroidApp radioDroidApp = (RadioDroidApp) getApplication();
+				Utils.Play(radioDroidApp.getHttpClient(), itsStation, this, false);
 				return true;
+			}
 
-			case R.id.action_share:
-				Utils.Play(itsStation,this,true);
+			case R.id.action_share: {
+				RadioDroidApp radioDroidApp = (RadioDroidApp) getApplication();
+				Utils.Play(radioDroidApp.getHttpClient(), itsStation, this, true);
 				return true;
+			}
 
 			case R.id.action_star:
 				Star();

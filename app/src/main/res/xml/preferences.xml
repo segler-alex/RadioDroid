@@ -169,6 +169,9 @@
             android:maxLength="8"
             android:summary="@string/settings_milliseconds_format"
             android:title="@string/settings_retry_delay" />
+        <Preference
+            android:key="settings_proxy"
+            android:title="@string/settings_proxy" />
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/settings_other">

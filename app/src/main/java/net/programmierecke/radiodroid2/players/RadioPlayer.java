@@ -13,6 +13,7 @@ import android.util.Log;
 
 import net.programmierecke.radiodroid2.BuildConfig;
 import net.programmierecke.radiodroid2.HttpClient;
+import net.programmierecke.radiodroid2.RadioDroidApp;
 import net.programmierecke.radiodroid2.Utils;
 import net.programmierecke.radiodroid2.data.ShoutcastInfo;
 import net.programmierecke.radiodroid2.data.StreamLiveInfo;
@@ -52,7 +53,6 @@ public class RadioPlayer implements PlayerWrapper.PlayListener, Recordable {
     }
 
     private PlayerWrapper player;
-    private OkHttpClient httpClient;
     private Context mainContext;
 
     private String streamName;
@@ -89,10 +89,6 @@ public class RadioPlayer implements PlayerWrapper.PlayListener, Recordable {
 
         playerThreadHandler = new Handler(playerThread.getLooper());
 
-        httpClient = HttpClient.getInstance().newBuilder()
-                .retryOnConnectionFailure(true)
-                .build();
-
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
             player = new ExoPlayerWrapper();
         } else {
@@ -113,7 +109,9 @@ public class RadioPlayer implements PlayerWrapper.PlayListener, Recordable {
         final int connectTimeout = prefs.getInt("stream_connect_timeout", 4);
         final int readTimeout = prefs.getInt("stream_read_timeout", 10);
 
-        final OkHttpClient customizedHttpClient = httpClient.newBuilder()
+        RadioDroidApp radioDroidApp = (RadioDroidApp) mainContext.getApplicationContext();
+
+        final OkHttpClient customizedHttpClient = radioDroidApp.newHttpClient()
                 .connectTimeout(connectTimeout, TimeUnit.SECONDS)
                 .readTimeout(readTimeout, TimeUnit.SECONDS)
                 .build();
