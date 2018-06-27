@@ -110,7 +110,7 @@
     <string name="settings_connect_timeout">Stream connection timeout</string>
     <string name="settings_read_timeout">Stream read timeout</string>
     <string name="settings_retry_timeout">Stream retry timeout</string>
-    <string name="settings_retry_delay">Reconnects delay</string>
+    <string name="settings_retry_delay">Reconnection delay</string>
     <string name="settings_proxy">Proxy</string>
     <string name="settings_proxy_login">Login</string>
     <string name="settings_proxy_password">Password</string>
