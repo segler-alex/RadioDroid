@@ -19,6 +19,7 @@
     <string name="action_delete">删除</string>
     <string name="action_delete_history">删除历史</string>
     <string name="action_delete_favorites">删除收藏</string>
+    <string name="action_ok">确认</string>
     <string name="action_cancel">取消</string>
     <string name="action_top_click">访问排行</string>
     <string name="action_top_vote">投票排行</string>
@@ -39,7 +40,7 @@
     <string name="nav_item_alarm">闹钟</string>
     <string name="nav_item_recordings">录音</string>
 
-    <string name="about_text">此程序使用位于 https://www.radio-browser.info 的免费广播电台目录。\n任何人都可以添加电台到目录中或编辑已有电台，就像一个在线（流媒体）广播电台的维基百科一样。\n\n联系：\nsegler_alex@web.de\n\n漏洞跟踪：\nhttps://github.com/segler-alex/RadioDroid/issues\n\n如果您喜欢此软件并愿意提供帮助，敬请给本人发送邮件，我真的需要有绘图经验的朋友来让这个程序别太虐待眼睛了:)\n或许哪位朋友会画图标、图片...或者哪位程序员会修复漏洞，或者开发（功能，不是漏洞;）。\n还有关于新功能的建议也非常感谢！\n\n此程序是在 GPLv3 https://www.gnu.org/licenses/gpl-3.0.html 授权下的免费软件。</string>
+    <string name="about_text">此程序使用位于 https://www.radio-browser.info 的免费广播电台目录。\n任何人都可以添加电台到目录中或编辑已有电台，就像一个在线（流媒体）广播电台的维基百科一样。\n\n联系：\nsegler_alex@web.de\n\n漏洞跟踪：\nhttps://github.com/segler-alex/RadioDroid/issues\n\n如果您喜欢此软件并愿意提供帮助，敬请给本人发送邮件，我真的需要有绘图经验的朋友来让这个程序别太虐待眼睛了:)\n或许哪位朋友会画图标、图片...或者哪位程序员会修复漏洞，或者开发（功能，不是漏洞;）。\n还有关于新功能的建议也一向非常感谢！\n\n此程序是在 GPLv3 https://www.gnu.org/licenses/gpl-3.0.html 授权下的免费软件。</string>
     <string name="about_version">版本: %1$s</string>
     <string name="detail_star">添加到收藏</string>
     <string name="detail_unstar">从收藏删除</string>
@@ -109,7 +110,13 @@
     <string name="settings_connect_timeout">流媒体连接超时</string>
     <string name="settings_read_timeout">流媒体读取超时</string>
     <string name="settings_retry_timeout">流媒体重连超时</string>
-    <string name="settings_retry_delay">重连延迟</string>
+    <string name="settings_retry_delay">重连延时</string>
+    <string name="settings_proxy">代理</string>
+    <string name="settings_proxy_login">登录</string>
+    <string name="settings_proxy_password">密码</string>
+    <string name="settings_proxy_action_test">测试</string>
+    <string name="settings_proxy_working">成功连接到 %s</string>
+    <string name="settings_proxy_not_working">未能连接到 %s\n%s</string>
     <string name="settings_seconds_format">%d 秒</string>
     <string name="settings_milliseconds_format">%d 毫秒</string>
 
@@ -190,8 +197,8 @@
     <string name="image_button_less">减少</string>
     <string name="image_button_repeat">重复</string>
     <string name="image_button_dont_repeat">不重复</string>
-    <string name="icon_click_trend_decreasing">热度正在减少</string>
-    <string name="icon_click_trend_increasing">热度正在增加</string>
+    <string name="icon_click_trend_decreasing">热度正在下降</string>
+    <string name="icon_click_trend_increasing">热度正在上升</string>
     <string name="icon_click_trend_stable">热度稳定</string>
 
     <string name="media_route_menu_title">GoogleCast</string>
