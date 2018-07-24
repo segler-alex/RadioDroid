@@ -648,6 +648,7 @@ public class PlayerService extends Service implements RadioPlayer.PlayerListener
                 .setWhen(System.currentTimeMillis())
                 .setTicker(theTicker)
                 .setOngoing(true)
+                .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
                 .setSmallIcon(R.drawable.ic_play_arrow_white_24dp)
                 .setLargeIcon(radioIcon.getBitmap())
                 .addAction(R.drawable.ic_stop_white_24dp, getString(R.string.action_stop), pendingIntentStop);
