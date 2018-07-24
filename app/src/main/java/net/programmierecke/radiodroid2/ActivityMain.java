@@ -467,7 +467,7 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
                 try{
                     if (Utils.verifyStoragePermissions(this)) {
                         SaveFileDialog dialog = new SaveFileDialog();
-                        dialog.setStyle(DialogFragment.STYLE_NO_TITLE, R.style.MyMaterialTheme);
+                        dialog.setStyle(DialogFragment.STYLE_NO_TITLE, Utils.getThemeResId(this));
                         Bundle args = new Bundle();
                         args.putString(FileDialog.EXTENSION, ".m3u"); // file extension is optional
                         dialog.setArguments(args);
@@ -483,7 +483,7 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
                 try {
                     if (Utils.verifyStoragePermissions(this)) {
                         OpenFileDialog dialogOpen = new OpenFileDialog();
-                        dialogOpen.setStyle(DialogFragment.STYLE_NO_TITLE, R.style.MyMaterialTheme);
+                        dialogOpen.setStyle(DialogFragment.STYLE_NO_TITLE, Utils.getThemeResId(this));
                         Bundle argsOpen = new Bundle();
                         argsOpen.putString(FileDialog.EXTENSION, ".m3u"); // file extension is optional
                         dialogOpen.setArguments(argsOpen);
