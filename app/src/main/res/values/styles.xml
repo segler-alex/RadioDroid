@@ -35,6 +35,10 @@
 
         <item name="iconsInItemBackgroundColor">@color/iconsInItemBackgroundColor</item>
 
+        <item name="met_baseColor">?android:textColorPrimary</item>
+        <item name="met_textColorHint">?android:textColorHint</item>
+        <item name="met_primaryColor">?android:colorPrimary</item>
+
         <!-- workaround for lower API -->
         <item name="colorAccentMy">@color/colorAccent</item>
     </style>
@@ -67,6 +71,10 @@
         <item name="colorTabUnderline">@color/colorTabUnderlineDark</item>
 
         <item name="iconsInItemBackgroundColor">@color/iconsInItemBackgroundColorDark</item>
+
+        <item name="met_baseColor">?android:textColorPrimary</item>
+        <item name="met_textColorHint">?android:textColorHint</item>
+        <item name="met_primaryColor">?android:colorPrimaryDark</item>
 
         <!-- workaround for lower API -->
         <item name="colorAccentMy">@color/colorAccentDark</item>
