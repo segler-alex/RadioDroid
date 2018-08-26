@@ -64,9 +64,9 @@
     <string name="settings_bottom_navigation">底部导航栏</string>
 
     <string name="settings_general">常规</string>
-    <string name="settings_single_use_tags">一次性标签</string>
-    <string name="settings_single_use_tags_desc_off">不显示一次性标签</string>
-    <string name="settings_single_use_tags_desc_on">显示一次性标签</string>
+    <string name="settings_single_use_tags">显示不常用标签</string>
+    <string name="settings_single_use_tags_desc_off">不显示不常用标签</string>
+    <string name="settings_single_use_tags_desc_on">显示不常用标签</string>
 
     <string name="settings_show_broken">无效电台</string>
     <string name="settings_show_broken_on">在列表中显示无效电台</string>
@@ -96,20 +96,20 @@
     <string name="settings_click_trend_icon_visible_off">隐藏热度图标</string>
 
     <string name="settings_alarm">闹钟</string>
-    <string name="settings_alarm_external">打开外部程序</string>
+    <string name="settings_alarm_external">使用外部程序</string>
     <string name="settings_alarm_external_desc">使用默认外部程序打开闹钟</string>
     <string name="settings_alarm_audio_player">音频播放器</string>
     <string name="settings_alarm_sleep_timer">睡眠定时器</string>
     <string name="settings_alarm_sleep_timer_desc">在 %1$s 分钟后停止播放</string>
     <string name="settings_play">播放器</string>
-    <string name="settings_play_external">打开外部程序</string>
-    <string name="settings_play_external_desc">单击电台打开外部程序</string>
+    <string name="settings_play_external">使用外部播放器</string>
+    <string name="settings_play_external_desc">单击电台打开外部播放器</string>
     <string name="settings_equalizer">均衡器</string>
 
     <string name="settings_connectivity">连接</string>
     <string name="settings_connect_timeout">流媒体连接超时</string>
     <string name="settings_read_timeout">流媒体读取超时</string>
-    <string name="settings_retry_timeout">流媒体重连超时</string>
+    <string name="settings_retry_timeout">流媒体重试超时</string>
     <string name="settings_retry_delay">重连延时</string>
     <string name="settings_proxy">代理</string>
     <string name="settings_proxy_login">登录</string>
