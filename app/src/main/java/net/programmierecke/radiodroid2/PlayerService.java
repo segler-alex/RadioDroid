@@ -10,9 +10,7 @@ import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.SharedPreferences;
 import android.graphics.Bitmap;
-import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.media.AudioManager;
@@ -33,11 +31,9 @@ import android.support.v4.media.MediaMetadataCompat;
 import android.support.v4.media.session.MediaButtonReceiver;
 import android.support.v4.media.session.MediaSessionCompat;
 import android.support.v4.media.session.PlaybackStateCompat;
-import android.support.v7.preference.PreferenceManager;
 import android.text.TextUtils;
 import android.util.Log;
 import android.util.TypedValue;
-import android.view.KeyEvent;
 import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
@@ -209,6 +205,11 @@ public class PlayerService extends Service implements RadioPlayer.PlayerListener
         }
 
         @Override
+        public MediaSessionCompat.Token getMediaSessionToken() throws RemoteException {
+            return PlayerService.this.mediaSession.getSessionToken();
+        }
+
+        @Override
         public boolean getIsHls() throws RemoteException {
             return isHls;
         }
@@ -270,40 +271,7 @@ public class PlayerService extends Service implements RadioPlayer.PlayerListener
         }
     };
 
-    private final MediaSessionCompat.Callback mediaSessionCallback = new MediaSessionCompat.Callback() {
-        @Override
-        public boolean onMediaButtonEvent(Intent mediaButtonEvent) {
-            final KeyEvent event = mediaButtonEvent.getParcelableExtra(Intent.EXTRA_KEY_EVENT);
-
-            if (event.getKeyCode() == KeyEvent.KEYCODE_HEADSETHOOK) {
-                if (event.getAction() == KeyEvent.ACTION_UP && !event.isLongPress()) {
-                    if (PlayerServiceUtil.isPlaying()) {
-                        PlayerServiceUtil.pause();
-                    } else {
-                        PlayerServiceUtil.resume();
-                    }
-                }
-                return true;
-            } else {
-                return super.onMediaButtonEvent(mediaButtonEvent);
-            }
-        }
-
-        @Override
-        public void onPause() {
-            PlayerServiceUtil.pause();
-        }
-
-        @Override
-        public void onPlay() {
-            PlayerServiceUtil.resume();
-        }
-
-        @Override
-        public void onStop() {
-            PlayerServiceUtil.stop();
-        }
-    };
+    private MediaSessionCompat.Callback mediaSessionCallback = null;
 
     private AudioManager.OnAudioFocusChangeListener afChangeListener =
             new AudioManager.OnAudioFocusChangeListener() {
@@ -313,7 +281,7 @@ public class PlayerService extends Service implements RadioPlayer.PlayerListener
                             if (BuildConfig.DEBUG) Log.d(TAG, "audio focus gain");
 
                             if (resumeOnFocusGain) {
-                                createMediaSession();
+                                enableMediaSession();
                                 resume();
                             }
 
@@ -399,6 +367,13 @@ public class PlayerService extends Service implements RadioPlayer.PlayerListener
 
         radioPlayer = new RadioPlayer(PlayerService.this);
         radioPlayer.setPlayerListener(this);
+
+        mediaSessionCallback = new MediaSessionCallback(this, itsBinder);
+
+        mediaSession = new MediaSessionCompat(getBaseContext(), getBaseContext().getPackageName());
+        mediaSession.setCallback(mediaSessionCallback);
+
+        mediaSession.setFlags(MediaSessionCompat.FLAG_HANDLES_MEDIA_BUTTONS | MediaSessionCompat.FLAG_HANDLES_TRANSPORT_CONTROLS);
     }
 
     @Override
@@ -406,6 +381,8 @@ public class PlayerService extends Service implements RadioPlayer.PlayerListener
         if (BuildConfig.DEBUG) Log.d(TAG, "PlayService should be destroyed.");
 
         stop();
+
+        mediaSession.release();
 
         radioPlayer.destroy();
     }
@@ -450,7 +427,7 @@ public class PlayerService extends Service implements RadioPlayer.PlayerListener
         int result = acquireAudioFocus();
         if (result == AudioManager.AUDIOFOCUS_REQUEST_GRANTED) {
             // Start playback.
-            createMediaSession();
+            enableMediaSession();
             replayCurrent(isAlarm);
         }
     }
@@ -484,7 +461,7 @@ public class PlayerService extends Service implements RadioPlayer.PlayerListener
         streamInfo = null;
 
         releaseAudioFocus();
-        releaseMediaSession();
+        disableMediaSession();
         radioPlayer.stop();
         releaseWakeLockAndWifiLock();
         clearTimer();
@@ -520,30 +497,24 @@ public class PlayerService extends Service implements RadioPlayer.PlayerListener
         mediaSession.setPlaybackState(playbackStateBuilder.build());
     }
 
-    private void createMediaSession() {
-        if (mediaSession == null) {
-            if (BuildConfig.DEBUG) Log.d(TAG, "creating media session.");
-            becomingNoisyReceiver = new BecomingNoisyReceiver();
+    private void enableMediaSession() {
+        if (BuildConfig.DEBUG) Log.d(TAG, "enabling media session.");
 
-            IntentFilter becomingNoisyFilter = new IntentFilter(AudioManager.ACTION_AUDIO_BECOMING_NOISY);
-            registerReceiver(becomingNoisyReceiver, becomingNoisyFilter);
+        IntentFilter becomingNoisyFilter = new IntentFilter(AudioManager.ACTION_AUDIO_BECOMING_NOISY);
+        registerReceiver(becomingNoisyReceiver, becomingNoisyFilter);
 
-            mediaSession = new MediaSessionCompat(getBaseContext(), getBaseContext().getPackageName());
-            mediaSession.setCallback(mediaSessionCallback);
+        mediaSession.setActive(true);
 
-            mediaSession.setFlags(MediaSessionCompat.FLAG_HANDLES_MEDIA_BUTTONS);
-            mediaSession.setActive(true);
-
-            setMediaPlaybackState(PlaybackStateCompat.STATE_NONE);
-        }
+        setMediaPlaybackState(PlaybackStateCompat.STATE_NONE);
     }
 
-    private void releaseMediaSession() {
-        if (mediaSession != null) {
-            if (BuildConfig.DEBUG) Log.d(TAG, "releasing media session.");
+    private void disableMediaSession() {
 
-            mediaSession.release();
-            mediaSession = null;
+        if(mediaSession.isActive())
+        {
+            if (BuildConfig.DEBUG) Log.d(TAG, "disabling media session.");
+
+            mediaSession.setActive(false);
 
             unregisterReceiver(becomingNoisyReceiver);
         }
@@ -772,10 +743,9 @@ public class PlayerService extends Service implements RadioPlayer.PlayerListener
                         setMediaPlaybackState(PlaybackStateCompat.STATE_PAUSED);
                         break;
                     case Playing: {
-                        setMediaPlaybackState(PlaybackStateCompat.STATE_PLAYING);
+                        enableMediaSession();
 
-                        createMediaSession();
-                        mediaSession.setActive(true);
+                        setMediaPlaybackState(PlaybackStateCompat.STATE_PLAYING);
 
                         if (BuildConfig.DEBUG) {
                             Log.d(TAG, "Open audio effect control session, session id=" + audioSessionId);
@@ -790,8 +760,8 @@ public class PlayerService extends Service implements RadioPlayer.PlayerListener
                     default: {
                         setMediaPlaybackState(PlaybackStateCompat.STATE_NONE);
 
-                        if (mediaSession != null) {
-                            mediaSession.setActive(false);
+                        if( state != RadioPlayer.PlayState.PrePlaying) {
+                            disableMediaSession();
                         }
 
                         if (audioSessionId > 0) {
