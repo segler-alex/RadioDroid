@@ -42,8 +42,8 @@
 
     <string name="about_text">This app uses the free radio station directory at\nhttps://www.radio-browser.info\nEveryone can add stations to it or edit existing stations. It works like a wiki for online(streaming) radio stations.\n\nContact:\nsegler_alex@web.de\n\nBugtracker:\nhttps://github.com/segler-alex/RadioDroid/issues\n\nIf you like this software and want to help, feel free to send me an email. I really need someone with graphical experience to make the app nicer to the eye :) Maybe someone who can draw for icons, images...But also programmers who fix bugs, or implement new ones (features not bugs ;)\nAlso ideas for new features are always appreciated!\n\nThis app is free software licensed under the GPLv3.\nhttps://www.gnu.org/licenses/gpl-3.0.html</string>
     <string name="about_version">Version: %1$s</string>
-    <string name="detail_star">Bookmark as favorite</string>
-    <string name="detail_unstar">Delete as favorite</string>
+    <string name="detail_star">Mark as favorite</string>
+    <string name="detail_unstar">Delete from favorite</string>
     <string name="progress_loading">Loading...</string>
 
     <string name="sleep_timer" formatted="true">Sleep timer: %1$02d:%2$02d</string>
@@ -64,9 +64,9 @@
     <string name="settings_bottom_navigation">Bottom navigation</string>
 
     <string name="settings_general">General</string>
-    <string name="settings_single_use_tags">Show single use tags</string>
-    <string name="settings_single_use_tags_desc_off">Single use tags will not be shown</string>
-    <string name="settings_single_use_tags_desc_on">Single use tags will be shown</string>
+    <string name="settings_single_use_tags">Show rarely-used tags</string>
+    <string name="settings_single_use_tags_desc_off">Rarely-used tags will not be shown</string>
+    <string name="settings_single_use_tags_desc_on">Rarely-used tags will be shown</string>
 
     <string name="settings_show_broken">Broken stations</string>
     <string name="settings_show_broken_on">Show broken stations in lists</string>
@@ -88,7 +88,7 @@
     <string name="settings_auto_favorite_off">Do not set stations automatically as favorites when playing</string>
 
     <string name="settings_icon_click_toggles_favorite">Icon clicks</string>
-    <string name="settings_icon_click_toggles_favorite_on">Clicking station icon adds or removes this as favorite</string>
+    <string name="settings_icon_click_toggles_favorite_on">Clicking station icon adds to or removes from favorite</string>
     <string name="settings_icon_click_toggles_favorite_off">Clicking station icon starts playing</string>
 
     <string name="settings_click_trend_icon_visible">Click trend icon</string>
@@ -96,14 +96,14 @@
     <string name="settings_click_trend_icon_visible_off">Icon will be hidden</string>
 
     <string name="settings_alarm">Alarm</string>
-    <string name="settings_alarm_external">Open external</string>
+    <string name="settings_alarm_external">Enable external app</string>
     <string name="settings_alarm_external_desc">Open the alarm with default external app</string>
     <string name="settings_alarm_audio_player">Audio player</string>
     <string name="settings_alarm_sleep_timer">Sleep timer</string>
     <string name="settings_alarm_sleep_timer_desc">Stop playing after %1$s minutes</string>
     <string name="settings_play">Player</string>
-    <string name="settings_play_external">Open external</string>
-    <string name="settings_play_external_desc">Should a single click on stations open external</string>
+    <string name="settings_play_external">Enable external player</string>
+    <string name="settings_play_external_desc">Should a single click on stations open external player</string>
     <string name="settings_equalizer">Equalizer</string>
 
     <string name="settings_connectivity">Connectivity</string>
@@ -140,8 +140,8 @@
     <string name="notify_pre_play">Connecting</string>
     <string name="notify_play">Playing</string>
     <string name="notify_paused">Paused</string>
-    <string name="notify_starred">Station has been bookmarked as favorite</string>
-    <string name="notify_autostarred">Station has been automatically bookmarked as favorite</string>
+    <string name="notify_starred">Station has been marked as favorite</string>
+    <string name="notify_autostarred">Station has been automatically marked as favorite</string>
     <string name="notify_unstarred">Station has been removed from the favorite list</string>
     <string name="notify_deleted_favorites">The favorites have been deleted.</string>
     <string name="notify_deleted_history">The history has been deleted.</string>
@@ -154,7 +154,7 @@
     <string name="yes">Yes</string>
     <string name="no">No</string>
 
-    <string name="alert_select_mpd_server">Which server?</string>
+    <string name="alert_select_mpd_server">Please select a server</string>
     <string name="alert_select_mpd_server_name">Server name</string>
     <string name="hostname">Hostname</string>
     <string name="port">Port</string>
@@ -166,7 +166,7 @@
 
     <string name="alert_press_back_to_exit">Press back once more to exit</string>
 
-    <string name="error_stream_url">Stream url problem</string>
+    <string name="error_stream_url">Stream URL problem</string>
     <string name="error_caching_stream">Stream caching problem</string>
     <string name="error_play_stream">Unable to play stream</string>
     <string name="error_stream_reconnect_timeout">Unable to reconnect to the stream: timeout.</string>
@@ -227,11 +227,11 @@
         <item>S</item>
     </string-array>
 
-    <string name="notify_stream_url_copied">Stream Url Successfully Copied!</string>
+    <string name="notify_stream_url_copied">Stream URL successfully copied!</string>
 
     <string-array name="actions_station_link">
         <item>Visit Website</item>
-        <item>Copy Stream Url</item>
+        <item>Copy Stream URL</item>
     </string-array>
 
     <string name="no_wifi_title">No WiFi (WLAN) connection</string>
