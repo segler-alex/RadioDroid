@@ -10,10 +10,16 @@
     <string name="detail_pause">Pausar</string>
     <string name="detail_stop">Parar</string>
     <string name="detail_share">Compartir</string>
+
+    <string name="action_local">Local</string>
+    <string name="action_pause">Pauser</string>
+    <string name="action_resume">Continuar</string>
+    <string name="action_stop">Parar</string>
     <string name="action_search">Buscar</string>
     <string name="action_delete">Borrar</string>
     <string name="action_delete_history">Borrar historial</string>
     <string name="action_delete_favorites">Borrar favoritos</string>
+    <string name="action_ok">Aceptar</string>
     <string name="action_cancel">Cancelar</string>
     <string name="action_top_click">Más clics</string>
     <string name="action_top_vote">Más votos</string>
@@ -46,17 +52,21 @@
     <string name="sleep_timer_clear">Borrar</string>
     <string name="nav_item_add_sleep">+15 mins</string>
 
+    <string name="nav_item_save_playlist">Guardar en lista de reproducción</string>
+    <string name="nav_item_load_playlist">Cargar desde lista de reproducción</string>
+
     <string name="settings_interface">UI</string>
     <string name="settings_theme_selection_title">Tema</string>
     <string name="theme_light">Claro</string>
     <string name="theme_dark">Oscuro</string>
     <string name="settings_circular_icons">Usar iconos circulares</string>
     <string name="settings_compact_style">Modo compacto</string>
+    <string name="settings_bottom_navigation">Navegación en parte inferior</string>
 
     <string name="settings_general">General</string>
-    <string name="settings_single_use_tags">Mostrar etiquetas únicas</string>
-    <string name="settings_single_use_tags_desc_off">Las etiquetas únicas no se mostrarán</string>
-    <string name="settings_single_use_tags_desc_on">Las etiquetas únicas serán mostradas</string>
+    <string name="settings_single_use_tags">Mostrar etiquetas poco usadas</string>
+    <string name="settings_single_use_tags_desc_off">Las etiquetas poco usadas no se mostrarán</string>
+    <string name="settings_single_use_tags_desc_on">Las etiquetas poco usadas se mostrarán</string>
 
     <string name="settings_show_broken">Estaciones rotas</string>
     <string name="settings_show_broken_on">Mostrar estaciones rotas en las listas</string>
@@ -81,7 +91,11 @@
     <string name="settings_icon_click_toggles_favorite_on">Un clic en el icono de la estación la añade o quita de favoritos</string>
     <string name="settings_icon_click_toggles_favorite_off">Un clic en el icono de la estación empieza a reproducir</string>
 
-	<string name="settings_alarm">Alarma</string>
+    <string name="settings_click_trend_icon_visible">Icono de tendencia</string>
+    <string name="settings_click_trend_icon_visible_on">El icono será visible</string>
+    <string name="settings_click_trend_icon_visible_off">El icono se ocultará</string>
+
+    <string name="settings_alarm">Alarma</string>
     <string name="settings_alarm_external">Abrir externa</string>
     <string name="settings_alarm_external_desc">Abrir la alarma con la aplicación externa predeterminada</string>
     <string name="settings_alarm_audio_player">Reproductor de audio</string>
@@ -97,6 +111,12 @@
     <string name="settings_read_timeout">Tiempo de espera de lectura de la transmisión</string>
     <string name="settings_retry_timeout">Tiempo de espera de reanudación de la transmisión agotado</string>
     <string name="settings_retry_delay">Retraso al volver a conectar</string>
+    <string name="settings_proxy">Proxy</string>
+    <string name="settings_proxy_login">Inicio de sesión</string>
+    <string name="settings_proxy_password">Contraseña</string>
+    <string name="settings_proxy_action_test">Probar</string>
+    <string name="settings_proxy_working">Conectado correctamente a %s</string>
+    <string name="settings_proxy_not_working">Falló la conexión a %s\n%s</string>
     <string name="settings_seconds_format">%d segundos</string>
     <string name="settings_milliseconds_format">%d milisegundos</string>
 
@@ -104,13 +124,13 @@
     <string name="settings_warn_no_wifi_on">Avisar cuando se reproduzca sin conexión Wi-Fi</string>
     <string name="settings_warn_no_wifi_off">No avisar cuando se reproduzca sin conexión Wi-Fi</string>
 
-	<string name="settings_recordings">Grabaciones</string>
+    <string name="settings_recordings">Grabaciones</string>
     <string name="settings_record_name_formatting">Formato de nombre</string>
 
-    <!--<string name="settings_record_name_formatting_default" translatable="false">${station}_${artist}_${track}_${date}_${time}</string>
+    <string name="settings_record_name_formatting_default" translatable="false">${station}_${artist}_${track}_${date}_${time}</string>
     <string name="settings_record_name_formatting_1" translatable="false">${station}_${artist}_${track}</string>
     <string name="settings_record_name_formatting_2" translatable="false">${station}_${date}_${time}</string>
-    <string name="settings_record_name_formatting_3" translatable="false">${index}_${station}_${date}</string>-->
+    <string name="settings_record_name_formatting_3" translatable="false">${index}_${station}_${date}</string>
 
     <string name="settings_record_name_formatting_default_display">station_artist_track_\u200bdate_\u200btime</string>
     <string name="settings_record_name_formatting_1_display">station_artist_\u200btrack</string>
@@ -156,7 +176,7 @@
 
     <string name="error_no_equalizer_found">¡Ninguna aplicación de ecualización encontrada!</string>
 
-    <string name="player_info_status">ESTADO:</string>
+    <string name="player_info_status">Estado:&#160;</string>
     <string name="player_info_status_stopped">parado</string>
     <string name="player_info_status_playing">reproduciendo</string>
     <string name="player_info_status_recording">grabando</string>
@@ -171,8 +191,16 @@
 
     <string name="image_button_disable">Deshabilitar</string>
     <string name="image_button_record">Grabar</string>
+    <string name="image_button_record_request_permission">Solicitar permisos de grabación</string>
+    <string name="image_button_recordings">Grabaciones</string>
     <string name="image_button_delete">Borrar</string>
     <string name="image_button_more">Más</string>
+    <string name="image_button_less">Menos</string>
+    <string name="image_button_repeat">Repetir</string>
+    <string name="image_button_dont_repeat">No repetir</string>
+    <string name="icon_click_trend_decreasing">Popularidad decreciente</string>
+    <string name="icon_click_trend_increasing">Popularidad creciente</string>
+    <string name="icon_click_trend_stable">Popularidad estable</string>
 
     <string name="media_route_menu_title">GoogleCast</string>
     <string name="app_id">5A97BAE4</string>
@@ -181,10 +209,14 @@
 	<string name="settings_view_mpd_servers">Tus servidores</string>
     <string name="action_mpd_nok">MPD no conectado</string>
     <string name="action_mpd_ok">MPD conectado</string>
+    <string name="action_mpd_connected">Conectado al servidor: %1$s</string>
+
+    <string name="settings_radiobrowser_servers">Servidores RadioBrowser</string>
+    <string name="settings_radiobrowser_servers_default">www.radio-browser.info/webservice</string>
 
 	<string name="settings_other">Otro</string>
 	<string name="settings_statistics">Estadísticas</string>
-    <string name="settings_about">Sobre RadioDroid</string>
+    <string name="settings_about">Acerca de RadioDroid</string>
 
     <string-array name="weekdays">
         <item>D</item>
@@ -196,7 +228,7 @@
         <item>S</item>
     </string-array>
 
-    <string name="notify_stream_url_copied">¡URL de la transmisión copiado con éxito!</string>
+    <string name="notify_stream_url_copied">¡URL de la transmisión copiada con éxito!</string>
 
     <string-array name="actions_station_link">
         <item>Visitar página web</item>
@@ -206,7 +238,7 @@
     <string name="no_wifi_title">No hay conexión WiFi (WLAN)</string>
     <string name="no_wifi_connection">No hay conexión WiFi (WLAN) cuando empieza a los %1$s. Presiona \'Ok\' para continuar.</string>
     <string name="nav_item_statistics">Estadísticas</string>
-    <string name="nav_item_about">Sobre</string>
+    <string name="nav_item_about">Acerca de</string>
     <string name="settings_mpd_port">Puerto MPD</string>
     <string name="refresh">Recargar</string>
 </resources>
