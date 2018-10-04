@@ -1,11 +1,16 @@
 package net.programmierecke.radiodroid2;
 
+import android.content.ClipData;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.content.res.TypedArray;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.FileProvider;
 import android.support.v7.widget.ListViewCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -19,6 +24,7 @@ import net.programmierecke.radiodroid2.interfaces.IFragmentRefreshable;
 import net.programmierecke.radiodroid2.recording.RecordingsManager;
 
 import java.io.File;
+import java.util.List;
 
 public class FragmentRecordings extends Fragment implements IFragmentRefreshable{
     private ItemAdapterRecordings itemAdapterRecordings;
@@ -28,10 +34,32 @@ public class FragmentRecordings extends Fragment implements IFragmentRefreshable
     void ClickOnItem(DataRecording theData) {
         String path = RecordingsManager.getRecordDir() + "/" + theData.Name;
         if(BuildConfig.DEBUG) { Log.d(TAG,"play :"+path); }
+
         Intent i = new Intent(path);
         i.setAction(android.content.Intent.ACTION_VIEW);
+
+
         File file = new File(path);
-        i.setDataAndType(Uri.fromFile(file), "audio/*");
+        Uri fileUri = FileProvider.getUriForFile(getContext(), getContext().getPackageName() + ".fileprovider", file);
+        i.setDataAndType(fileUri, "audio/*");
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            i.addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION | Intent.FLAG_GRANT_READ_URI_PERMISSION);
+        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+            ClipData clip = ClipData.newUri(getContext().getContentResolver(), "Record", fileUri);
+            i.setClipData(clip);
+            i.addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION | Intent.FLAG_GRANT_READ_URI_PERMISSION);
+        } else {
+            List<ResolveInfo> resInfoList =
+                    getContext().getPackageManager().queryIntentActivities(i, PackageManager.MATCH_DEFAULT_ONLY);
+
+            for (ResolveInfo resolveInfo : resInfoList) {
+                String packageName = resolveInfo.activityInfo.packageName;
+                getContext().grantUriPermission(packageName, fileUri,
+                        Intent.FLAG_GRANT_WRITE_URI_PERMISSION | Intent.FLAG_GRANT_READ_URI_PERMISSION);
+            }
+        }
+
         startActivity(i);
     }
 
