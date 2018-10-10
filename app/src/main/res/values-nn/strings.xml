@@ -120,8 +120,8 @@
   <string name="no">Nei</string>
   <string name="alert_select_mpd_server">Kva tenar?</string>
   <string name="alert_select_mpd_server_name">Tenarnamn</string>
-  <string name="alert_select_mpd_server_hostname">Vertsnamn</string>
-  <string name="alert_select_mpd_server_port">Port</string>
+  <!--<string name="alert_select_mpd_server_hostname">Vertsnamn</string>-->
+  <!--<string name="alert_select_mpd_server_port">Port</string>-->
   <string name="alert_select_mpd_server_add">Legg til</string>
   <string name="alert_select_mpd_server_save">Lagra</string>
   <string name="alert_select_mpd_server_remove">Fjern</string>
@@ -163,7 +163,7 @@
   <string name="action_mpd_nok">MPD ikkje kopla til</string>
   <string name="action_mpd_ok">MPD kopla til</string>
   <string name="action_mpd_connected">Kopla til tenar: %1$s</string>
-  <string name="settings_radiobrowser_servers">Radio Browser-tenarar</string>
+  <!--<string name="settings_radiobrowser_servers">Radio Browser-tenarar</string>-->
   <string name="settings_radiobrowser_servers_default">www.radio-browser.info/webservice</string>
   <string name="settings_other">Anna</string>
   <string name="settings_statistics">Statistikk</string>

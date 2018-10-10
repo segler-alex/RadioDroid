@@ -120,10 +120,10 @@
     <string name="settings_recordings">Rögzítések</string>
     <string name="settings_record_name_formatting">Névformázás</string>
 
-    <string name="settings_record_name_formatting_default" translatable="false">${station}_${artist}_${track}_${date}_${time}</string>
+    <!--<string name="settings_record_name_formatting_default" translatable="false">${station}_${artist}_${track}_${date}_${time}</string>
     <string name="settings_record_name_formatting_1" translatable="false">${station}_${artist}_${track}</string>
     <string name="settings_record_name_formatting_2" translatable="false">${station}_${date}_${time}</string>
-    <string name="settings_record_name_formatting_3" translatable="false">${index}_${station}_${date}</string>
+    <string name="settings_record_name_formatting_3" translatable="false">${index}_${station}_${date}</string>-->
 
     <string name="settings_record_name_formatting_default_display">állomás_előadó_szám_\u200bdátum_\u200bidő</string>
     <string name="settings_record_name_formatting_1_display">állomás_előadó_\u200bszám</string>
@@ -149,8 +149,8 @@
 
     <string name="alert_select_mpd_server">Melyik kiszolgáló?</string>
     <string name="alert_select_mpd_server_name">Kiszolgálónév</string>
-    <string name="alert_select_mpd_server_hostname">Gépnév</string>
-    <string name="alert_select_mpd_server_port">Port</string>
+    <!--<string name="alert_select_mpd_server_hostname">Gépnév</string>-->
+    <!--<string name="alert_select_mpd_server_port">Port</string>-->
 
     <string name="alert_select_mpd_server_add">Hozzáadás</string>
     <string name="alert_select_mpd_server_save">Mentés</string>
@@ -203,7 +203,7 @@
     <string name="action_mpd_ok">MPD csatlakoztatva</string>
     <string name="action_mpd_connected">Kapcsolódva a kiszolgálóhoz: %1$s</string>
 
-    <string name="settings_radiobrowser_servers">RadioBrowser kiszolgálók</string>
+<!--    <string name="settings_radiobrowser_servers">RadioBrowser kiszolgálók</string>-->
     <string name="settings_radiobrowser_servers_default">www.radio-browser.info/webservice</string>
 
     <string name="settings_other">Egyéb</string>
