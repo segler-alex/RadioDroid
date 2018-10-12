@@ -34,6 +34,7 @@ import java.util.List;
 import java.util.Vector;
 
 import static net.programmierecke.radiodroid2.ActivityMain.FRAGMENT_FROM_BACKSTACK;
+import static net.programmierecke.radiodroid2.Utils.parseIntWithDefault;
 
 public class FragmentSettings extends PreferenceFragmentCompat implements SharedPreferences.OnSharedPreferenceChangeListener, IApplicationSelected {
 
@@ -269,7 +270,7 @@ public class FragmentSettings extends PreferenceFragmentCompat implements Shared
                         List<MPDServer> servers = Utils.getMPDServers(getContext());
                         String nameText = name.getText().toString().trim();
                         String hostnameText = hostname.getText().toString().trim();
-                        int portText = Integer.parseInt(port.getText().toString().trim());
+                        int portText = parseIntWithDefault(port.getText().toString().trim(), 0);
 
                         if(nameText.isEmpty() || hostnameText.isEmpty() || portText == 0)
                             return;
