@@ -60,6 +60,14 @@ import okhttp3.Route;
 public class Utils {
 	private static int loadIcons = -1;
 
+	public static int parseIntWithDefault(String number, int defaultVal) {
+		try {
+			return Integer.parseInt(number);
+		} catch (NumberFormatException e) {
+			return defaultVal;
+		}
+	}
+
 	public static String getCacheFile(Context ctx, String theURI) {
 		StringBuilder chaine = new StringBuilder("");
 		try{

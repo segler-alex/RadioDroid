@@ -31,6 +31,8 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
+import static net.programmierecke.radiodroid2.Utils.parseIntWithDefault;
+
 public class ProxySettingsDialog extends DialogFragment {
 
     final static private String TEST_ADDRESS = "http://radio-browser.info";
@@ -132,7 +134,7 @@ public class ProxySettingsDialog extends DialogFragment {
         ProxySettings settings = new ProxySettings();
 
         settings.host = editProxyHost.getText().toString();
-        settings.port = Integer.parseInt(editProxyPort.getText().toString());
+        settings.port = parseIntWithDefault(editProxyPort.getText().toString(), 0);
         settings.login = editLogin.getText().toString();
         settings.password = editProxyPassword.getText().toString();
         settings.type = proxyTypeAdapter.getItem(spinnerProxyType.getSelectedItemPosition());
