@@ -79,9 +79,9 @@
     <string name="startup_show_history">Geschiedenis tonen</string>
     <string name="startup_show_last_view">Vorige sessie</string>
 
-    <string name="settings_load_icons">Stationslogo's tonen</string>
-    <string name="settings_load_icons_on">Logo's worden gedownload</string>
-    <string name="settings_load_icons_off">Logo's worden niet gedownload</string>
+    <string name="settings_load_icons">Stationslogo\'s tonen</string>
+    <string name="settings_load_icons_on">Logo\'s worden gedownload</string>
+    <string name="settings_load_icons_off">Logo\'s worden niet gedownload</string>
 
     <string name="settings_auto_favorite">Automatische favorieten</string>
     <string name="settings_auto_favorite_on">Stations bij afspelen automatisch markeren als favoriet</string>
