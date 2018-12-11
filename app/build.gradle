@@ -5,7 +5,7 @@ android {
     flavorDimensions "one"
 
     compileSdkVersion 26
-    buildToolsVersion '27.0.3'
+    buildToolsVersion '28.0.3'
     lintOptions {
         abortOnError true
     }
@@ -15,8 +15,8 @@ android {
         minSdkVersion 15
         targetSdkVersion 26
 
-        versionCode 78
-        versionName "0.68"
+        versionCode 79
+        versionName "0.69"
 
         vectorDrawables.useSupportLibrary = true
 
