@@ -19,6 +19,8 @@
         <CheckBoxPreference
             android:defaultValue="false"
             android:key="compact_style"
+            android:summaryOff="@string/settings_compact_style_desc_off"
+            android:summaryOn="@string/settings_compact_style_desc_on"
             android:title="@string/settings_compact_style" />
 
         <CheckBoxPreference
@@ -87,7 +89,8 @@
 
         <CheckBoxPreference
             android:key="play_external"
-            android:summary="@string/settings_play_external_desc"
+            android:summaryOff="@string/settings_play_external_desc_off"
+            android:summaryOn="@string/settings_play_external_desc_on"
             android:title="@string/settings_play_external" />
 
         <CheckBoxPreference
@@ -107,7 +110,8 @@
         <CheckBoxPreference
             android:disableDependentsState="true"
             android:key="alarm_external"
-            android:summary="@string/settings_alarm_external_desc"
+            android:summaryOff="@string/settings_alarm_external_desc_off"
+            android:summaryOn="@string/settings_alarm_external_desc_on"
             android:title="@string/settings_alarm_external" />
 
         <Preference
@@ -146,7 +150,7 @@
         android:key="pref_category_connectivity"
         android:title="@string/settings_connectivity">
         <net.programmierecke.radiodroid2.views.IntEditTextPreference
-            android:defaultValue="4"
+            android:defaultValue="5"
             android:key="stream_connect_timeout"
             android:maxLength="2"
             android:summary="@string/settings_seconds_format"
@@ -158,9 +162,9 @@
             android:summary="@string/settings_seconds_format"
             android:title="@string/settings_read_timeout" />
         <net.programmierecke.radiodroid2.views.IntEditTextPreference
-            android:defaultValue="99999999"
+            android:defaultValue="10"
             android:key="settings_retry_timeout"
-            android:maxLength="8"
+            android:maxLength="2"
             android:summary="@string/settings_seconds_format"
             android:title="@string/settings_retry_timeout" />
         <net.programmierecke.radiodroid2.views.IntEditTextPreference
