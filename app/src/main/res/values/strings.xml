@@ -47,13 +47,17 @@
     <string name="progress_loading">Loading...</string>
 
     <string name="sleep_timer" formatted="true">Sleep timer: %1$02d:%2$02d</string>
-    <string name="sleep_timer_title">How many minutes before stop?</string>
+    <string name="sleep_timer_title">Stop playing after the selected minute</string>
     <string name="sleep_timer_apply">Apply</string>
     <string name="sleep_timer_clear">Clear</string>
     <string name="nav_item_add_sleep">+15 mins</string>
 
     <string name="nav_item_save_playlist">Save to playlist</string>
     <string name="nav_item_load_playlist">Load from playlist</string>
+    <string name="confirm_overwrite_file">Overwrite the file?</string>
+    <string name="dialog_hint_file_name">Enter file name</string> 
+    <string name="error_empty_field">This field is required</string>
+    <string name="error_invalid_file_name">Invalid file name</string>
 
     <string name="settings_interface">UI</string>
     <string name="settings_theme_selection_title">Theme</string>
@@ -61,6 +65,8 @@
     <string name="theme_dark">Dark</string>
     <string name="settings_circular_icons">Use circular icons</string>
     <string name="settings_compact_style">Compact mode</string>
+    <string name="settings_compact_style_desc_off">Big icon adopted with station details</string> 
+    <string name="settings_compact_style_desc_on">Small icon adopted without station details</string>
     <string name="settings_bottom_navigation">Bottom navigation</string>
 
     <string name="settings_general">General</string>
@@ -97,13 +103,15 @@
 
     <string name="settings_alarm">Alarm</string>
     <string name="settings_alarm_external">Enable external app</string>
-    <string name="settings_alarm_external_desc">Open the alarm with default external app</string>
+    <string name="settings_alarm_external_desc_on">Open the alarm with default external app</string>
+    <string name="settings_alarm_external_desc_off">Open the alarm with RadioDroid</string> 
     <string name="settings_alarm_audio_player">Audio player</string>
     <string name="settings_alarm_sleep_timer">Sleep timer</string>
     <string name="settings_alarm_sleep_timer_desc">Stop playing after %1$s minutes</string>
     <string name="settings_play">Player</string>
     <string name="settings_play_external">Enable external player</string>
-    <string name="settings_play_external_desc">Should a single click on stations open external player</string>
+    <string name="settings_play_external_desc_on">Play stations with external player</string>
+    <string name="settings_play_external_desc_off">Play stations with RadioDroid</string> 
     <string name="settings_equalizer">Equalizer</string>
 
     <string name="settings_connectivity">Connectivity</string>
@@ -125,7 +133,7 @@
     <string name="settings_warn_no_wifi_off">No warning when not on Wifi connection</string>
 
     <string name="settings_recordings">Recordings</string>
-    <string name="settings_record_name_formatting">Name formatting</string>
+    <string name="settings_record_name_formatting">Name format</string>
 
     <string name="settings_record_name_formatting_default" translatable="false">${station}_${artist}_${track}_${date}_${time}</string>
     <string name="settings_record_name_formatting_1" translatable="false">${station}_${artist}_${track}</string>
@@ -235,7 +243,7 @@
     </string-array>
 
     <string name="no_wifi_title">No WiFi (WLAN) connection</string>
-    <string name="no_wifi_connection">No WiFi (WLAN) connection when starting %1$s. Press \'Ok\' to continue.</string>
+    <string name="no_wifi_connection">No WiFi (WLAN) connection when starting %1$s. Press \'OK\' to continue.</string>
     <string name="nav_item_statistics">Statistics</string>
     <string name="nav_item_about">About</string>
     <string name="settings_mpd_port">MPD port</string>
