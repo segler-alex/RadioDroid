@@ -47,20 +47,26 @@
     <string name="progress_loading">正在载入...</string>
 
     <string name="sleep_timer" formatted="true">睡眠定时器： %1$02d:%2$02d</string>
-    <string name="sleep_timer_title">运行多少分钟停止？</string>
+    <string name="sleep_timer_title">在选定的分钟后停止播放</string>
     <string name="sleep_timer_apply">应用</string>
     <string name="sleep_timer_clear">清除</string>
     <string name="nav_item_add_sleep">+15分钟</string>
 
     <string name="nav_item_save_playlist">保存到播放列表</string>
-    <string name="nav_item_load_playlist">从播放列表载入</string> 
-    
+    <string name="nav_item_load_playlist">从播放列表载入</string>
+    <string name="confirm_overwrite_file">覆盖此文件吗？</string>
+    <string name="dialog_hint_file_name">输入文件名</string> 
+    <string name="error_empty_field">必须填写此栏目</string>
+    <string name="error_invalid_file_name">文件名无效</string>
+	
     <string name="settings_interface">界面</string>
     <string name="settings_theme_selection_title">主题</string>
     <string name="theme_light">亮色</string>
     <string name="theme_dark">暗色</string>
     <string name="settings_circular_icons">使用圆形图标</string>
     <string name="settings_compact_style">精简模式</string>
+    <string name="settings_compact_style_desc_off">使用大图标并显示电台详情</string> 
+    <string name="settings_compact_style_desc_on">使用小图标并隐藏电台详情</string>
     <string name="settings_bottom_navigation">底部导航栏</string>
 
     <string name="settings_general">常规</string>
@@ -97,13 +103,15 @@
 
     <string name="settings_alarm">闹钟</string>
     <string name="settings_alarm_external">使用外部程序</string>
-    <string name="settings_alarm_external_desc">使用默认外部程序打开闹钟</string>
+    <string name="settings_alarm_external_desc_on">使用默认外部程序打开闹钟</string>
+    <string name="settings_alarm_external_desc_off">使用 RadioDroid 打开闹钟</string>
     <string name="settings_alarm_audio_player">音频播放器</string>
     <string name="settings_alarm_sleep_timer">睡眠定时器</string>
     <string name="settings_alarm_sleep_timer_desc">在 %1$s 分钟后停止播放</string>
     <string name="settings_play">播放器</string>
     <string name="settings_play_external">使用外部播放器</string>
-    <string name="settings_play_external_desc">单击电台打开外部播放器</string>
+    <string name="settings_play_external_desc_on">使用外部播放器播放电台</string>
+    <string name="settings_play_external_desc_off">使用 RadioDroid 播放电台</string>
     <string name="settings_equalizer">均衡器</string>
 
     <string name="settings_connectivity">连接</string>
