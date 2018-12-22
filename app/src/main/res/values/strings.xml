@@ -21,8 +21,8 @@
     <string name="action_delete_favorites">Delete favorites</string>
     <string name="action_ok">OK</string>
     <string name="action_cancel">Cancel</string>
-    <string name="action_top_click">TopClick</string>
-    <string name="action_top_vote">TopVote</string>
+    <string name="action_top_click">Top Click</string>
+    <string name="action_top_vote">Top Vote</string>
     <string name="action_changed_lately">Changed lately</string>
     <string name="action_currently_playing">Playing</string>
     <string name="action_tags">Tags</string>
@@ -58,6 +58,8 @@
     <string name="dialog_hint_file_name">Enter file name</string> 
     <string name="error_empty_field">This field is required</string>
     <string name="error_invalid_file_name">Invalid file name</string>
+    <string name="label_button_cancel">Cancel</string>
+    <string name="label_button_overwrite">Overwrite</string>
 
     <string name="settings_interface">UI</string>
     <string name="settings_theme_selection_title">Theme</string>

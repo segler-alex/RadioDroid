@@ -58,7 +58,9 @@
     <string name="dialog_hint_file_name">输入文件名</string> 
     <string name="error_empty_field">必须填写此栏目</string>
     <string name="error_invalid_file_name">文件名无效</string>
-	
+    <string name="label_button_cancel">取消</string>
+    <string name="label_button_overwrite">覆盖</string>
+
     <string name="settings_interface">界面</string>
     <string name="settings_theme_selection_title">主题</string>
     <string name="theme_light">亮色</string>
