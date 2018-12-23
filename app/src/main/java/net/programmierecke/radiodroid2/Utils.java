@@ -365,6 +365,13 @@ public class Utils {
 		return mWifi.isConnected();
 	}
 
+	public static boolean hasAnyConnection(Context context) {
+		ConnectivityManager connManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+		NetworkInfo netInfo = connManager.getActiveNetworkInfo();
+		//should check null because in airplane mode it will be null
+		return (netInfo != null && netInfo.isConnected());
+	}
+
 	public static List<MPDServer> getMPDServers(Context context) {
 		SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
 		String serversFromPrefs = sharedPref.getString("mpd_servers", "");
