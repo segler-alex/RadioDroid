@@ -180,6 +180,7 @@
     <string name="error_caching_stream">Stream caching problem</string>
     <string name="error_play_stream">Unable to play stream</string>
     <string name="error_stream_reconnect_timeout">Unable to reconnect to the stream: timeout.</string>
+    <string name="giving_up_resume">Giving up attempt to resume playback.</string>
 
     <string name="error_record_needs_write">Need write permission for recording!</string>
     <string name="error_grant_audiofocus">Request for audio focus was not granted by the system.</string>

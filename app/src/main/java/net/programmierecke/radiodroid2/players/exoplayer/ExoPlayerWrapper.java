@@ -1,9 +1,13 @@
 package net.programmierecke.radiodroid2.players.exoplayer;
 
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.media.AudioManager;
+import android.net.ConnectivityManager;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -35,6 +39,7 @@ import com.google.android.exoplayer2.upstream.DataSource;
 import com.google.android.exoplayer2.upstream.DefaultBandwidthMeter;
 
 import net.programmierecke.radiodroid2.R;
+import net.programmierecke.radiodroid2.Utils;
 import net.programmierecke.radiodroid2.recording.RecordableListener;
 import net.programmierecke.radiodroid2.data.ShoutcastInfo;
 import net.programmierecke.radiodroid2.data.StreamLiveInfo;
@@ -42,6 +47,8 @@ import net.programmierecke.radiodroid2.players.PlayerWrapper;
 import net.programmierecke.radiodroid2.players.RadioPlayer;
 
 import java.util.Map;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import okhttp3.OkHttpClient;
 
@@ -63,6 +70,25 @@ public class ExoPlayerWrapper implements PlayerWrapper, IcyDataSource.IcyDataSou
 
     private boolean isHls;
 
+    Context context;
+    MediaSource audioSource;
+
+    boolean interruptedByConnectionLoss = false;
+
+    private final BroadcastReceiver networkChangedReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (interruptedByConnectionLoss && player != null && audioSource != null
+                    && Utils.hasAnyConnection(context)) {
+                interruptedByConnectionLoss = false;
+                Log.i(TAG, "Regained connection. Resuming playback.");
+                player.prepare(audioSource);
+                player.setPlayWhenReady(true);
+            }
+        }
+    };
+
+
     @Override
     public void playRemote(@NonNull OkHttpClient httpClient, @NonNull String streamUrl, @NonNull Context context, boolean isAlarm) {
         // I don't know why, but it is still possible that streamUrl is null,
@@ -74,6 +100,7 @@ public class ExoPlayerWrapper implements PlayerWrapper, IcyDataSource.IcyDataSou
             currentPlaybackTransferredBytes = 0;
         }
 
+        this.context = context;
         this.streamUrl = streamUrl;
 
         stateListener.onStateChanged(RadioPlayer.PlayState.PrePlaying);
@@ -104,14 +131,17 @@ public class ExoPlayerWrapper implements PlayerWrapper, IcyDataSource.IcyDataSou
         ExtractorsFactory extractorsFactory = new DefaultExtractorsFactory();
 
         if (!isHls) {
-            MediaSource audioSource = new ExtractorMediaSource(Uri.parse(streamUrl), dataSourceFactory, extractorsFactory, null, null);
+            audioSource = new ExtractorMediaSource(Uri.parse(streamUrl), dataSourceFactory, extractorsFactory, null, null);
             player.prepare(audioSource);
         } else {
-            MediaSource audioSource = new HlsMediaSource(Uri.parse(streamUrl), dataSourceFactory, null, null);
+            audioSource = new HlsMediaSource(Uri.parse(streamUrl), dataSourceFactory, null, null);
             player.prepare(audioSource);
         }
 
         player.setPlayWhenReady(true);
+
+        interruptedByConnectionLoss = false;
+        context.registerReceiver(networkChangedReceiver, new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
 
         // State changed will be called when audio session id is available.
     }
@@ -121,6 +151,7 @@ public class ExoPlayerWrapper implements PlayerWrapper, IcyDataSource.IcyDataSou
         Log.i(TAG, "Pause. Stopping exoplayer.");
 
         if (player != null) {
+            context.unregisterReceiver(networkChangedReceiver);
             player.stop();
             player.release();
             player = null;
@@ -132,6 +163,7 @@ public class ExoPlayerWrapper implements PlayerWrapper, IcyDataSource.IcyDataSou
         Log.i(TAG, "Stopping exoplayer.");
 
         if (player != null) {
+            context.unregisterReceiver(networkChangedReceiver);
             player.stop();
             player.release();
             player = null;
@@ -197,9 +229,30 @@ public class ExoPlayerWrapper implements PlayerWrapper, IcyDataSource.IcyDataSou
 
     @Override
     public void onDataSourceConnectionLostIrrecoverably() {
-        stop();
+        Log.i(TAG, "Connection lost irrecoverably.");
+
         stateListener.onStateChanged(RadioPlayer.PlayState.Idle);
         stateListener.onPlayerError(R.string.error_stream_reconnect_timeout);
+
+        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
+        int resumeWithin = sharedPref.getInt("resume_within", 60);
+        if(resumeWithin > 0) {
+            Log.d(TAG, "Trying to resume playback within " + resumeWithin + "s.");
+            player.setPlayWhenReady(false);
+            interruptedByConnectionLoss = true;
+            new Timer().schedule(new TimerTask() {
+                @Override
+                public void run() {
+                    if (interruptedByConnectionLoss) {
+                        interruptedByConnectionLoss = false;
+                        stop();
+                        stateListener.onPlayerError(R.string.giving_up_resume);
+                    }
+                }
+            }, resumeWithin * 1000);
+        } else {
+            stop();
+        }
     }
 
     @Override
@@ -286,9 +339,11 @@ public class ExoPlayerWrapper implements PlayerWrapper, IcyDataSource.IcyDataSou
         public void onPlayerError(ExoPlaybackException error) {
             // Stop playing since it is either irrecoverable error in the player or our data source failed to reconnect.
 
-            stop();
-            stateListener.onStateChanged(RadioPlayer.PlayState.Idle);
-            stateListener.onPlayerError(R.string.error_play_stream);
+            if(!interruptedByConnectionLoss) {
+                stop();
+                stateListener.onStateChanged(RadioPlayer.PlayState.Idle);
+                stateListener.onPlayerError(R.string.error_play_stream);
+            }
         }
 
         @Override
