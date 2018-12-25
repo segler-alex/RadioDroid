@@ -106,20 +106,21 @@
     <string name="settings_alarm">闹钟</string>
     <string name="settings_alarm_external">使用外部程序</string>
     <string name="settings_alarm_external_desc_on">使用默认外部程序打开闹钟</string>
-    <string name="settings_alarm_external_desc_off">使用 RadioDroid 打开闹钟</string>
+    <string name="settings_alarm_external_desc_off">使用睿卓打开闹钟</string>
     <string name="settings_alarm_audio_player">音频播放器</string>
     <string name="settings_alarm_sleep_timer">睡眠定时器</string>
     <string name="settings_alarm_sleep_timer_desc">在 %1$s 分钟后停止播放</string>
     <string name="settings_play">播放器</string>
     <string name="settings_play_external">使用外部播放器</string>
     <string name="settings_play_external_desc_on">使用外部播放器播放电台</string>
-    <string name="settings_play_external_desc_off">使用 RadioDroid 播放电台</string>
+    <string name="settings_play_external_desc_off">使用睿卓播放电台</string>
     <string name="settings_equalizer">均衡器</string>
 
     <string name="settings_connectivity">连接</string>
-    <string name="settings_connect_timeout">流媒体连接超时</string>
-    <string name="settings_read_timeout">流媒体读取超时</string>
-    <string name="settings_retry_timeout">流媒体重试超时</string>
+    <string name="settings_connect_timeout">连接超时</string>
+    <string name="settings_read_timeout">读取超时</string>
+    <string name="settings_resume_timeout">恢复播放超时</string>
+    <string name="settings_retry_timeout">重试超时</string>
     <string name="settings_retry_delay">重连延时</string>
     <string name="settings_proxy">代理</string>
     <string name="settings_proxy_login">登录</string>
@@ -136,11 +137,6 @@
 
     <string name="settings_recordings">录音</string>
     <string name="settings_record_name_formatting">文件格式</string>
-
-    <!--<string name="settings_record_name_formatting_default" translatable="false">${station}_${artist}_${track}_${date}_${time}</string>
-    <string name="settings_record_name_formatting_1" translatable="false">${station}_${artist}_${track}</string>
-    <string name="settings_record_name_formatting_2" translatable="false">${station}_${date}_${time}</string>
-    <string name="settings_record_name_formatting_3" translatable="false">${index}_${station}_${date}</string>-->
 
     <string name="settings_record_name_formatting_default_display">电台_艺术家_音轨_\u200b日期_\u200b时间</string>
     <string name="settings_record_name_formatting_1_display">电台_艺术家_\u200b音轨</string>
@@ -173,6 +169,7 @@
     <string name="alert_select_mpd_server_save">保存</string>
     <string name="alert_select_mpd_server_remove">移除</string>
     <string name="alert_add_or_edit_mpd_server">输入服务器详情</string>
+    <string name="alert_select_external_alarm_app">选择音频播放器</string>
 
     <string name="alert_press_back_to_exit">再按一次返回退出</string>
 
@@ -180,6 +177,7 @@
     <string name="error_caching_stream">流媒体缓存错误</string>
     <string name="error_play_stream">无法播放流媒体</string>
     <string name="error_stream_reconnect_timeout">无法重新连接到流媒体：超时。</string>
+    <string name="giving_up_resume">已忽略尝试恢复播放。</string>
 
     <string name="error_record_needs_write">需要写入权限才能录音！</string>
     <string name="error_grant_audiofocus">系统未授予音频焦点请求。</string>
@@ -213,6 +211,7 @@
 
     <string name="media_route_menu_title">GoogleCast</string>
     <string name="app_id">5A97BAE4</string>
+    <string name="app_name">睿卓</string>
 
     <string name="settings_mpd">Music Player Daemon</string>
     <string name="settings_view_mpd_servers">您的服务器</string>
@@ -220,12 +219,11 @@
     <string name="action_mpd_ok">MPD 已连接</string>
     <string name="action_mpd_connected">已连接到服务器：%1$s</string>
 
-    <!--<string name="settings_radiobrowser_servers">RadioBrowser 服务器</string>-->
-    <string name="settings_radiobrowser_servers_default">www.radio-browser.info/webservice</string>
+    <string name="settings_radiobrowser_servers">RadioBrowser 服务器</string>
 
     <string name="settings_other">其它</string>
     <string name="settings_statistics">统计</string>
-    <string name="settings_about">关于 RadioDroid</string>
+    <string name="settings_about">关于睿卓 (RadioDroid)</string>
 
     <string-array name="weekdays">
         <item>星期日</item>
