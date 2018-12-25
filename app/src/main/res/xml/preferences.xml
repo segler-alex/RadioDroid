@@ -177,8 +177,8 @@
             android:defaultValue="60"
             android:key="settings_resume_within"
             android:maxLength="3"
-            android:summary="Attempt playback resume within %d seconds after connection loss"
-            android:title="Attempt resume within" />
+            android:summary="@string/settings_seconds_format"
+            android:title="@string/settings_resume_timeout" />
         <Preference
             android:key="settings_proxy"
             android:title="@string/settings_proxy" />
