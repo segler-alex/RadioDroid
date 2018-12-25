@@ -175,7 +175,7 @@
             android:title="@string/settings_retry_delay" />
         <net.programmierecke.radiodroid2.views.IntEditTextPreference
             android:defaultValue="60"
-            android:key="settings_resume_timeout"
+            android:key="settings_resume_within"
             android:maxLength="3"
             android:summary="@string/settings_seconds_format"
             android:title="@string/settings_resume_timeout" />
