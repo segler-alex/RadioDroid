@@ -20,6 +20,10 @@
     "code": "AS"
   },
   {
+    "name": "American Virgin Islands",
+    "code": "VI"
+  },
+  {
     "name": "Andorra",
     "code": "AD"
   },
@@ -104,7 +108,7 @@
     "code": "BT"
   },
   {
-    "name": "Bolivia, Plurinational State of",
+    "name": "Bolivia",
     "code": "BO"
   },
   {
@@ -132,7 +136,11 @@
     "code": "IO"
   },
   {
-    "name": "Brunei Darussalam",
+    "name": "British Virgin Islands",
+    "code": "VG"
+  },
+  {
+    "name": "Brunei",
     "code": "BN"
   },
   {
@@ -142,6 +150,10 @@
   {
     "name": "Burkina Faso",
     "code": "BF"
+  },
+  {
+    "name": "Burma",
+    "code": "MM"
   },
   {
     "name": "Burundi",
@@ -200,14 +212,6 @@
     "code": "KM"
   },
   {
-    "name": "Congo",
-    "code": "CG"
-  },
-  {
-    "name": "Congo, the Democratic Republic of the",
-    "code": "CD"
-  },
-  {
     "name": "Cook Islands",
     "code": "CK"
   },
@@ -240,6 +244,10 @@
     "code": "CZ"
   },
   {
+    "name": "Democratic Republic of the Congo",
+    "code": "CD"
+  },
+  {
     "name": "Denmark",
     "code": "DK"
   },
@@ -254,6 +262,10 @@
   {
     "name": "Dominican Republic",
     "code": "DO"
+  },
+  {
+    "name": "East Timor",
+    "code": "TL"
   },
   {
     "name": "Ecuador",
@@ -388,10 +400,6 @@
     "code": "HM"
   },
   {
-    "name": "Holy See (Vatican City State)",
-    "code": "VA"
-  },
-  {
     "name": "Honduras",
     "code": "HN"
   },
@@ -416,7 +424,7 @@
     "code": "ID"
   },
   {
-    "name": "Iran, Islamic Republic of",
+    "name": "Iran",
     "code": "IR"
   },
   {
@@ -438,6 +446,10 @@
   {
     "name": "Italy",
     "code": "IT"
+  },
+  {
+    "name": "Ivory Coast",
+    "code": "CI"
   },
   {
     "name": "Jamaica",
@@ -468,12 +480,8 @@
     "code": "KI"
   },
   {
-    "name": "Korea, Democratic People's Republic of",
-    "code": "KP"
-  },
-  {
-    "name": "Korea, Republic of",
-    "code": "KR"
+    "name": "Kosovo",
+    "code": "XK"
   },
   {
     "name": "Kuwait",
@@ -484,7 +492,7 @@
     "code": "KG"
   },
   {
-    "name": "Lao People's Democratic Republic",
+    "name": "Laos",
     "code": "LA"
   },
   {
@@ -524,7 +532,7 @@
     "code": "MO"
   },
   {
-    "name": "Macedonia, the Former Yugoslav Republic of",
+    "name": "Macedonia",
     "code": "MK"
   },
   {
@@ -576,11 +584,11 @@
     "code": "MX"
   },
   {
-    "name": "Micronesia, Federated States of",
+    "name": "Micronesia",
     "code": "FM"
   },
   {
-    "name": "Moldova, Republic of",
+    "name": "Moldova",
     "code": "MD"
   },
   {
@@ -656,6 +664,10 @@
     "code": "NF"
   },
   {
+    "name": "North Korea",
+    "code": "KP"
+  },
+  {
     "name": "Northern Mariana Islands",
     "code": "MP"
   },
@@ -676,7 +688,7 @@
     "code": "PW"
   },
   {
-    "name": "Palestine, State of",
+    "name": "Palestine",
     "code": "PS"
   },
   {
@@ -720,6 +732,10 @@
     "code": "QA"
   },
   {
+    "name": "Republic of the Congo",
+    "code": "CG"
+  },
+  {
     "name": "Réunion",
     "code": "RE"
   },
@@ -744,7 +760,7 @@
     "code": "BL"
   },
   {
-    "name": "Saint Helena, Ascension and Tristan da Cunha",
+    "name": "Saint Helena",
     "code": "SH"
   },
   {
@@ -832,6 +848,10 @@
     "code": "GS"
   },
   {
+    "name": "South Korea",
+    "code": "KR"
+  },
+  {
     "name": "South Sudan",
     "code": "SS"
   },
@@ -868,11 +888,11 @@
     "code": "CH"
   },
   {
-    "name": "Syrian Arab Republic",
+    "name": "Syria",
     "code": "SY"
   },
   {
-    "name": "Taiwan, Republic of China",
+    "name": "Taiwan",
     "code": "TW"
   },
   {
@@ -880,7 +900,7 @@
     "code": "TJ"
   },
   {
-    "name": "Tanzania, United Republic of",
+    "name": "Tanzania",
     "code": "TZ"
   },
   {
@@ -968,20 +988,16 @@
     "code": "VU"
   },
   {
-    "name": "Venezuela, Bolivarian Republic of",
+    "name": "Vatican City",
+    "code": "VA"
+  },
+  {
+    "name": "Venezuela",
     "code": "VE"
   },
   {
-    "name": "Viet Nam",
+    "name": "Vietnam",
     "code": "VN"
-  },
-  {
-    "name": "Virgin Islands, British",
-    "code": "VG"
-  },
-  {
-    "name": "Virgin Islands, U.S.",
-    "code": "VI"
   },
   {
     "name": "Wallis and Futuna",
