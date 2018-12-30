@@ -88,6 +88,7 @@
     <PreferenceCategory android:title="@string/settings_play">
 
         <CheckBoxPreference
+            android:disableDependentsState="true"
             android:key="play_external"
             android:summaryOff="@string/settings_play_external_desc_off"
             android:summaryOn="@string/settings_play_external_desc_on"
@@ -133,6 +134,7 @@
     <PreferenceCategory android:title="@string/settings_recordings">
         <ListPreference
             android:defaultValue="@string/settings_record_name_formatting_default"
+            android:dependency="play_external"
             android:entries="@array/settings_record_name_formatting_list_display"
             android:entryValues="@array/settings_record_name_formatting_list"
             android:key="record_name_formatting"
@@ -151,34 +153,39 @@
         android:title="@string/settings_connectivity">
         <net.programmierecke.radiodroid2.views.IntEditTextPreference
             android:defaultValue="5"
+            android:dependency="play_external"
             android:key="stream_connect_timeout"
             android:maxLength="2"
             android:summary="@string/settings_seconds_format"
             android:title="@string/settings_connect_timeout" />
         <net.programmierecke.radiodroid2.views.IntEditTextPreference
             android:defaultValue="10"
+            android:dependency="play_external"
             android:key="stream_read_timeout"
             android:maxLength="2"
             android:summary="@string/settings_seconds_format"
             android:title="@string/settings_read_timeout" />
         <net.programmierecke.radiodroid2.views.IntEditTextPreference
             android:defaultValue="10"
+            android:dependency="play_external"
             android:key="settings_retry_timeout"
             android:maxLength="2"
             android:summary="@string/settings_seconds_format"
             android:title="@string/settings_retry_timeout" />
         <net.programmierecke.radiodroid2.views.IntEditTextPreference
             android:defaultValue="0"
+            android:dependency="play_external"
             android:key="settings_retry_delay"
             android:maxLength="8"
             android:summary="@string/settings_milliseconds_format"
             android:title="@string/settings_retry_delay" />
         <net.programmierecke.radiodroid2.views.IntEditTextPreference
             android:defaultValue="60"
+            android:dependency="play_external"
             android:key="settings_resume_within"
             android:maxLength="3"
-            android:summary="Attempt playback resume within %d seconds after connection loss"
-            android:title="Attempt resume within" />
+            android:summary="@string/settings_seconds_format"
+            android:title="@string/settings_resume_timeout" />
         <Preference
             android:key="settings_proxy"
             android:title="@string/settings_proxy" />
