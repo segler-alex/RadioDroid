@@ -95,8 +95,8 @@
     <string name="settings_auto_favorite_on">播放时自动收藏电台</string>
     <string name="settings_auto_favorite_off">播放时不自动收藏电台</string>
 
-    <string name="settings_icon_click_toggles_favorite">点击图标</string>
-    <string name="settings_icon_click_toggles_favorite_on">点击电台图标添加到收藏或移除</string>
+    <string name="settings_icon_click_toggles_favorite">点击收藏</string>
+    <string name="settings_icon_click_toggles_favorite_on">点击电台图标添加或移除收藏的电台</string>
     <string name="settings_icon_click_toggles_favorite_off">点击电台图标开始播放</string>
 
     <string name="settings_click_trend_icon_visible">热度图标</string>
@@ -148,7 +148,7 @@
     <string name="notify_paused">已暂停</string>
     <string name="notify_starred">电台已被收藏</string>
     <string name="notify_autostarred">电台已被自动收藏</string>
-    <string name="notify_unstarred">电台已从收藏列表中移除</string>
+    <string name="notify_unstarred">电台已从收藏移除</string>
     <string name="notify_deleted_favorites">收藏已被删除</string>
     <string name="notify_deleted_history">历史已被删除</string>
 
