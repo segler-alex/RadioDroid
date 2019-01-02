@@ -52,8 +52,8 @@
     Ak sa vám táto aplikácia páči a radi by ste pomohli, prosím ozvite sa emailom. Rád by som našiel niekoho so skúsenosťami v oblasti grafiky, aby mi pomohol zatraktívniť aplikáciu tak, aby bola krajšia na pohľad :) možno niekto z vás dokáže nakresliť ikony a obrázky... alebo tiež šikovní vývojári, ktorí dokážete opraviť chyby a pridať nové (vlastnosti nie chyby ;)\n
     Nápady na nové vylepšenia sú tiež vítané!\n
     \n
-    Táto aplikácia je poskytovaná zdarma pod licenciou GPLv3\n
-    https://www.gnu.org/licenses/gpl-3.0.html.</string>
+    Táto aplikácia je poskytovaná zdarma pod licenciou GPLv3.\n
+    https://www.gnu.org/licenses/gpl-3.0.html</string>
     <string name="about_version">Verzia: %1$s</string>
     <string name="detail_star">Do obľúbených</string>
     <string name="detail_unstar">Odstrániť z obľúbených</string>
