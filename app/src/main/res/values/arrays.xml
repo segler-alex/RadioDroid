@@ -52,7 +52,7 @@
     </string-array>
 
     <string-array name="settings_radiobrowser_servers_display" translatable="false">
-        <item>loading</item>
+        <item>@string/progress_loading</item>
     </string-array>
 
     <string-array name="settings_record_name_formatting_list">
