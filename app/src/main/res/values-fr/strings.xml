@@ -47,8 +47,8 @@
             Si vous appréciez cette application et que vous voulez soutenir le développement, n\'hésitez pas à m\'envoyer un mail. Si vous avez de l\'expérience en graphisme, vous êtes le bienvenu pour rendre RadioDroid plus agréable à regarder ;) Je cherche aussi des programmeurs pour résoudre les bugs, et implémenter de nouvelles fonctionnalités !\n
             Les idées de nouvelles fonctionnalités sont d\'ailleurs toujours les bienvenues!\n
             \n
-            Cette application est un logiciel libre, sa licence est la GNU GPLv3\n
-            https://www.gnu.org/licenses/gpl-3.0.html.</string>
+            Cette application est un logiciel libre, sa licence est la GNU GPLv3.\n
+            https://www.gnu.org/licenses/gpl-3.0.html</string>
     <string name="about_version">Version : %1$s</string>
     <string name="detail_star">Favoris</string>
     <string name="detail_unstar">Supprimer</string>
