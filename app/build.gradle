@@ -23,7 +23,7 @@ android {
         // Define your application name here.
         // It must neither be present in /res/values/strings.xml
         // nor in /res/values/string_no_translate.xml
-        resValue 'string', 'app_name', 'RadioDroid'
+        resValue 'string', 'app_name_untranslated', 'RadioDroid'
     }
 
     sourceSets {
@@ -82,7 +82,7 @@ android.applicationVariants.all { variant ->
     variant.outputs.all { output ->
 
         // get app_name field from defaultConfig
-        def appName = variant.mergedFlavor.resValues.get('app_name').getValue()
+        def appName = variant.mergedFlavor.resValues.get('app_name_untranslated').getValue()
         appName = "${appName}"
 
         // concat new App name with each flavor's name
