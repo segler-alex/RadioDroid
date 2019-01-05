@@ -424,7 +424,7 @@ public class Utils {
 			return;
 		}
 
-		InetSocketAddress proxyAddress = new InetSocketAddress(proxySettings.host, proxySettings.port);
+		InetSocketAddress proxyAddress = InetSocketAddress.createUnresolved(proxySettings.host, proxySettings.port);
 		Proxy proxy = new Proxy(proxySettings.type, proxyAddress);
 
 		builder.proxy(proxy);
