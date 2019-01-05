@@ -92,8 +92,8 @@
     <string name="settings_load_icons_off">Icons will not be downloaded</string>
 
     <string name="settings_auto_favorite">Auto-favorites</string>
-    <string name="settings_auto_favorite_on">Set stations automatically as favorites when playing</string>
-    <string name="settings_auto_favorite_off">Do not set stations automatically as favorites when playing</string>
+    <string name="settings_auto_favorite_on">Add stations automatically to favorites when playing</string>
+    <string name="settings_auto_favorite_off">Do not add stations automatically to favorites when playing</string>
 
     <string name="settings_icon_click_toggles_favorite">Click-favorites</string>
     <string name="settings_icon_click_toggles_favorite_on">Click station icon to add or remove favorite station</string>
@@ -123,7 +123,7 @@
     <string name="settings_retry_timeout">Retry timeout</string>
     <string name="settings_retry_delay">Reconnection delay</string>
     <string name="settings_proxy">Proxy</string>
-    <string name="settings_proxy_login">Login</string>
+    <string name="settings_proxy_login">Username</string>
     <string name="settings_proxy_password">Password</string>
     <string name="settings_proxy_action_test">Test</string>
     <string name="settings_proxy_working">Successfully connected to %s</string>

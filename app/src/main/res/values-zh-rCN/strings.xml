@@ -123,7 +123,7 @@
     <string name="settings_retry_timeout">重试超时</string>
     <string name="settings_retry_delay">重连延时</string>
     <string name="settings_proxy">代理</string>
-    <string name="settings_proxy_login">登录</string>
+    <string name="settings_proxy_login">用户名</string>
     <string name="settings_proxy_password">密码</string>
     <string name="settings_proxy_action_test">测试</string>
     <string name="settings_proxy_working">成功连接到 %s</string>
