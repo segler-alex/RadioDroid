@@ -235,7 +235,7 @@ public class ExoPlayerWrapper implements PlayerWrapper, IcyDataSource.IcyDataSou
         stateListener.onPlayerError(R.string.error_stream_reconnect_timeout);
 
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
-        int resumeWithin = sharedPref.getInt("resume_within", 60);
+        int resumeWithin = sharedPref.getInt("settings_resume_within", 60);
         if(resumeWithin > 0) {
             Log.d(TAG, "Trying to resume playback within " + resumeWithin + "s.");
             player.setPlayWhenReady(false);
