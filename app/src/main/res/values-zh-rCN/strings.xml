@@ -131,9 +131,9 @@
     <string name="settings_seconds_format">%d 秒</string>
     <string name="settings_milliseconds_format">%d 毫秒</string>
 
-    <string name="settings_warn_no_wifi">未使用 Wifi 时警告</string>
-    <string name="settings_warn_no_wifi_on">播放时无 Wifi 连接警告</string>
-    <string name="settings_warn_no_wifi_off">未使用 Wifi 连接时不警告</string>
+    <string name="settings_warn_no_wifi">未使用 Wi-Fi 时警告</string>
+    <string name="settings_warn_no_wifi_on">播放时无 Wi-Fi 连接警告</string>
+    <string name="settings_warn_no_wifi_off">未使用 Wi-Fi 连接时不警告</string>
 
     <string name="settings_recordings">录音</string>
     <string name="settings_record_name_formatting">文件格式</string>
@@ -242,8 +242,8 @@
         <item>复制流媒体地址</item>
     </string-array>
 
-    <string name="no_wifi_title">无 WiFi (WLAN) 连接</string>
-    <string name="no_wifi_connection">播放 %1$s 时无 WiFi (WLAN) 连接，按 \'确认\' 继续。</string>
+    <string name="no_wifi_title">无 Wi-Fi (WLAN) 连接</string>
+    <string name="no_wifi_connection">播放 %1$s 时无 Wi-Fi (WLAN) 连接，按 \'确认\' 继续。</string>
     <string name="nav_item_statistics">统计</string>
     <string name="nav_item_about">关于</string>
     <string name="settings_mpd_port">MPD 端口</string>
