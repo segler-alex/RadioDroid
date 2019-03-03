@@ -23,7 +23,7 @@
     <string name="action_cancel">Cancel</string>
     <string name="action_top_click">Top Click</string>
     <string name="action_top_vote">Top Vote</string>
-    <string name="action_changed_lately">Changed lately</string>
+    <string name="action_changed_lately">Changed Lately</string>
     <string name="action_currently_playing">Playing</string>
     <string name="action_tags">Tags</string>
     <string name="action_countries">Countries</string>
@@ -131,9 +131,9 @@
     <string name="settings_seconds_format">%d seconds</string>
     <string name="settings_milliseconds_format">%d milliseconds</string>
 
-    <string name="settings_warn_no_wifi">Warn when not on Wifi</string>
-    <string name="settings_warn_no_wifi_on">Warn when playing without Wifi connection</string>
-    <string name="settings_warn_no_wifi_off">No warning when not on Wifi connection</string>
+    <string name="settings_warn_no_wifi">Warn when not on Wi-Fi</string>
+    <string name="settings_warn_no_wifi_on">Warn when playing without Wi-Fi connection</string>
+    <string name="settings_warn_no_wifi_off">No warning when not on Wi-Fi connection</string>
 
     <string name="settings_recordings">Recordings</string>
     <string name="settings_record_name_formatting">Name format</string>
@@ -248,8 +248,8 @@
         <item>Copy Stream URL</item>
     </string-array>
 
-    <string name="no_wifi_title">No WiFi (WLAN) connection</string>
-    <string name="no_wifi_connection">No WiFi (WLAN) connection when starting %1$s. Press \'OK\' to continue.</string>
+    <string name="no_wifi_title">No Wi-Fi (WLAN) connection</string>
+    <string name="no_wifi_connection">No Wi-Fi (WLAN) connection when starting %1$s. Press \'OK\' to continue.</string>
     <string name="nav_item_statistics">Statistics</string>
     <string name="nav_item_about">About</string>
     <string name="settings_mpd_port">MPD port</string>
