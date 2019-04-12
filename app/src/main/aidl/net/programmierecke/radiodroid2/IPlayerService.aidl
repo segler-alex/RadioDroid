@@ -10,6 +10,8 @@ void Play(boolean isAlarm);
 void Pause();
 void Resume();
 void Stop();
+void Next();
+void Previous();
 void addTimer(int secondsAdd);
 void clearTimer();
 long getTimerSeconds();

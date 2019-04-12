@@ -29,7 +29,7 @@ public class RadioDroidBrowserService extends MediaBrowserServiceCompat {
     private IPlayerService playerService;
     private GetRealLinkAndPlayTask playTask;
 
-    private static class GetRealLinkAndPlayTask extends AsyncTask<Void, Void, String> {
+    public static class GetRealLinkAndPlayTask extends AsyncTask<Void, Void, String> {
         private WeakReference<Context> contextRef;
         private DataRadioStation station;
         private WeakReference<IPlayerService> playerServiceRef;

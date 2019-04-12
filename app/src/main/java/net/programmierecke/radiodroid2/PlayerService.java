@@ -1,5 +1,6 @@
 package net.programmierecke.radiodroid2;
 
+import java.util.List;
 import java.util.Map;
 
 import android.app.Notification;
@@ -39,6 +40,7 @@ import android.widget.Toast;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
 
+import net.programmierecke.radiodroid2.data.DataRadioStation;
 import net.programmierecke.radiodroid2.data.ShoutcastInfo;
 import net.programmierecke.radiodroid2.data.StreamLiveInfo;
 import net.programmierecke.radiodroid2.players.RadioPlayer;
@@ -102,6 +104,14 @@ public class PlayerService extends Service implements RadioPlayer.PlayerListener
         // and then use it in playerFragment when MPD player is working.
         public void SaveInfo(String theUrl, String theName, String theID, String theIconUrl) {
             PlayerService.this.saveInfo(theUrl, theName, theID, theIconUrl);
+        }
+
+        public void Next() throws RemoteException {
+            PlayerService.this.next();
+        }
+
+        public void Previous() throws RemoteException {
+            PlayerService.this.previous();
         }
 
         public void Play(boolean isAlarm) throws RemoteException {
@@ -408,6 +418,7 @@ public class PlayerService extends Service implements RadioPlayer.PlayerListener
             MediaButtonReceiver.handleIntent(mediaSession, intent);
         }
 
+        enableMediaSession();
         return super.onStartCommand(intent, flags, startId);
     }
 
@@ -441,6 +452,20 @@ public class PlayerService extends Service implements RadioPlayer.PlayerListener
         radioPlayer.pause();
     }
 
+    public void next() {
+        RadioDroidApp radioDroidApp = (RadioDroidApp) this.getApplication();
+        DataRadioStation station = radioDroidApp.getFavouriteManager().getNextById(currentStationID);
+        if (station != null)
+            new RadioDroidBrowserService.GetRealLinkAndPlayTask(itsContext, station, itsBinder).execute();
+    }
+
+    public void previous() {
+        RadioDroidApp radioDroidApp = (RadioDroidApp) this.getApplication();
+        DataRadioStation station = radioDroidApp.getFavouriteManager().getPreviousById(currentStationID);
+        if (station != null)
+            new RadioDroidBrowserService.GetRealLinkAndPlayTask(itsContext, station, itsBinder).execute();
+    }
+
     public void resume() {
         if (BuildConfig.DEBUG) Log.d(TAG, "resuming playback.");
 
@@ -448,7 +473,19 @@ public class PlayerService extends Service implements RadioPlayer.PlayerListener
 
         if (!radioPlayer.isPlaying()) {
             acquireAudioFocus();
-            replayCurrent(false);
+            if(currentStationURL != null) {
+                replayCurrent(false);
+            } else {
+                DataRadioStation lastStation;
+                RadioDroidApp radioDroidApp = (RadioDroidApp) this.getApplication();
+                HistoryManager historyManager = radioDroidApp.getHistoryManager();
+                List<DataRadioStation> history = historyManager.getList();
+
+                if (history.size() > 0) {
+                    lastStation = history.get(0);
+                    new RadioDroidBrowserService.GetRealLinkAndPlayTask(itsContext, lastStation, itsBinder).execute();
+                }
+            }
         }
     }
 
@@ -489,6 +526,8 @@ public class PlayerService extends Service implements RadioPlayer.PlayerListener
 
         PlaybackStateCompat.Builder playbackStateBuilder = new PlaybackStateCompat.Builder();
         playbackStateBuilder.setActions(PlaybackStateCompat.ACTION_PLAY
+                | PlaybackStateCompat.ACTION_SKIP_TO_NEXT
+                | PlaybackStateCompat.ACTION_SKIP_TO_PREVIOUS
                 | PlaybackStateCompat.ACTION_PLAY_PAUSE
                 | PlaybackStateCompat.ACTION_STOP
                 | PlaybackStateCompat.ACTION_PAUSE);
@@ -498,14 +537,16 @@ public class PlayerService extends Service implements RadioPlayer.PlayerListener
     }
 
     private void enableMediaSession() {
-        if (BuildConfig.DEBUG) Log.d(TAG, "enabling media session.");
+        if (!mediaSession.isActive()) {
+            if (BuildConfig.DEBUG) Log.d(TAG, "enabling media session.");
 
-        IntentFilter becomingNoisyFilter = new IntentFilter(AudioManager.ACTION_AUDIO_BECOMING_NOISY);
-        registerReceiver(becomingNoisyReceiver, becomingNoisyFilter);
+            IntentFilter becomingNoisyFilter = new IntentFilter(AudioManager.ACTION_AUDIO_BECOMING_NOISY);
+            registerReceiver(becomingNoisyReceiver, becomingNoisyFilter);
 
-        mediaSession.setActive(true);
+            mediaSession.setActive(true);
 
-        setMediaPlaybackState(PlaybackStateCompat.STATE_NONE);
+            setMediaPlaybackState(PlaybackStateCompat.STATE_NONE);
+        }
     }
 
     private void disableMediaSession() {
