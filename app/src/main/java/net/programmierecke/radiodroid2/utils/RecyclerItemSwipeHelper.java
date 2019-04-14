@@ -58,6 +58,8 @@ public class RecyclerItemSwipeHelper<ViewHolderType extends SwipeableViewHolder>
 
     @Override
     public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
-        swipeListener.onSwiped((ViewHolderType) viewHolder, direction);
+        @SuppressWarnings("unchecked")
+        ViewHolderType viewHolderType = (ViewHolderType) viewHolder;
+        swipeListener.onSwiped(viewHolderType, direction);
     }
 }

@@ -80,13 +80,11 @@
   <string name="settings_click_trend_icon_visible_off">Ikonet vert ikkje vist</string>
   <string name="settings_alarm">Varsling</string>
   <string name="settings_alarm_external">Opna i ekstern app</string>
-  <string name="settings_alarm_external_desc">Opna varslingar i standard ekstern app</string>
   <string name="settings_alarm_audio_player">Musikkspelar</string>
   <string name="settings_alarm_sleep_timer">Nedteljing til avspelingsstopp</string>
   <string name="settings_alarm_sleep_timer_desc">Stopp avspeling etter %1$s minutt</string>
   <string name="settings_play">Avspeling</string>
   <string name="settings_play_external">Opna i ekstern app</string>
-  <string name="settings_play_external_desc">Skal enkelttrykk på radiokanalar opna dei i ekstern app?</string>
   <string name="settings_equalizer">Lydbalanse</string>
   <string name="settings_connectivity">Samband</string>
   <string name="settings_connect_timeout">Tidsavbrot ved tilkopling til radiostraum</string>

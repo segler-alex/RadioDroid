@@ -82,13 +82,11 @@
 
     <string name="settings_alarm">Alarm</string>
     <string name="settings_alarm_external">Öffne extern</string>
-    <string name="settings_alarm_external_desc">Öffne mit externem Abspieler</string>
     <string name="settings_alarm_audio_player">Audio-Abspieler</string>
     <string name="settings_alarm_sleep_timer">Schlaftimer</string>
     <string name="settings_alarm_sleep_timer_desc">Nach %1$s Minuten stoppen</string>
     <string name="settings_play">Abspieler</string>
     <string name="settings_play_external">Öffne extern</string>
-    <string name="settings_play_external_desc">Spiele Radios mit externem Player ab.</string>
 
     <string name="settings_statistics">Statistik</string>
     <string name="settings_about">Über RadioDroid</string>

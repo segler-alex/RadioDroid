@@ -585,7 +585,7 @@ public class PlayerService extends Service implements RadioPlayer.PlayerListener
         if (BuildConfig.DEBUG) Log.d(TAG, "acquiring wake lock and wifi lock.");
 
         if (wakeLock == null) {
-            wakeLock = powerManager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "PlayerService");
+            wakeLock = powerManager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "PlayerService:");
         }
         if (!wakeLock.isHeld()) {
             wakeLock.acquire();

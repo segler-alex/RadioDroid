@@ -48,13 +48,11 @@
 
     <string name="settings_alarm">Hälytys</string>
     <string name="settings_alarm_external">Avaa ulkoisella</string>
-    <string name="settings_alarm_external_desc">Käytä ulkoista oletussovellusta</string>
     <string name="settings_alarm_audio_player">Audiosoitin</string>
     <string name="settings_alarm_sleep_timer">Uniajastin</string>
     <string name="settings_alarm_sleep_timer_desc">Pysäytä toisto %1$s minuutin jälkeen</string>
     <string name="settings_play">Soitin</string>
     <string name="settings_play_external">Avaa ulkoisella</string>
-    <string name="settings_play_external_desc">Avaa asemat ulkoisella sovelluksella</string>
 
     <string name="settings_statistics">Tilastoja</string>
     <string name="settings_about">Tietoa</string>

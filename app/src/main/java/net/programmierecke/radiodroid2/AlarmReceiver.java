@@ -57,7 +57,7 @@ public class AlarmReceiver extends BroadcastReceiver {
     private void aquireLocks(Context context) {
         powerManager = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
         if (wakeLock == null) {
-            wakeLock = powerManager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "AlarmReceiver");
+            wakeLock = powerManager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "AlarmReceiver:");
         }
         if (!wakeLock.isHeld()) {
             if(BuildConfig.DEBUG) { Log.d(TAG,"acquire wakelock"); }

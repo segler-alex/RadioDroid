@@ -97,13 +97,11 @@
 
     <string name="settings_alarm">Alarm</string>
     <string name="settings_alarm_external">Extern openen</string>
-    <string name="settings_alarm_external_desc">Opent het alarm in de standaardapp</string>
     <string name="settings_alarm_audio_player">Audiospeler</string>
     <string name="settings_alarm_sleep_timer">Slaaptimer</string>
     <string name="settings_alarm_sleep_timer_desc">Stoppen met afspelen na %1$s minuten</string>
     <string name="settings_play">Speler</string>
     <string name="settings_play_external">Extern openen</string>
-    <string name="settings_play_external_desc">Radiostations afspelen in externe app</string>
     <string name="settings_equalizer">Equalizer</string>
 
     <string name="settings_connectivity">Verbinding</string>

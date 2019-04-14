@@ -106,13 +106,11 @@
 
     <string name="settings_alarm">Budík</string>
     <string name="settings_alarm_external">Otvoriť externú aplikáciu</string>
-    <string name="settings_alarm_external_desc">Budík sa otvorí v predvolenej externej aplikácii</string>
     <string name="settings_alarm_audio_player">Audio prehrávač</string>
     <string name="settings_alarm_sleep_timer">Časovač zaspávania</string>
     <string name="settings_alarm_sleep_timer_desc">Zastaviť prehrávanie po %1$s minútach</string>
     <string name="settings_play">Prehrávač</string>
     <string name="settings_play_external">Otvoriť externú aplikáciu</string>
-    <string name="settings_play_external_desc">Klepnutím na názov stanice otvoríte externý prehrávač</string>
     <string name="settings_equalizer">Ekvalizér</string>
 
     <string name="settings_connectivity">Pripojenie</string>

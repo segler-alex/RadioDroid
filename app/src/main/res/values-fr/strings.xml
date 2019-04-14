@@ -97,13 +97,11 @@
 
     <string name="settings_alarm">Alarme</string>
     <string name="settings_alarm_external">Ouverture avec une application externe</string>
-    <string name="settings_alarm_external_desc">Jouer l\'alarme avec l\'application externe par défaut</string>
     <string name="settings_alarm_audio_player">Lecteur audio</string>
     <string name="settings_alarm_sleep_timer">Minuterie pour le sommeil</string>
     <string name="settings_alarm_sleep_timer_desc">Stopper la lecture après %1$s minutes</string>
     <string name="settings_play">Lecteur</string>
     <string name="settings_play_external">Ouverture avec une application externe</string>
-    <string name="settings_play_external_desc">Lire les radios avec un lecteur externe</string>
     <string name="settings_equalizer">Égaliseur</string>
 
     <string name="settings_warn_no_wifi">Alerter lors de la lecture sans Wi-Fi</string>

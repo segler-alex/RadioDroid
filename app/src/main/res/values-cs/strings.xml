@@ -47,13 +47,11 @@
 
     <string name="settings_alarm">Alarm</string>
     <string name="settings_alarm_external">Otevřít externě</string>
-    <string name="settings_alarm_external_desc">Otevřít alarm s výchozí externí aplikací</string>
     <string name="settings_alarm_audio_player">Audiopřehrávač</string>
     <string name="settings_alarm_sleep_timer">Časovač před spaním</string>
     <string name="settings_alarm_sleep_timer_desc">Ukončit přehrávání po %1$s minutách</string>
     <string name="settings_play">Přehrávač</string>
     <string name="settings_play_external">Otevřít externě</string>
-    <string name="settings_play_external_desc">Má dotyk na stanice otevřít externí</string>
 
     <string name="settings_statistics">Statistiky</string>
     <string name="settings_about">O aplikaci</string>

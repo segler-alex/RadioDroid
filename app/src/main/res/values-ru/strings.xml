@@ -87,13 +87,11 @@
 
     <string name="settings_alarm">Будильник</string>
     <string name="settings_alarm_external">Запускать в приложении</string>
-    <string name="settings_alarm_external_desc">Запускать будильник, используя другое приложение</string>
     <string name="settings_alarm_audio_player">Аудио плеер</string>
     <string name="settings_alarm_sleep_timer">Таймер сна</string>
     <string name="settings_alarm_sleep_timer_desc">Прекратить проигрывание через %1$s минут</string>
     <string name="settings_play">Плеер</string>
     <string name="settings_play_external">Запускать в приложении</string>
-    <string name="settings_play_external_desc">Одиночное нажатие будет запускать станцию в другом приложении</string>
     <string name="settings_equalizer">Эквалайзер</string>
 
     <string name="settings_connectivity">Соединение</string>

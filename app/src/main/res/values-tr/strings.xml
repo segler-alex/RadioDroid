@@ -96,13 +96,11 @@
 
     <string name="settings_alarm">Alarm</string>
     <string name="settings_alarm_external">Hariciyi aç</string>
-    <string name="settings_alarm_external_desc">Alarmı öntanımlı harici uygulama ile aç</string>
     <string name="settings_alarm_audio_player">Ses Oynatıcı</string>
     <string name="settings_alarm_sleep_timer">Uyku zamanlayıcı</string>
     <string name="settings_alarm_sleep_timer_desc">%1$s dakika sonra oynatmayı durdur</string>
     <string name="settings_play">Oynatıcı</string>
     <string name="settings_play_external">Hariciyi aç</string>
-    <string name="settings_play_external_desc">İstasyonların üzerine tek tık hariciyi açsın mı</string>
     <string name="settings_equalizer">Ekolayzır</string>
 
     <string name="settings_connectivity">Bağlanılabilirlik</string>

@@ -97,13 +97,11 @@
 
     <string name="settings_alarm">Alarma</string>
     <string name="settings_alarm_external">Abrir externa</string>
-    <string name="settings_alarm_external_desc">Abrir la alarma con la aplicación externa predeterminada</string>
     <string name="settings_alarm_audio_player">Reproductor de audio</string>
     <string name="settings_alarm_sleep_timer">Tiempo para dormir</string>
     <string name="settings_alarm_sleep_timer_desc">Parar la reproducción tras %1$s minutos</string>
     <string name="settings_play">Reproductor</string>
     <string name="settings_play_external">Abrir externo</string>
-    <string name="settings_play_external_desc">Un solo clic en las estaciones abre el reproductor externo</string>
     <string name="settings_equalizer">Ecualizador</string>
 
 	<string name="settings_connectivity">Conexión</string>

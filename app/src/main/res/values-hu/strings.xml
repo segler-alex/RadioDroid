@@ -96,13 +96,11 @@
 
     <string name="settings_alarm">Riasztás</string>
     <string name="settings_alarm_external">Külső megnyitás</string>
-    <string name="settings_alarm_external_desc">Riasztás megnyitása az alapértelmezett külső appal</string>
     <string name="settings_alarm_audio_player">Zenelejátszó</string>
     <string name="settings_alarm_sleep_timer">Alvási időzítő</string>
     <string name="settings_alarm_sleep_timer_desc">Lejátszás leállítása %1$s perc után</string>
     <string name="settings_play">Lejátszó</string>
     <string name="settings_play_external">Külső megnyitása</string>
-    <string name="settings_play_external_desc">Az államosokon történő kattintás külső appot nyit meg</string>
     <string name="settings_equalizer">Hangszínszabályzó</string>
 
     <string name="settings_connectivity">Kapcsolódás</string>
