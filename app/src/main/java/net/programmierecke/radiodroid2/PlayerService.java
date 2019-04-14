@@ -452,14 +452,14 @@ public class PlayerService extends Service implements RadioPlayer.PlayerListener
     }
 
     public void next() {
-        RadioDroidApp radioDroidApp = (RadioDroidApp) this.getApplication();
+        RadioDroidApp radioDroidApp = (RadioDroidApp) getApplication();
         DataRadioStation station = radioDroidApp.getFavouriteManager().getNextById(currentStationID);
         if (station != null)
             new RadioDroidBrowserService.GetRealLinkAndPlayTask(itsContext, station, itsBinder).execute();
     }
 
     public void previous() {
-        RadioDroidApp radioDroidApp = (RadioDroidApp) this.getApplication();
+        RadioDroidApp radioDroidApp = (RadioDroidApp) getApplication();
         DataRadioStation station = radioDroidApp.getFavouriteManager().getPreviousById(currentStationID);
         if (station != null)
             new RadioDroidBrowserService.GetRealLinkAndPlayTask(itsContext, station, itsBinder).execute();
@@ -476,7 +476,7 @@ public class PlayerService extends Service implements RadioPlayer.PlayerListener
                 replayCurrent(false);
             } else {
                 DataRadioStation lastStation;
-                RadioDroidApp radioDroidApp = (RadioDroidApp) this.getApplication();
+                RadioDroidApp radioDroidApp = (RadioDroidApp) getApplication();
                 HistoryManager historyManager = radioDroidApp.getHistoryManager();
                 List<DataRadioStation> history = historyManager.getList();
 

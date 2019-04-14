@@ -65,7 +65,7 @@ public class StationSaveManager {
     }
 
     public DataRadioStation getNextById(String id) {
-        if (listStations.size() == 0)
+        if (listStations.isEmpty())
             return null;
 
         for (int i = 0; i < listStations.size() - 1; i++) {
@@ -77,7 +77,7 @@ public class StationSaveManager {
     }
 
     public DataRadioStation getPreviousById(String id) {
-        if (listStations.size() == 0)
+        if (listStations.isEmpty())
             return null;
 
         for (int i = 1; i < listStations.size(); i++) {
