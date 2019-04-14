@@ -418,7 +418,6 @@ public class PlayerService extends Service implements RadioPlayer.PlayerListener
             MediaButtonReceiver.handleIntent(mediaSession, intent);
         }
 
-        enableMediaSession();
         return super.onStartCommand(intent, flags, startId);
     }
 
@@ -537,16 +536,14 @@ public class PlayerService extends Service implements RadioPlayer.PlayerListener
     }
 
     private void enableMediaSession() {
-        if (!mediaSession.isActive()) {
-            if (BuildConfig.DEBUG) Log.d(TAG, "enabling media session.");
+        if (BuildConfig.DEBUG) Log.d(TAG, "enabling media session.");
 
-            IntentFilter becomingNoisyFilter = new IntentFilter(AudioManager.ACTION_AUDIO_BECOMING_NOISY);
-            registerReceiver(becomingNoisyReceiver, becomingNoisyFilter);
+        IntentFilter becomingNoisyFilter = new IntentFilter(AudioManager.ACTION_AUDIO_BECOMING_NOISY);
+        registerReceiver(becomingNoisyReceiver, becomingNoisyFilter);
 
-            mediaSession.setActive(true);
+        mediaSession.setActive(true);
 
-            setMediaPlaybackState(PlaybackStateCompat.STATE_NONE);
-        }
+        setMediaPlaybackState(PlaybackStateCompat.STATE_NONE);
     }
 
     private void disableMediaSession() {
