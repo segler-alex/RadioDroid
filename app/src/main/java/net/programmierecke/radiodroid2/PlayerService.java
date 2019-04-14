@@ -46,6 +46,7 @@ import net.programmierecke.radiodroid2.data.StreamLiveInfo;
 import net.programmierecke.radiodroid2.players.RadioPlayer;
 import net.programmierecke.radiodroid2.recording.RecordingsManager;
 import net.programmierecke.radiodroid2.recording.RunningRecordingInfo;
+import net.programmierecke.radiodroid2.utils.GetRealLinkAndPlayTask;
 
 public class PlayerService extends Service implements RadioPlayer.PlayerListener {
     protected static final int NOTIFY_ID = 1;
@@ -455,14 +456,14 @@ public class PlayerService extends Service implements RadioPlayer.PlayerListener
         RadioDroidApp radioDroidApp = (RadioDroidApp) getApplication();
         DataRadioStation station = radioDroidApp.getFavouriteManager().getNextById(currentStationID);
         if (station != null)
-            new RadioDroidBrowserService.GetRealLinkAndPlayTask(itsContext, station, itsBinder).execute();
+            new GetRealLinkAndPlayTask(itsContext, station, itsBinder).execute();
     }
 
     public void previous() {
         RadioDroidApp radioDroidApp = (RadioDroidApp) getApplication();
         DataRadioStation station = radioDroidApp.getFavouriteManager().getPreviousById(currentStationID);
         if (station != null)
-            new RadioDroidBrowserService.GetRealLinkAndPlayTask(itsContext, station, itsBinder).execute();
+            new GetRealLinkAndPlayTask(itsContext, station, itsBinder).execute();
     }
 
     public void resume() {
@@ -482,7 +483,7 @@ public class PlayerService extends Service implements RadioPlayer.PlayerListener
 
                 if (history.size() > 0) {
                     lastStation = history.get(0);
-                    new RadioDroidBrowserService.GetRealLinkAndPlayTask(itsContext, lastStation, itsBinder).execute();
+                    new GetRealLinkAndPlayTask(itsContext, lastStation, itsBinder).execute();
                 }
             }
         }
