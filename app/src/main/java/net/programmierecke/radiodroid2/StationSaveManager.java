@@ -64,6 +64,30 @@ public class StationSaveManager {
         return null;
     }
 
+    public DataRadioStation getNextById(String id) {
+        if (listStations.isEmpty())
+            return null;
+
+        for (int i = 0; i < listStations.size() - 1; i++) {
+            if (listStations.get(i).ID.equals(id)) {
+                    return listStations.get(i + 1);
+            }
+        }
+        return listStations.get(0);
+    }
+
+    public DataRadioStation getPreviousById(String id) {
+        if (listStations.isEmpty())
+            return null;
+
+        for (int i = 1; i < listStations.size(); i++) {
+            if (listStations.get(i).ID.equals(id)) {
+                return listStations.get(i - 1);
+            }
+        }
+        return listStations.get(listStations.size()-1);
+    }
+
     public int remove(String id) {
         for (int i = 0; i < listStations.size(); i++) {
             if (listStations.get(i).ID.equals(id)) {

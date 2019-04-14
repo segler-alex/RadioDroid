@@ -1,5 +1,6 @@
 package net.programmierecke.radiodroid2;
 
+import java.util.List;
 import java.util.Map;
 
 import android.app.Notification;
@@ -39,11 +40,13 @@ import android.widget.Toast;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
 
+import net.programmierecke.radiodroid2.data.DataRadioStation;
 import net.programmierecke.radiodroid2.data.ShoutcastInfo;
 import net.programmierecke.radiodroid2.data.StreamLiveInfo;
 import net.programmierecke.radiodroid2.players.RadioPlayer;
 import net.programmierecke.radiodroid2.recording.RecordingsManager;
 import net.programmierecke.radiodroid2.recording.RunningRecordingInfo;
+import net.programmierecke.radiodroid2.utils.GetRealLinkAndPlayTask;
 
 public class PlayerService extends Service implements RadioPlayer.PlayerListener {
     protected static final int NOTIFY_ID = 1;
@@ -102,6 +105,14 @@ public class PlayerService extends Service implements RadioPlayer.PlayerListener
         // and then use it in playerFragment when MPD player is working.
         public void SaveInfo(String theUrl, String theName, String theID, String theIconUrl) {
             PlayerService.this.saveInfo(theUrl, theName, theID, theIconUrl);
+        }
+
+        public void SkipToNext() throws RemoteException {
+            PlayerService.this.next();
+        }
+
+        public void SkipToPrevious() throws RemoteException {
+            PlayerService.this.previous();
         }
 
         public void Play(boolean isAlarm) throws RemoteException {
@@ -441,6 +452,20 @@ public class PlayerService extends Service implements RadioPlayer.PlayerListener
         radioPlayer.pause();
     }
 
+    public void next() {
+        RadioDroidApp radioDroidApp = (RadioDroidApp) getApplication();
+        DataRadioStation station = radioDroidApp.getFavouriteManager().getNextById(currentStationID);
+        if (station != null)
+            new GetRealLinkAndPlayTask(itsContext, station, itsBinder).execute();
+    }
+
+    public void previous() {
+        RadioDroidApp radioDroidApp = (RadioDroidApp) getApplication();
+        DataRadioStation station = radioDroidApp.getFavouriteManager().getPreviousById(currentStationID);
+        if (station != null)
+            new GetRealLinkAndPlayTask(itsContext, station, itsBinder).execute();
+    }
+
     public void resume() {
         if (BuildConfig.DEBUG) Log.d(TAG, "resuming playback.");
 
@@ -448,7 +473,19 @@ public class PlayerService extends Service implements RadioPlayer.PlayerListener
 
         if (!radioPlayer.isPlaying()) {
             acquireAudioFocus();
-            replayCurrent(false);
+            if(currentStationURL != null) {
+                replayCurrent(false);
+            } else {
+                DataRadioStation lastStation;
+                RadioDroidApp radioDroidApp = (RadioDroidApp) getApplication();
+                HistoryManager historyManager = radioDroidApp.getHistoryManager();
+                List<DataRadioStation> history = historyManager.getList();
+
+                if (history.size() > 0) {
+                    lastStation = history.get(0);
+                    new GetRealLinkAndPlayTask(itsContext, lastStation, itsBinder).execute();
+                }
+            }
         }
     }
 
@@ -489,6 +526,8 @@ public class PlayerService extends Service implements RadioPlayer.PlayerListener
 
         PlaybackStateCompat.Builder playbackStateBuilder = new PlaybackStateCompat.Builder();
         playbackStateBuilder.setActions(PlaybackStateCompat.ACTION_PLAY
+                | PlaybackStateCompat.ACTION_SKIP_TO_NEXT
+                | PlaybackStateCompat.ACTION_SKIP_TO_PREVIOUS
                 | PlaybackStateCompat.ACTION_PLAY_PAUSE
                 | PlaybackStateCompat.ACTION_STOP
                 | PlaybackStateCompat.ACTION_PAUSE);
