@@ -63,7 +63,7 @@ public class MediaSessionCallback extends MediaSessionCompat.Callback {
     @Override
     public void onSkipToNext() {
         try {
-            playerService.Next();
+            playerService.SkipToNext();
         } catch (RemoteException e) {
             e.printStackTrace();
         }
@@ -72,7 +72,7 @@ public class MediaSessionCallback extends MediaSessionCompat.Callback {
     @Override
     public void onSkipToPrevious() {
         try {
-            playerService.Previous();
+            playerService.SkipToPrevious();
         } catch (RemoteException e) {
             e.printStackTrace();
         }

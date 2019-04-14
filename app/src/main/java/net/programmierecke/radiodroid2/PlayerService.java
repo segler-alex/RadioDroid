@@ -107,11 +107,11 @@ public class PlayerService extends Service implements RadioPlayer.PlayerListener
             PlayerService.this.saveInfo(theUrl, theName, theID, theIconUrl);
         }
 
-        public void Next() throws RemoteException {
+        public void SkipToNext() throws RemoteException {
             PlayerService.this.next();
         }
 
-        public void Previous() throws RemoteException {
+        public void SkipToPrevious() throws RemoteException {
             PlayerService.this.previous();
         }
 
