@@ -311,11 +311,6 @@ public class ExoPlayerWrapper implements PlayerWrapper, IcyDataSource.IcyDataSou
     private class ExoPlayerListener implements Player.EventListener {
 
         @Override
-        public void onTimelineChanged(Timeline timeline, Object manifest) {
-            // Do nothing
-        }
-
-        @Override
         public void onTracksChanged(TrackGroupArray trackGroups, TrackSelectionArray trackSelections) {
             // Do nothing
         }
@@ -347,7 +342,7 @@ public class ExoPlayerWrapper implements PlayerWrapper, IcyDataSource.IcyDataSou
         }
 
         @Override
-        public void onPositionDiscontinuity() {
+        public void onPositionDiscontinuity(int reason) {
             // Do nothing
         }
 
@@ -379,7 +374,7 @@ public class ExoPlayerWrapper implements PlayerWrapper, IcyDataSource.IcyDataSou
         }
 
         @Override
-        public void onAudioTrackUnderrun(int bufferSize, long bufferSizeMs, long elapsedSinceLastFeedMs) {
+        public void onAudioSinkUnderrun(int bufferSize, long bufferSizeMs, long elapsedSinceLastFeedMs) {
 
         }
 

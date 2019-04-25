@@ -75,7 +75,7 @@ public class IcyDataSource implements HttpDataSource {
     private DataSpec dataSpec;
 
     private final OkHttpClient httpClient;
-    private final TransferListener<? super HttpDataSource> transferListener;
+    private final TransferListener transferListener;
     private final IcyDataSourceListener dataSourceListener;
 
     private long timeUntilStopReconnecting;
@@ -96,7 +96,7 @@ public class IcyDataSource implements HttpDataSource {
     private StreamLiveInfo streamLiveInfo;
 
     public IcyDataSource(@NonNull OkHttpClient httpClient,
-                         @NonNull TransferListener<? super HttpDataSource> listener,
+                         @NonNull TransferListener listener,
                          @NonNull IcyDataSourceListener dataSourceListener,
                          long timeUntilStopReconnecting,
                          long delayBetweenReconnections) {
@@ -162,7 +162,7 @@ public class IcyDataSource implements HttpDataSource {
         opened = true;
 
         dataSourceListener.onDataSourceConnected();
-        transferListener.onTransferStart(this, dataSpec);
+        transferListener.onTransferStart(this, dataSpec, true);
 
         if (type.equals("application/vnd.apple.mpegurl") || type.equals("application/x-mpegurl")) {
             return responseBody.contentLength();
@@ -191,7 +191,7 @@ public class IcyDataSource implements HttpDataSource {
     public void close() throws HttpDataSourceException {
         if (opened) {
             opened = false;
-            transferListener.onTransferEnd(this);
+            transferListener.onTransferEnd(this, dataSpec, true);
         }
 
         if (responseBody != null) {
@@ -204,7 +204,7 @@ public class IcyDataSource implements HttpDataSource {
     public int read(byte[] buffer, int offset, int readLength) throws HttpDataSourceException {
         try {
             final int bytesTransferred = readInternal(buffer, offset, readLength);
-            transferListener.onBytesTransferred(this, bytesTransferred);
+            transferListener.onBytesTransferred(this, dataSpec, true, bytesTransferred);
             return bytesTransferred;
         } catch (HttpDataSourceException readError) {
             dataSourceListener.onDataSourceConnectionLost();
@@ -349,5 +349,10 @@ public class IcyDataSource implements HttpDataSource {
         }
 
         return metadata;
+    }
+
+    @Override
+    public void addTransferListener(TransferListener transferListener) {
+
     }
 }
