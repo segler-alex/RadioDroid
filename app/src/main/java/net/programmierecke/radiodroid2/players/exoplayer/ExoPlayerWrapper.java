@@ -45,6 +45,7 @@ import net.programmierecke.radiodroid2.data.ShoutcastInfo;
 import net.programmierecke.radiodroid2.data.StreamLiveInfo;
 import net.programmierecke.radiodroid2.players.PlayerWrapper;
 import net.programmierecke.radiodroid2.players.RadioPlayer;
+import net.programmierecke.radiodroid2.utils.RingBuffer;
 
 import java.util.Map;
 import java.util.Timer;
@@ -55,6 +56,7 @@ import okhttp3.OkHttpClient;
 public class ExoPlayerWrapper implements PlayerWrapper, IcyDataSource.IcyDataSourceListener {
 
     final private String TAG = "ExoPlayerWrapper";
+    public static final int DEFAULT_BACK_BUFFER_LENGTH = 512 * 1024; // 512KB ~ 30sec
 
     private SimpleExoPlayer player;
     private PlayListener stateListener;
@@ -64,6 +66,7 @@ public class ExoPlayerWrapper implements PlayerWrapper, IcyDataSource.IcyDataSou
     private DefaultBandwidthMeter bandwidthMeter = new DefaultBandwidthMeter();
 
     private RecordableListener recordableListener;
+    private RingBuffer backBuffer = new RingBuffer(DEFAULT_BACK_BUFFER_LENGTH);
 
     private long totalTransferredBytes;
     private long currentPlaybackTransferredBytes;
@@ -108,6 +111,8 @@ public class ExoPlayerWrapper implements PlayerWrapper, IcyDataSource.IcyDataSou
         if (player != null) {
             player.stop();
         }
+
+        backBuffer.clear();
 
         if (player == null) {
             TrackSelection.Factory videoTrackSelectionFactory = new AdaptiveTrackSelection.Factory(bandwidthMeter);
@@ -273,6 +278,8 @@ public class ExoPlayerWrapper implements PlayerWrapper, IcyDataSource.IcyDataSou
         if (recordableListener != null) {
             recordableListener.onBytesAvailable(buffer, offset, length);
         }
+
+        backBuffer.write(buffer, offset, length);
     }
 
     @Override
@@ -282,6 +289,10 @@ public class ExoPlayerWrapper implements PlayerWrapper, IcyDataSource.IcyDataSou
 
     @Override
     public void startRecording(@NonNull RecordableListener recordableListener) {
+        int length = backBuffer.getUsed();
+        byte[] buff = new byte[length];
+        backBuffer.read(buff);
+        recordableListener.onBytesAvailable(buff, 0, length);
         this.recordableListener = recordableListener;
     }
 
