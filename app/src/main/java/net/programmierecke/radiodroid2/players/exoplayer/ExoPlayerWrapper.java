@@ -70,6 +70,7 @@ public class ExoPlayerWrapper implements PlayerWrapper, IcyDataSource.IcyDataSou
 
     private long totalTransferredBytes;
     private long currentPlaybackTransferredBytes;
+    private StreamLiveInfo previousStreamLiveInfo;
 
     private boolean isHls;
 
@@ -270,8 +271,20 @@ public class ExoPlayerWrapper implements PlayerWrapper, IcyDataSource.IcyDataSou
         stateListener.onDataSourceShoutcastInfo(shoutcastInfo, false);
     }
 
+    boolean trackPresumablyChanged(StreamLiveInfo streamLiveInfo) {
+        return  streamLiveInfo == null ||
+                (!streamLiveInfo.getTrack().isEmpty() && !previousStreamLiveInfo.getTrack().isEmpty()
+                        && ! streamLiveInfo.getTrack().equals(previousStreamLiveInfo.getTrack()));
+    }
+
     @Override
     public void onDataSourceStreamLiveInfo(StreamLiveInfo streamLiveInfo) {
+        if (trackPresumablyChanged(previousStreamLiveInfo)) {
+            previousStreamLiveInfo = streamLiveInfo;
+            if (sharedPref.getBoolean("settings_clear_backbuffer_on_track_change", true)) {
+                backBuffer.clear();
+            }
+        }
         stateListener.onDataSourceStreamLiveInfo(streamLiveInfo);
     }
 
@@ -335,9 +348,6 @@ public class ExoPlayerWrapper implements PlayerWrapper, IcyDataSource.IcyDataSou
 
         @Override
         public void onTracksChanged(TrackGroupArray trackGroups, TrackSelectionArray trackSelections) {
-            if (sharedPref.getBoolean("settings_clear_backbuffer_on_track_change", true)) {
-                backBuffer.clear();
-            }
         }
 
         @Override
