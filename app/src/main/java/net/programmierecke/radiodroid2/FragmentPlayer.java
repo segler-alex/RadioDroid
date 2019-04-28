@@ -64,7 +64,7 @@ public class FragmentPlayer extends Fragment {
         super.onActivityCreated(savedInstanceState);
 
 		InitControls();
-		SetInfoFromHistory(false);
+		SetInfoFromHistory(PreferenceManager.getDefaultSharedPreferences(getContext().getApplicationContext()).getBoolean("auto_play_on_startup", false));
 		UpdateOutput();
 		setupIcon();
 
