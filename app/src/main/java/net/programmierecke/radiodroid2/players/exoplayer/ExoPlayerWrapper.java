@@ -282,9 +282,9 @@ public class ExoPlayerWrapper implements PlayerWrapper, IcyDataSource.IcyDataSou
 
         if (recordableListener != null) {
             recordableListener.onBytesAvailable(buffer, offset, length);
+        } else {
+            backBuffer.write(buffer, offset, length);
         }
-
-        backBuffer.write(buffer, offset, length);
     }
 
     @Override
