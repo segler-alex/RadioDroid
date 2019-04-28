@@ -140,6 +140,27 @@
             android:key="record_name_formatting"
             android:summary="%s"
             android:title="@string/settings_record_name_formatting" />
+
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="prerecord"
+            android:summaryOff="@string/settings_record_prerecord_off"
+            android:summaryOn="@string/settings_record_prerecord_on"
+            android:title="@string/settings_record_prerecord" />
+
+        <net.programmierecke.radiodroid2.views.IntEditTextPreference
+            android:defaultValue="480"
+            android:key="backbuffer_size"
+            android:maxLength="4"
+            android:summary="@string/settings_backbuffer_size_summary"
+            android:title="@string/settings_backbuffer_size" />
+
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="clear_backbuffer_on_track_change"
+            android:summaryOff="@string/settings_clear_backbuffer_on_track_change_off"
+            android:summaryOn="@string/settings_clear_backbuffer_on_track_change_on"
+            android:title="@string/settings_clear_backbuffer_on_track_change" />
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/settings_mpd">

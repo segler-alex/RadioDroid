@@ -147,6 +147,14 @@
     <string name="settings_record_name_formatting_1_display">station_artist_\u200btrack</string>
     <string name="settings_record_name_formatting_2_display">station_date_\u200btime</string>
     <string name="settings_record_name_formatting_3_display">index_station_\u200bdate</string>
+    <string name="settings_record_prerecord">Pre-recording</string>
+    <string name="settings_record_prerecord_on">Prepend back buffer content to recordings.</string>
+    <string name="settings_record_prerecord_off">Do not prepend back buffer to recordings.</string>
+    <string name="settings_backbuffer_size">Back buffer size</string>
+    <string name="settings_backbuffer_size_summary">Keep a buffer of the last played %d KB.</string>
+    <string name="settings_clear_backbuffer_on_track_change">Clear back buffer on new track</string>
+    <string name="settings_clear_backbuffer_on_track_change_on">Back buffer is cleared when track changes.</string>
+    <string name="settings_clear_backbuffer_on_track_change_off">Back buffer is always kept.</string>
 
     <string name="notify_pre_play">Connecting</string>
     <string name="notify_play">Playing</string>

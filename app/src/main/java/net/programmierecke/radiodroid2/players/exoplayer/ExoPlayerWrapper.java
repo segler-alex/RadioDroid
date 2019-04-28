@@ -56,7 +56,7 @@ import okhttp3.OkHttpClient;
 public class ExoPlayerWrapper implements PlayerWrapper, IcyDataSource.IcyDataSourceListener {
 
     final private String TAG = "ExoPlayerWrapper";
-    public static final int DEFAULT_BACK_BUFFER_LENGTH = 512 * 1024; // 512KB ~ 30sec
+    public static final int DEFAULT_BACK_BUFFER_SIZE_KB = 480; // 30s @ 128KBit/s
 
     private SimpleExoPlayer player;
     private PlayListener stateListener;
@@ -66,7 +66,7 @@ public class ExoPlayerWrapper implements PlayerWrapper, IcyDataSource.IcyDataSou
     private DefaultBandwidthMeter bandwidthMeter = new DefaultBandwidthMeter();
 
     private RecordableListener recordableListener;
-    private RingBuffer backBuffer = new RingBuffer(DEFAULT_BACK_BUFFER_LENGTH);
+    private RingBuffer backBuffer = new RingBuffer(1024 * DEFAULT_BACK_BUFFER_SIZE_KB);
 
     private long totalTransferredBytes;
     private long currentPlaybackTransferredBytes;
@@ -74,6 +74,7 @@ public class ExoPlayerWrapper implements PlayerWrapper, IcyDataSource.IcyDataSou
     private boolean isHls;
 
     Context context;
+    SharedPreferences sharedPref;
     MediaSource audioSource;
 
     boolean interruptedByConnectionLoss = false;
@@ -105,6 +106,7 @@ public class ExoPlayerWrapper implements PlayerWrapper, IcyDataSource.IcyDataSou
 
         this.context = context;
         this.streamUrl = streamUrl;
+        sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
 
         stateListener.onStateChanged(RadioPlayer.PlayState.PrePlaying);
 
@@ -113,6 +115,10 @@ public class ExoPlayerWrapper implements PlayerWrapper, IcyDataSource.IcyDataSou
         }
 
         backBuffer.clear();
+        int requestedBackBufferSize = 1024 * sharedPref.getInt("backbuffer_size", DEFAULT_BACK_BUFFER_SIZE_KB);
+        if (requestedBackBufferSize != backBuffer.getSize()) {
+            backBuffer.resize(requestedBackBufferSize);
+        }
 
         if (player == null) {
             TrackSelection.Factory videoTrackSelectionFactory = new AdaptiveTrackSelection.Factory(bandwidthMeter);
@@ -239,7 +245,6 @@ public class ExoPlayerWrapper implements PlayerWrapper, IcyDataSource.IcyDataSou
         stateListener.onStateChanged(RadioPlayer.PlayState.Idle);
         stateListener.onPlayerError(R.string.error_stream_reconnect_timeout);
 
-        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
         int resumeWithin = sharedPref.getInt("settings_resume_within", 60);
         if(resumeWithin > 0) {
             Log.d(TAG, "Trying to resume playback within " + resumeWithin + "s.");
@@ -289,10 +294,12 @@ public class ExoPlayerWrapper implements PlayerWrapper, IcyDataSource.IcyDataSou
 
     @Override
     public void startRecording(@NonNull RecordableListener recordableListener) {
-        int length = backBuffer.getUsed();
-        byte[] buff = new byte[length];
-        backBuffer.read(buff);
-        recordableListener.onBytesAvailable(buff, 0, length);
+        if (sharedPref.getBoolean("prerecord", true)) {
+            int length = backBuffer.getUsed();
+            byte[] buff = new byte[length];
+            backBuffer.read(buff);
+            recordableListener.onBytesAvailable(buff, 0, length);
+        }
         this.recordableListener = recordableListener;
     }
 
@@ -328,7 +335,9 @@ public class ExoPlayerWrapper implements PlayerWrapper, IcyDataSource.IcyDataSou
 
         @Override
         public void onTracksChanged(TrackGroupArray trackGroups, TrackSelectionArray trackSelections) {
-            // Do nothing
+            if (sharedPref.getBoolean("settings_clear_backbuffer_on_track_change", true)) {
+                backBuffer.clear();
+            }
         }
 
         @Override
