@@ -90,9 +90,12 @@ public class RingBuffer {
         if (len < 0) {
             throw new IllegalArgumentException();
         }
-        int trLen = Math.min(len, rBufUsed);
-        rBufPos = clip(rBufPos + trLen);
-        rBufUsed -= trLen;
+        if (len >= rBufUsed) {
+            clear();
+        } else {
+            rBufPos = clip(rBufPos + len);
+            rBufUsed -= len;
+        }
     }
 
     /**
@@ -105,9 +108,12 @@ public class RingBuffer {
         if (len < 0) {
             throw new IllegalArgumentException();
         }
+        len = Math.min(rBufSize, len);
         if (rBufUsed == 0) {
             rBufPos = 0;
-        }                                       // (speed optimization)
+        } else if (rBufUsed + len > rBufSize) {
+            discard(rBufUsed + len - rBufSize);
+        }        // (speed optimization)
         int p1 = rBufPos + rBufUsed;
         if (p1 < rBufSize) {                                    // free space in two pieces
             int trLen1 = Math.min(len, rBufSize - p1);
@@ -140,7 +146,7 @@ public class RingBuffer {
         }
         int p = clip(rBufPos + rBufUsed);
         System.arraycopy(buf, pos, rBuf, p, len);
-        rBufUsed += len;
+        rBufUsed = clip(rBufUsed + len);
     }
 
     /**
