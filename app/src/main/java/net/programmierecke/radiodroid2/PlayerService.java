@@ -35,6 +35,7 @@ import android.support.v4.media.session.PlaybackStateCompat;
 import android.text.TextUtils;
 import android.util.Log;
 import android.util.TypedValue;
+import android.view.KeyEvent;
 import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
@@ -47,6 +48,8 @@ import net.programmierecke.radiodroid2.players.RadioPlayer;
 import net.programmierecke.radiodroid2.recording.RecordingsManager;
 import net.programmierecke.radiodroid2.recording.RunningRecordingInfo;
 import net.programmierecke.radiodroid2.utils.GetRealLinkAndPlayTask;
+
+import static android.content.Intent.ACTION_MEDIA_BUTTON;
 
 public class PlayerService extends Service implements RadioPlayer.PlayerListener {
     protected static final int NOTIFY_ID = 1;
@@ -412,6 +415,23 @@ public class PlayerService extends Service implements RadioPlayer.PlayerListener
                         break;
                     case ACTION_RESUME:
                         resume();
+                        break;
+                    case ACTION_MEDIA_BUTTON:
+                        KeyEvent key = (KeyEvent) intent.getParcelableExtra(Intent.EXTRA_KEY_EVENT);
+                        if (key.getAction() == KeyEvent.ACTION_UP) {
+                            int keycode = key.getKeyCode();
+                            switch (keycode) {
+                                case KeyEvent.KEYCODE_MEDIA_PLAY:
+                                    resume();
+                                    break;
+                                case KeyEvent.KEYCODE_MEDIA_NEXT:
+                                    next();
+                                    break;
+                                case KeyEvent.KEYCODE_MEDIA_PREVIOUS:
+                                    previous();
+                                    break;
+                            }
+                        }
                         break;
                 }
             }
