@@ -63,6 +63,8 @@ public class PlayerService extends Service implements RadioPlayer.PlayerListener
 
     private final String ACTION_PAUSE = "pause";
     private final String ACTION_RESUME = "resume";
+    private final String ACTION_SKIP_TO_NEXT = "next";
+    private final String ACTION_SKIP_TO_PREVIOUS = "previous";
     private final String ACTION_STOP = "stop";
 
     private static final float FULL_VOLUME = 100f;
@@ -407,6 +409,12 @@ public class PlayerService extends Service implements RadioPlayer.PlayerListener
             String action = intent.getAction();
             if (action != null) {
                 switch (action) {
+                    case ACTION_SKIP_TO_PREVIOUS:
+                        previous();
+                        break;
+                    case ACTION_SKIP_TO_NEXT:
+                        next();
+                        break;
                     case ACTION_STOP:
                         stop();
                         break;
@@ -659,6 +667,14 @@ public class PlayerService extends Service implements RadioPlayer.PlayerListener
         stopIntent.setAction(ACTION_STOP);
         PendingIntent pendingIntentStop = PendingIntent.getService(itsContext, 0, stopIntent, 0);
 
+        Intent nextIntent = new Intent(itsContext, PlayerService.class);
+        nextIntent.setAction(ACTION_SKIP_TO_NEXT);
+        PendingIntent pendingIntentNext = PendingIntent.getService(itsContext, 0, nextIntent, 0);
+
+        Intent previousIntent = new Intent(itsContext, PlayerService.class);
+        previousIntent.setAction(ACTION_SKIP_TO_PREVIOUS);
+        PendingIntent pendingIntentPrevious = PendingIntent.getService(itsContext, 0, previousIntent, 0);
+
         NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             NotificationChannel notificationChannel = new NotificationChannel(NOTIFICATION_CHANNEL_ID, "RadioDroid2 Player", NotificationManager.IMPORTANCE_LOW);
@@ -677,33 +693,46 @@ public class PlayerService extends Service implements RadioPlayer.PlayerListener
                 .setContentText(theMessage)
                 .setWhen(System.currentTimeMillis())
                 .setTicker(theTicker)
-                .setOngoing(true)
                 .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
                 .setSmallIcon(R.drawable.ic_play_arrow_white_24dp)
                 .setLargeIcon(radioIcon.getBitmap())
-                .addAction(R.drawable.ic_stop_white_24dp, getString(R.string.action_stop), pendingIntentStop);
+                .addAction(R.drawable.ic_stop_white_24dp, getString(R.string.action_stop), pendingIntentStop)
+                .addAction(R.drawable.ic_skip_previous_24dp, getString(R.string.action_skip_to_previous), pendingIntentPrevious);
 
         RadioPlayer.PlayState currentPlayerState = radioPlayer.getPlayState();
 
-        if (currentPlayerState == RadioPlayer.PlayState.Playing) {
+        if (currentPlayerState == RadioPlayer.PlayState.Playing || currentPlayerState == RadioPlayer.PlayState.PrePlaying) {
             Intent pauseIntent = new Intent(itsContext, PlayerService.class);
             pauseIntent.setAction(ACTION_PAUSE);
             PendingIntent pendingIntentPause = PendingIntent.getService(itsContext, 0, pauseIntent, 0);
 
             notificationBuilder.addAction(R.drawable.ic_pause_white_24dp, getString(R.string.action_pause), pendingIntentPause);
-            notificationBuilder.setUsesChronometer(true);
-        } else if (currentPlayerState == RadioPlayer.PlayState.Paused) {
+            notificationBuilder.setUsesChronometer(true)
+                    .setOngoing(true);
+        } else if (currentPlayerState == RadioPlayer.PlayState.Paused || currentPlayerState == RadioPlayer.PlayState.Idle) {
             Intent resumeIntent = new Intent(itsContext, PlayerService.class);
             resumeIntent.setAction(ACTION_RESUME);
             PendingIntent pendingIntentResume = PendingIntent.getService(itsContext, 0, resumeIntent, 0);
 
             notificationBuilder.addAction(R.drawable.ic_play_arrow_white_24dp, getString(R.string.action_resume), pendingIntentResume);
-            notificationBuilder.setUsesChronometer(false);
+            notificationBuilder.setUsesChronometer(false)
+                    .setDeleteIntent(pendingIntentStop)
+                    .setOngoing(false);
         }
 
+        notificationBuilder.addAction(R.drawable.ic_skip_next_24dp, getString(R.string.action_skip_to_next), pendingIntentNext)
+                .setStyle(new android.support.v4.media.app.NotificationCompat.MediaStyle()
+                        .setMediaSession(mediaSession.getSessionToken())
+                        .setShowActionsInCompactView(1, 2, 3 /* previous, play/pause, next */)
+                        .setCancelButtonIntent(pendingIntentStop)
+                        .setShowCancelButton(true));
         Notification notification = notificationBuilder.build();
 
         startForeground(NOTIFY_ID, notification);
+
+        if (currentPlayerState == RadioPlayer.PlayState.Paused) {
+            stopForeground(false); // necessary to make notification dismissible
+        }
     }
 
     private void toastOnUi(final int messageId) {

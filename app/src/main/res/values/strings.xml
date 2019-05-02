@@ -12,7 +12,9 @@
     <string name="detail_share">Share</string>
 
     <string name="action_local">Local</string>
+    <string name="action_skip_to_next">Next</string>
     <string name="action_pause">Pause</string>
+    <string name="action_skip_to_previous">Previous</string>
     <string name="action_resume">Resume</string>
     <string name="action_stop">Stop</string>
     <string name="action_search">Search</string>
