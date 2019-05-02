@@ -12,7 +12,9 @@
     <string name="detail_share">Bagikan</string>
 
     <string name="action_local">Lokal</string>
+    <string name="action_skip_to_next">Berikutnya</string>
     <string name="action_pause">Jeda</string>
+    <string name="action_skip_to_previous">Sebelumnya</string>
     <string name="action_resume">Lanjutkan</string>
     <string name="action_stop">Berhenti</string>
     <string name="action_search">Mencari</string>
