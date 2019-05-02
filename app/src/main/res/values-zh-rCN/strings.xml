@@ -12,7 +12,9 @@
     <string name="detail_share">分享</string>
 
     <string name="action_local">本地电台</string>
+    <string name="action_skip_to_next">下一个</string>
     <string name="action_pause">暂停</string>
+    <string name="action_skip_to_previous">上一个</string>
     <string name="action_resume">恢复</string>
     <string name="action_stop">停止</string>
     <string name="action_search">搜索</string>
