@@ -184,8 +184,7 @@ public class ExoPlayerWrapper implements PlayerWrapper, IcyDataSource.IcyDataSou
 
     @Override
     public boolean isPlaying() {
-        return player != null && player.getPlayWhenReady();
-
+        return player != null && isPlayingFlag;
     }
 
     @Override
