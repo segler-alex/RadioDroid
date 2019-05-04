@@ -194,7 +194,7 @@ public class FragmentPlayer extends Fragment {
 
         if(history.size() > 0) {
             DataRadioStation lastStation = history.get(0);
-            if(startPlaying)
+            if(startPlaying && !PlayerServiceUtil.isPlaying() && !MPDClient.isPlaying)
                 Utils.Play(radioDroidApp.getHttpClient(), lastStation, getContext());
             else {
                 aTextViewName.setText(lastStation.Name);
