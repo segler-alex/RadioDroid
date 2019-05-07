@@ -6,28 +6,33 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
-import android.media.AudioManager;
 import android.net.ConnectivityManager;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.preference.PreferenceManager;
 import android.util.Log;
+import android.view.Surface;
 
+import com.google.android.exoplayer2.C;
+import com.google.android.exoplayer2.DefaultLoadControl;
 import com.google.android.exoplayer2.DefaultRenderersFactory;
 import com.google.android.exoplayer2.ExoPlaybackException;
 import com.google.android.exoplayer2.ExoPlayerFactory;
 import com.google.android.exoplayer2.Format;
+import com.google.android.exoplayer2.LoadControl;
 import com.google.android.exoplayer2.PlaybackParameters;
 import com.google.android.exoplayer2.Player;
 import com.google.android.exoplayer2.SimpleExoPlayer;
-import com.google.android.exoplayer2.Timeline;
-import com.google.android.exoplayer2.audio.AudioRendererEventListener;
+import com.google.android.exoplayer2.analytics.AnalyticsListener;
+import com.google.android.exoplayer2.audio.AudioAttributes;
 import com.google.android.exoplayer2.decoder.DecoderCounters;
 import com.google.android.exoplayer2.extractor.DefaultExtractorsFactory;
 import com.google.android.exoplayer2.extractor.ExtractorsFactory;
+import com.google.android.exoplayer2.metadata.Metadata;
 import com.google.android.exoplayer2.source.ExtractorMediaSource;
 import com.google.android.exoplayer2.source.MediaSource;
+import com.google.android.exoplayer2.source.MediaSourceEventListener;
 import com.google.android.exoplayer2.source.TrackGroupArray;
 import com.google.android.exoplayer2.source.hls.HlsMediaSource;
 import com.google.android.exoplayer2.trackselection.AdaptiveTrackSelection;
@@ -46,6 +51,7 @@ import net.programmierecke.radiodroid2.data.StreamLiveInfo;
 import net.programmierecke.radiodroid2.players.PlayerWrapper;
 import net.programmierecke.radiodroid2.players.RadioPlayer;
 
+import java.io.IOException;
 import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -69,6 +75,7 @@ public class ExoPlayerWrapper implements PlayerWrapper, IcyDataSource.IcyDataSou
     private long currentPlaybackTransferredBytes;
 
     private boolean isHls;
+    private boolean isPlayingFlag;
 
     Context context;
     MediaSource audioSource;
@@ -110,14 +117,16 @@ public class ExoPlayerWrapper implements PlayerWrapper, IcyDataSource.IcyDataSou
         }
 
         if (player == null) {
-            TrackSelection.Factory videoTrackSelectionFactory = new AdaptiveTrackSelection.Factory(bandwidthMeter);
+            TrackSelection.Factory videoTrackSelectionFactory = new AdaptiveTrackSelection.Factory();
             TrackSelector trackSelector = new DefaultTrackSelector(videoTrackSelectionFactory);
 
-            player = ExoPlayerFactory.newSimpleInstance(new DefaultRenderersFactory(context), trackSelector);
-            player.setAudioStreamType(isAlarm ? AudioManager.STREAM_ALARM : AudioManager.STREAM_MUSIC);
+            LoadControl loadControl = new DefaultLoadControl.Builder().createDefaultLoadControl();
+            player = ExoPlayerFactory.newSimpleInstance(context, new DefaultRenderersFactory(context), trackSelector, loadControl);
+            player.setAudioAttributes(new AudioAttributes.Builder().setContentType(C.CONTENT_TYPE_MUSIC)
+                    .setUsage(isAlarm ? C.USAGE_ALARM : C.USAGE_MEDIA).build());
 
             player.addListener(new ExoPlayerListener());
-            player.setAudioDebugListener(new AudioEventListener());
+            player.addAnalyticsListener(new AnalyticEventListener());
         }
 
         isHls = streamUrl.endsWith(".m3u8");
@@ -131,10 +140,11 @@ public class ExoPlayerWrapper implements PlayerWrapper, IcyDataSource.IcyDataSou
         ExtractorsFactory extractorsFactory = new DefaultExtractorsFactory();
 
         if (!isHls) {
-            audioSource = new ExtractorMediaSource(Uri.parse(streamUrl), dataSourceFactory, extractorsFactory, null, null);
+            audioSource = new ExtractorMediaSource.Factory(dataSourceFactory).setExtractorsFactory(extractorsFactory)
+                    .createMediaSource(Uri.parse(streamUrl));
             player.prepare(audioSource);
         } else {
-            audioSource = new HlsMediaSource(Uri.parse(streamUrl), dataSourceFactory, null, null);
+            audioSource = new HlsMediaSource.Factory(dataSourceFactory).createMediaSource(Uri.parse(streamUrl));
             player.prepare(audioSource);
         }
 
@@ -174,8 +184,7 @@ public class ExoPlayerWrapper implements PlayerWrapper, IcyDataSource.IcyDataSou
 
     @Override
     public boolean isPlaying() {
-        return player != null && player.getPlayWhenReady();
-
+        return player != null && isPlayingFlag;
     }
 
     @Override
@@ -311,11 +320,6 @@ public class ExoPlayerWrapper implements PlayerWrapper, IcyDataSource.IcyDataSou
     private class ExoPlayerListener implements Player.EventListener {
 
         @Override
-        public void onTimelineChanged(Timeline timeline, Object manifest) {
-            // Do nothing
-        }
-
-        @Override
         public void onTracksChanged(TrackGroupArray trackGroups, TrackSelectionArray trackSelections) {
             // Do nothing
         }
@@ -347,7 +351,7 @@ public class ExoPlayerWrapper implements PlayerWrapper, IcyDataSource.IcyDataSou
         }
 
         @Override
-        public void onPositionDiscontinuity() {
+        public void onPositionDiscontinuity(int reason) {
             // Do nothing
         }
 
@@ -357,34 +361,204 @@ public class ExoPlayerWrapper implements PlayerWrapper, IcyDataSource.IcyDataSou
         }
     }
 
-    private class AudioEventListener implements AudioRendererEventListener {
+    private class AnalyticEventListener implements AnalyticsListener {
         @Override
-        public void onAudioEnabled(DecoderCounters counters) {
+        public void onPlayerStateChanged(EventTime eventTime, boolean playWhenReady, int playbackState) {
+            isPlayingFlag = playWhenReady;
+        }
+
+        @Override
+        public void onTimelineChanged(EventTime eventTime, int reason) {
 
         }
 
         @Override
-        public void onAudioSessionId(int audioSessionId) {
+        public void onPositionDiscontinuity(EventTime eventTime, int reason) {
+
+        }
+
+        @Override
+        public void onSeekStarted(EventTime eventTime) {
+
+        }
+
+        @Override
+        public void onSeekProcessed(EventTime eventTime) {
+
+        }
+
+        @Override
+        public void onPlaybackParametersChanged(EventTime eventTime, PlaybackParameters playbackParameters) {
+
+        }
+
+        @Override
+        public void onRepeatModeChanged(EventTime eventTime, int repeatMode) {
+
+        }
+
+        @Override
+        public void onShuffleModeChanged(EventTime eventTime, boolean shuffleModeEnabled) {
+
+        }
+
+        @Override
+        public void onLoadingChanged(EventTime eventTime, boolean isLoading) {
+
+        }
+
+        @Override
+        public void onPlayerError(EventTime eventTime, ExoPlaybackException error) {
+
+        }
+
+        @Override
+        public void onTracksChanged(EventTime eventTime, TrackGroupArray trackGroups, TrackSelectionArray trackSelections) {
+
+        }
+
+        @Override
+        public void onLoadStarted(EventTime eventTime, MediaSourceEventListener.LoadEventInfo loadEventInfo, MediaSourceEventListener.MediaLoadData mediaLoadData) {
+
+        }
+
+        @Override
+        public void onLoadCompleted(EventTime eventTime, MediaSourceEventListener.LoadEventInfo loadEventInfo, MediaSourceEventListener.MediaLoadData mediaLoadData) {
+
+        }
+
+        @Override
+        public void onLoadCanceled(EventTime eventTime, MediaSourceEventListener.LoadEventInfo loadEventInfo, MediaSourceEventListener.MediaLoadData mediaLoadData) {
+
+        }
+
+        @Override
+        public void onLoadError(EventTime eventTime, MediaSourceEventListener.LoadEventInfo loadEventInfo, MediaSourceEventListener.MediaLoadData mediaLoadData, IOException error, boolean wasCanceled) {
+
+        }
+
+        @Override
+        public void onDownstreamFormatChanged(EventTime eventTime, MediaSourceEventListener.MediaLoadData mediaLoadData) {
+
+        }
+
+        @Override
+        public void onUpstreamDiscarded(EventTime eventTime, MediaSourceEventListener.MediaLoadData mediaLoadData) {
+
+        }
+
+        @Override
+        public void onMediaPeriodCreated(EventTime eventTime) {
+
+        }
+
+        @Override
+        public void onMediaPeriodReleased(EventTime eventTime) {
+
+        }
+
+        @Override
+        public void onReadingStarted(EventTime eventTime) {
+
+        }
+
+        @Override
+        public void onBandwidthEstimate(EventTime eventTime, int totalLoadTimeMs, long totalBytesLoaded, long bitrateEstimate) {
+
+        }
+
+        @Override
+        public void onSurfaceSizeChanged(EventTime eventTime, int width, int height) {
+
+        }
+
+        @Override
+        public void onMetadata(EventTime eventTime, Metadata metadata) {
+
+        }
+
+        @Override
+        public void onDecoderEnabled(EventTime eventTime, int trackType, DecoderCounters decoderCounters) {
+
+        }
+
+        @Override
+        public void onDecoderInitialized(EventTime eventTime, int trackType, String decoderName, long initializationDurationMs) {
+
+        }
+
+        @Override
+        public void onDecoderInputFormatChanged(EventTime eventTime, int trackType, Format format) {
+
+        }
+
+        @Override
+        public void onDecoderDisabled(EventTime eventTime, int trackType, DecoderCounters decoderCounters) {
+
+        }
+
+        @Override
+        public void onAudioSessionId(EventTime eventTime, int audioSessionId) {
             stateListener.onStateChanged(RadioPlayer.PlayState.Playing);
         }
 
         @Override
-        public void onAudioDecoderInitialized(String decoderName, long initializedTimestampMs, long initializationDurationMs) {
+        public void onAudioAttributesChanged(EventTime eventTime, AudioAttributes audioAttributes) {
 
         }
 
         @Override
-        public void onAudioInputFormatChanged(Format format) {
+        public void onVolumeChanged(EventTime eventTime, float volume) {
 
         }
 
         @Override
-        public void onAudioTrackUnderrun(int bufferSize, long bufferSizeMs, long elapsedSinceLastFeedMs) {
+        public void onAudioUnderrun(EventTime eventTime, int bufferSize, long bufferSizeMs, long elapsedSinceLastFeedMs) {
 
         }
 
         @Override
-        public void onAudioDisabled(DecoderCounters counters) {
+        public void onDroppedVideoFrames(EventTime eventTime, int droppedFrames, long elapsedMs) {
+
+        }
+
+        @Override
+        public void onVideoSizeChanged(EventTime eventTime, int width, int height, int unappliedRotationDegrees, float pixelWidthHeightRatio) {
+
+        }
+
+        @Override
+        public void onRenderedFirstFrame(EventTime eventTime, @Nullable Surface surface) {
+
+        }
+
+        @Override
+        public void onDrmSessionAcquired(EventTime eventTime) {
+
+        }
+
+        @Override
+        public void onDrmKeysLoaded(EventTime eventTime) {
+
+        }
+
+        @Override
+        public void onDrmSessionManagerError(EventTime eventTime, Exception error) {
+
+        }
+
+        @Override
+        public void onDrmKeysRestored(EventTime eventTime) {
+
+        }
+
+        @Override
+        public void onDrmKeysRemoved(EventTime eventTime) {
+
+        }
+
+        @Override
+        public void onDrmSessionReleased(EventTime eventTime) {
 
         }
     }

@@ -65,19 +65,16 @@ public class RadioPlayer implements PlayerWrapper.PlayListener, Recordable {
 
     private StreamLiveInfo lastLiveInfo;
 
-    private CountDownTimer bufferCheckTimer = new CountDownTimer(Long.MAX_VALUE, 2000) {
+    private Runnable bufferCheckRunnable = new Runnable() {
         @Override
-        public void onTick(long l) {
+        public void run() {
             final long bufferTimeMs = player.getBufferedMs();
 
             playerListener.onBufferedTimeUpdate(bufferTimeMs);
 
             if (BuildConfig.DEBUG) Log.d(TAG, String.format("buffered %d ms.", bufferTimeMs));
-        }
 
-        @Override
-        public void onFinish() {
-
+            playerThreadHandler.postDelayed(this, 2000);
         }
     };
 
@@ -132,7 +129,7 @@ public class RadioPlayer implements PlayerWrapper.PlayListener, Recordable {
                 player.pause();
 
                 if (BuildConfig.DEBUG) {
-                    bufferCheckTimer.cancel();
+                    playerThreadHandler.removeCallbacks(bufferCheckRunnable);
                 }
 
                 setState(PlayState.Paused, audioSessionId);
@@ -153,7 +150,7 @@ public class RadioPlayer implements PlayerWrapper.PlayListener, Recordable {
                 player.stop();
 
                 if (BuildConfig.DEBUG) {
-                    bufferCheckTimer.cancel();
+                    playerThreadHandler.removeCallbacks(bufferCheckRunnable);
                 }
 
                 setState(PlayState.Idle, audioSessionId);
@@ -249,10 +246,10 @@ public class RadioPlayer implements PlayerWrapper.PlayListener, Recordable {
 
         if (BuildConfig.DEBUG) {
             if (state == PlayState.Playing) {
-                bufferCheckTimer.cancel();
-                bufferCheckTimer.start();
+                playerThreadHandler.removeCallbacks(bufferCheckRunnable);
+                playerThreadHandler.post(bufferCheckRunnable);
             } else {
-                bufferCheckTimer.cancel();
+                playerThreadHandler.removeCallbacks(bufferCheckRunnable);
             }
         }
 
