@@ -41,6 +41,13 @@
             android:title="@string/startup_action_title" />
 
         <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="auto_play_on_startup"
+            android:summaryOff="@string/settings_auto_play_on_startup_off"
+            android:summaryOn="@string/settings_auto_play_on_startup_on"
+            android:title="@string/settings_auto_play_on_startup" />
+
+        <CheckBoxPreference
             android:defaultValue="true"
             android:key="load_icons"
             android:summaryOff="@string/settings_load_icons_off"

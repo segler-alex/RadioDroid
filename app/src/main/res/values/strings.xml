@@ -89,6 +89,10 @@
     <string name="startup_show_history">Show history</string>
     <string name="startup_show_last_view">Last view</string>
 
+    <string name="settings_auto_play_on_startup">Auto play</string>
+    <string name="settings_auto_play_on_startup_on">Start playing last played station on startup.</string>
+    <string name="settings_auto_play_on_startup_off">Do not start playing on startup.</string>
+
     <string name="settings_load_icons">Show station icons</string>
     <string name="settings_load_icons_on">Icons will be downloaded</string>
     <string name="settings_load_icons_off">Icons will not be downloaded</string>

@@ -1,5 +1,7 @@
 package net.programmierecke.radiodroid2;
 
+import android.app.Activity;
+import android.app.Application;
 import android.content.*;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
@@ -64,9 +66,11 @@ public class FragmentPlayer extends Fragment {
         super.onActivityCreated(savedInstanceState);
 
 		InitControls();
-		SetInfoFromHistory(false);
+		SetInfoFromHistory(PreferenceManager.getDefaultSharedPreferences(getContext().getApplicationContext()).getBoolean("auto_play_on_startup", false));
 		UpdateOutput();
 		setupIcon();
+
+		getActivity().getApplication().registerActivityLifecycleCallbacks(new LifecycleCallbacks());
 
 		t = new Thread() {
 			@Override
@@ -194,7 +198,7 @@ public class FragmentPlayer extends Fragment {
 
         if(history.size() > 0) {
             DataRadioStation lastStation = history.get(0);
-            if(startPlaying)
+            if(startPlaying && !PlayerServiceUtil.isPlaying() && !MPDClient.isPlaying)
                 Utils.Play(radioDroidApp.getHttpClient(), lastStation, getContext());
             else {
                 aTextViewName.setText(lastStation.Name);
@@ -335,6 +339,45 @@ public class FragmentPlayer extends Fragment {
 				}
 				return;
 			}
+		}
+	}
+
+	class LifecycleCallbacks implements Application.ActivityLifecycleCallbacks {
+		@Override
+		public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
+
+		}
+
+		@Override
+		public void onActivityStarted(Activity activity) {
+			if (PreferenceManager.getDefaultSharedPreferences(getContext().getApplicationContext()).getBoolean("auto_play_on_startup", false)) {
+				SetInfoFromHistory(true);
+			}
+		}
+
+		@Override
+		public void onActivityResumed(Activity activity) {
+
+		}
+
+		@Override
+		public void onActivityPaused(Activity activity) {
+
+		}
+
+		@Override
+		public void onActivityStopped(Activity activity) {
+
+		}
+
+		@Override
+		public void onActivitySaveInstanceState(Activity activity, Bundle outState) {
+
+		}
+
+		@Override
+		public void onActivityDestroyed(Activity activity) {
+
 		}
 	}
 }
