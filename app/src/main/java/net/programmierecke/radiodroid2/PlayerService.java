@@ -913,6 +913,7 @@ public class PlayerService extends Service implements RadioPlayer.PlayerListener
 
     @Override
     public void foundLiveStreamInfo(StreamLiveInfo liveInfo) {
+        StreamLiveInfo oldLiveInfo = this.liveInfo;
         this.liveInfo = liveInfo;
 
         if (BuildConfig.DEBUG) {
@@ -922,7 +923,9 @@ public class PlayerService extends Service implements RadioPlayer.PlayerListener
             }
         }
 
-        sendBroadCast(PLAYER_SERVICE_META_UPDATE);
-        updateNotification();
+        if (oldLiveInfo == null || !oldLiveInfo.getTitle().equals(liveInfo.getTitle())) {
+            sendBroadCast(PLAYER_SERVICE_META_UPDATE);
+            updateNotification();
+        }
     }
 }
