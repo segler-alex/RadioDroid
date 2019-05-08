@@ -3,8 +3,8 @@ package net.programmierecke.radiodroid2.recording;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Environment;
-import android.support.annotation.NonNull;
-import android.support.v7.preference.PreferenceManager;
+import androidx.annotation.NonNull;
+import androidx.preference.PreferenceManager;
 import android.util.Log;
 
 import net.programmierecke.radiodroid2.BuildConfig;

@@ -4,10 +4,10 @@
     android:layout_height="match_parent"
     android:weightSum="1">
 
-    <android.support.v7.widget.ListViewCompat
+    <android.widget.ListView
         android:id="@+id/listViewStatistics"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-    </android.support.v7.widget.ListViewCompat>
+    </android.widget.ListView>
 
 </LinearLayout>

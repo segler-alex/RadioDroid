@@ -2,9 +2,9 @@ package net.programmierecke.radiodroid2;
 
 import android.app.Application;
 import android.content.SharedPreferences;
-import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatDelegate;
-import android.support.v7.preference.PreferenceManager;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatDelegate;
+import androidx.preference.PreferenceManager;
 
 import com.jakewharton.picasso.OkHttp3Downloader;
 import com.squareup.picasso.Picasso;

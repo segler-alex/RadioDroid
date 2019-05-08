@@ -9,20 +9,18 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v4.content.ContextCompat;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 import android.support.v4.media.MediaBrowserCompat;
-import android.support.v4.media.MediaBrowserServiceCompat;
+import androidx.media.MediaBrowserServiceCompat;
 import android.support.v4.media.MediaDescriptionCompat;
 
-import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
 
 import net.programmierecke.radiodroid2.data.DataRadioStation;
 
-import java.io.IOException;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.HashMap;

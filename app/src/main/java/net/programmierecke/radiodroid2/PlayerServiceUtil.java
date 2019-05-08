@@ -5,11 +5,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.content.res.Resources;
-import android.graphics.drawable.Drawable;
 import android.os.IBinder;
 import android.os.RemoteException;
-import android.support.annotation.NonNull;
-import android.support.v4.content.ContextCompat;
+import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import android.util.Log;
 
 import android.util.TypedValue;

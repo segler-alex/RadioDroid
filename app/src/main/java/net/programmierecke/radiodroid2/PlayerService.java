@@ -23,13 +23,15 @@ import android.os.Handler;
 import android.os.IBinder;
 import android.os.PowerManager;
 import android.os.RemoteException;
-import android.support.v4.app.NotificationCompat;
-import android.support.v4.app.NotificationManagerCompat;
-import android.support.v4.content.res.ResourcesCompat;
-import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
-import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
+import androidx.core.content.res.ResourcesCompat;
+import androidx.core.graphics.drawable.RoundedBitmapDrawable;
+import androidx.core.graphics.drawable.RoundedBitmapDrawableFactory;
 import android.support.v4.media.MediaMetadataCompat;
-import android.support.v4.media.session.MediaButtonReceiver;
+
+import androidx.media.app.NotificationCompat.MediaStyle;
+import androidx.media.session.MediaButtonReceiver;
 import android.support.v4.media.session.MediaSessionCompat;
 import android.support.v4.media.session.PlaybackStateCompat;
 import android.text.TextUtils;
@@ -721,7 +723,7 @@ public class PlayerService extends Service implements RadioPlayer.PlayerListener
         }
 
         notificationBuilder.addAction(R.drawable.ic_skip_next_24dp, getString(R.string.action_skip_to_next), pendingIntentNext)
-                .setStyle(new android.support.v4.media.app.NotificationCompat.MediaStyle()
+                .setStyle(new MediaStyle()
                         .setMediaSession(mediaSession.getSessionToken())
                         .setShowActionsInCompactView(1, 2, 3 /* previous, play/pause, next */)
                         .setCancelButtonIntent(pendingIntentStop)

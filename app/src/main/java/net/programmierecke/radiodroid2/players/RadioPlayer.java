@@ -3,16 +3,14 @@ package net.programmierecke.radiodroid2.players;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Build;
-import android.os.CountDownTimer;
 import android.os.Handler;
 import android.os.HandlerThread;
 import android.os.Looper;
-import android.support.annotation.NonNull;
-import android.support.v7.preference.PreferenceManager;
+import androidx.annotation.NonNull;
+import androidx.preference.PreferenceManager;
 import android.util.Log;
 
 import net.programmierecke.radiodroid2.BuildConfig;
-import net.programmierecke.radiodroid2.HttpClient;
 import net.programmierecke.radiodroid2.RadioDroidApp;
 import net.programmierecke.radiodroid2.Utils;
 import net.programmierecke.radiodroid2.data.ShoutcastInfo;

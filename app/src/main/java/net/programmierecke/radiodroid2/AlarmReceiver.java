@@ -13,7 +13,7 @@ import android.os.Build;
 import android.os.IBinder;
 import android.os.PowerManager;
 import android.os.RemoteException;
-import android.support.v7.preference.PreferenceManager;
+import androidx.preference.PreferenceManager;
 import android.util.Log;
 import android.widget.Toast;
 

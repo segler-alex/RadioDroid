@@ -1,7 +1,7 @@
 package net.programmierecke.radiodroid2.players;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import net.programmierecke.radiodroid2.data.ShoutcastInfo;
 import net.programmierecke.radiodroid2.data.StreamLiveInfo;

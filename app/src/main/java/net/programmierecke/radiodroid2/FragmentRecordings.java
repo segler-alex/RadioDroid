@@ -8,15 +8,15 @@ import android.content.res.TypedArray;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.support.v4.content.FileProvider;
-import android.support.v7.widget.ListViewCompat;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.core.content.FileProvider;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ListView;
 
 import net.programmierecke.radiodroid2.adapters.ItemAdapterRecordings;
 import net.programmierecke.radiodroid2.data.DataRecording;
@@ -28,7 +28,7 @@ import java.util.List;
 
 public class FragmentRecordings extends Fragment implements IFragmentRefreshable{
     private ItemAdapterRecordings itemAdapterRecordings;
-    private ListViewCompat lv;
+    private ListView lv;
     final String TAG = "FragREC";
 
     void ClickOnItem(DataRecording theData) {
@@ -72,7 +72,7 @@ public class FragmentRecordings extends Fragment implements IFragmentRefreshable
             itemAdapterRecordings = new ItemAdapterRecordings(getActivity(), R.layout.list_item_recording);
         }
 
-        lv = (ListViewCompat)view.findViewById(R.id.listViewStatistics);
+        lv = (ListView)view.findViewById(R.id.listViewStatistics);
         lv.setAdapter(itemAdapterRecordings);
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
