@@ -9,11 +9,11 @@ import android.content.ServiceConnection;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.os.RemoteException;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v4.content.LocalBroadcastManager;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import android.support.v4.media.MediaBrowserCompat;
-import android.support.v4.media.MediaBrowserServiceCompat;
+import androidx.media.MediaBrowserServiceCompat;
 
 import net.programmierecke.radiodroid2.data.DataRadioStation;
 import net.programmierecke.radiodroid2.utils.GetRealLinkAndPlayTask;

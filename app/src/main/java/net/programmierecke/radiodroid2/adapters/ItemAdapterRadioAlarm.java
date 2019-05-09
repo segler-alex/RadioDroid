@@ -1,7 +1,7 @@
 package net.programmierecke.radiodroid2.adapters;
 
 import android.content.Context;
-import android.support.v7.widget.SwitchCompat;
+import androidx.appcompat.widget.SwitchCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;

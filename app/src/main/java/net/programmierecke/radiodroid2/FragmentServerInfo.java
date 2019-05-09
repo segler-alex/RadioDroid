@@ -3,13 +3,13 @@ package net.programmierecke.radiodroid2;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.support.v7.widget.ListViewCompat;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
 import android.widget.Toast;
 
 import net.programmierecke.radiodroid2.adapters.ItemAdapterStatistics;
@@ -30,7 +30,7 @@ public class FragmentServerInfo extends Fragment implements IFragmentRefreshable
             itemAdapterStatistics = new ItemAdapterStatistics(getActivity(), R.layout.list_item_statistic);
         }
 
-        ListViewCompat lv = (ListViewCompat)view.findViewById(R.id.listViewStatistics);
+        ListView lv = (ListView)view.findViewById(R.id.listViewStatistics);
         lv.setAdapter(itemAdapterStatistics);
 
         Download(false);

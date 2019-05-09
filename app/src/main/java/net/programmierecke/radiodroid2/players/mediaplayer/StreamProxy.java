@@ -1,6 +1,6 @@
 package net.programmierecke.radiodroid2.players.mediaplayer;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 import android.util.Log;
 
 import net.programmierecke.radiodroid2.BuildConfig;

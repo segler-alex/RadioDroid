@@ -6,7 +6,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.RectF;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.method.LinkMovementMethod;
@@ -19,7 +19,7 @@ import net.programmierecke.radiodroid2.R;
 
 import java.util.List;
 
-public class TagsView extends android.support.v7.widget.AppCompatTextView {
+public class TagsView extends androidx.appcompat.widget.AppCompatTextView {
     public interface TagSelectionCallback {
         void onTagSelected(String tag);
     }

@@ -6,7 +6,7 @@
         android:id="@+id/action_search"
         android:title="@string/action_search"
         android:icon="@drawable/ic_search_24dp"
-        app:actionViewClass="android.support.v7.widget.SearchView"
+        app:actionViewClass="androidx.appcompat.widget.SearchView"
         app:showAsAction="always" />
 
     <item
@@ -30,7 +30,7 @@
     <item
         android:id="@+id/media_route_menu_item"
         android:title="@string/media_route_menu_title"
-        app:actionProviderClass="android.support.v7.app.MediaRouteActionProvider"
+        app:actionProviderClass="androidx.mediarouter.app.MediaRouteActionProvider"
         app:showAsAction="always"/>
 
     <item
