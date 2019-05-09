@@ -144,7 +144,7 @@ public class RecordingsManager {
         String pathRecordings = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MUSIC) + "/Recordings";
         File folder = new File(pathRecordings);
         if (!folder.exists()) {
-            if (!folder.mkdir()) {
+            if (!folder.mkdirs()) {
                 Log.e(TAG, "could not create dir:" + pathRecordings);
             }
         }
