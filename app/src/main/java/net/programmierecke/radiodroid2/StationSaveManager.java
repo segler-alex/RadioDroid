@@ -164,7 +164,7 @@ public class StationSaveManager {
         String path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MUSIC) + "";
         File folder = new File(path);
         if (!folder.exists()) {
-            if (!folder.mkdir()) {
+            if (!folder.mkdirs()) {
                 Log.e("SAVE", "could not create dir:" + path);
             }
         }
