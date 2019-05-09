@@ -350,7 +350,9 @@ public class FragmentPlayer extends Fragment {
 
 		@Override
 		public void onActivityStarted(Activity activity) {
-			if (PreferenceManager.getDefaultSharedPreferences(getContext().getApplicationContext()).getBoolean("auto_play_on_startup", false)) {
+			boolean startPlaying = getContext() != null
+					&& PreferenceManager.getDefaultSharedPreferences(getContext().getApplicationContext()).getBoolean("auto_play_on_startup", false);
+			if (startPlaying) {
 				SetInfoFromHistory(true);
 			}
 		}
