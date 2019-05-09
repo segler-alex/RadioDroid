@@ -230,7 +230,10 @@ public class PlayerServiceUtil {
     public static void getStationIcon(final ImageView holder, String fromUrl) {
         final String iconUrl = fromUrl != null? fromUrl : getStationIconUrl();
         if (iconUrl != null) {
-            if (iconUrl.trim().equals("")) return;
+            if (iconUrl.trim().equals("")) {
+                holder.setImageDrawable(ContextCompat.getDrawable(mainContext, R.drawable.ic_photo_black_24dp));
+                return;
+            }
             Resources r = mainContext.getResources();
             final float px = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 70, r.getDisplayMetrics());
 

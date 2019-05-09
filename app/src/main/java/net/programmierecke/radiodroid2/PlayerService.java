@@ -786,8 +786,11 @@ public class PlayerService extends Service implements RadioPlayer.PlayerListener
     private void downloadRadioIcon() {
         final float px = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 70, getResources().getDisplayMetrics());
 
-        if (currentStationIconUrl == null) return;
-        if (currentStationIconUrl.trim().equals("")) return;
+        if (currentStationIconUrl == null || currentStationIconUrl.trim().equals("")) {
+            radioIcon = (BitmapDrawable) ResourcesCompat.getDrawable(getResources(), R.drawable.ic_launcher, null);
+            updateNotification();
+            return;
+        }
 
         Picasso.with(getApplicationContext())
                 .load(currentStationIconUrl)
