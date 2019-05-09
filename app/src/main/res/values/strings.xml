@@ -89,10 +89,6 @@
     <string name="startup_show_history">Show history</string>
     <string name="startup_show_last_view">Last view</string>
 
-    <string name="settings_auto_play_on_startup">Auto play</string>
-    <string name="settings_auto_play_on_startup_on">Start playing last played station on startup.</string>
-    <string name="settings_auto_play_on_startup_off">Do not start playing on startup.</string>
-
     <string name="settings_load_icons">Show station icons</string>
     <string name="settings_load_icons_on">Icons will be downloaded</string>
     <string name="settings_load_icons_off">Icons will not be downloaded</string>
@@ -117,6 +113,9 @@
     <string name="settings_alarm_sleep_timer">Sleep timer</string>
     <string name="settings_alarm_sleep_timer_desc">Stop playing after %1$s minutes</string>
     <string name="settings_play">Player</string>
+    <string name="settings_auto_play_on_startup">Auto-play</string>
+    <string name="settings_auto_play_on_startup_on">Play last station on startup</string>
+    <string name="settings_auto_play_on_startup_off">Do not play last station on startup</string>
     <string name="settings_play_external">Enable external player</string>
     <string name="settings_play_external_desc_on">Play stations with external player</string>
     <string name="settings_play_external_desc_off">Play stations with RadioDroid</string> 
@@ -137,7 +136,7 @@
     <string name="settings_seconds_format">%d seconds</string>
     <string name="settings_milliseconds_format">%d milliseconds</string>
 
-    <string name="settings_warn_no_wifi">Warn when not on Wi-Fi</string>
+    <string name="settings_warn_no_wifi">Off-Wi-Fi Warning</string>
     <string name="settings_warn_no_wifi_on">Warn when playing without Wi-Fi connection</string>
     <string name="settings_warn_no_wifi_off">No warning when not on Wi-Fi connection</string>
 
@@ -160,8 +159,8 @@
     <string name="notify_starred">Station has been added to favorites</string>
     <string name="notify_autostarred">Station has been automatically added to favorites</string>
     <string name="notify_unstarred">Station has been removed from favorites</string>
-    <string name="notify_deleted_favorites">The favorites have been deleted.</string>
-    <string name="notify_deleted_history">The history has been deleted.</string>
+    <string name="notify_deleted_favorites">The favorites have been deleted</string>
+    <string name="notify_deleted_history">The history has been deleted</string>
 
     <string name="notify_station_removed_from_list">1 Removed</string>
     <string name="action_station_removed_from_list_undo">UNDO</string>
@@ -187,13 +186,13 @@
     <string name="error_stream_url">Stream URL problem</string>
     <string name="error_caching_stream">Stream caching problem</string>
     <string name="error_play_stream">Unable to play stream</string>
-    <string name="error_stream_reconnect_timeout">Unable to reconnect to the stream: timeout.</string>
-    <string name="giving_up_resume">Attempt to resume playback ignored.</string>
+    <string name="error_stream_reconnect_timeout">Unable to reconnect to the stream: timeout</string>
+    <string name="giving_up_resume">Attempt to resume playback ignored</string>
 
     <string name="error_record_needs_write">Need write permission for recording!</string>
-    <string name="error_grant_audiofocus">Request for audio focus was not granted by the system.</string>
+    <string name="error_grant_audiofocus">Request for audio focus was not granted by the system</string>
 
-    <string name="error_no_equalizer_found">No equalizer app found!</string>
+    <string name="error_no_equalizer_found">No equalizer app found</string>
 
     <string name="player_info_status">Status:&#160;</string>
     <string name="player_info_status_stopped">stopped</string>
@@ -225,6 +224,7 @@
     <string name="app_name">RadioDroid</string>
 
     <string name="settings_mpd">Music Player Daemon</string>
+    <string name="settings_mpd_port">MPD port</string>
     <string name="settings_view_mpd_servers">Your servers</string>
     <string name="action_mpd_nok">MPD not connected</string>
     <string name="action_mpd_ok">MPD connected</string>
@@ -247,7 +247,7 @@
         <item>S</item>
     </string-array>
 
-    <string name="notify_stream_url_copied">Stream URL successfully copied!</string>
+    <string name="notify_stream_url_copied">Stream URL successfully copied</string>
 
     <string-array name="actions_station_link">
         <item>Visit Website</item>
@@ -255,9 +255,8 @@
     </string-array>
 
     <string name="no_wifi_title">No Wi-Fi (WLAN) connection</string>
-    <string name="no_wifi_connection">No Wi-Fi (WLAN) connection when starting %1$s. Press \'OK\' to continue.</string>
+    <string name="no_wifi_connection">No Wi-Fi (WLAN) connection when starting %1$s, press \'OK\' to continue.</string>
     <string name="nav_item_statistics">Statistics</string>
     <string name="nav_item_about">About</string>
-    <string name="settings_mpd_port">MPD port</string>
     <string name="refresh">Refresh</string>
 </resources>

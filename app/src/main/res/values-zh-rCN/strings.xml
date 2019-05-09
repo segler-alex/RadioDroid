@@ -43,12 +43,12 @@
     <string name="nav_item_recordings">录音</string>
 
     <string name="about_text">此程序使用位于 https://www.radio-browser.info 的免费广播电台目录。\n任何人都可以添加电台到目录中或编辑已有电台，就像一个在线（流媒体）广播电台的维基一样。\n\n联系：\nsegler_alex@web.de\n\n漏洞跟踪：\nhttps://github.com/segler-alex/RadioDroid/issues\n\n如果您喜欢此软件并愿意提供帮助，敬请给本人发送邮件，我真的需要有绘图经验的朋友来让这个程序别太虐待眼睛了:)\n或许哪位朋友会画图标、图片...或者哪位程序员会修复漏洞，或者开发（功能，不是漏洞;）\n还有关于新功能的建议也一向非常感谢！\n\n此程序是在 GPLv3 https://www.gnu.org/licenses/gpl-3.0.html 授权下的免费软件。</string>
-    <string name="about_version">版本: %1$s</string>
+    <string name="about_version">版本：%1$s</string>
     <string name="detail_star">添加到收藏</string>
     <string name="detail_unstar">从收藏删除</string>
     <string name="progress_loading">正在载入...</string>
 
-    <string name="sleep_timer" formatted="true">睡眠定时器： %1$02d:%2$02d</string>
+    <string name="sleep_timer" formatted="true">睡眠定时器：%1$02d:%2$02d</string>
     <string name="sleep_timer_title">在选定的分钟后停止播放</string>
     <string name="sleep_timer_apply">应用</string>
     <string name="sleep_timer_clear">清除</string>
@@ -113,6 +113,9 @@
     <string name="settings_alarm_sleep_timer">睡眠定时器</string>
     <string name="settings_alarm_sleep_timer_desc">在 %1$s 分钟后停止播放</string>
     <string name="settings_play">播放器</string>
+    <string name="settings_auto_play_on_startup">自动播放</string>
+    <string name="settings_auto_play_on_startup_on">启动时播放上一个电台</string>
+    <string name="settings_auto_play_on_startup_off">启动时不播放上一个电台</string>
     <string name="settings_play_external">使用外部播放器</string>
     <string name="settings_play_external_desc_on">使用外部播放器播放电台</string>
     <string name="settings_play_external_desc_off">使用睿卓播放电台</string>
@@ -178,22 +181,22 @@
     <string name="error_stream_url">流媒体地址错误</string>
     <string name="error_caching_stream">流媒体缓存错误</string>
     <string name="error_play_stream">无法播放流媒体</string>
-    <string name="error_stream_reconnect_timeout">无法重新连接到流媒体：超时。</string>
-    <string name="giving_up_resume">已忽略尝试恢复播放。</string>
+    <string name="error_stream_reconnect_timeout">无法重新连接到流媒体：超时</string>
+    <string name="giving_up_resume">已忽略尝试恢复播放</string>
 
-    <string name="error_record_needs_write">需要写入权限才能录音！</string>
-    <string name="error_grant_audiofocus">系统未授予音频焦点请求。</string>
+    <string name="error_record_needs_write">需要写入权限才能录音</string>
+    <string name="error_grant_audiofocus">系统未授予音频焦点请求</string>
 
-    <string name="error_no_equalizer_found">未发现均衡器程序！</string>
+    <string name="error_no_equalizer_found">未发现均衡器程序</string>
 
     <string name="player_info_status">状态：&#160;</string>
     <string name="player_info_status_stopped">已停止</string>
     <string name="player_info_status_playing">正在播放</string>
     <string name="player_info_status_recording">正在录音</string>
     <string name="player_info_status_playing_and_recording">正在播放和录音</string>
-    <string name="player_info_transferred">已传送数据： %1$s</string>
-    <string name="player_info_recording_to">正在录音到: \n%1$s</string>
-    <string name="player_info_recorded_to">上次录音: \n%1$s</string>
+    <string name="player_info_transferred">已传送数据：%1$s</string>
+    <string name="player_info_recording_to">正在录音到：\n%1$s</string>
+    <string name="player_info_recorded_to">上次录音：\n%1$s</string>
 
     <string name="station_detail_bitrate">%1$1d kbps</string>
     <string name="station_detail_broken">无效</string>
@@ -216,6 +219,7 @@
     <string name="app_name">睿卓</string>
 
     <string name="settings_mpd">Music Player Daemon</string>
+    <string name="settings_mpd_port">MPD 端口</string>
     <string name="settings_view_mpd_servers">您的服务器</string>
     <string name="action_mpd_nok">MPD 未连接</string>
     <string name="action_mpd_ok">MPD 已连接</string>
@@ -248,6 +252,5 @@
     <string name="no_wifi_connection">播放 %1$s 时无 Wi-Fi (无线网络) 连接，按 \'确认\' 继续。</string>
     <string name="nav_item_statistics">统计</string>
     <string name="nav_item_about">关于</string>
-    <string name="settings_mpd_port">MPD 端口</string>
     <string name="refresh">刷新</string>
 </resources>
