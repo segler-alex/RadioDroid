@@ -1,6 +1,8 @@
 package net.programmierecke.radiodroid2.views;
 
 import android.content.Context;
+
+import androidx.annotation.Nullable;
 import androidx.preference.EditTextPreference;
 import android.util.AttributeSet;
 
@@ -24,6 +26,18 @@ public class IntEditTextPreference extends EditTextPreference {
     public IntEditTextPreference(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         summaryFormat = getSummary().toString();
+    }
+
+    @Override
+    protected void onSetInitialValue(@Nullable Object defaultValue) {
+        Integer currentValue = parseInteger((String) defaultValue);
+        if (currentValue != null) {
+            value = currentValue;
+
+            if (summaryFormat != null) {
+                setSummary(String.format(summaryFormat, value));
+            }
+        }
     }
 
     @Override
@@ -52,7 +66,7 @@ public class IntEditTextPreference extends EditTextPreference {
 
     @Override
     protected String getPersistedString(String defaultReturnValue) {
-        return String.valueOf(getPersistedInt(-1));
+        return String.valueOf(getPersistedInt(value));
     }
 
     private static Integer parseInteger(String text) {
