@@ -179,6 +179,8 @@
     <string name="alert_select_mpd_server_save">Save</string>
     <string name="alert_select_mpd_server_remove">Remove</string>
     <string name="alert_add_or_edit_mpd_server">Enter details about a server</string>
+    <string name="alert_alarm_working">Alarm time now</string>
+    <string name="alert_alarm_not_working">No enough info for alarm</string>
     <string name="alert_select_external_alarm_app">Choose audio player</string>
 
     <string name="alert_press_back_to_exit">Press back once more to exit</string>
@@ -189,7 +191,7 @@
     <string name="error_stream_reconnect_timeout">Unable to reconnect to the stream: timeout</string>
     <string name="giving_up_resume">Attempt to resume playback ignored</string>
 
-    <string name="error_record_needs_write">Need write permission for recording!</string>
+    <string name="error_record_needs_write">Need write permission for recording</string>
     <string name="error_grant_audiofocus">Request for audio focus was not granted by the system</string>
 
     <string name="error_no_equalizer_found">No equalizer app found</string>
