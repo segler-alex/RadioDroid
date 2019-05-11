@@ -35,7 +35,7 @@ public class AlarmReceiver extends BroadcastReceiver {
         if(BuildConfig.DEBUG) { Log.d(TAG,"received broadcast"); }
         aquireLocks(context);
         
-        Toast toast = Toast.makeText(context, "Alarm!", Toast.LENGTH_SHORT);
+        Toast toast = Toast.makeText(context, context.getResources().getText(R.string.alert_alarm_working), Toast.LENGTH_SHORT);
         toast.show();
 
         alarmId = intent.getIntExtra("id",-1);
@@ -49,7 +49,7 @@ public class AlarmReceiver extends BroadcastReceiver {
             if(BuildConfig.DEBUG) { Log.d(TAG,"radio id:"+alarmId); }
             Play(context, station.ID);
         }else{
-            toast = Toast.makeText(context, "not enough info for alarm!", Toast.LENGTH_SHORT);
+            toast = Toast.makeText(context, context.getResources().getText(R.string.alert_alarm_not_working), Toast.LENGTH_SHORT);
             toast.show();
         }
     }
