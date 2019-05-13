@@ -1,0 +1,264 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+    <string name="detail_name">Navn</string>
+    <string name="detail_tags">Mærker</string>
+    <string name="detail_country">Land</string>
+    <string name="detail_language">Sprog</string>
+    <string name="detail_weblink">Net henvisning</string>
+    <string name="detail_play">Afspil</string>
+    <string name="detail_pause">Pause</string>
+    <string name="detail_stop">Stop</string>
+    <string name="detail_share">Dele</string>
+
+    <string name="action_local">Lokal</string>
+    <string name="action_skip_to_next">Næste</string>
+    <string name="action_pause">Pause</string>
+    <string name="action_skip_to_previous">Forrige</string>
+    <string name="action_resume">Gemoptage</string>
+    <string name="action_stop">Stop</string>
+    <string name="action_search">Søge</string>
+    <string name="action_delete">Slette</string>
+    <string name="action_delete_history">Slette historik</string>
+    <string name="action_delete_favorites">Slette favoritter</string>
+    <string name="action_ok">O.k.</string>
+    <string name="action_cancel">Annullere</string>
+    <string name="action_top_click">Top klikket</string>
+    <string name="action_top_vote">Top stemt</string>
+    <string name="action_changed_lately">Ændret senest</string>
+    <string name="action_currently_playing">Afspiller</string>
+    <string name="action_tags">Mærker</string>
+    <string name="action_countries">Lande</string>
+    <string name="action_languages">Sprog</string>
+    <string name="error_station_load">Kunne ikke forbinde til station</string>
+    <string name="error_list_update">Kunne ikke forbinde til radio browser server</string>
+
+    <string name="share_action">Dele station henvisning med..</string>
+
+    <string name="nav_item_stations">Stationer</string>
+    <string name="nav_item_starred">Favoritter</string>
+    <string name="nav_item_history">Historik</string>
+    <string name="nav_item_settings">Opsætning</string>
+    <string name="nav_item_alarm">Alarm</string>
+    <string name="nav_item_recordings">Optagelser</string>
+
+    <string name="about_text">Dette program bruger den åbne radio station bibliotek hos\nhttps://www.radio-browser.info\nEveryone can add stations to it or edit existing stations. It works like a wiki for online (streaming) radio stations.\n\nContact:\nsegler_alex@web.de\n\nBugtracker:\nhttps://github.com/segler-alex/RadioDroid/issues\n\nIf you like the software and want to help, feel free to send me an email. I really need someone with graphical experience to make the app nicer to the eye :) Maybe someone who can draw icons, images...but also programmers who fix bugs, or implement new ones (features not bugs ;)\nAlso ideas for new features are always appreciated!\n\nThis app is free software licensed under the GPLv3.\nhttps://www.gnu.org/licenses/gpl-3.0.html</string>
+    <string name="about_version">Version: %1$s</string>
+    <string name="detail_star">Tilføje til favoritter</string>
+    <string name="detail_unstar">Slette fra favoritter</string>
+    <string name="progress_loading">Indlæser...</string>
+
+    <string name="sleep_timer" formatted="true">Sleep timer: %1$02d:%2$02d</string>
+    <string name="sleep_timer_title">Stop afspilning efter det valgte minut</string>
+    <string name="sleep_timer_apply">Anvende</string>
+    <string name="sleep_timer_clear">Rydde</string>
+    <string name="nav_item_add_sleep">+15 minutter</string>
+
+    <string name="nav_item_save_playlist">Gemme til afspilningsliste</string>
+    <string name="nav_item_load_playlist">Indlæse fra afspilningsliste</string>
+    <string name="confirm_overwrite_file">Overskrive fil?</string>
+    <string name="dialog_hint_file_name">Indtaste filnavn</string> 
+    <string name="error_empty_field">Dette felt er påkrævet</string>
+    <string name="error_invalid_file_name">Ugyldig filnavn</string>
+    <string name="label_button_cancel">Annullere</string>
+    <string name="label_button_overwrite">Overskrive</string>
+
+    <string name="settings_interface">UI</string>
+    <string name="settings_theme_selection_title">Tema</string>
+    <string name="theme_light">Lys</string>
+    <string name="theme_dark">Mørk</string>
+    <string name="settings_circular_icons">Brug cirkulære ikoner</string>
+    <string name="settings_compact_style">Tæt tilstand</string>
+    <string name="settings_compact_style_desc_off">Stort ikon tilføjet station detaljer</string> 
+    <string name="settings_compact_style_desc_on">Lille ikon ikke tilføjet station detaljer</string>
+    <string name="settings_bottom_navigation">Bundnavigation</string>
+
+    <string name="settings_general">Generelt</string>
+    <string name="settings_single_use_tags">Vise sjældne brugte mærker</string>
+    <string name="settings_single_use_tags_desc_off">Sjældne brugte mærker vises ikke</string>
+    <string name="settings_single_use_tags_desc_on">Sjældne brugte mærker vises</string>
+
+    <string name="settings_show_broken">Ugyldige stationer</string>
+    <string name="settings_show_broken_on">Vis ugyldige stationer i lister</string>
+    <string name="settings_show_broken_off">Vis ikke ugyldige stationer i lister</string>
+
+    <string name="startup_action_title">Start action</string>
+    <string name="startup_action_title_desc">%s</string>
+    <string name="startup_show_all_stations">Show all stations</string>
+    <string name="startup_show_favorites">Show favorites</string>
+    <string name="startup_show_history">Show history</string>
+    <string name="startup_show_last_view">Last view</string>
+
+    <string name="settings_load_icons">Show station icons</string>
+    <string name="settings_load_icons_on">Icons will be downloaded</string>
+    <string name="settings_load_icons_off">Icons will not be downloaded</string>
+
+    <string name="settings_auto_favorite">Auto-favorites</string>
+    <string name="settings_auto_favorite_on">Add stations automatically to favorites when playing</string>
+    <string name="settings_auto_favorite_off">Do not add stations automatically to favorites when playing</string>
+
+    <string name="settings_icon_click_toggles_favorite">Click-favorites</string>
+    <string name="settings_icon_click_toggles_favorite_on">Click station icon to add or remove favorite station</string>
+    <string name="settings_icon_click_toggles_favorite_off">Click station icon to start playing</string>
+
+    <string name="settings_click_trend_icon_visible">Click trend icon</string>
+    <string name="settings_click_trend_icon_visible_on">Icon will be visible</string>
+    <string name="settings_click_trend_icon_visible_off">Icon will be hidden</string>
+
+    <string name="settings_alarm">Alarm</string>
+    <string name="settings_alarm_external">Enable external app</string>
+    <string name="settings_alarm_external_desc_on">Open the alarm with default external app</string>
+    <string name="settings_alarm_external_desc_off">Open the alarm with RadioDroid</string> 
+    <string name="settings_alarm_audio_player">Audio player</string>
+    <string name="settings_alarm_sleep_timer">Sleep timer</string>
+    <string name="settings_alarm_sleep_timer_desc">Stop playing after %1$s minutes</string>
+    <string name="settings_play">Player</string>
+    <string name="settings_auto_play_on_startup">Auto-play</string>
+    <string name="settings_auto_play_on_startup_on">Play last station on startup</string>
+    <string name="settings_auto_play_on_startup_off">Do not play last station on startup</string>
+    <string name="settings_play_external">Enable external player</string>
+    <string name="settings_play_external_desc_on">Play stations with external player</string>
+    <string name="settings_play_external_desc_off">Play stations with RadioDroid</string> 
+    <string name="settings_equalizer">Equalizer</string>
+
+    <string name="settings_connectivity">Connectivity</string>
+    <string name="settings_connect_timeout">Connection timeout</string>
+    <string name="settings_read_timeout">Read timeout</string>
+    <string name="settings_resume_timeout">Resume timeout</string>
+    <string name="settings_retry_timeout">Retry timeout</string>
+    <string name="settings_retry_delay">Reconnection delay</string>
+    <string name="settings_proxy">Proxy</string>
+    <string name="settings_proxy_login">Username</string>
+    <string name="settings_proxy_password">Password</string>
+    <string name="settings_proxy_action_test">Test</string>
+    <string name="settings_proxy_working">Successfully connected to %s</string>
+    <string name="settings_proxy_not_working">Failed to connect to %s\n%s</string>
+    <string name="settings_seconds_format">%d seconds</string>
+    <string name="settings_milliseconds_format">%d milliseconds</string>
+
+    <string name="settings_warn_no_wifi">Off-Wi-Fi Warning</string>
+    <string name="settings_warn_no_wifi_on">Warn when playing without Wi-Fi connection</string>
+    <string name="settings_warn_no_wifi_off">No warning when not on Wi-Fi connection</string>
+
+    <string name="settings_recordings">Recordings</string>
+    <string name="settings_record_name_formatting">Name format</string>
+
+    <string name="settings_record_name_formatting_default" translatable="false">${station}_${artist}_${track}_${date}_${time}</string>
+    <string name="settings_record_name_formatting_1" translatable="false">${station}_${artist}_${track}</string>
+    <string name="settings_record_name_formatting_2" translatable="false">${station}_${date}_${time}</string>
+    <string name="settings_record_name_formatting_3" translatable="false">${index}_${station}_${date}</string>
+
+    <string name="settings_record_name_formatting_default_display">station_artist_track_\u200bdate_\u200btime</string>
+    <string name="settings_record_name_formatting_1_display">station_artist_\u200btrack</string>
+    <string name="settings_record_name_formatting_2_display">station_date_\u200btime</string>
+    <string name="settings_record_name_formatting_3_display">index_station_\u200bdate</string>
+
+    <string name="notify_pre_play">Connecting</string>
+    <string name="notify_play">Playing</string>
+    <string name="notify_paused">Paused</string>
+    <string name="notify_starred">Station has been added to favorites</string>
+    <string name="notify_autostarred">Station has been automatically added to favorites</string>
+    <string name="notify_unstarred">Station has been removed from favorites</string>
+    <string name="notify_deleted_favorites">The favorites have been deleted</string>
+    <string name="notify_deleted_history">The history has been deleted</string>
+
+    <string name="notify_station_removed_from_list">1 fjernet</string>
+    <string name="action_station_removed_from_list_undo">Genskabe</string>
+
+    <string name="alert_delete_history">Slette historik?</string>
+    <string name="alert_delete_favorites">Slette alle favoritter?</string>
+    <string name="yes">Ja</string>
+    <string name="no">Nej</string>
+
+    <string name="alert_select_mpd_server">Vælg en server</string>
+    <string name="alert_select_mpd_server_name">Server navn</string>
+    <string name="hostname">Vært navn</string>
+    <string name="port">Port</string>
+
+    <string name="alert_select_mpd_server_add">Tilføje</string>
+    <string name="alert_select_mpd_server_save">Gemme</string>
+    <string name="alert_select_mpd_server_remove">Fjerne</string>
+    <string name="alert_add_or_edit_mpd_server">Indtaste oplysninger om en server</string>
+    <string name="alert_alarm_working">Alarm tid nu</string>
+    <string name="alert_alarm_not_working">Ikke nok oplysning for alarm</string>
+    <string name="alert_select_external_alarm_app">Vælge lyd afspiller</string>
+
+    <string name="alert_press_back_to_exit">Tryk på tilbage en gang mere for at afslutte</string>
+
+    <string name="error_stream_url">Strøm URL problem</string>
+    <string name="error_caching_stream">Strøm mellemlager problem</string>
+    <string name="error_play_stream">Kan ikke afspille strøm</string>
+    <string name="error_stream_reconnect_timeout">Kan ikke forbinde til strøm: tidsudløb</string>
+    <string name="giving_up_resume">Forsøg på genopatage afspilning afvist</string>
+
+    <string name="error_record_needs_write">Behøver skrive tilladelse for optagning</string>
+    <string name="error_grant_audiofocus">Anmode om lyd fokus blev ikke tildelt af systemet</string>
+
+    <string name="error_no_equalizer_found">Intet equalizer program fundet</string>
+
+    <string name="player_info_status">Status:&#160;</string>
+    <string name="player_info_status_stopped">stoppet</string>
+    <string name="player_info_status_playing">afspille</string>
+    <string name="player_info_status_recording">optage</string>
+    <string name="player_info_status_playing_and_recording">afspille og optage</string>
+    <string name="player_info_transferred">Overført data: %1$s</string>
+    <string name="player_info_recording_to">Optager til:\n%1$s</string>
+    <string name="player_info_recorded_to">Sidte optagelse:\n%1$s</string>
+
+    <string name="station_detail_bitrate">%1$1d kbps</string>
+    <string name="station_detail_broken">VIKER IKKE</string>
+
+    <string name="image_button_disable">Deaktivere</string>
+    <string name="image_button_record">Optage</string>
+    <string name="image_button_record_request_permission">Anmode tilladelse for optagning</string>
+    <string name="image_button_recordings">Optagelser</string>
+    <string name="image_button_delete">Slette</string>
+    <string name="image_button_more">Mere</string>
+    <string name="image_button_less">Mindre</string>
+    <string name="image_button_repeat">Gentag</string>
+    <string name="image_button_dont_repeat">Gentag ikke</string>
+    <string name="icon_click_trend_decreasing">Popularitet faldende</string>
+    <string name="icon_click_trend_increasing">Popularitet stigende</string>
+    <string name="icon_click_trend_stable">Popularitet stabil</string>
+
+    <string name="media_route_menu_title">GoogleCast</string>
+    <string name="app_id">5A97BAE4</string>
+    <string name="app_name">RadioDroid</string>
+
+    <string name="settings_mpd">Musik afspiller tjeneste</string>
+    <string name="settings_mpd_port">MPD port</string>
+    <string name="settings_view_mpd_servers">Servere</string>
+    <string name="action_mpd_nok">MPD ikke forbundet</string>
+    <string name="action_mpd_ok">MPD forbundet</string>
+    <string name="action_mpd_connected">Forbundet til server: %1$s</string>
+
+    <string name="settings_radiobrowser_servers">RadioBrowser servere</string>
+    <string name="settings_radiobrowser_servers_default">www.radio-browser.info/webservice</string>
+
+    <string name="settings_other">Andet</string>
+    <string name="settings_statistics">Statistikker</string>
+    <string name="settings_about">Om RadioDroid</string>
+
+    <string-array name="weekdays">
+        <item>S</item>
+        <item>M</item>
+        <item>T</item>
+        <item>O</item>
+        <item>T</item>
+        <item>F</item>
+        <item>L</item>
+    </string-array>
+
+    <string name="notify_stream_url_copied">Strøm URL kopieret</string>
+
+    <string-array name="actions_station_link">
+        <item>Besøge netsted</item>
+        <item>Kopiere strøm URL</item>
+    </string-array>
+
+    <string name="no_wifi_title">Ingen trådløs (WLAN) forbindelse</string>
+    <string name="no_wifi_connection">Ingen trådløs (WLAN) forbindelse under opstart af %1$s, press \'O.k.\' for at fortsætte.</string>
+    <string name="nav_item_statistics">Statistikker</string>
+    <string name="nav_item_about">Om</string>
+    <string name="refresh">Genopfriske</string>
+</resources>
