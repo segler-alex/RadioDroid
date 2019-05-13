@@ -42,45 +42,45 @@
     <string name="nav_item_alarm">Alarm</string>
     <string name="nav_item_recordings">Optagelser</string>
 
-    <string name="about_text">This app uses the free radio station directory at\nhttps://www.radio-browser.info\nEveryone can add stations to it or edit existing stations. It works like a wiki for online (streaming) radio stations.\n\nContact:\nsegler_alex@web.de\n\nBugtracker:\nhttps://github.com/segler-alex/RadioDroid/issues\n\nIf you like the software and want to help, feel free to send me an email. I really need someone with graphical experience to make the app nicer to the eye :) Maybe someone who can draw icons, images...but also programmers who fix bugs, or implement new ones (features not bugs ;)\nAlso ideas for new features are always appreciated!\n\nThis app is free software licensed under the GPLv3.\nhttps://www.gnu.org/licenses/gpl-3.0.html</string>
+    <string name="about_text">Dette program bruger den åbne radio station bibliotek hos\nhttps://www.radio-browser.info\nEveryone can add stations to it or edit existing stations. It works like a wiki for online (streaming) radio stations.\n\nContact:\nsegler_alex@web.de\n\nBugtracker:\nhttps://github.com/segler-alex/RadioDroid/issues\n\nIf you like the software and want to help, feel free to send me an email. I really need someone with graphical experience to make the app nicer to the eye :) Maybe someone who can draw icons, images...but also programmers who fix bugs, or implement new ones (features not bugs ;)\nAlso ideas for new features are always appreciated!\n\nThis app is free software licensed under the GPLv3.\nhttps://www.gnu.org/licenses/gpl-3.0.html</string>
     <string name="about_version">Version: %1$s</string>
-    <string name="detail_star">Add to favorites</string>
-    <string name="detail_unstar">Delete from favorites</string>
-    <string name="progress_loading">Loading...</string>
+    <string name="detail_star">Tilføje til favoritter</string>
+    <string name="detail_unstar">Slette fra favoritter</string>
+    <string name="progress_loading">Indlæser...</string>
 
     <string name="sleep_timer" formatted="true">Sleep timer: %1$02d:%2$02d</string>
-    <string name="sleep_timer_title">Stop playing after the selected minute</string>
-    <string name="sleep_timer_apply">Apply</string>
-    <string name="sleep_timer_clear">Clear</string>
-    <string name="nav_item_add_sleep">+15 mins</string>
+    <string name="sleep_timer_title">Stop afspilning efter det valgte minut</string>
+    <string name="sleep_timer_apply">Anvende</string>
+    <string name="sleep_timer_clear">Rydde</string>
+    <string name="nav_item_add_sleep">+15 minutter</string>
 
-    <string name="nav_item_save_playlist">Save to playlist</string>
-    <string name="nav_item_load_playlist">Load from playlist</string>
-    <string name="confirm_overwrite_file">Overwrite the file?</string>
-    <string name="dialog_hint_file_name">Enter file name</string> 
-    <string name="error_empty_field">This field is required</string>
-    <string name="error_invalid_file_name">Invalid file name</string>
-    <string name="label_button_cancel">Cancel</string>
-    <string name="label_button_overwrite">Overwrite</string>
+    <string name="nav_item_save_playlist">Gemme til afspilningsliste</string>
+    <string name="nav_item_load_playlist">Indlæse fra afspilningsliste</string>
+    <string name="confirm_overwrite_file">Overskrive fil?</string>
+    <string name="dialog_hint_file_name">Indtaste filnavn</string> 
+    <string name="error_empty_field">Dette felt er påkrævet</string>
+    <string name="error_invalid_file_name">Ugyldig filnavn</string>
+    <string name="label_button_cancel">Annullere</string>
+    <string name="label_button_overwrite">Overskrive</string>
 
     <string name="settings_interface">UI</string>
-    <string name="settings_theme_selection_title">Theme</string>
-    <string name="theme_light">Light</string>
-    <string name="theme_dark">Dark</string>
-    <string name="settings_circular_icons">Use circular icons</string>
-    <string name="settings_compact_style">Compact mode</string>
-    <string name="settings_compact_style_desc_off">Large icon adopted with station details</string> 
-    <string name="settings_compact_style_desc_on">Small icon adopted without station details</string>
-    <string name="settings_bottom_navigation">Bottom navigation</string>
+    <string name="settings_theme_selection_title">Tema</string>
+    <string name="theme_light">Lys</string>
+    <string name="theme_dark">Mørk</string>
+    <string name="settings_circular_icons">Brug cirkulære ikoner</string>
+    <string name="settings_compact_style">Tæt tilstand</string>
+    <string name="settings_compact_style_desc_off">Stort ikon tilføjet station detaljer</string> 
+    <string name="settings_compact_style_desc_on">Lille ikon ikke tilføjet station detaljer</string>
+    <string name="settings_bottom_navigation">Bundnavigation</string>
 
-    <string name="settings_general">General</string>
-    <string name="settings_single_use_tags">Show rarely-used tags</string>
-    <string name="settings_single_use_tags_desc_off">Rarely-used tags will not be shown</string>
-    <string name="settings_single_use_tags_desc_on">Rarely-used tags will be shown</string>
+    <string name="settings_general">Generelt</string>
+    <string name="settings_single_use_tags">Vise sjældne brugte mærker</string>
+    <string name="settings_single_use_tags_desc_off">Sjældne brugte mærker vises ikke</string>
+    <string name="settings_single_use_tags_desc_on">Sjældne brugte mærker vises</string>
 
-    <string name="settings_show_broken">Broken stations</string>
-    <string name="settings_show_broken_on">Show broken stations in lists</string>
-    <string name="settings_show_broken_off">Do not show broken stations in lists</string>
+    <string name="settings_show_broken">Ugyldige stationer</string>
+    <string name="settings_show_broken_on">Vis ugyldige stationer i lister</string>
+    <string name="settings_show_broken_off">Vis ikke ugyldige stationer i lister</string>
 
     <string name="startup_action_title">Start action</string>
     <string name="startup_action_title_desc">%s</string>
