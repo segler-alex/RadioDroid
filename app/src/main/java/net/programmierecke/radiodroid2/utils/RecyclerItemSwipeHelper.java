@@ -1,6 +1,7 @@
 package net.programmierecke.radiodroid2.utils;
 
 import android.graphics.Canvas;
+
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import android.view.View;
@@ -52,8 +53,13 @@ public class RecyclerItemSwipeHelper<ViewHolderType extends SwipeableViewHolder>
     }
 
     @Override
+    public boolean isLongPressDragEnabled() {
+        return false;
+    }
+
+    @Override
     public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
-        return true;
+        return false;
     }
 
     @Override

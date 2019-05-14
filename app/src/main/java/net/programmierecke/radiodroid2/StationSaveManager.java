@@ -88,6 +88,16 @@ public class StationSaveManager {
         return listStations.get(listStations.size()-1);
     }
 
+    public void move(int fromPos, int toPos) {
+        if (fromPos < toPos) {
+            for (int i = fromPos; i < toPos; i++)
+                Collections.swap(listStations, i, i + 1);
+        } else {
+            for (int i = fromPos; i > toPos; i--)
+                Collections.swap(listStations, i, i - 1);
+        }
+    }
+
     public int remove(String id) {
         for (int i = 0; i < listStations.size(); i++) {
             if (listStations.get(i).ID.equals(id)) {
