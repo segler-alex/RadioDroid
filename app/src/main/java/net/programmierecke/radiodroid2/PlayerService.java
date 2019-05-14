@@ -778,8 +778,13 @@ public class PlayerService extends Service implements RadioPlayer.PlayerListener
                 if (mediaSession != null) {
                     final MediaMetadataCompat.Builder builder = new MediaMetadataCompat.Builder();
                     builder.putString(MediaMetadataCompat.METADATA_KEY_ALBUM, currentStationName);
-                    builder.putString(MediaMetadataCompat.METADATA_KEY_ARTIST, liveInfo.getArtist());
-                    builder.putString(MediaMetadataCompat.METADATA_KEY_TITLE, liveInfo.getTrack());
+                    if (liveInfo.hasArtistAndTrack()) {
+                        builder.putString(MediaMetadataCompat.METADATA_KEY_ARTIST, liveInfo.getArtist());
+                        builder.putString(MediaMetadataCompat.METADATA_KEY_TITLE, liveInfo.getTrack());
+                    } else {
+                        builder.putString(MediaMetadataCompat.METADATA_KEY_TITLE, liveInfo.getTitle());
+                        builder.putString(MediaMetadataCompat.METADATA_KEY_ARTIST, currentStationName); // needed for android-media-controller to show an icon
+                    }
                     builder.putBitmap(MediaMetadataCompat.METADATA_KEY_DISPLAY_ICON, radioIcon.getBitmap());
                     builder.putBitmap(MediaMetadataCompat.METADATA_KEY_ALBUM_ART, radioIcon.getBitmap());
                     mediaSession.setMetadata(builder.build());
