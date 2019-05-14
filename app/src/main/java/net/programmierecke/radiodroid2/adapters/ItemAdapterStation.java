@@ -34,6 +34,7 @@ import android.widget.*;
 import net.programmierecke.radiodroid2.*;
 import net.programmierecke.radiodroid2.data.DataRadioStation;
 import net.programmierecke.radiodroid2.interfaces.IAdapterRefreshable;
+import net.programmierecke.radiodroid2.utils.RecyclerItemMoveAndSwipeHelper;
 import net.programmierecke.radiodroid2.utils.RecyclerItemSwipeHelper;
 import net.programmierecke.radiodroid2.utils.SwipeableViewHolder;
 import net.programmierecke.radiodroid2.views.TagsView;
@@ -42,12 +43,13 @@ import okhttp3.OkHttpClient;
 
 public class ItemAdapterStation
         extends RecyclerView.Adapter<ItemAdapterStation.StationViewHolder>
-        implements TimePickerDialog.OnTimeSetListener, RecyclerItemSwipeHelper.SwipeCallback<ItemAdapterStation.StationViewHolder> {
+        implements TimePickerDialog.OnTimeSetListener, RecyclerItemMoveAndSwipeHelper.MoveAndSwipeCallback<ItemAdapterStation.StationViewHolder> {
 
     public interface StationActionsListener {
         void onStationClick(DataRadioStation station);
-
+        void onStationMoved(int from, int to);
         void onStationSwiped(DataRadioStation station);
+        void onStationMoveFinished();
     }
 
     private final String TAG = "AdapterStations";
@@ -171,6 +173,15 @@ public class ItemAdapterStation
 
             RecyclerItemSwipeHelper<StationViewHolder> swipeHelper = new RecyclerItemSwipeHelper<>(0, ItemTouchHelper.LEFT+ItemTouchHelper.RIGHT, this);
             new ItemTouchHelper(swipeHelper).attachToRecyclerView(recyclerView);
+        }
+    }
+
+    public void enableItemMoveAndRemoval(RecyclerView recyclerView) {
+        if (!supportsStationRemoval) {
+            supportsStationRemoval = true;
+
+            RecyclerItemSwipeHelper<StationViewHolder> swipeAndMoveHelper = new RecyclerItemMoveAndSwipeHelper<>(ItemTouchHelper.UP + ItemTouchHelper.DOWN, ItemTouchHelper.LEFT +ItemTouchHelper.RIGHT, this);
+            new ItemTouchHelper(swipeAndMoveHelper).attachToRecyclerView(recyclerView);
         }
     }
 
@@ -395,6 +406,17 @@ public class ItemAdapterStation
     @Override
     public void onSwiped(StationViewHolder viewHolder, int direction) {
         stationActionsListener.onStationSwiped(stationsList.get(viewHolder.getAdapterPosition()));
+    }
+
+    @Override
+    public void onMoved(StationViewHolder viewHolder, int from, int to) {
+        stationActionsListener.onStationMoved(from, to);
+        notifyItemMoved(from, to);
+    }
+
+    @Override
+    public void onMoveEnded(StationViewHolder viewHolder) {
+        stationActionsListener.onStationMoveFinished();
     }
 
     @Override

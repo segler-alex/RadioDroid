@@ -82,6 +82,16 @@ public class FragmentStarred extends Fragment implements IAdapterRefreshable, IC
                 snackbar.setDuration(Snackbar.LENGTH_LONG);
                 snackbar.show();
             }
+
+            @Override
+            public void onStationMoved(int from, int to) {
+                favouriteManager.move(from, to);
+            }
+
+            @Override
+            public void onStationMoveFinished() {
+                favouriteManager.Save();
+            }
         });
 
         LinearLayoutManager llm = new LinearLayoutManager(getContext());
@@ -93,7 +103,7 @@ public class FragmentStarred extends Fragment implements IAdapterRefreshable, IC
                 llm.getOrientation());
         rvStations.addItemDecoration(dividerItemDecoration);
 
-        adapter.enableItemRemoval(rvStations);
+        adapter.enableItemMoveAndRemoval(rvStations);
 
         RefreshListGui();
 

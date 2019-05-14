@@ -100,6 +100,14 @@ public class FragmentStations extends FragmentBase {
             @Override
             public void onStationSwiped(DataRadioStation station) {
             }
+
+            @Override
+            public void onStationMoved(int from, int to) {
+            }
+
+            @Override
+            public void onStationMoveFinished() {
+            }
         });
 
         LinearLayoutManager llm = new LinearLayoutManager(getContext());

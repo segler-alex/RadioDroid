@@ -90,6 +90,14 @@ public class FragmentHistory extends Fragment {
                 snackbar.setDuration(Snackbar.LENGTH_LONG);
                 snackbar.show();
             }
+
+            @Override
+            public void onStationMoved(int from, int to) {
+            }
+
+            @Override
+            public void onStationMoveFinished() {
+            }
         });
 
         // Inflate the layout for this fragment
