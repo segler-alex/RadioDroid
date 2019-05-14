@@ -143,11 +143,6 @@
     <string name="settings_recordings">Recordings</string>
     <string name="settings_record_name_formatting">Name format</string>
 
-    <string name="settings_record_name_formatting_default" translatable="false">${station}_${artist}_${track}_${date}_${time}</string>
-    <string name="settings_record_name_formatting_1" translatable="false">${station}_${artist}_${track}</string>
-    <string name="settings_record_name_formatting_2" translatable="false">${station}_${date}_${time}</string>
-    <string name="settings_record_name_formatting_3" translatable="false">${index}_${station}_${date}</string>
-
     <string name="settings_record_name_formatting_default_display">station_artist_track_\u200bdate_\u200btime</string>
     <string name="settings_record_name_formatting_1_display">station_artist_\u200btrack</string>
     <string name="settings_record_name_formatting_2_display">station_date_\u200btime</string>
@@ -233,7 +228,6 @@
     <string name="action_mpd_connected">Forbundet til server: %1$s</string>
 
     <string name="settings_radiobrowser_servers">RadioBrowser servere</string>
-    <string name="settings_radiobrowser_servers_default">www.radio-browser.info/webservice</string>
 
     <string name="settings_other">Andet</string>
     <string name="settings_statistics">Statistikker</string>
