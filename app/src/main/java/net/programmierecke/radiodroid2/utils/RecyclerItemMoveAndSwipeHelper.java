@@ -12,7 +12,8 @@ public class RecyclerItemMoveAndSwipeHelper<ViewHolderType extends SwipeableView
 
     private MoveAndSwipeCallback<ViewHolderType> moveAndSwipeListener;
 
-    public RecyclerItemMoveAndSwipeHelper(int dragDirs, int swipeDirs, MoveAndSwipeCallback moveAndSwipeListener) {
+    @SuppressWarnings("unchecked")
+    public RecyclerItemMoveAndSwipeHelper(int dragDirs, int swipeDirs, MoveAndSwipeCallback<ViewHolderType> moveAndSwipeListener) {
         super(dragDirs, swipeDirs, moveAndSwipeListener);
         this.moveAndSwipeListener = moveAndSwipeListener;
     }

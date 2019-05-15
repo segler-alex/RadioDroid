@@ -89,13 +89,7 @@ public class StationSaveManager {
     }
 
     public void move(int fromPos, int toPos) {
-        if (fromPos < toPos) {
-            for (int i = fromPos; i < toPos; i++)
-                Collections.swap(listStations, i, i + 1);
-        } else {
-            for (int i = fromPos; i > toPos; i--)
-                Collections.swap(listStations, i, i - 1);
-        }
+        Collections.rotate(listStations.subList(Math.min(fromPos, toPos), Math.max(fromPos, toPos) + 1), Integer.signum(fromPos - toPos));
     }
 
     public int remove(String id) {
