@@ -180,7 +180,7 @@ public class ItemAdapterStation
         if (!supportsStationRemoval) {
             supportsStationRemoval = true;
 
-            RecyclerItemSwipeHelper<StationViewHolder> swipeAndMoveHelper = new RecyclerItemMoveAndSwipeHelper<>(ItemTouchHelper.UP + ItemTouchHelper.DOWN, ItemTouchHelper.LEFT +ItemTouchHelper.RIGHT, this);
+            RecyclerItemMoveAndSwipeHelper<StationViewHolder> swipeAndMoveHelper = new RecyclerItemMoveAndSwipeHelper<>(ItemTouchHelper.UP|ItemTouchHelper.DOWN, ItemTouchHelper.LEFT|ItemTouchHelper.RIGHT, this);
             new ItemTouchHelper(swipeAndMoveHelper).attachToRecyclerView(recyclerView);
         }
     }
