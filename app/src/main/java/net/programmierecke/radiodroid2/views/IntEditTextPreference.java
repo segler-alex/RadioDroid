@@ -4,6 +4,7 @@ import android.content.Context;
 
 import androidx.annotation.Nullable;
 import androidx.preference.EditTextPreference;
+
 import android.util.AttributeSet;
 
 /**
@@ -30,13 +31,15 @@ public class IntEditTextPreference extends EditTextPreference {
 
     @Override
     protected void onSetInitialValue(@Nullable Object defaultValue) {
-        Integer currentValue = parseInteger((String) defaultValue);
-        if (currentValue != null) {
-            value = currentValue;
+        if (defaultValue == null) {
+            value = getPersistedInt(0);
+        } else {
+            Integer defaultInt = parseInteger((String) defaultValue);
+            value = defaultInt != null ? defaultInt : 0;
+        }
 
-            if (summaryFormat != null) {
-                setSummary(String.format(summaryFormat, value));
-            }
+        if (summaryFormat != null) {
+            setSummary(String.format(summaryFormat, value));
         }
     }
 
