@@ -82,43 +82,43 @@
     <string name="settings_show_broken_on">Vis ugyldige stationer i lister</string>
     <string name="settings_show_broken_off">Vis ikke ugyldige stationer i lister</string>
 
-    <string name="startup_action_title">Start action</string>
+    <string name="startup_action_title">Start handling</string>
     <string name="startup_action_title_desc">%s</string>
-    <string name="startup_show_all_stations">Show all stations</string>
-    <string name="startup_show_favorites">Show favorites</string>
-    <string name="startup_show_history">Show history</string>
-    <string name="startup_show_last_view">Last view</string>
+    <string name="startup_show_all_stations">Vis alle stationer</string>
+    <string name="startup_show_favorites">Vis favoritter</string>
+    <string name="startup_show_history">Vis historik</string>
+    <string name="startup_show_last_view">Seneste visning</string>
 
-    <string name="settings_load_icons">Show station icons</string>
-    <string name="settings_load_icons_on">Icons will be downloaded</string>
-    <string name="settings_load_icons_off">Icons will not be downloaded</string>
+    <string name="settings_load_icons">Vis station ikoner</string>
+    <string name="settings_load_icons_on">Ikoner bliver hentet</string>
+    <string name="settings_load_icons_off">Ikoner bliver ikke hentet</string>
 
-    <string name="settings_auto_favorite">Auto-favorites</string>
-    <string name="settings_auto_favorite_on">Add stations automatically to favorites when playing</string>
-    <string name="settings_auto_favorite_off">Do not add stations automatically to favorites when playing</string>
+    <string name="settings_auto_favorite">Automatisk favoritter</string>
+    <string name="settings_auto_favorite_on">Tilføj stationer automatisk til favoritter når der afspilles</string>
+    <string name="settings_auto_favorite_off">Tilføj ikke stationer automatisk til favoritter når der afspilles</string>
 
-    <string name="settings_icon_click_toggles_favorite">Click-favorites</string>
-    <string name="settings_icon_click_toggles_favorite_on">Click station icon to add or remove favorite station</string>
-    <string name="settings_icon_click_toggles_favorite_off">Click station icon to start playing</string>
+    <string name="settings_icon_click_toggles_favorite">Klik favoritter</string>
+    <string name="settings_icon_click_toggles_favorite_on">Klik station ikon for at tilføje eller fjerne favorit station</string>
+    <string name="settings_icon_click_toggles_favorite_off">Klik station ikon for at starte afspilning</string>
 
-    <string name="settings_click_trend_icon_visible">Click trend icon</string>
-    <string name="settings_click_trend_icon_visible_on">Icon will be visible</string>
-    <string name="settings_click_trend_icon_visible_off">Icon will be hidden</string>
+    <string name="settings_click_trend_icon_visible">Klk tendens ikon</string>
+    <string name="settings_click_trend_icon_visible_on">Ikon bliver synlig</string>
+    <string name="settings_click_trend_icon_visible_off">Ikon bliver skjult</string>
 
     <string name="settings_alarm">Alarm</string>
-    <string name="settings_alarm_external">Enable external app</string>
-    <string name="settings_alarm_external_desc_on">Open the alarm with default external app</string>
-    <string name="settings_alarm_external_desc_off">Open the alarm with RadioDroid</string> 
-    <string name="settings_alarm_audio_player">Audio player</string>
+    <string name="settings_alarm_external">Aktivere eksternt program</string>
+    <string name="settings_alarm_external_desc_on">Åbne alarm med standard eksternt program</string>
+    <string name="settings_alarm_external_desc_off">Åbne alarm med RadioDroid</string> 
+    <string name="settings_alarm_audio_player">Lyd afspiller</string>
     <string name="settings_alarm_sleep_timer">Sleep timer</string>
-    <string name="settings_alarm_sleep_timer_desc">Stop playing after %1$s minutes</string>
-    <string name="settings_play">Player</string>
-    <string name="settings_auto_play_on_startup">Auto-play</string>
-    <string name="settings_auto_play_on_startup_on">Play last station on startup</string>
-    <string name="settings_auto_play_on_startup_off">Do not play last station on startup</string>
-    <string name="settings_play_external">Enable external player</string>
-    <string name="settings_play_external_desc_on">Play stations with external player</string>
-    <string name="settings_play_external_desc_off">Play stations with RadioDroid</string> 
+    <string name="settings_alarm_sleep_timer_desc">Stop afspilning efter %1$s minuteer</string>
+    <string name="settings_play">Afspiller</string>
+    <string name="settings_auto_play_on_startup">Automatisk afspilning</string>
+    <string name="settings_auto_play_on_startup_on">Afspil seneste station ved opstart</string>
+    <string name="settings_auto_play_on_startup_off">Afspil ikke seneste station ved opstart</string>
+    <string name="settings_play_external">Aktivere ekstern afspiller</string>
+    <string name="settings_play_external_desc_on">Afspil stationer med ekstern afspiller</string>
+    <string name="settings_play_external_desc_off">Afspil stationer med RadioDroid</string> 
     <string name="settings_equalizer">Equalizer</string>
 
     <string name="settings_connectivity">Connectivity</string>
