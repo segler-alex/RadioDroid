@@ -78,6 +78,8 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
     MenuItem menuItemAlarm;
     MenuItem menuItemSave;
     MenuItem menuItemLoad;
+    MenuItem menuItemIconsView;
+    MenuItem menuItemListView;
 
     private SharedPreferences sharedPref;
 
@@ -361,6 +363,8 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
         menuItemDelete = menu.findItem(R.id.action_delete);
         menuItemSave = menu.findItem(R.id.action_save);
         menuItemLoad = menu.findItem(R.id.action_load);
+        menuItemListView = menu.findItem(R.id.action_list_view);
+        menuItemIconsView = menu.findItem(R.id.action_icons_view);
         mSearchView = (SearchView) MenuItemCompat.getActionView(menuItemSearch);
         mSearchView.setOnQueryTextListener(this);
 
@@ -372,6 +376,8 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
         menuItemDelete.setVisible(false);
         menuItemSave.setVisible(false);
         menuItemLoad.setVisible(false);
+        menuItemListView.setVisible(false);
+        menuItemIconsView.setVisible(false);
         menuItemMPDOK.setVisible(MPDClient.Discovered() && MPDClient.Connected());
         menuItemMPDNok.setVisible(MPDClient.Discovered() && !MPDClient.Connected());
 
@@ -388,6 +394,11 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
                 menuItemSave.setVisible(true);
                 menuItemLoad.setVisible(true);
 
+                if (sharedPref.getBoolean("icons_only_favorites_style", false)) {
+                    menuItemListView.setVisible(true);
+                } else if (sharedPref.getBoolean("load_icons", false)) {
+                    menuItemIconsView.setVisible(true);
+                }
                 RadioDroidApp radioDroidApp = (RadioDroidApp) getApplication();
                 if (radioDroidApp.getFavouriteManager().isEmpty()) {
                     menuItemDelete.setVisible(false);
@@ -541,6 +552,14 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
                             .setNegativeButton(this.getString(R.string.no), null)
                             .show();
                 }
+                return true;
+            case R.id.action_list_view:
+                sharedPref.edit().putBoolean("icons_only_favorites_style", false).apply();
+                recreate();
+                return true;
+            case R.id.action_icons_view:
+                sharedPref.edit().putBoolean("icons_only_favorites_style", true).apply();
+                recreate();
                 return true;
         }
         return super.onOptionsItemSelected(menuItem);

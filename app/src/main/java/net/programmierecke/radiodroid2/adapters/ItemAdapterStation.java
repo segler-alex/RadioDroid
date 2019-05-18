@@ -23,6 +23,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.ItemTouchHelper;
+
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
@@ -54,9 +55,9 @@ public class ItemAdapterStation
 
     private final String TAG = "AdapterStations";
 
-    private List<DataRadioStation> stationsList;
+    List<DataRadioStation> stationsList;
 
-    private int resourceId;
+    int resourceId;
 
     private StationActionsListener stationActionsListener;
     private boolean supportsStationRemoval = false;
@@ -72,7 +73,7 @@ public class ItemAdapterStation
     private int expandedPosition = -1;
     public int playingStationPosition = -1;
 
-    private Drawable stationImagePlaceholder;
+    Drawable stationImagePlaceholder;
 
     private FavouriteManager favouriteManager;
 
@@ -224,7 +225,7 @@ public class ItemAdapterStation
                 holder.imageViewIcon.setImageDrawable(stationImagePlaceholder);
             }
 
-            if(prefs.getBoolean("compact_style", false))
+            if (prefs.getBoolean("compact_style", false))
                 setupCompactStyle(holder);
 
             if (prefs.getBoolean("icon_click_toggles_favorite", true)) {
@@ -283,6 +284,7 @@ public class ItemAdapterStation
             holder.textViewTitle.setTypeface(null, Typeface.BOLD);
         }
         else {
+            getContext().getTheme().resolveAttribute(R.attr.boxBackgroundColor, tv, true);
             holder.textViewTitle.setTypeface(holder.textViewShortDescription.getTypeface());
             getContext().getTheme().resolveAttribute(R.attr.iconsInItemBackgroundColor, tv, true);
             holder.textViewTitle.setTextColor(tv.data);
@@ -530,7 +532,7 @@ public class ItemAdapterStation
         }
     }
 
-    private Context getContext() {
+    Context getContext() {
         return activity;
     }
 
@@ -580,13 +582,14 @@ public class ItemAdapterStation
         }.execute();
     }
 
-    private void setupIcon(boolean useCircularIcons, ImageView imageView, ImageView transparentImageView) {
+    void setupIcon(boolean useCircularIcons, ImageView imageView, ImageView transparentImageView) {
         if(useCircularIcons) {
             transparentImageView.setVisibility(View.VISIBLE);
             imageView.getLayoutParams().height = imageView.getLayoutParams().height = imageView.getLayoutParams().width;
             imageView.setBackgroundColor(getContext().getResources().getColor(android.R.color.black));
         }
     }
+
     private void setupCompactStyle(final StationViewHolder holder) {
         holder.layoutMain.setMinimumHeight((int) getContext().getResources().getDimension(R.dimen.compact_style_item_minimum_height));
         holder.frameLayout.getLayoutParams().width = (int) getContext().getResources().getDimension(R.dimen.compact_style_icon_container_width);
@@ -599,7 +602,7 @@ public class ItemAdapterStation
             holder.imageViewIcon.getLayoutParams().height = (int) getContext().getResources().getDimension(R.dimen.compact_style_icon_height);
         }
     }
-    
+
     private void  highlightCurrentStation() {
         if(!PlayerServiceUtil.isPlaying()) return;
 

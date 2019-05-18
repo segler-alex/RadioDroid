@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/station_icon_foreground"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="?attr/selectableItemBackground"
+    android:descendantFocusability="blocksDescendants"
+    android:orientation="vertical">
+
+    <FrameLayout
+        android:id="@+id/stationIconFrameLayout"
+        android:layout_width="90dp"
+        android:layout_height="90dp"
+        android:layout_gravity="center">
+
+        <ImageView
+            android:id="@+id/iconImageViewIcon"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_gravity="center"
+            android:layout_margin="20dp" />
+
+        <ImageView
+            android:id="@+id/iconTransparentCircle"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_margin="20dp"
+            android:layout_gravity="center"
+            android:tint="?android:attr/windowBackground"
+            android:visibility="gone"
+            app:srcCompat="@drawable/ic_transparent_circle" />
+    </FrameLayout>
+</LinearLayout>
