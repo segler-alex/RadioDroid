@@ -27,6 +27,8 @@
     <string name="action_tags">Καρτέλες</string>
     <string name="action_countries">Χώρες</string>
     <string name="action_languages">Γλώσσες</string>
+    <string name="action_station_visit_website">Επίσκεψη στον Ιστότοπο</string>
+    <string name="action_station_copy_stream_url">Αντιγραφή της Διεύθυνσης Url της Ροής</string>
     <string name="error_station_load">Αδυναμία σύνδεσης στο σταθμό</string>
     <string name="error_list_update">Αδυναμία σύνδεσης στον εξυπηρετητή πλοήγησης ραδιοφωνικών σταθμών</string>
 
@@ -37,7 +39,7 @@
     <string name="nav_item_history">Ιστορικό</string>
     <string name="nav_item_settings">Ρυθμίσεις</string>
     <string name="nav_item_alarm">Ξυπνητήρι</string>
-    <string name="nav_item_recordings">Ηχογραφήσεις</string>
+    <string name="tab_player_recordings">Ηχογραφήσεις</string>
 
     <string name="about_text">Αυτή η εφαρμογή χρησιμοποιεί τον ελεύθερο κατάλογο ραδιοφωνικών σταθμών, στο...\n
   https://www.radio-browser.info\n
@@ -217,11 +219,6 @@
     </string-array>
 
     <string name="notify_stream_url_copied">Η Διεύθυνση Url της Ροής Έχει Αντιγραφεί με Επιτυχία!</string>
-
-    <string-array name="actions_station_link">
-        <item>Επίσκεψη στον Ιστότοπο</item>
-        <item>Αντιγραφή της Διεύθυνσης Url της Ροής</item>
-    </string-array>
 
     <string name="no_wifi_title">Καμία σύνδεση Γουάι-Φάι (Τοπικό Δίκτυο)</string>
     <string name="no_wifi_connection">Καμία σύνδεση Γουάι-Φάι (Τοπικό Δίκτυο) κατά την εκκίνηση του %1$s. \n

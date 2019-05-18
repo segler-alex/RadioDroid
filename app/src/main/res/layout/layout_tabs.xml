@@ -5,17 +5,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.google.android.material.tabs.TabLayout
-        android:id="@+id/tabs"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="?attr/colorPrimary"
-        app:tabMode="scrollable"
-        app:tabGravity="fill"
-        app:tabTextColor="@color/windowBackground"
-        app:tabSelectedTextColor="@color/windowBackground"
-        app:tabIndicatorColor="?attr/colorTabUnderline" />
-
     <androidx.viewpager.widget.ViewPager
         android:id="@+id/viewpager"
         android:layout_width="match_parent"

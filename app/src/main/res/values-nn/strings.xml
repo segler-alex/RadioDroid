@@ -8,7 +8,6 @@
   <string name="detail_play">Spel</string>
   <string name="detail_pause">Pause</string>
   <string name="detail_stop">Stopp</string>
-  <string name="detail_share">Del</string>
   <string name="action_local">Lokale</string>
   <string name="action_pause">Pause</string>
   <string name="action_resume">Hald fram</string>
@@ -25,6 +24,9 @@
   <string name="action_tags">Merkelappar</string>
   <string name="action_countries">Land</string>
   <string name="action_languages">Språk</string>
+  <string name="action_station_visit_website">Besøk heimesida</string>
+  <string name="action_station_copy_stream_url">Kopier adressa til radiostraumen</string>
+  <string name="action_station_share">Del</string>
   <string name="error_station_load">Klarte ikkje kopla til kanalen</string>
   <string name="error_list_update">Klarte ikkje kopla til Radio Browser-tenaren</string>
   <string name="share_action">Del kanallenkje med …</string>
@@ -33,7 +35,7 @@
   <string name="nav_item_history">Spelelogg</string>
   <string name="nav_item_settings">Innstillingar</string>
   <string name="nav_item_alarm">Varsling</string>
-  <string name="nav_item_recordings">Opptak</string>
+  <string name="tab_player_recordings">Opptak</string>
   <string name="about_text">Denne appen brukar radiokanaloversikta på\nhttps://www.radio-browser.info/\nAlle kan leggja til nye radiokanalar eller oppdatera informasjonen om kanalar som finst frå før. Nettsida fungerer som ein wiki om radiokanalar som tilbyr strauming over nettet.\n\nTa kontakt:\nsegler_alex\@web.de\n\nMeld frå om feil:\nhttps://github.com/segler-alex/RadioDroid/issues\n\nViss du likar dette programmet og ønskjer å hjelpa til, ta gjerne kontakt med meg på e-post. Eg treng verkeleg nokon med designkompetanse for å gjera appen finare. :) Kanskje nokon som kan teikna ikon, bilete osv. Men òg programmerarar som kan retta feil eller leggja til ny funksjonalitet.\nForslag til nye funksjonar vert òg sette pris på!\n\nDenne appen er fri programvare tilgjengeleg under GPLv3-lisensen:\nhttps://www.gnu.org/licenses/gpl-3.0.html</string>
   <string name="about_version">Versjon: %1$s</string>
   <string name="detail_star">Merk som favoritt</string>
@@ -174,10 +176,6 @@
     <item>L</item>
   </string-array>
   <string name="notify_stream_url_copied">Adressa til radiostraumen er no kopiert</string>
-  <string-array name="actions_station_link">
-    <item>Besøk heimesida</item>
-    <item>Kopier adressa til radiostraumen</item>
-  </string-array>
   <string name="no_wifi_title">Manglar Wi-Fi-samband (WLAN)</string>
   <string name="no_wifi_connection">Manglar Wi-Fi-samband (WLAN) ved start av %1$s. Trykk «OK» for å halda fram.</string>
   <string name="nav_item_statistics">Statistikk</string>

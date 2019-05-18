@@ -1,7 +1,5 @@
 package net.programmierecke.radiodroid2;
 
-import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.media.audiofx.AudioEffect;
@@ -13,7 +11,6 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.appcompat.app.AlertDialog;
 import androidx.preference.ListPreference;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
@@ -21,11 +18,6 @@ import androidx.preference.Preference.OnPreferenceClickListener;
 import androidx.preference.PreferenceScreen;
 
 import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.WindowManager;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.Toast;
 
 import com.mikepenz.iconics.typeface.library.community.material.CommunityMaterial;
@@ -33,19 +25,14 @@ import com.mikepenz.iconics.typeface.library.googlematerial.GoogleMaterial;
 import com.bytehamster.lib.preferencesearch.SearchConfiguration;
 import com.bytehamster.lib.preferencesearch.SearchPreference;
 
-import net.programmierecke.radiodroid2.data.MPDServer;
 import net.programmierecke.radiodroid2.interfaces.IApplicationSelected;
 import net.programmierecke.radiodroid2.proxy.ProxySettingsDialog;
 
-import java.lang.ref.WeakReference;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Vector;
 
 import static net.programmierecke.radiodroid2.ActivityMain.FRAGMENT_FROM_BACKSTACK;
-import static net.programmierecke.radiodroid2.Utils.parseIntWithDefault;
 
 public class FragmentSettings extends PreferenceFragmentCompat implements SharedPreferences.OnSharedPreferenceChangeListener, IApplicationSelected, PreferenceFragmentCompat.OnPreferenceStartScreenCallback  {
 
@@ -157,7 +144,6 @@ public class FragmentSettings extends PreferenceFragmentCompat implements Shared
             findPreference("mpd_servers_viewer").setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                 @Override
                 public boolean onPreferenceClick(Preference preference) {
-                    showAllMPDServers();
                     return false;
                 }
             });
@@ -277,124 +263,5 @@ public class FragmentSettings extends PreferenceFragmentCompat implements Shared
         ed.commit();
 
         findPreference("shareapp_package").setSummary(packageName);
-    }
-
-    private void showAllMPDServers() {
-        final List<MPDServer> servers = Utils.getMPDServers(getContext());
-        List<String> serversNames = new ArrayList<>();
-        for (MPDServer server : servers) {
-            serversNames.add(server.name);
-        }
-        if(serversNames.size() == 0)
-        {
-            editMPDServer(null);
-            return;
-        }
-
-        new AlertDialog.Builder(getContext())
-                .setItems(serversNames.toArray(new String[serversNames.size()]), new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        editMPDServer(servers.get(which));
-                    }
-                })
-                .setNeutralButton(R.string.alert_select_mpd_server_add, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        editMPDServer(null);
-                    }
-                })
-                .setTitle(R.string.settings_view_mpd_servers)
-                .show();
-    }
-
-    private void editMPDServer(final MPDServer server) {
-        LayoutInflater inflater = getLayoutInflater();
-        View server_view = inflater.inflate(R.layout.layout_server_alert, null);
-        final EditText name = (EditText) server_view.findViewById(R.id.mpd_server_name);
-        final EditText hostname = (EditText) server_view.findViewById(R.id.mpd_server_hostname);
-        final EditText port = (EditText) server_view.findViewById(R.id.mpd_server_port);
-
-        if(server != null) {
-            name.setText(server.name);
-            hostname.setText(server.hostname);
-            port.setText(String.valueOf(server.port));
-        }
-
-        final AlertDialog dialog = new AlertDialog.Builder(getContext())
-                .setView(server_view)
-                .setPositiveButton(R.string.alert_select_mpd_server_save, null)
-                .setNeutralButton(R.string.alert_select_mpd_server_remove, null)
-                .setOnCancelListener(new DialogInterface.OnCancelListener() {
-                    @Override
-                    public void onCancel(DialogInterface dialog) {
-                        if(Utils.getMPDServers(getContext()).size() > 0)
-                            showAllMPDServers();
-
-                        MPDClient.StopDiscovery();
-                        MPDClient.StartDiscovery(new WeakReference<Context>(getActivity()));
-                    }
-                })
-                .setTitle(R.string.alert_add_or_edit_mpd_server).create();
-
-        dialog.setOnShowListener(new DialogInterface.OnShowListener() {
-            @Override
-            public void onShow(DialogInterface dialogInterface) {
-                Button positive = dialog.getButton(AlertDialog.BUTTON_POSITIVE);
-                Button remove = dialog.getButton(AlertDialog.BUTTON_NEUTRAL);
-
-                positive.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        List<MPDServer> servers = Utils.getMPDServers(getContext());
-                        String nameText = name.getText().toString().trim();
-                        String hostnameText = hostname.getText().toString().trim();
-                        int portText = parseIntWithDefault(port.getText().toString().trim(), 0);
-
-                        if(nameText.isEmpty() || hostnameText.isEmpty() || portText == 0)
-                            return;
-
-                        if(server != null) {
-                            server.name = nameText;
-                            server.hostname = hostnameText;
-                            server.port = portText;
-                            servers.set(server.id, server);
-                        }
-                        else {
-                            MPDServer server = new MPDServer(servers.size(), false, nameText, hostnameText, portText);
-                            servers.add(server);
-                        }
-                        Utils.saveMPDServers(servers, getContext());
-                        dialog.cancel();
-                    }
-                });
-
-                remove.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        if(server != null) {
-                            List<MPDServer> servers = Utils.getMPDServers(getContext());
-                            for (MPDServer mpdServer : servers) {
-                                if(mpdServer.id > server.id)
-                                    mpdServer.id --;
-                            }
-                            servers.remove(server.id);
-                            Utils.saveMPDServers(servers, getContext());
-                        }
-                        dialog.cancel();
-                    }
-                });
-            }
-        });
-
-        name.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if(hasFocus)
-                    dialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
-            }
-        });
-        name.requestFocus();
-        dialog.show();
     }
 }

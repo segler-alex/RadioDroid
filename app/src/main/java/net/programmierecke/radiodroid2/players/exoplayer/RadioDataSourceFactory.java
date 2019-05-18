@@ -12,8 +12,8 @@ public class RadioDataSourceFactory implements DataSource.Factory {
     private OkHttpClient httpClient;
     private final TransferListener transferListener;
     private IcyDataSource.IcyDataSourceListener dataSourceListener;
-    private long retryTimeout = IcyDataSource.DEFAULT_TIME_UNTIL_STOP_RECONNECTING;
-    private long retryDelay = IcyDataSource.DEFAULT_DELAY_BETWEEN_RECONNECTIONS;
+    private long retryTimeout;
+    private long retryDelay;
 
     public RadioDataSourceFactory(@NonNull OkHttpClient httpClient,
                                   @NonNull TransferListener transferListener,

@@ -7,7 +7,7 @@ import android.os.RemoteException;
 import net.programmierecke.radiodroid2.IPlayerService;
 import net.programmierecke.radiodroid2.RadioDroidApp;
 import net.programmierecke.radiodroid2.Utils;
-import net.programmierecke.radiodroid2.data.DataRadioStation;
+import net.programmierecke.radiodroid2.station.DataRadioStation;
 
 import java.lang.ref.WeakReference;
 
@@ -44,7 +44,8 @@ public class GetRealLinkAndPlayTask extends AsyncTask<Void, Void, String> {
         IPlayerService playerService = playerServiceRef.get();
         if (result != null && playerService != null && !isCancelled()) {
             try {
-                playerService.SaveInfo(result, station.Name, station.StationUuid, station.IconUrl);
+                station.playableUrl = result;
+                playerService.SetStation(station);
                 playerService.Play(false);
             } catch (RemoteException e) {
                 e.printStackTrace();

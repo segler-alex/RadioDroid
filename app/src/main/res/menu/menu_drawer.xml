@@ -27,11 +27,6 @@
         android:checkableBehavior="single">
 
         <item
-            android:id="@+id/nav_item_recordings"
-            android:icon="@drawable/ic_fiber_manual_record_black_24dp"
-            android:title="@string/nav_item_recordings" />
-
-        <item
             android:id="@+id/nav_item_settings"
             android:icon="@drawable/ic_tune_24dp"
             android:title="@string/nav_item_settings" />

@@ -1,96 +1,138 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<!-- Your normal content view -->
-<LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:orientation="vertical"
-        xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <!-- We use a Toolbar so that our drawer can be displayed
-     in front of the action bar -->
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/my_awesome_toolbar"
-        android:layout_height="wrap_content"
-        android:layout_width="match_parent"
-        android:minHeight="?attr/actionBarSize"
-        android:background="?attr/colorPrimary"
-        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-        app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
-
-        <ProgressBar
-                android:id="@+id/progressBarLoading"
-                android:layout_width="34dp"
-                android:layout_height="34dp"
-                android:layout_marginLeft="22dp"
-                android:layout_marginStart="22dp"
-                android:indeterminate="true"
-                android:theme="@style/ProgressBarCircle"
-                android:visibility="gone"/>
-
-    </androidx.appcompat.widget.Toolbar>
-
-    <androidx.mediarouter.app.MediaRouteButton
-        android:id="@+id/media_route_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:mediaRouteTypes="user"
-        android:visibility="gone" />
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/main_content"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
     <androidx.drawerlayout.widget.DrawerLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:layout_height="match_parent"
-        android:layout_width="match_parent"
         android:id="@+id/drawerLayout"
-        android:layout_weight="0.5"
-        android:background="?android:attr/windowBackground"
-        >
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="?android:attr/windowBackground">
 
-        <!-- The rest of your content view -->
-        <FrameLayout
-            android:orientation="vertical"
+        <androidx.coordinatorlayout.widget.CoordinatorLayout
+            android:id="@+id/coordinatorLayout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/containerView">
-        </FrameLayout>
+            android:layout_height="match_parent">
 
+            <com.google.android.material.appbar.AppBarLayout
+                android:id="@+id/app_bar_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fitsSystemWindows="true">
+
+                <com.google.android.material.appbar.CollapsingToolbarLayout
+                    android:id="@+id/collapsible_toolbar"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fitsSystemWindows="true"
+                    app:layout_scrollFlags="scroll|enterAlways">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        app:layout_collapseMode="pin">
+
+                        <androidx.appcompat.widget.Toolbar
+                            android:id="@+id/my_awesome_toolbar"
+                            android:layout_width="match_parent"
+                            android:layout_height="?attr/actionBarSize"
+                            android:background="?attr/colorPrimary"
+                            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+                            app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
+
+                            <ProgressBar
+                                android:id="@+id/progressBarLoading"
+                                android:layout_width="34dp"
+                                android:layout_height="34dp"
+                                android:layout_marginStart="22dp"
+                                android:layout_marginLeft="22dp"
+                                android:indeterminate="true"
+                                android:theme="@style/ProgressBarCircle"
+                                android:visibility="gone" />
+                        </androidx.appcompat.widget.Toolbar>
+
+                        <com.google.android.material.tabs.TabLayout
+                            android:id="@+id/tabs"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="bottom"
+                            android:background="?attr/colorPrimary"
+                            android:visibility="gone"
+                            app:tabIndicatorColor="?attr/colorTabUnderline"
+                            app:tabMode="scrollable"
+                            app:tabSelectedTextColor="@color/windowBackground"
+                            app:tabTextColor="@color/windowBackground" />
+                    </LinearLayout>
+
+
+                </com.google.android.material.appbar.CollapsingToolbarLayout>
+            </com.google.android.material.appbar.AppBarLayout>
+
+            <androidx.core.widget.NestedScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="?android:attr/actionBarSize"
+                android:fillViewport="true"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+                <FrameLayout
+                    android:id="@+id/containerView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical" />
+            </androidx.core.widget.NestedScrollView>
+
+            <include layout="@layout/layout_player_bottom_sheet" />
+
+        </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+        <!--<FrameLayout-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:background="@android:color/transparent"-->
+        <!--android:orientation="vertical">-->
+
+        <!--<RelativeLayout-->
+        <!--android:id="@+id/miniPlayerView"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="?android:attr/actionBarSize"-->
+        <!--android:layout_gravity="bottom" />-->
+
+        <!--<RelativeLayout-->
+        <!--android:id="@+id/playerView"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent" />-->
+        <!--</FrameLayout>-->
 
         <com.google.android.material.navigation.NavigationView
-            xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/my_navigation_view"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_gravity="start"
-            android:id="@+id/my_navigation_view"
-            app:itemTextColor="@color/menu_text_color"
-            app:itemIconTint="@color/menu_text_color"
-            app:menu="@menu/menu_drawer"
             android:layout_marginTop="0dp"
             android:background="?android:attr/windowBackground"
-            />
+            app:itemIconTint="@color/menu_text_color"
+            app:itemTextColor="@color/menu_text_color"
+            app:menu="@menu/menu_drawer" />
 
     </androidx.drawerlayout.widget.DrawerLayout>
 
 
-    <RelativeLayout
-            android:id="@+id/playerView"
-            android:layout_width="match_parent"
-            android:layout_height="?android:attr/actionBarSize">
-    </RelativeLayout>
-
     <com.google.android.material.bottomnavigation.BottomNavigationView
-            android:id="@+id/bottom_navigation"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="start"
-            android:background="?attr/menuBottomBackgroundColor"
-            app:itemBackground="?attr/selectableItemBackgroundBorderless"
-            app:itemTextColor="@color/menu_bottom_text_color"
-            app:itemIconTint="@color/menu_bottom_text_color"
-            app:menu="@menu/menu_bottom_navigation" />
+        android:id="@+id/bottom_navigation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/menuBottomBackgroundColor"
+        app:itemBackground="?attr/selectableItemBackgroundBorderless"
+        app:itemIconTint="@color/menu_bottom_text_color"
+        app:itemTextColor="@color/menu_bottom_text_color"
+        app:menu="@menu/menu_bottom_navigation" />
 
 </LinearLayout>

@@ -8,11 +8,12 @@ import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.Uri;
+import android.util.Log;
+import android.view.Surface;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.preference.PreferenceManager;
-import android.util.Log;
-import android.view.Surface;
 
 import com.google.android.exoplayer2.C;
 import com.google.android.exoplayer2.DefaultLoadControl;
@@ -46,8 +47,8 @@ import com.google.android.exoplayer2.upstream.DefaultBandwidthMeter;
 import net.programmierecke.radiodroid2.R;
 import net.programmierecke.radiodroid2.Utils;
 import net.programmierecke.radiodroid2.recording.RecordableListener;
-import net.programmierecke.radiodroid2.data.ShoutcastInfo;
-import net.programmierecke.radiodroid2.data.StreamLiveInfo;
+import net.programmierecke.radiodroid2.station.live.ShoutcastInfo;
+import net.programmierecke.radiodroid2.station.live.StreamLiveInfo;
 import net.programmierecke.radiodroid2.players.PlayerWrapper;
 import net.programmierecke.radiodroid2.players.RadioPlayer;
 
@@ -217,6 +218,11 @@ public class ExoPlayerWrapper implements PlayerWrapper, IcyDataSource.IcyDataSou
     }
 
     @Override
+    public boolean isLocal() {
+        return true;
+    }
+
+    @Override
     public void setVolume(float newVolume) {
         if (player != null) {
             player.setVolume(newVolume);
@@ -310,7 +316,7 @@ public class ExoPlayerWrapper implements PlayerWrapper, IcyDataSource.IcyDataSou
     }
 
     @Override
-    public Map<String, String> getNameFormattingArgs() {
+    public Map<String, String> getRecordNameFormattingArgs() {
         return null;
     }
 
@@ -511,11 +517,6 @@ public class ExoPlayerWrapper implements PlayerWrapper, IcyDataSource.IcyDataSou
 
         @Override
         public void onVolumeChanged(EventTime eventTime, float volume) {
-
-        }
-
-        @Override
-        public void onAudioUnderrun(EventTime eventTime, int bufferSize, long bufferSizeMs, long elapsedSinceLastFeedMs) {
 
         }
 

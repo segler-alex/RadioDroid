@@ -6,15 +6,16 @@ import android.os.Build;
 import android.os.Handler;
 import android.os.HandlerThread;
 import android.os.Looper;
+import android.util.Log;
+
 import androidx.annotation.NonNull;
 import androidx.preference.PreferenceManager;
-import android.util.Log;
 
 import net.programmierecke.radiodroid2.BuildConfig;
 import net.programmierecke.radiodroid2.RadioDroidApp;
 import net.programmierecke.radiodroid2.Utils;
-import net.programmierecke.radiodroid2.data.ShoutcastInfo;
-import net.programmierecke.radiodroid2.data.StreamLiveInfo;
+import net.programmierecke.radiodroid2.station.live.ShoutcastInfo;
+import net.programmierecke.radiodroid2.station.live.StreamLiveInfo;
 import net.programmierecke.radiodroid2.players.exoplayer.ExoPlayerWrapper;
 import net.programmierecke.radiodroid2.players.mediaplayer.MediaPlayerWrapper;
 import net.programmierecke.radiodroid2.recording.Recordable;
@@ -50,7 +51,7 @@ public class RadioPlayer implements PlayerWrapper.PlayListener, Recordable {
         void foundLiveStreamInfo(StreamLiveInfo liveInfo);
     }
 
-    private PlayerWrapper player;
+    private PlayerWrapper currentPlayer;
     private Context mainContext;
 
     private String streamName;
@@ -66,7 +67,7 @@ public class RadioPlayer implements PlayerWrapper.PlayListener, Recordable {
     private Runnable bufferCheckRunnable = new Runnable() {
         @Override
         public void run() {
-            final long bufferTimeMs = player.getBufferedMs();
+            final long bufferTimeMs = currentPlayer.getBufferedMs();
 
             playerListener.onBufferedTimeUpdate(bufferTimeMs);
 
@@ -85,14 +86,14 @@ public class RadioPlayer implements PlayerWrapper.PlayListener, Recordable {
         playerThreadHandler = new Handler(playerThread.getLooper());
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-            player = new ExoPlayerWrapper();
+            currentPlayer = new ExoPlayerWrapper();
         } else {
             // use old MediaPlayer on API levels < 16
             // https://github.com/google/ExoPlayer/issues/711
-            player = new MediaPlayerWrapper(playerThreadHandler);
+            currentPlayer = new MediaPlayerWrapper(playerThreadHandler);
         }
 
-        player.setStateListener(this);
+        currentPlayer.setStateListener(this);
     }
 
     public final void play(final String stationURL, final String streamName, final boolean isAlarm) {
@@ -106,6 +107,8 @@ public class RadioPlayer implements PlayerWrapper.PlayListener, Recordable {
 
         RadioDroidApp radioDroidApp = (RadioDroidApp) mainContext.getApplicationContext();
 
+        // TODO: Should we not pass http client if currentPlayer is external?
+
         final OkHttpClient customizedHttpClient = radioDroidApp.newHttpClient()
                 .connectTimeout(connectTimeout, TimeUnit.SECONDS)
                 .readTimeout(readTimeout, TimeUnit.SECONDS)
@@ -114,7 +117,7 @@ public class RadioPlayer implements PlayerWrapper.PlayListener, Recordable {
         playerThreadHandler.post(new Runnable() {
             @Override
             public void run() {
-                player.playRemote(customizedHttpClient, stationURL, mainContext, isAlarm);
+                currentPlayer.playRemote(customizedHttpClient, stationURL, mainContext, isAlarm);
             }
         });
     }
@@ -124,7 +127,7 @@ public class RadioPlayer implements PlayerWrapper.PlayListener, Recordable {
             @Override
             public void run() {
                 final int audioSessionId = getAudioSessionId();
-                player.pause();
+                currentPlayer.pause();
 
                 if (BuildConfig.DEBUG) {
                     playerThreadHandler.removeCallbacks(bufferCheckRunnable);
@@ -145,7 +148,7 @@ public class RadioPlayer implements PlayerWrapper.PlayListener, Recordable {
             public void run() {
                 final int audioSessionId = getAudioSessionId();
 
-                player.stop();
+                currentPlayer.stop();
 
                 if (BuildConfig.DEBUG) {
                     playerThreadHandler.removeCallbacks(bufferCheckRunnable);
@@ -175,39 +178,39 @@ public class RadioPlayer implements PlayerWrapper.PlayListener, Recordable {
     }
 
     public final boolean isPlaying() {
-        return player.isPlaying();
+        return currentPlayer.isPlaying();
     }
 
     public final int getAudioSessionId() {
-        return player.getAudioSessionId();
+        return currentPlayer.getAudioSessionId();
     }
 
     public final void setVolume(float volume) {
-        player.setVolume(volume);
+        currentPlayer.setVolume(volume);
     }
 
     @Override
     public boolean canRecord() {
-        return player.canRecord();
+        return currentPlayer.canRecord();
     }
 
     @Override
     public void startRecording(@NonNull RecordableListener recordableListener) {
-        player.startRecording(recordableListener);
+        currentPlayer.startRecording(recordableListener);
     }
 
     @Override
     public void stopRecording() {
-        player.stopRecording();
+        currentPlayer.stopRecording();
     }
 
     @Override
     public boolean isRecording() {
-        return player.isRecording();
+        return currentPlayer.isRecording();
     }
 
     @Override
-    public Map<String, String> getNameFormattingArgs() {
+    public Map<String, String> getRecordNameFormattingArgs() {
         Map<String, String> args = new HashMap<>();
         args.put("station", Utils.sanitizeName(streamName));
 
@@ -224,7 +227,7 @@ public class RadioPlayer implements PlayerWrapper.PlayListener, Recordable {
 
     @Override
     public String getExtension() {
-        return player.getExtension();
+        return currentPlayer.getExtension();
     }
 
     public final void runInPlayerThread(Runnable runnable) {
@@ -256,11 +259,19 @@ public class RadioPlayer implements PlayerWrapper.PlayListener, Recordable {
     }
 
     public long getTotalTransferredBytes() {
-        return player.getTotalTransferredBytes();
+        return currentPlayer.getTotalTransferredBytes();
     }
 
     public long getCurrentPlaybackTransferredBytes() {
-        return player.getCurrentPlaybackTransferredBytes();
+        return currentPlayer.getCurrentPlaybackTransferredBytes();
+    }
+
+    public long getBufferedSeconds() {
+        return currentPlayer.getBufferedMs() / 1000;
+    }
+
+    public boolean isLocal() {
+        return currentPlayer.isLocal();
     }
 
     @Override

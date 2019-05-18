@@ -3,14 +3,14 @@ package net.programmierecke.radiodroid2.recording;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Environment;
+import android.util.Log;
+
 import androidx.annotation.NonNull;
 import androidx.preference.PreferenceManager;
-import android.util.Log;
 
 import net.programmierecke.radiodroid2.BuildConfig;
 import net.programmierecke.radiodroid2.R;
 import net.programmierecke.radiodroid2.Utils;
-import net.programmierecke.radiodroid2.data.DataRecording;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -27,11 +27,23 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Observable;
 
+/* TODO: Actually have info about recording by storing them in the database and matching with files on disk.
+ */
 public class RecordingsManager {
     private final static String TAG = "Recordings";
     private DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
     private DateFormat timeFormatter = new SimpleDateFormat("HH-mm", Locale.US);
+
+    private class RecordingsObservable extends Observable {
+        @Override
+        public synchronized boolean hasChanged() {
+            return true;
+        }
+    }
+
+    private Observable savedRecordingsObservable = new RecordingsObservable();
 
     private class RunningRecordableListener implements RecordableListener {
         private RunningRecordingInfo runningRecordingInfo;
@@ -71,6 +83,7 @@ public class RecordingsManager {
     }
 
     private Map<Recordable, RunningRecordingInfo> runningRecordings = new HashMap<>();
+    private ArrayList<DataRecording> savedRecordings = new ArrayList<>();
 
     public void record(@NonNull Context context, @NonNull Recordable recordable) {
         if (!recordable.canRecord()) {
@@ -86,8 +99,7 @@ public class RecordingsManager {
 
             final String fileNameFormat = prefs.getString("record_name_formatting", context.getString(R.string.settings_record_name_formatting_default));
 
-            final Map<String, String> formattingArgs = new HashMap<>();
-            formattingArgs.putAll(recordable.getNameFormattingArgs());
+            final Map<String, String> formattingArgs = new HashMap<>(recordable.getRecordNameFormattingArgs());
 
             Calendar calendar = Calendar.getInstance();
             calendar.setTimeInMillis(System.currentTimeMillis());
@@ -130,6 +142,8 @@ public class RecordingsManager {
         recordable.stopRecording();
 
         runningRecordings.remove(recordable);
+
+        updateRecordingsList();
     }
 
     public RunningRecordingInfo getRecordingInfo(Recordable recordable) {
@@ -138,6 +152,14 @@ public class RecordingsManager {
 
     public Map<Recordable, RunningRecordingInfo> getRunningRecordings() {
         return Collections.unmodifiableMap(runningRecordings);
+    }
+
+    public List<DataRecording> getSavedRecordings() {
+        return new ArrayList<>(savedRecordings);
+    }
+
+    public Observable getSavedRecordingsObservable() {
+        return savedRecordingsObservable;
     }
 
     public static String getRecordDir() {
@@ -151,12 +173,14 @@ public class RecordingsManager {
         return pathRecordings;
     }
 
-    public static DataRecording[] getRecordings() {
+    public void updateRecordingsList() {
         String path = getRecordDir();
         if (BuildConfig.DEBUG) {
-            Log.d(TAG, "path:" + path);
+            Log.d(TAG, "Updating recordings from " + path);
         }
-        List<DataRecording> list = new ArrayList<DataRecording>();
+
+        savedRecordings.clear();
+
         File folder = new File(path);
         File[] files = folder.listFiles();
         if (files != null) {
@@ -164,20 +188,14 @@ public class RecordingsManager {
                 DataRecording dr = new DataRecording();
                 dr.Name = f.getName();
                 dr.Time = new Date(f.lastModified());
-                list.add(dr);
+                savedRecordings.add(dr);
             }
 
-            Collections.sort(list, new Comparator<DataRecording>() {
-                @Override
-                public int compare(DataRecording o1, DataRecording o2) {
-                    if(o1.Time.getTime() > o2.Time.getTime()) return 1;
-                    else if(o1.Time.getTime() < o2.Time.getTime()) return -1;
-                    else return 0;
-                }
-            });
+            Collections.sort(savedRecordings, (o1, o2) -> Long.compare(o2.Time.getTime(), o1.Time.getTime()));
         } else {
-            Log.e(TAG, "could not enumerate files in recordings directory");
+            Log.e(TAG, "Could not enumerate files in recordings directory");
         }
-        return list.toArray(new DataRecording[0]);
+
+        savedRecordingsObservable.notifyObservers();
     }
 }

@@ -42,7 +42,7 @@
     <string name="nav_item_history">Historia</string>
     <string name="nav_item_settings">Ustawienia</string>
     <string name="nav_item_alarm">Alarm</string>
-    <string name="nav_item_recordings">Nagrania</string>
+    <string name="tab_player_recordings">Nagrania</string>
 
     <string name="about_text">Ta aplikacja korzysta z bezpłatnego katalogu stacji radiowych umieszczonych pod adresem \nhttps://www.radio-browser.info\nKażdy może dodawać do niego stacje lub edytować istniejące stacje. Działa jak wiki dla internetowych (streaming) stacji radiowych.\n\nKontakt:\nsegler_alex@web.de\n\nBugtracker - Zgłoś błąd:\nhttps://github.com/segler-alex/RadioDroid/issues\n\nJeśli podoba Ci się oprogramowanie i chcesz pomóc, wyślij mi e-mail. Potrzebuję kogoś z doświadczeniem graficznym, aby uczynić aplikację przyjemniejszą dla oka :) Może ktoś, kto potrafi rysować ikony, obrazy... ale także programistów, którzy naprawiają błędy lub wdrażają nowe (funkcje nie zawierające błędów;)\nRównież pomysły na nowe funkcje są zawsze mile widziane!\n\nTa aplikacja jest wolnym oprogramowaniem na licencji GPLv3.\nhttps://www.gnu.org/licenses/gpl-3.0.html</string>
     <string name="about_version">Wersja: %1$s</string>

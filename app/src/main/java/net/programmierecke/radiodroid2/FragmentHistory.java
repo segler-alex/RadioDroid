@@ -4,20 +4,22 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
-import com.google.android.material.snackbar.Snackbar;
-import androidx.fragment.app.Fragment;
-import androidx.preference.PreferenceManager;
-import androidx.recyclerview.widget.DividerItemDecoration;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import net.programmierecke.radiodroid2.adapters.ItemAdapterStation;
-import net.programmierecke.radiodroid2.data.DataRadioStation;
+import androidx.fragment.app.Fragment;
+import androidx.preference.PreferenceManager;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.google.android.material.snackbar.Snackbar;
+
+import net.programmierecke.radiodroid2.station.ItemAdapterStation;
+import net.programmierecke.radiodroid2.station.DataRadioStation;
 import net.programmierecke.radiodroid2.interfaces.IAdapterRefreshable;
 
 public class FragmentHistory extends Fragment implements IAdapterRefreshable {
@@ -32,9 +34,7 @@ public class FragmentHistory extends Fragment implements IAdapterRefreshable {
         Context context = getContext();
 
         RadioDroidApp radioDroidApp = (RadioDroidApp) getActivity().getApplication();
-        Utils.Play(radioDroidApp.getHttpClient(), theStation, context);
-
-        historyManager.add(theStation);
+        Utils.showPlaySelection(radioDroidApp, theStation, getActivity().getSupportFragmentManager());
 
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
         final Boolean autoFavorite = sharedPref.getBoolean("auto_favorite", true);

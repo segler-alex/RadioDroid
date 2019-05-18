@@ -22,6 +22,7 @@ local.properties
 # idea IDE
 .idea*
 *.iml
+captures/
 
 # Built application files
 /*/build/
@@ -32,6 +33,7 @@ local.properties
 
 # Gradle generated files
 .gradle/
+gradle/
 
 # Signing files
 .signing/

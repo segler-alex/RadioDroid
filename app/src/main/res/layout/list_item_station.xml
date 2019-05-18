@@ -2,18 +2,17 @@
 <LinearLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
         android:id="@+id/station_foreground"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="?attr/selectableItemBackground"
-        android:descendantFocusability="blocksDescendants"
         android:orientation="vertical">
 
     <LinearLayout
             android:id="@+id/layoutMain"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:descendantFocusability="blocksDescendants"
             android:minHeight="90dp">
 
         <FrameLayout
@@ -31,7 +30,8 @@
                     android:layout_marginEnd="20dp"
                     android:layout_marginLeft="5dp"
                     android:layout_marginRight="20dp"
-                    android:layout_marginStart="5dp"/>
+                    android:layout_marginStart="5dp"
+                    android:contentDescription="@null" />
 
             <ImageView
                     android:id="@+id/transparentCircle"
@@ -43,7 +43,8 @@
                     android:layout_marginStart="5dp"
                     android:tint="?android:attr/windowBackground"
                     app:srcCompat="@drawable/ic_transparent_circle"
-                    android:visibility="gone"/>
+                    android:visibility="gone"
+                    android:contentDescription="@null" />
 
             <ImageView
                 android:id="@+id/trendStatusIcon"

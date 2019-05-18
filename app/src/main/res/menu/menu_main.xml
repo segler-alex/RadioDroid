@@ -22,15 +22,9 @@
         app:showAsAction="always" />
 
     <item
-        android:id="@+id/action_mpd_ok"
-        android:title="@string/action_mpd_ok"
-        android:icon="@drawable/mpd_ok"
-        app:showAsAction="always" />
-
-    <item
-        android:id="@+id/action_mpd_nok"
-        android:title="@string/action_mpd_nok"
-        android:icon="@drawable/mpd_nok"
+        android:id="@+id/action_mpd"
+        android:title="@string/settings_mpd"
+        android:icon="@drawable/mpd"
         app:showAsAction="always" />
 
     <item

@@ -17,26 +17,30 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.AsyncTask;
-import androidx.annotation.NonNull;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
-import androidx.preference.PreferenceManager;
 import android.text.TextUtils;
 import android.util.Log;
 import android.util.TypedValue;
 import android.webkit.MimeTypeMap;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.preference.PreferenceManager;
+
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import com.mikepenz.iconics.IconicsColor;
 import com.mikepenz.iconics.IconicsDrawable;
 import com.mikepenz.iconics.IconicsSize;
 import com.mikepenz.iconics.typeface.IIcon;
 
-import net.programmierecke.radiodroid2.data.DataRadioStation;
+import net.programmierecke.radiodroid2.players.mpd.MPDServersDialog;
+import net.programmierecke.radiodroid2.service.PlayerServiceUtil;
+import net.programmierecke.radiodroid2.station.DataRadioStation;
 
-import net.programmierecke.radiodroid2.data.MPDServer;
 import net.programmierecke.radiodroid2.proxy.ProxySettings;
 
 import org.json.JSONObject;
@@ -47,12 +51,9 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.lang.reflect.Type;
 import java.net.InetSocketAddress;
 import java.net.Proxy;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
@@ -226,14 +227,48 @@ public class Utils {
 		return null;
 	}
 
-	public static void Play(final OkHttpClient httpClient, final DataRadioStation station, final Context context) {
-		SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
-		boolean play_external = sharedPref.getBoolean("play_external", false);
+	public static @Nullable DataRadioStation getCurrentOrLastStation(@NonNull Context ctx) {
+		DataRadioStation station = PlayerServiceUtil.getCurrentStation();
+		if (station == null) {
+			RadioDroidApp radioDroidApp = (RadioDroidApp) ctx.getApplicationContext();
+			HistoryManager historyManager = radioDroidApp.getHistoryManager();
+			station = historyManager.getFirst();
+		}
 
-		Play(httpClient, station,context,play_external);
+		return station;
 	}
 
-	public static void Play(final OkHttpClient httpClient, final DataRadioStation station, final Context context, final boolean external) {
+	public static void showMpdServersDialog(final RadioDroidApp radioDroidApp, final FragmentManager fragmentManager, @Nullable final DataRadioStation station) {
+		Fragment oldFragment = fragmentManager.findFragmentByTag(MPDServersDialog.FRAGMENT_TAG);
+		if (oldFragment != null && oldFragment.isVisible()) {
+			return;
+		}
+
+		MPDServersDialog mpdServersDialogFragment = new MPDServersDialog(radioDroidApp.getMpdClient(), station);
+		mpdServersDialogFragment.show(fragmentManager, MPDServersDialog.FRAGMENT_TAG);
+	}
+
+	public static void showPlaySelection(final RadioDroidApp radioDroidApp, final DataRadioStation station, final FragmentManager fragmentManager) {
+		if (radioDroidApp.getMpdClient().isMpdEnabled()) {
+			showMpdServersDialog(radioDroidApp, fragmentManager, station);
+		} else {
+			Play(radioDroidApp, station);
+		}
+	}
+
+	public static void Play(final RadioDroidApp radioDroidApp, final DataRadioStation station) {
+		SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(radioDroidApp);
+		boolean play_external = sharedPref.getBoolean("play_external", false);
+
+		Play(radioDroidApp, station, radioDroidApp, play_external);
+	}
+
+	public static void Play(final RadioDroidApp radioDroidApp, final DataRadioStation station, final Context context, final boolean external) {
+		HistoryManager historyManager = radioDroidApp.getHistoryManager();
+		historyManager.add(station);
+
+		final OkHttpClient httpClient = radioDroidApp.getHttpClient();
+
 		SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
 		final boolean warn_no_wifi = sharedPref.getBoolean("warn_no_wifi", false);
 		if (warn_no_wifi && !Utils.hasWifiConnection(context)) {
@@ -278,28 +313,32 @@ public class Utils {
 
 				if (result != null) {
 					boolean externalActive = false;
-					if (MPDClient.Connected() && MPDClient.Discovered()){
-						MPDClient.Play(result, context);
-						PlayerServiceUtil.saveInfo(result, station.Name, station.StationUuid, station.IconUrl);
-						externalActive = true;
-					}
-					if (CastHandler.isCastSessionAvailable()){
-						if (!externalActive) {
-							PlayerServiceUtil.stop(); // stop internal player and not continue playing
-						}
-						CastHandler.PlayRemote(station.Name, result, station.IconUrl);
-						externalActive = true;
-					}
+//					if (MPDClientOld.Connected() && MPDClientOld.Discovered()){
+//						MPDClientOld.Play(result, context);
+//						PlayerServiceUtil.saveInfo(result, station.Name, station.ID, station.IconUrl);
+//						externalActive = true;
+//					}
+//					if (CastHandler.isCastSessionAvailable()){
+//						if (!externalActive) {
+//							PlayerServiceUtil.stop(); // stop internal player and not continue playing
+//						}
+//						CastHandler.PlayRemote(station.Name, result, station.IconUrl);
+//						externalActive = true;
+//					}
+//
+//					if (!externalActive){
+//						if (external){
+//							Intent share = new Intent(Intent.ACTION_VIEW);
+//							share.setDataAndType(Uri.parse(result), "audio/*");
+//							context.startActivity(share);
+//						}else {
+//							station.playableUrl = result;
+//							PlayerServiceUtil.play(station);
+//						}
+//					}
 
-					if (!externalActive){
-						if (external){
-							Intent share = new Intent(Intent.ACTION_VIEW);
-							share.setDataAndType(Uri.parse(result), "audio/*");
-							context.startActivity(share);
-						}else {
-							PlayerServiceUtil.play(result, station.Name, station.StationUuid, station.IconUrl);
-						}
-					}
+					station.playableUrl = result;
+					PlayerServiceUtil.play(station);
 				} else {
 					Toast toast = Toast.makeText(context.getApplicationContext(), context.getResources().getText(R.string.error_station_load), Toast.LENGTH_SHORT);
 					toast.show();
@@ -405,24 +444,6 @@ public class Utils {
 		//should check null because in airplane mode it will be null
 		return (netInfo != null && netInfo.isConnected());
 	}
-
-	public static List<MPDServer> getMPDServers(Context context) {
-		SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
-		String serversFromPrefs = sharedPref.getString("mpd_servers", "");
-		Gson gson = new Gson();
-        Type type = new TypeToken<ArrayList<MPDServer>>(){}.getType();
-		List <MPDServer> serversList = gson.fromJson(serversFromPrefs, type);
-		return serversList != null? serversList : new ArrayList<MPDServer>();
-	}
-
-    public static void saveMPDServers(List<MPDServer> servers, Context context) {
-        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
-        SharedPreferences.Editor editor = sharedPref.edit();
-        Gson gson = new Gson();
-        String serversJson = gson.toJson(servers);
-        editor.putString("mpd_servers", serversJson);
-        editor.commit();
-    }
 
     public static boolean bottomNavigationEnabled(Context context) {
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(context);

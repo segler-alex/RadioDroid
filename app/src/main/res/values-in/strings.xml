@@ -40,7 +40,7 @@
     <string name="nav_item_history">Riwayat</string>
     <string name="nav_item_settings">Pengaturan</string>
     <string name="nav_item_alarm">Alarm</string>
-    <string name="nav_item_recordings">Merekam</string>
+    <string name="tab_player_recordings">Merekam</string>
 
     <string name="about_text">Aplikasi ini menggunakan direktori stasiun radio secara gratis di\n
    https://www.radio-browser.info\n
@@ -204,7 +204,7 @@
   %1$s</string>
     <string name="player_info_recorded_to">Terakhir merekam:\n
   %1$s</string>
-    
+
     <string name="station_detail_bitrate">%1$1d kbps</string>
     <string name="station_detail_broken">RUSAK</string>
 

@@ -4,13 +4,14 @@ import android.content.Context;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Handler;
-import androidx.annotation.NonNull;
 import android.util.Log;
+
+import androidx.annotation.NonNull;
 
 import net.programmierecke.radiodroid2.BuildConfig;
 import net.programmierecke.radiodroid2.R;
-import net.programmierecke.radiodroid2.data.ShoutcastInfo;
-import net.programmierecke.radiodroid2.data.StreamLiveInfo;
+import net.programmierecke.radiodroid2.station.live.ShoutcastInfo;
+import net.programmierecke.radiodroid2.station.live.StreamLiveInfo;
 import net.programmierecke.radiodroid2.players.PlayerWrapper;
 import net.programmierecke.radiodroid2.players.RadioPlayer;
 import net.programmierecke.radiodroid2.recording.RecordableListener;
@@ -148,6 +149,10 @@ public class MediaPlayerWrapper implements PlayerWrapper, StreamProxyListener {
 
     @Override
     public boolean isPlaying() {
+        if (mediaPlayer == null) {
+            return false;
+        }
+
         // If player is in illegal state it is either starting playback or stopping it so we treat
         // it as playing state.
         return !playerIsInLegalState.get() || (mediaPlayer != null && mediaPlayer.isPlaying());
@@ -174,6 +179,11 @@ public class MediaPlayerWrapper implements PlayerWrapper, StreamProxyListener {
     @Override
     public long getCurrentPlaybackTransferredBytes() {
         return currentPlaybackTransferredBytes;
+    }
+
+    @Override
+    public boolean isLocal() {
+        return true;
     }
 
     @Override
@@ -211,7 +221,7 @@ public class MediaPlayerWrapper implements PlayerWrapper, StreamProxyListener {
     }
 
     @Override
-    public Map<String, String> getNameFormattingArgs() {
+    public Map<String, String> getRecordNameFormattingArgs() {
         return null;
     }
 

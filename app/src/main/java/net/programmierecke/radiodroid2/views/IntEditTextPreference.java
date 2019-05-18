@@ -1,11 +1,10 @@
 package net.programmierecke.radiodroid2.views;
 
 import android.content.Context;
+import android.util.AttributeSet;
 
 import androidx.annotation.Nullable;
 import androidx.preference.EditTextPreference;
-
-import android.util.AttributeSet;
 
 /**
  * Android doesn't provide a way to have integer preferences. This is a quick hack to have them.

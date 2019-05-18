@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/bottom_sheet"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:translationZ="10dp"
+    app:behavior_hideable="false"
+    app:behavior_peekHeight="?android:attr/actionBarSize"
+    app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
+
+    <FrameLayout
+        android:id="@+id/fragment_player_small"
+        android:layout_width="match_parent"
+        android:layout_height="?android:attr/actionBarSize"
+        android:tag="1" />
+
+    <FrameLayout
+        android:id="@+id/fragment_player_full"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:tag="2" />
+
+</LinearLayout>
