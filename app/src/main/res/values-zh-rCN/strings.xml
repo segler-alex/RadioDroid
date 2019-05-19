@@ -24,6 +24,7 @@
     <string name="action_ok">确认</string>
     <string name="action_cancel">取消</string>
     <string name="action_top_click">访问排行</string>
+    <string name="action_toggle_view">切换视图</string>
     <string name="action_top_vote">投票排行</string>
     <string name="action_changed_lately">最近更新</string>
     <string name="action_currently_playing">正在播放</string>
