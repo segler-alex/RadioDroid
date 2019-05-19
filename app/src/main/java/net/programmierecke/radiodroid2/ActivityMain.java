@@ -754,13 +754,22 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
             }
         });
 
-        long currentTimer = PlayerServiceUtil.getTimerSeconds() > 60 ? Math.abs(PlayerServiceUtil.getTimerSeconds() / 60) : 1;
+        long currenTimerSeconds = PlayerServiceUtil.getTimerSeconds();
+        long currentTimer;
+        if (currenTimerSeconds <= 0) {
+            currentTimer = sharedPref.getInt("sleep_timer_default_minutes", 10);
+        } else if (currenTimerSeconds < 60) {
+            currentTimer = 1;
+        } else {
+            currentTimer = currenTimerSeconds / 60;
+        }
         seekBar.setProgress((int) currentTimer);
         seekDialog.setPositiveButton(R.string.sleep_timer_apply, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 PlayerServiceUtil.clearTimer();
                 PlayerServiceUtil.addTimer(seekBar.getProgress() * 60);
+                sharedPref.edit().putInt("sleep_timer_default_minutes", seekBar.getProgress()).apply();
             }
         });
 
