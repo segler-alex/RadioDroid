@@ -4,4 +4,5 @@
     <dimen name="compact_style_icon_width">40dp</dimen>
     <dimen name="compact_style_icon_container_width">50dp</dimen>
     <dimen name="compact_style_item_minimum_height">60dp</dimen>
+    <dimen name="regular_style_icon_container_width">90dp</dimen>
 </resources>

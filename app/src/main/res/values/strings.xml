@@ -24,6 +24,7 @@
     <string name="action_ok">OK</string>
     <string name="action_cancel">Cancel</string>
     <string name="action_top_click">Top Click</string>
+    <string name="action_toggle_view">Toggle view</string>
     <string name="action_top_vote">Top Vote</string>
     <string name="action_changed_lately">Changed Lately</string>
     <string name="action_currently_playing">Playing</string>
