@@ -121,41 +121,41 @@
     <string name="settings_play_external_desc_off">Afspil stationer med RadioDroid</string> 
     <string name="settings_equalizer">Equalizer</string>
 
-    <string name="settings_connectivity">Connectivity</string>
-    <string name="settings_connect_timeout">Connection timeout</string>
-    <string name="settings_read_timeout">Read timeout</string>
-    <string name="settings_resume_timeout">Resume timeout</string>
-    <string name="settings_retry_timeout">Retry timeout</string>
-    <string name="settings_retry_delay">Reconnection delay</string>
+    <string name="settings_connectivity">Tilslutningsmuligheder</string>
+    <string name="settings_connect_timeout">Tilslutning tidsudløb</string>
+    <string name="settings_read_timeout">Læse tidsudløb</string>
+    <string name="settings_resume_timeout">Genoptag tidsudløb</string>
+    <string name="settings_retry_timeout">Prøv igen tidsudløb</string>
+    <string name="settings_retry_delay">Gentilslutning forsinkelse</string>
     <string name="settings_proxy">Proxy</string>
-    <string name="settings_proxy_login">Username</string>
-    <string name="settings_proxy_password">Password</string>
+    <string name="settings_proxy_login">Brugernavn</string>
+    <string name="settings_proxy_password">Adgangskode</string>
     <string name="settings_proxy_action_test">Test</string>
-    <string name="settings_proxy_working">Successfully connected to %s</string>
-    <string name="settings_proxy_not_working">Failed to connect to %s\n%s</string>
-    <string name="settings_seconds_format">%d seconds</string>
-    <string name="settings_milliseconds_format">%d milliseconds</string>
+    <string name="settings_proxy_working">Vellykket forbundet til %s</string>
+    <string name="settings_proxy_not_working">Mislykket forbundet til %s\n%s</string>
+    <string name="settings_seconds_format">%d sekunder</string>
+    <string name="settings_milliseconds_format">%d millisekunder</string>
 
-    <string name="settings_warn_no_wifi">Off-Wi-Fi Warning</string>
-    <string name="settings_warn_no_wifi_on">Warn when playing without Wi-Fi connection</string>
-    <string name="settings_warn_no_wifi_off">No warning when not on Wi-Fi connection</string>
+    <string name="settings_warn_no_wifi">Trådløst slukke advarsel</string>
+    <string name="settings_warn_no_wifi_on">Advare når der afspilles uden trådløst tilslutning</string>
+    <string name="settings_warn_no_wifi_off">Ingen advarsel når ikke på trådløst tislutning</string>
 
-    <string name="settings_recordings">Recordings</string>
-    <string name="settings_record_name_formatting">Name format</string>
+    <string name="settings_recordings">Optagelser</string>
+    <string name="settings_record_name_formatting">Navneformat</string>
 
     <string name="settings_record_name_formatting_default_display">station_artist_track_\u200bdate_\u200btime</string>
     <string name="settings_record_name_formatting_1_display">station_artist_\u200btrack</string>
     <string name="settings_record_name_formatting_2_display">station_date_\u200btime</string>
     <string name="settings_record_name_formatting_3_display">index_station_\u200bdate</string>
 
-    <string name="notify_pre_play">Connecting</string>
-    <string name="notify_play">Playing</string>
-    <string name="notify_paused">Paused</string>
-    <string name="notify_starred">Station has been added to favorites</string>
-    <string name="notify_autostarred">Station has been automatically added to favorites</string>
-    <string name="notify_unstarred">Station has been removed from favorites</string>
-    <string name="notify_deleted_favorites">The favorites have been deleted</string>
-    <string name="notify_deleted_history">The history has been deleted</string>
+    <string name="notify_pre_play">Forbinder</string>
+    <string name="notify_play">Afspiller</string>
+    <string name="notify_paused">På pause</string>
+    <string name="notify_starred">Station er tilføjet til favoritter</string>
+    <string name="notify_autostarred">Station er tilføjet automatisk til favoritter</string>
+    <string name="notify_unstarred">Station er fjernet fra favoritter</string>
+    <string name="notify_deleted_favorites">Favoritter er blevet slettet</string>
+    <string name="notify_deleted_history">Historikken er blevet fjernet</string>
 
     <string name="notify_station_removed_from_list">1 fjernet</string>
     <string name="action_station_removed_from_list_undo">Genskabe</string>
