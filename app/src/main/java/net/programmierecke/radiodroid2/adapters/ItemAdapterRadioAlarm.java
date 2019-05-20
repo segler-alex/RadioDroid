@@ -65,6 +65,7 @@ public class ItemAdapterRadioAlarm extends ArrayAdapter<DataRadioStationAlarm> {
 				public void onClick(View v) {
 					RadioAlarmManager ram = new RadioAlarmManager(getContext().getApplicationContext(),null);
 					ram.remove(aData.id);
+					notifyDataSetChanged();
 				}
 			});
 		}
