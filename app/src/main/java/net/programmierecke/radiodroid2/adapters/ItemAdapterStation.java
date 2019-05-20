@@ -230,14 +230,14 @@ public class ItemAdapterStation
 
             if (prefs.getBoolean("icon_click_toggles_favorite", true)) {
 
-                final boolean isInFavorites = favouriteManager.has(station.ID);
+                final boolean isInFavorites = favouriteManager.has(station.StationUuid);
                 holder.imageViewIcon.setContentDescription(getContext().getApplicationContext().getString(isInFavorites ? R.string.detail_unstar : R.string.detail_star));
                 holder.imageViewIcon.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         Context context = getContext().getApplicationContext();
 
-                        if (favouriteManager.has(station.ID)) {
+                        if (favouriteManager.has(station.StationUuid)) {
                             unStar(station);
                             Toast toast = Toast.makeText(context, context.getString(R.string.notify_unstarred), Toast.LENGTH_SHORT);
                             toast.show();
@@ -294,7 +294,7 @@ public class ItemAdapterStation
         holder.textViewShortDescription.setText(station.getShortDetails(getContext()));
         holder.textViewTags.setText(station.TagsAll.replace(",", ", "));
 
-        holder.starredStatusIcon.setVisibility(favouriteManager.has(station.ID) ? View.VISIBLE : View.GONE);
+        holder.starredStatusIcon.setVisibility(favouriteManager.has(station.StationUuid) ? View.VISIBLE : View.GONE);
 
         if (prefs.getBoolean("click_trend_icon_visible", true)) {
             if (station.ClickTrend < 0) {
@@ -348,7 +348,7 @@ public class ItemAdapterStation
                 }
             });
 
-            if (favouriteManager.has(station.ID)) {
+            if (favouriteManager.has(station.StationUuid)) {
                 holder.buttonBookmark.setImageResource(R.drawable.ic_star_black_24dp);
                 holder.buttonBookmark.setContentDescription(getContext().getApplicationContext().getString(R.string.detail_unstar));
                 holder.buttonBookmark.setOnClickListener(new View.OnClickListener() {
@@ -470,7 +470,7 @@ public class ItemAdapterStation
         new AsyncTask<Void, Void, String>() {
             @Override
             protected String doInBackground(Void... params) {
-                return Utils.getRealStationLink(httpClient, radioDroidApp, station.ID);
+                return Utils.getRealStationLink(httpClient, radioDroidApp, station.StationUuid);
             }
 
             @Override
@@ -497,7 +497,7 @@ public class ItemAdapterStation
     private void star(DataRadioStation station) {
         if (station != null) {
             favouriteManager.add(station);
-            vote(station.ID);
+            vote(station.StationUuid);
         } else {
             Log.e(TAG, "empty station info");
         }
@@ -523,7 +523,7 @@ public class ItemAdapterStation
 
     private void unStar(DataRadioStation station) {
         if (station != null) {
-            favouriteManager.remove(station.ID);
+            favouriteManager.remove(station.StationUuid);
             if (refreshable != null) {
                 refreshable.RefreshListGui();
             }
@@ -556,7 +556,7 @@ public class ItemAdapterStation
         new AsyncTask<Void, Void, String>() {
             @Override
             protected String doInBackground(Void... params) {
-                return Utils.getRealStationLink(httpClient, radioDroidApp, station.ID);
+                return Utils.getRealStationLink(httpClient, radioDroidApp, station.StationUuid);
             }
 
             @Override
@@ -609,7 +609,7 @@ public class ItemAdapterStation
         int oldPlayingStationPosition = playingStationPosition;
 
         for (int i = 0; i < stationsList.size(); i++) {
-            if (stationsList.get(i).ID.equals(PlayerServiceUtil.getStationId())) {
+            if (stationsList.get(i).StationUuid.equals(PlayerServiceUtil.getStationId())) {
                 playingStationPosition = i;
                 break;
             }

@@ -99,7 +99,7 @@ public class FragmentStarred extends Fragment implements IAdapterRefreshable, IC
 
             @Override
             public void onStationSwiped(final DataRadioStation station) {
-                final int removedIdx = favouriteManager.remove(station.ID);
+                final int removedIdx = favouriteManager.remove(station.StationUuid);
 
                 RefreshListGui();
 

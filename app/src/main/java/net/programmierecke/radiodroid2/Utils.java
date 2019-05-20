@@ -163,8 +163,10 @@ public class Utils {
 	}
 
 	public static String getRealStationLink(OkHttpClient httpClient, Context ctx, String stationId){
+		Log.i("UTIL","StationUUID:" + stationId);
 		String result = Utils.downloadFeed(httpClient, ctx, RadioBrowserServerManager.getWebserviceEndpoint(ctx, "v2/json/url/" + stationId), true, null);
 		if (result != null) {
+			Log.i("UTIL",result);
 			JSONObject jsonObj;
 			try {
 				jsonObj = new JSONObject(result);
@@ -235,7 +237,7 @@ public class Utils {
 		new AsyncTask<Void, Void, String>() {
 			@Override
 			protected String doInBackground(Void... params) {
-				return Utils.getRealStationLink(httpClient, context.getApplicationContext(), station.ID);
+				return Utils.getRealStationLink(httpClient, context.getApplicationContext(), station.StationUuid);
 			}
 
 			@Override
@@ -246,7 +248,7 @@ public class Utils {
 					boolean externalActive = false;
 					if (MPDClient.Connected() && MPDClient.Discovered()){
 						MPDClient.Play(result, context);
-						PlayerServiceUtil.saveInfo(result, station.Name, station.ID, station.IconUrl);
+						PlayerServiceUtil.saveInfo(result, station.Name, station.StationUuid, station.IconUrl);
 						externalActive = true;
 					}
 					if (CastHandler.isCastSessionAvailable()){
@@ -263,7 +265,7 @@ public class Utils {
 							share.setDataAndType(Uri.parse(result), "audio/*");
 							context.startActivity(share);
 						}else {
-							PlayerServiceUtil.play(result, station.Name, station.ID, station.IconUrl);
+							PlayerServiceUtil.play(result, station.Name, station.StationUuid, station.IconUrl);
 						}
 					}
 				} else {

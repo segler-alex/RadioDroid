@@ -19,7 +19,6 @@ public class DataRadioStation {
 	public DataRadioStation() {
 	}
 
-	public String ID;
 	public String Name;
 	public String StationUuid="";
 	public String ChangeUuid="";
@@ -68,7 +67,6 @@ public class DataRadioStation {
 							JSONObject anObject = jsonArray.getJSONObject(i);
 
 							DataRadioStation aStation = new DataRadioStation();
-							aStation.ID = anObject.getString("id");
 							aStation.Name = anObject.getString("name");
 							aStation.StreamUrl = "";
 							if (anObject.has("url")) {
@@ -125,7 +123,6 @@ public class DataRadioStation {
 					JSONObject anObject = new JSONObject(result);
 
 					DataRadioStation aStation = new DataRadioStation();
-					aStation.ID = anObject.getString("id");
 					aStation.Name = anObject.getString("name");
 					aStation.StreamUrl = "";
 					if (anObject.has("url")) {
@@ -170,7 +167,6 @@ public class DataRadioStation {
 	public JSONObject toJson(){
 		JSONObject obj = new JSONObject();
 		try {
-			obj.put("id",ID);
 			obj.put("stationuuid",StationUuid);
 			obj.put("changeuuid",ChangeUuid);
 			obj.put("name",Name);

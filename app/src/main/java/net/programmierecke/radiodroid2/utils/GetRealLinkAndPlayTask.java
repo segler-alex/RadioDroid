@@ -33,7 +33,7 @@ public class GetRealLinkAndPlayTask extends AsyncTask<Void, Void, String> {
     protected String doInBackground(Void... params) {
         Context context = contextRef.get();
         if (context != null) {
-            return Utils.getRealStationLink(httpClient, context.getApplicationContext(), station.ID);
+            return Utils.getRealStationLink(httpClient, context.getApplicationContext(), station.StationUuid);
         }
 
         return null;
@@ -44,7 +44,7 @@ public class GetRealLinkAndPlayTask extends AsyncTask<Void, Void, String> {
         IPlayerService playerService = playerServiceRef.get();
         if (result != null && playerService != null && !isCancelled()) {
             try {
-                playerService.SaveInfo(result, station.Name, station.ID, station.IconUrl);
+                playerService.SaveInfo(result, station.Name, station.StationUuid, station.IconUrl);
                 playerService.Play(false);
             } catch (RemoteException e) {
                 e.printStackTrace();

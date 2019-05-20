@@ -75,7 +75,7 @@ public class RadioDroidBrowser {
                 Target imageLoadTarget = new Target() {
                     @Override
                     public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
-                        stationIdToIcon.put(station.ID, bitmap);
+                        stationIdToIcon.put(station.StationUuid, bitmap);
                         countDownLatch.countDown();
                     }
 
@@ -85,7 +85,7 @@ public class RadioDroidBrowser {
                         if (context != null) {
                             Bitmap placeholderIcon = BitmapFactory.decodeResource(context.getResources(),
                                     R.drawable.ic_photo_black_24dp);
-                            stationIdToIcon.put(station.ID, placeholderIcon);
+                            stationIdToIcon.put(station.StationUuid, placeholderIcon);
                         }
 
                         countDownLatch.countDown();
@@ -128,10 +128,10 @@ public class RadioDroidBrowser {
             List<MediaBrowserCompat.MediaItem> mediaItems = new ArrayList<>();
 
             for (DataRadioStation station : stations) {
-                Bitmap stationIcon = stationIdToIcon.get(station.ID);
+                Bitmap stationIcon = stationIdToIcon.get(station.StationUuid);
 
                 mediaItems.add(new MediaBrowserCompat.MediaItem(new MediaDescriptionCompat.Builder()
-                        .setMediaId(MEDIA_ID_MUSICS_HISTORY + LEAF_SEPARATOR + station.ID)
+                        .setMediaId(MEDIA_ID_MUSICS_HISTORY + LEAF_SEPARATOR + station.StationUuid)
                         .setTitle(station.Name)
                         .setIconBitmap(stationIcon)
                         .build(),
@@ -182,7 +182,7 @@ public class RadioDroidBrowser {
         if (stations != null && !stations.isEmpty()) {
             stationIdToStation.clear();
             for (DataRadioStation station : stations) {
-                stationIdToStation.put(station.ID, station);
+                stationIdToStation.put(station.StationUuid, station);
             }
             result.detach();
             new RetrieveStationsIconAndSendResult(result, stations, radioDroidApp).execute();

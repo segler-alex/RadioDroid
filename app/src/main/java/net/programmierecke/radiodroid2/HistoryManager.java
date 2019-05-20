@@ -18,7 +18,7 @@ public class HistoryManager extends StationSaveManager{
 
     @Override
     public void add(DataRadioStation station){
-        DataRadioStation stationFromHistory = getById(station.ID);
+        DataRadioStation stationFromHistory = getById(station.StationUuid);
         if (stationFromHistory != null) {
             int oldIndex = listStations.indexOf(stationFromHistory);
             listStations.remove(oldIndex);

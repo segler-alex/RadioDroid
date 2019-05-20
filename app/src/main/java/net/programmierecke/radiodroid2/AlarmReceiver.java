@@ -47,7 +47,7 @@ public class AlarmReceiver extends BroadcastReceiver {
 
         if (station != null && alarmId >= 0) {
             if(BuildConfig.DEBUG) { Log.d(TAG,"radio id:"+alarmId); }
-            Play(context, station.ID);
+            Play(context, station.StationUuid);
         }else{
             toast = Toast.makeText(context, context.getResources().getText(R.string.alert_alarm_not_working), Toast.LENGTH_SHORT);
             toast.show();
@@ -100,7 +100,7 @@ public class AlarmReceiver extends BroadcastReceiver {
             if(BuildConfig.DEBUG) { Log.d(TAG, "Service came online"); }
             itsPlayerService = IPlayerService.Stub.asInterface(binder);
             try {
-                itsPlayerService.SaveInfo(url, station.Name, station.ID, station.IconUrl);
+                itsPlayerService.SaveInfo(url, station.Name, station.StationUuid, station.IconUrl);
                 itsPlayerService.Play(true);
                 // default timeout 1 hour
                 itsPlayerService.addTimer(timeout*60);

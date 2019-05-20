@@ -16,8 +16,8 @@ public class FavouriteManager extends StationSaveManager{
 
     @Override
     public void add(DataRadioStation station){
-        DataRadioStation stationFromId = getById(station.ID);
-        if (!has(station.ID)) {
+        DataRadioStation stationFromId = getById(station.StationUuid);
+        if (!has(station.StationUuid)) {
             listStations.add(station);
             Save();
         }

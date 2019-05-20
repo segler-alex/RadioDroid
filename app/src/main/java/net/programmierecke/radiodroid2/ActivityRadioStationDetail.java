@@ -138,7 +138,7 @@ public class ActivityRadioStationDetail extends AppCompatActivity implements Tim
 
 	private void UnStar() {
 		if (itsStation != null) {
-			favouriteManager.remove(itsStation.ID);
+			favouriteManager.remove(itsStation.StationUuid);
 			UpdateMenu();
 		}else{
 			Log.e("ABC","empty station info");

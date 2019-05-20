@@ -57,7 +57,7 @@ public class StationSaveManager {
 
     DataRadioStation getById(String id) {
         for (DataRadioStation station : listStations) {
-            if (id.equals(station.ID)) {
+            if (id.equals(station.StationUuid)) {
                 return station;
             }
         }
@@ -69,7 +69,7 @@ public class StationSaveManager {
             return null;
 
         for (int i = 0; i < listStations.size() - 1; i++) {
-            if (listStations.get(i).ID.equals(id)) {
+            if (listStations.get(i).StationUuid.equals(id)) {
                     return listStations.get(i + 1);
             }
         }
@@ -81,7 +81,7 @@ public class StationSaveManager {
             return null;
 
         for (int i = 1; i < listStations.size(); i++) {
-            if (listStations.get(i).ID.equals(id)) {
+            if (listStations.get(i).StationUuid.equals(id)) {
                 return listStations.get(i - 1);
             }
         }
@@ -94,7 +94,7 @@ public class StationSaveManager {
 
     public int remove(String id) {
         for (int i = 0; i < listStations.size(); i++) {
-            if (listStations.get(i).ID.equals(id)) {
+            if (listStations.get(i).StationUuid.equals(id)) {
                 listStations.remove(i);
                 Save();
                 return i;
@@ -246,7 +246,7 @@ public class StationSaveManager {
             for (DataRadioStation station : listStations) {
                 String result = null;
                 for (int i=0;i<20;i++){
-                    result = Utils.getRealStationLink(httpClient, context, station.ID);
+                    result = Utils.getRealStationLink(httpClient, context, station.StationUuid);
                     if (result != null){
                         break;
                     }

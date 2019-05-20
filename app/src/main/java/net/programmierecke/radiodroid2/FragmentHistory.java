@@ -37,7 +37,7 @@ public class FragmentHistory extends Fragment {
 
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
         final Boolean autoFavorite = sharedPref.getBoolean("auto_favorite", true);
-        if (autoFavorite && !favouriteManager.has(theStation.ID)) {
+        if (autoFavorite && !favouriteManager.has(theStation.StationUuid)) {
             favouriteManager.add(theStation);
             Toast toast = Toast.makeText(context, context.getString(R.string.notify_autostarred), Toast.LENGTH_SHORT);
             toast.show();
@@ -73,7 +73,7 @@ public class FragmentHistory extends Fragment {
 
             @Override
             public void onStationSwiped(final DataRadioStation station) {
-                final int removedIdx = historyManager.remove(station.ID);
+                final int removedIdx = historyManager.remove(station.StationUuid);
 
                 RefreshListGui();
 
