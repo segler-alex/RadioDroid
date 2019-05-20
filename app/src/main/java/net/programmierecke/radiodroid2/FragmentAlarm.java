@@ -17,6 +17,7 @@ import net.programmierecke.radiodroid2.interfaces.IChanged;
 public class FragmentAlarm extends Fragment implements TimePickerDialog.OnTimeSetListener, IChanged {
     private RadioAlarmManager ram;
     private ItemAdapterRadioAlarm adapterRadioAlarm;
+    private ListView lvAlarms;
 
     public FragmentAlarm() {
     }
@@ -28,10 +29,10 @@ public class FragmentAlarm extends Fragment implements TimePickerDialog.OnTimeSe
         View view = inflater.inflate(R.layout.layout_alarms, container, false);
 
         adapterRadioAlarm = new ItemAdapterRadioAlarm(getActivity());
-        ListView lv = (ListView) view.findViewById(R.id.listViewAlarms);
-        lv.setAdapter(adapterRadioAlarm);
-        lv.setClickable(true);
-        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        lvAlarms = view.findViewById(R.id.listViewAlarms);
+        lvAlarms.setAdapter(adapterRadioAlarm);
+        lvAlarms.setClickable(true);
+        lvAlarms.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Object anObject = parent.getItemAtPosition(position);
                 if (anObject instanceof DataRadioStationAlarm) {
@@ -40,18 +41,17 @@ public class FragmentAlarm extends Fragment implements TimePickerDialog.OnTimeSe
             }
         });
 
-        RefreshList();
-
-        view.invalidate();
+        RefreshListAndView();
 
         return view;
     }
 
-    private void RefreshList() {
+    private void RefreshListAndView() {
         adapterRadioAlarm.clear();
         for(DataRadioStationAlarm alarm: ram.getList()){
             adapterRadioAlarm.add(alarm);
         }
+        lvAlarms.invalidate();
     }
 
     DataRadioStationAlarm clickedAlarm = null;
@@ -65,13 +65,13 @@ public class FragmentAlarm extends Fragment implements TimePickerDialog.OnTimeSe
     @Override
     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
         ram.changeTime(clickedAlarm.id,hourOfDay,minute);
-        RefreshList();
+        RefreshListAndView();
         view.invalidate();
     }
 
     @Override
     public void onChanged() {
         ram.load();
-        RefreshList();
+        RefreshListAndView();
     }
 }
