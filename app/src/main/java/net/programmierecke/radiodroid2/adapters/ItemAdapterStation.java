@@ -12,8 +12,12 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.content.pm.ShortcutInfo;
+import android.content.pm.ShortcutManager;
 import android.graphics.Typeface;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.graphics.drawable.Icon;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -109,6 +113,7 @@ public class ItemAdapterStation
         ImageView imageTrend;
         ImageButton buttonSetTimer;
         TagsView viewTags;
+        ImageButton buttonCreateShortcut;
 
         StationViewHolder(View itemView) {
             super(itemView);
@@ -126,6 +131,7 @@ public class ItemAdapterStation
             textViewTags = (TextView) itemView.findViewById(R.id.textViewTags);
             buttonMore = (ImageButton) itemView.findViewById(R.id.buttonMore);
             stubDetails = (ViewStub) itemView.findViewById(R.id.stubDetails);
+            buttonCreateShortcut = (ImageButton) itemView.findViewById(R.id.buttonCreateShortcut);
 
             itemView.setOnClickListener(this);
         }
@@ -333,6 +339,7 @@ public class ItemAdapterStation
             holder.buttonShare = (ImageButton) holder.viewDetails.findViewById(R.id.buttonShare);
             holder.buttonBookmark = (ImageButton) holder.viewDetails.findViewById(R.id.buttonBookmark);
             holder.buttonSetTimer = (ImageButton) holder.viewDetails.findViewById(R.id.buttonSetTimer);
+            holder.buttonCreateShortcut = (ImageButton) holder.viewDetails.findViewById(R.id.buttonCreateShortcut);
 
             holder.buttonShare.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -378,6 +385,17 @@ public class ItemAdapterStation
                 });
             }
 
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O_MR1 && shouldLoadIcons
+                    && getContext().getApplicationContext().getSystemService(ShortcutManager.class).isRequestPinShortcutSupported()) {
+                holder.buttonCreateShortcut.setVisibility(View.VISIBLE);
+                holder.buttonCreateShortcut.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        createPinShortcut(station, holder.imageViewIcon);
+                    }
+                });
+            }
+
             holder.buttonSetTimer.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -391,6 +409,32 @@ public class ItemAdapterStation
         }
         if(holder.viewDetails != null)
             holder.viewDetails.setVisibility(isExpanded ? View.VISIBLE : View.GONE);
+    }
+
+    private ShortcutInfo getShortcut(DataRadioStation station, ImageView icon) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O_MR1 && icon != null && icon.getDrawable() instanceof BitmapDrawable) {
+            Intent playByUUUIDintent = new Intent(MediaSessionCallback.ACTION_PLAY_STATION_BY_UUID, null, getContext(), ActivityMain.class)
+                    .putExtra(MediaSessionCallback.EXTRA_STATION_UUID, station.StationUuid);
+            ShortcutInfo shortcut = new ShortcutInfo.Builder(getContext().getApplicationContext(), station.StationUuid)
+                    .setShortLabel(station.Name)
+                    .setIcon(Icon.createWithBitmap(((BitmapDrawable) icon.getDrawable()).getBitmap()))
+                    .setIntent(playByUUUIDintent)
+                    .build();
+            return shortcut;
+        } else {
+            return null;
+        }
+    }
+
+    private void createPinShortcut(DataRadioStation station, ImageView icon) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O_MR1) {
+            ShortcutManager shortcutManager = getContext().getApplicationContext().getSystemService(ShortcutManager.class);
+            if (shortcutManager.isRequestPinShortcutSupported()) {
+                ShortcutInfo shortcut = getShortcut(station, icon);
+                if (shortcut != null)
+                    shortcutManager.requestPinShortcut(shortcut, null);
+            }
+        }
     }
 
     @Override

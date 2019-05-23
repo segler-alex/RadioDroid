@@ -65,6 +65,15 @@
                 android:tint="?attr/iconsInItemBackgroundColor"
                 app:srcCompat="@drawable/ic_query_builder_black_24dp" />
 
+        <ImageButton
+                android:id="@+id/buttonCreateShortcut"
+                style="@style/IconButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:contentDescription="@string/detail_create_shortcut"
+                android:tint="?attr/iconsInItemBackgroundColor"
+                app:srcCompat="@drawable/ic_back_arrow_24dp" />
     </LinearLayout>
 
 </LinearLayout>
