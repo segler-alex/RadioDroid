@@ -4,14 +4,31 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.content.Context;
+import android.content.Intent;
+import android.content.pm.ShortcutInfo;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.Icon;
+import android.os.Build;
 import android.text.TextUtils;
 import android.util.Log;
 
+import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Target;
+
+import net.programmierecke.radiodroid2.ActivityMain;
+import net.programmierecke.radiodroid2.MediaSessionCallback;
 import net.programmierecke.radiodroid2.R;
+import net.programmierecke.radiodroid2.Utils;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import jp.wasabeef.picasso.transformations.CropCircleTransformation;
+import jp.wasabeef.picasso.transformations.CropSquareTransformation;
+import jp.wasabeef.picasso.transformations.RoundedCornersTransformation;
 
 public class DataRadioStation {
 	static final String TAG = "DATAStation";
@@ -190,4 +207,55 @@ public class DataRadioStation {
 
 		return null;
 	}
+
+	public interface ShortcutReadyListener {
+		void onShortcutReadyListener(ShortcutInfo shortcutInfo);
+	}
+
+	class RadioIconTarget implements Target {
+		DataRadioStation station;
+		Context ctx;
+		ShortcutReadyListener cb;
+
+		RadioIconTarget(Context ctx, DataRadioStation station, ShortcutReadyListener cb) {
+			super();
+			this.ctx = ctx;
+			this.station = station;
+			this.cb = cb;
+		}
+
+		@Override
+		public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
+			if (Build.VERSION.SDK_INT >= 25) {
+				Intent playByUUUIDintent = new Intent(MediaSessionCallback.ACTION_PLAY_STATION_BY_UUID, null, ctx, ActivityMain.class)
+						.putExtra(MediaSessionCallback.EXTRA_STATION_UUID, station.StationUuid);
+				ShortcutInfo shortcut = new ShortcutInfo.Builder(ctx.getApplicationContext(), ctx.getPackageName() + "/" + station.StationUuid)
+						.setShortLabel(station.Name)
+						.setIcon(Icon.createWithBitmap(bitmap))
+						.setIntent(playByUUUIDintent)
+						.build();
+				cb.onShortcutReadyListener(shortcut);
+			}
+		}
+
+		@Override
+		public void onBitmapFailed(Drawable errorDrawable) {
+            onBitmapLoaded(((BitmapDrawable)errorDrawable).getBitmap(), null);
+		}
+
+		@Override
+		public void onPrepareLoad(Drawable placeHolderDrawable) {
+
+		}
+	}
+
+	public void prepareShortcut(Context ctx, ShortcutReadyListener cb) {
+		Picasso.with(ctx)
+				.load(IconUrl)
+				.error(R.drawable.ic_launcher)
+				.transform(Utils.useCircularIcons(ctx)? new CropCircleTransformation() : new CropSquareTransformation())
+				.transform(new RoundedCornersTransformation(12, 2, RoundedCornersTransformation.CornerType.ALL))
+				.into(new RadioIconTarget(ctx, this, cb));
+	}
+
 }

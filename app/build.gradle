@@ -68,6 +68,7 @@ dependencies {
     implementation 'com.squareup.okhttp3:okhttp:3.12.1'
     implementation 'com.squareup.picasso:picasso:2.5.2'
     implementation 'com.jakewharton.picasso:picasso2-okhttp3-downloader:1.1.0'
+    implementation 'jp.wasabeef:picasso-transformations:2.2.1'
     implementation 'com.google.android.exoplayer:exoplayer:2.9.6'
     implementation 'com.github.rustamg:file-dialogs:1.0'
     playImplementation 'com.google.android.gms:play-services-cast:16.2.0'
