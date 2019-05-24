@@ -4,6 +4,7 @@
     <string name="detail_name">名称</string>
     <string name="detail_tags">标签</string>
     <string name="detail_country">国家</string>
+    <string name="detail_create_shortcut">添加到主屏幕</string>
     <string name="detail_language">语言</string>
     <string name="detail_weblink">网络链接</string>
     <string name="detail_play">播放</string>
