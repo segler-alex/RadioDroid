@@ -62,6 +62,8 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
 
     public static final int LAUNCH_EQUALIZER_REQUEST = 1;
 
+    public final static int MAX_DYNAMIC_LAUNCHER_SHORTCUTS = 4;
+
     public static final int FRAGMENT_FROM_BACKSTACK = 777;
 
     public static final String ACTION_SHOW_LOADING = "net.programmierecke.radiodroid2.show_loading";
