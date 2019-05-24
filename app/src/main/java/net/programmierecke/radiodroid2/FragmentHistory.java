@@ -18,8 +18,9 @@ import android.widget.Toast;
 
 import net.programmierecke.radiodroid2.adapters.ItemAdapterStation;
 import net.programmierecke.radiodroid2.data.DataRadioStation;
+import net.programmierecke.radiodroid2.interfaces.IAdapterRefreshable;
 
-public class FragmentHistory extends Fragment {
+public class FragmentHistory extends Fragment implements IAdapterRefreshable {
     private static final String TAG = "FragmentStarred";
 
     private RecyclerView rvStations;
@@ -47,7 +48,8 @@ public class FragmentHistory extends Fragment {
         rvStations.smoothScrollToPosition(0);
     }
 
-    protected void RefreshListGui() {
+    @Override
+    public void RefreshListGui() {
         if (BuildConfig.DEBUG) Log.d(TAG, "refreshing the stations list.");
 
         ItemAdapterStation adapter = (ItemAdapterStation) rvStations.getAdapter();

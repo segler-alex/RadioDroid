@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -24,6 +25,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.preference.PreferenceManager;
 import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.Toolbar;
+
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
@@ -37,6 +40,7 @@ import com.rustamg.filedialogs.FileDialog;
 import com.rustamg.filedialogs.OpenFileDialog;
 import com.rustamg.filedialogs.SaveFileDialog;
 
+import net.programmierecke.radiodroid2.data.DataRadioStation;
 import net.programmierecke.radiodroid2.data.MPDServer;
 import net.programmierecke.radiodroid2.interfaces.IFragmentRefreshable;
 
@@ -47,6 +51,10 @@ import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
+import okhttp3.OkHttpClient;
+
+import static net.programmierecke.radiodroid2.MediaSessionCallback.EXTRA_STATION_UUID;
 
 public class ActivityMain extends AppCompatActivity implements SearchView.OnQueryTextListener, IMPDClientStatusChange, NavigationView.OnNavigationItemSelectedListener, BottomNavigationView.OnNavigationItemSelectedListener, FileDialog.OnFileSelectedListener {
 
@@ -104,7 +112,8 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        Intent intent = getIntent();
+        onNewIntent(intent);
         if (sharedPref == null) {
             PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
             sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
@@ -262,21 +271,55 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
 
     @Override
     protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        String action = intent.getAction();
         final Bundle extras = intent.getExtras();
         if (extras == null) {
             return;
         }
 
-        final String searchTag = extras.getString(EXTRA_SEARCH_TAG);
-        if (searchTag != null) {
-            try {
-                String queryEncoded = URLEncoder.encode(searchTag, "utf-8");
-                queryEncoded = queryEncoded.replace("+", "%20");
-                Search(RadioBrowserServerManager.getWebserviceEndpoint(this, TAG_SEARCH_URL + "/" + queryEncoded));
-            } catch (UnsupportedEncodingException e) {
-                e.printStackTrace();
+        if (MediaSessionCallback.ACTION_PLAY_STATION_BY_UUID.equals(action)) {
+            final Context context = getApplicationContext();
+            final String stationUUID = extras.getString(EXTRA_STATION_UUID);
+            if (TextUtils.isEmpty(stationUUID))
+                return;
+            intent.removeExtra(EXTRA_STATION_UUID); // mark intent as consumed
+            RadioDroidApp radioDroidApp = (RadioDroidApp) getApplication();
+            final OkHttpClient httpClient = radioDroidApp.getHttpClient();
+
+            new AsyncTask<Void, Void, DataRadioStation>() {
+                @Override
+                protected DataRadioStation doInBackground(Void... params) {
+                    return Utils.getStationByUuid(httpClient, context, stationUUID);
+                }
+
+                @Override
+                protected void onPostExecute(DataRadioStation station) {
+                    if (!isFinishing()) {
+                        if (station != null) {
+                            Utils.Play(httpClient, station, context);
+                            radioDroidApp.getHistoryManager().add(station);
+                            Fragment currentFragment = mFragmentManager.getFragments().get(mFragmentManager.getFragments().size() - 1);
+                            if (currentFragment instanceof FragmentHistory) {
+                                ((FragmentHistory) currentFragment).RefreshListGui();
+                            }
+                        }
+                    }
+                }
+            }.execute();
+        } else {
+            final String searchTag = extras.getString(EXTRA_SEARCH_TAG);
+            if (searchTag != null) {
+                try {
+                    String queryEncoded = URLEncoder.encode(searchTag, "utf-8");
+                    queryEncoded = queryEncoded.replace("+", "%20");
+                    Search(RadioBrowserServerManager.getWebserviceEndpoint(this, TAG_SEARCH_URL + "/" + queryEncoded));
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                }
             }
         }
+        setIntent(intent);
     }
 
     @Override
