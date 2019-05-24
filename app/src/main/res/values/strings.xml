@@ -4,7 +4,7 @@
     <string name="detail_name">Name</string>
     <string name="detail_tags">Tags</string>
     <string name="detail_country">Country</string>
-    <string name="detail_create_shortcut">Create shortchut on home screen</string>
+    <string name="detail_create_shortcut">Add to home screen</string>
     <string name="detail_language">Language</string>
     <string name="detail_weblink">Weblink</string>
     <string name="detail_play">Play</string>
