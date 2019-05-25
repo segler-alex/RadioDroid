@@ -64,8 +64,8 @@ public class FavouriteManager extends StationSaveManager{
         }
 
         @Override
-        public void onShortcutReadyListener(ShortcutInfo shortcur) {
-            shortcuts.add(shortcur);
+        public void onShortcutReadyListener(ShortcutInfo shortcut) {
+            shortcuts.add(shortcut);
             if (shortcuts.size() >= expectedNumber) {
                 ShortcutManager shortcutManager = context.getApplicationContext().getSystemService(ShortcutManager.class);
                 shortcutManager.removeAllDynamicShortcuts();
