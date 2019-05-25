@@ -132,9 +132,9 @@ public class FragmentSettings extends PreferenceFragmentCompat implements Shared
                 // add default server
                 listResult.add("www.radio-browser.info/webservice");
                 // add best server based on geodns location
-                listResult.add("api.radio-browser.info");
+                //listResult.add("api.radio-browser.info");
                 // add round robin address
-                listResult.add("all.api.radio-browser.info");
+                //listResult.add("all.api.radio-browser.info");
                 try {
                     // add all round robin servers one by one to select them separately
                     InetAddress[] list = InetAddress.getAllByName("all.api.radio-browser.info");
