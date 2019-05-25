@@ -39,8 +39,8 @@ public class ActivityRadioStationDetail extends AppCompatActivity implements Tim
 		setSupportActionBar(myToolbar);
 
 		Bundle anExtras = getIntent().getExtras();
-		final String aStationID = anExtras.getString("stationid");
-		stationId = aStationID;
+		final String aStationUUID = anExtras.getString(MediaSessionCallback.EXTRA_STATION_UUID);
+		stationId = aStationUUID;
 
 		RadioDroidApp radioDroidApp = (RadioDroidApp) getApplication();
 		favouriteManager = radioDroidApp.getFavouriteManager();
@@ -56,7 +56,7 @@ public class ActivityRadioStationDetail extends AppCompatActivity implements Tim
 		new AsyncTask<Void, Void, String>() {
 			@Override
 			protected String doInBackground(Void... params) {
-				return Utils.downloadFeed(httpClient, getApplicationContext(), RadioBrowserServerManager.getWebserviceEndpoint(getApplicationContext(), String.format(Locale.US, "json/stations/byid/%s", aStationID)),true,null);
+				return Utils.downloadFeed(httpClient, getApplicationContext(), RadioBrowserServerManager.getWebserviceEndpoint(getApplicationContext(), String.format(Locale.US, "json/stations/byuuid/%s", aStationUUID)),true,null);
 			}
 
 			@Override
