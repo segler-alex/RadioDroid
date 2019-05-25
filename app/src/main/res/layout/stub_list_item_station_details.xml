@@ -36,6 +36,16 @@
                 app:srcCompat="@drawable/ic_store_black_24dp"/>
 
         <ImageButton
+                android:id="@+id/buttonStationDetails"
+                style="@style/IconButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:contentDescription="@string/detail_weblink"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:tint="?attr/iconsInItemBackgroundColor"
+                app:srcCompat="@drawable/ic_info_outline_black_24dp"/>
+
+        <ImageButton
                 android:id="@+id/buttonShare"
                 style="@style/IconButton"
                 android:layout_width="wrap_content"

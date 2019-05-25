@@ -107,6 +107,7 @@ public class ItemAdapterStation
         View viewDetails;
         ViewStub stubDetails;
         ImageButton buttonStationWebLink;
+        ImageButton buttonStationDetails;
         ImageButton buttonShare;
         ImageButton buttonBookmark;
         ImageView imageTrend;
@@ -335,6 +336,7 @@ public class ItemAdapterStation
             holder.stubDetails = null;
             holder.viewTags = (TagsView) holder.viewDetails.findViewById(R.id.viewTags);
             holder.buttonStationWebLink = (ImageButton) holder.viewDetails.findViewById(R.id.buttonStationWebLink);
+            holder.buttonStationDetails = (ImageButton) holder.viewDetails.findViewById(R.id.buttonStationDetails);
             holder.buttonShare = (ImageButton) holder.viewDetails.findViewById(R.id.buttonShare);
             holder.buttonBookmark = (ImageButton) holder.viewDetails.findViewById(R.id.buttonBookmark);
             holder.buttonSetTimer = (ImageButton) holder.viewDetails.findViewById(R.id.buttonSetTimer);
@@ -352,6 +354,12 @@ public class ItemAdapterStation
                 public void onClick(View view) {
                     showLinks(station);
                 }
+            });
+
+            holder.buttonStationDetails.setOnClickListener(view -> {
+                Intent myIntent = new Intent(getContext().getApplicationContext(), ActivityRadioStationDetail.class);
+                myIntent.putExtra(MediaSessionCallback.EXTRA_STATION_UUID, station.StationUuid);
+                getContext().getApplicationContext().startActivity(myIntent);
             });
 
             if (favouriteManager.has(station.StationUuid)) {
