@@ -33,6 +33,8 @@ public class ActivityRadioStationDetail extends AppCompatActivity implements Tim
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		setTheme(Utils.getThemeResId(this));
+
 		setContentView(R.layout.layout_station_detail);
 
 		Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
