@@ -110,7 +110,7 @@ public class ItemAdapterStation
         ImageButton buttonShare;
         ImageButton buttonBookmark;
         ImageView imageTrend;
-        ImageButton buttonSetTimer;
+        ImageButton buttonAddAlarm;
         TagsView viewTags;
         ImageButton buttonCreateShortcut;
 
@@ -337,7 +337,7 @@ public class ItemAdapterStation
             holder.buttonStationWebLink = (ImageButton) holder.viewDetails.findViewById(R.id.buttonStationWebLink);
             holder.buttonShare = (ImageButton) holder.viewDetails.findViewById(R.id.buttonShare);
             holder.buttonBookmark = (ImageButton) holder.viewDetails.findViewById(R.id.buttonBookmark);
-            holder.buttonSetTimer = (ImageButton) holder.viewDetails.findViewById(R.id.buttonSetTimer);
+            holder.buttonAddAlarm = (ImageButton) holder.viewDetails.findViewById(R.id.buttonAddAlarm);
             holder.buttonCreateShortcut = (ImageButton) holder.viewDetails.findViewById(R.id.buttonCreateShortcut);
 
             holder.buttonShare.setOnClickListener(new View.OnClickListener() {
@@ -395,7 +395,7 @@ public class ItemAdapterStation
                 });
             }
 
-            holder.buttonSetTimer.setOnClickListener(new View.OnClickListener() {
+            holder.buttonAddAlarm.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     setAsAlarm(station);

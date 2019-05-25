@@ -40,8 +40,8 @@
         app:showAsAction="always"/>
 
     <item
-        android:id="@+id/action_set_alarm"
-        android:icon="@drawable/ic_add_alarm_black_24dp"
+        android:id="@+id/action_set_sleep_timer"
+        android:icon="@drawable/ic_hourglass_empty_black_24dp"
         android:title="@string/nav_item_add_sleep"
         app:showAsAction="always"/>
 

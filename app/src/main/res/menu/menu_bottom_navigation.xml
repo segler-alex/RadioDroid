@@ -20,7 +20,7 @@
 
     <item
             android:id="@+id/nav_item_alarm"
-            android:icon="@drawable/ic_query_builder_black_24dp"
+            android:icon="@drawable/ic_access_alarms_black_24dp"
             android:title="@string/nav_item_alarm"
             app:contentDescription="@string/nav_item_alarm" />
 

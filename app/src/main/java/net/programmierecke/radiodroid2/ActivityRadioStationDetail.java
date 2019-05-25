@@ -125,7 +125,7 @@ public class ActivityRadioStationDetail extends AppCompatActivity implements Tim
 				UnStar();
 				return true;
 
-			case R.id.action_set_alarm:
+			case R.id.action_add_alarm:
 				setAsAlarm();
 				return true;
 
