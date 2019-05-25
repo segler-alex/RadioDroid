@@ -1,5 +1,6 @@
 package net.programmierecke.radiodroid2;
 
+import android.app.TimePickerDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -34,6 +35,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.SeekBar;
 import android.widget.TextView;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.rustamg.filedialogs.FileDialog;
@@ -56,7 +58,7 @@ import okhttp3.OkHttpClient;
 
 import static net.programmierecke.radiodroid2.MediaSessionCallback.EXTRA_STATION_UUID;
 
-public class ActivityMain extends AppCompatActivity implements SearchView.OnQueryTextListener, IMPDClientStatusChange, NavigationView.OnNavigationItemSelectedListener, BottomNavigationView.OnNavigationItemSelectedListener, FileDialog.OnFileSelectedListener {
+public class ActivityMain extends AppCompatActivity implements SearchView.OnQueryTextListener, IMPDClientStatusChange, NavigationView.OnNavigationItemSelectedListener, BottomNavigationView.OnNavigationItemSelectedListener, FileDialog.OnFileSelectedListener, TimePickerDialog.OnTimeSetListener {
 
     public static final String EXTRA_SEARCH_TAG = "search_tag";
 
@@ -90,6 +92,7 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
     MenuItem menuItemLoad;
     MenuItem menuItemIconsView;
     MenuItem menuItemListView;
+    MenuItem menuItemAddAlarm;
 
     private SharedPreferences sharedPref;
 
@@ -410,6 +413,7 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
         menuItemLoad = menu.findItem(R.id.action_load);
         menuItemListView = menu.findItem(R.id.action_list_view);
         menuItemIconsView = menu.findItem(R.id.action_icons_view);
+        menuItemAddAlarm = menu.findItem(R.id.action_add_alarm);
         mSearchView = (SearchView) MenuItemCompat.getActionView(menuItemSearch);
         mSearchView.setOnQueryTextListener(this);
 
@@ -423,6 +427,7 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
         menuItemLoad.setVisible(false);
         menuItemListView.setVisible(false);
         menuItemIconsView.setVisible(false);
+        menuItemAddAlarm.setVisible(false);
         menuItemMPDOK.setVisible(MPDClient.Discovered() && MPDClient.Connected());
         menuItemMPDNok.setVisible(MPDClient.Discovered() && !MPDClient.Connected());
 
@@ -469,6 +474,7 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
                 break;
             }
             case R.id.nav_item_alarm: {
+                menuItemAddAlarm.setVisible(true);
                 myToolbar.setTitle(R.string.nav_item_alarm);
                 break;
             }
@@ -606,8 +612,25 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
                 sharedPref.edit().putBoolean("icons_only_favorites_style", true).apply();
                 recreate();
                 return true;
+            case R.id.action_add_alarm:
+                TimePickerFragment newFragment = new TimePickerFragment();
+                newFragment.setCallback(this);
+                newFragment.show(getSupportFragmentManager(), "timePicker");
+                return true;
         }
         return super.onOptionsItemSelected(menuItem);
+    }
+
+    @Override
+    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+        RadioDroidApp radioDroidApp = (RadioDroidApp) getApplication();
+        HistoryManager historyManager = radioDroidApp.getHistoryManager();
+        Fragment currentFragment = mFragmentManager.getFragments().get(mFragmentManager.getFragments().size() - 2);
+        if (historyManager.size() > 0 && currentFragment instanceof FragmentAlarm) {
+            DataRadioStation station = historyManager.getList().get(0);
+            ((FragmentAlarm) currentFragment).getRam().add(station, hourOfDay, minute);
+            ((FragmentAlarm) currentFragment).onChanged();
+        }
     }
 
     private void setupStartUpFragment() {
