@@ -85,7 +85,7 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
 
     MenuItem menuItemSearch;
     MenuItem menuItemDelete;
-    MenuItem menuItemAlarm;
+    MenuItem menuItemSleepTimer;
     MenuItem menuItemSave;
     MenuItem menuItemLoad;
     MenuItem menuItemIconsView;
@@ -403,7 +403,7 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
         getMenuInflater().inflate(R.menu.menu_main, menu);
 
         final Toolbar myToolbar = (Toolbar) findViewById(R.id.my_awesome_toolbar);
-        menuItemAlarm = menu.findItem(R.id.action_set_alarm);
+        menuItemSleepTimer = menu.findItem(R.id.action_set_sleep_timer);
         menuItemSearch = menu.findItem(R.id.action_search);
         menuItemDelete = menu.findItem(R.id.action_delete);
         menuItemSave = menu.findItem(R.id.action_save);
@@ -416,7 +416,7 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
         MenuItem menuItemMPDNok = menu.findItem(R.id.action_mpd_nok);
         MenuItem menuItemMPDOK = menu.findItem(R.id.action_mpd_ok);
 
-        menuItemAlarm.setVisible(false);
+        menuItemSleepTimer.setVisible(false);
         menuItemSearch.setVisible(false);
         menuItemDelete.setVisible(false);
         menuItemSave.setVisible(false);
@@ -428,13 +428,13 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
 
         switch (selectedMenuItem) {
             case R.id.nav_item_stations: {
-                menuItemAlarm.setVisible(true);
+                menuItemSleepTimer.setVisible(true);
                 menuItemSearch.setVisible(true);
                 myToolbar.setTitle(R.string.nav_item_stations);
                 break;
             }
             case R.id.nav_item_starred: {
-                menuItemAlarm.setVisible(true);
+                menuItemSleepTimer.setVisible(true);
                 menuItemSearch.setVisible(true);
                 menuItemSave.setVisible(true);
                 menuItemLoad.setVisible(true);
@@ -454,7 +454,7 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
                 break;
             }
             case R.id.nav_item_history: {
-                menuItemAlarm.setVisible(true);
+                menuItemSleepTimer.setVisible(true);
                 menuItemSearch.setVisible(true);
 
                 RadioDroidApp radioDroidApp = (RadioDroidApp) getApplication();
@@ -549,7 +549,7 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
                     Log.e("MAIN",e.toString());
                 }
                 return true;
-            case R.id.action_set_alarm:
+            case R.id.action_set_sleep_timer:
                 changeTimer();
                 return true;
             case R.id.action_mpd_nok:

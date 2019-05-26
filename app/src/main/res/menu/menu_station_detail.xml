@@ -27,7 +27,7 @@
         android:title="@string/detail_unstar"
         app:showAsAction="ifRoom"/>
     <item
-        android:id="@+id/action_set_alarm"
+        android:id="@+id/action_add_alarm"
         android:icon="@drawable/ic_query_builder_black_24dp"
         android:title="@string/nav_item_alarm"
         app:showAsAction="ifRoom"/>

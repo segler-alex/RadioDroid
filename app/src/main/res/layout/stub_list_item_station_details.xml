@@ -56,14 +56,14 @@
                 app:srcCompat="@drawable/ic_star_border_black_24dp" />
 
         <ImageButton
-                android:id="@+id/buttonSetTimer"
+                android:id="@+id/buttonAddAlarm"
                 style="@style/IconButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:contentDescription="@string/nav_item_alarm"
                 android:tint="?attr/iconsInItemBackgroundColor"
-                app:srcCompat="@drawable/ic_query_builder_black_24dp" />
+                app:srcCompat="@drawable/ic_add_alarm_black_24dp" />
 
         <ImageButton
                 android:id="@+id/buttonCreateShortcut"
