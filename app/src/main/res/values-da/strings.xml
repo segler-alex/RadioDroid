@@ -15,7 +15,7 @@
     <string name="action_skip_to_next">Næste</string>
     <string name="action_pause">Pause</string>
     <string name="action_skip_to_previous">Forrige</string>
-    <string name="action_resume">Gemoptage</string>
+    <string name="action_resume">Genoptage</string>
     <string name="action_stop">Stop</string>
     <string name="action_search">Søge</string>
     <string name="action_delete">Slette</string>
@@ -25,7 +25,7 @@
     <string name="action_cancel">Annullere</string>
     <string name="action_top_click">Top klikket</string>
     <string name="action_top_vote">Top stemt</string>
-    <string name="action_changed_lately">Ændret senest</string>
+    <string name="action_changed_lately">Senest ændret</string>
     <string name="action_currently_playing">Afspiller</string>
     <string name="action_tags">Mærker</string>
     <string name="action_countries">Lande</string>
@@ -42,7 +42,7 @@
     <string name="nav_item_alarm">Alarm</string>
     <string name="nav_item_recordings">Optagelser</string>
 
-    <string name="about_text">Dette program bruger den åbne radio station bibliotek hos\nhttps://www.radio-browser.info\nEveryone can add stations to it or edit existing stations. It works like a wiki for online (streaming) radio stations.\n\nContact:\nsegler_alex@web.de\n\nBugtracker:\nhttps://github.com/segler-alex/RadioDroid/issues\n\nIf you like the software and want to help, feel free to send me an email. I really need someone with graphical experience to make the app nicer to the eye :) Maybe someone who can draw icons, images...but also programmers who fix bugs, or implement new ones (features not bugs ;)\nAlso ideas for new features are always appreciated!\n\nThis app is free software licensed under the GPLv3.\nhttps://www.gnu.org/licenses/gpl-3.0.html</string>
+    <string name="about_text">Dette program bruger det åbne radio station bibliotek hos\nhttps://www.radio-browser.info\nEveryone can add stations to it or edit existing stations. It works like a wiki for online (streaming) radio stations.\n\nContact:\nsegler_alex@web.de\n\nBugtracker:\nhttps://github.com/segler-alex/RadioDroid/issues\n\nIf you like the software and want to help, feel free to send me an email. I really need someone with graphical experience to make the app nicer to the eye :) Maybe someone who can draw icons, images...but also programmers who fix bugs, or implement new ones (features not bugs ;)\nAlso ideas for new features are always appreciated!\n\nThis app is free software licensed under the GPLv3.\nhttps://www.gnu.org/licenses/gpl-3.0.html</string>
     <string name="about_version">Version: %1$s</string>
     <string name="detail_star">Tilføje til favoritter</string>
     <string name="detail_unstar">Slette fra favoritter</string>
@@ -59,7 +59,7 @@
     <string name="confirm_overwrite_file">Overskrive fil?</string>
     <string name="dialog_hint_file_name">Indtaste filnavn</string> 
     <string name="error_empty_field">Dette felt er påkrævet</string>
-    <string name="error_invalid_file_name">Ugyldig filnavn</string>
+    <string name="error_invalid_file_name">Ugyldigt filnavn</string>
     <string name="label_button_cancel">Annullere</string>
     <string name="label_button_overwrite">Overskrive</string>
 
@@ -101,7 +101,7 @@
     <string name="settings_icon_click_toggles_favorite_on">Klik station ikon for at tilføje eller fjerne favorit station</string>
     <string name="settings_icon_click_toggles_favorite_off">Klik station ikon for at starte afspilning</string>
 
-    <string name="settings_click_trend_icon_visible">Klk tendens ikon</string>
+    <string name="settings_click_trend_icon_visible">Klik tendens ikon</string>
     <string name="settings_click_trend_icon_visible_on">Ikon bliver synlig</string>
     <string name="settings_click_trend_icon_visible_off">Ikon bliver skjult</string>
 
@@ -165,7 +165,7 @@
     <string name="yes">Ja</string>
     <string name="no">Nej</string>
 
-    <string name="alert_select_mpd_server">Vælg en server</string>
+    <string name="alert_select_mpd_server">Vælge en server</string>
     <string name="alert_select_mpd_server_name">Server navn</string>
     <string name="hostname">Vært navn</string>
     <string name="port">Port</string>
@@ -178,7 +178,7 @@
     <string name="alert_alarm_not_working">Ikke nok oplysning for alarm</string>
     <string name="alert_select_external_alarm_app">Vælge lyd afspiller</string>
 
-    <string name="alert_press_back_to_exit">Tryk på tilbage en gang mere for at afslutte</string>
+    <string name="alert_press_back_to_exit">Tryk på tilbage én gang mere for at afslutte</string>
 
     <string name="error_stream_url">Strøm URL problem</string>
     <string name="error_caching_stream">Strøm mellemlager problem</string>
@@ -201,7 +201,7 @@
     <string name="player_info_recorded_to">Sidte optagelse:\n%1$s</string>
 
     <string name="station_detail_bitrate">%1$1d kbps</string>
-    <string name="station_detail_broken">VIKER IKKE</string>
+    <string name="station_detail_broken">VIRKER IKKE</string>
 
     <string name="image_button_disable">Deaktivere</string>
     <string name="image_button_record">Optage</string>
@@ -228,6 +228,7 @@
     <string name="action_mpd_connected">Forbundet til server: %1$s</string>
 
     <string name="settings_radiobrowser_servers">RadioBrowser servere</string>
+    <string name="settings_radiobrowser_servers_default">www.radio-browser.info/webservice</string>
 
     <string name="settings_other">Andet</string>
     <string name="settings_statistics">Statistikker</string>
@@ -250,8 +251,8 @@
         <item>Kopiere strøm URL</item>
     </string-array>
 
-    <string name="no_wifi_title">Ingen trådløs (WLAN) forbindelse</string>
-    <string name="no_wifi_connection">Ingen trådløs (WLAN) forbindelse under opstart af %1$s, press \'O.k.\' for at fortsætte.</string>
+    <string name="no_wifi_title">Ingen trådløs forbindelse</string>
+    <string name="no_wifi_connection">Ingen trådløs forbindelse under opstart af %1$s, klik \'O.k.\' for at fortsætte.</string>
     <string name="nav_item_statistics">Statistikker</string>
     <string name="nav_item_about">Om</string>
     <string name="refresh">Genopfriske</string>
