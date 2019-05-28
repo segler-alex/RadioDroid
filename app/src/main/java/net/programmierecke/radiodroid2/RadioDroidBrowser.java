@@ -5,16 +5,19 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.core.content.ContextCompat;
+
 import android.support.v4.media.MediaBrowserCompat;
 import androidx.media.MediaBrowserServiceCompat;
 import android.support.v4.media.MediaDescriptionCompat;
+import android.support.v4.media.MediaMetadataCompat;
+import android.text.TextUtils;
 
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
@@ -28,6 +31,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
+
+import jp.wasabeef.picasso.transformations.CropCircleTransformation;
+import jp.wasabeef.picasso.transformations.CropSquareTransformation;
+import jp.wasabeef.picasso.transformations.RoundedCornersTransformation;
 
 
 public class RadioDroidBrowser {
@@ -52,7 +59,7 @@ public class RadioDroidBrowser {
 
         private Map<String, Bitmap> stationIdToIcon = new HashMap<>();
         private CountDownLatch countDownLatch;
-
+        private  Resources resources;
         // Picasso stores weak references to targets
         List<Target> imageLoadTargets = new ArrayList<>();
 
@@ -60,6 +67,7 @@ public class RadioDroidBrowser {
             this.result = result;
             this.stations = stations;
             this.contextRef = new WeakReference<>(context);
+            resources = context.getApplicationContext().getResources();
         }
 
         @Override
@@ -81,13 +89,7 @@ public class RadioDroidBrowser {
 
                     @Override
                     public void onBitmapFailed(Drawable errorDrawable) {
-                        Context context = contextRef.get();
-                        if (context != null) {
-                            Bitmap placeholderIcon = BitmapFactory.decodeResource(context.getResources(),
-                                    R.drawable.ic_photo_black_24dp);
-                            stationIdToIcon.put(station.StationUuid, placeholderIcon);
-                        }
-
+                        onBitmapLoaded(((BitmapDrawable) errorDrawable).getBitmap(), null);
                         countDownLatch.countDown();
                     }
 
@@ -98,7 +100,13 @@ public class RadioDroidBrowser {
                 };
                 imageLoadTargets.add(imageLoadTarget);
 
-                Picasso.with(context).load(station.IconUrl).into(imageLoadTarget);
+                Picasso.with(context).load((TextUtils.isEmpty(station.IconUrl) ? resourceToUri(resources, R.drawable.ic_launcher).toString() : station.IconUrl))
+                        .transform(new CropSquareTransformation())
+                        .error(R.drawable.ic_launcher)
+                        .transform(Utils.useCircularIcons(context) ? new CropCircleTransformation() : new CropSquareTransformation())
+                        .transform(new RoundedCornersTransformation(12, 2, RoundedCornersTransformation.CornerType.ALL))
+                        .resize(128, 128)
+                        .into(imageLoadTarget);
             }
 
             super.onPreExecute();
@@ -129,7 +137,8 @@ public class RadioDroidBrowser {
 
             for (DataRadioStation station : stations) {
                 Bitmap stationIcon = stationIdToIcon.get(station.StationUuid);
-
+                if (stationIcon == null)
+                    stationIcon = BitmapFactory.decodeResource(Resources.getSystem(), R.drawable.ic_launcher);
                 mediaItems.add(new MediaBrowserCompat.MediaItem(new MediaDescriptionCompat.Builder()
                         .setMediaId(MEDIA_ID_MUSICS_HISTORY + LEAF_SEPARATOR + station.StationUuid)
                         .setTitle(station.Name)
