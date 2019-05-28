@@ -58,6 +58,12 @@
         app:showAsAction="ifRoom"/>
 
     <item
+        android:id="@+id/action_add_alarm"
+        android:title="@string/nav_item_alarm"
+        android:icon="@drawable/ic_add_alarm_black_24dp"
+        app:showAsAction="always" />
+
+    <item
         android:id="@+id/action_delete"
         android:title="@string/action_delete"
         android:icon="@drawable/ic_delete_white_24dp"

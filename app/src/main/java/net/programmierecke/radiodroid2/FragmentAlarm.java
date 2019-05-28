@@ -74,4 +74,8 @@ public class FragmentAlarm extends Fragment implements TimePickerDialog.OnTimeSe
         ram.load();
         RefreshListAndView();
     }
+
+    public RadioAlarmManager getRam() {
+        return ram;
+    }
 }
