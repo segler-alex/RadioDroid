@@ -393,6 +393,8 @@ public class ItemAdapterStation
                         station.prepareShortcut(getContext(), new CreatePinShortcutListener());
                     }
                 });
+            } else {
+                holder.buttonCreateShortcut.setVisibility(View.INVISIBLE);
             }
 
             holder.buttonAddAlarm.setOnClickListener(new View.OnClickListener() {
