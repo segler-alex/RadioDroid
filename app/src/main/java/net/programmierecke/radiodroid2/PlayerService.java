@@ -391,6 +391,9 @@ public class PlayerService extends Service implements RadioPlayer.PlayerListener
         mediaSession = new MediaSessionCompat(getBaseContext(), getBaseContext().getPackageName());
         mediaSession.setCallback(mediaSessionCallback);
 
+        Intent startActivityIntent = new Intent(itsContext.getApplicationContext(), ActivityMain.class);
+        mediaSession.setSessionActivity(PendingIntent.getActivity(itsContext.getApplicationContext(), 0, startActivityIntent, PendingIntent.FLAG_UPDATE_CURRENT));
+
         mediaSession.setFlags(MediaSessionCompat.FLAG_HANDLES_MEDIA_BUTTONS | MediaSessionCompat.FLAG_HANDLES_TRANSPORT_CONTROLS);
     }
 
