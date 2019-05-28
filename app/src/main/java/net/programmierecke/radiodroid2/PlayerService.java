@@ -781,6 +781,7 @@ public class PlayerService extends Service implements RadioPlayer.PlayerListener
                     builder.putString(MediaMetadataCompat.METADATA_KEY_ARTIST, liveInfo.getArtist());
                     builder.putString(MediaMetadataCompat.METADATA_KEY_TITLE, liveInfo.getTrack());
                     builder.putBitmap(MediaMetadataCompat.METADATA_KEY_DISPLAY_ICON, radioIcon.getBitmap());
+                    builder.putBitmap(MediaMetadataCompat.METADATA_KEY_ALBUM_ART, radioIcon.getBitmap());
                     mediaSession.setMetadata(builder.build());
                 }
                 break;

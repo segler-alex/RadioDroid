@@ -139,10 +139,14 @@ public class RadioDroidBrowser {
                 Bitmap stationIcon = stationIdToIcon.get(station.StationUuid);
                 if (stationIcon == null)
                     stationIcon = BitmapFactory.decodeResource(Resources.getSystem(), R.drawable.ic_launcher);
+                Bundle extras = new Bundle();
+                extras.putParcelable(MediaMetadataCompat.METADATA_KEY_ALBUM_ART, stationIcon);
+                extras.putParcelable(MediaMetadataCompat.METADATA_KEY_DISPLAY_ICON, stationIcon);
                 mediaItems.add(new MediaBrowserCompat.MediaItem(new MediaDescriptionCompat.Builder()
                         .setMediaId(MEDIA_ID_MUSICS_HISTORY + LEAF_SEPARATOR + station.StationUuid)
                         .setTitle(station.Name)
                         .setIconBitmap(stationIcon)
+                        .setExtras(extras)
                         .build(),
                         MediaBrowserCompat.MediaItem.FLAG_PLAYABLE));
             }
