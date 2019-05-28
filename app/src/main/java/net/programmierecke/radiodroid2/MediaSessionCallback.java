@@ -8,6 +8,9 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import android.support.v4.media.session.MediaSessionCompat;
 import android.view.KeyEvent;
 
+import net.programmierecke.radiodroid2.data.DataRadioStation;
+import net.programmierecke.radiodroid2.utils.GetRealLinkAndPlayTask;
+
 public class MediaSessionCallback extends MediaSessionCompat.Callback {
     public static final String BROADCAST_PLAY_STATION_BY_ID = "PLAY_STATION_BY_ID";
     public static final String EXTRA_STATION_ID = "STATION_ID";
@@ -99,6 +102,17 @@ public class MediaSessionCallback extends MediaSessionCompat.Callback {
 
             LocalBroadcastManager bm = LocalBroadcastManager.getInstance(context);
             bm.sendBroadcast(intent);
+        }
+    }
+
+    @Override
+    public void onPlayFromSearch(String query, Bundle extras) {
+        DataRadioStation station = ((RadioDroidApp) context.getApplicationContext()).getFavouriteManager().getBestNameMatch(query);
+        if (station == null)
+           station = ((RadioDroidApp) context.getApplicationContext()).getHistoryManager().getBestNameMatch(query);
+        if (station != null) {
+            GetRealLinkAndPlayTask playTask = new GetRealLinkAndPlayTask(context, station, playerService);
+            playTask.execute();
         }
     }
 }

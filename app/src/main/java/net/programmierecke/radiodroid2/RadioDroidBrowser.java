@@ -239,7 +239,7 @@ public class RadioDroidBrowser {
         final int separatorIdx = mediaId.indexOf(LEAF_SEPARATOR);
 
         if (separatorIdx <= 0) {
-            return "";
+            return mediaId;
         }
 
         return mediaId.substring(separatorIdx + 1);
