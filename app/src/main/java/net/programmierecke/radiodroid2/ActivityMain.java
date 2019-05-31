@@ -11,6 +11,9 @@ import android.content.pm.PackageManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
+
+import com.bytehamster.lib.preferencesearch.SearchPreferenceResult;
+import com.bytehamster.lib.preferencesearch.SearchPreferenceResultListener;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 
@@ -25,6 +28,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.preference.PreferenceFragmentCompat;
 import androidx.preference.PreferenceManager;
 import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.Toolbar;
@@ -62,7 +66,7 @@ import okhttp3.OkHttpClient;
 
 import static net.programmierecke.radiodroid2.MediaSessionCallback.EXTRA_STATION_UUID;
 
-public class ActivityMain extends AppCompatActivity implements SearchView.OnQueryTextListener, IMPDClientStatusChange, NavigationView.OnNavigationItemSelectedListener, BottomNavigationView.OnNavigationItemSelectedListener, FileDialog.OnFileSelectedListener, TimePickerDialog.OnTimeSetListener {
+public class ActivityMain extends AppCompatActivity implements SearchView.OnQueryTextListener, IMPDClientStatusChange, NavigationView.OnNavigationItemSelectedListener, BottomNavigationView.OnNavigationItemSelectedListener, FileDialog.OnFileSelectedListener, TimePickerDialog.OnTimeSetListener, SearchPreferenceResultListener {
 
     public static final String EXTRA_SEARCH_TAG = "search_tag";
 
@@ -244,6 +248,10 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
         if (backStackCount > 0) {
             // FRAGMENT_FROM_BACKSTACK value added as a backstack name for non-root fragments like Recordings, About, etc
             backStackEntry = mFragmentManager.getBackStackEntryAt(mFragmentManager.getBackStackEntryCount() - 1);
+            if (backStackEntry.getName().equals("SearchPreferenceFragment")) {
+                super.onBackPressed();
+                return;
+            }
             int parsedId = Integer.parseInt(backStackEntry.getName());
             if (parsedId == FRAGMENT_FROM_BACKSTACK) {
                 super.onBackPressed();
@@ -486,10 +494,12 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
                 myToolbar.setTitle(R.string.nav_item_alarm);
                 break;
             }
+ /* settings fragment sets the toolbar title depending on the current preference screen
             case R.id.nav_item_settings: {
                 myToolbar.setTitle(R.string.nav_item_settings);
                 break;
             }
+ */
         }
 
         MenuItem mediaRouteMenuItem = CastHandler.getRouteItem(getApplicationContext(), menu);
@@ -903,5 +913,13 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
 
     public final Toolbar getToolbar() {
         return (Toolbar) findViewById(R.id.my_awesome_toolbar);
+    }
+
+    @Override
+    public void onSearchResultClicked(SearchPreferenceResult result) {
+        result.closeSearchPage(this);
+        getSupportFragmentManager().popBackStack();
+        FragmentSettings f = FragmentSettings.openNewSettingsSubFragment(this, result.getScreen());
+        result.highlight(f, Utils.getAccentColor(this));
     }
 }

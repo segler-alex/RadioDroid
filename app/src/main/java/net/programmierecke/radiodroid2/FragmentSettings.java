@@ -11,6 +11,7 @@ import android.os.Bundle;
 
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.appcompat.app.AlertDialog;
 import androidx.preference.ListPreference;
@@ -29,6 +30,8 @@ import android.widget.Toast;
 
 import com.mikepenz.iconics.typeface.library.community.material.CommunityMaterial;
 import com.mikepenz.iconics.typeface.library.googlematerial.GoogleMaterial;
+import com.bytehamster.lib.preferencesearch.SearchConfiguration;
+import com.bytehamster.lib.preferencesearch.SearchPreference;
 
 import net.programmierecke.radiodroid2.data.MPDServer;
 import net.programmierecke.radiodroid2.interfaces.IApplicationSelected;
@@ -45,8 +48,6 @@ import static net.programmierecke.radiodroid2.ActivityMain.FRAGMENT_FROM_BACKSTA
 import static net.programmierecke.radiodroid2.Utils.parseIntWithDefault;
 
 public class FragmentSettings extends PreferenceFragmentCompat implements SharedPreferences.OnSharedPreferenceChangeListener, IApplicationSelected, PreferenceFragmentCompat.OnPreferenceStartScreenCallback  {
-
-    private PreferenceScreen superordinatePreferenceScreen;
 
     @Override
     public Fragment getCallbackFragment() {
@@ -114,7 +115,10 @@ public class FragmentSettings extends PreferenceFragmentCompat implements Shared
         refreshToolbar();
         if (s == null) {
             refreshToplevelIcons();
-
+            SearchPreference searchPreference = (SearchPreference) findPreference("searchPreference");
+            SearchConfiguration config = searchPreference.getSearchConfiguration();
+            config.setActivity((AppCompatActivity) getActivity());
+            config.index(R.xml.preferences);
         } else if (s.equals("pref_category_player")) {
             findPreference("equalizer").setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                 @Override

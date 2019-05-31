@@ -440,6 +440,10 @@ public class Utils {
         return themeAttributeToColor(R.attr.menuTextColorDefault, context, Color.LTGRAY);
     }
 
+	public static int getAccentColor(Context context) {
+		return themeAttributeToColor(R.attr.colorAccent, context, Color.LTGRAY);
+	}
+
 	public static void setOkHttpProxy(@NonNull OkHttpClient.Builder builder, @NonNull final ProxySettings proxySettings) {
 		if (TextUtils.isEmpty(proxySettings.host)) {
 			return;
