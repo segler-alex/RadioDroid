@@ -110,6 +110,9 @@ public class MediaSessionCallback extends MediaSessionCompat.Callback {
 
     @Override
     public void onPlayFromSearch(String query, Bundle extras) {
+        // remove voice search residues like " with radiodroid"
+        query = query.replaceAll("(?i) \\w+ radio\\s*droid.*", "");
+
         DataRadioStation station = ((RadioDroidApp) context.getApplicationContext()).getFavouriteManager().getBestNameMatch(query);
         if (station == null)
            station = ((RadioDroidApp) context.getApplicationContext()).getHistoryManager().getBestNameMatch(query);
