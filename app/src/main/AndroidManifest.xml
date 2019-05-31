@@ -11,6 +11,7 @@
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
     <uses-permission android:name="android.permission.BLUETOOTH" />
+    <uses-feature android:name="android.hardware.type.automotive" android:required="true"/>
 
     <application
         android:name=".RadioDroidApp"
@@ -36,15 +37,15 @@
             android:launchMode="singleTop">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
-            <!-- Use this intent filter to get voice searches, like "Play The Beatles" -->
-            <!--<intent-filter>-->
-                <!--<action android:name="android.media.action.MEDIA_PLAY_FROM_SEARCH" />-->
-                <!--<category android:name="android.intent.category.DEFAULT" />-->
-            <!--</intent-filter>-->
+            <intent-filter>
+                <action android:name="android.media.action.MEDIA_PLAY_FROM_SEARCH" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
         </activity>
+
         <service
             android:name="net.programmierecke.radiodroid2.service.PlayerService"
             android:permission="android.permission.BIND_JOB_SERVICE">
@@ -84,13 +85,13 @@
             </intent-filter>
         </receiver>
 
-        <!--<meta-data-->
-            <!--android:name="com.google.android.gms.car.application"-->
-            <!--android:resource="@xml/automotive_app_desc" />-->
+        <meta-data
+            android:name="com.google.android.gms.car.application"
+            android:resource="@xml/automotive_app_desc" />
 
-        <!--<meta-data-->
-            <!--android:name="com.google.android.gms.car.notification.SmallIcon"-->
-            <!--android:resource="@drawable/ic_launcher" />-->
+        <meta-data
+            android:name="com.google.android.gms.car.notification.SmallIcon"
+            android:resource="@drawable/ic_launcher" />
 
     </application>
 </manifest>
