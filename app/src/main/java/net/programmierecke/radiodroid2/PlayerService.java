@@ -391,6 +391,9 @@ public class PlayerService extends Service implements RadioPlayer.PlayerListener
         mediaSession = new MediaSessionCompat(getBaseContext(), getBaseContext().getPackageName());
         mediaSession.setCallback(mediaSessionCallback);
 
+        Intent startActivityIntent = new Intent(itsContext.getApplicationContext(), ActivityMain.class);
+        mediaSession.setSessionActivity(PendingIntent.getActivity(itsContext.getApplicationContext(), 0, startActivityIntent, PendingIntent.FLAG_UPDATE_CURRENT));
+
         mediaSession.setFlags(MediaSessionCompat.FLAG_HANDLES_MEDIA_BUTTONS | MediaSessionCompat.FLAG_HANDLES_TRANSPORT_CONTROLS);
     }
 
@@ -560,6 +563,8 @@ public class PlayerService extends Service implements RadioPlayer.PlayerListener
                 | PlaybackStateCompat.ACTION_SKIP_TO_PREVIOUS
                 | PlaybackStateCompat.ACTION_PLAY_PAUSE
                 | PlaybackStateCompat.ACTION_STOP
+                | PlaybackStateCompat.ACTION_PLAY_FROM_MEDIA_ID
+                | PlaybackStateCompat.ACTION_PLAY_FROM_SEARCH
                 | PlaybackStateCompat.ACTION_PAUSE);
 
         playbackStateBuilder.setState(state, PlaybackStateCompat.PLAYBACK_POSITION_UNKNOWN, 0);
@@ -773,9 +778,15 @@ public class PlayerService extends Service implements RadioPlayer.PlayerListener
                 if (mediaSession != null) {
                     final MediaMetadataCompat.Builder builder = new MediaMetadataCompat.Builder();
                     builder.putString(MediaMetadataCompat.METADATA_KEY_ALBUM, currentStationName);
-                    builder.putString(MediaMetadataCompat.METADATA_KEY_ARTIST, liveInfo.getArtist());
-                    builder.putString(MediaMetadataCompat.METADATA_KEY_TITLE, liveInfo.getTrack());
+                    if (liveInfo.hasArtistAndTrack()) {
+                        builder.putString(MediaMetadataCompat.METADATA_KEY_ARTIST, liveInfo.getArtist());
+                        builder.putString(MediaMetadataCompat.METADATA_KEY_TITLE, liveInfo.getTrack());
+                    } else {
+                        builder.putString(MediaMetadataCompat.METADATA_KEY_TITLE, liveInfo.getTitle());
+                        builder.putString(MediaMetadataCompat.METADATA_KEY_ARTIST, currentStationName); // needed for android-media-controller to show an icon
+                    }
                     builder.putBitmap(MediaMetadataCompat.METADATA_KEY_DISPLAY_ICON, radioIcon.getBitmap());
+                    builder.putBitmap(MediaMetadataCompat.METADATA_KEY_ALBUM_ART, radioIcon.getBitmap());
                     mediaSession.setMetadata(builder.build());
                 }
                 break;

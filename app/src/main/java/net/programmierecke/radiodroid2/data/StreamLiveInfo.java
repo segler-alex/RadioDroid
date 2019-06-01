@@ -30,6 +30,11 @@ public class StreamLiveInfo implements Parcelable {
         return title;
     }
 
+    public
+    boolean hasArtistAndTrack() {
+        return ! (artist.isEmpty() || track.isEmpty());
+    }
+
     public @NonNull
     String getArtist() {
         return artist;

@@ -12,6 +12,8 @@ import android.preference.PreferenceManager;
 import android.util.Log;
 import android.widget.Toast;
 
+import androidx.annotation.Nullable;
+
 import net.programmierecke.radiodroid2.data.DataRadioStation;
 import net.programmierecke.radiodroid2.interfaces.IChanged;
 
@@ -22,13 +24,12 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
-import java.io.IOException;
-import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Vector;
 
+import info.debatty.java.stringsimilarity.Cosine;
 import okhttp3.OkHttpClient;
 
 public class StationSaveManager {
@@ -90,6 +91,23 @@ public class StationSaveManager {
 
     public void move(int fromPos, int toPos) {
         Collections.rotate(listStations.subList(Math.min(fromPos, toPos), Math.max(fromPos, toPos) + 1), Integer.signum(fromPos - toPos));
+    }
+
+    public @Nullable DataRadioStation getBestNameMatch(String query) {
+        DataRadioStation bestStation = null;
+        query = query.toUpperCase();
+        double smallesDistance = Double.MAX_VALUE;
+
+        Cosine distMeasure = new Cosine(); // must be in the loop for some measures (e.g. Sift4)
+        for (DataRadioStation station : listStations) {
+            double distance = distMeasure.distance(station.Name.toUpperCase(), query);
+            if (distance < smallesDistance) {
+                bestStation = station;
+                smallesDistance = distance;
+            }
+        }
+
+        return bestStation;
     }
 
     public int remove(String id) {
