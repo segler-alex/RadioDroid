@@ -30,6 +30,8 @@ import jp.wasabeef.picasso.transformations.CropCircleTransformation;
 import jp.wasabeef.picasso.transformations.CropSquareTransformation;
 import jp.wasabeef.picasso.transformations.RoundedCornersTransformation;
 
+import static net.programmierecke.radiodroid2.Utils.resourceToUri;
+
 public class DataRadioStation {
 	static final String TAG = "DATAStation";
 
@@ -214,7 +216,7 @@ public class DataRadioStation {
 
     public void prepareShortcut(Context ctx, ShortcutReadyListener cb) {
         Picasso.with(ctx)
-                .load(IconUrl)
+                .load((TextUtils.isEmpty(IconUrl) ? resourceToUri(ctx.getResources(), R.drawable.ic_launcher).toString() : IconUrl))
                 .error(R.drawable.ic_launcher)
                 .transform(Utils.useCircularIcons(ctx) ? new CropCircleTransformation() : new CropSquareTransformation())
                 .transform(new RoundedCornersTransformation(12, 2, RoundedCornersTransformation.CornerType.ALL))
