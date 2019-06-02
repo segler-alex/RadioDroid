@@ -46,14 +46,12 @@
     <string name="nav_item_save_playlist">In Playlist speichern</string>
     <string name="nav_item_load_playlist">Von Playlist laden</string>
 
-    <string name="settings_interface">UI</string>
     <string name="settings_theme_selection_title">Thema</string>
     <string name="theme_light">Hell</string>
     <string name="theme_dark">Dunkel</string>
     <string name="settings_circular_icons">Runde Icons benutzen</string>
     <string name="settings_compact_style">Kompakter Modus</string>
 
-    <string name="settings_general">Allgemein</string>
     <string name="settings_single_use_tags">Tag-Anzeigefilter</string>
     <string name="settings_single_use_tags_desc_off">Nur einmal vorkommende Tags werden nicht angezeigt.</string>
     <string name="settings_single_use_tags_desc_on">Alle Tags werden angezeigt, auch nur einmal vorkommende.</string>

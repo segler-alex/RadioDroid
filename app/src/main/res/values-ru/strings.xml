@@ -46,7 +46,6 @@
     <string name="sleep_timer_clear">Очистить</string>
     <string name="nav_item_add_sleep">Таймер на отключение</string>
 
-    <string name="settings_interface">Интерфейс</string>
     <string name="settings_theme_selection_title">Тема</string>
     <string name="theme_light">Светлая</string>
     <string name="theme_dark">Тёмная</string>
@@ -54,7 +53,6 @@
     <string name="settings_compact_style">Компактный режим</string>
     <string name="settings_bottom_navigation">Панель навигации внизу</string>
 
-    <string name="settings_general">Общие</string>
     <string name="settings_single_use_tags">Одиночные теги</string>
     <string name="settings_single_use_tags_desc_off">Теги, использованные единожды, не будут показаны</string>
     <string name="settings_single_use_tags_desc_on">Теги, использованные единожды, будут показаны</string>

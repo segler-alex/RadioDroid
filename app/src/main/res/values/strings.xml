@@ -65,7 +65,7 @@
     <string name="label_button_cancel">Cancel</string>
     <string name="label_button_overwrite">Overwrite</string>
 
-    <string name="settings_interface">UI</string>
+    <string name="settings_appearance">Appearance</string>
     <string name="settings_theme_selection_title">Theme</string>
     <string name="theme_light">Light</string>
     <string name="theme_dark">Dark</string>
@@ -75,7 +75,7 @@
     <string name="settings_compact_style_desc_on">Small icon adopted without station details</string>
     <string name="settings_bottom_navigation">Bottom navigation</string>
 
-    <string name="settings_general">General</string>
+    <string name="settings_interaction">Interaction</string>
     <string name="settings_single_use_tags">Show rarely-used tags</string>
     <string name="settings_single_use_tags_desc_off">Rarely-used tags will not be shown</string>
     <string name="settings_single_use_tags_desc_on">Rarely-used tags will be shown</string>

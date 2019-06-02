@@ -8,12 +8,17 @@ import android.media.audiofx.AudioEffect;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+
+import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.appcompat.app.AlertDialog;
 import androidx.preference.ListPreference;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
 import androidx.preference.Preference.OnPreferenceClickListener;
+import androidx.preference.PreferenceScreen;
+
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,6 +26,9 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import com.mikepenz.iconics.typeface.library.community.material.CommunityMaterial;
+import com.mikepenz.iconics.typeface.library.googlematerial.GoogleMaterial;
 
 import net.programmierecke.radiodroid2.data.MPDServer;
 import net.programmierecke.radiodroid2.interfaces.IApplicationSelected;
@@ -36,83 +44,141 @@ import java.util.Vector;
 import static net.programmierecke.radiodroid2.ActivityMain.FRAGMENT_FROM_BACKSTACK;
 import static net.programmierecke.radiodroid2.Utils.parseIntWithDefault;
 
-public class FragmentSettings extends PreferenceFragmentCompat implements SharedPreferences.OnSharedPreferenceChangeListener, IApplicationSelected {
+public class FragmentSettings extends PreferenceFragmentCompat implements SharedPreferences.OnSharedPreferenceChangeListener, IApplicationSelected, PreferenceFragmentCompat.OnPreferenceStartScreenCallback  {
+
+    private PreferenceScreen superordinatePreferenceScreen;
+
+    @Override
+    public Fragment getCallbackFragment() {
+        return this;
+    }
+
+    public static FragmentSettings openNewSettingsSubFragment(ActivityMain activity, String key) {
+        FragmentSettings f = new FragmentSettings();
+        Bundle args = new Bundle();
+        args.putString(PreferenceFragmentCompat.ARG_PREFERENCE_ROOT, key);
+        f.setArguments(args);
+        FragmentTransaction fragmentTransaction = activity.getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.replace(R.id.containerView, f).addToBackStack(String.valueOf(FRAGMENT_FROM_BACKSTACK)).commit();
+        return f;
+    }
+
+    @Override
+    public boolean onPreferenceStartScreen(PreferenceFragmentCompat preferenceFragmentCompat,
+                                           PreferenceScreen preferenceScreen) {
+        openNewSettingsSubFragment((ActivityMain) getActivity(), preferenceScreen.getKey());
+        return true;
+    }
+
+    private boolean isToplevel() {
+        return getPreferenceScreen() == null || getPreferenceScreen().getKey().equals("pref_toplevel");
+    }
+
+    private void refreshToplevelIcons() {
+        findPreference("shareapp_package").setSummary(getPreferenceManager().getSharedPreferences().getString("shareapp_package", ""));
+        findPreference("pref_category_ui").setIcon(Utils.IconicsIcon(getContext(), CommunityMaterial.Icon2.cmd_monitor));
+        findPreference("pref_category_interaction").setIcon(Utils.IconicsIcon(getContext(), CommunityMaterial.Icon.cmd_gesture_tap));
+        findPreference("pref_category_player").setIcon(Utils.IconicsIcon(getContext(), CommunityMaterial.Icon2.cmd_play));
+        findPreference("pref_category_alarm").setIcon(Utils.IconicsIcon(getContext(), CommunityMaterial.Icon.cmd_clock_outline));
+        findPreference("pref_category_connectivity").setIcon(Utils.IconicsIcon(getContext(), GoogleMaterial.Icon.gmd_import_export));
+        findPreference("pref_category_recordings").setIcon(Utils.IconicsIcon(getContext(), CommunityMaterial.Icon2.cmd_record_rec));
+        findPreference("pref_category_mpd").setIcon(Utils.IconicsIcon(getContext(), CommunityMaterial.Icon2.cmd_speaker_wireless));
+        findPreference("pref_category_other").setIcon(Utils.IconicsIcon(getContext(), CommunityMaterial.Icon2.cmd_information_outline));
+    }
+
+    private void refreshToolbar() {
+        ActivityMain activity = (ActivityMain) getActivity();
+        final Toolbar myToolbar = activity.getToolbar(); //findViewById(R.id.my_awesome_toolbar);
+
+        if (myToolbar == null || getPreferenceScreen() == null)
+            return;
+
+        myToolbar.setTitle(getPreferenceScreen().getTitle());
+
+        if (Utils.bottomNavigationEnabled(activity)) {
+            if (isToplevel()) {
+                activity.getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+                activity.getSupportActionBar().setDisplayShowHomeEnabled(false);
+                myToolbar.setNavigationOnClickListener(v -> activity.onBackPressed());
+            } else {
+                activity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+                activity.getSupportActionBar().setDisplayShowHomeEnabled(true);
+                myToolbar.setNavigationOnClickListener(v -> activity.onBackPressed());
+            }
+        }
+    }
 
     @Override
     public void onCreatePreferences(Bundle bundle, String s) {
-        addPreferencesFromResource(R.xml.preferences);
-        final ListPreference servers = (ListPreference) findPreference("radiobrowser_server");
-        updateDnsList(servers);
-        /*servers.setOnPreferenceClickListener(
-                new OnPreferenceClickListener() {
-                    @Override
-                    public boolean onPreferenceClick(Preference preference) {
-                        updateDnsList((ListPreference)preference);
-                        return false;
+        setPreferencesFromResource(R.xml.preferences, s);
+        refreshToolbar();
+        if (s == null) {
+            refreshToplevelIcons();
+
+        } else if (s.equals("pref_category_player")) {
+            findPreference("equalizer").setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                @Override
+                public boolean onPreferenceClick(Preference preference) {
+                    Intent intent = new Intent(AudioEffect.ACTION_DISPLAY_AUDIO_EFFECT_CONTROL_PANEL);
+
+                    if (getContext().getPackageManager().resolveActivity(intent, 0) == null) {
+                        Toast.makeText(getContext(), R.string.error_no_equalizer_found, Toast.LENGTH_SHORT).show();
+                    } else {
+                        intent.putExtra(AudioEffect.EXTRA_CONTENT_TYPE, AudioEffect.CONTENT_TYPE_MUSIC);
+                        startActivityForResult(intent, ActivityMain.LAUNCH_EQUALIZER_REQUEST);
                     }
+
+                    return false;
                 }
-        );*/
-        findPreference("shareapp_package").setSummary(getPreferenceManager().getSharedPreferences().getString("shareapp_package", ""));
-        findPreference("equalizer").setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-            @Override
-            public boolean onPreferenceClick(Preference preference) {
-                Intent intent = new Intent(AudioEffect.ACTION_DISPLAY_AUDIO_EFFECT_CONTROL_PANEL);
+            });
+        } else if (s.equals("pref_category_connectivity")) {
+            final ListPreference servers = (ListPreference) findPreference("radiobrowser_server");
+            updateDnsList(servers);
 
-                if (getContext().getPackageManager().resolveActivity(intent, 0) == null) {
-                    Toast.makeText(getContext(), R.string.error_no_equalizer_found, Toast.LENGTH_SHORT).show();
-                } else {
-                    intent.putExtra(AudioEffect.EXTRA_CONTENT_TYPE, AudioEffect.CONTENT_TYPE_MUSIC);
-                    startActivityForResult(intent, ActivityMain.LAUNCH_EQUALIZER_REQUEST);
+            findPreference("settings_proxy").setOnPreferenceClickListener(new OnPreferenceClickListener() {
+                @Override
+                public boolean onPreferenceClick(Preference preference) {
+                    ProxySettingsDialog proxySettingsDialog = new ProxySettingsDialog();
+                    proxySettingsDialog.setCancelable(true);
+                    proxySettingsDialog.show(getFragmentManager(), "");
+                    return false;
                 }
+            });
 
-                return false;
+            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN) {
+                findPreference("settings_retry_timeout").setVisible(false);
+                findPreference("settings_retry_delay").setVisible(false);
             }
-        });
+        } else if (s.equals("pref_category_mpd")) {
+            findPreference("mpd_servers_viewer").setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                @Override
+                public boolean onPreferenceClick(Preference preference) {
+                    showAllMPDServers();
+                    return false;
+                }
+            });
+        } else if (s.equals("pref_category_other")) {
+            findPreference("show_statistics").setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                @Override
+                public boolean onPreferenceClick(Preference preference) {
+                    ((ActivityMain) getActivity()).getToolbar().setTitle(R.string.settings_statistics);
+                    FragmentServerInfo f = new FragmentServerInfo();
+                    FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+                    fragmentTransaction.replace(R.id.containerView, f).addToBackStack(String.valueOf(FRAGMENT_FROM_BACKSTACK)).commit();
+                    return false;
+                }
+            });
 
-        findPreference("settings_proxy").setOnPreferenceClickListener(new OnPreferenceClickListener() {
-            @Override
-            public boolean onPreferenceClick(Preference preference) {
-                ProxySettingsDialog proxySettingsDialog = new ProxySettingsDialog();
-                proxySettingsDialog.setCancelable(true);
-                proxySettingsDialog.show(getFragmentManager(), "");
-                return false;
-            }
-        });
-
-        findPreference("mpd_servers_viewer").setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-            @Override
-            public boolean onPreferenceClick(Preference preference) {
-                showAllMPDServers();
-                return false;
-            }
-        });
-
-        findPreference("show_statistics").setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-            @Override
-            public boolean onPreferenceClick(Preference preference) {
-                ((ActivityMain)getActivity()).getToolbar().setTitle(R.string.settings_statistics);
-                FragmentServerInfo f = new FragmentServerInfo();
-                FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
-                fragmentTransaction.replace(R.id.containerView, f).addToBackStack(String.valueOf(FRAGMENT_FROM_BACKSTACK)).commit();
-                return false;
-            }
-        });
-
-        findPreference("show_about").setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-            @Override
-            public boolean onPreferenceClick(Preference preference) {
-                ((ActivityMain)getActivity()).getToolbar().setTitle(R.string.settings_about);
-                FragmentAbout f = new FragmentAbout();
-                FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
-                fragmentTransaction.replace(R.id.containerView, f).addToBackStack(String.valueOf(FRAGMENT_FROM_BACKSTACK)).commit();
-                return false;
-            }
-        });
-
-
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN) {
-            findPreference("settings_retry_timeout").setVisible(false);
-            findPreference("settings_retry_delay").setVisible(false);
+            findPreference("show_about").setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                @Override
+                public boolean onPreferenceClick(Preference preference) {
+                    ((ActivityMain) getActivity()).getToolbar().setTitle(R.string.settings_about);
+                    FragmentAbout f = new FragmentAbout();
+                    FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+                    fragmentTransaction.replace(R.id.containerView, f).addToBackStack(String.valueOf(FRAGMENT_FROM_BACKSTACK)).commit();
+                    return false;
+                }
+            });
         }
     }
 
@@ -160,7 +226,14 @@ public class FragmentSettings extends PreferenceFragmentCompat implements Shared
     public void onResume() {
         super.onResume();
         getPreferenceManager().getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
-        findPreference("shareapp_package").setSummary(getPreferenceManager().getSharedPreferences().getString("shareapp_package", ""));
+
+        refreshToolbar();
+
+        if(isToplevel())
+            refreshToplevelIcons();
+
+        if(findPreference("shareapp_package") != null)
+            findPreference("shareapp_package").setSummary(getPreferenceManager().getSharedPreferences().getString("shareapp_package", ""));
     }
 
     @Override

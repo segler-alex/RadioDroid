@@ -221,6 +221,7 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
             default:
         }
 
+        mFragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
         FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
         if (Utils.bottomNavigationEnabled(this))
             fragmentTransaction.replace(R.id.containerView, f).commit();
@@ -761,6 +762,7 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
                 break;
             }
         }
+
         if (mpd_port == 0 || !MPDClient.connected)
             return super.onKeyUp(keyCode, event);
 

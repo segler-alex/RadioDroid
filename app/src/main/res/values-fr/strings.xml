@@ -60,14 +60,12 @@
     <string name="sleep_timer_clear">Effacer</string>
     <string name="nav_item_add_sleep">+15 mins</string>
 
-    <string name="settings_interface">UI</string>
     <string name="settings_theme_selection_title">Thème</string>
     <string name="theme_light">Clair</string>
     <string name="theme_dark">Noir</string>
     <string name="settings_circular_icons">Utiliser des icônes circulaires</string>
     <string name="settings_compact_style">Mode compact</string>
 
-    <string name="settings_general">Général</string>
     <string name="settings_single_use_tags">Montrer les tags uniques</string>
     <string name="settings_single_use_tags_desc_off">Les tags uniques ne seront pas affichés</string>
     <string name="settings_single_use_tags_desc_on">Les tags uniques seront affichés</string>

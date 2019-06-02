@@ -55,7 +55,6 @@
     <string name="nav_item_save_playlist">Opslaan naar afspeellijst</string>
     <string name="nav_item_load_playlist">Laden uit afspeellijst</string>
 
-    <string name="settings_interface">Uiterlijk</string>
     <string name="settings_theme_selection_title">Thema</string>
     <string name="theme_light">Licht</string>
     <string name="theme_dark">Donker</string>
@@ -63,7 +62,6 @@
     <string name="settings_compact_style">Compacte modus</string>
     <string name="settings_bottom_navigation">Navigatiebalk onderaan</string>
 
-    <string name="settings_general">Algemeen</string>
     <string name="settings_single_use_tags">Eenmalige gebruikslabels tonen</string>
     <string name="settings_single_use_tags_desc_off">Eenmalige gebruikslabels worden getoond</string>
     <string name="settings_single_use_tags_desc_on">Eenmalige gebruikslabels worden niet getoond</string>

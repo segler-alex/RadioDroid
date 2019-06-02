@@ -65,7 +65,6 @@
     <string name="sleep_timer_clear">Vynulovať</string>
     <string name="nav_item_add_sleep">+15 minút</string>
 
-    <string name="settings_interface">Rozhranie</string>
     <string name="settings_theme_selection_title">Vzhľad</string>
     <string name="theme_light">Svetlý</string>
     <string name="theme_dark">Tmavý</string>
@@ -73,7 +72,6 @@
     <string name="settings_compact_style">Kompaktný režim</string>
     <string name="settings_bottom_navigation">Navigácia na spodku obrazovky</string>
 
-    <string name="settings_general">Všeobecné</string>
     <string name="settings_single_use_tags">Zobraziť značky použité len raz</string>
     <string name="settings_single_use_tags_desc_off">Značky použité len raz nebudú zobrazené</string>
     <string name="settings_single_use_tags_desc_on">Značky použité len raz budú zobrazené</string>

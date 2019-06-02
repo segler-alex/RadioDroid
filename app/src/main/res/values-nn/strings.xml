@@ -46,14 +46,12 @@
   <string name="nav_item_add_sleep">+15 min</string>
   <string name="nav_item_save_playlist">Lagra til speleliste</string>
   <string name="nav_item_load_playlist">Last frå speleliste</string>
-  <string name="settings_interface">Brukargrensesnitt</string>
   <string name="settings_theme_selection_title">Tema</string>
   <string name="theme_light">Lyst</string>
   <string name="theme_dark">Mørkt</string>
   <string name="settings_circular_icons">Bruk sirkelforma kanalbilete</string>
   <string name="settings_compact_style">Kompakt vising</string>
   <string name="settings_bottom_navigation">Navigeringspanel heilt nede</string>
-  <string name="settings_general">Generelt</string>
   <string name="settings_single_use_tags">Vis òg merkelappar som berre er brukte éin gong</string>
   <string name="settings_single_use_tags_desc_off">Merkelappar berre brukte éin gong vert ikkje viste</string>
   <string name="settings_single_use_tags_desc_on">Merkelappar berre brukte éin gong vert viste</string>
