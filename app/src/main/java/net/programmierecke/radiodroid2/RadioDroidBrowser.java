@@ -36,6 +36,8 @@ import jp.wasabeef.picasso.transformations.CropCircleTransformation;
 import jp.wasabeef.picasso.transformations.CropSquareTransformation;
 import jp.wasabeef.picasso.transformations.RoundedCornersTransformation;
 
+import static net.programmierecke.radiodroid2.Utils.resourceToUri;
+
 
 public class RadioDroidBrowser {
     private static final String MEDIA_ID_ROOT = "__ROOT__";
@@ -247,12 +249,5 @@ public class RadioDroidBrowser {
         }
 
         return mediaId.substring(separatorIdx + 1);
-    }
-
-    private static Uri resourceToUri(Resources resources, int resID) {
-        return Uri.parse(ContentResolver.SCHEME_ANDROID_RESOURCE + "://" +
-                resources.getResourcePackageName(resID) + '/' +
-                resources.getResourceTypeName(resID) + '/' +
-                resources.getResourceEntryName(resID));
     }
 }

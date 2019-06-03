@@ -3,6 +3,7 @@ package net.programmierecke.radiodroid2;
 import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -445,4 +446,11 @@ public class Utils {
 			builder.authenticator(proxyAuthenticator);
 		}
 	}
+
+    public static Uri resourceToUri(Resources resources, int resID) {
+        return Uri.parse(ContentResolver.SCHEME_ANDROID_RESOURCE + "://" +
+                resources.getResourcePackageName(resID) + '/' +
+                resources.getResourceTypeName(resID) + '/' +
+                resources.getResourceEntryName(resID));
+    }
 }
