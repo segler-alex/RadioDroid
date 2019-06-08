@@ -50,6 +50,7 @@ import net.programmierecke.radiodroid2.data.ShoutcastInfo;
 import net.programmierecke.radiodroid2.data.StreamLiveInfo;
 import net.programmierecke.radiodroid2.players.PlayerWrapper;
 import net.programmierecke.radiodroid2.players.RadioPlayer;
+import net.programmierecke.radiodroid2.utils.RingBuffer;
 
 import java.io.IOException;
 import java.util.Map;
@@ -61,6 +62,7 @@ import okhttp3.OkHttpClient;
 public class ExoPlayerWrapper implements PlayerWrapper, IcyDataSource.IcyDataSourceListener {
 
     final private String TAG = "ExoPlayerWrapper";
+    public static final int DEFAULT_BACK_BUFFER_SIZE_KB = 480; // 30s @ 128KBit/s
 
     private SimpleExoPlayer player;
     private PlayListener stateListener;
@@ -70,14 +72,17 @@ public class ExoPlayerWrapper implements PlayerWrapper, IcyDataSource.IcyDataSou
     private DefaultBandwidthMeter bandwidthMeter = new DefaultBandwidthMeter();
 
     private RecordableListener recordableListener;
+    private RingBuffer backBuffer = new RingBuffer(1024 * DEFAULT_BACK_BUFFER_SIZE_KB);
 
     private long totalTransferredBytes;
     private long currentPlaybackTransferredBytes;
+    private StreamLiveInfo previousStreamLiveInfo;
 
     private boolean isHls;
     private boolean isPlayingFlag;
 
     Context context;
+    SharedPreferences sharedPref;
     MediaSource audioSource;
 
     boolean interruptedByConnectionLoss = false;
@@ -109,11 +114,18 @@ public class ExoPlayerWrapper implements PlayerWrapper, IcyDataSource.IcyDataSou
 
         this.context = context;
         this.streamUrl = streamUrl;
+        sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
 
         stateListener.onStateChanged(RadioPlayer.PlayState.PrePlaying);
 
         if (player != null) {
             player.stop();
+        }
+
+        backBuffer.clear();
+        int requestedBackBufferSize = 1024 * sharedPref.getInt("backbuffer_size", DEFAULT_BACK_BUFFER_SIZE_KB);
+        if (requestedBackBufferSize != backBuffer.getSize()) {
+            backBuffer.resize(requestedBackBufferSize);
         }
 
         if (player == null) {
@@ -243,7 +255,6 @@ public class ExoPlayerWrapper implements PlayerWrapper, IcyDataSource.IcyDataSou
         stateListener.onStateChanged(RadioPlayer.PlayState.Idle);
         stateListener.onPlayerError(R.string.error_stream_reconnect_timeout);
 
-        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
         int resumeWithin = sharedPref.getInt("settings_resume_within", 60);
         if(resumeWithin > 0) {
             Log.d(TAG, "Trying to resume playback within " + resumeWithin + "s.");
@@ -269,8 +280,20 @@ public class ExoPlayerWrapper implements PlayerWrapper, IcyDataSource.IcyDataSou
         stateListener.onDataSourceShoutcastInfo(shoutcastInfo, false);
     }
 
+    boolean trackPresumablyChanged(StreamLiveInfo streamLiveInfo) {
+        return  streamLiveInfo == null ||
+                (!streamLiveInfo.getTrack().isEmpty() && !previousStreamLiveInfo.getTrack().isEmpty()
+                        && ! streamLiveInfo.getTrack().equals(previousStreamLiveInfo.getTrack()));
+    }
+
     @Override
     public void onDataSourceStreamLiveInfo(StreamLiveInfo streamLiveInfo) {
+        if (trackPresumablyChanged(previousStreamLiveInfo)) {
+            previousStreamLiveInfo = streamLiveInfo;
+            if (sharedPref.getBoolean("settings_clear_backbuffer_on_track_change", true)) {
+                backBuffer.clear();
+            }
+        }
         stateListener.onDataSourceStreamLiveInfo(streamLiveInfo);
     }
 
@@ -281,6 +304,8 @@ public class ExoPlayerWrapper implements PlayerWrapper, IcyDataSource.IcyDataSou
 
         if (recordableListener != null) {
             recordableListener.onBytesAvailable(buffer, offset, length);
+        } else {
+            backBuffer.write(buffer, offset, length);
         }
     }
 
@@ -291,6 +316,12 @@ public class ExoPlayerWrapper implements PlayerWrapper, IcyDataSource.IcyDataSou
 
     @Override
     public void startRecording(@NonNull RecordableListener recordableListener) {
+        if (sharedPref.getBoolean("prerecord", true)) {
+            int length = backBuffer.getUsed();
+            byte[] buff = new byte[length];
+            backBuffer.read(buff);
+            recordableListener.onBytesAvailable(buff, 0, length);
+        }
         this.recordableListener = recordableListener;
     }
 
@@ -321,7 +352,6 @@ public class ExoPlayerWrapper implements PlayerWrapper, IcyDataSource.IcyDataSou
 
         @Override
         public void onTracksChanged(TrackGroupArray trackGroups, TrackSelectionArray trackSelections) {
-            // Do nothing
         }
 
         @Override
