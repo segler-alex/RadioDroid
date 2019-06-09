@@ -4,6 +4,7 @@ import android.app.Application;
 import android.content.SharedPreferences;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatDelegate;
+import androidx.multidex.MultiDexApplication;
 import androidx.preference.PreferenceManager;
 
 import com.jakewharton.picasso.OkHttp3Downloader;
@@ -21,7 +22,7 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-public class RadioDroidApp extends Application {
+public class RadioDroidApp extends MultiDexApplication {
 
     private HistoryManager historyManager;
     private FavouriteManager favouriteManager;
