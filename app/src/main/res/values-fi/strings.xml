@@ -37,6 +37,8 @@
     <string name="sleep_timer" formatted="true">Uniajastin: %1$02d:%2$02d</string>
     <string name="nav_item_add_sleep">+15 min</string>
 
+    <string name="settings_appearance">Ulkomuoto</string>
+    <string name="settings_interaction">vuorovaikutus</string>
     <string name="settings_single_use_tags">Kertakäyttöiset tunnisteet</string>
     <string name="settings_single_use_tags_desc_off">Älä näytä kertakäyttöisiä tunnisteita</string>
     <string name="settings_single_use_tags_desc_on">Näytä kertakäyttöiset tunnisteet</string>
@@ -56,6 +58,8 @@
     <string name="settings_statistics">Tilastoja</string>
     <string name="settings_about">Tietoa</string>
 
+    <string name="settings_connectivity">liitettävyys</string>
+    <string name="settings_recordings">Äänitykset</string>
     <string name="notify_play">Toistetaan</string>
 
     <string name="error_stream_url">Ongelma URL-osoitteen avaamisessa</string>
@@ -79,6 +83,7 @@
     <string name="image_button_delete">Poista</string>
     <string name="image_button_more">Lisää</string>
     
+    <string name="settings_other">muut</string>
     <string-array name="weekdays">        
         <item>S</item>        
         <item>M</item>        

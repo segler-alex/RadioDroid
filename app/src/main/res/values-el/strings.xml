@@ -70,6 +70,7 @@
     <string name="sleep_timer_clear">Καθάρισμα</string>
     <string name="nav_item_add_sleep">+15 λεπτά</string>
 
+    <string name="settings_appearance">Εμφάνιση</string>
     <string name="settings_theme_selection_title">Θέμα</string>
     <string name="theme_light">Φωτεινό</string>
     <string name="theme_dark">Σκοτεινό</string>
@@ -77,6 +78,7 @@
     <string name="settings_compact_style">Συμπαγής κατάσταση λειτουργίας</string>
     <string name="settings_bottom_navigation">Τα χειριστήρια κάτω</string>
 
+    <string name="settings_interaction">ΑΛΛΗΛΕΠΙΔΡΑΣΗ</string>
     <string name="settings_single_use_tags">Καρτέλες μονής χρήσης</string>
     <string name="settings_single_use_tags_desc_off">Οι καρτέλες μοναδικής χρήσης δεν θα εμφανίζονται</string>
     <string name="settings_single_use_tags_desc_on">Οι καρτέλες μοναδικής χρήσης θα εμφανίζονται</string>

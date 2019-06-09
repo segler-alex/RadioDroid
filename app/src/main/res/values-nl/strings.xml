@@ -55,6 +55,7 @@
     <string name="nav_item_save_playlist">Opslaan naar afspeellijst</string>
     <string name="nav_item_load_playlist">Laden uit afspeellijst</string>
 
+    <string name="settings_appearance">Verschijning</string>
     <string name="settings_theme_selection_title">Thema</string>
     <string name="theme_light">Licht</string>
     <string name="theme_dark">Donker</string>

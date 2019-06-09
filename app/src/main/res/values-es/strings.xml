@@ -55,6 +55,7 @@
     <string name="nav_item_save_playlist">Guardar en lista de reproducción</string>
     <string name="nav_item_load_playlist">Cargar desde lista de reproducción</string>
 
+    <string name="settings_appearance">Apariencia</string>
     <string name="settings_theme_selection_title">Tema</string>
     <string name="theme_light">Claro</string>
     <string name="theme_dark">Oscuro</string>
@@ -62,6 +63,7 @@
     <string name="settings_compact_style">Modo compacto</string>
     <string name="settings_bottom_navigation">Navegación en parte inferior</string>
 
+    <string name="settings_interaction">Interacción</string>
     <string name="settings_single_use_tags">Mostrar etiquetas poco usadas</string>
     <string name="settings_single_use_tags_desc_off">Las etiquetas poco usadas no se mostrarán</string>
     <string name="settings_single_use_tags_desc_on">Las etiquetas poco usadas se mostrarán</string>

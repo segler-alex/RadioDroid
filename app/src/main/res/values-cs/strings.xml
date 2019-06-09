@@ -36,6 +36,8 @@
     <string name="sleep_timer" formatted="true">Časovač před spaním: %1$02d:%2$02d</string>
     <string name="nav_item_add_sleep">+15 min</string>
 
+    <string name="settings_appearance">Vzhled</string>
+    <string name="settings_interaction">Interakce</string>
     <string name="settings_single_use_tags">Zobrazit osamocené tagy</string>
     <string name="settings_single_use_tags_desc_off">Tagy použité pouze jednou nebudou zobrazeny</string>
     <string name="settings_single_use_tags_desc_on">Tagy použité pouze jednou budou zobrazeny</string>
@@ -55,6 +57,8 @@
     <string name="settings_statistics">Statistiky</string>
     <string name="settings_about">O aplikaci</string>
 
+    <string name="settings_connectivity">Připojení</string>
+    <string name="settings_recordings">Nahrávky</string>
     <string name="notify_play">Hrající</string>
 
     <string name="error_stream_url">Problém s URL streamu</string>

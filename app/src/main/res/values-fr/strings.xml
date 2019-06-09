@@ -60,6 +60,7 @@
     <string name="sleep_timer_clear">Effacer</string>
     <string name="nav_item_add_sleep">+15 mins</string>
 
+    <string name="settings_appearance">Apparence</string>
     <string name="settings_theme_selection_title">Thème</string>
     <string name="theme_light">Clair</string>
     <string name="theme_dark">Noir</string>
@@ -102,6 +103,7 @@
     <string name="settings_play_external">Ouverture avec une application externe</string>
     <string name="settings_equalizer">Égaliseur</string>
 
+    <string name="settings_connectivity">Connectivité</string>
     <string name="settings_warn_no_wifi">Alerter lors de la lecture sans Wi-Fi</string>
     <string name="settings_warn_no_wifi_on">Alerter lors de la lecture sans connexion Wi-Fi</string>
     <string name="settings_warn_no_wifi_off">Pas d\'alerte lors de la lecture sans connexion Wi-Fi</string>
@@ -109,6 +111,7 @@
     <string name="settings_statistics">Statistiques</string>
     <string name="settings_about">À propos RadioDroid</string>
 
+    <string name="settings_recordings">Enregistrements</string>
     <string name="notify_play">En lecture</string>
     <string name="notify_paused">En pause</string>
     <string name="notify_starred">La station a été mise en favoris</string>
@@ -158,6 +161,7 @@
     <string name="settings_mpd">Music Player Daemon</string>
     <string name="action_mpd_nok">MPD non connecté</string>
     <string name="action_mpd_ok">MPD connecté</string>
+    <string name="settings_other">Autre</string>
 
     <string-array name="weekdays">
         <item>D</item>

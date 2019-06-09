@@ -164,6 +164,8 @@
   <string name="settings_other">Anna</string>
   <string name="settings_statistics">Statistikk</string>
   <string name="settings_about">Om RadioDroid</string>
+  <string name="settings_appearance">Utseende</string>
+  <string name="settings_interaction">Interaksjon</string>
   <string-array name="weekdays">
     <item>S</item>
     <item>M</item>

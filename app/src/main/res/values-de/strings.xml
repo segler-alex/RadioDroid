@@ -46,12 +46,14 @@
     <string name="nav_item_save_playlist">In Playlist speichern</string>
     <string name="nav_item_load_playlist">Von Playlist laden</string>
 
+    <string name="settings_appearance">Aussehen</string>
     <string name="settings_theme_selection_title">Thema</string>
     <string name="theme_light">Hell</string>
     <string name="theme_dark">Dunkel</string>
     <string name="settings_circular_icons">Runde Icons benutzen</string>
     <string name="settings_compact_style">Kompakter Modus</string>
 
+    <string name="settings_interaction">Interaktion</string>
     <string name="settings_single_use_tags">Tag-Anzeigefilter</string>
     <string name="settings_single_use_tags_desc_off">Nur einmal vorkommende Tags werden nicht angezeigt.</string>
     <string name="settings_single_use_tags_desc_on">Alle Tags werden angezeigt, auch nur einmal vorkommende.</string>
@@ -89,10 +91,12 @@
     <string name="settings_statistics">Statistik</string>
     <string name="settings_about">Über RadioDroid</string>
 
+    <string name="settings_connectivity">Konnektivität</string>
     <string name="settings_warn_no_wifi">WLAN-Verbindung</string>
     <string name="settings_warn_no_wifi_on">Es wird eine Warnung angezeigt, wenn keine WLAN-Verbindung verfügbar ist.</string>
     <string name="settings_warn_no_wifi_off">Es wird keine Warnung angezeigt, wenn keine WLAN-Verbindung verfügbar ist.</string>
 
+    <string name="settings_recordings">Aufnahmen</string>
     <string name="notify_play">Wiedergabe</string>
     <string name="notify_starred">Die Station wurde zur Favoritenliste hinzugefügt.</string>
     <string name="notify_autostarred">Die Station wurde automatisch zur Favoritenliste hinzugefügt.</string>
@@ -148,6 +152,7 @@
     <string name="action_mpd_ok">MPD verbunden</string>
     <string name="action_mpd_connected">Verbunden mit Server: %1$s</string>
 
+    <string name="settings_other">Andere</string>
     <string-array name="weekdays">
         <item>S</item>
         <item>M</item>

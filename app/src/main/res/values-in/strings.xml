@@ -73,6 +73,7 @@
     <string name="label_button_cancel">Batal</string>
     <string name="label_button_overwrite">Menimpa</string>
 
+    <string name="settings_appearance">Penampilan</string>
     <string name="settings_theme_selection_title">Tema</string>
     <string name="theme_light">Terang</string>
     <string name="theme_dark">Gelap</string>
@@ -82,6 +83,7 @@
     <string name="settings_compact_style_desc_on">Diadaptasikan ikon kecil tanpa detil stasiun</string>
     <string name="settings_bottom_navigation">Navigasi bawah</string>
 
+    <string name="settings_interaction">Interaksi</string>
     <string name="settings_single_use_tags">Tampilkan penggunaan tag langka</string>
     <string name="settings_single_use_tags_desc_off">Penggunaan tag langka tidak akan ditampilkan</string>
     <string name="settings_single_use_tags_desc_on">Penggunaan tag langka ditampilkan</string>
