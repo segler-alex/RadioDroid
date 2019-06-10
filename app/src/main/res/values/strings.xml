@@ -59,7 +59,7 @@
     <string name="nav_item_save_playlist">Save to playlist</string>
     <string name="nav_item_load_playlist">Load from playlist</string>
     <string name="confirm_overwrite_file">Overwrite the file?</string>
-    <string name="dialog_hint_file_name">Enter file name</string> 
+    <string name="dialog_hint_file_name">Enter file name</string>
     <string name="error_empty_field">This field is required</string>
     <string name="error_invalid_file_name">Invalid file name</string>
     <string name="label_button_cancel">Cancel</string>
@@ -71,7 +71,7 @@
     <string name="theme_dark">Dark</string>
     <string name="settings_circular_icons">Use circular icons</string>
     <string name="settings_compact_style">Compact mode</string>
-    <string name="settings_compact_style_desc_off">Large icon adopted with station details</string> 
+    <string name="settings_compact_style_desc_off">Large icon adopted with station details</string>
     <string name="settings_compact_style_desc_on">Small icon adopted without station details</string>
     <string name="settings_bottom_navigation">Bottom navigation</string>
 
@@ -110,7 +110,7 @@
     <string name="settings_alarm">Alarm</string>
     <string name="settings_alarm_external">Enable external app</string>
     <string name="settings_alarm_external_desc_on">Open the alarm with default external app</string>
-    <string name="settings_alarm_external_desc_off">Open the alarm with RadioDroid</string> 
+    <string name="settings_alarm_external_desc_off">Open the alarm with RadioDroid</string>
     <string name="settings_alarm_audio_player">Audio player</string>
     <string name="settings_alarm_sleep_timer">Sleep timer</string>
     <string name="settings_alarm_sleep_timer_desc">Stop playing after %1$s minutes</string>
@@ -120,7 +120,7 @@
     <string name="settings_auto_play_on_startup_off">Do not play last station on startup</string>
     <string name="settings_play_external">Enable external player</string>
     <string name="settings_play_external_desc_on">Play stations with external player</string>
-    <string name="settings_play_external_desc_off">Play stations with RadioDroid</string> 
+    <string name="settings_play_external_desc_off">Play stations with RadioDroid</string>
     <string name="settings_equalizer">Equalizer</string>
 
     <string name="settings_connectivity">Connectivity</string>
@@ -129,7 +129,7 @@
     <string name="settings_resume_timeout">Resume timeout</string>
     <string name="settings_retry_timeout">Retry timeout</string>
     <string name="settings_retry_delay">Reconnection delay</string>
-    <string name="settings_proxy">Proxy</string>
+    <string name="settings_proxy" translatable="false">Proxy</string>
     <string name="settings_proxy_login">Username</string>
     <string name="settings_proxy_password">Password</string>
     <string name="settings_proxy_action_test">Test</string>
@@ -150,10 +150,10 @@
     <string name="settings_record_name_formatting_2" translatable="false">${station}_${date}_${time}</string>
     <string name="settings_record_name_formatting_3" translatable="false">${index}_${station}_${date}</string>
 
-    <string name="settings_record_name_formatting_default_display">station_artist_track_\u200bdate_\u200btime</string>
-    <string name="settings_record_name_formatting_1_display">station_artist_\u200btrack</string>
-    <string name="settings_record_name_formatting_2_display">station_date_\u200btime</string>
-    <string name="settings_record_name_formatting_3_display">index_station_\u200bdate</string>
+    <string name="settings_record_name_formatting_default_display" translatable="false">station_artist_track_\u200bdate_\u200btime</string>
+    <string name="settings_record_name_formatting_1_display" translatable="false">station_artist_\u200btrack</string>
+    <string name="settings_record_name_formatting_2_display" translatable="false">station_date_\u200btime</string>
+    <string name="settings_record_name_formatting_3_display" translatable="false">index_station_\u200bdate</string>
 
     <string name="notify_pre_play">Connecting</string>
     <string name="notify_play">Playing</string>
@@ -175,7 +175,7 @@
     <string name="alert_select_mpd_server">Please select a server</string>
     <string name="alert_select_mpd_server_name">Server name</string>
     <string name="hostname">Hostname</string>
-    <string name="port">Port</string>
+    <string name="port" translatable="false">Port</string>
 
     <string name="alert_select_mpd_server_add">Add</string>
     <string name="alert_select_mpd_server_save">Save</string>
@@ -223,19 +223,19 @@
     <string name="icon_click_trend_increasing">Popularity increasing</string>
     <string name="icon_click_trend_stable">Popularity stable</string>
 
-    <string name="media_route_menu_title">GoogleCast</string>
-    <string name="app_id">5A97BAE4</string>
-    <string name="app_name">RadioDroid</string>
+    <string name="media_route_menu_title" translatable="false">GoogleCast</string>
+    <string name="app_id" translatable="false">5A97BAE4</string>
+    <string name="app_name" translatable="false">RadioDroid</string>
 
     <string name="settings_mpd">Music Player Daemon</string>
-    <string name="settings_mpd_port">MPD port</string>
+    <string name="settings_mpd_port" translatable="false">MPD port</string>
     <string name="settings_view_mpd_servers">Your servers</string>
     <string name="action_mpd_nok">MPD not connected</string>
     <string name="action_mpd_ok">MPD connected</string>
     <string name="action_mpd_connected">Connected to server: %1$s</string>
 
     <string name="settings_radiobrowser_servers">RadioBrowser servers</string>
-    <string name="settings_radiobrowser_servers_default">www.radio-browser.info/webservice</string>
+    <string name="settings_radiobrowser_servers_default" translatable="false">www.radio-browser.info/webservice</string>
 
     <string name="settings_other">Other</string>
     <string name="settings_statistics">Statistics</string>
