@@ -805,7 +805,7 @@ public class PlayerService extends Service implements RadioPlayer.PlayerListener
             return;
         }
 
-        Picasso.with(getApplicationContext())
+        Picasso.get()
                 .load(currentStationIconUrl)
                 .resize((int) px, 0)
                 .into(new Target() {
@@ -824,7 +824,7 @@ public class PlayerService extends Service implements RadioPlayer.PlayerListener
                     }
 
                     @Override
-                    public void onBitmapFailed(Drawable errorDrawable) {
+                    public void onBitmapFailed(Exception e, Drawable errorDrawable) {
 
                     }
 

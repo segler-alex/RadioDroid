@@ -90,7 +90,7 @@ public class RadioDroidBrowser {
                     }
 
                     @Override
-                    public void onBitmapFailed(Drawable errorDrawable) {
+                    public void onBitmapFailed(Exception e, Drawable errorDrawable) {
                         onBitmapLoaded(((BitmapDrawable) errorDrawable).getBitmap(), null);
                         countDownLatch.countDown();
                     }
@@ -102,7 +102,7 @@ public class RadioDroidBrowser {
                 };
                 imageLoadTargets.add(imageLoadTarget);
 
-                Picasso.with(context).load((TextUtils.isEmpty(station.IconUrl) ? resourceToUri(resources, R.drawable.ic_launcher).toString() : station.IconUrl))
+                Picasso.get().load((TextUtils.isEmpty(station.IconUrl) ? resourceToUri(resources, R.drawable.ic_launcher).toString() : station.IconUrl))
                         .transform(new CropSquareTransformation())
                         .error(R.drawable.ic_launcher)
                         .transform(Utils.useCircularIcons(context) ? new CropCircleTransformation() : new CropSquareTransformation())
@@ -131,7 +131,7 @@ public class RadioDroidBrowser {
             Context context = contextRef.get();
             if (context != null) {
                 for (Target target : imageLoadTargets) {
-                    Picasso.with(context).cancelRequest(target);
+                    Picasso.get().cancelRequest(target);
                 }
             }
 

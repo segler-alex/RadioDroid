@@ -215,7 +215,7 @@ public class DataRadioStation {
 	}
 
     public void prepareShortcut(Context ctx, ShortcutReadyListener cb) {
-        Picasso.with(ctx)
+        Picasso.get()
                 .load((TextUtils.isEmpty(IconUrl) ? resourceToUri(ctx.getResources(), R.drawable.ic_launcher).toString() : IconUrl))
                 .error(R.drawable.ic_launcher)
                 .transform(Utils.useCircularIcons(ctx) ? new CropCircleTransformation() : new CropSquareTransformation())
@@ -250,7 +250,7 @@ public class DataRadioStation {
         }
 
         @Override
-        public void onBitmapFailed(Drawable errorDrawable) {
+        public void onBitmapFailed(Exception e, Drawable errorDrawable) {
             onBitmapLoaded(((BitmapDrawable) errorDrawable).getBitmap(), null);
         }
 

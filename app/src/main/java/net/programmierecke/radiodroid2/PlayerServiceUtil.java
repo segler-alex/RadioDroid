@@ -242,8 +242,8 @@ public class PlayerServiceUtil {
                 }
 
                 @Override
-                public void onError() {
-                    Picasso.with(mainContext)
+                public void onError(Exception e) {
+                    Picasso.get()
                             .load(iconUrl)
                             .placeholder(ContextCompat.getDrawable(mainContext, R.drawable.ic_photo_black_24dp))
                             .resize((int) px, 0)
@@ -252,7 +252,7 @@ public class PlayerServiceUtil {
                 }
             };
 
-            Picasso.with(mainContext)
+            Picasso.get()
                     .load(iconUrl)
                     .placeholder(ContextCompat.getDrawable(mainContext, R.drawable.ic_photo_black_24dp))
                     .resize((int) px, 0)
