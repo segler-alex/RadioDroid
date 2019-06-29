@@ -248,4 +248,13 @@
     <string name="nav_item_about">O</string>
     <string name="settings_mpd_port">Port MPD</string>
     <string name="refresh">Odśwież</string>
+    <string name="action_skip_to_next">Kolejny</string>
+    <string name="action_skip_to_previous">Poprzedni</string>
+    <string name="action_toggle_view">Przełącz widok</string>
+    <string name="alert_alarm_not_working">Brak wystarczającej ilości informacji o alarmie</string>
+    <string name="alert_alarm_working">Czas alarmu teraz</string>
+    <string name="detail_create_shortcut">Dodaj do ekranu głównego</string>
+    <string name="settings_auto_play_on_startup">Automatyczne odtwarzanie</string>
+    <string name="settings_auto_play_on_startup_off">Nie odtwarzaj ostatniej stacji podczas uruchamiania</string>
+    <string name="settings_auto_play_on_startup_on">Odtwórz ostatnią stację przy starcie</string>
 </resources>

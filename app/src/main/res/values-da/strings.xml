@@ -256,4 +256,6 @@
     <string name="nav_item_statistics">Statistikker</string>
     <string name="nav_item_about">Om</string>
     <string name="refresh">Genopfriske</string>
+    <string name="action_toggle_view">Skift visning</string>
+    <string name="detail_create_shortcut">Tilføj til startskærmen</string>
 </resources>

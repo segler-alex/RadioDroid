@@ -262,4 +262,12 @@
     <string name="nav_item_statistics">Statistik</string>
     <string name="nav_item_about">Tentang</string>
     <string name="refresh">Segarkan</string>
+    <string name="action_toggle_view">Alihkan tampilan</string>
+    <string name="alert_alarm_not_working">Tidak ada info yang cukup untuk alarm</string>
+    <string name="alert_alarm_working">Waktu alarm sekarang</string>
+    <string name="detail_create_shortcut">Tambahkan ke layar beranda</string>
+    <string name="player_info_status">Status:</string>
+    <string name="settings_auto_play_on_startup">Putar otomatis</string>
+    <string name="settings_auto_play_on_startup_off">Jangan mainkan stasiun terakhir saat startup</string>
+    <string name="settings_auto_play_on_startup_on">Mainkan stasiun terakhir saat startup</string>
 </resources>
