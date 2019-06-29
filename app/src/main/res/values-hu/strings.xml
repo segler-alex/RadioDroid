@@ -54,7 +54,6 @@
     <string name="nav_item_save_playlist">Mentés lejátzólistára</string>
     <string name="nav_item_load_playlist">Betöltés lejátszólistából</string>
 
-    <string name="settings_interface">Felület</string>
     <string name="settings_theme_selection_title">Téma</string>
     <string name="theme_light">Világos</string>
     <string name="theme_dark">Sötét</string>
@@ -62,7 +61,6 @@
     <string name="settings_compact_style">Kompakt mód</string>
     <string name="settings_bottom_navigation">Alsó navigáció</string>
 
-    <string name="settings_general">Általános</string>
     <string name="settings_single_use_tags">Egyszer használt címkék megjelenítése</string>
     <string name="settings_single_use_tags_desc_off">Az egyszer használt címkék nem jelennek meg</string>
     <string name="settings_single_use_tags_desc_on">Az egyszer használt címkék megjelennek</string>

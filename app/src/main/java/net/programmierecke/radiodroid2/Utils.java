@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
+import android.graphics.Color;
 import android.media.AudioManager;
 import android.media.ToneGenerator;
 import android.net.ConnectivityManager;
@@ -22,10 +23,16 @@ import androidx.core.content.ContextCompat;
 import androidx.preference.PreferenceManager;
 import android.text.TextUtils;
 import android.util.Log;
+import android.util.TypedValue;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.mikepenz.iconics.IconicsColor;
+import com.mikepenz.iconics.IconicsDrawable;
+import com.mikepenz.iconics.IconicsSize;
+import com.mikepenz.iconics.typeface.IIcon;
+
 import net.programmierecke.radiodroid2.data.DataRadioStation;
 
 import net.programmierecke.radiodroid2.data.MPDServer;
@@ -418,6 +425,25 @@ public class Utils {
 		return builder.toString();
 	}
 
+    public static int themeAttributeToColor(int themeAttributeId, Context context, int fallbackColorId) {
+        TypedValue outValue = new TypedValue();
+        Resources.Theme theme = context.getTheme();
+        boolean wasResolved = theme.resolveAttribute(themeAttributeId, outValue, true);
+        if (wasResolved) {
+            return outValue.resourceId == 0 ? outValue.data : ContextCompat.getColor(context, outValue.resourceId);
+        } else {
+            return fallbackColorId;
+        }
+    }
+
+    public static int getIconColor(Context context) {
+        return themeAttributeToColor(R.attr.menuTextColorDefault, context, Color.LTGRAY);
+    }
+
+	public static int getAccentColor(Context context) {
+		return themeAttributeToColor(R.attr.colorAccent, context, Color.LTGRAY);
+	}
+
 	public static void setOkHttpProxy(@NonNull OkHttpClient.Builder builder, @NonNull final ProxySettings proxySettings) {
 		if (TextUtils.isEmpty(proxySettings.host)) {
 			return;
@@ -452,5 +478,9 @@ public class Utils {
                 resources.getResourcePackageName(resID) + '/' +
                 resources.getResourceTypeName(resID) + '/' +
                 resources.getResourceEntryName(resID));
+    }
+
+    public static IconicsDrawable IconicsIcon(Context context, IIcon icon) {
+        return new IconicsDrawable(context, icon).size(IconicsSize.TOOLBAR_ICON_SIZE).padding(IconicsSize.TOOLBAR_ICON_PADDING).color(IconicsColor.colorInt(getIconColor(context)));
     }
 }

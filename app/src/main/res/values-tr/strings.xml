@@ -54,7 +54,6 @@
     <string name="nav_item_save_playlist">Oynatma listesine kaydet</string>
     <string name="nav_item_load_playlist">Oynatma listesinden yükle</string>
 
-    <string name="settings_interface">Arayüz</string>
     <string name="settings_theme_selection_title">Tema</string>
     <string name="theme_light">Aydınlık</string>
     <string name="theme_dark">Karanlık</string>
@@ -62,7 +61,6 @@
     <string name="settings_compact_style">Sıkışık düzen</string>
     <string name="settings_bottom_navigation">Alt gezinme</string>
 
-    <string name="settings_general">Genel</string>
     <string name="settings_single_use_tags">Tek kullanım etiketleri göster</string>
     <string name="settings_single_use_tags_desc_off">Tek kullanım etiketler gösterilmeyecek</string>
     <string name="settings_single_use_tags_desc_on">Tek kullanım etiketler gösterilecek</string>

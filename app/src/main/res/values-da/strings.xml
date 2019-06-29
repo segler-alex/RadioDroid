@@ -63,7 +63,6 @@
     <string name="label_button_cancel">Annullere</string>
     <string name="label_button_overwrite">Overskrive</string>
 
-    <string name="settings_interface">UI</string>
     <string name="settings_theme_selection_title">Tema</string>
     <string name="theme_light">Lys</string>
     <string name="theme_dark">Mørk</string>
@@ -73,7 +72,6 @@
     <string name="settings_compact_style_desc_on">Lille ikon ikke tilføjet station detaljer</string>
     <string name="settings_bottom_navigation">Bundnavigation</string>
 
-    <string name="settings_general">Generelt</string>
     <string name="settings_single_use_tags">Vise sjældne brugte mærker</string>
     <string name="settings_single_use_tags_desc_off">Sjældne brugte mærker vises ikke</string>
     <string name="settings_single_use_tags_desc_on">Sjældne brugte mærker vises</string>

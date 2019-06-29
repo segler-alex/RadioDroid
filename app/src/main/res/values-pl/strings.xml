@@ -61,7 +61,6 @@
     <string name="label_button_cancel">Anuluj</string>
     <string name="label_button_overwrite">Zastąp</string>
 
-    <string name="settings_interface">Interfejs Użytkownika</string>
     <string name="settings_theme_selection_title">Wygląd</string>
     <string name="theme_light">Jasny</string>
     <string name="theme_dark">Ciemny</string>
@@ -71,7 +70,6 @@
     <string name="settings_compact_style_desc_on">Mała ikona przejęta bez szczegółów stacji</string>
     <string name="settings_bottom_navigation">Dolny pasek nawigacji</string>
 
-    <string name="settings_general">Ogólne</string>
     <string name="settings_single_use_tags">Pokaż rzadko używane tagi</string>
     <string name="settings_single_use_tags_desc_off">Tagi rzadko używane nie będą wyświetlane</string>
     <string name="settings_single_use_tags_desc_on">Tagi rzadko używane zostaną wyświetlone</string>
