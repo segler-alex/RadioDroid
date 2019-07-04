@@ -4,6 +4,7 @@
     <string name="detail_name">Navn</string>
     <string name="detail_tags">Mærker</string>
     <string name="detail_country">Land</string>
+    <string name="detail_create_shortcut">Tilføje til startskærm</string>
     <string name="detail_language">Sprog</string>
     <string name="detail_weblink">Net henvisning</string>
     <string name="detail_play">Afspil</string>
@@ -24,6 +25,7 @@
     <string name="action_ok">O.k.</string>
     <string name="action_cancel">Annullere</string>
     <string name="action_top_click">Top klikket</string>
+    <string name="action_toggle_view">Skifte visning</string>
     <string name="action_top_vote">Top stemt</string>
     <string name="action_changed_lately">Senest ændret</string>
     <string name="action_currently_playing">Afspiller</string>
@@ -42,13 +44,13 @@
     <string name="nav_item_alarm">Alarm</string>
     <string name="nav_item_recordings">Optagelser</string>
 
-    <string name="about_text">Dette program bruger det åbne radio station bibliotek hos\nhttps://www.radio-browser.info\nEveryone can add stations to it or edit existing stations. It works like a wiki for online (streaming) radio stations.\n\nContact:\nsegler_alex@web.de\n\nBugtracker:\nhttps://github.com/segler-alex/RadioDroid/issues\n\nIf you like the software and want to help, feel free to send me an email. I really need someone with graphical experience to make the app nicer to the eye :) Maybe someone who can draw icons, images...but also programmers who fix bugs, or implement new ones (features not bugs ;)\nAlso ideas for new features are always appreciated!\n\nThis app is free software licensed under the GPLv3.\nhttps://www.gnu.org/licenses/gpl-3.0.html</string>
+    <string name="about_text">Dette program bruger det åbne radio station bibliotek hos\nhttps://www.radio-browser.info\nEveryone can add stations to it or edit existing stations. It works like a wiki for online (streaming) radio stations.\n\nContact:\nsegler_alex@web.de\n\nBugtracker:\nhttps://github.com/segler-alex/RadioDroid/issues\n\nIf you like the software and want to help, feel free to send me an email. I really need someone with graphical experience to make the app nicer to the eye :) Maybe someone who can draw icons, images...but also programmers who fix bugs, or implement new ones (features not bugs ;)\nAlso ideas for new features are always appreciated!\n\nThis app is free software licensed under the GPLv3.\nhttps://www.gnu.org/licenses/gpl-3.0</string>
     <string name="about_version">Version: %1$s</string>
     <string name="detail_star">Tilføje til favoritter</string>
     <string name="detail_unstar">Slette fra favoritter</string>
     <string name="progress_loading">Indlæser...</string>
 
-    <string name="sleep_timer" formatted="true">Sleep timer: %1$02d:%2$02d</string>
+    <string name="sleep_timer" formatted="true">Sove tidsforsinkelse: %1$02d:%2$02d</string>
     <string name="sleep_timer_title">Stop afspilning efter det valgte minut</string>
     <string name="sleep_timer_apply">Anvende</string>
     <string name="sleep_timer_clear">Rydde</string>
@@ -63,6 +65,7 @@
     <string name="label_button_cancel">Annullere</string>
     <string name="label_button_overwrite">Overskrive</string>
 
+    <string name="settings_appearance">Udseende</string>
     <string name="settings_theme_selection_title">Tema</string>
     <string name="theme_light">Lys</string>
     <string name="theme_dark">Mørk</string>
@@ -72,6 +75,7 @@
     <string name="settings_compact_style_desc_on">Lille ikon ikke tilføjet station detaljer</string>
     <string name="settings_bottom_navigation">Bundnavigation</string>
 
+    <string name="settings_interaction">Interaktion</string>
     <string name="settings_single_use_tags">Vise sjældne brugte mærker</string>
     <string name="settings_single_use_tags_desc_off">Sjældne brugte mærker vises ikke</string>
     <string name="settings_single_use_tags_desc_on">Sjældne brugte mærker vises</string>
@@ -108,8 +112,8 @@
     <string name="settings_alarm_external_desc_on">Åbne alarm med standard eksternt program</string>
     <string name="settings_alarm_external_desc_off">Åbne alarm med RadioDroid</string> 
     <string name="settings_alarm_audio_player">Lyd afspiller</string>
-    <string name="settings_alarm_sleep_timer">Sleep timer</string>
-    <string name="settings_alarm_sleep_timer_desc">Stop afspilning efter %1$s minuteer</string>
+    <string name="settings_alarm_sleep_timer">Sove tidsforsinkelse</string>
+    <string name="settings_alarm_sleep_timer_desc">Stop afspilning efter %1$s minutter</string>
     <string name="settings_play">Afspiller</string>
     <string name="settings_auto_play_on_startup">Automatisk afspilning</string>
     <string name="settings_auto_play_on_startup_on">Afspil seneste station ved opstart</string>
@@ -125,7 +129,7 @@
     <string name="settings_resume_timeout">Genoptag tidsudløb</string>
     <string name="settings_retry_timeout">Prøv igen tidsudløb</string>
     <string name="settings_retry_delay">Gentilslutning forsinkelse</string>
-    <string name="settings_proxy">Proxy</string>
+    <string name="settings_proxy">Mellemvært</string>
     <string name="settings_proxy_login">Brugernavn</string>
     <string name="settings_proxy_password">Adgangskode</string>
     <string name="settings_proxy_action_test">Test</string>
@@ -140,6 +144,11 @@
 
     <string name="settings_recordings">Optagelser</string>
     <string name="settings_record_name_formatting">Navneformat</string>
+
+    <string name="settings_record_name_formatting_default_display">station_artist_track_\u200bdate_\u200btime</string>
+    <string name="settings_record_name_formatting_1_display">station_artist_\u200btrack</string>
+    <string name="settings_record_name_formatting_2_display">station_date_\u200btime</string>
+    <string name="settings_record_name_formatting_3_display">index_station_\u200bdate</string>
 
     <string name="settings_record_name_formatting_default_display">station_artist_track_\u200bdate_\u200btime</string>
     <string name="settings_record_name_formatting_1_display">station_artist_\u200btrack</string>
@@ -165,7 +174,7 @@
 
     <string name="alert_select_mpd_server">Vælge en server</string>
     <string name="alert_select_mpd_server_name">Server navn</string>
-    <string name="hostname">Vært navn</string>
+    <string name="hostname">Værtsnavn</string>
     <string name="port">Port</string>
 
     <string name="alert_select_mpd_server_add">Tilføje</string>
