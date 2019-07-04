@@ -54,7 +54,7 @@
     <string name="sleep_timer_title">Stop playing after the selected minute</string>
     <string name="sleep_timer_apply">Apply</string>
     <string name="sleep_timer_clear">Clear</string>
-    <string name="nav_item_add_sleep">+15 mins</string>
+    <string name="nav_item_add_sleep">Sleep timer</string>
 
     <string name="nav_item_save_playlist">Save to playlist</string>
     <string name="nav_item_load_playlist">Load from playlist</string>

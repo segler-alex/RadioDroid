@@ -54,7 +54,7 @@
     <string name="sleep_timer_title">在选定的分钟后停止播放</string>
     <string name="sleep_timer_apply">应用</string>
     <string name="sleep_timer_clear">清除</string>
-    <string name="nav_item_add_sleep">+15分钟</string>
+    <string name="nav_item_add_sleep">睡眠定时器</string>
 
     <string name="nav_item_save_playlist">保存到播放列表</string>
     <string name="nav_item_load_playlist">从播放列表载入</string>
@@ -65,6 +65,7 @@
     <string name="label_button_cancel">取消</string>
     <string name="label_button_overwrite">覆盖</string>
 
+    <string name="settings_appearance">外观</string>
     <string name="settings_theme_selection_title">主题</string>
     <string name="theme_light">亮色</string>
     <string name="theme_dark">暗色</string>
@@ -74,6 +75,7 @@
     <string name="settings_compact_style_desc_on">使用小图标并隐藏电台详情</string>
     <string name="settings_bottom_navigation">底部导航栏</string>
 
+    <string name="settings_interaction">互动</string>
     <string name="settings_single_use_tags">显示不常用标签</string>
     <string name="settings_single_use_tags_desc_off">不显示不常用标签</string>
     <string name="settings_single_use_tags_desc_on">显示不常用标签</string>
