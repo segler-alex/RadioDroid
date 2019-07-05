@@ -12,7 +12,7 @@
     <string name="action_delete">Löschen</string>
     <string name="action_delete_history">Liste bisher gespielter Sender löschen</string>
     <string name="action_delete_favorites">Favoriten löschen</string>
-    <string name="action_cancel">Cancel</string>
+    <string name="action_cancel">Abbrechen</string>
     <string name="action_top_click">Meiste Klicks</string>
     <string name="action_top_vote">Höchste Bewertung</string>
     <string name="action_changed_lately">Kürzlich geändert</string>
@@ -41,17 +41,19 @@
     <string name="sleep_timer_title">Wie viele Minuten bis zum Stop?</string>
     <string name="sleep_timer_apply">Anwenden</string>
     <string name="sleep_timer_clear">Löschen</string>
-    <string name="nav_item_add_sleep">+15 mins</string>
+    <string name="nav_item_add_sleep">Schlaftimer</string>
 
     <string name="nav_item_save_playlist">In Playlist speichern</string>
     <string name="nav_item_load_playlist">Von Playlist laden</string>
 
+    <string name="settings_appearance">Aussehen</string>
     <string name="settings_theme_selection_title">Thema</string>
     <string name="theme_light">Hell</string>
     <string name="theme_dark">Dunkel</string>
     <string name="settings_circular_icons">Runde Icons benutzen</string>
     <string name="settings_compact_style">Kompakter Modus</string>
 
+    <string name="settings_interaction">Interaktion</string>
     <string name="settings_single_use_tags">Tag-Anzeigefilter</string>
     <string name="settings_single_use_tags_desc_off">Nur einmal vorkommende Tags werden nicht angezeigt.</string>
     <string name="settings_single_use_tags_desc_on">Alle Tags werden angezeigt, auch nur einmal vorkommende.</string>
@@ -78,10 +80,10 @@
     <string name="settings_icon_click_toggles_favorite_on">Ein Klick auf das Stationslogo setzt oder löscht die Station als Favorit.</string>
     <string name="settings_icon_click_toggles_favorite_off">Ein Klick auf das Stationslogo startet das Abspielen.</string>
 
-    <string name="settings_alarm">Alarm</string>
+    <string name="settings_alarm">Wecker</string>
     <string name="settings_alarm_external">Öffne extern</string>
     <string name="settings_alarm_audio_player">Audio-Abspieler</string>
-    <string name="settings_alarm_sleep_timer">Schlaftimer</string>
+    <string name="settings_alarm_sleep_timer">Alarmdauer</string>
     <string name="settings_alarm_sleep_timer_desc">Nach %1$s Minuten stoppen</string>
     <string name="settings_play">Abspieler</string>
     <string name="settings_play_external">Öffne extern</string>
@@ -89,10 +91,12 @@
     <string name="settings_statistics">Statistik</string>
     <string name="settings_about">Über RadioDroid</string>
 
+    <string name="settings_connectivity">Konnektivität</string>
     <string name="settings_warn_no_wifi">WLAN-Verbindung</string>
     <string name="settings_warn_no_wifi_on">Es wird eine Warnung angezeigt, wenn keine WLAN-Verbindung verfügbar ist.</string>
     <string name="settings_warn_no_wifi_off">Es wird keine Warnung angezeigt, wenn keine WLAN-Verbindung verfügbar ist.</string>
 
+    <string name="settings_recordings">Aufnahmen</string>
     <string name="notify_play">Wiedergabe</string>
     <string name="notify_starred">Die Station wurde zur Favoritenliste hinzugefügt.</string>
     <string name="notify_autostarred">Die Station wurde automatisch zur Favoritenliste hinzugefügt.</string>
@@ -148,6 +152,7 @@
     <string name="action_mpd_ok">MPD verbunden</string>
     <string name="action_mpd_connected">Verbunden mit Server: %1$s</string>
 
+    <string name="settings_other">Anderes</string>
     <string-array name="weekdays">
         <item>S</item>
         <item>M</item>
@@ -167,4 +172,63 @@
 
     <string name="no_wifi_title">Keine WLAN-Verbindung</string>
     <string name="no_wifi_connection">Es ist keine WLAN-Verbindung zum Starten von %1$s verfügbar.\n\nDrücken Sie \'OK\', um fortzufahren.</string>
+    <string name="action_local">Lokal</string>
+    <string name="action_resume">Fortsetzen</string>
+    <string name="action_skip_to_next">Nächster</string>
+    <string name="action_skip_to_previous">Vorheriger</string>
+    <string name="action_stop">Stop</string>
+    <string name="action_toggle_view">Ansicht umschalten</string>
+    <string name="alert_alarm_not_working">Keine ausreichenden Informationen für den Alarm</string>
+    <string name="alert_alarm_working">Weckzeit jetzt</string>
+    <string name="alert_select_external_alarm_app">Wählen Sie den Audioplayer</string>
+    <string name="confirm_overwrite_file">Datei überschreiben?</string>
+    <string name="detail_create_shortcut">Zum Startbildschirm hinzufügen</string>
+    <string name="dialog_hint_file_name">Dateiname eingeben</string>
+    <string name="error_empty_field">Dieses Feld wird benötigt</string>
+    <string name="error_invalid_file_name">Ungültiger Dateiname</string>
+    <string name="error_stream_reconnect_timeout">Verbindung zum Stream kann nicht wiederhergestellt werden: Zeitüberschreitung</string>
+    <string name="giving_up_resume">Versuch, die Wiedergabe fortzusetzen, ignoriert</string>
+    <string name="icon_click_trend_decreasing">Popularität abnehmend</string>
+    <string name="icon_click_trend_increasing">Popularität steigt</string>
+    <string name="icon_click_trend_stable">Beliebtheit stabil</string>
+    <string name="image_button_dont_repeat">Wiederhole nicht</string>
+    <string name="image_button_less">Weniger</string>
+    <string name="image_button_record_request_permission">Berechtigungen für die Aufzeichnung anfordern</string>
+    <string name="image_button_recordings">Aufnahmen</string>
+    <string name="image_button_repeat">Wiederholen</string>
+    <string name="label_button_cancel">Stornieren</string>
+    <string name="label_button_overwrite">Überschreiben</string>
+    <string name="nav_item_about">Über</string>
+    <string name="nav_item_statistics">Statistiken</string>
+    <string name="notify_paused">Angehalten</string>
+    <string name="notify_pre_play">Verbinde</string>
+    <string name="refresh">Aktualisierung</string>
+    <string name="settings_alarm_external_desc_off">Öffnen Sie den Alarm mit RadioDroid</string>
+    <string name="settings_alarm_external_desc_on">Öffnen Sie den Alarm mit der externen Standard-App</string>
+    <string name="settings_auto_play_on_startup">Automatisches Abspielen</string>
+    <string name="settings_auto_play_on_startup_off">Spielen Sie nicht den letzten Sender beim Start</string>
+    <string name="settings_auto_play_on_startup_on">Letzten Sender beim Start abspielen</string>
+    <string name="settings_bottom_navigation">Navigation unten</string>
+    <string name="settings_click_trend_icon_visible">Klicken Sie auf das Trend-Symbol</string>
+    <string name="settings_click_trend_icon_visible_off">Das Symbol wird ausgeblendet</string>
+    <string name="settings_click_trend_icon_visible_on">Das Symbol wird angezeigt</string>
+    <string name="settings_compact_style_desc_off">Großes Symbol mit Stationsdetails übernommen</string>
+    <string name="settings_compact_style_desc_on">Kleines Symbol ohne Stationsdetails übernommen</string>
+    <string name="settings_connect_timeout">Verbindungszeitüberschreitung</string>
+    <string name="settings_milliseconds_format">%d Millisekunden</string>
+    <string name="settings_play_external_desc_off">Spiele Sender mit RadioDroid</string>
+    <string name="settings_play_external_desc_on">Stationen mit externem Player abspielen</string>
+    <string name="settings_proxy_action_test">Prüfung</string>
+    <string name="settings_proxy_login">Nutzername</string>
+    <string name="settings_proxy_not_working">Verbindung zu %s konnte nicht hergestellt werden \n%s</string>
+    <string name="settings_proxy_password">Passwort</string>
+    <string name="settings_proxy_working">Erfolgreich verbunden mit %s</string>
+    <string name="settings_radiobrowser_servers">RadioBrowser-Server</string>
+    <string name="settings_read_timeout">Zeitüberschreitung beim Lesen</string>
+    <string name="settings_record_name_formatting">Namensformat</string>
+    <string name="settings_resume_timeout">Zeitüberschreitung für Wiederverbindungsversuche nach Verbindungsverlust</string>
+    <string name="settings_retry_delay">Wiederverbindungsverzögerung</string>
+    <string name="settings_retry_timeout">Zeitüberschreitung für Wiederverbindungsversuche</string>
+    <string name="settings_seconds_format">%d Sekunden</string>
+    <string name="settings_view_mpd_servers">Ihre Server</string>
 </resources>
