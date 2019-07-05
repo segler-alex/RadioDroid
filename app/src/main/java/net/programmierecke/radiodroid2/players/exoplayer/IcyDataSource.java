@@ -29,6 +29,7 @@ import okhttp3.Request;
 import okhttp3.Response;
 import okhttp3.ResponseBody;
 
+import static net.programmierecke.radiodroid2.Utils.getMimeType;
 import static okhttp3.internal.Util.closeQuietly;
 
 /**
@@ -150,9 +151,8 @@ public class IcyDataSource implements HttpDataSource {
         responseHeaders = response.headers().toMultimap();
 
         final MediaType contentType = responseBody.contentType();
-        assert contentType != null;
 
-        final String type = contentType.toString().toLowerCase();
+        final String type = contentType == null ? getMimeType(dataSpec.uri.toString(), "audio/mpeg") : contentType.toString().toLowerCase();
 
         if (!REJECT_PAYWALL_TYPES.evaluate(type)) {
             close();

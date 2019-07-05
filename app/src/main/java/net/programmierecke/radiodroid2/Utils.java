@@ -24,6 +24,7 @@ import androidx.preference.PreferenceManager;
 import android.text.TextUtils;
 import android.util.Log;
 import android.util.TypedValue;
+import android.webkit.MimeTypeMap;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
@@ -482,5 +483,14 @@ public class Utils {
 
     public static IconicsDrawable IconicsIcon(Context context, IIcon icon) {
         return new IconicsDrawable(context, icon).size(IconicsSize.TOOLBAR_ICON_SIZE).padding(IconicsSize.TOOLBAR_ICON_PADDING).color(IconicsColor.colorInt(getIconColor(context)));
+    }
+
+    public static String getMimeType(String url, String defaultMimeType) {
+        String type = defaultMimeType;
+        String extension = MimeTypeMap.getFileExtensionFromUrl(url);
+        if (extension != null) {
+            type = MimeTypeMap.getSingleton().getMimeTypeFromExtension(extension);
+        }
+        return type;
     }
 }
