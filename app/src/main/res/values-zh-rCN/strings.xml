@@ -65,6 +65,9 @@
     <string name="label_button_cancel">取消</string>
     <string name="label_button_overwrite">覆盖</string>
 
+    <string name="searchpreference_clear_history">清除历史</string>
+    <string name="searchpreference_no_results">无匹配项</string>
+    <string name="searchpreference_search">搜索…</string>
     <string name="settings_appearance">外观</string>
     <string name="settings_theme_selection_title">主题</string>
     <string name="theme_light">亮色</string>

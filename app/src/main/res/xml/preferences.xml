@@ -180,15 +180,6 @@
         android:key="pref_category_connectivity"
         android:title="@string/settings_connectivity">
 
-        <ListPreference
-            android:defaultValue="@string/settings_radiobrowser_servers_default"
-            android:entries="@array/settings_radiobrowser_servers_display"
-            android:entryValues="@array/settings_radiobrowser_servers"
-            android:key="radiobrowser_server"
-            android:summary="%s"
-            search:summary=""
-            android:title="@string/settings_radiobrowser_servers" />
-
         <net.programmierecke.radiodroid2.views.IntEditTextPreference
             android:defaultValue="5"
             android:key="stream_connect_timeout"
@@ -227,6 +218,14 @@
         <Preference
             android:key="settings_proxy"
             android:title="@string/settings_proxy" />
+        <ListPreference
+            android:defaultValue="@string/settings_radiobrowser_servers_default"
+            android:entries="@array/settings_radiobrowser_servers_display"
+            android:entryValues="@array/settings_radiobrowser_servers"
+            android:key="radiobrowser_server"
+            android:summary="%s"
+            search:summary=""
+            android:title="@string/settings_radiobrowser_servers" />
     </PreferenceScreen>
 
     <PreferenceScreen android:title="@string/settings_other"
