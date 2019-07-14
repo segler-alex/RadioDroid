@@ -16,6 +16,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Build;
 import androidx.fragment.app.FragmentActivity;
 import androidx.core.content.ContextCompat;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.ItemTouchHelper;
@@ -153,8 +154,8 @@ public class ItemAdapterStation
                 highlightCurrentStation();
             }
         };
-        getContext().registerReceiver(this.updateUIReceiver,filter);
 
+        LocalBroadcastManager.getInstance(getContext()).registerReceiver(this.updateUIReceiver,filter);
     }
 
     public void setStationActionsListener(StationActionsListener stationActionsListener) {
@@ -425,7 +426,7 @@ public class ItemAdapterStation
 
     @Override
     public void onDetachedFromRecyclerView(RecyclerView recyclerView) {
-        getContext().unregisterReceiver(updateUIReceiver);
+        LocalBroadcastManager.getInstance(getContext()).unregisterReceiver(updateUIReceiver);
     }
 
     Context getContext() {
