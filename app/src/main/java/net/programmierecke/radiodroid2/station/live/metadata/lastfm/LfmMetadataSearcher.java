@@ -17,9 +17,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -33,6 +31,9 @@ public class LfmMetadataSearcher {
 
     private OkHttpClient httpClient;
     private Gson gson = new Gson();
+
+    private static final long API_REQUEST_COOLDOWN_MS = 30 * 1000; // 30 seconds
+    private long lastRequestTime = 0;
 
     public LfmMetadataSearcher(OkHttpClient httpClient) {
         this.httpClient = httpClient;
@@ -67,7 +68,14 @@ public class LfmMetadataSearcher {
             return;
         }
 
-        httpClient.newCall(buildRequest(artist, track)).enqueue(new MetadataCallback(trackMetadataCallback, artist, track));
+        // We want to rate limit calls to Last.fm API to prevent exceeding unknown limits.
+        final long currentTime = System.currentTimeMillis();
+        if ((currentTime - lastRequestTime) > API_REQUEST_COOLDOWN_MS) {
+            lastRequestTime = currentTime;
+            httpClient.newCall(buildRequest(artist, track)).enqueue(new MetadataCallback(trackMetadataCallback, artist, track));
+        } else {
+            trackMetadataCallback.onFailure();
+        }
     }
 
     private Request buildRequest(String artist, String track) {
