@@ -22,7 +22,7 @@
     <string name="action_delete">Slette</string>
     <string name="action_delete_history">Slette historik</string>
     <string name="action_delete_favorites">Slette favoritter</string>
-    <string name="action_ok">O.k.</string>
+    <string name="action_ok">OK</string>
     <string name="action_cancel">Annullere</string>
     <string name="action_top_click">Top klikket</string>
     <string name="action_toggle_view">Skifte visning</string>
@@ -65,6 +65,9 @@
     <string name="label_button_cancel">Annullere</string>
     <string name="label_button_overwrite">Overskrive</string>
 
+    <string name="searchpreference_clear_history">Rydde historik</string>
+    <string name="searchpreference_no_results">Intet resultat</string>
+    <string name="searchpreference_search">Søge…</string>
     <string name="settings_appearance">Udseende</string>
     <string name="settings_theme_selection_title">Tema</string>
     <string name="theme_light">Lys</string>
@@ -133,7 +136,7 @@
     <string name="settings_proxy_login">Brugernavn</string>
     <string name="settings_proxy_password">Adgangskode</string>
     <string name="settings_proxy_action_test">Test</string>
-    <string name="settings_proxy_working">Vellykket forbundet til %s</string>
+    <string name="settings_proxy_working">Forbundet til %s</string>
     <string name="settings_proxy_not_working">Mislykket forbundet til %s\n%s</string>
     <string name="settings_seconds_format">%d sekunder</string>
     <string name="settings_milliseconds_format">%d millisekunder</string>
@@ -144,6 +147,11 @@
 
     <string name="settings_recordings">Optagelser</string>
     <string name="settings_record_name_formatting">Navneformat</string>
+
+    <string name="settings_record_name_formatting_default_display">station_kunstner_nummer_\u200bdato_\u200btidspunkt</string>
+    <string name="settings_record_name_formatting_1_display">station_kunstner_\u200bnummer</string>
+    <string name="settings_record_name_formatting_2_display">station_dato_\u200btidspunkt</string>
+    <string name="settings_record_name_formatting_3_display">indeks_station_\u200bdato</string>
 
     <string name="notify_pre_play">Forbinder</string>
     <string name="notify_play">Afspiller</string>
