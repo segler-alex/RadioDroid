@@ -29,6 +29,7 @@ import org.json.JSONObject;
 import jp.wasabeef.picasso.transformations.CropCircleTransformation;
 import jp.wasabeef.picasso.transformations.CropSquareTransformation;
 import jp.wasabeef.picasso.transformations.RoundedCornersTransformation;
+import okhttp3.OkHttpClient;
 
 import static net.programmierecke.radiodroid2.Utils.resourceToUri;
 
@@ -55,6 +56,9 @@ public class DataRadioStation {
 	public String Codec;
 	public boolean Working = true;
 	public boolean Hls = false;
+
+	@Deprecated
+	public String StationId = "";
 
 	public String getShortDetails(Context ctx) {
 		List<String> aList = new ArrayList<String>();
@@ -93,6 +97,9 @@ public class DataRadioStation {
 							}
 							if (anObject.has("stationuuid")) {
 								aStation.StationUuid = anObject.getString("stationuuid");
+							}
+							if (!aStation.hasValidUuid()) {
+								aStation.StationId = anObject.getString("id");
 							}
 							if (anObject.has("changeuuid")) {
 								aStation.ChangeUuid = anObject.getString("changeuuid");
@@ -150,6 +157,9 @@ public class DataRadioStation {
 					if (anObject.has("stationuuid")) {
 						aStation.StationUuid = anObject.getString("stationuuid");
 					}
+					if (!aStation.hasValidUuid()) {
+						aStation.StationId = anObject.getString("id");
+					}
 					if (anObject.has("changeuuid")) {
 						aStation.ChangeUuid = anObject.getString("changeuuid");
 					}
@@ -186,7 +196,10 @@ public class DataRadioStation {
 	public JSONObject toJson(){
 		JSONObject obj = new JSONObject();
 		try {
-			obj.put("stationuuid",StationUuid);
+			if (TextUtils.isEmpty(StationUuid))
+				obj.put("id",StationId);
+			else
+				obj.put("stationuuid",StationUuid);
 			obj.put("changeuuid",ChangeUuid);
 			obj.put("name",Name);
 			obj.put("homepage",HomePageUrl);
@@ -208,6 +221,41 @@ public class DataRadioStation {
 		}
 
 		return null;
+	}
+
+	public boolean refresh(final OkHttpClient httpClient, final Context context) {
+		boolean success = false;
+		DataRadioStation refreshedStation = (!TextUtils.isEmpty(StationUuid) ? Utils.getStationByUuid(httpClient, context, StationUuid) : Utils.getStationById(httpClient, context, StationId));
+
+		if (refreshedStation != null && refreshedStation.hasValidUuid()) {
+			copyPropertiesFrom(refreshedStation);
+			success = true;
+		}
+		return success;
+	}
+
+	public boolean hasValidUuid() {
+		return !TextUtils.isEmpty(StationUuid);
+	}
+
+	public void copyPropertiesFrom(DataRadioStation station) {
+		StationUuid = station.StationUuid;
+		StationId = station.StationId;
+		ChangeUuid = station.ChangeUuid;
+		Name = station.Name;
+		HomePageUrl = station.HomePageUrl;
+		StreamUrl = station.StreamUrl;
+		IconUrl = station.IconUrl;
+		Country = station.Country;
+		State = station.State;
+		TagsAll = station.TagsAll;
+		Language = station.Language;
+		ClickCount = station.ClickCount;
+		ClickTrend = station.ClickTrend;
+		Votes = station.Votes;
+		Bitrate = station.Bitrate;
+		Codec = station.Codec;
+		Working = station.Working;
 	}
 
 	public interface ShortcutReadyListener {

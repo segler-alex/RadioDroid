@@ -145,12 +145,54 @@ public class StationSaveManager {
         return station != null;
     }
 
+    public boolean hasInvalidUuids() {
+        for (DataRadioStation station : listStations) {
+            if (!station.hasValidUuid()) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     public List<DataRadioStation> getList() {
         return Collections.unmodifiableList(listStations);
     }
 
     public void setChangedListener(IChanged handler){
         this.changedHandler = handler;
+    }
+
+    void refreshStationsFromServer() {
+        final RadioDroidApp radioDroidApp = (RadioDroidApp) context.getApplicationContext();
+        final OkHttpClient httpClient = radioDroidApp.getHttpClient();
+        context.sendBroadcast(new Intent(ActivityMain.ACTION_SHOW_LOADING));
+
+        new AsyncTask<Void, Void, Integer>() {
+            @Override
+            protected Integer doInBackground(Void... params) {
+                int successCount = 0;
+                for (DataRadioStation station : listStations) {
+                    if (station.refresh(httpClient, context)) {
+                        successCount++;
+                    }
+                }
+                return successCount;
+            }
+
+            @Override
+            protected void onPostExecute(Integer result) {
+                int successCount = result.intValue();
+                if (successCount > 0) {
+                    Save();
+                }
+                context.sendBroadcast(new Intent(ActivityMain.ACTION_HIDE_LOADING));
+                if (changedHandler != null){
+                    changedHandler.onChanged();
+                }
+                super.onPostExecute(result);
+            }
+        }.execute();
     }
 
     void Load() {
@@ -161,6 +203,9 @@ public class StationSaveManager {
         if (str != null) {
             DataRadioStation[] arr = DataRadioStation.DecodeJson(str);
             Collections.addAll(listStations, arr);
+            if (hasInvalidUuids()) {
+                refreshStationsFromServer();
+            }
         } else {
             Log.w("SAVE", "Load() no stations to load");
         }
