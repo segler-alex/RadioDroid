@@ -4,24 +4,28 @@
     <string name="detail_name">Nazwa</string>
     <string name="detail_tags">Tagi</string>
     <string name="detail_country">Kraj</string>
+	<string name="detail_create_shortcut">Dodaj do ekranu głównego</string>
     <string name="detail_language">Język</string>
-    <string name="detail_weblink">Łącze internetowe</string>
+    <string name="detail_weblink">Link do strony internetowej</string>
     <string name="detail_play">Odtwarzaj</string>
     <string name="detail_pause">Zatrzymaj</string>
     <string name="detail_stop">Zakończ</string>
     <string name="detail_share">Udostępnij</string>
 
     <string name="action_local">Lokalne</string>
+	<string name="action_skip_to_next">Następna</string>
     <string name="action_pause">Zatrzymaj</string>
+	<string name="action_skip_to_previous">Poprzedni</string>
     <string name="action_resume">Wznów</string>
     <string name="action_stop">Zakończ</string>
-    <string name="action_search">Szukaj</string>
+    <string name="action_search">Szukane</string>
     <string name="action_delete">Usuń</string>
     <string name="action_delete_history">Usuń historię</string>
     <string name="action_delete_favorites">Usuń ulubione</string>
     <string name="action_ok">OK</string>
     <string name="action_cancel">Anuluj</string>
     <string name="action_top_click">Najwięcej kliknięć</string>
+	<string name="action_toggle_view">Przełącz widok</string>
     <string name="action_top_vote">Najwyższa ocena</string>
     <string name="action_changed_lately">Niedawno zmienione</string>
     <string name="action_currently_playing">Teraz odtwarzane</string>
@@ -40,7 +44,7 @@
     <string name="nav_item_alarm">Alarm</string>
     <string name="nav_item_recordings">Nagrania</string>
 
-    <string name="about_text">Ta aplikacja korzysta z bezpłatnego katalogu stacji radiowych umieszczonych pod adresem \nhttps://www.radio-browser.info\nKażdy może dodawać do niego stacje lub edytować istniejące stacje. Działa jak wiki dla internetowych (streaming) stacji radiowych.\n\nKontakt:\nsegler_alex@web.de\n\nBugtracker - Zgłoś błąd:\nhttps://github.com/segler-alex/RadioDroid/issues\n\nJeśli podoba Ci się oprogramowanie i chcesz pomóc, wyślij mi e-mail. Naprawdę potrzebuję kogoś z doświadczeniem graficznym, aby uczynić aplikację przyjemniejszą dla oka :) Może ktoś, kto potrafi rysować ikony, obrazy... ale także programistów, którzy naprawiają błędy lub wdrażają nowe (funkcje nie zawierają błędów;) funkcje są zawsze mile widziane\n\nTa aplikacja jest wolnym oprogramowaniem na licencji GPLv3.\nhttps://www.gnu.org/licenses/gpl-3.0.html</string>
+    <string name="about_text">Ta aplikacja korzysta z bezpłatnego katalogu stacji radiowych umieszczonych pod adresem \nhttps://www.radio-browser.info\nKażdy może dodawać do niego stacje lub edytować istniejące stacje. Działa jak wiki dla internetowych (streaming) stacji radiowych.\n\nKontakt:\nsegler_alex@web.de\n\nBugtracker - Zgłoś błąd:\nhttps://github.com/segler-alex/RadioDroid/issues\n\nJeśli podoba Ci się oprogramowanie i chcesz pomóc, wyślij mi e-mail. Potrzebuję kogoś z doświadczeniem graficznym, aby uczynić aplikację przyjemniejszą dla oka :) Może ktoś, kto potrafi rysować ikony, obrazy... ale także programistów, którzy naprawiają błędy lub wdrażają nowe (funkcje nie zawierające błędów;)\nRównież pomysły na nowe funkcje są zawsze mile widziane!\n\nTa aplikacja jest wolnym oprogramowaniem na licencji GPLv3.\nhttps://www.gnu.org/licenses/gpl-3.0.html</string>
     <string name="about_version">Wersja: %1$s</string>
     <string name="detail_star">Dodaj do ulubionych</string>
     <string name="detail_unstar">Usuń z ulubionych</string>
@@ -50,18 +54,22 @@
     <string name="sleep_timer_title">Zatrzymaj odtwarzanie po wybranej liczbie minut</string>
     <string name="sleep_timer_apply">Zastosuj</string>
     <string name="sleep_timer_clear">Wyczyść</string>
-    <string name="nav_item_add_sleep">+15 min</string>
+    <string name="nav_item_add_sleep">Wyłącznik czasowy</string>
 
     <string name="nav_item_save_playlist">Dopisz do listy odtwarzania </string>
     <string name="nav_item_load_playlist">Wczytaj z listy odtwarzania</string>
     <string name="confirm_overwrite_file">Zastąpić plik?</string>
-    <string name="dialog_hint_file_name">Wprowadź nazwę pliku</string> 
+    <string name="dialog_hint_file_name">Wpisz nazwę pliku</string> 
     <string name="error_empty_field">To pole jest wymagane</string>
     <string name="error_invalid_file_name">Nieprawidłowa nazwa pliku</string>
     <string name="label_button_cancel">Anuluj</string>
     <string name="label_button_overwrite">Zastąp</string>
 
-    <string name="settings_theme_selection_title">Wygląd</string>
+    <string name="searchpreference_clear_history">Wyczyść historię</string>
+    <string name="searchpreference_no_results">Brak wyników</string>
+    <string name="searchpreference_search">Szukaj…</string>
+    <string name="settings_appearance">Prezentacja</string>
+	<string name="settings_theme_selection_title">Wygląd</string>
     <string name="theme_light">Jasny</string>
     <string name="theme_dark">Ciemny</string>
     <string name="settings_circular_icons">Użyj okrągłych ikon</string>
@@ -70,7 +78,8 @@
     <string name="settings_compact_style_desc_on">Mała ikona przejęta bez szczegółów stacji</string>
     <string name="settings_bottom_navigation">Dolny pasek nawigacji</string>
 
-    <string name="settings_single_use_tags">Pokaż rzadko używane tagi</string>
+    <string name="settings_interaction">Interakcje</string>
+	<string name="settings_single_use_tags">Pokaż rzadko używane tagi</string>
     <string name="settings_single_use_tags_desc_off">Tagi rzadko używane nie będą wyświetlane</string>
     <string name="settings_single_use_tags_desc_on">Tagi rzadko używane zostaną wyświetlone</string>
 
@@ -87,13 +96,13 @@
 
     <string name="settings_load_icons">Pokaż ikony stacji</string>
     <string name="settings_load_icons_on">Ikony zostaną pobrane</string>
-    <string name="settings_load_icons_off">Ikon nie można pobrać</string>
+    <string name="settings_load_icons_off">Ikony nie będą pobierane</string>
 
     <string name="settings_auto_favorite">Auto-ulubione</string>
     <string name="settings_auto_favorite_on">Dodaj stacje automatycznie do ulubionych podczas odtwarzania</string>
     <string name="settings_auto_favorite_off">Nie dodawaj stacji automatycznie do ulubionych podczas odtwarzania</string>
 
-    <string name="settings_icon_click_toggles_favorite">Kliknij-ulubione</string>
+    <string name="settings_icon_click_toggles_favorite">Kliknięcie ikony w Ulubione</string>
     <string name="settings_icon_click_toggles_favorite_on">Kliknij ikonę stacji, aby dodać lub usunąć ulubioną stację</string>
     <string name="settings_icon_click_toggles_favorite_off">Kliknij ikonę stacji, aby rozpocząć odtwarzanie</string>
 
@@ -109,17 +118,20 @@
     <string name="settings_alarm_sleep_timer">Wyłącznik czasowy</string>
     <string name="settings_alarm_sleep_timer_desc">Przestań odtwarzać po %1$s minutach</string>
     <string name="settings_play">Odtwarzacz</string>
+	<string name="settings_auto_play_on_startup">Autoodtwarzanie</string>
+	<string name="settings_auto_play_on_startup_on">Odtwórz ostatnią stację podczas uruchamiania</string>
+    <string name="settings_auto_play_on_startup_off">Nie odtwarzaj ostatniej stacji podczas uruchamiania</string>
     <string name="settings_play_external">Włącz zewnętrzny odtwarzacz</string>
     <string name="settings_play_external_desc_on">Odtwarzaj stacje za pomocą zewnętrznego odtwarzacza</string>
     <string name="settings_play_external_desc_off">Odtwarzaj stacje z RadioDroid</string> 
     <string name="settings_equalizer">Korektor graficzny</string>
 
     <string name="settings_connectivity">Połączenie</string>
-    <string name="settings_connect_timeout">Upłynął limit czasu podczas próby połączenia</string>
-    <string name="settings_read_timeout">Czas oczekiwania na transmisję</string>
-    <string name="settings_resume_timeout">Wznów limit czasu</string>
-    <string name="settings_retry_timeout">Limit czasu na wznowienie transmisji wyczerpany</string>
-    <string name="settings_retry_delay">Opóźnienie przy ponownym łączeniu</string>
+    <string name="settings_connect_timeout">Limit czasu podczas próby połączenia</string>
+    <string name="settings_read_timeout"> Limit czasu odczytu</string>
+    <string name="settings_resume_timeout">Ponów po upływie</string>
+    <string name="settings_retry_timeout">Limit czasu na wznowienie</string>
+    <string name="settings_retry_delay">Opóźnienie ponownego łączenia</string>
     <string name="settings_proxy">Proxy</string>
     <string name="settings_proxy_login">Nazwa użytkownika </string>
     <string name="settings_proxy_password">Hasło</string>
@@ -129,18 +141,23 @@
     <string name="settings_seconds_format">%d sekund</string>
     <string name="settings_milliseconds_format">%d milisekund</string>
 
-    <string name="settings_warn_no_wifi">Ostrzegaj o braku połączeniu z Wi-Fi</string>
+    <string name="settings_warn_no_wifi">Ostrzeżenie o wyłączonym Wi-Fi</string>
     <string name="settings_warn_no_wifi_on">Ostrzegaj, gdy odtwarzanie odbywa się bez połączenia z Wi-Fi</string>
     <string name="settings_warn_no_wifi_off">Nie ostrzegaj, gdy odtwarzanie odbywa się bez połączenia z Wi-Fi</string>
 
     <string name="settings_recordings">Nagrania</string>
     <string name="settings_record_name_formatting">Format nazwy</string>
 
+    <string name="settings_record_name_formatting_default" translatable="false">${stacja}_${artysta}_${utwór}_${data}_${czas}</string>
+    <string name="settings_record_name_formatting_1" translatable="false">${stacja}_${artysta}_${utwór}</string>
+    <string name="settings_record_name_formatting_2" translatable="false">${stacja}_${data}_${czas}</string>
+    <string name="settings_record_name_formatting_3" translatable="false">${index}_${stacja}_${data}</string>
+
     <string name="settings_record_name_formatting_default_display">stacja_artysta_utwór_\u200bdate_\u200btime</string>
     <string name="settings_record_name_formatting_1_display">stacja_artysta_\u200btrack</string>
     <string name="settings_record_name_formatting_2_display">stacja_data_\u200btime</string>
     <string name="settings_record_name_formatting_3_display">index_stacja_\u200bdate</string>
-
+	
     <string name="notify_pre_play">Łączenie</string>
     <string name="notify_play">Odtwarzanie</string>
     <string name="notify_paused">Zatrzymaj</string>
@@ -167,20 +184,22 @@
     <string name="alert_select_mpd_server_save">Zapisz</string>
     <string name="alert_select_mpd_server_remove">Usuń</string>
     <string name="alert_add_or_edit_mpd_server">Wprowadź informacje o serwerze</string>
+	<string name="alert_alarm_working">Czas alarmu teraz</string>
+    <string name="alert_alarm_not_working">Brak wystarczających informacji o alarmie</string>
     <string name="alert_select_external_alarm_app">Wybierz odtwarzacz audio</string>
-
+		
     <string name="alert_press_back_to_exit">Naciśnij wstecz, aby wyjść</string>
 
     <string name="error_stream_url">Problem z adresem URL strumienia</string>
     <string name="error_caching_stream">Problem z buforowaniem strumienia</string>
     <string name="error_play_stream">Nie można odtwarzać strumienia</string>
-    <string name="error_stream_reconnect_timeout">Nie można ponownie połączyć się ze strumieniem: przekroczenie czasu oczekiwania.</string>
-    <string name="giving_up_resume">Próba wznowienia odtwarzania została zignorowana.</string>
+    <string name="error_stream_reconnect_timeout">Nie można ponownie połączyć się ze strumieniem: przekroczenie czasu oczekiwania</string>
+    <string name="giving_up_resume">Próba wznowienia odtwarzania została zignorowana</string>
 
-    <string name="error_record_needs_write">Potrzebujesz uprawnień do zapisu dla nagrywania!</string>
-    <string name="error_grant_audiofocus">Żądanie fokusu audio nie zostało przyznane przez system.</string>
+    <string name="error_record_needs_write">Potrzebujesz uprawnień do zapisu dla nagrywania</string>
+    <string name="error_grant_audiofocus">Żądanie dla audio focus nie zostało przyznane przez system</string>
 
-    <string name="error_no_equalizer_found">Nie znaleziono aplikacji korektora graficznego!</string>
+    <string name="error_no_equalizer_found">Nie znaleziono aplikacji korektora graficznego</string>
 
     <string name="player_info_status">Stan:&#160;</string>
     <string name="player_info_status_stopped">zatrzymane</string>
@@ -212,12 +231,14 @@
     <string name="app_name">RadioDroid</string>
 
     <string name="settings_mpd">Music Player Daemon</string>
+	<string name="settings_mpd_port">Port MPD</string>
     <string name="settings_view_mpd_servers">Twoje serwery</string>
     <string name="action_mpd_nok">MPD nie jest podłączony</string>
     <string name="action_mpd_ok">MPD podłączony</string>
-    <string name="action_mpd_connected">Podłączony do serwera: %1$s</string>
+    <string name="action_mpd_connected">Połączono z serwerem: %1$s</string>
 
     <string name="settings_radiobrowser_servers">Serwery RadioBrowser</string>
+	<string name="settings_radiobrowser_servers_default">www.radio-browser.info/webservice</string>
 
     <string name="settings_other">Inne</string>
     <string name="settings_statistics">Statystyki</string>
@@ -233,7 +254,7 @@
         <item>S</item>
     </string-array>
 
-    <string name="notify_stream_url_copied">Adres URL strumienia skopiowano pomyślnie!</string>
+    <string name="notify_stream_url_copied">Adres URL strumienia skopiowano pomyślnie</string>
 
     <string-array name="actions_station_link">
         <item>Odwiedź Stronę Internetową</item>
@@ -244,6 +265,5 @@
     <string name="no_wifi_connection">Brak połączenia Wi-Fi (WLAN) podczas uruchamiania %1$s. Naciśnij \'OK\' aby kontynuować.</string>
     <string name="nav_item_statistics">Statystyki</string>
     <string name="nav_item_about">O</string>
-    <string name="settings_mpd_port">Port MPD</string>
     <string name="refresh">Odśwież</string>
 </resources>
