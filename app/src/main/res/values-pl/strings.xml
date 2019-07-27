@@ -4,7 +4,7 @@
     <string name="detail_name">Nazwa</string>
     <string name="detail_tags">Tagi</string>
     <string name="detail_country">Kraj</string>
-	<string name="detail_create_shortcut">Dodaj do ekranu głównego</string>
+    <string name="detail_create_shortcut">Dodaj do ekranu głównego</string>
     <string name="detail_language">Język</string>
     <string name="detail_weblink">Link do strony internetowej</string>
     <string name="detail_play">Odtwarzaj</string>
@@ -13,9 +13,9 @@
     <string name="detail_share">Udostępnij</string>
 
     <string name="action_local">Lokalne</string>
-	<string name="action_skip_to_next">Następna</string>
+    <string name="action_skip_to_next">Następna</string>
     <string name="action_pause">Zatrzymaj</string>
-	<string name="action_skip_to_previous">Poprzedni</string>
+    <string name="action_skip_to_previous">Poprzedni</string>
     <string name="action_resume">Wznów</string>
     <string name="action_stop">Zakończ</string>
     <string name="action_search">Szukane</string>
@@ -25,7 +25,7 @@
     <string name="action_ok">OK</string>
     <string name="action_cancel">Anuluj</string>
     <string name="action_top_click">Najwięcej kliknięć</string>
-	<string name="action_toggle_view">Przełącz widok</string>
+    <string name="action_toggle_view">Przełącz widok</string>
     <string name="action_top_vote">Najwyższa ocena</string>
     <string name="action_changed_lately">Niedawno zmienione</string>
     <string name="action_currently_playing">Teraz odtwarzane</string>
@@ -69,7 +69,7 @@
     <string name="searchpreference_no_results">Brak wyników</string>
     <string name="searchpreference_search">Szukaj…</string>
     <string name="settings_appearance">Prezentacja</string>
-	<string name="settings_theme_selection_title">Wygląd</string>
+    <string name="settings_theme_selection_title">Wygląd</string>
     <string name="theme_light">Jasny</string>
     <string name="theme_dark">Ciemny</string>
     <string name="settings_circular_icons">Użyj okrągłych ikon</string>
@@ -79,7 +79,7 @@
     <string name="settings_bottom_navigation">Dolny pasek nawigacji</string>
 
     <string name="settings_interaction">Interakcje</string>
-	<string name="settings_single_use_tags">Pokaż rzadko używane tagi</string>
+    <string name="settings_single_use_tags">Pokaż rzadko używane tagi</string>
     <string name="settings_single_use_tags_desc_off">Tagi rzadko używane nie będą wyświetlane</string>
     <string name="settings_single_use_tags_desc_on">Tagi rzadko używane zostaną wyświetlone</string>
 
@@ -118,8 +118,8 @@
     <string name="settings_alarm_sleep_timer">Wyłącznik czasowy</string>
     <string name="settings_alarm_sleep_timer_desc">Przestań odtwarzać po %1$s minutach</string>
     <string name="settings_play">Odtwarzacz</string>
-	<string name="settings_auto_play_on_startup">Autoodtwarzanie</string>
-	<string name="settings_auto_play_on_startup_on">Odtwórz ostatnią stację podczas uruchamiania</string>
+    <string name="settings_auto_play_on_startup">Autoodtwarzanie</string>
+    <string name="settings_auto_play_on_startup_on">Odtwórz ostatnią stację podczas uruchamiania</string>
     <string name="settings_auto_play_on_startup_off">Nie odtwarzaj ostatniej stacji podczas uruchamiania</string>
     <string name="settings_play_external">Włącz zewnętrzny odtwarzacz</string>
     <string name="settings_play_external_desc_on">Odtwarzaj stacje za pomocą zewnętrznego odtwarzacza</string>
@@ -147,11 +147,6 @@
 
     <string name="settings_recordings">Nagrania</string>
     <string name="settings_record_name_formatting">Format nazwy</string>
-
-    <string name="settings_record_name_formatting_default" translatable="false">${stacja}_${artysta}_${utwór}_${data}_${czas}</string>
-    <string name="settings_record_name_formatting_1" translatable="false">${stacja}_${artysta}_${utwór}</string>
-    <string name="settings_record_name_formatting_2" translatable="false">${stacja}_${data}_${czas}</string>
-    <string name="settings_record_name_formatting_3" translatable="false">${index}_${stacja}_${data}</string>
 
     <string name="settings_record_name_formatting_default_display">stacja_artysta_utwór_\u200bdate_\u200btime</string>
     <string name="settings_record_name_formatting_1_display">stacja_artysta_\u200btrack</string>
@@ -184,7 +179,7 @@
     <string name="alert_select_mpd_server_save">Zapisz</string>
     <string name="alert_select_mpd_server_remove">Usuń</string>
     <string name="alert_add_or_edit_mpd_server">Wprowadź informacje o serwerze</string>
-	<string name="alert_alarm_working">Czas alarmu teraz</string>
+    <string name="alert_alarm_working">Czas alarmu teraz</string>
     <string name="alert_alarm_not_working">Brak wystarczających informacji o alarmie</string>
     <string name="alert_select_external_alarm_app">Wybierz odtwarzacz audio</string>
 		
@@ -231,14 +226,13 @@
     <string name="app_name">RadioDroid</string>
 
     <string name="settings_mpd">Music Player Daemon</string>
-	<string name="settings_mpd_port">Port MPD</string>
+    <string name="settings_mpd_port">Port MPD</string>
     <string name="settings_view_mpd_servers">Twoje serwery</string>
     <string name="action_mpd_nok">MPD nie jest podłączony</string>
     <string name="action_mpd_ok">MPD podłączony</string>
     <string name="action_mpd_connected">Połączono z serwerem: %1$s</string>
 
     <string name="settings_radiobrowser_servers">Serwery RadioBrowser</string>
-	<string name="settings_radiobrowser_servers_default">www.radio-browser.info/webservice</string>
 
     <string name="settings_other">Inne</string>
     <string name="settings_statistics">Statystyki</string>
