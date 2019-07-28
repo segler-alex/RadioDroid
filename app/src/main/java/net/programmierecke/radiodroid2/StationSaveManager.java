@@ -171,25 +171,23 @@ public class StationSaveManager {
         new AsyncTask<Void, Void, Integer>() {
             @Override
             protected Integer doInBackground(Void... params) {
-                int successCount = 0;
+                int deletedCount = 0;
                 for (DataRadioStation station : listStations) {
-                    if (station.refresh(httpClient, context)) {
-                        successCount++;
+                    if (!station.refresh(httpClient, context) && !station.hasValidUuid() && station.RefreshRetryCount > DataRadioStation.MAX_REFRESH_RETRIES) {
+                        listStations.remove(station);
+                        deletedCount++;
                     }
                 }
-                return successCount;
+                return deletedCount;
             }
 
             @Override
             protected void onPostExecute(Integer result) {
-                int successCount = result.intValue();
-                if (successCount > 0) {
-                    Save();
-                }
-                context.sendBroadcast(new Intent(ActivityMain.ACTION_HIDE_LOADING));
+                Save();
                 if (changedHandler != null){
                     changedHandler.onChanged();
                 }
+                context.sendBroadcast(new Intent(ActivityMain.ACTION_HIDE_LOADING));
                 super.onPostExecute(result);
             }
         }.execute();
@@ -203,7 +201,7 @@ public class StationSaveManager {
         if (str != null) {
             DataRadioStation[] arr = DataRadioStation.DecodeJson(str);
             Collections.addAll(listStations, arr);
-            if (hasInvalidUuids()) {
+            if (hasInvalidUuids() && Utils.hasAnyConnection(context)) {
                 refreshStationsFromServer();
             }
         } else {

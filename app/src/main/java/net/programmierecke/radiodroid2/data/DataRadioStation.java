@@ -35,6 +35,7 @@ import static net.programmierecke.radiodroid2.Utils.resourceToUri;
 
 public class DataRadioStation {
 	static final String TAG = "DATAStation";
+	public static final int MAX_REFRESH_RETRIES = 16;
 
 	public DataRadioStation() {
 	}
@@ -52,6 +53,7 @@ public class DataRadioStation {
 	public int ClickCount;
 	public int ClickTrend;
 	public int Votes;
+	public int RefreshRetryCount;
 	public int Bitrate;
 	public String Codec;
 	public boolean Working = true;
@@ -105,6 +107,11 @@ public class DataRadioStation {
 								aStation.ChangeUuid = anObject.getString("changeuuid");
 							}
 							aStation.Votes = anObject.getInt("votes");
+							if (anObject.has("refreshretrycount")) {
+								aStation.RefreshRetryCount = anObject.getInt("refreshretrycount");
+							} else {
+								aStation.RefreshRetryCount = 0;
+							}
 							aStation.HomePageUrl = anObject.getString("homepage");
 							aStation.TagsAll = anObject.getString("tags");
 							aStation.Country = anObject.getString("country");
@@ -164,6 +171,11 @@ public class DataRadioStation {
 						aStation.ChangeUuid = anObject.getString("changeuuid");
 					}
 					aStation.Votes = anObject.getInt("votes");
+					if (anObject.has("refreshretrycount")) {
+						aStation.RefreshRetryCount = anObject.getInt("refreshretrycount");
+					} else {
+						aStation.RefreshRetryCount = 0;
+					}
 					aStation.HomePageUrl = anObject.getString("homepage");
 					aStation.TagsAll = anObject.getString("tags");
 					aStation.Country = anObject.getString("country");
@@ -211,6 +223,7 @@ public class DataRadioStation {
 			obj.put("language",Language);
 			obj.put("clickcount",ClickCount);
 			obj.put("clicktrend",ClickTrend);
+			obj.put("refreshretrycount",RefreshRetryCount);
 			obj.put("votes",Votes);
 			obj.put("bitrate",""+Bitrate);
 			obj.put("codec",Codec);
@@ -229,7 +242,10 @@ public class DataRadioStation {
 
 		if (refreshedStation != null && refreshedStation.hasValidUuid()) {
 			copyPropertiesFrom(refreshedStation);
+			RefreshRetryCount = 0;
 			success = true;
+		} else if (Utils.hasAnyConnection(context)) {
+			RefreshRetryCount++;
 		}
 		return success;
 	}
@@ -253,6 +269,7 @@ public class DataRadioStation {
 		ClickCount = station.ClickCount;
 		ClickTrend = station.ClickTrend;
 		Votes = station.Votes;
+		RefreshRetryCount = station.RefreshRetryCount;
 		Bitrate = station.Bitrate;
 		Codec = station.Codec;
 		Working = station.Working;
