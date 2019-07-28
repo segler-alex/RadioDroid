@@ -208,10 +208,11 @@ public class DataRadioStation {
 	public JSONObject toJson(){
 		JSONObject obj = new JSONObject();
 		try {
-			if (TextUtils.isEmpty(StationUuid))
-				obj.put("id",StationId);
-			else
-				obj.put("stationuuid",StationUuid);
+			if (TextUtils.isEmpty(StationUuid)) {
+				obj.put("id", StationId);
+			} else {
+				obj.put("stationuuid", StationUuid);
+			}
 			obj.put("changeuuid",ChangeUuid);
 			obj.put("name",Name);
 			obj.put("homepage",HomePageUrl);
@@ -223,7 +224,9 @@ public class DataRadioStation {
 			obj.put("language",Language);
 			obj.put("clickcount",ClickCount);
 			obj.put("clicktrend",ClickTrend);
-			obj.put("refreshretrycount",RefreshRetryCount);
+			if (RefreshRetryCount > 0) {
+				obj.put("refreshretrycount", RefreshRetryCount);
+			}
 			obj.put("votes",Votes);
 			obj.put("bitrate",""+Bitrate);
 			obj.put("codec",Codec);
