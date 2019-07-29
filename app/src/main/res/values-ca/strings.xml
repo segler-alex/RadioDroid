@@ -1,0 +1,250 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+    <string name="detail_name">Nom</string>
+    <string name="detail_tags">Etiquetes</string>
+    <string name="detail_country">País</string>
+    <string name="detail_create_shortcut">Afegeix a pantalla d\'inici</string>
+    <string name="detail_language">Idioma</string>
+    <string name="detail_weblink">Enllaç web</string>
+    <string name="detail_play">Reprodueix</string>
+    <string name="detail_pause">Posa en pausa</string>
+    <string name="detail_stop">Atura</string>
+    <string name="detail_share">Comparteix</string>
+
+    <string name="action_local">Local</string>
+    <string name="action_skip_to_next">Següent</string>
+    <string name="action_pause">Posa en pausa</string>
+    <string name="action_skip_to_previous">Anterior</string>
+    <string name="action_resume">Reprèn</string>
+    <string name="action_stop">Atura</string>
+    <string name="action_search">Cerca</string>
+    <string name="action_delete">Suprimeix</string>
+    <string name="action_delete_history">Suprimeix l\'historial</string>
+    <string name="action_delete_favorites">Suprimeix les preferides</string>
+    <string name="action_ok">D\'acord</string>
+    <string name="action_cancel">Cancel·la</string>
+    <string name="action_top_click">Les més clicades</string>
+    <string name="action_toggle_view">Canvia visualització</string>
+    <string name="action_top_vote">Les més votades</string>
+    <string name="action_changed_lately">Darrers canvis</string>
+    <string name="action_currently_playing">Reproducció en curs</string>
+    <string name="action_tags">Etiquetes</string>
+    <string name="action_countries">Països</string>
+    <string name="action_languages">Idiomes</string>
+    <string name="error_station_load">No s\'ha pogut connectar a l\'emissora</string>
+    <string name="error_list_update">No s\'ha pogut connectar al servidor</string>
+
+    <string name="share_action">Compartir emissora amb...</string>
+
+    <string name="nav_item_stations">Emissores</string>
+    <string name="nav_item_starred">Preferides</string>
+    <string name="nav_item_history">Historial</string>
+    <string name="nav_item_settings">Configuració</string>
+    <string name="nav_item_alarm">Alarma</string>
+    <string name="nav_item_recordings">Enregistraments</string>
+
+    <string name="about_text">Aquesta aplicació utilitza el directori d\'emissores de ràdio gratuïtes a\nhttps://www.radio-browser.info\nTothom pot afegir emissores. Funciona com un wiki per a emissores de ràdio en línia. \n\nContacte:\nsegler_alex@web.de\n\nBugtracker: \nhttps://github.com/segler-alex/RadioDroid/issues\n\nSi us agrada aquest programari i voleu ajudar-nos, no dubteu a enviar-nos un correu electrònic. Necessitem algú amb experiència en disseny gràfic per fer que l\'aplicació sigui més agradable a la vista :) Potser algú que pugui dibuixar icones, imatges... però també programadors que arreglin errors, o desenvolupin (noves funcionalitats, no  errors ;)\nLes idees per a noves funcionalitats també són benvingudes!\n\nAquesta aplicació és un programari lliure llicenciat sota la llicència GPLv3. \nhttp://www.gnu.org/licenses/gpl-3.0.html</string>
+    <string name="about_version">Versió: %1$s</string>
+    <string name="detail_star">Afegir a preferides</string>
+    <string name="detail_unstar">Suprimeix de preferides</string>
+    <string name="progress_loading">Carregant ...</string>
+
+    <string formatted="true" name="sleep_timer">Temporitzador: %1$02d:%2$02d</string>
+    <string name="sleep_timer_title">Atura la reproducció després del minut seleccionat</string>
+    <string name="sleep_timer_apply">Aplica</string>
+    <string name="sleep_timer_clear">Esborra</string>
+    <string name="nav_item_add_sleep">Temporitzador</string>
+
+    <string name="nav_item_save_playlist">Desa a la llista de reproducció</string>
+    <string name="nav_item_load_playlist">Carrega a la llista de reproducció</string>
+    <string name="confirm_overwrite_file">Sobreescriu el fitxer?</string>
+    <string name="dialog_hint_file_name">Introduïu el nom del fitxer</string>
+    <string name="error_empty_field">Aquest camp és obligatori</string>
+    <string name="error_invalid_file_name">Nom de fitxer no vàlid</string>
+    <string name="label_button_cancel">Cancel·lar</string>
+    <string name="label_button_overwrite">Sobreescriure</string>
+
+    <string name="searchpreference_clear_history">Esborra historial</string>
+    <string name="searchpreference_no_results">Sense resultats</string>
+    <string name="searchpreference_search">Cerca...</string>
+    <string name="settings_appearance">Aparença</string>
+    <string name="settings_theme_selection_title">Tema</string>
+    <string name="theme_light">Clar</string>
+    <string name="theme_dark">Fosc</string>
+    <string name="settings_circular_icons">Utilitzeu icones circulars</string>
+    <string name="settings_compact_style">Mode compacte</string>
+    <string name="settings_compact_style_desc_off">Icona gran adoptada amb els detalls de l\'emissora</string>
+    <string name="settings_compact_style_desc_on">Icona petita adoptada sense detalls d\'emissora</string>
+    <string name="settings_bottom_navigation">Navegació inferior</string>
+
+    <string name="settings_interaction">Interacció</string>
+    <string name="settings_single_use_tags">Mostra etiquetes poc usades</string>
+    <string name="settings_single_use_tags_desc_off">Les etiquetes poc usades no es mostraran</string>
+    <string name="settings_single_use_tags_desc_on">Es mostraran etiquetes poc usades</string>
+
+    <string name="settings_show_broken">Emissores espatllades</string>
+    <string name="settings_show_broken_on">Mostra les emissores espatllades a les llistes</string>
+    <string name="settings_show_broken_off">No mostris les emissores espatllades a les llistes</string>
+
+    <string name="startup_action_title">Acció inicial</string>
+    <string name="startup_action_title_desc">%s</string>
+    <string name="startup_show_all_stations">Mostra totes les emissores</string>
+    <string name="startup_show_favorites">Mostra les preferides</string>
+    <string name="startup_show_history">Mostra l\'historial</string>
+    <string name="startup_show_last_view">Darrera visualització</string>
+
+    <string name="settings_load_icons">Mostra icones</string>
+    <string name="settings_load_icons_on">Es mostraran les icones</string>
+    <string name="settings_load_icons_off">No es mostraran les icones</string>
+
+    <string name="settings_auto_favorite">Auto-preferides</string>
+    <string name="settings_auto_favorite_on">Afegir emissores automàticament a les preferides quan es reprodueixin</string>
+    <string name="settings_auto_favorite_off">No afegir emissores automàticament a les preferides quan es reprodueixin</string>
+
+    <string name="settings_icon_click_toggles_favorite">Comportament icona</string>
+    <string name="settings_icon_click_toggles_favorite_on">Toc a la icona d\'emissora afegeix o elimina l\'emissora de preferides</string>
+    <string name="settings_icon_click_toggles_favorite_off">Toc a la icona d\'emissora comença a reproduir</string>
+
+    <string name="settings_click_trend_icon_visible">Mostra icona de tendència</string>
+    <string name="settings_click_trend_icon_visible_on">La icona serà visible</string>
+    <string name="settings_click_trend_icon_visible_off">La icona s\'ocultarà</string>
+
+    <string name="settings_alarm">Alarma</string>
+    <string name="settings_alarm_external">Habiliteu l\'aplicació externa</string>
+    <string name="settings_alarm_external_desc_on">Obriu l\'alarma amb una aplicació externa predeterminada</string>
+    <string name="settings_alarm_external_desc_off">Obriu l\'alarma amb RadioDroid</string>
+    <string name="settings_alarm_audio_player">Reproductor d\'àudio</string>
+    <string name="settings_alarm_sleep_timer">Temporitzador</string>
+    <string name="settings_alarm_sleep_timer_desc">Deixa de reproduir després de %1$s minuts</string>
+    <string name="settings_play">Reproducció</string>
+    <string name="settings_auto_play_on_startup">Reproducció automàtica</string>
+    <string name="settings_auto_play_on_startup_on">Reproduir la darrera emissora a l\'inici</string>
+    <string name="settings_auto_play_on_startup_off">No reproduir la darrera emissora a l\'inici</string>
+    <string name="settings_play_external">Activa el reproductor extern</string>
+    <string name="settings_play_external_desc_on">Reprodueix emissores amb reproductor extern</string>
+    <string name="settings_play_external_desc_off">Reprodueix les emissores amb RadioDroid</string>
+    <string name="settings_equalizer">Equalitzador</string>
+
+    <string name="settings_warn_no_wifi">Avís sense connexió sense fils</string>
+    <string name="settings_warn_no_wifi_on">Avísar de manca de connexió sense fils</string>
+    <string name="settings_warn_no_wifi_off">No aviar de la manca de connexió sense fils</string>
+
+    <string name="settings_recordings">Enregistraments</string>
+    <string name="settings_record_name_formatting">Format del nom</string>
+
+    <string name="settings_record_name_formatting_default_display">emissora_artista_pista_\u200bdata_\u200btemps</string>
+    <string name="settings_record_name_formatting_1_display">emissora_artista_\u200bpista</string>
+    <string name="settings_record_name_formatting_2_display">emissora_data_\u200btemps</string>
+    <string name="settings_record_name_formatting_3_display">index_emissora_\u200bdata</string>
+
+    <string name="notify_pre_play">Connectant</string>
+    <string name="notify_play">Reproduint</string>
+    <string name="notify_paused">En pausa</string>
+    <string name="notify_starred">S\'ha afegit l\'emissora a les preferides</string>
+    <string name="notify_autostarred">L\'emissora s\'ha afegit automàticament a les preferides</string>
+    <string name="notify_unstarred">L\'emissora s\'ha eliminat de les preferides</string>
+    <string name="notify_deleted_favorites">S\'han suprimit de les preferides</string>
+    <string name="notify_deleted_history">S\'ha suprimit l\'historial</string>
+
+    <string name="notify_station_removed_from_list">1 Eliminat</string>
+    <string name="action_station_removed_from_list_undo">DESFER</string>
+
+    <string name="alert_delete_history">Segur que voleu suprimir l\'historial?</string>
+    <string name="alert_delete_favorites">Segur que voleu eliminar totes les preferides?</string>
+    <string name="yes">Sí</string>
+    <string name="no">No</string>
+
+    <string name="alert_select_mpd_server">Seleccioneu un servidor</string>
+    <string name="alert_select_mpd_server_name">Nom del servidor</string>
+    <string name="hostname">Nom d\'amfitrió</string>
+    <string name="port">Port</string>
+
+    <string name="alert_select_mpd_server_add">Afegeix</string>
+    <string name="alert_select_mpd_server_save">Desa</string>
+    <string name="alert_select_mpd_server_remove">Elimina</string>
+    <string name="alert_add_or_edit_mpd_server">Introduïu detalls sobre un servidor</string>
+    <string name="alert_alarm_working">Hora d\'alarma</string>
+    <string name="alert_alarm_not_working">No hi ha informació suficient per l\'alarma</string>
+    <string name="alert_select_external_alarm_app">Trieu el reproductor d\'àudio</string>
+
+    <string name="alert_press_back_to_exit">Torneu a prémer enrera per sortir</string>
+
+    <string name="error_stream_url">Problema amb l\'URL del flux de dades</string>
+    <string name="error_caching_stream">Problema amb la memòria cau del flux de dades</string>
+    <string name="error_play_stream">No es pot reproduir el flux de dades</string>
+    <string name="error_stream_reconnect_timeout">No es pot tornar a connectar al flux de dades: timeout</string>
+    <string name="giving_up_resume">No s\'ha pogut reprendre la reproducció</string>
+
+    <string name="error_record_needs_write">Necessiteu permís d\'escriptura per gravar</string>
+    <string name="error_grant_audiofocus">El sistema no ha donat reposta a la sol·licitud d\'àudio</string>
+
+    <string name="error_no_equalizer_found">No s\'ha trobat cap aplicació d\'equalització</string>
+
+    <string name="player_info_status">Estat:&#160;</string>
+    <string name="player_info_status_stopped">aturat</string>
+    <string name="player_info_status_playing">reproduint</string>
+    <string name="player_info_status_recording">enregistrant</string>
+    <string name="player_info_status_playing_and_recording">reproduint i enregistrant</string>
+    <string name="player_info_transferred">Dades transferides: %1$s</string>
+    <string name="player_info_recording_to">Enregistrament a:\n%1$s</string>
+    <string name="player_info_recorded_to">Últim enregistrament:\n%1$s</string>
+
+    <string name="station_detail_bitrate">%1$1d kbps</string>
+    <string name="station_detail_broken">ERROR</string>
+
+    <string name="image_button_disable">Inhabilitar</string>
+    <string name="image_button_record">Enregistrar</string>
+    <string name="image_button_record_request_permission">Sol·liciteu permisos per a la gravació</string>
+    <string name="image_button_recordings">Enregistraments</string>
+    <string name="image_button_delete">Suprimir</string>
+    <string name="image_button_more">Més</string>
+    <string name="image_button_less">Menys</string>
+    <string name="image_button_repeat">Repetició</string>
+    <string name="image_button_dont_repeat">Sense repetició</string>
+    <string name="icon_click_trend_decreasing">Popularitat decreixent</string>
+    <string name="icon_click_trend_increasing">Augment de la popularitat</string>
+    <string name="icon_click_trend_stable">Popularitat estable</string>
+
+    <string name="media_route_menu_title">GoogleCast</string>
+    <string name="app_id">5A97BAE4</string>
+    <string name="app_name">RadioDroid</string>
+
+    <string name="settings_mpd">Music Player Daemon</string>
+    <string name="settings_mpd_port">Port MPD</string>
+    <string name="settings_view_mpd_servers">Els vostres servidors</string>
+    <string name="action_mpd_nok">MPD no connectat</string>
+    <string name="action_mpd_ok">Connexió MPD</string>
+    <string name="action_mpd_connected">Connectat al servidor: %1$s</string>
+
+    <string name="settings_radiobrowser_servers">Servidors de RadioBrowser</string>
+    <string name="settings_radiobrowser_servers_default">www.radio-browser.info/webservice</string>
+
+    <string name="settings_other">Altres</string>
+    <string name="settings_statistics">Estadístiques</string>
+    <string name="settings_about">Quant a RadioDroid</string>
+
+    <string-array name="weekdays">
+        <item>dg</item>
+        <item>dl</item>
+        <item>dt</item>
+        <item>dc</item>
+        <item>dj</item>
+        <item>dv</item>
+        <item>ds</item>
+    </string-array>
+
+    <string name="notify_stream_url_copied">L\'URL del flux de dades s\'ha copiat correctament</string>
+
+    <string-array name="actions_station_link">
+        <item>Visiteu el lloc web</item>
+        <item>Copia l\'URL del flux de dades</item>
+    </string-array>
+
+    <string name="no_wifi_title">No hi ha connexió sense fils (WiFi WLAN)</string>
+    <string name="no_wifi_connection">No hi ha connexió sense fils (WiFi WLAN) iniciant %1$s, premeu per a continuar.</string>
+    <string name="nav_item_statistics">Estadístiques</string>
+    <string name="nav_item_about">Quant a</string>
+    <string name="refresh">Actualització</string>
+
+</resources>
