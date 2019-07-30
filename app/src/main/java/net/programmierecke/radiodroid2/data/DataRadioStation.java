@@ -29,11 +29,13 @@ import org.json.JSONObject;
 import jp.wasabeef.picasso.transformations.CropCircleTransformation;
 import jp.wasabeef.picasso.transformations.CropSquareTransformation;
 import jp.wasabeef.picasso.transformations.RoundedCornersTransformation;
+import okhttp3.OkHttpClient;
 
 import static net.programmierecke.radiodroid2.Utils.resourceToUri;
 
 public class DataRadioStation {
 	static final String TAG = "DATAStation";
+	public static final int MAX_REFRESH_RETRIES = 16;
 
 	public DataRadioStation() {
 	}
@@ -51,10 +53,14 @@ public class DataRadioStation {
 	public int ClickCount;
 	public int ClickTrend;
 	public int Votes;
+	public int RefreshRetryCount;
 	public int Bitrate;
 	public String Codec;
 	public boolean Working = true;
 	public boolean Hls = false;
+
+	@Deprecated
+	public String StationId = "";
 
 	public String getShortDetails(Context ctx) {
 		List<String> aList = new ArrayList<String>();
@@ -94,10 +100,18 @@ public class DataRadioStation {
 							if (anObject.has("stationuuid")) {
 								aStation.StationUuid = anObject.getString("stationuuid");
 							}
+							if (!aStation.hasValidUuid()) {
+								aStation.StationId = anObject.getString("id");
+							}
 							if (anObject.has("changeuuid")) {
 								aStation.ChangeUuid = anObject.getString("changeuuid");
 							}
 							aStation.Votes = anObject.getInt("votes");
+							if (anObject.has("refreshretrycount")) {
+								aStation.RefreshRetryCount = anObject.getInt("refreshretrycount");
+							} else {
+								aStation.RefreshRetryCount = 0;
+							}
 							aStation.HomePageUrl = anObject.getString("homepage");
 							aStation.TagsAll = anObject.getString("tags");
 							aStation.Country = anObject.getString("country");
@@ -150,10 +164,18 @@ public class DataRadioStation {
 					if (anObject.has("stationuuid")) {
 						aStation.StationUuid = anObject.getString("stationuuid");
 					}
+					if (!aStation.hasValidUuid()) {
+						aStation.StationId = anObject.getString("id");
+					}
 					if (anObject.has("changeuuid")) {
 						aStation.ChangeUuid = anObject.getString("changeuuid");
 					}
 					aStation.Votes = anObject.getInt("votes");
+					if (anObject.has("refreshretrycount")) {
+						aStation.RefreshRetryCount = anObject.getInt("refreshretrycount");
+					} else {
+						aStation.RefreshRetryCount = 0;
+					}
 					aStation.HomePageUrl = anObject.getString("homepage");
 					aStation.TagsAll = anObject.getString("tags");
 					aStation.Country = anObject.getString("country");
@@ -186,7 +208,11 @@ public class DataRadioStation {
 	public JSONObject toJson(){
 		JSONObject obj = new JSONObject();
 		try {
-			obj.put("stationuuid",StationUuid);
+			if (TextUtils.isEmpty(StationUuid)) {
+				obj.put("id", StationId);
+			} else {
+				obj.put("stationuuid", StationUuid);
+			}
 			obj.put("changeuuid",ChangeUuid);
 			obj.put("name",Name);
 			obj.put("homepage",HomePageUrl);
@@ -198,6 +224,9 @@ public class DataRadioStation {
 			obj.put("language",Language);
 			obj.put("clickcount",ClickCount);
 			obj.put("clicktrend",ClickTrend);
+			if (RefreshRetryCount > 0) {
+				obj.put("refreshretrycount", RefreshRetryCount);
+			}
 			obj.put("votes",Votes);
 			obj.put("bitrate",""+Bitrate);
 			obj.put("codec",Codec);
@@ -208,6 +237,45 @@ public class DataRadioStation {
 		}
 
 		return null;
+	}
+
+	public boolean refresh(final OkHttpClient httpClient, final Context context) {
+		boolean success = false;
+		DataRadioStation refreshedStation = (!TextUtils.isEmpty(StationUuid) ? Utils.getStationByUuid(httpClient, context, StationUuid) : Utils.getStationById(httpClient, context, StationId));
+
+		if (refreshedStation != null && refreshedStation.hasValidUuid()) {
+			copyPropertiesFrom(refreshedStation);
+			RefreshRetryCount = 0;
+			success = true;
+		} else if (Utils.hasAnyConnection(context)) {
+			RefreshRetryCount++;
+		}
+		return success;
+	}
+
+	public boolean hasValidUuid() {
+		return !TextUtils.isEmpty(StationUuid);
+	}
+
+	public void copyPropertiesFrom(DataRadioStation station) {
+		StationUuid = station.StationUuid;
+		StationId = station.StationId;
+		ChangeUuid = station.ChangeUuid;
+		Name = station.Name;
+		HomePageUrl = station.HomePageUrl;
+		StreamUrl = station.StreamUrl;
+		IconUrl = station.IconUrl;
+		Country = station.Country;
+		State = station.State;
+		TagsAll = station.TagsAll;
+		Language = station.Language;
+		ClickCount = station.ClickCount;
+		ClickTrend = station.ClickTrend;
+		Votes = station.Votes;
+		RefreshRetryCount = station.RefreshRetryCount;
+		Bitrate = station.Bitrate;
+		Codec = station.Codec;
+		Working = station.Working;
 	}
 
 	public interface ShortcutReadyListener {

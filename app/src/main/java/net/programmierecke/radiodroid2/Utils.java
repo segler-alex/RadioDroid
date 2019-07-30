@@ -187,6 +187,26 @@ public class Utils {
 		return null;
 	}
 
+	@Deprecated
+	public static DataRadioStation getStationById(OkHttpClient httpClient, Context ctx, String stationId) {
+		Log.w("UTIL", "Search by id:" + stationId);
+		String result = Utils.downloadFeed(httpClient, ctx, RadioBrowserServerManager.getWebserviceEndpoint(ctx, "json/stations/byid/" + stationId), true, null);
+		if (result != null) {
+			try {
+				DataRadioStation[] list = DataRadioStation.DecodeJson(result);
+				if (list != null) {
+					if (list.length == 1) {
+						return list[0];
+					}
+					Log.e("UTIL", "stations by id did have length:" + list.length);
+				}
+			} catch (Exception e) {
+				Log.e("UTIL", "getStationByid() " + e);
+			}
+		}
+		return null;
+	}
+
 	public static DataRadioStation getStationByUuid(OkHttpClient httpClient, Context ctx, String stationUuid){
 		Log.w("UTIL","Search by uuid:"+stationUuid);
 		String result = Utils.downloadFeed(httpClient, ctx, RadioBrowserServerManager.getWebserviceEndpoint(ctx, "json/stations/byuuid/" + stationUuid), true, null);
@@ -246,6 +266,9 @@ public class Utils {
 		new AsyncTask<Void, Void, String>() {
 			@Override
 			protected String doInBackground(Void... params) {
+				if (!station.hasValidUuid()) {
+					station.refresh(httpClient, context);
+				}
 				return Utils.getRealStationLink(httpClient, context.getApplicationContext(), station.StationUuid);
 			}
 
