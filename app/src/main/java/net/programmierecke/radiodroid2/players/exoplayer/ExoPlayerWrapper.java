@@ -85,8 +85,10 @@ public class ExoPlayerWrapper implements PlayerWrapper, IcyDataSource.IcyDataSou
     private final BroadcastReceiver networkChangedReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
+            SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
+            final boolean warn_no_wifi = sharedPref.getBoolean("warn_no_wifi", false);
             if (interruptedByConnectionLoss && player != null && audioSource != null
-                    && Utils.hasAnyConnection(context)) {
+                    && (Utils.hasWifiConnection(context) || (!warn_no_wifi && Utils.hasAnyConnection(context)))) {
                 interruptedByConnectionLoss = false;
                 Log.i(TAG, "Regained connection. Resuming playback.");
                 player.prepare(audioSource);
