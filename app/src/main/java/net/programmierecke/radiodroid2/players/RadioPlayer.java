@@ -80,14 +80,16 @@ public class RadioPlayer implements PlayerWrapper.PlayListener, Recordable {
     public RadioPlayer(Context mainContext) {
         this.mainContext = mainContext;
 
-        playerThread = new HandlerThread("PlayerThread");
-        playerThread.start();
-
-        playerThreadHandler = new Handler(playerThread.getLooper());
-
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+            // ExoPlayer has its own thread for cpu intensive tasks
+            playerThreadHandler = new Handler(Looper.getMainLooper());
             currentPlayer = new ExoPlayerWrapper();
         } else {
+            playerThread = new HandlerThread("MediaPlayerThread");
+            playerThread.start();
+
+            // MediaPlayer requires to be run in non-ui thread.
+            playerThreadHandler = new Handler(playerThread.getLooper());
             // use old MediaPlayer on API levels < 16
             // https://github.com/google/ExoPlayer/issues/711
             currentPlayer = new MediaPlayerWrapper(playerThreadHandler);
@@ -114,27 +116,19 @@ public class RadioPlayer implements PlayerWrapper.PlayListener, Recordable {
                 .readTimeout(readTimeout, TimeUnit.SECONDS)
                 .build();
 
-        playerThreadHandler.post(new Runnable() {
-            @Override
-            public void run() {
-                currentPlayer.playRemote(customizedHttpClient, stationURL, mainContext, isAlarm);
-            }
-        });
+        playerThreadHandler.post(() -> currentPlayer.playRemote(customizedHttpClient, stationURL, mainContext, isAlarm));
     }
 
     public final void pause() {
-        playerThreadHandler.post(new Runnable() {
-            @Override
-            public void run() {
-                final int audioSessionId = getAudioSessionId();
-                currentPlayer.pause();
+        playerThreadHandler.post(() -> {
+            final int audioSessionId = getAudioSessionId();
+            currentPlayer.pause();
 
-                if (BuildConfig.DEBUG) {
-                    playerThreadHandler.removeCallbacks(bufferCheckRunnable);
-                }
-
-                setState(PlayState.Paused, audioSessionId);
+            if (BuildConfig.DEBUG) {
+                playerThreadHandler.removeCallbacks(bufferCheckRunnable);
             }
+
+            setState(PlayState.Paused, audioSessionId);
         });
     }
 
@@ -143,19 +137,16 @@ public class RadioPlayer implements PlayerWrapper.PlayListener, Recordable {
             return;
         }
 
-        playerThreadHandler.post(new Runnable() {
-            @Override
-            public void run() {
-                final int audioSessionId = getAudioSessionId();
+        playerThreadHandler.post(() -> {
+            final int audioSessionId = getAudioSessionId();
 
-                currentPlayer.stop();
+            currentPlayer.stop();
 
-                if (BuildConfig.DEBUG) {
-                    playerThreadHandler.removeCallbacks(bufferCheckRunnable);
-                }
-
-                setState(PlayState.Idle, audioSessionId);
+            if (BuildConfig.DEBUG) {
+                playerThreadHandler.removeCallbacks(bufferCheckRunnable);
             }
+
+            setState(PlayState.Idle, audioSessionId);
         });
     }
 
@@ -163,16 +154,13 @@ public class RadioPlayer implements PlayerWrapper.PlayListener, Recordable {
         stop();
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
-            playerThread.quitSafely();
+            if (playerThread != null) {
+                playerThread.quitSafely();
+            }
         } else {
             Looper looper = playerThread.getLooper();
             if (looper != null) {
-                playerThreadHandler.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        playerThread.quit();
-                    }
-                });
+                playerThreadHandler.post(() -> playerThread.quit());
             }
         }
     }
