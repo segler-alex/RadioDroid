@@ -171,14 +171,14 @@ public class StationSaveManager {
         new AsyncTask<Void, Void, Integer>() {
             @Override
             protected Integer doInBackground(Void... params) {
-                int deletedCount = 0;
+                ArrayList<DataRadioStation> stationsToRemove = new ArrayList<DataRadioStation>();
                 for (DataRadioStation station : listStations) {
                     if (!station.refresh(httpClient, context) && !station.hasValidUuid() && station.RefreshRetryCount > DataRadioStation.MAX_REFRESH_RETRIES) {
-                        listStations.remove(station);
-                        deletedCount++;
+                        stationsToRemove.add(station);
                     }
                 }
-                return deletedCount;
+                listStations.removeAll(stationsToRemove);
+                return stationsToRemove.size();
             }
 
             @Override
