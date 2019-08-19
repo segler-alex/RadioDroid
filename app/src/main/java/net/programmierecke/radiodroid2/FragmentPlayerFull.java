@@ -771,7 +771,10 @@ public class FragmentPlayerFull extends Fragment {
 
                 fragmentPlayerFull.textViewNetworkUsageInfo.setText(networkUsageInfo);
 
-                //fragmentPlayerFull.textViewTimePlayed.setText(DateUtils.formatElapsedTime(PlayerServiceUtil.()));
+                final long now = System.currentTimeMillis();
+                long deltaSeconds = (now - PlayerServiceUtil.getLastPlayStartTime()) / 1000;
+                deltaSeconds = Math.max(deltaSeconds, 0);
+                fragmentPlayerFull.textViewTimePlayed.setText(DateUtils.formatElapsedTime(deltaSeconds));
 
                 fragmentPlayerFull.textViewTimeCached.setText(DateUtils.formatElapsedTime(PlayerServiceUtil.getBufferedSeconds()));
 

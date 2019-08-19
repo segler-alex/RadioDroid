@@ -29,6 +29,7 @@ boolean isRecording();
 String getCurrentRecordFileName();
 long getTransferredBytes();
 long getBufferedSeconds();
+long getLastPlayStartTime();
 boolean getIsHls();
 
 void enableMPD(String hostname, int port);

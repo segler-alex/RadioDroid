@@ -347,6 +347,17 @@ public class PlayerServiceUtil {
         return 0;
     }
 
+    public static long getLastPlayStartTime() {
+        if (itsPlayerService != null) {
+            try {
+                return itsPlayerService.getLastPlayStartTime();
+            } catch (RemoteException e) {
+                Log.e("", "" + e);
+            }
+        }
+        return 0;
+    }
+
     public static void enableMPD(String hostname, int port) {
         if (itsPlayerService != null) {
             try {

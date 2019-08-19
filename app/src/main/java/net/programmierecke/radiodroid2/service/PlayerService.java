@@ -116,6 +116,8 @@ public class PlayerService extends Service implements RadioPlayer.PlayerListener
 
     private boolean isHls = false;
 
+    private long lastPlayStartTime = 0;
+
     void sendBroadCast(String action) {
         Intent local = new Intent();
         local.setAction(action);
@@ -260,6 +262,11 @@ public class PlayerService extends Service implements RadioPlayer.PlayerListener
                 return radioPlayer.getBufferedSeconds();
             }
             return 0;
+        }
+
+        @Override
+        public long getLastPlayStartTime() throws RemoteException {
+            return lastPlayStartTime;
         }
 
         @Override
@@ -850,6 +857,8 @@ public class PlayerService extends Service implements RadioPlayer.PlayerListener
                         if (BuildConfig.DEBUG) {
                             Log.d(TAG, "Open audio effect control session, session id=" + audioSessionId);
                         }
+
+                        lastPlayStartTime = System.currentTimeMillis();
 
                         Intent i = new Intent(AudioEffect.ACTION_OPEN_AUDIO_EFFECT_CONTROL_SESSION);
                         i.putExtra(AudioEffect.EXTRA_AUDIO_SESSION, audioSessionId);
