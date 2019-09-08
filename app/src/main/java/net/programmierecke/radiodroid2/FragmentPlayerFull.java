@@ -271,15 +271,15 @@ public class FragmentPlayerFull extends Fragment {
 
         // The scrollable part of the player should have the height of its parent but
         // we only can do this at the runtime.
-        ViewGroup.LayoutParams layoutParams = pagerHistoryAndRecordings.getLayoutParams();
-        layoutParams.height = scrollViewContent.getHeight();
-        pagerHistoryAndRecordings.setLayoutParams(layoutParams);
-
         ViewTreeObserver viewTreeObserver = pagerHistoryAndRecordings.getViewTreeObserver();
         if (viewTreeObserver.isAlive()) {
             viewTreeObserver.addOnGlobalLayoutListener(() -> {
-                ViewGroup.LayoutParams layoutParams1 = pagerHistoryAndRecordings.getLayoutParams();
-                layoutParams1.height = scrollViewContent.getHeight();
+                ViewGroup.LayoutParams layoutParams = pagerHistoryAndRecordings.getLayoutParams();
+                final int newHeight = scrollViewContent.getHeight();
+                if (newHeight != layoutParams.height) {
+                    layoutParams.height = newHeight;
+                    pagerHistoryAndRecordings.setLayoutParams(layoutParams);
+                }
             });
         }
 
@@ -374,7 +374,6 @@ public class FragmentPlayerFull extends Fragment {
     @Override
     public void onPause() {
         super.onPause();
-
         stopUpdating();
     }
 
