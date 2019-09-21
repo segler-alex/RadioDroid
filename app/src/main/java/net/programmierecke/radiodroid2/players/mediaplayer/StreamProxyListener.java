@@ -1,7 +1,7 @@
 package net.programmierecke.radiodroid2.players.mediaplayer;
 
-import net.programmierecke.radiodroid2.data.ShoutcastInfo;
-import net.programmierecke.radiodroid2.data.StreamLiveInfo;
+import net.programmierecke.radiodroid2.station.live.ShoutcastInfo;
+import net.programmierecke.radiodroid2.station.live.StreamLiveInfo;
 
 interface StreamProxyListener {
     void onFoundShoutcastStream(ShoutcastInfo bitrate, boolean isHls);

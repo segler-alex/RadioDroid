@@ -2,6 +2,7 @@ package net.programmierecke.radiodroid2;
 
 import android.app.Application;
 import android.content.SharedPreferences;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.multidex.MultiDexApplication;
@@ -10,6 +11,10 @@ import androidx.preference.PreferenceManager;
 import com.squareup.picasso.OkHttp3Downloader;
 import com.squareup.picasso.Picasso;
 
+import net.programmierecke.radiodroid2.alarm.RadioAlarmManager;
+import net.programmierecke.radiodroid2.history.TrackHistoryRepository;
+import net.programmierecke.radiodroid2.players.mpd.MPDClient;
+import net.programmierecke.radiodroid2.station.live.metadata.TrackMetadataSearcher;
 import net.programmierecke.radiodroid2.proxy.ProxySettings;
 import net.programmierecke.radiodroid2.recording.RecordingsManager;
 
@@ -27,6 +32,13 @@ public class RadioDroidApp extends MultiDexApplication {
     private HistoryManager historyManager;
     private FavouriteManager favouriteManager;
     private RecordingsManager recordingsManager;
+    private RadioAlarmManager alarmManager;
+
+    private TrackHistoryRepository trackHistoryRepository;
+
+    private MPDClient mpdClient;
+
+    private TrackMetadataSearcher trackMetadataSearcher;
 
     private ConnectionPool connectionPool;
     private OkHttpClient httpClient;
@@ -70,6 +82,15 @@ public class RadioDroidApp extends MultiDexApplication {
         historyManager = new HistoryManager(this);
         favouriteManager = new FavouriteManager(this);
         recordingsManager = new RecordingsManager();
+        alarmManager = new RadioAlarmManager(this);
+
+        trackHistoryRepository = new TrackHistoryRepository(this);
+
+        mpdClient = new MPDClient(this);
+
+        trackMetadataSearcher = new TrackMetadataSearcher(httpClient);
+
+        recordingsManager.updateRecordingsList();
     }
 
     public void rebuildHttpClient() {
@@ -91,6 +112,22 @@ public class RadioDroidApp extends MultiDexApplication {
 
     public RecordingsManager getRecordingsManager() {
         return recordingsManager;
+    }
+
+    public RadioAlarmManager getAlarmManager() {
+        return alarmManager;
+    }
+
+    public TrackHistoryRepository getTrackHistoryRepository() {
+        return trackHistoryRepository;
+    }
+
+    public MPDClient getMpdClient() {
+        return mpdClient;
+    }
+
+    public TrackMetadataSearcher getTrackMetadataSearcher() {
+        return trackMetadataSearcher;
     }
 
     public OkHttpClient getHttpClient() {

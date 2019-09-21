@@ -9,7 +9,6 @@
     <string name="detail_play">Lire</string>
     <string name="detail_pause">Pause</string>
     <string name="detail_stop">Arrêter</string>
-    <string name="detail_share">Partager</string>
     <string name="action_search">Recherche</string>
     <string name="action_delete">Supprimer</string>
     <string name="action_delete_history">Supprimer l\'historique</string>
@@ -22,6 +21,9 @@
     <string name="action_tags">Tags</string>
     <string name="action_countries">Pays</string>
     <string name="action_languages">Langues</string>
+    <string name="action_station_visit_website">Visiter le site web</string>
+    <string name="action_station_copy_stream_url">Copier l\'URL du flux</string>
+    <string name="action_station_share">Partager</string>
     <string name="error_station_load">Impossible de se connecter à la station</string>
     <string name="error_list_update">Impossible de se connecter au navigateur du serveur radio</string>
 
@@ -32,7 +34,7 @@
     <string name="nav_item_history">Historique</string>
     <string name="nav_item_settings">Réglages</string>
     <string name="nav_item_alarm">Réveil</string>
-    <string name="nav_item_recordings">Enregistrements</string>
+    <string name="tab_player_recordings">Enregistrements</string>
 
     <string name="about_text">Cette application utilise le répertoire libre de stations radios à l\'adresse\n
             https://www.radio-browser.info\n
@@ -170,11 +172,6 @@
     </string-array>
 
     <string name="notify_stream_url_copied">URL du flux copié avec succès !</string>
-
-    <string-array name="actions_station_link">
-        <item>Visiter le site web</item>
-        <item>Copier l\'URL du flux</item>
-    </string-array>
 
     <string name="no_wifi_title">Pas de connexion Wi-Fi (WLAN)</string>
     <string name="no_wifi_connection">Pas de connexion Wi-Fi (WLAN) lors du démarrage de %1$s. Veuillez appuyer sur \'OK\' pour continuer.</string>

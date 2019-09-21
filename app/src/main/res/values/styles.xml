@@ -6,11 +6,12 @@
     <style name="MyMaterialTheme.Dark" parent="MyMaterialTheme.Base.Dark">
     </style>
 
-    <style name="MyMaterialTheme.Base" parent="Theme.AppCompat.Light">
+    <style name="MyMaterialTheme.Base" parent="Theme.MaterialComponents.Light">
         <item name="windowNoTitle">true</item>
         <item name="windowActionBar">false</item>
         <item name="dialogTheme">@style/DialogTheme</item>
         <item name="alertDialogTheme">@style/AlertTheme</item>
+        <item name="bottomSheetDialogTheme">@style/BottomSheetDialogTheme</item>
         <item name="android:windowBackground">@color/windowBackground</item>
         <item name="android:statusBarColor">@color/colorPrimary</item>
         <item name="colorPrimary">@color/colorPrimary</item>
@@ -18,7 +19,6 @@
         <item name="colorAccent">@color/colorAccent</item>
 
         <item name="preferenceTheme">@style/PreferenceThemeOverlay</item>
-
 
         <item name="colorPlayerBackground">@color/colorPlayerBackground</item>
         <item name="colorPlayerShadow">@color/colorPlayerShadow</item>
@@ -41,13 +41,16 @@
 
         <!-- workaround for lower API -->
         <item name="colorAccentMy">@color/colorAccent</item>
+
+        <item name="viewInflaterClass">androidx.appcompat.app.AppCompatViewInflater</item>
     </style>
 
-    <style name="MyMaterialTheme.Base.Dark" parent="Theme.AppCompat">
+    <style name="MyMaterialTheme.Base.Dark" parent="Theme.MaterialComponents">
         <item name="windowNoTitle">true</item>
         <item name="windowActionBar">false</item>
         <item name="dialogTheme">@style/DialogTheme.Dark</item>
         <item name="alertDialogTheme">@style/AlertTheme.Dark</item>
+        <item name="bottomSheetDialogTheme">@style/BottomSheetDialogTheme.Dark</item>
         <item name="android:windowBackground">@color/windowBackgroundDark</item>
         <item name="android:statusBarColor">@color/colorPrimaryDark</item>
         <item name="colorPrimary">@color/colorPrimaryDark</item>
@@ -78,23 +81,22 @@
 
         <!-- workaround for lower API -->
         <item name="colorAccentMy">@color/colorAccentDark</item>
+
+        <item name="viewInflaterClass">androidx.appcompat.app.AppCompatViewInflater</item>
     </style>
 
-    <style name="IconButton" parent="Base.Widget.AppCompat.Button">
-        <item name="android:background">@drawable/icon_button_ripple</item>
-        <item name="android:textAppearance">?android:attr/textAppearanceButton</item>
+    <style name="IconButton" parent="Widget.MaterialComponents.Button.TextButton">
         <item name="android:minHeight">48dip</item>
         <item name="android:minWidth">48dip</item>
         <item name="android:focusable">true</item>
         <item name="android:clickable">true</item>
-        <item name="android:gravity">center_vertical|center_horizontal</item>
     </style>
 
-    <style name="DialogTheme" parent="Theme.AppCompat.Light.Dialog">
+    <style name="DialogTheme" parent="Theme.MaterialComponents.Light.Dialog">
         <item name="android:windowBackground">@color/windowBackground</item>
     </style>
 
-    <style name="DialogTheme.Dark" parent="Theme.AppCompat.Dialog">
+    <style name="DialogTheme.Dark" parent="Theme.MaterialComponents.Dialog">
         <item name="android:windowBackground">@color/windowBackgroundDark</item>
     </style>
 
@@ -104,6 +106,22 @@
 
     <style name="AlertTheme.Dark" parent="Theme.AppCompat.Dialog.Alert">
         <item name="android:windowBackground">@color/windowBackgroundDark</item>
+    </style>
+
+    <style name="BottomSheetDialogTheme" parent="Theme.Design.Light.BottomSheetDialog">
+        <item name="bottomSheetStyle">@style/BottomSheetTheme</item>
+    </style>
+
+    <style name="BottomSheetDialogTheme.Dark" parent="Theme.Design.BottomSheetDialog">
+        <item name="bottomSheetStyle">@style/BottomSheetTheme.Dark</item>
+    </style>
+
+    <style name="BottomSheetTheme" parent="Widget.Design.BottomSheet.Modal">
+        <item name="android:background">@color/windowBackground</item>
+    </style>
+
+    <style name="BottomSheetTheme.Dark" parent="Widget.Design.BottomSheet.Modal">
+        <item name="android:background">@color/windowBackgroundDark</item>
     </style>
 
     <style name="ProgressBarCircle" parent="Widget.AppCompat.ProgressBar">

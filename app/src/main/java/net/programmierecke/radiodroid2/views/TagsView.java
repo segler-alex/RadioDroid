@@ -6,7 +6,6 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.RectF;
-import androidx.annotation.NonNull;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.method.LinkMovementMethod;
@@ -15,11 +14,14 @@ import android.text.style.ReplacementSpan;
 import android.util.AttributeSet;
 import android.view.View;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.widget.AppCompatTextView;
+
 import net.programmierecke.radiodroid2.R;
 
 import java.util.List;
 
-public class TagsView extends androidx.appcompat.widget.AppCompatTextView {
+public class TagsView extends AppCompatTextView {
     public interface TagSelectionCallback {
         void onTagSelected(String tag);
     }

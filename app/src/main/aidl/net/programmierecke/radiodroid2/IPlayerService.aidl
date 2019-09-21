@@ -1,11 +1,13 @@
 package net.programmierecke.radiodroid2;
 
-import net.programmierecke.radiodroid2.data.StreamLiveInfo;
+import net.programmierecke.radiodroid2.station.DataRadioStation;
+import net.programmierecke.radiodroid2.station.live.StreamLiveInfo;
+import net.programmierecke.radiodroid2.station.live.ShoutcastInfo;
 import android.support.v4.media.session.MediaSessionCompat;
 
 interface IPlayerService
 {
-void SaveInfo(String theUrl,String theName,String theID, String theIconUrl);
+void SetStation(in DataRadioStation station);
 void Play(boolean isAlarm);
 void Pause();
 void Resume();
@@ -16,16 +18,9 @@ void addTimer(int secondsAdd);
 void clearTimer();
 long getTimerSeconds();
 String getCurrentStationID();
-String getStationName();
-String getStationIconUrl();
+DataRadioStation getCurrentStation();
 StreamLiveInfo getMetadataLive();
-String getMetadataStreamName();
-String getMetadataServerName();
-String getMetadataGenre();
-String getMetadataHomepage();
-int getMetadataBitrate();
-int getMetadataSampleRate();
-int getMetadataChannels();
+ShoutcastInfo getShoutcastInfo();
 MediaSessionCompat.Token getMediaSessionToken();
 boolean isPlaying();
 void startRecording();
@@ -33,5 +28,10 @@ void stopRecording();
 boolean isRecording();
 String getCurrentRecordFileName();
 long getTransferredBytes();
+long getBufferedSeconds();
+long getLastPlayStartTime();
 boolean getIsHls();
+
+void enableMPD(String hostname, int port);
+void disableMPD();
 }

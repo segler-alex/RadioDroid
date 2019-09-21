@@ -6,7 +6,7 @@ import android.content.pm.ShortcutInfo;
 import android.content.pm.ShortcutManager;
 import android.os.Build;
 
-import net.programmierecke.radiodroid2.data.DataRadioStation;
+import net.programmierecke.radiodroid2.station.DataRadioStation;
 
 import java.util.ArrayList;
 
@@ -24,10 +24,11 @@ public class FavouriteManager extends StationSaveManager{
 
     @Override
     public void add(DataRadioStation station){
-        DataRadioStation stationFromId = getById(station.StationUuid);
         if (!has(station.StationUuid)) {
             listStations.add(station);
             Save();
+
+            notifyObservers();
         }
     }
 

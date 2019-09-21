@@ -42,7 +42,7 @@
     <string name="nav_item_history">Historial</string>
     <string name="nav_item_settings">Configuració</string>
     <string name="nav_item_alarm">Alarma</string>
-    <string name="nav_item_recordings">Enregistraments</string>
+    <string name="tab_player_recordings">Enregistraments</string>
 
     <string name="about_text">Aquesta aplicació utilitza el directori d\'emissores de ràdio gratuïtes a\nhttps://www.radio-browser.info\nTothom pot afegir emissores. Funciona com un wiki per a emissores de ràdio en línia. \n\nContacte:\nsegler_alex@web.de\n\nBugtracker: \nhttps://github.com/segler-alex/RadioDroid/issues\n\nSi us agrada aquest programari i voleu ajudar-nos, no dubteu a enviar-nos un correu electrònic. Necessitem algú amb experiència en disseny gràfic per fer que l\'aplicació sigui més agradable a la vista :) Potser algú que pugui dibuixar icones, imatges... però també programadors que arreglin errors, o desenvolupin (noves funcionalitats, no  errors ;)\nLes idees per a noves funcionalitats també són benvingudes!\n\nAquesta aplicació és un programari lliure llicenciat sota la llicència GPLv3. \nhttp://www.gnu.org/licenses/gpl-3.0.html</string>
     <string name="about_version">Versió: %1$s</string>

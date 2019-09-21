@@ -23,7 +23,7 @@
         android:textSize="20sp" />
 
     <TextView
-        android:id="@+id/detail_station_name_value"
+        android:id="@+id/textViewStationName"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:textSize="16sp" />

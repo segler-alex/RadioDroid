@@ -28,6 +28,9 @@
     <string name="action_tags">Etiquetas</string>
     <string name="action_countries">Países</string>
     <string name="action_languages">Idiomas</string>
+    <string name="action_station_visit_website">Visitar página web</string>
+    <string name="action_station_copy_stream_url">Copiar URL de la transmisión</string>
+    <string name="action_station_share">Compartir</string>
     <string name="error_station_load">No se pudo conectar con la estación</string>
     <string name="error_list_update">No se pudo conectar con el servidor de directorio de radios</string>
 
@@ -38,7 +41,7 @@
     <string name="nav_item_history">Historial</string>
     <string name="nav_item_settings">Ajustes</string>
     <string name="nav_item_alarm">Alarma</string>
-    <string name="nav_item_recordings">Grabaciones</string>
+    <string name="tab_player_recordings">Grabaciones</string>
 
     <string name="about_text">Esta aplicación usa el directorio libre de radios en\nhttps://www.radio-browser.info\nCualquiera puede agregar estaciones o editar las existentes. Funciona como una wiki para estaciones de radio que emiten por internet (streaming).\n\nContacto:\nsegler_alex@web.de\n\nGestor de incidencias:\nhttps://github.com/segler-alex/RadioDroid/issues\n\nSi te gusta este software y quieres ayudar, siéntete libre de enviar un correo. Realmente necesitaría alguien con experiencia en gráficos para hacer la aplicación más agradable de ver :) Quizá alguien que pueda dibujar iconos, imágenes... Pero también programadores para arregar fallos, o implementar nuevas características. ;)\n¡También se agradecen siempre ideas para nuevas características!\n\nEsta aplicación es software libre bajo la licencia GPLv3.\nhttps://www.gnu.org/licenses/gpl-3.0.html</string>
     <string name="about_version">Versión : %1$s</string>
@@ -225,11 +228,6 @@
     </string-array>
 
     <string name="notify_stream_url_copied">¡URL de la transmisión copiada con éxito!</string>
-
-    <string-array name="actions_station_link">
-        <item>Visitar página web</item>
-        <item>Copiar URL de la transmisión</item>
-    </string-array>
 
     <string name="no_wifi_title">No hay conexión WiFi (WLAN)</string>
     <string name="no_wifi_connection">No hay conexión WiFi (WLAN) cuando empieza a los %1$s. Presiona \'Ok\' para continuar.</string>

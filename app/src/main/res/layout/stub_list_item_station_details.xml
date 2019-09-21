@@ -35,15 +35,15 @@
                 android:tint="?attr/iconsInItemBackgroundColor"
                 app:srcCompat="@drawable/ic_store_black_24dp"/>
 
-        <ImageButton
-                android:id="@+id/buttonShare"
-                style="@style/IconButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:contentDescription="@string/detail_share"
-                android:background="?attr/selectableItemBackgroundBorderless"
-                android:tint="?attr/iconsInItemBackgroundColor"
-                app:srcCompat="@drawable/ic_share_24dp" />
+        <!--<ImageButton-->
+                <!--android:id="@+id/buttonShare"-->
+                <!--style="@style/IconButton"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:contentDescription="@string/detail_share"-->
+                <!--android:background="?attr/selectableItemBackgroundBorderless"-->
+                <!--android:tint="?attr/iconsInItemBackgroundColor"-->
+                <!--app:srcCompat="@drawable/ic_share_24dp" />-->
 
         <ImageButton
                 android:id="@+id/buttonBookmark"
@@ -61,7 +61,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="?attr/selectableItemBackgroundBorderless"
-                android:contentDescription="@string/nav_item_alarm"
+                android:contentDescription="@string/description_btn_setup_alarm"
                 android:tint="?attr/iconsInItemBackgroundColor"
                 app:srcCompat="@drawable/ic_add_alarm_black_24dp" />
 

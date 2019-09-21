@@ -28,6 +28,9 @@
     <string name="action_tags">Labels</string>
     <string name="action_countries">Landen</string>
     <string name="action_languages">Talen</string>
+    <string name="action_station_visit_website">Website bezoeken</string>
+    <string name="action_station_copy_stream_url">Stream-URL kopiëren</string>
+    <string name="action_station_share">Delen</string>
     <string name="error_station_load">Kan geen verbinding maken met radiostation</string>
     <string name="error_list_update">Kan geen verbinding maken met RadioBrowser-server</string>
 
@@ -38,7 +41,7 @@
     <string name="nav_item_history">Geschiedenis</string>
     <string name="nav_item_settings">Instellingen</string>
     <string name="nav_item_alarm">Alarm</string>
-    <string name="nav_item_recordings">Opnames</string>
+    <string name="tab_player_recordings">Opnames</string>
 
     <string name="about_text">Deze app gebruikt de gratis radiostationsindex van\nhttps://www.radio-browser.info\nIedereen kan stations toevoegen of bewerken. Het is een soort van wiki voor online(streaming) radiostations.\n\nContact:\nsegler_alex@web.de\n\nBugtracker:\nhttps://github.com/segler-alex/RadioDroid/issues\n\nAls je deze software fijn vindt en wilt helpen, stuur me dan een e-mail. Ik heb iemand nodig met ontwerpervaring om deze oogstrelender te maken :) Iemand die pictogrammen kan creëren of afbeeldingen... Maar ook programmeurs die bugs willen oplossen of nieuwe functies willen toevoegen.\nIdeeën voor nieuwe functies zijn ook altijd welkom!\n\nDeze app is vrije software, uitgebracht onder de GPLv3-licentie.\nhttps://www.gnu.org/licenses/gpl-3.0.html</string>
     <string name="about_version">Versie: %1$s</string>
@@ -224,11 +227,6 @@
     </string-array>
 
     <string name="notify_stream_url_copied">Stream-URL is gekopieerd!</string>
-
-    <string-array name="actions_station_link">
-        <item>Website bezoeken</item>
-        <item>Stream-URL kopiëren</item>
-    </string-array>
 
     <string name="no_wifi_title">Geen Wi-Fi-verbinding!</string>
     <string name="no_wifi_connection">Geen Wi-Fi-verbinding bij het afspelen van %1$s. Druk op \'Oké\' om door te gaan.</string>

@@ -9,7 +9,6 @@
     <string name="detail_play">Prehrať</string>
     <string name="detail_pause">Pozastaviť</string>
     <string name="detail_stop">Zastaviť</string>
-    <string name="detail_share">Zdieľať</string>
 
     <string name="action_local">Miestne</string>
     <string name="action_pause">Pozastaviť</string>
@@ -27,6 +26,7 @@
     <string name="action_tags">Značky</string>
     <string name="action_countries">Krajiny</string>
     <string name="action_languages">Jazyky</string>
+    <string name="action_station_share">Zdieľať</string>
     <string name="error_station_load">Nie je možné pripojiť sa k stanici</string>
     <string name="error_list_update">Nie je možné pripojiť sa k serveru služby radio browser</string>
 
@@ -37,7 +37,7 @@
     <string name="nav_item_history">História</string>
     <string name="nav_item_settings">Nastavenia</string>
     <string name="nav_item_alarm">Budík</string>
-    <string name="nav_item_recordings">Nahrávky</string>
+    <string name="tab_player_recordings">Nahrávky</string>
 
     <string name="about_text">Táto aplikácia používa bezplatný zoznam rádio staníc na adrese\n
     https://www.radio-browser.info\n

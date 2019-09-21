@@ -3,7 +3,6 @@
     <string name="detail_play">Играть</string>
     <string name="detail_pause">Пауза</string>
     <string name="detail_stop">Стоп</string>
-    <string name="detail_share">Поделиться</string>
 
     <string name="action_pause">Пауза</string>
     <string name="action_resume">Продолжить</string>
@@ -20,6 +19,9 @@
     <string name="action_tags">Теги</string>
     <string name="action_countries">Страны</string>
     <string name="action_languages">Языки</string>
+    <string name="action_station_visit_website">Перейти на вебсайт</string>
+    <string name="action_station_copy_stream_url">Скопировать ссылку на стрим</string>
+    <string name="action_station_share">Поделиться</string>
     <string name="error_station_load">Ошибка при подключении к станции</string>
     <string name="error_list_update">Не удалось подключиться к базе станций</string>
 
@@ -30,7 +32,7 @@
     <string name="nav_item_history">История</string>
     <string name="nav_item_settings">Настройки</string>
     <string name="nav_item_alarm">Будильники</string>
-    <string name="nav_item_recordings">Записи</string>
+    <string name="tab_player_recordings">Записи</string>
     <string name="nav_item_statistics">Статистика</string>
     <string name="nav_item_about">О приложении</string>>
 
@@ -183,11 +185,6 @@
     </string-array>
 
     <string name="notify_stream_url_copied">Ссылка на стрим была успешно скопирована!</string>
-
-    <string-array name="actions_station_link">
-        <item>Перейти на вебсайт</item>
-        <item>Скопировать ссылку на стрим</item>
-    </string-array>
 
     <string name="no_wifi_title">Нет WiFi (WLAN) соединения</string>
     <string name="no_wifi_connection">Не WiFi (WLAN) соединения при старте %1$s. Нажмите \'Да\', что бы продолжить.</string>

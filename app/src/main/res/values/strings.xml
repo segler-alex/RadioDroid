@@ -12,6 +12,15 @@
     <string name="detail_stop">Stop</string>
     <string name="detail_share">Share</string>
 
+    <string name="action_links">Links</string>
+    <string name="action_homepage">Homepage</string>
+    <string name="action_favorite">Favorite</string>
+    <string name="action_alarm">Alarm</string>
+
+    <string name="action_station_visit_website">Visit Website</string>
+    <string name="action_station_copy_stream_url">Copy Stream URL</string>
+    <string name="action_station_share">Share</string>
+
     <string name="action_local">Local</string>
     <string name="action_skip_to_next">Next</string>
     <string name="action_pause">Pause</string>
@@ -32,6 +41,9 @@
     <string name="action_tags">Tags</string>
     <string name="action_countries">Countries</string>
     <string name="action_languages">Languages</string>
+    <string name="action_edit">Edit</string>
+    <string name="action_lyrics">Lyrics</string>
+    <string name="action_copy_info">Copy Info</string>
     <string name="error_station_load">Could not connect to station</string>
     <string name="error_list_update">Could not connect to radio browser server</string>
 
@@ -42,7 +54,6 @@
     <string name="nav_item_history">History</string>
     <string name="nav_item_settings">Settings</string>
     <string name="nav_item_alarm">Alarm</string>
-    <string name="nav_item_recordings">Recordings</string>
 
     <string name="about_text">This app uses the free radio station directory at\nhttps://www.radio-browser.info\nEveryone can add stations to it or edit existing stations. It works like a wiki for online (streaming) radio stations.\n\nContact:\nsegler_alex@web.de\n\nBugtracker:\nhttps://github.com/segler-alex/RadioDroid/issues\n\nIf you like the software and want to help, feel free to send me an email. I really need someone with graphical experience to make the app nicer to the eye :) Maybe someone who can draw icons, images...but also programmers who fix bugs, or implement new ones (features not bugs ;)\nAlso ideas for new features are always appreciated!\n\nThis app is free software licensed under the GPLv3.\nhttps://www.gnu.org/licenses/gpl-3.0.html</string>
     <string name="about_version">Version: %1$s</string>
@@ -210,6 +221,11 @@
     <string name="player_info_recording_to">Recording to:\n%1$s</string>
     <string name="player_info_recorded_to">Last recording:\n%1$s</string>
 
+    <string name="tab_player_art">Album Art</string>
+    <string name="tab_player_info">Info</string>
+    <string name="tab_player_history">History</string>
+    <string name="tab_player_recordings">Recordings</string>
+
     <string name="station_detail_bitrate">%1$1d kbps</string>
     <string name="station_detail_broken">BROKEN</string>
 
@@ -237,12 +253,24 @@
     <string name="action_mpd_ok">MPD connected</string>
     <string name="action_mpd_connected">Connected to server: %1$s</string>
 
+    <string name="mpd_no_connection">No connection</string>
+    <string name="action_enable_mpd">Enable MPD</string>
+    <string name="action_disable_mpd">Disable MPD</string>
+    <string name="action_add_mpd_server">Add MPD server</string>
+
+    <string name="action_play_in_external">Play in external player</string>
+
     <string name="settings_radiobrowser_servers">RadioBrowser servers</string>
     <string name="settings_radiobrowser_servers_default">www.radio-browser.info/webservice</string>
 
     <string name="settings_other">Other</string>
     <string name="settings_statistics">Statistics</string>
     <string name="settings_about">About RadioDroid</string>
+
+    <string name="description_btn_skip_to_next">Skip to next</string>
+    <string name="description_btn_skip_to_previous">Skip to previous</string>
+
+    <string name="description_btn_setup_alarm">Setup alarm</string>
 
     <string-array name="weekdays">
         <item>S</item>

@@ -2,7 +2,7 @@ package net.programmierecke.radiodroid2;
 
 import android.content.Context;
 
-import net.programmierecke.radiodroid2.data.DataRadioStation;
+import net.programmierecke.radiodroid2.station.DataRadioStation;
 
 public class HistoryManager extends StationSaveManager{
     private static final int MAXSIZE = 25;
@@ -20,8 +20,7 @@ public class HistoryManager extends StationSaveManager{
     public void add(DataRadioStation station){
         DataRadioStation stationFromHistory = getById(station.StationUuid);
         if (stationFromHistory != null) {
-            int oldIndex = listStations.indexOf(stationFromHistory);
-            listStations.remove(oldIndex);
+            listStations.remove(stationFromHistory);
             listStations.add(0, stationFromHistory);
             Save();
             return;

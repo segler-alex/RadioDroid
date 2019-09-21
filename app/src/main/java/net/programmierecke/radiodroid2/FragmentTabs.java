@@ -3,20 +3,23 @@ package net.programmierecke.radiodroid2;
 import android.content.Context;
 import android.content.res.Resources;
 import android.os.Bundle;
-import androidx.annotation.Nullable;
-import com.google.android.material.tabs.TabLayout;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentPagerAdapter;
-import androidx.viewpager.widget.ViewPager;
 import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentPagerAdapter;
+import androidx.viewpager.widget.ViewPager;
+
+import com.google.android.material.tabs.TabLayout;
+
 import net.programmierecke.radiodroid2.interfaces.IFragmentRefreshable;
 import net.programmierecke.radiodroid2.interfaces.IFragmentSearchable;
+import net.programmierecke.radiodroid2.station.FragmentStations;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,7 +55,7 @@ public class FragmentTabs extends Fragment implements IFragmentRefreshable, IFra
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View x = inflater.inflate(R.layout.layout_tabs, null);
-        final TabLayout tabLayout = (TabLayout) x.findViewById(R.id.tabs);
+        final TabLayout tabLayout = getActivity().findViewById(R.id.tabs);
         viewPager = (ViewPager) x.findViewById(R.id.viewpager);
 
         setupViewPager(viewPager);
@@ -77,6 +80,22 @@ public class FragmentTabs extends Fragment implements IFragmentRefreshable, IFra
         });
 
         return x;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        final TabLayout tabLayout = getActivity().findViewById(R.id.tabs);
+        tabLayout.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+
+        final TabLayout tabLayout = getActivity().findViewById(R.id.tabs);
+        tabLayout.setVisibility(View.GONE);
     }
 
     private void setupViewPager(ViewPager viewPager) {

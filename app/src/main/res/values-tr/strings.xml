@@ -9,7 +9,6 @@
     <string name="detail_play">Oynat</string>
     <string name="detail_pause">Duraklat</string>
     <string name="detail_stop">Durdur</string>
-    <string name="detail_share">Paylaş</string>
 
     <string name="action_local">Yerel</string>
     <string name="action_pause">Duraklat</string>
@@ -27,6 +26,9 @@
     <string name="action_tags">Etiketler</string>
     <string name="action_countries">Ülkeler</string>
     <string name="action_languages">Diller</string>
+    <string name="action_station_visit_website">Web sitesini ziyaret et</string>
+    <string name="action_station_copy_stream_url">Yayın Url\'sini kopyala</string>
+    <string name="action_station_share">Paylaş</string>
     <string name="error_station_load">İstasyona bağlanılamadı</string>
     <string name="error_list_update">Radyo tarayıcı sunucusuna bağlanılamadı</string>
 
@@ -37,7 +39,7 @@
     <string name="nav_item_history">Geçmiş</string>
     <string name="nav_item_settings">Ayarlar</string>
     <string name="nav_item_alarm">Alarm</string>
-    <string name="nav_item_recordings">Kayıtlar</string>
+    <string name="tab_player_recordings">Kayıtlar</string>
 
     <string name="about_text">Bu uygulama özgür radyo istasyon dizini kullanır:\nhttps://www.radio-browser.info\nHerkes istasyon ekleyebilir veya var olan istasyonları düzenleyebilir. Çevrimiçi (yayın yapan) radyo istasyonlarının bir vikisi gibi çalışır.\n\nİletişim:\nsegler_alex@web.de\n\nHata izleyici:\nhttps://github.com/segler-alex/RadioDroid/issues\n\nBu yazılımı beğendiyseniz ve yardım etmek isterseniz, bana bir eposta göndermekten çekinmeyin. Uygulamanın göze iyi görünmesi için gerçekten grafik deneyimi olan birine ihtiyacım var :) Belki simgeler, resimler için çizebilen biri...Ama hataları düzeltmek için programcılar da, veya yenilerini eklemek için (özellikler hatalar değil ;)\nAyrıca yeni özellikler için fikirler hep iyi karşılanır!\n\nBu uygulama GPLv3 altında lisanslanmış özgür yazılımdır.\nhttps://www.gnu.org/licenses/gpl-3.0.html</string>
     <string name="about_version">Sürüm: %1$s</string>
@@ -212,11 +214,6 @@
     </string-array>
 
     <string name="notify_stream_url_copied">Yayın Url\'si Başarıyla Kopyalandı!</string>
-
-    <string-array name="actions_station_link">
-        <item>Web sitesini ziyaret et</item>
-        <item>Yayın Url\'sini kopyala</item>
-    </string-array>
 
     <string name="no_wifi_title">Kablosuz (WLAN) bağlantısı yok</string>
     <string name="no_wifi_connection">%1$s başlatılırken kablosuz (WLAN) bağlantısı yok. Devam etmek için \'Tamam\'a basın.</string>

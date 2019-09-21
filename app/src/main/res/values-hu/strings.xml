@@ -9,7 +9,6 @@
     <string name="detail_play">Lejátszás</string>
     <string name="detail_pause">Szünet</string>
     <string name="detail_stop">Leállítás</string>
-    <string name="detail_share">Megosztás</string>
 
     <string name="action_local">Helyi</string>
     <string name="action_pause">Szünet</string>
@@ -27,6 +26,9 @@
     <string name="action_tags">Címkék</string>
     <string name="action_countries">Országok</string>
     <string name="action_languages">Nyelvek</string>
+    <string name="action_station_visit_website">Webhely felkeresése</string>
+    <string name="action_station_copy_stream_url">Adatfolyam Url másolása</string>
+    <string name="action_station_share">Megosztás</string>
     <string name="error_station_load">Nem lehet kapcsolódni az állomáshoz</string>
     <string name="error_list_update">Nem lehet kapcsolódni a rádióböngésző kiszolgálóhoz</string>
 
@@ -37,7 +39,7 @@
     <string name="nav_item_history">Előzmények</string>
     <string name="nav_item_settings">Beállítások</string>
     <string name="nav_item_alarm">Riasztások</string>
-    <string name="nav_item_recordings">Rögzítések</string>
+    <string name="tab_player_recordings">Rögzítések</string>
 
     <string name="about_text">Ez az alkalmazás az itt lévő rádióállomás-jegyzéket használja:\nhttps://www.radio-browser.info\Bárki adhat hozzá és szerkesztheti az állomásokat. Úgy működik, mint egy online rádióállomásokról szóló wiki.\n\nKapcsolat:\nsegler_alex@web.de\n\nHibakövető:\nhttps://github.com/segler-alex/RadioDroid/issues\n\nHa tetszik a szoftver, és segíteni szeretne, akkor küldjön nyugodtan e-mailt. Tényleg szükségem van valakira, akinek vannak grafikusi tapasztalati, hogy jobb érzés legyen az appra ránézni :) Talán valaki, aki tud ikonokat és képeket rajzolni… De programozókra is szükség van, akik kijavítják a hibákat, vagy újakat fejlesztenek (funkciókat, nem hibákat ;)\nAz új funkcióötleteket is értékeljük!\n\nEz az app szabad szoftver, és a GPLv3 licenc alatt érhető el.\nhttps://www.gnu.org/licenses/gpl-3.0.html</string>
     <string name="about_version">Verzió: %1$s</string>
@@ -217,11 +219,6 @@
     </string-array>
 
     <string name="notify_stream_url_copied">Adatfolyam Url sikeresen másolva!</string>
-
-    <string-array name="actions_station_link">
-        <item>Webhely felkeresése</item>
-        <item>Adatfolyam Url másolása</item>
-    </string-array>
 
     <string name="no_wifi_title">Nincs WiFi (WLAN) kapcsolat</string>
     <string name="no_wifi_connection">Nincs WiFi (WLAN) kapcsolat a(z) %1$s indításakor. Kattintson az \'Ok\' gombra a folytatáshoz.</string>
