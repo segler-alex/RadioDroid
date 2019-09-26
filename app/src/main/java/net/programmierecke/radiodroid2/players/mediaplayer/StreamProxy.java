@@ -38,7 +38,7 @@ public class StreamProxy implements Recordable {
     private StreamProxyListener callback;
     private RecordableListener recordableListener;
     private String uri;
-    private byte readBuffer[] = new byte[256 * 16];
+    private byte[] readBuffer = new byte[256 * 16];
     private volatile String localAddress = null;
     private boolean isStopped = false;
 

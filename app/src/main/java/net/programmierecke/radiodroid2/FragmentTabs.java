@@ -56,7 +56,7 @@ public class FragmentTabs extends Fragment implements IFragmentRefreshable, IFra
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View x = inflater.inflate(R.layout.layout_tabs, null);
         final TabLayout tabLayout = getActivity().findViewById(R.id.tabs);
-        viewPager = (ViewPager) x.findViewById(R.id.viewpager);
+        viewPager = x.findViewById(R.id.viewpager);
 
         setupViewPager(viewPager);
 

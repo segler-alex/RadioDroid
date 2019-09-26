@@ -28,8 +28,8 @@ public class ItemAdapterCategory extends RecyclerView.Adapter<ItemAdapterCategor
 
         CategoryViewHolder(View itemView) {
             super(itemView);
-            textViewName = (TextView) itemView.findViewById(R.id.textViewTop);
-            textViewCount = (TextView) itemView.findViewById(R.id.textViewBottom);
+            textViewName = itemView.findViewById(R.id.textViewTop);
+            textViewCount = itemView.findViewById(R.id.textViewBottom);
             itemView.setOnClickListener(this);
         }
 

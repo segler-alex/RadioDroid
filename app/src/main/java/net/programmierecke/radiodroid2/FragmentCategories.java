@@ -95,11 +95,11 @@ public class FragmentCategories extends FragmentBase {
         LinearLayoutManager llm = new LinearLayoutManager(getContext());
         llm.setOrientation(LinearLayoutManager.VERTICAL);
 
-        rvCategories = (RecyclerView) view.findViewById(R.id.recyclerViewStations);
+        rvCategories = view.findViewById(R.id.recyclerViewStations);
         rvCategories.setAdapter(adapterCategory);
         rvCategories.setLayoutManager(llm);
 
-        swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swiperefresh);
+        swipeRefreshLayout = view.findViewById(R.id.swiperefresh);
         if (swipeRefreshLayout != null) {
             swipeRefreshLayout.setOnRefreshListener(
                     new SwipeRefreshLayout.OnRefreshListener() {

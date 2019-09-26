@@ -78,7 +78,7 @@ public class Utils {
     }
 
     public static String getCacheFile(Context ctx, String theURI) {
-        StringBuilder chaine = new StringBuilder("");
+        StringBuilder chaine = new StringBuilder();
         try {
             String aFileName = theURI.toLowerCase().replace("http://", "");
             aFileName = aFileName.toLowerCase().replace("https://", "");

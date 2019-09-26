@@ -86,7 +86,7 @@ public class FragmentStations extends FragmentBase {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_stations_remote, container, false);
-        rvStations = (RecyclerView) view.findViewById(R.id.recyclerViewStations);
+        rvStations = view.findViewById(R.id.recyclerViewStations);
 
         RadioDroidApp radioDroidApp = (RadioDroidApp) getActivity().getApplication();
         favouriteManager = radioDroidApp.getFavouriteManager();
@@ -121,7 +121,7 @@ public class FragmentStations extends FragmentBase {
                 llm.getOrientation());
         rvStations.addItemDecoration(dividerItemDecoration);
 
-        swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swiperefresh);
+        swipeRefreshLayout = view.findViewById(R.id.swiperefresh);
         swipeRefreshLayout.setOnRefreshListener(
                 new SwipeRefreshLayout.OnRefreshListener() {
                     @Override

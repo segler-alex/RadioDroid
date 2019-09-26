@@ -17,7 +17,7 @@ public class FragmentAbout extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.layout_about, null);
 
-        TextView aTextVersion = (TextView) view.findViewById(R.id.about_version);
+        TextView aTextVersion = view.findViewById(R.id.about_version);
         if (aTextVersion != null) {
 
             String version = BuildConfig.VERSION_NAME;

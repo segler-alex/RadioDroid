@@ -330,7 +330,7 @@ public class ItemAdapterStation
         if (isExpanded) {
             holder.viewDetails = holder.stubDetails == null ? holder.viewDetails : holder.stubDetails.inflate();
             holder.stubDetails = null;
-            holder.viewTags = (TagsView) holder.viewDetails.findViewById(R.id.viewTags);
+            holder.viewTags = holder.viewDetails.findViewById(R.id.viewTags);
             holder.buttonStationLinks = holder.viewDetails.findViewById(R.id.buttonStationWebLink);
             holder.buttonBookmark = holder.viewDetails.findViewById(R.id.buttonBookmark);
             holder.buttonAddAlarm = holder.viewDetails.findViewById(R.id.buttonAddAlarm);

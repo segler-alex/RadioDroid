@@ -427,7 +427,7 @@ public class PlayerService extends Service implements RadioPlayer.PlayerListener
                         resume();
                         break;
                     case ACTION_MEDIA_BUTTON:
-                        KeyEvent key = (KeyEvent) intent.getParcelableExtra(Intent.EXTRA_KEY_EVENT);
+                        KeyEvent key = intent.getParcelableExtra(Intent.EXTRA_KEY_EVENT);
                         if (key.getAction() == KeyEvent.ACTION_UP) {
                             int keycode = key.getKeyCode();
                             switch (keycode) {

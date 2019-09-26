@@ -31,7 +31,7 @@ public class FragmentServerInfo extends Fragment implements IFragmentRefreshable
             itemAdapterStatistics = new ItemAdapterStatistics(getActivity(), R.layout.list_item_statistic);
         }
 
-        ListView lv = (ListView) view.findViewById(R.id.listViewStatistics);
+        ListView lv = view.findViewById(R.id.listViewStatistics);
         lv.setAdapter(itemAdapterStatistics);
 
         Download(false);

@@ -439,7 +439,7 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
 
     @Override
     public void onRequestPermissionsResult(int requestCode,
-                                           String permissions[], int[] grantResults) {
+                                           String[] permissions, int[] grantResults) {
         if (BuildConfig.DEBUG) {
             Log.d(TAG, "on request permissions result:" + requestCode);
         }
@@ -512,7 +512,7 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
 
-        final Toolbar myToolbar = (Toolbar) findViewById(R.id.my_awesome_toolbar);
+        final Toolbar myToolbar = findViewById(R.id.my_awesome_toolbar);
         menuItemSleepTimer = menu.findItem(R.id.action_set_sleep_timer);
         menuItemSearch = menu.findItem(R.id.action_search);
         menuItemDelete = menu.findItem(R.id.action_delete);
@@ -883,8 +883,8 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
         seekDialog.setTitle(R.string.sleep_timer_title);
         seekDialog.setView(seekView);
 
-        final TextView seekTextView = (TextView) seekView.findViewById(R.id.timerTextView);
-        final SeekBar seekBar = (SeekBar) seekView.findViewById(R.id.timerSeekBar);
+        final TextView seekTextView = seekView.findViewById(R.id.timerTextView);
+        final SeekBar seekBar = seekView.findViewById(R.id.timerSeekBar);
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {

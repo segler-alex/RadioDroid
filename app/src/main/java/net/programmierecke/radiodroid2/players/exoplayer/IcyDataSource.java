@@ -90,7 +90,7 @@ public class IcyDataSource implements HttpDataSource {
 
     private int remainingUntilMetadata = Integer.MAX_VALUE;
 
-    private byte readBuffer[] = new byte[256 * 16];
+    private byte[] readBuffer = new byte[256 * 16];
 
     private boolean opened;
 

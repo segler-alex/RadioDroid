@@ -108,7 +108,7 @@ public class FragmentHistory extends Fragment implements IAdapterRefreshable {
         LinearLayoutManager llm = new LinearLayoutManager(getContext());
         llm.setOrientation(LinearLayoutManager.VERTICAL);
 
-        rvStations = (RecyclerView) view.findViewById(R.id.recyclerViewStations);
+        rvStations = view.findViewById(R.id.recyclerViewStations);
         rvStations.setAdapter(adapter);
         rvStations.setLayoutManager(llm);
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(rvStations.getContext(),

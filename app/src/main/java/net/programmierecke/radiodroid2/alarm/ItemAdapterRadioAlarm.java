@@ -42,12 +42,12 @@ public class ItemAdapterRadioAlarm extends ArrayAdapter<DataRadioStationAlarm> {
             v = vi.inflate(R.layout.list_item_alarm, null);
         }
 
-        TextView tvStation = (TextView) v.findViewById(R.id.textViewStation);
-        TextView tvTime = (TextView) v.findViewById(R.id.textViewTime);
-        SwitchCompat s = (SwitchCompat) v.findViewById(R.id.switch1);
-        ImageButton b = (ImageButton) v.findViewById(R.id.buttonDeleteAlarm);
-        final ImageButton buttonRepeating = (ImageButton) v.findViewById(R.id.checkboxRepeating);
-        final LinearLayout repeatDaysView = (LinearLayout) v.findViewById(R.id.repeatDaysView);
+        TextView tvStation = v.findViewById(R.id.textViewStation);
+        TextView tvTime = v.findViewById(R.id.textViewTime);
+        SwitchCompat s = v.findViewById(R.id.switch1);
+        ImageButton b = v.findViewById(R.id.buttonDeleteAlarm);
+        final ImageButton buttonRepeating = v.findViewById(R.id.checkboxRepeating);
+        final LinearLayout repeatDaysView = v.findViewById(R.id.repeatDaysView);
 
         if (repeatDaysView.getChildCount() < 1) {
             populateWeekDayButtons(aData, vi, repeatDaysView);

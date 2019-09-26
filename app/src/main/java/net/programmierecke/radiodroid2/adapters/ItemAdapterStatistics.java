@@ -30,8 +30,8 @@ public class ItemAdapterStatistics extends ArrayAdapter<DataStatistics> {
             v = vi.inflate(resourceId, null);
         }
 
-        TextView aTextViewTop = (TextView) v.findViewById(R.id.stats_name);
-        TextView aTextViewBottom = (TextView) v.findViewById(R.id.stats_value);
+        TextView aTextViewTop = v.findViewById(R.id.stats_name);
+        TextView aTextViewBottom = v.findViewById(R.id.stats_value);
         if (aTextViewTop != null) {
             aTextViewTop.setText("" + aData.Name);
         }

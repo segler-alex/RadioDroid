@@ -198,7 +198,7 @@ public class AlarmReceiver extends BroadcastReceiver {
                         }
                     } else {
                         Intent anIntent = new Intent(context, PlayerService.class);
-                        context.getApplicationContext().bindService(anIntent, svcConn, context.BIND_AUTO_CREATE);
+                        context.getApplicationContext().bindService(anIntent, svcConn, Context.BIND_AUTO_CREATE);
                         context.getApplicationContext().startService(anIntent);
                     }
                 } else {

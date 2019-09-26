@@ -101,7 +101,7 @@ public class FragmentSettings extends PreferenceFragmentCompat implements Shared
         refreshToolbar();
         if (s == null) {
             refreshToplevelIcons();
-            SearchPreference searchPreference = (SearchPreference) findPreference("searchPreference");
+            SearchPreference searchPreference = findPreference("searchPreference");
             SearchConfiguration config = searchPreference.getSearchConfiguration();
             config.setActivity((AppCompatActivity) getActivity());
             config.index(R.xml.preferences);
@@ -122,7 +122,7 @@ public class FragmentSettings extends PreferenceFragmentCompat implements Shared
                 }
             });
         } else if (s.equals("pref_category_connectivity")) {
-            final ListPreference servers = (ListPreference) findPreference("radiobrowser_server");
+            final ListPreference servers = findPreference("radiobrowser_server");
             updateDnsList(servers);
 
             findPreference("settings_proxy").setOnPreferenceClickListener(new OnPreferenceClickListener() {
