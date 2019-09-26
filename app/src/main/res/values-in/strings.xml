@@ -52,11 +52,11 @@
    Bugtracker:\n
    https://github.com/segler-alex/RadioDroid/issues\n
    \n
-   Jika kamu suka software ini dan ingin membantu, kirimkan kami email secara bebas. Saya sangat membutuhkan seseorang dengan keahlian grafik untuk membuat aplikasi ini sedap dipandang :) mungkin seseorang yang dapat menggambar ikon, gambar... tapi juga programer yang dapat memecahkan masalah, atau mengimplementasikan hal yang baru (sebuah fitur tapi bukan bugs ;)</string>
+   Jika kamu suka software ini dan ingin membantu, kirimkan kami email secara bebas. Saya sangat membutuhkan seseorang dengan keahlian grafik untuk membuat aplikasi ini sedap dipandang :) mungkin seseorang yang dapat menggambar ikon, gambar… tapi juga programer yang dapat memecahkan masalah, atau mengimplementasikan hal yang baru (sebuah fitur tapi bukan bugs ;)</string>
     <string name="about_version">Versi: %1$s</string>
     <string name="detail_star">Tambahkan ke favorite</string>
     <string name="detail_unstar">Hapus dari favorit</string>
-    <string name="progress_loading">Memuat...</string>
+    <string name="progress_loading">Memuat…</string>
 
     <string name="sleep_timer" formatted="true">Waktu tidur: %1$02d:%2$02d</string>
     <string name="sleep_timer_title">Berhenti bermain sesudah menit yang dipilih</string>

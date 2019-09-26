@@ -34,15 +34,15 @@
             android:tint="?attr/iconsInItemBackgroundColor"
             app:srcCompat="@drawable/ic_store_black_24dp" />
 
-        <!--<ImageButton-->
-        <!--android:id="@+id/buttonShare"-->
-        <!--style="@style/IconButton"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:contentDescription="@string/detail_share"-->
-        <!--android:background="?attr/selectableItemBackgroundBorderless"-->
-        <!--android:tint="?attr/iconsInItemBackgroundColor"-->
-        <!--app:srcCompat="@drawable/ic_share_24dp" />-->
+        <!--ImageButton
+            android:id="@+id/buttonShare"
+            style="@style/IconButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/detail_share"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:tint="?attr/iconsInItemBackgroundColor"
+            app:srcCompat="@drawable/ic_share_24dp" /-->
 
         <ImageButton
             android:id="@+id/buttonBookmark"

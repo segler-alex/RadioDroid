@@ -9,7 +9,6 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.net.wifi.WifiManager;
 import android.os.AsyncTask;
-import android.os.Build;
 import android.os.IBinder;
 import android.os.PowerManager;
 import android.os.RemoteException;
@@ -77,16 +76,12 @@ public class AlarmReceiver extends BroadcastReceiver {
             if (BuildConfig.DEBUG) {
                 Log.d(TAG, "acquire wakelock");
             }
-            wakeLock.acquire();
+            wakeLock.acquire(10 * 60 * 1000L /*10 minutes*/);
         }
-        WifiManager wm = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
+        WifiManager wm = (WifiManager) context.getApplicationContext().getSystemService(Context.WIFI_SERVICE);
         if (wm != null) {
             if (wifiLock == null) {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR1) {
-                    wifiLock = wm.createWifiLock(WifiManager.WIFI_MODE_FULL_HIGH_PERF, "AlarmReceiver");
-                } else {
-                    wifiLock = wm.createWifiLock(WifiManager.WIFI_MODE_FULL, "AlarmReceiver");
-                }
+                wifiLock = wm.createWifiLock(WifiManager.WIFI_MODE_FULL_HIGH_PERF, "AlarmReceiver");
             }
             if (!wifiLock.isHeld()) {
                 if (BuildConfig.DEBUG) {
@@ -153,7 +148,7 @@ public class AlarmReceiver extends BroadcastReceiver {
         new AsyncTask<Void, Void, String>() {
             @Override
             protected String doInBackground(Void... params) {
-                String result = null;
+                String result;
                 for (int i = 0; i < 20; i++) {
                     result = Utils.getRealStationLink(httpClient, context, stationId);
                     if (result != null) {
@@ -165,7 +160,7 @@ public class AlarmReceiver extends BroadcastReceiver {
                         Log.e(TAG, "Play() " + e);
                     }
                 }
-                return result;
+                return null;
             }
 
             @Override

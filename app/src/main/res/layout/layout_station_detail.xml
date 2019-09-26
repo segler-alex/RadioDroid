@@ -93,6 +93,7 @@
         android:layout_height="wrap_content"
         android:background="@android:drawable/list_selector_background"
         android:clickable="true"
+        android:focusable="true"
         android:orientation="vertical">
 
         <TextView

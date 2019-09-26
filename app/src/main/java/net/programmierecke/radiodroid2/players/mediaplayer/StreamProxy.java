@@ -53,15 +53,12 @@ public class StreamProxy implements Recordable {
     private void createProxy() {
         if (BuildConfig.DEBUG) Log.d(TAG, "thread started");
 
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    connectToStream();
-                    if (BuildConfig.DEBUG) Log.d(TAG, "createProxy() ended");
-                } catch (Exception e) {
-                    Log.e(TAG, "", e);
-                }
+        new Thread(() -> {
+            try {
+                connectToStream();
+                if (BuildConfig.DEBUG) Log.d(TAG, "createProxy() ended");
+            } catch (Exception e) {
+                Log.e(TAG, "", e);
             }
         }, "StreamProxy").start();
     }
@@ -113,7 +110,7 @@ public class StreamProxy implements Recordable {
         stopRecording();
     }
 
-    private int readMetaData(InputStream inputStream) throws IOException {
+    private void readMetaData(InputStream inputStream) throws IOException {
         int metadataBytes = inputStream.read() * 16;
         int metadataBytesToRead = metadataBytes;
         int readBytesBufferMetadata = 0;
@@ -143,7 +140,6 @@ public class StreamProxy implements Recordable {
                 }
             }
         }
-        return readBytesBufferMetadata + 1;
     }
 
     private void connectToStream() {

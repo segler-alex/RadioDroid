@@ -24,21 +24,20 @@ public class RadioAlarmManager {
 
     private static final int ONE_DAY_IN_MILLIS = 24 * 60 * 60 * 1000;
     private Context context;
-    List<DataRadioStationAlarm> list = new ArrayList<DataRadioStationAlarm>();
+    List<DataRadioStationAlarm> list = new ArrayList<>();
 
     public RadioAlarmManager(Context context) {
         this.context = context;
         load();
-
-//        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
-//        SharedPreferences.OnSharedPreferenceChangeListener listener = new SharedPreferences.OnSharedPreferenceChangeListener() {
-//            public void onSharedPreferenceChanged(SharedPreferences prefs, String key) {
-//                if (callback != null) {
-//                    callback.onChanged();
-//                }
-//            }
-//        };
-//        sharedPref.registerOnSharedPreferenceChangeListener(listener);
+/*
+        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
+        SharedPreferences.OnSharedPreferenceChangeListener listener = (prefs, key) -> {
+            if (callback != null) {
+                callback.onChanged();
+            }
+        };
+        sharedPref.registerOnSharedPreferenceChangeListener(listener);
+*/
     }
 
     public void add(DataRadioStation station, int hour, int minute) {
@@ -86,7 +85,7 @@ public class RadioAlarmManager {
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
         SharedPreferences.Editor editor = sharedPref.edit();
 
-        String items = "";
+        StringBuilder items = new StringBuilder();
 
         for (DataRadioStationAlarm alarm : list) {
             if (BuildConfig.DEBUG) {
@@ -102,15 +101,15 @@ public class RadioAlarmManager {
             String weekdaysString = gson.toJson(alarm.weekDays);
             editor.putString("alarm." + alarm.id + ".weekDays", weekdaysString);
 
-            if (items.equals("")) {
-                items = "" + alarm.id;
+            if (items.toString().equals("")) {
+                items = new StringBuilder("" + alarm.id);
             } else {
-                items = items + "," + alarm.id;
+                items.append(",").append(alarm.id);
             }
         }
 
-        editor.putString("alarm.ids", items);
-        editor.commit();
+        editor.putString("alarm.ids", items.toString());
+        editor.apply();
     }
 
     public void load() {
@@ -204,9 +203,9 @@ public class RadioAlarmManager {
             }
 
             if (alarm.repeating) {
-                Integer currentDayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
+                int currentDayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
                 Collections.sort(alarm.weekDays);
-                Integer limiter = 6;
+                int limiter = 6;
                 while (!alarm.weekDays.contains(currentDayOfWeek - 1) && limiter > 0) {
                     calendar.setTimeInMillis(calendar.getTimeInMillis() + ONE_DAY_IN_MILLIS);
                     currentDayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);

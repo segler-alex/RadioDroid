@@ -18,7 +18,7 @@ public class PlaylistM3U {
     String fullText;
     URL path;
     boolean extended = false;
-    ArrayList<PlaylistM3UEntry> entries = new ArrayList<PlaylistM3UEntry>();
+    ArrayList<PlaylistM3UEntry> entries = new ArrayList<>();
     String header = null;
 
     public PlaylistM3U(URL _path, String _fullText) {
@@ -32,7 +32,7 @@ public class PlaylistM3U {
         for (String line : lines) {
             try {
                 decodeLine(line);
-            } catch (MalformedURLException e) {
+            } catch (MalformedURLException ignored) {
             }
         }
     }
@@ -76,8 +76,7 @@ public class PlaylistM3U {
             while ((line = br.readLine()) != null) {
                 list.add(line);
             }
-        } catch (IOException e) {
-
+        } catch (IOException ignored) {
         }
         return list.toArray(new String[0]);
     }

@@ -20,9 +20,6 @@ public class RadioBrowserServerManager {
 
     public static String getWebserviceEndpoint(Context context, String command) {
         String a = getServerAddress(context);
-        if (a != null) {
-            return a + "/" + command;
-        }
-        return null;
+        return a + "/" + command;
     }
 }

@@ -14,7 +14,7 @@ public class DataStatistics {
     public String Value = "";
 
     public static DataStatistics[] DecodeJson(String result) {
-        List<DataStatistics> aList = new ArrayList<DataStatistics>();
+        List<DataStatistics> aList = new ArrayList<>();
         if (result != null) {
             if (TextUtils.isGraphic(result)) {
                 try {

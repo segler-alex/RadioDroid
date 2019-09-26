@@ -93,7 +93,7 @@ public class MPDServersAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         final TextView textViewDescription;
         final ImageButton btnPlay;
 
-        public PlayerItemViewHolder(@NonNull View itemView) {
+        PlayerItemViewHolder(@NonNull View itemView) {
             super(itemView);
 
             textViewDescription = itemView.findViewById(R.id.textViewDescription);
@@ -108,7 +108,7 @@ public class MPDServersAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         private DataRadioStation stationToPlay;
         private WeakReference<Context> contextWeakReference;
 
-        public PlayStationTask(PlayerType playerType, @Nullable MPDClient mpdClient, @Nullable MPDServerData mpdServerData, @NonNull DataRadioStation stationToPlay, @NonNull Context ctx) {
+        PlayStationTask(PlayerType playerType, @Nullable MPDClient mpdClient, @Nullable MPDServerData mpdServerData, @NonNull DataRadioStation stationToPlay, @NonNull Context ctx) {
             this.playerType = playerType;
             this.mpdClient = mpdClient;
             this.mpdServerData = mpdServerData;
@@ -178,7 +178,6 @@ public class MPDServersAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     private final LayoutInflater inflater;
     private final Context context;
 
-    private final boolean showPlayInExternal;
     private int fixedViewsCount;
 
     private List<Integer> viewTypes = new ArrayList<>();
@@ -200,7 +199,7 @@ public class MPDServersAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         this.stationToPlay = stationToPlay;
 
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
-        showPlayInExternal = sharedPref.getBoolean("play_external", false) && stationToPlay != null;
+        boolean showPlayInExternal = sharedPref.getBoolean("play_external", false) && stationToPlay != null;
 
         fixedViewsCount = 0;
         if (stationToPlay != null) {
@@ -240,11 +239,11 @@ public class MPDServersAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         if (holder.getItemViewType() == PlayerType.MPD_SERVER.getValue()) {
             bindViewHolder((MPDServerItemViewHolder) holder, position);
         } else {
-            bindViewHolder((PlayerItemViewHolder) holder, position);
+            bindViewHolder((PlayerItemViewHolder) holder);
         }
     }
 
-    private void bindViewHolder(@NonNull final PlayerItemViewHolder holder, int position) {
+    private void bindViewHolder(@NonNull final PlayerItemViewHolder holder) {
         if (holder.getItemViewType() == PlayerType.RADIODROID.getValue()) {
             holder.textViewDescription.setText(R.string.app_name);
 

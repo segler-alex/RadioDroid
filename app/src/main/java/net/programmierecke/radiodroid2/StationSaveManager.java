@@ -34,7 +34,7 @@ import okhttp3.OkHttpClient;
 
 public class StationSaveManager extends Observable {
     Context context;
-    List<DataRadioStation> listStations = new ArrayList<DataRadioStation>();
+    List<DataRadioStation> listStations = new ArrayList<>();
 
     public StationSaveManager(Context ctx) {
         this.context = ctx;
@@ -197,7 +197,7 @@ public class StationSaveManager extends Observable {
         new AsyncTask<Void, Void, Integer>() {
             @Override
             protected Integer doInBackground(Void... params) {
-                ArrayList<DataRadioStation> stationsToRemove = new ArrayList<DataRadioStation>();
+                ArrayList<DataRadioStation> stationsToRemove = new ArrayList<>();
                 for (DataRadioStation station : listStations) {
                     if (!station.refresh(httpClient, context) && !station.hasValidUuid() && station.RefreshRetryCount > DataRadioStation.MAX_REFRESH_RETRIES) {
                         stationsToRemove.add(station);
@@ -248,7 +248,7 @@ public class StationSaveManager extends Observable {
             Log.d("SAVE", "wrote: " + str);
         }
         editor.putString(getSaveId(), str);
-        editor.commit();
+        editor.apply();
     }
 
     public static String getSaveDir() {
@@ -274,7 +274,7 @@ public class StationSaveManager extends Observable {
 
             @Override
             protected void onPostExecute(Boolean result) {
-                if (result.booleanValue()) {
+                if (result) {
                     Log.i("SAVE", "OK");
                     Toast toast = Toast.makeText(context, "Wrote " + filePath + "/" + fileName, Toast.LENGTH_SHORT);
                     toast.show();

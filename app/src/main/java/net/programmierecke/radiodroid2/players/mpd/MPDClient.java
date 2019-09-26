@@ -233,7 +233,7 @@ public class MPDClient {
     private class QuickMPDStatusChecker implements Runnable {
         private List<MPDServerData> servers;
 
-        public void setServers(List<MPDServerData> servers) {
+        void setServers(List<MPDServerData> servers) {
             this.servers = servers;
         }
 

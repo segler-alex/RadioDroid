@@ -24,7 +24,6 @@ import java.lang.reflect.Method;
 
 public class CastHandler {
 
-    private static CastContext mCastContext;
     private static SessionManager mSessionManager;
     private static final SessionManagerListener mSessionManagerListener =
             new SessionManagerListenerImpl();
@@ -41,7 +40,7 @@ public class CastHandler {
             GoogleApiAvailability googleAPI = GoogleApiAvailability.getInstance();
             int result = googleAPI.isGooglePlayServicesAvailable(activity);
             if (result == ConnectionResult.SUCCESS) {
-                mCastContext = CastContext.getSharedInstance(activityMain);
+                CastContext mCastContext = CastContext.getSharedInstance(activityMain);
                 mSessionManager = mCastContext.getSessionManager();
                 mSessionManager.addSessionManagerListener(mSessionManagerListener);
             }

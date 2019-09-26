@@ -14,8 +14,6 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.preference.ListPreference;
-import androidx.preference.Preference;
-import androidx.preference.Preference.OnPreferenceClickListener;
 import androidx.preference.PreferenceFragmentCompat;
 import androidx.preference.PreferenceScreen;
 
@@ -106,33 +104,27 @@ public class FragmentSettings extends PreferenceFragmentCompat implements Shared
             config.setActivity((AppCompatActivity) getActivity());
             config.index(R.xml.preferences);
         } else if (s.equals("pref_category_player")) {
-            findPreference("equalizer").setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-                @Override
-                public boolean onPreferenceClick(Preference preference) {
-                    Intent intent = new Intent(AudioEffect.ACTION_DISPLAY_AUDIO_EFFECT_CONTROL_PANEL);
+            findPreference("equalizer").setOnPreferenceClickListener(preference -> {
+                Intent intent = new Intent(AudioEffect.ACTION_DISPLAY_AUDIO_EFFECT_CONTROL_PANEL);
 
-                    if (getContext().getPackageManager().resolveActivity(intent, 0) == null) {
-                        Toast.makeText(getContext(), R.string.error_no_equalizer_found, Toast.LENGTH_SHORT).show();
-                    } else {
-                        intent.putExtra(AudioEffect.EXTRA_CONTENT_TYPE, AudioEffect.CONTENT_TYPE_MUSIC);
-                        startActivityForResult(intent, ActivityMain.LAUNCH_EQUALIZER_REQUEST);
-                    }
-
-                    return false;
+                if (getContext().getPackageManager().resolveActivity(intent, 0) == null) {
+                    Toast.makeText(getContext(), R.string.error_no_equalizer_found, Toast.LENGTH_SHORT).show();
+                } else {
+                    intent.putExtra(AudioEffect.EXTRA_CONTENT_TYPE, AudioEffect.CONTENT_TYPE_MUSIC);
+                    startActivityForResult(intent, ActivityMain.LAUNCH_EQUALIZER_REQUEST);
                 }
+
+                return false;
             });
         } else if (s.equals("pref_category_connectivity")) {
             final ListPreference servers = findPreference("radiobrowser_server");
             updateDnsList(servers);
 
-            findPreference("settings_proxy").setOnPreferenceClickListener(new OnPreferenceClickListener() {
-                @Override
-                public boolean onPreferenceClick(Preference preference) {
-                    ProxySettingsDialog proxySettingsDialog = new ProxySettingsDialog();
-                    proxySettingsDialog.setCancelable(true);
-                    proxySettingsDialog.show(getFragmentManager(), "");
-                    return false;
-                }
+            findPreference("settings_proxy").setOnPreferenceClickListener(preference -> {
+                ProxySettingsDialog proxySettingsDialog = new ProxySettingsDialog();
+                proxySettingsDialog.setCancelable(true);
+                proxySettingsDialog.show(getFragmentManager(), "");
+                return false;
             });
 
             if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN) {
@@ -140,35 +132,26 @@ public class FragmentSettings extends PreferenceFragmentCompat implements Shared
                 findPreference("settings_retry_delay").setVisible(false);
             }
         } else if (s.equals("pref_category_mpd")) {
-            findPreference("mpd_servers_viewer").setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-                @Override
-                public boolean onPreferenceClick(Preference preference) {
-                    RadioDroidApp radioDroidApp = (RadioDroidApp) requireActivity().getApplication();
-                    Utils.showMpdServersDialog(radioDroidApp, requireActivity().getSupportFragmentManager(), null);
-                    return false;
-                }
+            findPreference("mpd_servers_viewer").setOnPreferenceClickListener(preference -> {
+                RadioDroidApp radioDroidApp = (RadioDroidApp) requireActivity().getApplication();
+                Utils.showMpdServersDialog(radioDroidApp, requireActivity().getSupportFragmentManager(), null);
+                return false;
             });
         } else if (s.equals("pref_category_other")) {
-            findPreference("show_statistics").setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-                @Override
-                public boolean onPreferenceClick(Preference preference) {
-                    ((ActivityMain) getActivity()).getToolbar().setTitle(R.string.settings_statistics);
-                    FragmentServerInfo f = new FragmentServerInfo();
-                    FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
-                    fragmentTransaction.replace(R.id.containerView, f).addToBackStack(String.valueOf(FRAGMENT_FROM_BACKSTACK)).commit();
-                    return false;
-                }
+            findPreference("show_statistics").setOnPreferenceClickListener(preference -> {
+                ((ActivityMain) getActivity()).getToolbar().setTitle(R.string.settings_statistics);
+                FragmentServerInfo f = new FragmentServerInfo();
+                FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+                fragmentTransaction.replace(R.id.containerView, f).addToBackStack(String.valueOf(FRAGMENT_FROM_BACKSTACK)).commit();
+                return false;
             });
 
-            findPreference("show_about").setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-                @Override
-                public boolean onPreferenceClick(Preference preference) {
-                    ((ActivityMain) getActivity()).getToolbar().setTitle(R.string.settings_about);
-                    FragmentAbout f = new FragmentAbout();
-                    FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
-                    fragmentTransaction.replace(R.id.containerView, f).addToBackStack(String.valueOf(FRAGMENT_FROM_BACKSTACK)).commit();
-                    return false;
-                }
+            findPreference("show_about").setOnPreferenceClickListener(preference -> {
+                ((ActivityMain) getActivity()).getToolbar().setTitle(R.string.settings_about);
+                FragmentAbout f = new FragmentAbout();
+                FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+                fragmentTransaction.replace(R.id.containerView, f).addToBackStack(String.valueOf(FRAGMENT_FROM_BACKSTACK)).commit();
+                return false;
             });
         }
     }
@@ -185,7 +168,7 @@ public class FragmentSettings extends PreferenceFragmentCompat implements Shared
         final AsyncTask<Void, Void, String[]> xxx = new AsyncTask<Void, Void, String[]>() {
             @Override
             protected String[] doInBackground(Void... params) {
-                Vector<String> listResult = new Vector<String>();
+                Vector<String> listResult = new Vector<>();
                 // add default server
                 listResult.add("www.radio-browser.info/webservice");
                 // add best server based on geodns location
@@ -261,7 +244,7 @@ public class FragmentSettings extends PreferenceFragmentCompat implements Shared
         SharedPreferences.Editor ed = getPreferenceManager().getSharedPreferences().edit();
         ed.putString("shareapp_package", packageName);
         ed.putString("shareapp_activity", activityName);
-        ed.commit();
+        ed.apply();
 
         findPreference("shareapp_package").setSummary(packageName);
     }

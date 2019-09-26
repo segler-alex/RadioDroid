@@ -6,7 +6,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.CompoundButton;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -53,22 +52,16 @@ public class ItemAdapterRadioAlarm extends ArrayAdapter<DataRadioStationAlarm> {
             populateWeekDayButtons(aData, vi, repeatDaysView);
         }
 
-        buttonRepeating.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                aData.repeating = !aData.repeating;
-                ram.toggleRepeating(aData.id);
-                repeatDaysView.setVisibility(aData.repeating ? View.VISIBLE : View.GONE);
-            }
+        buttonRepeating.setOnClickListener(view -> {
+            aData.repeating = !aData.repeating;
+            ram.toggleRepeating(aData.id);
+            repeatDaysView.setVisibility(aData.repeating ? View.VISIBLE : View.GONE);
         });
 
         if (b != null) {
-            b.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    ram.remove(aData.id);
-                    notifyDataSetChanged();
-                }
+            b.setOnClickListener(v1 -> {
+                ram.remove(aData.id);
+                notifyDataSetChanged();
             });
         }
         if (tvStation != null) {
@@ -79,13 +72,11 @@ public class ItemAdapterRadioAlarm extends ArrayAdapter<DataRadioStationAlarm> {
         }
         if (s != null) {
             s.setChecked(aData.enabled);
-            s.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    if (BuildConfig.DEBUG) {
-                        Log.d("ALARM", "new state:" + isChecked);
-                    }
-                    ram.setEnabled(aData.id, isChecked);
+            s.setOnCheckedChangeListener((buttonView, isChecked) -> {
+                if (BuildConfig.DEBUG) {
+                    Log.d("ALARM", "new state:" + isChecked);
                 }
+                ram.setEnabled(aData.id, isChecked);
             });
         }
         repeatDaysView.setVisibility(aData.repeating ? View.VISIBLE : View.GONE);
@@ -110,12 +101,9 @@ public class ItemAdapterRadioAlarm extends ArrayAdapter<DataRadioStationAlarm> {
             if (aData.weekDays.contains(i)) {
                 button.setChecked(true);
             }
-            button.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    int bid = button.getId();
-                    ram.changeWeekDays(aData.id, bid);
-                }
+            button.setOnClickListener(view -> {
+                int bid = button.getId();
+                ram.changeWeekDays(aData.id, bid);
             });
         }
     }

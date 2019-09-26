@@ -47,7 +47,7 @@ public class FragmentStarred extends Fragment implements IAdapterRefreshable, Ob
 
         if (BuildConfig.DEBUG) Log.d(TAG, "stations count:" + favouriteManager.listStations.size());
 
-        adapter.updateList(this, favouriteManager.listStations);
+        adapter.updateList(favouriteManager.listStations);
     }
 
     @Override
@@ -97,14 +97,10 @@ public class FragmentStarred extends Fragment implements IAdapterRefreshable, Ob
             public void onStationSwiped(final DataRadioStation station) {
                 final int removedIdx = favouriteManager.remove(station.StationUuid);
 
-                Snackbar snackbar = Snackbar
-                        .make(rvStations, R.string.notify_station_removed_from_list, Snackbar.LENGTH_LONG);
-                snackbar.setAction(R.string.action_station_removed_from_list_undo, new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        favouriteManager.restore(station, removedIdx);
-                        RefreshListGui();
-                    }
+                Snackbar snackbar = Snackbar.make(rvStations, R.string.notify_station_removed_from_list, Snackbar.LENGTH_LONG);
+                snackbar.setAction(R.string.action_station_removed_from_list_undo, view1 -> {
+                    favouriteManager.restore(station, removedIdx);
+                    RefreshListGui();
                 });
                 snackbar.setActionTextColor(Color.GREEN);
                 snackbar.setDuration(BaseTransientBottomBar.LENGTH_LONG);

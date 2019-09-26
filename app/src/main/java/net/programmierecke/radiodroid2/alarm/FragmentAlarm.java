@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TimePicker;
 
@@ -34,12 +33,10 @@ public class FragmentAlarm extends Fragment implements TimePickerDialog.OnTimeSe
         lvAlarms = view.findViewById(R.id.listViewAlarms);
         lvAlarms.setAdapter(adapterRadioAlarm);
         lvAlarms.setClickable(true);
-        lvAlarms.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Object anObject = parent.getItemAtPosition(position);
-                if (anObject instanceof DataRadioStationAlarm) {
-                    ClickOnItem((DataRadioStationAlarm) anObject);
-                }
+        lvAlarms.setOnItemClickListener((parent, view1, position, id) -> {
+            Object anObject = parent.getItemAtPosition(position);
+            if (anObject instanceof DataRadioStationAlarm) {
+                ClickOnItem((DataRadioStationAlarm) anObject);
             }
         });
 

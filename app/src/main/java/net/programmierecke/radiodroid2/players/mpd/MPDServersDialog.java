@@ -41,13 +41,11 @@ public class MPDServersDialog extends BottomSheetDialogFragment {
 
     private BroadcastReceiver updateUIReceiver;
 
-    private RecyclerView recyclerViewServers;
     private MPDServersAdapter mpdServersAdapter;
 
     private MPDServersRepository serversRepository;
 
     private Button btnEnableMPD;
-    private Button btnAddMPDServer;
 
     public MPDServersDialog(@NonNull MPDClient mpdClient) {
         this.mpdClient = mpdClient;
@@ -68,7 +66,7 @@ public class MPDServersDialog extends BottomSheetDialogFragment {
         RadioDroidApp radioDroidApp = (RadioDroidApp) requireActivity().getApplication();
         serversRepository = radioDroidApp.getMpdClient().getMpdServersRepository();
 
-        recyclerViewServers = view.findViewById(R.id.recyclerViewMPDServers);
+        RecyclerView recyclerViewServers = view.findViewById(R.id.recyclerViewMPDServers);
         GridLayoutManager llm = new GridLayoutManager(getContext(), 2, RecyclerView.VERTICAL, false);
         recyclerViewServers.setLayoutManager(llm);
 
@@ -87,7 +85,7 @@ public class MPDServersDialog extends BottomSheetDialogFragment {
         recyclerViewServers.setAdapter(mpdServersAdapter);
 
         btnEnableMPD = view.findViewById(R.id.btnEnableMPD);
-        btnAddMPDServer = view.findViewById(R.id.btnAddMPDServer);
+        Button btnAddMPDServer = view.findViewById(R.id.btnAddMPDServer);
 
         btnEnableMPD.setOnClickListener(view12 -> {
             boolean mpdEnabled = !mpdClient.isMpdEnabled();

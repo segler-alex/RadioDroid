@@ -37,7 +37,7 @@
     <string name="about_text">Diese App basiert auf dem freien Internetradio-Stationsverzeichnis https://www.radio-browser.info .\n\nDas Stationsverzeichnis funktioniert nach dem Wiki-Prinzip: jeder, auch Du, kann mithelfen, es aktuell zu halten.\n\nKontakt:\nsegler_alex@web.de\n\nSourcecode und Bugtracker:\nhttps://github.com/segler-alex/RadioDroid/issues\n\nIch freue mich immer über Mails mit Verbesserungsvorschlägen. Falls Du sonst irgendwie helfen willst: es gibt immer Bugs zu fixen :). Wenn Du Dein grafisches Talent einbringen möchtest, wäre ich besonders dankbar, speziell für schönere Icons, Hintergründe oder auch ein insgesamt besseres Design.\n\nDiese App wurde mit der GPLv3 https://www.gnu.org/licenses/gpl-3.0.html lizenziert.</string>
     <string name="detail_star">Als Favorit setzen</string>
     <string name="detail_unstar">Als Favorit löschen</string>
-    <string name="progress_loading">Lade...</string>
+    <string name="progress_loading">Lade…</string>
 
     <string name="sleep_timer" formatted="true">Schlaftimer: %1$02d:%2$02d</string>
     <string name="sleep_timer_title">Wie viele Minuten bis zum Stop?</string>

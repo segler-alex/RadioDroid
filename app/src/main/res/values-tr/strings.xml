@@ -41,11 +41,11 @@
     <string name="nav_item_alarm">Alarm</string>
     <string name="tab_player_recordings">Kayıtlar</string>
 
-    <string name="about_text">Bu uygulama özgür radyo istasyon dizini kullanır:\nhttps://www.radio-browser.info\nHerkes istasyon ekleyebilir veya var olan istasyonları düzenleyebilir. Çevrimiçi (yayın yapan) radyo istasyonlarının bir vikisi gibi çalışır.\n\nİletişim:\nsegler_alex@web.de\n\nHata izleyici:\nhttps://github.com/segler-alex/RadioDroid/issues\n\nBu yazılımı beğendiyseniz ve yardım etmek isterseniz, bana bir eposta göndermekten çekinmeyin. Uygulamanın göze iyi görünmesi için gerçekten grafik deneyimi olan birine ihtiyacım var :) Belki simgeler, resimler için çizebilen biri...Ama hataları düzeltmek için programcılar da, veya yenilerini eklemek için (özellikler hatalar değil ;)\nAyrıca yeni özellikler için fikirler hep iyi karşılanır!\n\nBu uygulama GPLv3 altında lisanslanmış özgür yazılımdır.\nhttps://www.gnu.org/licenses/gpl-3.0.html</string>
+    <string name="about_text">Bu uygulama özgür radyo istasyon dizini kullanır:\nhttps://www.radio-browser.info\nHerkes istasyon ekleyebilir veya var olan istasyonları düzenleyebilir. Çevrimiçi (yayın yapan) radyo istasyonlarının bir vikisi gibi çalışır.\n\nİletişim:\nsegler_alex@web.de\n\nHata izleyici:\nhttps://github.com/segler-alex/RadioDroid/issues\n\nBu yazılımı beğendiyseniz ve yardım etmek isterseniz, bana bir eposta göndermekten çekinmeyin. Uygulamanın göze iyi görünmesi için gerçekten grafik deneyimi olan birine ihtiyacım var :) Belki simgeler, resimler için çizebilen biri…Ama hataları düzeltmek için programcılar da, veya yenilerini eklemek için (özellikler hatalar değil ;)\nAyrıca yeni özellikler için fikirler hep iyi karşılanır!\n\nBu uygulama GPLv3 altında lisanslanmış özgür yazılımdır.\nhttps://www.gnu.org/licenses/gpl-3.0.html</string>
     <string name="about_version">Sürüm: %1$s</string>
     <string name="detail_star">Beğenilen olarak işaretle</string>
     <string name="detail_unstar">Beğenileni sil</string>
-    <string name="progress_loading">Yükleniyor...</string>
+    <string name="progress_loading">Yükleniyor…</string>
 
     <string name="sleep_timer" formatted="true">Uyku zamanlayıcı: %1$02d:%2$02d</string>
     <string name="sleep_timer_title">Durmadan önce kaç dakika?</string>

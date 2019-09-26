@@ -32,7 +32,7 @@
     <string name="error_station_load">Αδυναμία σύνδεσης στο σταθμό</string>
     <string name="error_list_update">Αδυναμία σύνδεσης στον εξυπηρετητή πλοήγησης ραδιοφωνικών σταθμών</string>
 
-    <string name="share_action">Μοίρασμα του σταθμού με...</string>
+    <string name="share_action">Μοίρασμα του σταθμού με…</string>
 
     <string name="nav_item_stations">Σταθμοί</string>
     <string name="nav_item_starred">Αστέρες</string>
@@ -41,7 +41,7 @@
     <string name="nav_item_alarm">Ξυπνητήρι</string>
     <string name="tab_player_recordings">Ηχογραφήσεις</string>
 
-    <string name="about_text">Αυτή η εφαρμογή χρησιμοποιεί τον ελεύθερο κατάλογο ραδιοφωνικών σταθμών, στο...\n
+    <string name="about_text">Αυτή η εφαρμογή χρησιμοποιεί τον ελεύθερο κατάλογο ραδιοφωνικών σταθμών, στο…\n
   https://www.radio-browser.info\n
   Ο καθένας μπορεί να προσθέσει σταθμούς σε αυτόν, ή να επεξεργαστεί υπάρχοντες σταθμούς.\n
   Λειτουργεί σαν ένα γουίκι για διαδικτυακούς ραδιοφωνικούς σταθμούς (ροές).\n
@@ -54,7 +54,7 @@
   \n
   Αν σου αρέσει αυτό το λογισμικό και θα ήθελες να βοηθήσεις, μην διστάσεις να μου στείλεις ένα ηλεκτρονικό γράμμα.\n
   Πραγματικά χρειάζομαι κάποιον με εμπειρία στα γραφικά, για να κάνω την εφαρμογή ευχάριστη στο μάτι :) .\n
-  Ίσως κάποιος που μπορεί να ζωγραφίζει εικονίδια, εικόνες...\n
+  Ίσως κάποιος που μπορεί να ζωγραφίζει εικονίδια, εικόνες…\n
   Αλλά, επίσης, προγραμματιστές που διορθώνουν δυσλειτουργίες, ή εφαρμόζουν νέες \n
   (λειτουργίες και χαρακτηριστικά, όχι δυσλειτουργίες ;)  ) .\n
   Επίσης,  ιδέες για νέα χαρακτηριστικά είναι πάντα καλοδεχούμενες!\n
@@ -64,7 +64,7 @@
     <string name="about_version">Έκδοση: %1$s</string>
     <string name="detail_star">Προσθήκη στους σελιδοδείκτες των αγαπημένων</string>
     <string name="detail_unstar">Διαγραφή από τα αγαπημένα</string>
-    <string name="progress_loading">Φορτώνει...</string>
+    <string name="progress_loading">Φορτώνει…</string>
 
     <string name="sleep_timer" formatted="true">Χρονοδιακόπτης ύπνου: %1$02d:%2$02d</string>
     <string name="sleep_timer_title">Πόσα λεπτά πριν τη διακοπή;</string>
@@ -225,7 +225,7 @@
     \n
     Πίεσε το «Εντάξει» για να συνεχίσεις.</string>
     <string name="nav_item_statistics">Στατιστικά</string>
-    <string name="nav_item_about">Σχετικά με...</string>
+    <string name="nav_item_about">Σχετικά με…</string>
     <string name="settings_mpd_port">Θύρα MPD</string>
     <string name="refresh">Ανανέωση</string>
 </resources>

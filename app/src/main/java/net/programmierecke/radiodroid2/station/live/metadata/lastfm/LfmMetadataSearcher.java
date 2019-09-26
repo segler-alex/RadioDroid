@@ -16,7 +16,6 @@ import net.programmierecke.radiodroid2.station.live.metadata.lastfm.data.Track;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 import okhttp3.Call;
@@ -57,7 +56,7 @@ public class LfmMetadataSearcher {
     private String tryNormalizeTrack(@NonNull final String track) {
         String normalizedTrack = track
                 .replaceAll("\\(.*?\\)", "")
-                .replaceAll("\\[.*?\\]", "")
+                .replaceAll("\\[.*?]", "")
                 .trim();
         return normalizedTrack.equals(track) ? null : normalizedTrack;
     }
@@ -89,7 +88,7 @@ public class LfmMetadataSearcher {
         private final String artist;
         private final String track;
 
-        public MetadataCallback(TrackMetadataCallback trackMetadataCallback, String artist, String track) {
+        MetadataCallback(TrackMetadataCallback trackMetadataCallback, String artist, String track) {
             this.trackMetadataCallback = trackMetadataCallback;
             this.track = track;
             this.artist = artist;
@@ -151,12 +150,7 @@ public class LfmMetadataSearcher {
                         albumArts.add(new TrackMetadata.AlbumArt(artSize, img.getText()));
                     }
 
-                    Collections.sort(albumArts, new Comparator<TrackMetadata.AlbumArt>() {
-                        @Override
-                        public int compare(TrackMetadata.AlbumArt o1, TrackMetadata.AlbumArt o2) {
-                            return o2.size.compareTo(o1.size);
-                        }
-                    });
+                    Collections.sort(albumArts, (o1, o2) -> o2.size.compareTo(o1.size));
                 }
 
                 trackMetadata.setTrack(lfmTrackMetadata.getTrack().getName());

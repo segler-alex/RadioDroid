@@ -40,7 +40,7 @@ public class FragmentStations extends FragmentBase {
         Utils.showPlaySelection(radioDroidApp, theStation, getActivity().getSupportFragmentManager());
 
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
-        final Boolean autoFavorite = sharedPref.getBoolean("auto_favorite", true);
+        final boolean autoFavorite = sharedPref.getBoolean("auto_favorite", true);
         if (autoFavorite && !favouriteManager.has(theStation.StationUuid)) {
             favouriteManager.add(theStation);
             Toast toast = Toast.makeText(context, context.getString(R.string.notify_autostarred), Toast.LENGTH_SHORT);
@@ -77,7 +77,7 @@ public class FragmentStations extends FragmentBase {
 
         ItemAdapterStation adapter = (ItemAdapterStation) rvStations.getAdapter();
         if (adapter != null) {
-            adapter.updateList(null, filteredStationsList);
+            adapter.updateList(filteredStationsList);
         }
     }
 
@@ -123,12 +123,9 @@ public class FragmentStations extends FragmentBase {
 
         swipeRefreshLayout = view.findViewById(R.id.swiperefresh);
         swipeRefreshLayout.setOnRefreshListener(
-                new SwipeRefreshLayout.OnRefreshListener() {
-                    @Override
-                    public void onRefresh() {
-                        if (BuildConfig.DEBUG) Log.d(TAG, "swipe to refresh.");
-                        DownloadUrl(true, false);
-                    }
+                () -> {
+                    if (BuildConfig.DEBUG) Log.d(TAG, "swipe to refresh.");
+                    DownloadUrl(true, false);
                 }
         );
 

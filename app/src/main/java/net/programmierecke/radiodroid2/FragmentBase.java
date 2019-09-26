@@ -87,7 +87,7 @@ public class FragmentBase extends Fragment {
                 new AsyncTask<Void, Void, String>() {
                     @Override
                     protected String doInBackground(Void... params) {
-                        HashMap<String, String> p = new HashMap<String, String>();
+                        HashMap<String, String> p = new HashMap<>();
                         if (!show_broken) {
                             p.put("hidebroken", "true");
                         }

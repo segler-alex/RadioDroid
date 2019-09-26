@@ -95,7 +95,6 @@ public class IcyDataSource implements HttpDataSource {
     private boolean opened;
 
     private ShoutcastInfo shoutcastInfo;
-    private StreamLiveInfo streamLiveInfo;
 
     public IcyDataSource(@NonNull OkHttpClient httpClient,
                          @NonNull TransferListener listener,
@@ -241,7 +240,7 @@ public class IcyDataSource implements HttpDataSource {
     private int readInternal(byte[] buffer, int offset, int readLength) throws HttpDataSourceException {
         InputStream stream = responseBody.byteStream();
 
-        int ret = 0;
+        int ret;
         try {
             ret = stream.read(buffer, offset, remainingUntilMetadata < readLength ? remainingUntilMetadata : readLength);
         } catch (IOException e) {
@@ -291,7 +290,7 @@ public class IcyDataSource implements HttpDataSource {
         return responseHeaders;
     }
 
-    private int readMetaData(InputStream inputStream) throws IOException {
+    private void readMetaData(InputStream inputStream) throws IOException {
         int metadataBytes = inputStream.read() * 16;
         int metadataBytesToRead = metadataBytes;
         int readBytesBufferMetadata = 0;
@@ -315,7 +314,7 @@ public class IcyDataSource implements HttpDataSource {
                     if (BuildConfig.DEBUG) Log.d(TAG, "METADATA:" + s);
 
                     Map<String, String> rawMetadata = decodeShoutcastMetadata(s);
-                    streamLiveInfo = new StreamLiveInfo(rawMetadata);
+                    StreamLiveInfo streamLiveInfo = new StreamLiveInfo(rawMetadata);
 
                     dataSourceListener.onDataSourceStreamLiveInfo(streamLiveInfo);
 
@@ -324,7 +323,6 @@ public class IcyDataSource implements HttpDataSource {
                 }
             }
         }
-        return readBytesBufferMetadata + 1;
     }
 
     private Map<String, String> decodeShoutcastMetadata(String metadataStr) {

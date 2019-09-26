@@ -82,41 +82,28 @@ public class ProxySettingsDialog extends DialogFragment {
             }
         }
 
-        final Dialog dialog = builder.setView(layout)
-                .setPositiveButton(R.string.action_ok, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int id) {
-                        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getContext());
-                        SharedPreferences.Editor editor = sharedPref.edit();
+        final AlertDialog dialog = builder.setView(layout)
+                .setPositiveButton(R.string.action_ok, (dialog1, id) -> {
+                    SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getContext());
+                    SharedPreferences.Editor editor = sharedPref.edit();
 
-                        ProxySettings proxySettings = createProxySettings();
-                        proxySettings.toPreferences(editor);
-                        editor.apply();
+                    ProxySettings proxySettings = createProxySettings();
+                    proxySettings.toPreferences(editor);
+                    editor.apply();
 
-                        RadioDroidApp radioDroidApp = (RadioDroidApp) getActivity().getApplication();
-                        radioDroidApp.rebuildHttpClient();
-                    }
+                    RadioDroidApp radioDroidApp = (RadioDroidApp) getActivity().getApplication();
+                    radioDroidApp.rebuildHttpClient();
                 })
-                .setNegativeButton(R.string.action_cancel, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        ProxySettingsDialog.this.getDialog().cancel();
-                    }
-                })
+                .setNegativeButton(R.string.action_cancel, (dialog12, id) -> ProxySettingsDialog.this.getDialog().cancel())
                 .setNeutralButton(R.string.settings_proxy_action_test, null)
                 .create();
 
-        dialog.setOnShowListener(new DialogInterface.OnShowListener() {
-            @Override
-            public void onShow(DialogInterface dialogInterface) {
-                Button button = ((AlertDialog) dialog).getButton(AlertDialog.BUTTON_NEUTRAL);
-                button.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        ProxySettings proxySettings = createProxySettings();
-                        testProxy(proxySettings);
-                    }
-                });
-            }
+        dialog.setOnShowListener(dialogInterface -> {
+            Button button = dialog.getButton(AlertDialog.BUTTON_NEUTRAL);
+            button.setOnClickListener(view -> {
+                ProxySettings proxySettings = createProxySettings();
+                testProxy(proxySettings);
+            });
         });
 
         return dialog;

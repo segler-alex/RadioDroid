@@ -14,7 +14,7 @@ public class DataCategory {
     public int UsedCount = 0;
 
     public static DataCategory[] DecodeJson(String result) {
-        List<DataCategory> aList = new ArrayList<DataCategory>();
+        List<DataCategory> aList = new ArrayList<>();
         if (result != null) {
             if (TextUtils.isGraphic(result)) {
                 try {

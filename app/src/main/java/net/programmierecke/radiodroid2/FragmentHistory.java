@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;
 
 import net.programmierecke.radiodroid2.interfaces.IAdapterRefreshable;
@@ -37,7 +38,7 @@ public class FragmentHistory extends Fragment implements IAdapterRefreshable {
         Utils.showPlaySelection(radioDroidApp, theStation, getActivity().getSupportFragmentManager());
 
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
-        final Boolean autoFavorite = sharedPref.getBoolean("auto_favorite", true);
+        final boolean autoFavorite = sharedPref.getBoolean("auto_favorite", true);
         if (autoFavorite && !favouriteManager.has(theStation.StationUuid)) {
             favouriteManager.add(theStation);
             Toast toast = Toast.makeText(context, context.getString(R.string.notify_autostarred), Toast.LENGTH_SHORT);
@@ -56,7 +57,7 @@ public class FragmentHistory extends Fragment implements IAdapterRefreshable {
 
         if (BuildConfig.DEBUG) Log.d(TAG, "stations count:" + historyManager.listStations.size());
 
-        adapter.updateList(null, historyManager.listStations);
+        adapter.updateList(historyManager.listStations);
     }
 
     @Override
@@ -81,15 +82,12 @@ public class FragmentHistory extends Fragment implements IAdapterRefreshable {
 
                 Snackbar snackbar = Snackbar
                         .make(rvStations, R.string.notify_station_removed_from_list, Snackbar.LENGTH_LONG);
-                snackbar.setAction(R.string.action_station_removed_from_list_undo, new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        historyManager.restore(station, removedIdx);
-                        RefreshListGui();
-                    }
+                snackbar.setAction(R.string.action_station_removed_from_list_undo, view -> {
+                    historyManager.restore(station, removedIdx);
+                    RefreshListGui();
                 });
                 snackbar.setActionTextColor(Color.GREEN);
-                snackbar.setDuration(Snackbar.LENGTH_LONG);
+                snackbar.setDuration(BaseTransientBottomBar.LENGTH_LONG);
                 snackbar.show();
             }
 

@@ -3,7 +3,6 @@ package net.programmierecke.radiodroid2;
 import android.app.TimePickerDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
@@ -80,7 +79,6 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
 
     private static final String TAG = "RadioDroid";
 
-    private final String TAG_SEARCH_URL = "json/stations/bytagexact";
     private final String SAVE_LAST_MENU_ITEM = "LAST_MENU_ITEM";
 
     private SearchView mSearchView;
@@ -141,11 +139,11 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
                     }
                     try {
                         new File(dir, aChildren).delete();
-                    } catch (Exception e) {
+                    } catch (Exception ignored) {
                     }
                 }
             }
-        } catch (Exception e) {
+        } catch (Exception ignored) {
         }
 
         final Toolbar myToolbar = findViewById(R.id.my_awesome_toolbar);
@@ -191,18 +189,8 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
             fragmentTransaction.commit();
         }
 
-        smallPlayerFragment.setCallback(new FragmentPlayerSmall.Callback() {
-            @Override
-            public void onToggle() {
-                toggleBottomSheetState();
-            }
-        });
-        fullPlayerFragment.setTouchInterceptListener(new FragmentPlayerFull.TouchInterceptListener() {
-            @Override
-            public void requestDisallowInterceptTouchEvent(boolean disallow) {
-                findViewById(R.id.bottom_sheet).getParent().requestDisallowInterceptTouchEvent(disallow);
-            }
-        });
+        smallPlayerFragment.setCallback(this::toggleBottomSheetState);
+        fullPlayerFragment.setTouchInterceptListener(disallow -> findViewById(R.id.bottom_sheet).getParent().requestDisallowInterceptTouchEvent(disallow));
 
         // Disable ability of ToolBar to follow bottom sheet because it doesn't work well with
         // our custom RecyclerAwareNestedScrollView
@@ -428,6 +416,7 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
                 try {
                     String queryEncoded = URLEncoder.encode(searchTag, "utf-8");
                     queryEncoded = queryEncoded.replace("+", "%20");
+                    String TAG_SEARCH_URL = "json/stations/bytagexact";
                     Search(RadioBrowserServerManager.getWebserviceEndpoint(this, TAG_SEARCH_URL + "/" + queryEncoded));
                 } catch (UnsupportedEncodingException e) {
                     e.printStackTrace();
@@ -443,22 +432,18 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
         if (BuildConfig.DEBUG) {
             Log.d(TAG, "on request permissions result:" + requestCode);
         }
-        switch (requestCode) {
-            case Utils.REQUEST_EXTERNAL_STORAGE: {
-                // If request is cancelled, the result arrays are empty.
-                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    Fragment currentFragment = mFragmentManager.getFragments().get(mFragmentManager.getFragments().size() - 1);
-                    if (currentFragment instanceof IFragmentRefreshable) {
-                        if (BuildConfig.DEBUG) {
-                            Log.d(TAG, "REFRESH VIEW");
-                        }
-                        ((IFragmentRefreshable) currentFragment).Refresh();
+        if (requestCode == Utils.REQUEST_EXTERNAL_STORAGE) {// If request is cancelled, the result arrays are empty.
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                Fragment currentFragment = mFragmentManager.getFragments().get(mFragmentManager.getFragments().size() - 1);
+                if (currentFragment instanceof IFragmentRefreshable) {
+                    if (BuildConfig.DEBUG) {
+                        Log.d(TAG, "REFRESH VIEW");
                     }
-                } else {
-                    Toast toast = Toast.makeText(this, getResources().getString(R.string.error_record_needs_write), Toast.LENGTH_SHORT);
-                    toast.show();
+                    ((IFragmentRefreshable) currentFragment).Refresh();
                 }
-                return;
+            } else {
+                Toast toast = Toast.makeText(this, getResources().getString(R.string.error_record_needs_write), Toast.LENGTH_SHORT);
+                toast.show();
             }
         }
     }
@@ -663,17 +648,15 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
                     new AlertDialog.Builder(this)
                             .setMessage(this.getString(R.string.alert_delete_history))
                             .setCancelable(true)
-                            .setPositiveButton(this.getString(R.string.yes), new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int id) {
-                                    RadioDroidApp radioDroidApp = (RadioDroidApp) getApplication();
-                                    HistoryManager historyManager = radioDroidApp.getHistoryManager();
+                            .setPositiveButton(this.getString(R.string.yes), (dialog, id) -> {
+                                RadioDroidApp radioDroidApp = (RadioDroidApp) getApplication();
+                                HistoryManager historyManager = radioDroidApp.getHistoryManager();
 
-                                    historyManager.clear();
+                                historyManager.clear();
 
-                                    Toast toast = Toast.makeText(getApplicationContext(), getString(R.string.notify_deleted_history), Toast.LENGTH_SHORT);
-                                    toast.show();
-                                    recreate();
-                                }
+                                Toast toast = Toast.makeText(getApplicationContext(), getString(R.string.notify_deleted_history), Toast.LENGTH_SHORT);
+                                toast.show();
+                                recreate();
                             })
                             .setNegativeButton(this.getString(R.string.no), null)
                             .show();
@@ -682,17 +665,15 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
                     new AlertDialog.Builder(this)
                             .setMessage(this.getString(R.string.alert_delete_favorites))
                             .setCancelable(true)
-                            .setPositiveButton(this.getString(R.string.yes), new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int id) {
-                                    RadioDroidApp radioDroidApp = (RadioDroidApp) getApplication();
-                                    FavouriteManager favouriteManager = radioDroidApp.getFavouriteManager();
+                            .setPositiveButton(this.getString(R.string.yes), (dialog, id) -> {
+                                RadioDroidApp radioDroidApp = (RadioDroidApp) getApplication();
+                                FavouriteManager favouriteManager = radioDroidApp.getFavouriteManager();
 
-                                    favouriteManager.clear();
+                                favouriteManager.clear();
 
-                                    Toast toast = Toast.makeText(getApplicationContext(), getString(R.string.notify_deleted_favorites), Toast.LENGTH_SHORT);
-                                    toast.show();
-                                    recreate();
-                                }
+                                Toast toast = Toast.makeText(getApplicationContext(), getString(R.string.notify_deleted_favorites), Toast.LENGTH_SHORT);
+                                toast.show();
+                                recreate();
                             })
                             .setNegativeButton(this.getString(R.string.no), null)
                             .show();
@@ -857,10 +838,9 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
         broadcastReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
-                Intent mIntent = intent;
-                if (mIntent.getAction().equals(ACTION_HIDE_LOADING))
+                if (intent.getAction().equals(ACTION_HIDE_LOADING))
                     hideLoadingIcon();
-                else if (mIntent.getAction().equals(ACTION_SHOW_LOADING))
+                else if (intent.getAction().equals(ACTION_SHOW_LOADING))
                     showLoadingIcon();
             }
         };
@@ -912,21 +892,13 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
             currentTimer = currenTimerSeconds / 60;
         }
         seekBar.setProgress((int) currentTimer);
-        seekDialog.setPositiveButton(R.string.sleep_timer_apply, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                PlayerServiceUtil.clearTimer();
-                PlayerServiceUtil.addTimer(seekBar.getProgress() * 60);
-                sharedPref.edit().putInt("sleep_timer_default_minutes", seekBar.getProgress()).apply();
-            }
+        seekDialog.setPositiveButton(R.string.sleep_timer_apply, (dialog, which) -> {
+            PlayerServiceUtil.clearTimer();
+            PlayerServiceUtil.addTimer(seekBar.getProgress() * 60);
+            sharedPref.edit().putInt("sleep_timer_default_minutes", seekBar.getProgress()).apply();
         });
 
-        seekDialog.setNegativeButton(R.string.sleep_timer_clear, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                PlayerServiceUtil.clearTimer();
-            }
-        });
+        seekDialog.setNegativeButton(R.string.sleep_timer_clear, (dialog, which) -> PlayerServiceUtil.clearTimer());
 
         seekDialog.create();
         seekDialog.show();

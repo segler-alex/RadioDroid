@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    app:layout_behavior="android.support.design.widget.BottomSheetBehavior">
+    app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/imageViewTrackArt"
@@ -18,17 +18,17 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <!--    <TextView-->
-    <!--        android:id="@+id/textViewDateHeader"-->
-    <!--        android:layout_width="wrap_content"-->
-    <!--        android:layout_height="wrap_content"-->
-    <!--        android:layout_marginStart="8dp"-->
-    <!--        android:layout_marginLeft="8dp"-->
-    <!--        android:text="When"-->
-    <!--        app:layout_constraintEnd_toEndOf="parent"-->
-    <!--        app:layout_constraintHorizontal_bias="0.0"-->
-    <!--        app:layout_constraintStart_toEndOf="@id/imageViewTrackArt"-->
-    <!--        app:layout_constraintTop_toTopOf="parent" />-->
+    <!--TextView
+        android:id="@+id/textViewDateHeader"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:text="When"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@id/imageViewTrackArt"
+        app:layout_constraintTop_toTopOf="parent" /-->
 
     <TextView
         android:id="@+id/textViewDate"
@@ -42,18 +42,18 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:text="01.10.2019 11:11" />
 
-    <!--    <TextView-->
-    <!--        android:id="@+id/textViewDurationHeader"-->
-    <!--        android:layout_width="wrap_content"-->
-    <!--        android:layout_height="wrap_content"-->
-    <!--        android:layout_marginStart="8dp"-->
-    <!--        android:layout_marginLeft="8dp"-->
-    <!--        android:layout_marginTop="16dp"-->
-    <!--        android:text="Duration"-->
-    <!--        app:layout_constraintEnd_toEndOf="parent"-->
-    <!--        app:layout_constraintHorizontal_bias="0.0"-->
-    <!--        app:layout_constraintStart_toEndOf="@id/imageViewTrackArt"-->
-    <!--        app:layout_constraintTop_toBottomOf="@id/textViewDate" />-->
+    <!--TextView
+        android:id="@+id/textViewDurationHeader"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="16dp"
+        android:text="Duration"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@id/imageViewTrackArt"
+        app:layout_constraintTop_toBottomOf="@id/textViewDate" /-->
 
     <TextView
         android:id="@+id/textViewDuration"

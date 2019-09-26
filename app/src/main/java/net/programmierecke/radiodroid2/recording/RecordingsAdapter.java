@@ -62,12 +62,7 @@ public class RecordingsAdapter extends RecyclerView.Adapter<RecordingsAdapter.Re
         holder.textViewTitle.setText(recording.Name);
         //holder.textViewTime.setText(recording.Time);
 
-        holder.viewRoot.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                openRecording(recording);
-            }
-        });
+        holder.viewRoot.setOnClickListener(view -> openRecording(recording));
     }
 
     public void setRecordings(List<DataRecording> recordings) {

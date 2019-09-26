@@ -61,7 +61,7 @@ public class FavouriteManager extends StationSaveManager {
 
         SetDynamicAppLauncherShortcuts(int expectedNumber) {
             this.expectedNumber = expectedNumber;
-            shortcuts = new ArrayList<ShortcutInfo>(expectedNumber);
+            shortcuts = new ArrayList<>(expectedNumber);
         }
 
         @Override

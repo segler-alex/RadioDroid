@@ -82,12 +82,7 @@ public class FragmentCategories extends FragmentBase {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         ItemAdapterCategory adapterCategory = new ItemAdapterCategory(R.layout.list_item_category);
-        adapterCategory.setCategoryClickListener(new ItemAdapterCategory.CategoryClickListener() {
-            @Override
-            public void onCategoryClick(DataCategory category) {
-                ClickOnItem(category);
-            }
-        });
+        adapterCategory.setCategoryClickListener(this::ClickOnItem);
 
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_stations_remote, container, false);
@@ -101,16 +96,12 @@ public class FragmentCategories extends FragmentBase {
 
         swipeRefreshLayout = view.findViewById(R.id.swiperefresh);
         if (swipeRefreshLayout != null) {
-            swipeRefreshLayout.setOnRefreshListener(
-                    new SwipeRefreshLayout.OnRefreshListener() {
-                        @Override
-                        public void onRefresh() {
-                            if (BuildConfig.DEBUG) {
-                                Log.d(TAG, "onRefresh called from SwipeRefreshLayout");
-                            }
-                            //RefreshListGui();
-                            DownloadUrl(true, false);
+            swipeRefreshLayout.setOnRefreshListener(() -> {
+                        if (BuildConfig.DEBUG) {
+                            Log.d(TAG, "onRefresh called from SwipeRefreshLayout");
                         }
+                        //RefreshListGui();
+                        DownloadUrl(true, false);
                     }
             );
         }

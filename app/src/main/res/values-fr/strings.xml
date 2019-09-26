@@ -27,7 +27,7 @@
     <string name="error_station_load">Impossible de se connecter à la station</string>
     <string name="error_list_update">Impossible de se connecter au navigateur du serveur radio</string>
 
-    <string name="share_action">Partager le lien de la station avec...</string>
+    <string name="share_action">Partager le lien de la station avec…</string>
 
     <string name="nav_item_stations">Radios</string>
     <string name="nav_item_starred">Favoris</string>
@@ -54,7 +54,7 @@
     <string name="about_version">Version : %1$s</string>
     <string name="detail_star">Favoris</string>
     <string name="detail_unstar">Supprimer</string>
-    <string name="progress_loading">Chargement...</string>
+    <string name="progress_loading">Chargement…</string>
 
     <string name="sleep_timer" formatted="true">Temps de sommeil : %1$02d:%2$02d</string>
     <string name="sleep_timer_title">Combien de minutes avant l\'arrêt?</string>

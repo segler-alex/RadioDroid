@@ -32,11 +32,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import net.programmierecke.radiodroid2.ActivityMain;
 import net.programmierecke.radiodroid2.CountryFlagsLoader;
 import net.programmierecke.radiodroid2.FavouriteManager;
-import net.programmierecke.radiodroid2.FragmentStarred;
 import net.programmierecke.radiodroid2.R;
 import net.programmierecke.radiodroid2.RadioDroidApp;
 import net.programmierecke.radiodroid2.Utils;
-import net.programmierecke.radiodroid2.interfaces.IAdapterRefreshable;
 import net.programmierecke.radiodroid2.service.PlayerService;
 import net.programmierecke.radiodroid2.service.PlayerServiceUtil;
 import net.programmierecke.radiodroid2.utils.RecyclerItemMoveAndSwipeHelper;
@@ -72,7 +70,6 @@ public class ItemAdapterStation
 
     private boolean shouldLoadIcons;
 
-    private IAdapterRefreshable refreshable;
     private FragmentActivity activity;
 
     private BroadcastReceiver updateUIReceiver;
@@ -84,15 +81,12 @@ public class ItemAdapterStation
 
     private FavouriteManager favouriteManager;
 
-    private TagsView.TagSelectionCallback tagSelectionCallback = new TagsView.TagSelectionCallback() {
-        @Override
-        public void onTagSelected(String tag) {
-            Intent i = new Intent(getContext(), ActivityMain.class);
-            i.putExtra(ActivityMain.EXTRA_SEARCH_TAG, tag);
-            i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            getContext().startActivity(i);
-        }
+    private TagsView.TagSelectionCallback tagSelectionCallback = tag -> {
+        Intent i = new Intent(getContext(), ActivityMain.class);
+        i.putExtra(ActivityMain.EXTRA_SEARCH_TAG, tag);
+        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        getContext().startActivity(i);
     };
 
     class StationViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, SwipeableViewHolder {
@@ -179,7 +173,8 @@ public class ItemAdapterStation
         if (!supportsStationRemoval) {
             supportsStationRemoval = true;
 
-            RecyclerItemSwipeHelper<StationViewHolder> swipeHelper = new RecyclerItemSwipeHelper<>(0, ItemTouchHelper.LEFT + ItemTouchHelper.RIGHT, this);
+            RecyclerItemSwipeHelper<StationViewHolder> swipeHelper = new RecyclerItemSwipeHelper<>(
+                    0, ItemTouchHelper.LEFT + ItemTouchHelper.RIGHT, this);
             new ItemTouchHelper(swipeHelper).attachToRecyclerView(recyclerView);
         }
     }
@@ -188,13 +183,13 @@ public class ItemAdapterStation
         if (!supportsStationRemoval) {
             supportsStationRemoval = true;
 
-            RecyclerItemMoveAndSwipeHelper<StationViewHolder> swipeAndMoveHelper = new RecyclerItemMoveAndSwipeHelper<>(ItemTouchHelper.UP | ItemTouchHelper.DOWN, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT, this);
+            RecyclerItemMoveAndSwipeHelper<StationViewHolder> swipeAndMoveHelper = new RecyclerItemMoveAndSwipeHelper<>(
+                    ItemTouchHelper.UP | ItemTouchHelper.DOWN, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT, this);
             new ItemTouchHelper(swipeAndMoveHelper).attachToRecyclerView(recyclerView);
         }
     }
 
-    public void updateList(FragmentStarred refreshableList, List<DataRadioStation> stationsList) {
-        this.refreshable = refreshableList;
+    public void updateList(List<DataRadioStation> stationsList) {
         this.stationsList = stationsList;
 
         expandedPosition = -1;
@@ -239,18 +234,15 @@ public class ItemAdapterStation
 
                 final boolean isInFavorites = favouriteManager.has(station.StationUuid);
                 holder.imageViewIcon.setContentDescription(getContext().getApplicationContext().getString(isInFavorites ? R.string.detail_unstar : R.string.detail_star));
-                holder.imageViewIcon.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        if (favouriteManager.has(station.StationUuid)) {
-                            StationActions.removeFromFavourites(getContext(), station);
-                        } else {
-                            StationActions.markAsFavourite(getContext(), station);
-                        }
-
-                        int position = holder.getAdapterPosition();
-                        notifyItemChanged(position);
+                holder.imageViewIcon.setOnClickListener(view -> {
+                    if (favouriteManager.has(station.StationUuid)) {
+                        StationActions.removeFromFavourites(getContext(), station);
+                    } else {
+                        StationActions.markAsFavourite(getContext(), station);
                     }
+
+                    int position1 = holder.getAdapterPosition();
+                    notifyItemChanged(position1);
                 });
             }
         }
@@ -260,21 +252,18 @@ public class ItemAdapterStation
 
         holder.buttonMore.setImageResource(isExpanded ? R.drawable.ic_expand_less_black_24dp : R.drawable.ic_expand_more_black_24dp);
         holder.buttonMore.setContentDescription(getContext().getApplicationContext().getString(isExpanded ? R.string.image_button_less : R.string.image_button_more));
-        holder.buttonMore.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // Notify prev item change
-                if (expandedPosition != -1) {
-                    notifyItemChanged(expandedPosition);
-                }
+        holder.buttonMore.setOnClickListener(view -> {
+            // Notify prev item change
+            if (expandedPosition != -1) {
+                notifyItemChanged(expandedPosition);
+            }
 
-                int position = holder.getAdapterPosition();
-                expandedPosition = isExpanded ? -1 : position;
+            int position12 = holder.getAdapterPosition();
+            expandedPosition = isExpanded ? -1 : position12;
 
-                // Notify current item changed
-                if (expandedPosition != -1) {
-                    notifyItemChanged(expandedPosition);
-                }
+            // Notify current item changed
+            if (expandedPosition != -1) {
+                notifyItemChanged(expandedPosition);
             }
         });
 
@@ -336,65 +325,39 @@ public class ItemAdapterStation
             holder.buttonAddAlarm = holder.viewDetails.findViewById(R.id.buttonAddAlarm);
             holder.buttonCreateShortcut = holder.viewDetails.findViewById(R.id.buttonCreateShortcut);
 
-//            holder.buttonShare.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View view) {
-//                    StationActions.share(getContext(), station);
-//                }
-//            });
+//            holder.buttonShare.setOnClickListener(view -> StationActions.share(getContext(), station));
 
-            holder.buttonStationLinks.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    StationActions.showWebLinks(activity, station);
-                }
-            });
+            holder.buttonStationLinks.setOnClickListener(view -> StationActions.showWebLinks(activity, station));
 
             if (favouriteManager.has(station.StationUuid)) {
                 holder.buttonBookmark.setImageResource(R.drawable.ic_star_black_24dp);
                 holder.buttonBookmark.setContentDescription(getContext().getApplicationContext().getString(R.string.detail_unstar));
-                holder.buttonBookmark.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        StationActions.removeFromFavourites(getContext(), station);
+                holder.buttonBookmark.setOnClickListener(view -> {
+                    StationActions.removeFromFavourites(getContext(), station);
 
-                        int position = holder.getAdapterPosition();
-                        notifyItemChanged(position);
-                    }
+                    int position13 = holder.getAdapterPosition();
+                    notifyItemChanged(position13);
                 });
             } else {
                 holder.buttonBookmark.setImageResource(R.drawable.ic_star_border_black_24dp);
                 holder.buttonBookmark.setContentDescription(getContext().getApplicationContext().getString(R.string.detail_star));
-                holder.buttonBookmark.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        StationActions.markAsFavourite(getContext(), station);
+                holder.buttonBookmark.setOnClickListener(view -> {
+                    StationActions.markAsFavourite(getContext(), station);
 
-                        int position = holder.getAdapterPosition();
-                        notifyItemChanged(position);
-                    }
+                    int position14 = holder.getAdapterPosition();
+                    notifyItemChanged(position14);
                 });
             }
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O_MR1
                     && getContext().getApplicationContext().getSystemService(ShortcutManager.class).isRequestPinShortcutSupported()) {
                 holder.buttonCreateShortcut.setVisibility(View.VISIBLE);
-                holder.buttonCreateShortcut.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        station.prepareShortcut(getContext(), new CreatePinShortcutListener());
-                    }
-                });
+                holder.buttonCreateShortcut.setOnClickListener(view -> station.prepareShortcut(getContext(), new CreatePinShortcutListener()));
             } else {
                 holder.buttonCreateShortcut.setVisibility(View.INVISIBLE);
             }
 
-            holder.buttonAddAlarm.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    StationActions.setAsAlarm(activity, station);
-                }
-            });
+            holder.buttonAddAlarm.setOnClickListener(view -> StationActions.setAsAlarm(activity, station));
 
             String[] tags = station.TagsAll.split(",");
             holder.viewTags.setTags(Arrays.asList(tags));

@@ -281,8 +281,6 @@ public class PlayerService extends Service implements RadioPlayer.PlayerListener
         }
     };
 
-    private MediaSessionCompat.Callback mediaSessionCallback = null;
-
     private AudioManager.OnAudioFocusChangeListener afChangeListener =
             new AudioManager.OnAudioFocusChangeListener() {
                 public void onAudioFocusChange(int focusChange) {
@@ -380,7 +378,7 @@ public class PlayerService extends Service implements RadioPlayer.PlayerListener
         radioPlayer = new RadioPlayer(PlayerService.this);
         radioPlayer.setPlayerListener(this);
 
-        mediaSessionCallback = new MediaSessionCallback(this, itsBinder);
+        MediaSessionCompat.Callback mediaSessionCallback = new MediaSessionCallback(this, itsBinder);
 
         mediaSession = new MediaSessionCompat(getBaseContext(), getBaseContext().getPackageName());
         mediaSession.setCallback(mediaSessionCallback);
@@ -618,7 +616,7 @@ public class PlayerService extends Service implements RadioPlayer.PlayerListener
             wakeLock = powerManager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "PlayerService:");
         }
         if (!wakeLock.isHeld()) {
-            wakeLock.acquire();
+            wakeLock.acquire(10 * 60 * 1000L /*10 minutes*/);
         } else {
             if (BuildConfig.DEBUG) Log.d(TAG, "wake lock is already acquired.");
         }
@@ -626,11 +624,7 @@ public class PlayerService extends Service implements RadioPlayer.PlayerListener
         WifiManager wm = (WifiManager) itsContext.getApplicationContext().getSystemService(Context.WIFI_SERVICE);
         if (wm != null) {
             if (wifiLock == null) {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR1) {
-                    wifiLock = wm.createWifiLock(WifiManager.WIFI_MODE_FULL_HIGH_PERF, "PlayerService");
-                } else {
-                    wifiLock = wm.createWifiLock(WifiManager.WIFI_MODE_FULL, "PlayerService");
-                }
+                wifiLock = wm.createWifiLock(WifiManager.WIFI_MODE_FULL_HIGH_PERF, "PlayerService");
             }
             if (!wifiLock.isHeld()) {
                 wifiLock.acquire();
@@ -740,12 +734,7 @@ public class PlayerService extends Service implements RadioPlayer.PlayerListener
     private void toastOnUi(final int messageId) {
         Handler h = new Handler(itsContext.getMainLooper());
 
-        h.post(new Runnable() {
-            @Override
-            public void run() {
-                Toast.makeText(itsContext, itsContext.getResources().getString(messageId), Toast.LENGTH_SHORT).show();
-            }
-        });
+        h.post(() -> Toast.makeText(itsContext, itsContext.getResources().getString(messageId), Toast.LENGTH_SHORT).show());
     }
 
     private void updateNotification() {
@@ -839,63 +828,60 @@ public class PlayerService extends Service implements RadioPlayer.PlayerListener
 
         Handler h = new Handler(itsContext.getMainLooper());
 
-        h.post(new Runnable() {
-            @Override
-            public void run() {
-                switch (state) {
-                    case Paused:
-                        setMediaPlaybackState(PlaybackStateCompat.STATE_PAUSED);
-                        break;
-                    case Playing: {
-                        enableMediaSession();
+        h.post(() -> {
+            switch (state) {
+                case Paused:
+                    setMediaPlaybackState(PlaybackStateCompat.STATE_PAUSED);
+                    break;
+                case Playing: {
+                    enableMediaSession();
 
-                        setMediaPlaybackState(PlaybackStateCompat.STATE_PLAYING);
+                    setMediaPlaybackState(PlaybackStateCompat.STATE_PLAYING);
 
+                    if (BuildConfig.DEBUG) {
+                        Log.d(TAG, "Open audio effect control session, session id=" + audioSessionId);
+                    }
+
+                    lastPlayStartTime = System.currentTimeMillis();
+
+                    Intent i = new Intent(AudioEffect.ACTION_OPEN_AUDIO_EFFECT_CONTROL_SESSION);
+                    i.putExtra(AudioEffect.EXTRA_AUDIO_SESSION, audioSessionId);
+                    i.putExtra(AudioEffect.EXTRA_PACKAGE_NAME, getPackageName());
+                    itsContext.sendBroadcast(i);
+                    break;
+                }
+                default: {
+                    setMediaPlaybackState(PlaybackStateCompat.STATE_NONE);
+
+                    if (state != RadioPlayer.PlayState.PrePlaying) {
+                        disableMediaSession();
+                    }
+
+                    if (audioSessionId > 0) {
                         if (BuildConfig.DEBUG) {
-                            Log.d(TAG, "Open audio effect control session, session id=" + audioSessionId);
+                            Log.d(TAG, "Close audio effect control session, session id=" + audioSessionId);
                         }
 
-                        lastPlayStartTime = System.currentTimeMillis();
-
-                        Intent i = new Intent(AudioEffect.ACTION_OPEN_AUDIO_EFFECT_CONTROL_SESSION);
+                        Intent i = new Intent(AudioEffect.ACTION_CLOSE_AUDIO_EFFECT_CONTROL_SESSION);
                         i.putExtra(AudioEffect.EXTRA_AUDIO_SESSION, audioSessionId);
                         i.putExtra(AudioEffect.EXTRA_PACKAGE_NAME, getPackageName());
                         itsContext.sendBroadcast(i);
-                        break;
                     }
-                    default: {
-                        setMediaPlaybackState(PlaybackStateCompat.STATE_NONE);
 
-                        if (state != RadioPlayer.PlayState.PrePlaying) {
-                            disableMediaSession();
-                        }
-
-                        if (audioSessionId > 0) {
-                            if (BuildConfig.DEBUG) {
-                                Log.d(TAG, "Close audio effect control session, session id=" + audioSessionId);
-                            }
-
-                            Intent i = new Intent(AudioEffect.ACTION_CLOSE_AUDIO_EFFECT_CONTROL_SESSION);
-                            i.putExtra(AudioEffect.EXTRA_AUDIO_SESSION, audioSessionId);
-                            i.putExtra(AudioEffect.EXTRA_PACKAGE_NAME, getPackageName());
-                            itsContext.sendBroadcast(i);
-                        }
-
-                        if (state == RadioPlayer.PlayState.Idle) {
-                            stop();
-                        }
-
-                        break;
+                    if (state == RadioPlayer.PlayState.Idle) {
+                        stop();
                     }
+
+                    break;
                 }
-
-                updateNotification(state);
-
-                final Intent intent = new Intent();
-                intent.setAction(PLAYER_SERVICE_STATE_CHANGE);
-                intent.putExtra(PLAYER_SERVICE_STATE_EXTRA_KEY, state);
-                LocalBroadcastManager.getInstance(itsContext).sendBroadcast(intent);
             }
+
+            updateNotification(state);
+
+            final Intent intent = new Intent();
+            intent.setAction(PLAYER_SERVICE_STATE_CHANGE);
+            intent.putExtra(PLAYER_SERVICE_STATE_EXTRA_KEY, state);
+            LocalBroadcastManager.getInstance(itsContext).sendBroadcast(intent);
         });
     }
 

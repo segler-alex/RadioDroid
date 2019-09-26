@@ -19,7 +19,6 @@ import java.util.LinkedList;
 import java.util.Queue;
 
 public class MPDAsyncTask implements Runnable {
-    private static String TAG = "MPDAsyncTask";
 
     public interface ReadStage {
         boolean onRead(@NonNull MPDAsyncTask task, @NonNull String result);
@@ -89,6 +88,7 @@ public class MPDAsyncTask implements Runnable {
             if (readStage != null) {
                 int read = reader.read(readBuffer);
                 readBuffer.position(0);
+                String TAG = "MPDAsyncTask";
                 Log.d(TAG, readBuffer.toString());
                 c = readStage.onRead(MPDAsyncTask.this, readBuffer.toString());
             } else {

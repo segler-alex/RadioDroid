@@ -30,7 +30,7 @@
     <string name="error_station_load">Nie je možné pripojiť sa k stanici</string>
     <string name="error_list_update">Nie je možné pripojiť sa k serveru služby radio browser</string>
 
-    <string name="share_action">Zdieľať odkaz na stanicu...</string>
+    <string name="share_action">Zdieľať odkaz na stanicu…</string>
 
     <string name="nav_item_stations">Stanice</string>
     <string name="nav_item_starred">Obľúbené</string>
@@ -49,7 +49,7 @@
     Nahlasovanie chýb:\n
     https://github.com/segler-alex/RadioDroid/issues\n
     \n
-    Ak sa vám táto aplikácia páči a radi by ste pomohli, prosím ozvite sa emailom. Rád by som našiel niekoho so skúsenosťami v oblasti grafiky, aby mi pomohol zatraktívniť aplikáciu tak, aby bola krajšia na pohľad :) možno niekto z vás dokáže nakresliť ikony a obrázky... alebo tiež šikovní vývojári, ktorí dokážete opraviť chyby a pridať nové (vlastnosti nie chyby ;)\n
+    Ak sa vám táto aplikácia páči a radi by ste pomohli, prosím ozvite sa emailom. Rád by som našiel niekoho so skúsenosťami v oblasti grafiky, aby mi pomohol zatraktívniť aplikáciu tak, aby bola krajšia na pohľad :) možno niekto z vás dokáže nakresliť ikony a obrázky… alebo tiež šikovní vývojári, ktorí dokážete opraviť chyby a pridať nové (vlastnosti nie chyby ;)\n
     Nápady na nové vylepšenia sú tiež vítané!\n
     \n
     Táto aplikácia je poskytovaná zdarma pod licenciou GPLv3.\n
@@ -57,7 +57,7 @@
     <string name="about_version">Verzia: %1$s</string>
     <string name="detail_star">Do obľúbených</string>
     <string name="detail_unstar">Odstrániť z obľúbených</string>
-    <string name="progress_loading">Načítavanie...</string>
+    <string name="progress_loading">Načítavanie…</string>
 
     <string name="sleep_timer" formatted="true">Časovač zaspávania: %1$02d:%2$02d</string>
     <string name="sleep_timer_title">Koľko minút do automatického zastavenia</string>

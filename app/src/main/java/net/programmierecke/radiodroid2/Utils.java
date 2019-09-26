@@ -5,7 +5,6 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.ContentResolver;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -48,7 +47,6 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.InetSocketAddress;
 import java.net.Proxy;
@@ -63,8 +61,6 @@ import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
-import okhttp3.Response;
-import okhttp3.Route;
 
 public class Utils {
     private static int loadIcons = -1;
@@ -290,12 +286,7 @@ public class Utils {
                     .setTitle(title)
                     .setMessage(text)
                     .setNegativeButton(android.R.string.cancel, null) // do not play on cancel
-                    .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            playInternal(httpClient, station, context, external);
-                        }
-                    })
+                    .setPositiveButton(android.R.string.ok, (dialog, which) -> playInternal(httpClient, station, context, external))
                     .create()
                     .show();
         } else {
@@ -320,30 +311,31 @@ public class Utils {
 
                 if (result != null) {
                     boolean externalActive = false;
-//					if (MPDClientOld.Connected() && MPDClientOld.Discovered()){
-//						MPDClientOld.Play(result, context);
-//						PlayerServiceUtil.saveInfo(result, station.Name, station.ID, station.IconUrl);
-//						externalActive = true;
-//					}
-//					if (CastHandler.isCastSessionAvailable()){
-//						if (!externalActive) {
-//							PlayerServiceUtil.stop(); // stop internal player and not continue playing
-//						}
-//						CastHandler.PlayRemote(station.Name, result, station.IconUrl);
-//						externalActive = true;
-//					}
-//
-//					if (!externalActive){
-//						if (external){
-//							Intent share = new Intent(Intent.ACTION_VIEW);
-//							share.setDataAndType(Uri.parse(result), "audio/*");
-//							context.startActivity(share);
-//						}else {
-//							station.playableUrl = result;
-//							PlayerServiceUtil.play(station);
-//						}
-//					}
+/*
+                    if (MPDClientOld.Connected() && MPDClientOld.Discovered()) {
+                        MPDClientOld.Play(result, context);
+                        PlayerServiceUtil.saveInfo(result, station.Name, station.ID, station.IconUrl);
+                        externalActive = true;
+                    }
+                    if (CastHandler.isCastSessionAvailable()) {
+                        if (!externalActive) {
+                            PlayerServiceUtil.stop(); // stop internal player and not continue playing
+                        }
+                        CastHandler.PlayRemote(station.Name, result, station.IconUrl);
+                        externalActive = true;
+                    }
 
+                    if (!externalActive) {
+                        if (external) {
+                            Intent share = new Intent(Intent.ACTION_VIEW);
+                            share.setDataAndType(Uri.parse(result), "audio/*");
+                            context.startActivity(share);
+                        } else {
+                            station.playableUrl = result;
+                            PlayerServiceUtil.play(station);
+                        }
+                    }
+*/
                     station.playableUrl = result;
                     PlayerServiceUtil.play(station);
                 } else {
@@ -511,14 +503,11 @@ public class Utils {
         builder.proxy(proxy);
 
         if (!proxySettings.login.isEmpty()) {
-            Authenticator proxyAuthenticator = new Authenticator() {
-                @Override
-                public Request authenticate(Route route, Response response) throws IOException {
-                    String credential = Credentials.basic(proxySettings.login, proxySettings.password);
-                    return response.request().newBuilder()
-                            .header("Proxy-Authorization", credential)
-                            .build();
-                }
+            Authenticator proxyAuthenticator = (route, response) -> {
+                String credential = Credentials.basic(proxySettings.login, proxySettings.password);
+                return response.request().newBuilder()
+                        .header("Proxy-Authorization", credential)
+                        .build();
             };
 
             builder.authenticator(proxyAuthenticator);

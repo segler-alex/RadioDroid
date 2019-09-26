@@ -26,10 +26,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.Group;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
-import androidx.paging.PagedList;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -119,8 +117,6 @@ public class FragmentPlayerFull extends Fragment {
 
     private ViewPager pagerHistoryAndRecordings;
     private HistoryAndRecordsPagerAdapter historyAndRecordsPagerAdapter;
-
-    private TrackHistoryViewModel trackHistoryViewModel;
 
     private ImageButton btnPlay;
     private ImageButton btnPrev;
@@ -243,13 +239,8 @@ public class FragmentPlayerFull extends Fragment {
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(historyAndRecordsPagerAdapter.recyclerViewSongHistory.getContext(), llmHistory.getOrientation());
         historyAndRecordsPagerAdapter.recyclerViewSongHistory.addItemDecoration(dividerItemDecoration);
 
-        trackHistoryViewModel = ViewModelProviders.of(this).get(TrackHistoryViewModel.class);
-        trackHistoryViewModel.getAllHistoryPaged().observe(this, new Observer<PagedList<TrackHistoryEntry>>() {
-            @Override
-            public void onChanged(@Nullable PagedList<TrackHistoryEntry> songHistoryEntries) {
-                trackHistoryAdapter.submitList(songHistoryEntries);
-            }
-        });
+        TrackHistoryViewModel trackHistoryViewModel = ViewModelProviders.of(this).get(TrackHistoryViewModel.class);
+        trackHistoryViewModel.getAllHistoryPaged().observe(this, songHistoryEntries -> trackHistoryAdapter.submitList(songHistoryEntries));
 
         recordingsAdapter = new RecordingsAdapter(requireContext());
         recordingsAdapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
@@ -296,22 +287,19 @@ public class FragmentPlayerFull extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        btnPlay.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (PlayerServiceUtil.isPlaying()) {
-                    if (PlayerServiceUtil.isRecording()) {
-                        PlayerServiceUtil.stopRecording();
-                        updateRunningRecording();
-                    }
-
-                    PlayerServiceUtil.stop();
-
-                    updatePlaybackButtons(false, false);
-                } else {
-                    playLastFromHistory();
-                    updatePlaybackButtons(true, false);
+        btnPlay.setOnClickListener(view -> {
+            if (PlayerServiceUtil.isPlaying()) {
+                if (PlayerServiceUtil.isRecording()) {
+                    PlayerServiceUtil.stopRecording();
+                    updateRunningRecording();
                 }
+
+                PlayerServiceUtil.stop();
+
+                updatePlaybackButtons(false, false);
+            } else {
+                playLastFromHistory();
+                updatePlaybackButtons(true, false);
             }
         });
 

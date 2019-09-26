@@ -71,12 +71,9 @@ public class FragmentTabs extends Fragment implements IFragmentRefreshable, IFra
          * Maybe a Support Library Bug .
          */
 
-        tabLayout.post(new Runnable() {
-            @Override
-            public void run() {
-                if (getContext() != null)
-                    tabLayout.setupWithViewPager(viewPager);
-            }
+        tabLayout.post(() -> {
+            if (getContext() != null)
+                tabLayout.setupWithViewPager(viewPager);
         });
 
         return x;
@@ -100,7 +97,7 @@ public class FragmentTabs extends Fragment implements IFragmentRefreshable, IFra
 
     private void setupViewPager(ViewPager viewPager) {
         Context ctx = getContext();
-        String countryCode = null;
+        String countryCode;
         String country = null;
         if (ctx != null) {
             TelephonyManager tm = (TelephonyManager) ctx.getSystemService(Context.TELEPHONY_SERVICE);
@@ -164,9 +161,9 @@ public class FragmentTabs extends Fragment implements IFragmentRefreshable, IFra
 
     class ViewPagerAdapter extends FragmentPagerAdapter {
         private final List<Fragment> mFragmentList = new ArrayList<>();
-        private final List<Integer> mFragmentTitleList = new ArrayList<Integer>();
+        private final List<Integer> mFragmentTitleList = new ArrayList<>();
 
-        public ViewPagerAdapter(FragmentManager manager) {
+        ViewPagerAdapter(FragmentManager manager) {
             super(manager);
         }
 
@@ -180,7 +177,7 @@ public class FragmentTabs extends Fragment implements IFragmentRefreshable, IFra
             return mFragmentList.size();
         }
 
-        public void addFragment(Fragment fragment, int title) {
+        void addFragment(Fragment fragment, int title) {
             mFragmentList.add(fragment);
             mFragmentTitleList.add(title);
         }

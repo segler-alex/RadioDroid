@@ -1,7 +1,6 @@
 package net.programmierecke.radiodroid2;
 
 import android.app.Dialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.pm.ApplicationInfo;
@@ -22,12 +21,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ApplicationSelectorDialog extends DialogFragment {
-    ArrayList<ActivityInfo> listInfos = new ArrayList<ActivityInfo>();
+    ArrayList<ActivityInfo> listInfos = new ArrayList<>();
 
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.select_dialog_singlechoice);
+        final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.select_dialog_singlechoice);
 
         PackageManager pm = getContext().getPackageManager();
         Intent mainIntent = new Intent(Intent.ACTION_VIEW);
@@ -45,15 +44,13 @@ public class ApplicationSelectorDialog extends DialogFragment {
         // Use the Builder class for convenient dialog construction
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setTitle(R.string.alert_select_external_alarm_app);
-        builder.setAdapter(arrayAdapter, new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int which) {
-                if (BuildConfig.DEBUG) {
-                    Log.d("AAA", "choose : " + which);
-                }
-                if (callback != null) {
-                    ActivityInfo info = listInfos.get(which);
-                    callback.onAppSelected(info.packageName, info.name);
-                }
+        builder.setAdapter(arrayAdapter, (dialog, which) -> {
+            if (BuildConfig.DEBUG) {
+                Log.d("AAA", "choose : " + which);
+            }
+            if (callback != null) {
+                ActivityInfo info = listInfos.get(which);
+                callback.onAppSelected(info.packageName, info.name);
             }
         });
 

@@ -67,7 +67,7 @@ public class DataRadioStation implements Parcelable {
     public String StationId = "";
 
     public String getShortDetails(Context ctx) {
-        List<String> aList = new ArrayList<String>();
+        List<String> aList = new ArrayList<>();
         if (!Working) {
             aList.add(ctx.getResources().getString(R.string.station_detail_broken));
         }
@@ -108,7 +108,7 @@ public class DataRadioStation implements Parcelable {
     }
 
     public static DataRadioStation[] DecodeJson(String result) {
-        List<DataRadioStation> aList = new ArrayList<DataRadioStation>();
+        List<DataRadioStation> aList = new ArrayList<>();
         if (result != null) {
             if (TextUtils.isGraphic(result)) {
                 try {

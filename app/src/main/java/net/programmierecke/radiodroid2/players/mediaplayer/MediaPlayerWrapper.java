@@ -33,7 +33,6 @@ public class MediaPlayerWrapper implements PlayerWrapper, StreamProxyListener {
     private PlayListener stateListener;
 
     private String streamUrl;
-    private Context context;
     private boolean isAlarm;
 
     private boolean isHls;
@@ -54,7 +53,6 @@ public class MediaPlayerWrapper implements PlayerWrapper, StreamProxyListener {
         }
 
         this.streamUrl = streamUrl;
-        this.context = context;
         this.isAlarm = isAlarm;
 
         Log.v(TAG, "Stream url:" + streamUrl);
@@ -74,7 +72,7 @@ public class MediaPlayerWrapper implements PlayerWrapper, StreamProxyListener {
         }
     }
 
-    private void playProxyStream(String proxyUrl, Context context, boolean isAlarm) {
+    private void playProxyStream(String proxyUrl, boolean isAlarm) {
         playerIsInLegalState.set(false);
 
         if (mediaPlayer == null) {
@@ -89,15 +87,12 @@ public class MediaPlayerWrapper implements PlayerWrapper, StreamProxyListener {
             mediaPlayer.setDataSource(proxyUrl);
             mediaPlayer.prepareAsync();
 
-            mediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
-                @Override
-                public void onPrepared(MediaPlayer mp) {
-                    playerIsInLegalState.set(true);
+            mediaPlayer.setOnPreparedListener(mp -> {
+                playerIsInLegalState.set(true);
 
-                    stateListener.onStateChanged(RadioPlayer.PlayState.PrePlaying);
-                    mediaPlayer.start();
-                    stateListener.onStateChanged(RadioPlayer.PlayState.Playing);
-                }
+                stateListener.onStateChanged(RadioPlayer.PlayState.PrePlaying);
+                mediaPlayer.start();
+                stateListener.onStateChanged(RadioPlayer.PlayState.Playing);
             });
         } catch (IllegalArgumentException e) {
             Log.e(TAG, "" + e);
@@ -242,12 +237,7 @@ public class MediaPlayerWrapper implements PlayerWrapper, StreamProxyListener {
 
     @Override
     public void onStreamCreated(final String proxyConnection) {
-        playerThreadHandler.post(new Runnable() {
-            @Override
-            public void run() {
-                playProxyStream(proxyConnection, context, isAlarm);
-            }
-        });
+        playerThreadHandler.post(() -> playProxyStream(proxyConnection, isAlarm));
     }
 
     @Override

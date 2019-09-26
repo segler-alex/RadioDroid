@@ -45,7 +45,7 @@ public class PlayerServiceUtil {
     public static void unBind(Context context) {
         try {
             context.unbindService(serviceConnection);
-        } catch (Exception e) {
+        } catch (Exception ignored) {
         }
         serviceConnection = null;
         mBound = false;
@@ -95,7 +95,7 @@ public class PlayerServiceUtil {
         if (itsPlayerService != null) {
             try {
                 return itsPlayerService.isPlaying();
-            } catch (RemoteException e) {
+            } catch (RemoteException ignored) {
             }
         }
         return false;
