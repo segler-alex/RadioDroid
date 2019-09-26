@@ -112,7 +112,7 @@ public class MediaSessionCallback extends MediaSessionCompat.Callback {
     public void onPlayFromSearch(String query, Bundle extras) {
         DataRadioStation station = ((RadioDroidApp) context.getApplicationContext()).getFavouriteManager().getBestNameMatch(query);
         if (station == null)
-           station = ((RadioDroidApp) context.getApplicationContext()).getHistoryManager().getBestNameMatch(query);
+            station = ((RadioDroidApp) context.getApplicationContext()).getHistoryManager().getBestNameMatch(query);
         if (station != null) {
             GetRealLinkAndPlayTask playTask = new GetRealLinkAndPlayTask(context, station, playerService);
             playTask.execute();

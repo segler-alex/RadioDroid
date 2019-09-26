@@ -25,7 +25,7 @@ public class FragmentAlarm extends Fragment implements TimePickerDialog.OnTimeSe
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        RadioDroidApp radioDroidApp = (RadioDroidApp)getActivity().getApplication();
+        RadioDroidApp radioDroidApp = (RadioDroidApp) getActivity().getApplication();
         ram = radioDroidApp.getAlarmManager();
 
         View view = inflater.inflate(R.layout.layout_alarms, container, false);
@@ -50,13 +50,14 @@ public class FragmentAlarm extends Fragment implements TimePickerDialog.OnTimeSe
 
     private void RefreshListAndView() {
         adapterRadioAlarm.clear();
-        for(DataRadioStationAlarm alarm: ram.getList()){
+        for (DataRadioStationAlarm alarm : ram.getList()) {
             adapterRadioAlarm.add(alarm);
         }
         lvAlarms.invalidate();
     }
 
     DataRadioStationAlarm clickedAlarm = null;
+
     private void ClickOnItem(DataRadioStationAlarm anObject) {
         clickedAlarm = anObject;
         TimePickerFragment newFragment = new TimePickerFragment();
@@ -66,7 +67,7 @@ public class FragmentAlarm extends Fragment implements TimePickerDialog.OnTimeSe
 
     @Override
     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-        ram.changeTime(clickedAlarm.id,hourOfDay,minute);
+        ram.changeTime(clickedAlarm.id, hourOfDay, minute);
         RefreshListAndView();
         view.invalidate();
     }

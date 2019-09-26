@@ -15,7 +15,7 @@ public class FragmentAbout extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.layout_about,null);
+        View view = inflater.inflate(R.layout.layout_about, null);
 
         TextView aTextVersion = (TextView) view.findViewById(R.id.about_version);
         if (aTextVersion != null) {
@@ -30,7 +30,7 @@ public class FragmentAbout extends Fragment {
             }
 
             Resources resources = getResources();
-            aTextVersion.setText(resources.getString(R.string.about_version, version+" "+buildDate));
+            aTextVersion.setText(resources.getString(R.string.about_version, version + " " + buildDate));
 
         }
 

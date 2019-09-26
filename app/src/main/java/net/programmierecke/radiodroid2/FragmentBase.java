@@ -97,7 +97,7 @@ public class FragmentBase extends Fragment {
                     @Override
                     protected void onPostExecute(String result) {
                         DownloadFinished();
-                        if(getContext() != null)
+                        if (getContext() != null)
                             getContext().sendBroadcast(new Intent(ActivityMain.ACTION_HIDE_LOADING));
                         if (BuildConfig.DEBUG) {
                             Log.d(TAG, "Download url finished:" + url);
@@ -112,9 +112,8 @@ public class FragmentBase extends Fragment {
                             try {
                                 Toast toast = Toast.makeText(getContext(), getResources().getText(R.string.error_list_update), Toast.LENGTH_SHORT);
                                 toast.show();
-                            }
-                            catch(Exception e){
-                                Log.e("ERR",e.toString());
+                            } catch (Exception e) {
+                                Log.e("ERR", e.toString());
                             }
                         }
                         super.onPostExecute(result);

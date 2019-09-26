@@ -46,11 +46,11 @@ import com.google.android.exoplayer2.upstream.DefaultBandwidthMeter;
 
 import net.programmierecke.radiodroid2.R;
 import net.programmierecke.radiodroid2.Utils;
+import net.programmierecke.radiodroid2.players.PlayerWrapper;
+import net.programmierecke.radiodroid2.players.RadioPlayer;
 import net.programmierecke.radiodroid2.recording.RecordableListener;
 import net.programmierecke.radiodroid2.station.live.ShoutcastInfo;
 import net.programmierecke.radiodroid2.station.live.StreamLiveInfo;
-import net.programmierecke.radiodroid2.players.PlayerWrapper;
-import net.programmierecke.radiodroid2.players.RadioPlayer;
 
 import java.io.IOException;
 import java.util.Map;
@@ -103,7 +103,7 @@ public class ExoPlayerWrapper implements PlayerWrapper, IcyDataSource.IcyDataSou
     public void playRemote(@NonNull OkHttpClient httpClient, @NonNull String streamUrl, @NonNull Context context, boolean isAlarm) {
         // I don't know why, but it is still possible that streamUrl is null,
         // I still get exceptions from this from google
-        if (streamUrl == null){
+        if (streamUrl == null) {
             return;
         }
         if (!streamUrl.equals(this.streamUrl)) {
@@ -253,7 +253,7 @@ public class ExoPlayerWrapper implements PlayerWrapper, IcyDataSource.IcyDataSou
 
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
         int resumeWithin = sharedPref.getInt("settings_resume_within", 60);
-        if(resumeWithin > 0) {
+        if (resumeWithin > 0) {
             Log.d(TAG, "Trying to resume playback within " + resumeWithin + "s.");
             player.setPlayWhenReady(false);
             interruptedByConnectionLoss = true;
@@ -351,7 +351,7 @@ public class ExoPlayerWrapper implements PlayerWrapper, IcyDataSource.IcyDataSou
         public void onPlayerError(ExoPlaybackException error) {
             // Stop playing since it is either irrecoverable error in the player or our data source failed to reconnect.
 
-            if(!interruptedByConnectionLoss) {
+            if (!interruptedByConnectionLoss) {
                 stop();
                 stateListener.onStateChanged(RadioPlayer.PlayState.Idle);
                 stateListener.onPlayerError(R.string.error_play_stream);

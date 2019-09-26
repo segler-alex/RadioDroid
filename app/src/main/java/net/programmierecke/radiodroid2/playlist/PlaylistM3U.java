@@ -21,13 +21,13 @@ public class PlaylistM3U {
     ArrayList<PlaylistM3UEntry> entries = new ArrayList<PlaylistM3UEntry>();
     String header = null;
 
-    public PlaylistM3U(URL _path, String _fullText){
+    public PlaylistM3U(URL _path, String _fullText) {
         path = _path;
         fullText = _fullText;
         decode();
     }
 
-    void decode(){
+    void decode() {
         String[] lines = getLines();
         for (String line : lines) {
             try {
@@ -40,21 +40,21 @@ public class PlaylistM3U {
     URL resolveToBase(String file) throws MalformedURLException {
         String oldPath = path.getPath();
         String filePath = getBasePath(oldPath) + "/" + file;
-        return new URL(path.getProtocol(),path.getHost(),path.getPort(),filePath);
+        return new URL(path.getProtocol(), path.getHost(), path.getPort(), filePath);
     }
 
     void decodeLine(String line) throws MalformedURLException {
-        if (line.startsWith(EXTENDED)){
+        if (line.startsWith(EXTENDED)) {
             extended = true;
-        }else if (line.startsWith(COMMENTMARKER)){
-            if (extended){
+        } else if (line.startsWith(COMMENTMARKER)) {
+            if (extended) {
                 header = line;
             }
-        }else{
+        } else {
             String lineLower = line.toLowerCase();
-            if (lineLower.startsWith("http://") || lineLower.startsWith("https://")){
+            if (lineLower.startsWith("http://") || lineLower.startsWith("https://")) {
                 entries.add(new PlaylistM3UEntry(header, line));
-            }else{
+            } else {
                 entries.add(new PlaylistM3UEntry(header, resolveToBase(line).toString()));
             }
             header = null;
@@ -67,13 +67,13 @@ public class PlaylistM3U {
         return fullPath.substring(0, sep);
     }
 
-    String[] getLines(){
+    String[] getLines() {
         StringReader r = new StringReader(fullText);
         BufferedReader br = new BufferedReader(r);
         ArrayList<String> list = new ArrayList<String>();
         String line;
         try {
-            while ((line = br.readLine()) != null){
+            while ((line = br.readLine()) != null) {
                 list.add(line);
             }
         } catch (IOException e) {
@@ -82,7 +82,7 @@ public class PlaylistM3U {
         return list.toArray(new String[0]);
     }
 
-    public PlaylistM3UEntry[] getEntries(){
+    public PlaylistM3UEntry[] getEntries() {
         return entries.toArray(new PlaylistM3UEntry[0]);
     }
 }

@@ -1,6 +1,5 @@
 package net.programmierecke.radiodroid2;
 
-import android.app.Application;
 import android.content.SharedPreferences;
 
 import androidx.annotation.NonNull;
@@ -14,9 +13,9 @@ import com.squareup.picasso.Picasso;
 import net.programmierecke.radiodroid2.alarm.RadioAlarmManager;
 import net.programmierecke.radiodroid2.history.TrackHistoryRepository;
 import net.programmierecke.radiodroid2.players.mpd.MPDClient;
-import net.programmierecke.radiodroid2.station.live.metadata.TrackMetadataSearcher;
 import net.programmierecke.radiodroid2.proxy.ProxySettings;
 import net.programmierecke.radiodroid2.recording.RecordingsManager;
+import net.programmierecke.radiodroid2.station.live.metadata.TrackMetadataSearcher;
 
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;

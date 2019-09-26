@@ -21,8 +21,8 @@ public class DataStatistics {
                     JSONObject jsonObject = new JSONObject(result);
 
                     Iterator<?> keys = jsonObject.keys();
-                    while( keys.hasNext() ) {
-                        String key = (String)keys.next();
+                    while (keys.hasNext()) {
+                        String key = (String) keys.next();
 
                         DataStatistics aData = new DataStatistics();
                         aData.Name = key;

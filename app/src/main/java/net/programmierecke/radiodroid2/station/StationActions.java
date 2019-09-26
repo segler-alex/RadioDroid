@@ -1,20 +1,16 @@
 package net.programmierecke.radiodroid2.station;
 
-import android.app.TimePickerDialog;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.text.TextUtils;
 import android.util.Log;
-import android.widget.TimePicker;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.FragmentActivity;
 
 import net.programmierecke.radiodroid2.ActivityMain;
@@ -48,18 +44,15 @@ public class StationActions {
                 R.string.action_station_visit_website, R.string.action_station_copy_stream_url, R.string.action_station_share
         }, resourceId -> {
             switch (resourceId) {
-                case R.string.action_station_visit_website:
-                {
+                case R.string.action_station_visit_website: {
                     openStationHomeUrl(activity, station);
                     break;
                 }
-                case R.string.action_station_copy_stream_url:
-                {
+                case R.string.action_station_copy_stream_url: {
                     retrieveAndCopyStreamUrlToClipboard(activity, station);
                     break;
                 }
-                case R.string.action_station_share:
-                {
+                case R.string.action_station_share: {
                     share(activity, station);
                     break;
                 }

@@ -1,79 +1,78 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
     <!--android:visibility="gone">-->
 
     <net.programmierecke.radiodroid2.views.TagsView
-            android:id="@+id/viewTags"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:lineSpacingMultiplier="1"
-            android:textSize="16sp"
-            app:cornerRadius="8dp"
-            app:tagBackgroundColor="?attr/tagBackgroundColor"
-            app:tagHeight="25sp"
-            app:textHorizontalPadding="8dp"
-            app:textVerticalMargin="4dp" />
+        android:id="@+id/viewTags"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:lineSpacingMultiplier="1"
+        android:textSize="16sp"
+        app:cornerRadius="8dp"
+        app:tagBackgroundColor="?attr/tagBackgroundColor"
+        app:tagHeight="25sp"
+        app:textHorizontalPadding="8dp"
+        app:textVerticalMargin="4dp" />
 
 
     <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <ImageButton
+            android:id="@+id/buttonStationWebLink"
+            style="@style/IconButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-        <ImageButton
-                android:id="@+id/buttonStationWebLink"
-                style="@style/IconButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:contentDescription="@string/detail_weblink"
-                android:background="?attr/selectableItemBackgroundBorderless"
-                android:tint="?attr/iconsInItemBackgroundColor"
-                app:srcCompat="@drawable/ic_store_black_24dp"/>
+            android:contentDescription="@string/detail_weblink"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:tint="?attr/iconsInItemBackgroundColor"
+            app:srcCompat="@drawable/ic_store_black_24dp" />
 
         <!--<ImageButton-->
-                <!--android:id="@+id/buttonShare"-->
-                <!--style="@style/IconButton"-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:contentDescription="@string/detail_share"-->
-                <!--android:background="?attr/selectableItemBackgroundBorderless"-->
-                <!--android:tint="?attr/iconsInItemBackgroundColor"-->
-                <!--app:srcCompat="@drawable/ic_share_24dp" />-->
+        <!--android:id="@+id/buttonShare"-->
+        <!--style="@style/IconButton"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:contentDescription="@string/detail_share"-->
+        <!--android:background="?attr/selectableItemBackgroundBorderless"-->
+        <!--android:tint="?attr/iconsInItemBackgroundColor"-->
+        <!--app:srcCompat="@drawable/ic_share_24dp" />-->
 
         <ImageButton
-                android:id="@+id/buttonBookmark"
-                style="@style/IconButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="?attr/selectableItemBackgroundBorderless"
-                android:contentDescription="@string/detail_star"
-                android:tint="?attr/iconsInItemBackgroundColor"
-                app:srcCompat="@drawable/ic_star_border_black_24dp" />
+            android:id="@+id/buttonBookmark"
+            style="@style/IconButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="@string/detail_star"
+            android:tint="?attr/iconsInItemBackgroundColor"
+            app:srcCompat="@drawable/ic_star_border_black_24dp" />
 
         <ImageButton
-                android:id="@+id/buttonAddAlarm"
-                style="@style/IconButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="?attr/selectableItemBackgroundBorderless"
-                android:contentDescription="@string/description_btn_setup_alarm"
-                android:tint="?attr/iconsInItemBackgroundColor"
-                app:srcCompat="@drawable/ic_add_alarm_black_24dp" />
+            android:id="@+id/buttonAddAlarm"
+            style="@style/IconButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="@string/description_btn_setup_alarm"
+            android:tint="?attr/iconsInItemBackgroundColor"
+            app:srcCompat="@drawable/ic_add_alarm_black_24dp" />
 
         <ImageButton
-                android:id="@+id/buttonCreateShortcut"
-                style="@style/IconButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="?attr/selectableItemBackgroundBorderless"
-                android:contentDescription="@string/detail_create_shortcut"
-                android:tint="?attr/iconsInItemBackgroundColor"
-                app:srcCompat="@drawable/ic_back_arrow_24dp" />
+            android:id="@+id/buttonCreateShortcut"
+            style="@style/IconButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="@string/detail_create_shortcut"
+            android:tint="?attr/iconsInItemBackgroundColor"
+            app:srcCompat="@drawable/ic_back_arrow_24dp" />
     </LinearLayout>
 
 </LinearLayout>

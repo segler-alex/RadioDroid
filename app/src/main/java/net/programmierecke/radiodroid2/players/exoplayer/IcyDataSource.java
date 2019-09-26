@@ -248,7 +248,7 @@ public class IcyDataSource implements HttpDataSource {
             throw new HttpDataSourceException(e, dataSpec, HttpDataSourceException.TYPE_READ);
         }
 
-        if(ret > 0) {
+        if (ret > 0) {
             dataSourceListener.onDataSourceBytesRead(buffer, offset, ret);
         }
 

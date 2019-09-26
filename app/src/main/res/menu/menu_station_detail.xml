@@ -5,30 +5,30 @@
         android:id="@+id/action_play"
         android:icon="@drawable/ic_play_arrow_24dp"
         android:title="@string/detail_play"
-        app:showAsAction="ifRoom"/>
+        app:showAsAction="ifRoom" />
     <item
         android:id="@+id/action_share"
         android:icon="@drawable/ic_share_24dp"
         android:title="@string/detail_share"
-        app:showAsAction="ifRoom"/>
+        app:showAsAction="ifRoom" />
     <item
         android:id="@+id/action_homepage"
         android:icon="@drawable/ic_store_black_24dp"
         android:title="@string/detail_weblink"
-        app:showAsAction="ifRoom"/>
+        app:showAsAction="ifRoom" />
     <item
         android:id="@+id/action_star"
         android:icon="@drawable/ic_star_border_black_24dp"
         android:title="@string/detail_star"
-        app:showAsAction="ifRoom"/>
+        app:showAsAction="ifRoom" />
     <item
         android:id="@+id/action_unstar"
         android:icon="@drawable/ic_star_black_24dp"
         android:title="@string/detail_unstar"
-        app:showAsAction="ifRoom"/>
+        app:showAsAction="ifRoom" />
     <item
         android:id="@+id/action_add_alarm"
         android:icon="@drawable/ic_query_builder_black_24dp"
         android:title="@string/nav_item_alarm"
-        app:showAsAction="ifRoom"/>
+        app:showAsAction="ifRoom" />
 </menu>

@@ -25,13 +25,13 @@ public class FragmentServerInfo extends Fragment implements IFragmentRefreshable
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.layout_statistics,null);
+        View view = inflater.inflate(R.layout.layout_statistics, null);
 
         if (itemAdapterStatistics == null) {
             itemAdapterStatistics = new ItemAdapterStatistics(getActivity(), R.layout.list_item_statistic);
         }
 
-        ListView lv = (ListView)view.findViewById(R.id.listViewStatistics);
+        ListView lv = (ListView) view.findViewById(R.id.listViewStatistics);
         lv.setAdapter(itemAdapterStatistics);
 
         Download(false);
@@ -39,7 +39,7 @@ public class FragmentServerInfo extends Fragment implements IFragmentRefreshable
         return view;
     }
 
-    void Download(final boolean forceUpdate){
+    void Download(final boolean forceUpdate) {
         getContext().sendBroadcast(new Intent(ActivityMain.ACTION_SHOW_LOADING));
 
         RadioDroidApp radioDroidApp = (RadioDroidApp) getActivity().getApplication();
@@ -48,7 +48,7 @@ public class FragmentServerInfo extends Fragment implements IFragmentRefreshable
         new AsyncTask<Void, Void, String>() {
             @Override
             protected String doInBackground(Void... params) {
-                String endpoint = RadioBrowserServerManager.getWebserviceEndpoint(getActivity(),"json/stats");
+                String endpoint = RadioBrowserServerManager.getWebserviceEndpoint(getActivity(), "json/stats");
                 if (endpoint != null) {
                     return Utils.downloadFeed(httpClient, getActivity(), endpoint, forceUpdate, null);
                 }
@@ -57,21 +57,20 @@ public class FragmentServerInfo extends Fragment implements IFragmentRefreshable
 
             @Override
             protected void onPostExecute(String result) {
-                if(getContext() != null)
+                if (getContext() != null)
                     getContext().sendBroadcast(new Intent(ActivityMain.ACTION_HIDE_LOADING));
                 if (result != null) {
                     itemAdapterStatistics.clear();
                     DataStatistics[] items = DataStatistics.DecodeJson(result);
-                    for(DataStatistics item: items) {
+                    for (DataStatistics item : items) {
                         itemAdapterStatistics.add(item);
                     }
-                }else{
+                } else {
                     try {
                         Toast toast = Toast.makeText(getContext(), getResources().getText(R.string.error_list_update), Toast.LENGTH_SHORT);
                         toast.show();
-                    }
-                    catch(Exception e){
-                        Log.e("ERR",e.toString());
+                    } catch (Exception e) {
+                        Log.e("ERR", e.toString());
                     }
                 }
                 super.onPostExecute(result);

@@ -2,7 +2,6 @@ package net.programmierecke.radiodroid2;
 
 import android.content.Context;
 import android.content.res.Resources;
-import android.graphics.drawable.Drawable;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;

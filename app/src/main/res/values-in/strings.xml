@@ -67,7 +67,7 @@
     <string name="nav_item_save_playlist">Simpan ke daftar main</string>
     <string name="nav_item_load_playlist">Memilih dari daftar main</string>
     <string name="confirm_overwrite_file">Timpa file?</string>
-    <string name="dialog_hint_file_name">Masukan nama file</string> 
+    <string name="dialog_hint_file_name">Masukan nama file</string>
     <string name="error_empty_field">Kolom ini dibutuhkan</string>
     <string name="error_invalid_file_name">Name file tidak benar</string>
     <string name="label_button_cancel">Batal</string>
@@ -78,7 +78,7 @@
     <string name="theme_dark">Gelap</string>
     <string name="settings_circular_icons">Gunakan ikon lingkaran</string>
     <string name="settings_compact_style">Mode ringkas</string>
-    <string name="settings_compact_style_desc_off">Diadaptasikan ikon besar dengan detil stasiun</string> 
+    <string name="settings_compact_style_desc_off">Diadaptasikan ikon besar dengan detil stasiun</string>
     <string name="settings_compact_style_desc_on">Diadaptasikan ikon kecil tanpa detil stasiun</string>
     <string name="settings_bottom_navigation">Navigasi bawah</string>
 
@@ -116,14 +116,14 @@
     <string name="settings_alarm">Alarm</string>
     <string name="settings_alarm_external">Aktifkan aplikasi eksternal</string>
     <string name="settings_alarm_external_desc_on">Buka alarm dengan aplikasi eksternal bawaan</string>
-    <string name="settings_alarm_external_desc_off">Buka alarm dengan RadioDroid</string> 
+    <string name="settings_alarm_external_desc_off">Buka alarm dengan RadioDroid</string>
     <string name="settings_alarm_audio_player">Pemutar audio</string>
     <string name="settings_alarm_sleep_timer">Pengatur waktu tidur</string>
     <string name="settings_alarm_sleep_timer_desc">Berhenti memainkan setelah %1$s menit</string>
     <string name="settings_play">Pemutar</string>
     <string name="settings_play_external">Aktifkan pemutar eksternal</string>
     <string name="settings_play_external_desc_on">Mainkan stasiun dengan pemutar eksternal</string>
-    <string name="settings_play_external_desc_off">Mainkan stasiun dengan RadioDroid</string> 
+    <string name="settings_play_external_desc_off">Mainkan stasiun dengan RadioDroid</string>
     <string name="settings_equalizer">Equalizer</string>
 
     <string name="settings_connectivity">Konektivitas</string>
@@ -247,9 +247,9 @@
         <item>Jumat</item>
         <item>Sabtu</item>
     </string-array>
-    
+
     <string name="notify_stream_url_copied">URL stream berhasil disalin!</string>
-    
+
     <string-array name="actions_station_link">
         <item>Kunjungi Situs Web</item>
         <item>Disalin URL Stream</item>

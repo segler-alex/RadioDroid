@@ -25,14 +25,14 @@ public class PlaylistM3UEntry {
     int programid = -1;
     boolean isStreamInfo = false;
 
-    public PlaylistM3UEntry(String _header, String _content){
+    public PlaylistM3UEntry(String _header, String _content) {
         header = _header;
         content = _content;
 
         decode();
     }
 
-    public PlaylistM3UEntry(String _content){
+    public PlaylistM3UEntry(String _content) {
         header = null;
         content = _content;
     }
@@ -42,14 +42,18 @@ public class PlaylistM3UEntry {
             return;
         }
         if (header.startsWith(EXTINF)) {
-            if(BuildConfig.DEBUG) { Log.d(TAG,"found EXTINF:"+header); }
+            if (BuildConfig.DEBUG) {
+                Log.d(TAG, "found EXTINF:" + header);
+            }
             String attributes = header.substring(EXTINF.length());
             int sep = attributes.indexOf(",");
             String timeStr = attributes.substring(0, sep);
             length = Integer.getInteger(timeStr, -1);
             title = attributes.substring(sep + 1);
         } else if (header.startsWith(STREAMINF)) {
-            if(BuildConfig.DEBUG) { Log.d(TAG,"found STREAMINFO:"+header); }
+            if (BuildConfig.DEBUG) {
+                Log.d(TAG, "found STREAMINFO:" + header);
+            }
             isStreamInfo = true;
             String attributes = header.substring(STREAMINF.length());
             String[] attributesList = attributes.split(",");
@@ -66,27 +70,27 @@ public class PlaylistM3UEntry {
         }
     }
 
-    public boolean getIsStreamInformation(){
+    public boolean getIsStreamInformation() {
         return isStreamInfo;
     }
 
-    public int getBitrate(){
+    public int getBitrate() {
         return bitrate;
     }
 
-    public int getLength(){
+    public int getLength() {
         return length;
     }
 
-    public String getTitle(){
+    public String getTitle() {
         return title;
     }
 
-    public int getProgramId(){
+    public int getProgramId() {
         return programid;
     }
 
-    public String getContent(){
+    public String getContent() {
         return content;
     }
 }

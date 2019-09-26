@@ -10,17 +10,17 @@ import androidx.preference.PreferenceManager;
  */
 
 public class RadioBrowserServerManager {
-    private static String getServerAddress(Context context){
-        if (context == null){
+    private static String getServerAddress(Context context) {
+        if (context == null) {
             return "https://www.radio-browser.info/webservice";
         }
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context.getApplicationContext());
         return "https://" + prefs.getString("radiobrowser_server", context.getString(R.string.settings_radiobrowser_servers_default));
     }
 
-    public static String getWebserviceEndpoint(Context context, String command){
+    public static String getWebserviceEndpoint(Context context, String command) {
         String a = getServerAddress(context);
-        if (a != null){
+        if (a != null) {
             return a + "/" + command;
         }
         return null;

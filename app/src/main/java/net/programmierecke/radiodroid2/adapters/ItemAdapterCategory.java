@@ -7,8 +7,8 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
-import net.programmierecke.radiodroid2.data.DataCategory;
 import net.programmierecke.radiodroid2.R;
+import net.programmierecke.radiodroid2.data.DataCategory;
 
 import java.util.List;
 

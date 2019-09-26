@@ -78,15 +78,15 @@
     <string name="image_button_record">Nauhoita</string>
     <string name="image_button_delete">Poista</string>
     <string name="image_button_more">Lisää</string>
-    
-    <string-array name="weekdays">        
-        <item>S</item>        
-        <item>M</item>        
-        <item>T</item>        
-        <item>K</item>        
-        <item>T</item>        
-        <item>P</item>        
+
+    <string-array name="weekdays">
+        <item>S</item>
+        <item>M</item>
+        <item>T</item>
+        <item>K</item>
+        <item>T</item>
+        <item>P</item>
         <item>L</item>
     </string-array>
-    
+
 </resources>

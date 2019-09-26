@@ -1,8 +1,5 @@
 package net.programmierecke.radiodroid2.station;
 
-import java.util.Arrays;
-import java.util.List;
-
 import android.annotation.TargetApi;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -14,28 +11,41 @@ import android.content.pm.ShortcutManager;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
-import androidx.fragment.app.FragmentActivity;
-import androidx.core.content.ContextCompat;
-import androidx.localbroadcastmanager.content.LocalBroadcastManager;
-import androidx.preference.PreferenceManager;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.recyclerview.widget.ItemTouchHelper;
-
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewStub;
-import android.widget.*;
+import android.widget.FrameLayout;
+import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
-import net.programmierecke.radiodroid2.*;
+import androidx.core.content.ContextCompat;
+import androidx.fragment.app.FragmentActivity;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
+import androidx.preference.PreferenceManager;
+import androidx.recyclerview.widget.ItemTouchHelper;
+import androidx.recyclerview.widget.RecyclerView;
+
+import net.programmierecke.radiodroid2.ActivityMain;
+import net.programmierecke.radiodroid2.CountryFlagsLoader;
+import net.programmierecke.radiodroid2.FavouriteManager;
+import net.programmierecke.radiodroid2.FragmentStarred;
+import net.programmierecke.radiodroid2.R;
+import net.programmierecke.radiodroid2.RadioDroidApp;
+import net.programmierecke.radiodroid2.Utils;
 import net.programmierecke.radiodroid2.interfaces.IAdapterRefreshable;
-import net.programmierecke.radiodroid2.utils.RecyclerItemMoveAndSwipeHelper;
 import net.programmierecke.radiodroid2.service.PlayerService;
 import net.programmierecke.radiodroid2.service.PlayerServiceUtil;
+import net.programmierecke.radiodroid2.utils.RecyclerItemMoveAndSwipeHelper;
 import net.programmierecke.radiodroid2.utils.RecyclerItemSwipeHelper;
 import net.programmierecke.radiodroid2.utils.SwipeableViewHolder;
 import net.programmierecke.radiodroid2.views.TagsView;
+
+import java.util.Arrays;
+import java.util.List;
 
 public class ItemAdapterStation
         extends RecyclerView.Adapter<ItemAdapterStation.StationViewHolder>
@@ -43,8 +53,11 @@ public class ItemAdapterStation
 
     public interface StationActionsListener {
         void onStationClick(DataRadioStation station);
+
         void onStationMoved(int from, int to);
+
         void onStationSwiped(DataRadioStation station);
+
         void onStationMoveFinished();
     }
 
@@ -143,7 +156,7 @@ public class ItemAdapterStation
 
         stationImagePlaceholder = ContextCompat.getDrawable(fragmentActivity, R.drawable.ic_photo_24dp);
 
-        RadioDroidApp radioDroidApp = (RadioDroidApp)fragmentActivity.getApplication();
+        RadioDroidApp radioDroidApp = (RadioDroidApp) fragmentActivity.getApplication();
         favouriteManager = radioDroidApp.getFavouriteManager();
         IntentFilter filter = new IntentFilter();
         filter.addAction(PlayerService.PLAYER_SERVICE_META_UPDATE);
@@ -155,7 +168,7 @@ public class ItemAdapterStation
             }
         };
 
-        LocalBroadcastManager.getInstance(getContext()).registerReceiver(this.updateUIReceiver,filter);
+        LocalBroadcastManager.getInstance(getContext()).registerReceiver(this.updateUIReceiver, filter);
     }
 
     public void setStationActionsListener(StationActionsListener stationActionsListener) {
@@ -166,7 +179,7 @@ public class ItemAdapterStation
         if (!supportsStationRemoval) {
             supportsStationRemoval = true;
 
-            RecyclerItemSwipeHelper<StationViewHolder> swipeHelper = new RecyclerItemSwipeHelper<>(0, ItemTouchHelper.LEFT+ItemTouchHelper.RIGHT, this);
+            RecyclerItemSwipeHelper<StationViewHolder> swipeHelper = new RecyclerItemSwipeHelper<>(0, ItemTouchHelper.LEFT + ItemTouchHelper.RIGHT, this);
             new ItemTouchHelper(swipeHelper).attachToRecyclerView(recyclerView);
         }
     }
@@ -175,7 +188,7 @@ public class ItemAdapterStation
         if (!supportsStationRemoval) {
             supportsStationRemoval = true;
 
-            RecyclerItemMoveAndSwipeHelper<StationViewHolder> swipeAndMoveHelper = new RecyclerItemMoveAndSwipeHelper<>(ItemTouchHelper.UP|ItemTouchHelper.DOWN, ItemTouchHelper.LEFT|ItemTouchHelper.RIGHT, this);
+            RecyclerItemMoveAndSwipeHelper<StationViewHolder> swipeAndMoveHelper = new RecyclerItemMoveAndSwipeHelper<>(ItemTouchHelper.UP | ItemTouchHelper.DOWN, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT, this);
             new ItemTouchHelper(swipeAndMoveHelper).attachToRecyclerView(recyclerView);
         }
     }
@@ -266,12 +279,11 @@ public class ItemAdapterStation
         });
 
         TypedValue tv = new TypedValue();
-        if(playingStationPosition == position) {
+        if (playingStationPosition == position) {
             getContext().getTheme().resolveAttribute(R.attr.colorAccentMy, tv, true);
             holder.textViewTitle.setTextColor(tv.data);
             holder.textViewTitle.setTypeface(null, Typeface.BOLD);
-        }
-        else {
+        } else {
             getContext().getTheme().resolveAttribute(R.attr.boxBackgroundColor, tv, true);
             holder.textViewTitle.setTypeface(holder.textViewShortDescription.getTypeface());
             getContext().getTheme().resolveAttribute(R.attr.iconsInItemBackgroundColor, tv, true);
@@ -316,7 +328,7 @@ public class ItemAdapterStation
         }
 
         if (isExpanded) {
-            holder.viewDetails = holder.stubDetails == null? holder.viewDetails : holder.stubDetails.inflate();
+            holder.viewDetails = holder.stubDetails == null ? holder.viewDetails : holder.stubDetails.inflate();
             holder.stubDetails = null;
             holder.viewTags = (TagsView) holder.viewDetails.findViewById(R.id.viewTags);
             holder.buttonStationLinks = holder.viewDetails.findViewById(R.id.buttonStationWebLink);
@@ -388,7 +400,7 @@ public class ItemAdapterStation
             holder.viewTags.setTags(Arrays.asList(tags));
             holder.viewTags.setTagSelectionCallback(tagSelectionCallback);
         }
-        if(holder.viewDetails != null)
+        if (holder.viewDetails != null)
             holder.viewDetails.setVisibility(isExpanded ? View.VISIBLE : View.GONE);
     }
 
@@ -434,7 +446,7 @@ public class ItemAdapterStation
     }
 
     void setupIcon(boolean useCircularIcons, ImageView imageView, ImageView transparentImageView) {
-        if(useCircularIcons) {
+        if (useCircularIcons) {
             transparentImageView.setVisibility(View.VISIBLE);
             imageView.getLayoutParams().height = imageView.getLayoutParams().height = imageView.getLayoutParams().width;
             imageView.setBackgroundColor(getContext().getResources().getColor(android.R.color.black));
@@ -447,15 +459,15 @@ public class ItemAdapterStation
         holder.imageViewIcon.getLayoutParams().width = (int) getContext().getResources().getDimension(R.dimen.compact_style_icon_width);
 
         holder.textViewShortDescription.setVisibility(View.GONE);
-        if(holder.transparentImageView.getVisibility() == View.VISIBLE) {
-            holder.transparentImageView.getLayoutParams().height  = (int) getContext().getResources().getDimension(R.dimen.compact_style_icon_height);
-            holder.transparentImageView.getLayoutParams().width  = (int) getContext().getResources().getDimension(R.dimen.compact_style_icon_width);
+        if (holder.transparentImageView.getVisibility() == View.VISIBLE) {
+            holder.transparentImageView.getLayoutParams().height = (int) getContext().getResources().getDimension(R.dimen.compact_style_icon_height);
+            holder.transparentImageView.getLayoutParams().width = (int) getContext().getResources().getDimension(R.dimen.compact_style_icon_width);
             holder.imageViewIcon.getLayoutParams().height = (int) getContext().getResources().getDimension(R.dimen.compact_style_icon_height);
         }
     }
 
-    private void  highlightCurrentStation() {
-        if(!PlayerServiceUtil.isPlaying()) return;
+    private void highlightCurrentStation() {
+        if (!PlayerServiceUtil.isPlaying()) return;
 
         int oldPlayingStationPosition = playingStationPosition;
 
@@ -465,10 +477,10 @@ public class ItemAdapterStation
                 break;
             }
         }
-        if(playingStationPosition != oldPlayingStationPosition) {
-            if(oldPlayingStationPosition > -1)
+        if (playingStationPosition != oldPlayingStationPosition) {
+            if (oldPlayingStationPosition > -1)
                 notifyItemChanged(oldPlayingStationPosition);
-            if(playingStationPosition > -1)
+            if (playingStationPosition > -1)
                 notifyItemChanged(playingStationPosition);
         }
     }

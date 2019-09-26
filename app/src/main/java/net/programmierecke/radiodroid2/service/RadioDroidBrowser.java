@@ -1,26 +1,21 @@
 package net.programmierecke.radiodroid2.service;
 
-import android.content.ContentResolver;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.media.MediaBrowserCompat;
 import android.support.v4.media.MediaDescriptionCompat;
+import android.support.v4.media.MediaMetadataCompat;
+import android.text.TextUtils;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-
-import android.support.v4.media.MediaBrowserCompat;
 import androidx.media.MediaBrowserServiceCompat;
-import android.support.v4.media.MediaDescriptionCompat;
-import android.support.v4.media.MediaMetadataCompat;
-import android.text.TextUtils;
 
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
@@ -67,7 +62,7 @@ public class RadioDroidBrowser {
 
         private Map<String, Bitmap> stationIdToIcon = new HashMap<>();
         private CountDownLatch countDownLatch;
-        private  Resources resources;
+        private Resources resources;
         // Picasso stores weak references to targets
         List<Target> imageLoadTargets = new ArrayList<>();
 

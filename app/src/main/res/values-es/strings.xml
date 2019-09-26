@@ -105,7 +105,7 @@
     <string name="settings_play_external">Abrir externo</string>
     <string name="settings_equalizer">Ecualizador</string>
 
-	<string name="settings_connectivity">Conexión</string>
+    <string name="settings_connectivity">Conexión</string>
     <string name="settings_connect_timeout">Tiempo de espera de conexión de la transmisión agotado</string>
     <string name="settings_read_timeout">Tiempo de espera de lectura de la transmisión</string>
     <string name="settings_retry_timeout">Tiempo de espera de reanudación de la transmisión agotado</string>
@@ -153,7 +153,7 @@
     <string name="yes">Sí</string>
     <string name="no">No</string>
 
-	<string name="alert_select_mpd_server">¿En qué servidor?</string>
+    <string name="alert_select_mpd_server">¿En qué servidor?</string>
     <string name="alert_select_mpd_server_name">Nombre del servidor</string>
     <string name="hostname">Nombre del host</string>
     <string name="port">Puerto</string>
@@ -168,7 +168,7 @@
     <string name="error_stream_url">Problema en la URL de la emisión</string>
     <string name="error_caching_stream">Problema al «cachear» la emisión</string>
     <string name="error_play_stream">No se puede reproducir la emisión</string>
-	<string name="error_stream_reconnect_timeout">No se puede volver a conectar a la transmisión: tiempo de espera agotado.</string>
+    <string name="error_stream_reconnect_timeout">No se puede volver a conectar a la transmisión: tiempo de espera agotado.</string>
 
     <string name="error_record_needs_write">¡Necesito permisos de escritura para grabar!</string>
     <string name="error_grant_audiofocus">La solicitud de enfoque de audio no fue otorgada por el sistema.</string>
@@ -205,7 +205,7 @@
     <string name="app_id">5A97BAE4</string>
 
     <string name="settings_mpd">Music Player Daemon</string>
-	<string name="settings_view_mpd_servers">Tus servidores</string>
+    <string name="settings_view_mpd_servers">Tus servidores</string>
     <string name="action_mpd_nok">MPD no conectado</string>
     <string name="action_mpd_ok">MPD conectado</string>
     <string name="action_mpd_connected">Conectado al servidor: %1$s</string>
@@ -213,8 +213,8 @@
     <!--<string name="settings_radiobrowser_servers">Servidores RadioBrowser</string>-->
     <string name="settings_radiobrowser_servers_default">www.radio-browser.info/webservice</string>
 
-	<string name="settings_other">Otro</string>
-	<string name="settings_statistics">Estadísticas</string>
+    <string name="settings_other">Otro</string>
+    <string name="settings_statistics">Estadísticas</string>
     <string name="settings_about">Acerca de RadioDroid</string>
 
     <string-array name="weekdays">

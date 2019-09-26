@@ -59,7 +59,7 @@
     <string name="nav_item_save_playlist">保存到播放列表</string>
     <string name="nav_item_load_playlist">从播放列表载入</string>
     <string name="confirm_overwrite_file">覆盖此文件吗？</string>
-    <string name="dialog_hint_file_name">输入文件名</string> 
+    <string name="dialog_hint_file_name">输入文件名</string>
     <string name="error_empty_field">必须填写此栏目</string>
     <string name="error_invalid_file_name">文件名无效</string>
     <string name="label_button_cancel">取消</string>
@@ -74,7 +74,7 @@
     <string name="theme_dark">暗色</string>
     <string name="settings_circular_icons">使用圆形图标</string>
     <string name="settings_compact_style">精简模式</string>
-    <string name="settings_compact_style_desc_off">使用大图标并显示电台详情</string> 
+    <string name="settings_compact_style_desc_off">使用大图标并显示电台详情</string>
     <string name="settings_compact_style_desc_on">使用小图标并隐藏电台详情</string>
     <string name="settings_bottom_navigation">底部导航栏</string>
 

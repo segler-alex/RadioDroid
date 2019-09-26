@@ -8,7 +8,6 @@ import android.content.res.Resources;
 import android.os.IBinder;
 import android.os.RemoteException;
 import android.util.Log;
-
 import android.util.TypedValue;
 import android.widget.ImageView;
 

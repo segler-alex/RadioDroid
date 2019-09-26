@@ -4,9 +4,9 @@ import android.content.Context;
 
 import androidx.annotation.NonNull;
 
+import net.programmierecke.radiodroid2.recording.Recordable;
 import net.programmierecke.radiodroid2.station.live.ShoutcastInfo;
 import net.programmierecke.radiodroid2.station.live.StreamLiveInfo;
-import net.programmierecke.radiodroid2.recording.Recordable;
 
 import okhttp3.OkHttpClient;
 

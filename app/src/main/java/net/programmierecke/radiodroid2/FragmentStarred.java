@@ -4,9 +4,11 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
-
-import com.google.android.material.snackbar.BaseTransientBottomBar;
-import com.google.android.material.snackbar.Snackbar;
+import android.util.DisplayMetrics;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 import androidx.fragment.app.Fragment;
 import androidx.preference.PreferenceManager;
@@ -15,16 +17,13 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.util.DisplayMetrics;
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
+import com.google.android.material.snackbar.BaseTransientBottomBar;
+import com.google.android.material.snackbar.Snackbar;
 
-import net.programmierecke.radiodroid2.station.ItemAdapterStation;
+import net.programmierecke.radiodroid2.interfaces.IAdapterRefreshable;
 import net.programmierecke.radiodroid2.station.DataRadioStation;
 import net.programmierecke.radiodroid2.station.ItemAdapterIconOnlyStation;
-import net.programmierecke.radiodroid2.interfaces.IAdapterRefreshable;
+import net.programmierecke.radiodroid2.station.ItemAdapterStation;
 
 import java.util.Observable;
 import java.util.Observer;
@@ -74,7 +73,7 @@ public class FragmentStarred extends Fragment implements IAdapterRefreshable, Ob
             GridLayoutManager glm = new GridLayoutManager(ctx, noOfColumns);
             rvStations.setAdapter(adapter);
             rvStations.setLayoutManager(glm);
-            ((ItemAdapterIconOnlyStation)adapter).enableItemMove(rvStations);
+            ((ItemAdapterIconOnlyStation) adapter).enableItemMove(rvStations);
         } else {
             adapter = new ItemAdapterStation(getActivity(), R.layout.list_item_station);
             LinearLayoutManager llm = new LinearLayoutManager(getContext());

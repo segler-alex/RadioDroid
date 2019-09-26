@@ -35,8 +35,8 @@ public class TimePickerFragment extends DialogFragment implements TimePickerDial
     @Override
     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
         // this is needed, because on some devices onTimeSet is called twice!!
-        if (callback != null){
-            callback.onTimeSet(view,hourOfDay,minute);
+        if (callback != null) {
+            callback.onTimeSet(view, hourOfDay, minute);
             callback = null;
         }
     }

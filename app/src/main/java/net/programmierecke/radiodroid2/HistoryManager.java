@@ -4,11 +4,11 @@ import android.content.Context;
 
 import net.programmierecke.radiodroid2.station.DataRadioStation;
 
-public class HistoryManager extends StationSaveManager{
+public class HistoryManager extends StationSaveManager {
     private static final int MAXSIZE = 25;
 
     @Override
-    protected String getSaveId(){
+    protected String getSaveId() {
         return "history";
     }
 
@@ -17,7 +17,7 @@ public class HistoryManager extends StationSaveManager{
     }
 
     @Override
-    public void add(DataRadioStation station){
+    public void add(DataRadioStation station) {
         DataRadioStation stationFromHistory = getById(station.StationUuid);
         if (stationFromHistory != null) {
             listStations.remove(stationFromHistory);
@@ -30,9 +30,9 @@ public class HistoryManager extends StationSaveManager{
         super.addFront(station);
     }
 
-    private void cutList(int count){
-        if (listStations.size() > count){
-            listStations = listStations.subList(0,count);
+    private void cutList(int count) {
+        if (listStations.size() > count) {
+            listStations = listStations.subList(0, count);
         }
     }
 }

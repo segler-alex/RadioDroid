@@ -59,7 +59,7 @@
     <string name="nav_item_save_playlist">Gemme til afspilningsliste</string>
     <string name="nav_item_load_playlist">Indlæse fra afspilningsliste</string>
     <string name="confirm_overwrite_file">Overskrive fil?</string>
-    <string name="dialog_hint_file_name">Indtaste filnavn</string> 
+    <string name="dialog_hint_file_name">Indtaste filnavn</string>
     <string name="error_empty_field">Dette felt er påkrævet</string>
     <string name="error_invalid_file_name">Ugyldigt filnavn</string>
     <string name="label_button_cancel">Annullere</string>
@@ -74,7 +74,7 @@
     <string name="theme_dark">Mørk</string>
     <string name="settings_circular_icons">Brug cirkulære ikoner</string>
     <string name="settings_compact_style">Tæt tilstand</string>
-    <string name="settings_compact_style_desc_off">Stort ikon tilføjet station detaljer</string> 
+    <string name="settings_compact_style_desc_off">Stort ikon tilføjet station detaljer</string>
     <string name="settings_compact_style_desc_on">Lille ikon ikke tilføjet station detaljer</string>
     <string name="settings_bottom_navigation">Bundnavigation</string>
 
@@ -113,7 +113,7 @@
     <string name="settings_alarm">Alarm</string>
     <string name="settings_alarm_external">Aktivere eksternt program</string>
     <string name="settings_alarm_external_desc_on">Åbne alarm med standard eksternt program</string>
-    <string name="settings_alarm_external_desc_off">Åbne alarm med RadioDroid</string> 
+    <string name="settings_alarm_external_desc_off">Åbne alarm med RadioDroid</string>
     <string name="settings_alarm_audio_player">Lyd afspiller</string>
     <string name="settings_alarm_sleep_timer">Sove tidsforsinkelse</string>
     <string name="settings_alarm_sleep_timer_desc">Stop afspilning efter %1$s minutter</string>
@@ -123,7 +123,7 @@
     <string name="settings_auto_play_on_startup_off">Afspil ikke seneste station ved opstart</string>
     <string name="settings_play_external">Aktivere ekstern afspiller</string>
     <string name="settings_play_external_desc_on">Afspil stationer med ekstern afspiller</string>
-    <string name="settings_play_external_desc_off">Afspil stationer med RadioDroid</string> 
+    <string name="settings_play_external_desc_off">Afspil stationer med RadioDroid</string>
     <string name="settings_equalizer">Equalizer</string>
 
     <string name="settings_connectivity">Tilslutningsmuligheder</string>

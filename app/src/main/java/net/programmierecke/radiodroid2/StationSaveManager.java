@@ -12,10 +12,9 @@ import android.preference.PreferenceManager;
 import android.util.Log;
 import android.widget.Toast;
 
-import net.programmierecke.radiodroid2.station.DataRadioStation;
-import net.programmierecke.radiodroid2.interfaces.IChanged;
-
 import androidx.annotation.Nullable;
+
+import net.programmierecke.radiodroid2.station.DataRadioStation;
 
 import org.json.JSONArray;
 

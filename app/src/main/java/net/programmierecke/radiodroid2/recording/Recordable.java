@@ -15,5 +15,6 @@ public interface Recordable {
     boolean isRecording();
 
     Map<String, String> getRecordNameFormattingArgs();
+
     String getExtension();
 }

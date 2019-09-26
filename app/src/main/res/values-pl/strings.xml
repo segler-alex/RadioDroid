@@ -59,7 +59,7 @@
     <string name="nav_item_save_playlist">Dopisz do listy odtwarzania </string>
     <string name="nav_item_load_playlist">Wczytaj z listy odtwarzania</string>
     <string name="confirm_overwrite_file">Zastąpić plik?</string>
-    <string name="dialog_hint_file_name">Wpisz nazwę pliku</string> 
+    <string name="dialog_hint_file_name">Wpisz nazwę pliku</string>
     <string name="error_empty_field">To pole jest wymagane</string>
     <string name="error_invalid_file_name">Nieprawidłowa nazwa pliku</string>
     <string name="label_button_cancel">Anuluj</string>
@@ -74,7 +74,7 @@
     <string name="theme_dark">Ciemny</string>
     <string name="settings_circular_icons">Użyj okrągłych ikon</string>
     <string name="settings_compact_style">Tryb kompaktowy</string>
-    <string name="settings_compact_style_desc_off">Duża ikona przejęta ze szczegółami stacji</string> 
+    <string name="settings_compact_style_desc_off">Duża ikona przejęta ze szczegółami stacji</string>
     <string name="settings_compact_style_desc_on">Mała ikona przejęta bez szczegółów stacji</string>
     <string name="settings_bottom_navigation">Dolny pasek nawigacji</string>
 
@@ -113,7 +113,7 @@
     <string name="settings_alarm">Alarm</string>
     <string name="settings_alarm_external">Włącz zewnętrzną aplikację</string>
     <string name="settings_alarm_external_desc_on">Otwórz alarm z domyślną aplikacją zewnętrzną</string>
-    <string name="settings_alarm_external_desc_off">Otwórz alarm z RadioDroid</string> 
+    <string name="settings_alarm_external_desc_off">Otwórz alarm z RadioDroid</string>
     <string name="settings_alarm_audio_player">Odtwarzacz muzyki</string>
     <string name="settings_alarm_sleep_timer">Wyłącznik czasowy</string>
     <string name="settings_alarm_sleep_timer_desc">Przestań odtwarzać po %1$s minutach</string>
@@ -123,7 +123,7 @@
     <string name="settings_auto_play_on_startup_off">Nie odtwarzaj ostatniej stacji podczas uruchamiania</string>
     <string name="settings_play_external">Włącz zewnętrzny odtwarzacz</string>
     <string name="settings_play_external_desc_on">Odtwarzaj stacje za pomocą zewnętrznego odtwarzacza</string>
-    <string name="settings_play_external_desc_off">Odtwarzaj stacje z RadioDroid</string> 
+    <string name="settings_play_external_desc_off">Odtwarzaj stacje z RadioDroid</string>
     <string name="settings_equalizer">Korektor graficzny</string>
 
     <string name="settings_connectivity">Połączenie</string>
@@ -152,7 +152,7 @@
     <string name="settings_record_name_formatting_1_display">stacja_artysta_\u200btrack</string>
     <string name="settings_record_name_formatting_2_display">stacja_data_\u200btime</string>
     <string name="settings_record_name_formatting_3_display">index_stacja_\u200bdate</string>
-	
+
     <string name="notify_pre_play">Łączenie</string>
     <string name="notify_play">Odtwarzanie</string>
     <string name="notify_paused">Zatrzymaj</string>
@@ -182,7 +182,7 @@
     <string name="alert_alarm_working">Czas alarmu teraz</string>
     <string name="alert_alarm_not_working">Brak wystarczających informacji o alarmie</string>
     <string name="alert_select_external_alarm_app">Wybierz odtwarzacz audio</string>
-		
+
     <string name="alert_press_back_to_exit">Naciśnij wstecz, aby wyjść</string>
 
     <string name="error_stream_url">Problem z adresem URL strumienia</string>

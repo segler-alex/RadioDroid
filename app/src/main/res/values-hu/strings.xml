@@ -201,7 +201,7 @@
     <string name="action_mpd_ok">MPD csatlakoztatva</string>
     <string name="action_mpd_connected">Kapcsolódva a kiszolgálóhoz: %1$s</string>
 
-<!--    <string name="settings_radiobrowser_servers">RadioBrowser kiszolgálók</string>-->
+    <!--    <string name="settings_radiobrowser_servers">RadioBrowser kiszolgálók</string>-->
     <string name="settings_radiobrowser_servers_default">www.radio-browser.info/webservice</string>
 
     <string name="settings_other">Egyéb</string>

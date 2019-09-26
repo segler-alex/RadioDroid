@@ -6,7 +6,8 @@
 
     <com.bytehamster.lib.preferencesearch.SearchPreference android:key="searchPreference" />
 
-  <PreferenceScreen android:title="@string/settings_appearance"
+    <PreferenceScreen
+        android:title="@string/settings_appearance"
         search:ignore="true"
         android:key="pref_category_ui">
 
@@ -17,7 +18,7 @@
             android:key="theme_name"
             android:title="@string/settings_theme_selection_title"
             search:summary=""
-            android:summary="%s"/>
+            android:summary="%s" />
 
         <CheckBoxPreference
             android:defaultValue="false"
@@ -38,7 +39,8 @@
 
     </PreferenceScreen>
 
-    <PreferenceScreen android:title="@string/settings_interaction"
+    <PreferenceScreen
+        android:title="@string/settings_interaction"
         search:ignore="true"
         android:key="pref_category_interaction">
 
@@ -96,7 +98,8 @@
 
     </PreferenceScreen>
 
-    <PreferenceScreen android:title="@string/settings_play"
+    <PreferenceScreen
+        android:title="@string/settings_play"
         search:ignore="true"
         android:key="pref_category_player">
 
@@ -126,7 +129,8 @@
             android:title="@string/settings_equalizer" />
     </PreferenceScreen>
 
-    <PreferenceScreen android:title="@string/settings_alarm"
+    <PreferenceScreen
+        android:title="@string/settings_alarm"
         search:ignore="true"
         android:key="pref_category_alarm">
 
@@ -154,7 +158,8 @@
 
     </PreferenceScreen>
 
-    <PreferenceScreen android:title="@string/settings_recordings"
+    <PreferenceScreen
+        android:title="@string/settings_recordings"
         search:ignore="true"
         android:key="pref_category_recordings">
         <ListPreference
@@ -167,7 +172,8 @@
             android:title="@string/settings_record_name_formatting" />
     </PreferenceScreen>
 
-    <PreferenceScreen android:title="@string/settings_mpd"
+    <PreferenceScreen
+        android:title="@string/settings_mpd"
         search:ignore="true"
         android:key="pref_category_mpd">
         <Preference
@@ -228,7 +234,8 @@
             android:title="@string/settings_radiobrowser_servers" />
     </PreferenceScreen>
 
-    <PreferenceScreen android:title="@string/settings_other"
+    <PreferenceScreen
+        android:title="@string/settings_other"
         search:ignore="true"
         android:key="pref_category_other">
 

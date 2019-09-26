@@ -12,9 +12,9 @@ import java.util.ArrayList;
 
 import static java.lang.Math.min;
 
-public class FavouriteManager extends StationSaveManager{
+public class FavouriteManager extends StationSaveManager {
     @Override
-    protected String getSaveId(){
+    protected String getSaveId() {
         return "favourites";
     }
 
@@ -23,7 +23,7 @@ public class FavouriteManager extends StationSaveManager{
     }
 
     @Override
-    public void add(DataRadioStation station){
+    public void add(DataRadioStation station) {
         if (!has(station.StationUuid)) {
             listStations.add(station);
             Save();

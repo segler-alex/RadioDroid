@@ -1,10 +1,5 @@
 package net.programmierecke.radiodroid2.service;
 
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -26,10 +21,6 @@ import android.os.IBinder;
 import android.os.PowerManager;
 import android.os.RemoteException;
 import android.support.v4.media.MediaMetadataCompat;
-
-import androidx.media.app.NotificationCompat.MediaStyle;
-import androidx.media.session.MediaButtonReceiver;
-
 import android.support.v4.media.session.MediaSessionCompat;
 import android.support.v4.media.session.PlaybackStateCompat;
 import android.text.TextUtils;
@@ -44,6 +35,8 @@ import androidx.core.content.res.ResourcesCompat;
 import androidx.core.graphics.drawable.RoundedBitmapDrawable;
 import androidx.core.graphics.drawable.RoundedBitmapDrawableFactory;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
+import androidx.media.app.NotificationCompat.MediaStyle;
+import androidx.media.session.MediaButtonReceiver;
 
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
@@ -57,13 +50,17 @@ import net.programmierecke.radiodroid2.RadioDroidApp;
 import net.programmierecke.radiodroid2.Utils;
 import net.programmierecke.radiodroid2.history.TrackHistoryEntry;
 import net.programmierecke.radiodroid2.history.TrackHistoryRepository;
-import net.programmierecke.radiodroid2.station.DataRadioStation;
-import net.programmierecke.radiodroid2.station.live.ShoutcastInfo;
-import net.programmierecke.radiodroid2.station.live.StreamLiveInfo;
 import net.programmierecke.radiodroid2.players.RadioPlayer;
 import net.programmierecke.radiodroid2.recording.RecordingsManager;
 import net.programmierecke.radiodroid2.recording.RunningRecordingInfo;
-import net.programmierecke.radiodroid2.utils.GetRealLinkAndPlayTask;
+import net.programmierecke.radiodroid2.station.DataRadioStation;
+import net.programmierecke.radiodroid2.station.live.ShoutcastInfo;
+import net.programmierecke.radiodroid2.station.live.StreamLiveInfo;
+
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
 
 import static android.content.Intent.ACTION_MEDIA_BUTTON;
 

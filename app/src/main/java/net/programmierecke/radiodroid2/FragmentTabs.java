@@ -74,7 +74,7 @@ public class FragmentTabs extends Fragment implements IFragmentRefreshable, IFra
         tabLayout.post(new Runnable() {
             @Override
             public void run() {
-                if(getContext() != null)
+                if (getContext() != null)
                     tabLayout.setupWithViewPager(viewPager);
             }
         });
@@ -122,7 +122,7 @@ public class FragmentTabs extends Fragment implements IFragmentRefreshable, IFra
             else
                 fragments[i] = new FragmentStations();
             Bundle bundle1 = new Bundle();
-            bundle1.putString("url", RadioBrowserServerManager.getWebserviceEndpoint(getContext(),adresses[i]));
+            bundle1.putString("url", RadioBrowserServerManager.getWebserviceEndpoint(getContext(), adresses[i]));
             fragments[i].setArguments(bundle1);
         }
 
@@ -133,7 +133,7 @@ public class FragmentTabs extends Fragment implements IFragmentRefreshable, IFra
 
         FragmentManager m = getChildFragmentManager();
         ViewPagerAdapter adapter = new ViewPagerAdapter(m);
-        if (country != null){
+        if (country != null) {
             adapter.addFragment(fragments[0], R.string.action_local);
         }
         adapter.addFragment(fragments[1], R.string.action_top_click);

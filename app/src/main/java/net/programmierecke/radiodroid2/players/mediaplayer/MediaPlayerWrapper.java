@@ -10,11 +10,11 @@ import androidx.annotation.NonNull;
 
 import net.programmierecke.radiodroid2.BuildConfig;
 import net.programmierecke.radiodroid2.R;
-import net.programmierecke.radiodroid2.station.live.ShoutcastInfo;
-import net.programmierecke.radiodroid2.station.live.StreamLiveInfo;
 import net.programmierecke.radiodroid2.players.PlayerWrapper;
 import net.programmierecke.radiodroid2.players.RadioPlayer;
 import net.programmierecke.radiodroid2.recording.RecordableListener;
+import net.programmierecke.radiodroid2.station.live.ShoutcastInfo;
+import net.programmierecke.radiodroid2.station.live.StreamLiveInfo;
 
 import java.io.IOException;
 import java.util.Map;

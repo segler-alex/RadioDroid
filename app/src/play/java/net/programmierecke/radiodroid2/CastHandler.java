@@ -6,15 +6,15 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.google.android.gms.cast.MediaInfo;
+import com.google.android.gms.cast.MediaMetadata;
 import com.google.android.gms.cast.framework.CastButtonFactory;
 import com.google.android.gms.cast.framework.CastContext;
 import com.google.android.gms.cast.framework.CastSession;
-import com.google.android.gms.cast.framework.media.RemoteMediaClient;
 import com.google.android.gms.cast.framework.Session;
 import com.google.android.gms.cast.framework.SessionManager;
 import com.google.android.gms.cast.framework.SessionManagerListener;
-import com.google.android.gms.cast.MediaInfo;
-import com.google.android.gms.cast.MediaMetadata;
+import com.google.android.gms.cast.framework.media.RemoteMediaClient;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.android.gms.common.images.WebImage;
@@ -45,9 +45,8 @@ public class CastHandler {
                 mSessionManager = mCastContext.getSessionManager();
                 mSessionManager.addSessionManagerListener(mSessionManagerListener);
             }
-        }
-        catch(Exception e){
-            Log.e("ERR",e.toString());
+        } catch (Exception e) {
+            Log.e("ERR", e.toString());
         }
     }
 
@@ -75,7 +74,7 @@ public class CastHandler {
         return mCastSession != null;
     }
 
-    public static void PlayRemote(String title, String url, String iconurl){
+    public static void PlayRemote(String title, String url, String iconurl) {
         if (mSessionManager != null) {
             Log.i("CAST", title);
             MediaMetadata movieMetadata = new MediaMetadata(MediaMetadata.MEDIA_TYPE_MUSIC_TRACK);
@@ -102,7 +101,7 @@ public class CastHandler {
         try {
             Method invalidate = activityMain.getClass().getMethod("invalidateOptionsMenu");
             invalidate.invoke(activityMain);
-        } catch(Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -110,12 +109,12 @@ public class CastHandler {
     private static class SessionManagerListenerImpl implements SessionManagerListener {
         @Override
         public void onSessionStarting(Session session) {
-            Log.i("CAST","onSessionStarting");
+            Log.i("CAST", "onSessionStarting");
         }
 
         @Override
         public void onSessionStarted(Session session, String sessionId) {
-            Log.i("CAST","onSessionStarted");
+            Log.i("CAST", "onSessionStarted");
             invalidateOptions();
             if (mSessionManager != null) {
                 mCastSession = mSessionManager.getCurrentCastSession();
@@ -124,17 +123,17 @@ public class CastHandler {
 
         @Override
         public void onSessionStartFailed(Session session, int i) {
-            Log.i("CAST","onSessionStartFailed");
+            Log.i("CAST", "onSessionStartFailed");
         }
 
         @Override
         public void onSessionEnding(Session session) {
-            Log.i("CAST","onSessionEnding");
+            Log.i("CAST", "onSessionEnding");
         }
 
         @Override
         public void onSessionResumed(Session session, boolean wasSuspended) {
-            Log.i("CAST","onSessionStarting");
+            Log.i("CAST", "onSessionStarting");
             invalidateOptions();
             if (mSessionManager != null) {
                 mCastSession = mSessionManager.getCurrentCastSession();
@@ -143,25 +142,25 @@ public class CastHandler {
 
         @Override
         public void onSessionResumeFailed(Session session, int i) {
-            Log.i("CAST","onSessionResumeFailed");
+            Log.i("CAST", "onSessionResumeFailed");
             mCastSession = null;
         }
 
         @Override
         public void onSessionSuspended(Session session, int i) {
-            Log.i("CAST","onSessionSuspended");
+            Log.i("CAST", "onSessionSuspended");
             mCastSession = null;
         }
 
         @Override
         public void onSessionEnded(Session session, int error) {
-            Log.i("CAST","onSessionEnded");
+            Log.i("CAST", "onSessionEnded");
             mCastSession = null;
         }
 
         @Override
         public void onSessionResuming(Session session, String s) {
-            Log.i("CAST","onSessionResuming");
+            Log.i("CAST", "onSessionResuming");
         }
     }
 

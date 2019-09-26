@@ -27,16 +27,18 @@ public class ApplicationSelectorDialog extends DialogFragment {
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(getActivity(),android.R.layout.select_dialog_singlechoice);
+        final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.select_dialog_singlechoice);
 
         PackageManager pm = getContext().getPackageManager();
         Intent mainIntent = new Intent(Intent.ACTION_VIEW);
         mainIntent.setDataAndType(Uri.parse("http://example.com/test.mp3"), "audio/*");
         List<ResolveInfo> resolveInfos = pm.queryIntentActivities(mainIntent, PackageManager.MATCH_DEFAULT_ONLY);
-        for(ResolveInfo info : resolveInfos) {
+        for (ResolveInfo info : resolveInfos) {
             ApplicationInfo applicationInfo = info.activityInfo.applicationInfo;
-            if(BuildConfig.DEBUG) { Log.d("UUU", ""+applicationInfo.packageName + " -- "+ info.activityInfo.name+ " -> "); }
-            arrayAdapter.add(""+pm.getApplicationLabel(applicationInfo));
+            if (BuildConfig.DEBUG) {
+                Log.d("UUU", "" + applicationInfo.packageName + " -- " + info.activityInfo.name + " -> ");
+            }
+            arrayAdapter.add("" + pm.getApplicationLabel(applicationInfo));
             listInfos.add(info.activityInfo);
         }
 
@@ -45,10 +47,12 @@ public class ApplicationSelectorDialog extends DialogFragment {
         builder.setTitle(R.string.alert_select_external_alarm_app);
         builder.setAdapter(arrayAdapter, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
-                if(BuildConfig.DEBUG) { Log.d("AAA","choose : "+which); }
-                if (callback != null){
+                if (BuildConfig.DEBUG) {
+                    Log.d("AAA", "choose : " + which);
+                }
+                if (callback != null) {
                     ActivityInfo info = listInfos.get(which);
-                    callback.onAppSelected(info.packageName,info.name);
+                    callback.onAppSelected(info.packageName, info.name);
                 }
             }
         });

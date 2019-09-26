@@ -6,24 +6,23 @@ import android.media.audiofx.AudioEffect;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
-
-import androidx.appcompat.widget.Toolbar;
-import androidx.fragment.app.Fragment;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.FragmentTransaction;
-import androidx.preference.ListPreference;
-import androidx.preference.Preference;
-import androidx.preference.PreferenceFragmentCompat;
-import androidx.preference.Preference.OnPreferenceClickListener;
-import androidx.preference.PreferenceScreen;
-
 import android.util.Log;
 import android.widget.Toast;
 
-import com.mikepenz.iconics.typeface.library.community.material.CommunityMaterial;
-import com.mikepenz.iconics.typeface.library.googlematerial.GoogleMaterial;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.preference.ListPreference;
+import androidx.preference.Preference;
+import androidx.preference.Preference.OnPreferenceClickListener;
+import androidx.preference.PreferenceFragmentCompat;
+import androidx.preference.PreferenceScreen;
+
 import com.bytehamster.lib.preferencesearch.SearchConfiguration;
 import com.bytehamster.lib.preferencesearch.SearchPreference;
+import com.mikepenz.iconics.typeface.library.community.material.CommunityMaterial;
+import com.mikepenz.iconics.typeface.library.googlematerial.GoogleMaterial;
 
 import net.programmierecke.radiodroid2.interfaces.IApplicationSelected;
 import net.programmierecke.radiodroid2.proxy.ProxySettingsDialog;
@@ -34,7 +33,7 @@ import java.util.Vector;
 
 import static net.programmierecke.radiodroid2.ActivityMain.FRAGMENT_FROM_BACKSTACK;
 
-public class FragmentSettings extends PreferenceFragmentCompat implements SharedPreferences.OnSharedPreferenceChangeListener, IApplicationSelected, PreferenceFragmentCompat.OnPreferenceStartScreenCallback  {
+public class FragmentSettings extends PreferenceFragmentCompat implements SharedPreferences.OnSharedPreferenceChangeListener, IApplicationSelected, PreferenceFragmentCompat.OnPreferenceStartScreenCallback {
 
     @Override
     public Fragment getCallbackFragment() {
@@ -176,13 +175,13 @@ public class FragmentSettings extends PreferenceFragmentCompat implements Shared
 
     private void setServersData(String[] list, ListPreference servers) {
         servers.setEntries(list);
-        if (list.length > 0){
+        if (list.length > 0) {
             servers.setDefaultValue(list[0]);
         }
         servers.setEntryValues(list);
     }
 
-    void updateDnsList(final ListPreference lp){
+    void updateDnsList(final ListPreference lp) {
         final AsyncTask<Void, Void, String[]> xxx = new AsyncTask<Void, Void, String[]>() {
             @Override
             protected String[] doInBackground(Void... params) {
@@ -221,10 +220,10 @@ public class FragmentSettings extends PreferenceFragmentCompat implements Shared
 
         refreshToolbar();
 
-        if(isToplevel())
+        if (isToplevel())
             refreshToplevelIcons();
 
-        if(findPreference("shareapp_package") != null)
+        if (findPreference("shareapp_package") != null)
             findPreference("shareapp_package").setSummary(getPreferenceManager().getSharedPreferences().getString("shareapp_package", ""));
     }
 
