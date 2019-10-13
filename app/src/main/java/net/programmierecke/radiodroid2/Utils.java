@@ -267,8 +267,6 @@ public class Utils {
 		HistoryManager historyManager = radioDroidApp.getHistoryManager();
 		historyManager.add(station);
 
-		final OkHttpClient httpClient = radioDroidApp.getHttpClient();
-
 		SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
 		final boolean warn_no_wifi = sharedPref.getBoolean("warn_no_wifi", false);
 		if (warn_no_wifi && !Utils.hasWifiConnection(context)) {
@@ -286,66 +284,14 @@ public class Utils {
 					.setNegativeButton(android.R.string.cancel, null) // do not play on cancel
 					.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
 						@Override public void onClick(DialogInterface dialog, int which) {
-							playInternal(httpClient, station, context, external);
+							PlayerServiceUtil.play(station);
 						}
 					})
 					.create()
 					.show();
 		} else {
-			playInternal(httpClient, station, context, external);
+			PlayerServiceUtil.play(station);
 		}
-	}
-
-	private static void playInternal(final OkHttpClient httpClient, final DataRadioStation station, final Context context, final boolean external) {
-        context.sendBroadcast(new Intent(ActivityMain.ACTION_SHOW_LOADING));
-		new AsyncTask<Void, Void, String>() {
-			@Override
-			protected String doInBackground(Void... params) {
-				if (!station.hasValidUuid()) {
-					station.refresh(httpClient, context);
-				}
-				return Utils.getRealStationLink(httpClient, context.getApplicationContext(), station.StationUuid);
-			}
-
-			@Override
-			protected void onPostExecute(String result) {
-                context.sendBroadcast(new Intent(ActivityMain.ACTION_HIDE_LOADING));
-
-				if (result != null) {
-					boolean externalActive = false;
-//					if (MPDClientOld.Connected() && MPDClientOld.Discovered()){
-//						MPDClientOld.Play(result, context);
-//						PlayerServiceUtil.saveInfo(result, station.Name, station.ID, station.IconUrl);
-//						externalActive = true;
-//					}
-//					if (CastHandler.isCastSessionAvailable()){
-//						if (!externalActive) {
-//							PlayerServiceUtil.stop(); // stop internal player and not continue playing
-//						}
-//						CastHandler.PlayRemote(station.Name, result, station.IconUrl);
-//						externalActive = true;
-//					}
-//
-//					if (!externalActive){
-//						if (external){
-//							Intent share = new Intent(Intent.ACTION_VIEW);
-//							share.setDataAndType(Uri.parse(result), "audio/*");
-//							context.startActivity(share);
-//						}else {
-//							station.playableUrl = result;
-//							PlayerServiceUtil.play(station);
-//						}
-//					}
-
-					station.playableUrl = result;
-					PlayerServiceUtil.play(station);
-				} else {
-					Toast toast = Toast.makeText(context.getApplicationContext(), context.getResources().getText(R.string.error_station_load), Toast.LENGTH_SHORT);
-					toast.show();
-				}
-				super.onPostExecute(result);
-			}
-		}.execute();
 	}
 
 	public static boolean shouldLoadIcons(final Context context) {
