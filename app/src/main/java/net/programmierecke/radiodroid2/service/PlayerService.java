@@ -480,6 +480,10 @@ public class PlayerService extends Service implements RadioPlayer.PlayerListener
     }
 
     public void next() {
+        if (currentStation == null) {
+            return;
+        }
+
         RadioDroidApp radioDroidApp = (RadioDroidApp) getApplication();
         DataRadioStation station = radioDroidApp.getFavouriteManager().getNextById(currentStation.StationUuid);
         if (station != null) {
@@ -488,6 +492,10 @@ public class PlayerService extends Service implements RadioPlayer.PlayerListener
     }
 
     public void previous() {
+        if (currentStation == null) {
+            return;
+        }
+
         RadioDroidApp radioDroidApp = (RadioDroidApp) getApplication();
         DataRadioStation station = radioDroidApp.getFavouriteManager().getPreviousById(currentStation.StationUuid);
         if (station != null) {
