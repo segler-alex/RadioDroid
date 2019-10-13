@@ -1,19 +1,25 @@
 package net.programmierecke.radiodroid2.players;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Handler;
 import android.os.HandlerThread;
 import android.os.Looper;
 import android.util.Log;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.preference.PreferenceManager;
 
+import net.programmierecke.radiodroid2.ActivityMain;
 import net.programmierecke.radiodroid2.BuildConfig;
+import net.programmierecke.radiodroid2.R;
 import net.programmierecke.radiodroid2.RadioDroidApp;
 import net.programmierecke.radiodroid2.Utils;
+import net.programmierecke.radiodroid2.station.DataRadioStation;
 import net.programmierecke.radiodroid2.station.live.ShoutcastInfo;
 import net.programmierecke.radiodroid2.station.live.StreamLiveInfo;
 import net.programmierecke.radiodroid2.players.exoplayer.ExoPlayerWrapper;
@@ -63,6 +69,8 @@ public class RadioPlayer implements PlayerWrapper.PlayListener, Recordable {
     private PlayState playState = PlayState.Idle;
 
     private StreamLiveInfo lastLiveInfo;
+
+    private RealStationLinkRetrieveTask realStationLinkRetrieveTask;
 
     private Runnable bufferCheckRunnable = new Runnable() {
         @Override
@@ -119,7 +127,23 @@ public class RadioPlayer implements PlayerWrapper.PlayListener, Recordable {
         playerThreadHandler.post(() -> currentPlayer.playRemote(customizedHttpClient, stationURL, mainContext, isAlarm));
     }
 
+    public final void play(final DataRadioStation station, final boolean isAlarm) {
+        setState(PlayState.PrePlaying, -1);
+
+        realStationLinkRetrieveTask = new RealStationLinkRetrieveTask(this, station, isAlarm);
+        realStationLinkRetrieveTask.execute();
+    }
+
+    private void cancelStationLinkRetrieval() {
+        if (realStationLinkRetrieveTask != null) {
+            realStationLinkRetrieveTask.cancel(true);
+            realStationLinkRetrieveTask = null;
+        }
+    }
+
     public final void pause() {
+        cancelStationLinkRetrieval();
+
         playerThreadHandler.post(() -> {
             final int audioSessionId = getAudioSessionId();
             currentPlayer.pause();
@@ -136,6 +160,8 @@ public class RadioPlayer implements PlayerWrapper.PlayListener, Recordable {
         if (playState == PlayState.Idle) {
             return;
         }
+
+        cancelStationLinkRetrieval();
 
         playerThreadHandler.post(() -> {
             final int audioSessionId = getAudioSessionId();
@@ -166,7 +192,9 @@ public class RadioPlayer implements PlayerWrapper.PlayListener, Recordable {
     }
 
     public final boolean isPlaying() {
-        return currentPlayer.isPlaying();
+        // From user perspective PlayState.PrePlaying is playing and otherwise will lead to
+        // inconsistencies in UI.
+        return playState == PlayState.PrePlaying || playState == PlayState.Playing;
     }
 
     public final int getAudioSessionId() {
@@ -282,5 +310,67 @@ public class RadioPlayer implements PlayerWrapper.PlayListener, Recordable {
     public void onDataSourceStreamLiveInfo(StreamLiveInfo liveInfo) {
         lastLiveInfo = liveInfo;
         playerListener.foundLiveStreamInfo(liveInfo);
+    }
+
+    private static class RealStationLinkRetrieveTask extends AsyncTask<Void, Void, String> {
+
+        private RadioPlayer radioPlayer;
+        private DataRadioStation station;
+        private boolean isAlarm;
+
+        public RealStationLinkRetrieveTask(RadioPlayer radioPlayer, DataRadioStation station, boolean isAlarm) {
+            this.radioPlayer = radioPlayer;
+            this.station = station;
+            this.isAlarm = isAlarm;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            radioPlayer.mainContext.sendBroadcast(new Intent(ActivityMain.ACTION_SHOW_LOADING));
+
+            super.onPreExecute();
+        }
+
+        @Override
+        protected String doInBackground(Void... params) {
+            RadioDroidApp radioDroidApp = (RadioDroidApp) radioPlayer.mainContext.getApplicationContext();
+            final OkHttpClient httpClient = radioDroidApp.getHttpClient();
+
+            if (!station.hasValidUuid()) {
+                station.refresh(httpClient, radioPlayer.mainContext);
+            }
+
+            if (isCancelled()) {
+                return null;
+            }
+
+            return Utils.getRealStationLink(httpClient, radioPlayer.mainContext.getApplicationContext(), station.StationUuid);
+        }
+
+        @Override
+        protected void onCancelled() {
+            if (radioPlayer.realStationLinkRetrieveTask == null) {
+                radioPlayer.mainContext.sendBroadcast(new Intent(ActivityMain.ACTION_HIDE_LOADING));
+            }
+
+            super.onCancelled();
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            radioPlayer.mainContext.sendBroadcast(new Intent(ActivityMain.ACTION_HIDE_LOADING));
+
+            if (result != null) {
+                station.playableUrl = result;
+                radioPlayer.play(station.playableUrl, station.Name, isAlarm);
+            } else {
+                Toast toast = Toast.makeText(radioPlayer.mainContext.getApplicationContext(), radioPlayer.mainContext.getResources().getText(R.string.error_station_load), Toast.LENGTH_SHORT);
+                toast.show();
+            }
+
+            radioPlayer.realStationLinkRetrieveTask = null;
+
+            super.onPostExecute(result);
+        }
     }
 }

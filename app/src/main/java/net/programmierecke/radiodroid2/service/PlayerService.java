@@ -63,7 +63,6 @@ import net.programmierecke.radiodroid2.station.live.StreamLiveInfo;
 import net.programmierecke.radiodroid2.players.RadioPlayer;
 import net.programmierecke.radiodroid2.recording.RecordingsManager;
 import net.programmierecke.radiodroid2.recording.RunningRecordingInfo;
-import net.programmierecke.radiodroid2.utils.GetRealLinkAndPlayTask;
 
 import static android.content.Intent.ACTION_MEDIA_BUTTON;
 
@@ -140,7 +139,7 @@ public class PlayerService extends Service implements RadioPlayer.PlayerListener
         }
 
         public void Play(boolean isAlarm) throws RemoteException {
-            PlayerService.this.playUrl(isAlarm);
+            PlayerService.this.playCurrentStation(isAlarm);
         }
 
         public void Pause() throws RemoteException {
@@ -459,9 +458,7 @@ public class PlayerService extends Service implements RadioPlayer.PlayerListener
         this.currentStation = station;
     }
 
-    public void playUrl(final boolean isAlarm) {
-        Log.i(TAG, String.format("playing url '%s'.", currentStation.playableUrl));
-
+    public void playCurrentStation(final boolean isAlarm) {
         if (Utils.shouldLoadIcons(itsContext))
             downloadRadioIcon();
 
@@ -548,7 +545,7 @@ public class PlayerService extends Service implements RadioPlayer.PlayerListener
 
         acquireWakeLockAndWifiLock();
 
-        radioPlayer.play(currentStation.playableUrl, currentStation.Name, isAlarm);
+        radioPlayer.play(currentStation, isAlarm);
     }
 
     private void setMediaPlaybackState(int state) {
