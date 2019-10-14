@@ -70,7 +70,7 @@
     <string name="nav_item_save_playlist">Save to playlist</string>
     <string name="nav_item_load_playlist">Load from playlist</string>
     <string name="confirm_overwrite_file">Overwrite the file?</string>
-    <string name="dialog_hint_file_name">Enter file name</string> 
+    <string name="dialog_hint_file_name">Enter file name</string>
     <string name="error_empty_field">This field is required</string>
     <string name="error_invalid_file_name">Invalid file name</string>
     <string name="label_button_cancel">Cancel</string>
@@ -85,7 +85,7 @@
     <string name="theme_dark">Dark</string>
     <string name="settings_circular_icons">Use circular icons</string>
     <string name="settings_compact_style">Compact mode</string>
-    <string name="settings_compact_style_desc_off">Large icon adopted with station details</string> 
+    <string name="settings_compact_style_desc_off">Large icon adopted with station details</string>
     <string name="settings_compact_style_desc_on">Small icon adopted without station details</string>
     <string name="settings_bottom_navigation">Bottom navigation</string>
 
@@ -124,7 +124,7 @@
     <string name="settings_alarm">Alarm</string>
     <string name="settings_alarm_external">Enable external app</string>
     <string name="settings_alarm_external_desc_on">Open the alarm with default external app</string>
-    <string name="settings_alarm_external_desc_off">Open the alarm with RadioDroid</string> 
+    <string name="settings_alarm_external_desc_off">Open the alarm with RadioDroid</string>
     <string name="settings_alarm_audio_player">Audio player</string>
     <string name="settings_alarm_sleep_timer">Sleep timer</string>
     <string name="settings_alarm_sleep_timer_desc">Stop playing after %1$s minutes</string>
@@ -134,7 +134,7 @@
     <string name="settings_auto_play_on_startup_off">Do not play last station on startup</string>
     <string name="settings_play_external">Enable external player</string>
     <string name="settings_play_external_desc_on">Play stations with external player</string>
-    <string name="settings_play_external_desc_off">Play stations with RadioDroid</string> 
+    <string name="settings_play_external_desc_off">Play stations with RadioDroid</string>
     <string name="settings_equalizer">Equalizer</string>
 
     <string name="settings_connectivity">Connectivity</string>
@@ -270,7 +270,7 @@
     <string name="description_btn_skip_to_next">Skip to next</string>
     <string name="description_btn_skip_to_previous">Skip to previous</string>
 
-    <string name="description_btn_setup_alarm">Setup alarm</string>
+    <string name="description_btn_setup_alarm">Set alarm</string>
 
     <string-array name="weekdays">
         <item>S</item>
