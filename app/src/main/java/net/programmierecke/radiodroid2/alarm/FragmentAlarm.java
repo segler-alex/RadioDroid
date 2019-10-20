@@ -13,12 +13,14 @@ import androidx.fragment.app.Fragment;
 
 import net.programmierecke.radiodroid2.R;
 import net.programmierecke.radiodroid2.RadioDroidApp;
-import net.programmierecke.radiodroid2.interfaces.IChanged;
 
-public class FragmentAlarm extends Fragment implements TimePickerDialog.OnTimeSetListener, IChanged {
+import java.util.Observer;
+
+public class FragmentAlarm extends Fragment implements TimePickerDialog.OnTimeSetListener {
     private RadioAlarmManager ram;
     private ItemAdapterRadioAlarm adapterRadioAlarm;
     private ListView lvAlarms;
+    private Observer alarmsObserver;
 
     public FragmentAlarm() {
     }
@@ -43,17 +45,30 @@ public class FragmentAlarm extends Fragment implements TimePickerDialog.OnTimeSe
             }
         });
 
-        RefreshListAndView();
+        alarmsObserver = (o, arg) -> RefreshListAndView();
 
         return view;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        RefreshListAndView();
+
+        ram.getSavedAlarmsObservable().addObserver(alarmsObserver);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+
+        ram.getSavedAlarmsObservable().deleteObserver(alarmsObserver);
+    }
+
     private void RefreshListAndView() {
         adapterRadioAlarm.clear();
-        for(DataRadioStationAlarm alarm: ram.getList()){
-            adapterRadioAlarm.add(alarm);
-        }
-        lvAlarms.invalidate();
+        adapterRadioAlarm.addAll(ram.getList());
     }
 
     DataRadioStationAlarm clickedAlarm = null;
@@ -67,14 +82,7 @@ public class FragmentAlarm extends Fragment implements TimePickerDialog.OnTimeSe
     @Override
     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
         ram.changeTime(clickedAlarm.id,hourOfDay,minute);
-        RefreshListAndView();
         view.invalidate();
-    }
-
-    @Override
-    public void onChanged() {
-        ram.load();
-        RefreshListAndView();
     }
 
     public RadioAlarmManager getRam() {

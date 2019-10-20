@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.List;
+import java.util.Observable;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -24,7 +25,16 @@ public class RadioAlarmManager {
 
     private static final int ONE_DAY_IN_MILLIS = 24 * 60 * 60 * 1000;
     private Context context;
-    List<DataRadioStationAlarm> list = new ArrayList<DataRadioStationAlarm>();
+    private List<DataRadioStationAlarm> list = new ArrayList<DataRadioStationAlarm>();
+
+    private class AlarmsObservable extends Observable {
+        @Override
+        public synchronized boolean hasChanged() {
+            return true;
+        }
+    }
+
+    private Observable savedAlarmsObservable = new AlarmsObservable();
 
     public RadioAlarmManager(Context context){
         this.context = context;
@@ -39,6 +49,10 @@ public class RadioAlarmManager {
 //            }
 //        };
 //        sharedPref.registerOnSharedPreferenceChangeListener(listener);
+    }
+
+    public Observable getSavedAlarmsObservable() {
+        return savedAlarmsObservable;
     }
 
     public void add(DataRadioStation station, int hour, int minute){
@@ -105,6 +119,8 @@ public class RadioAlarmManager {
 
         editor.putString("alarm.ids",items);
         editor.commit();
+
+        savedAlarmsObservable.notifyObservers();
     }
 
     public void load(){
