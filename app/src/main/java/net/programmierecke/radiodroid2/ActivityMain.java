@@ -180,7 +180,10 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
             getSupportActionBar().setHomeButtonEnabled(true);
         }
 
-        {
+        smallPlayerFragment = (FragmentPlayerSmall) mFragmentManager.findFragmentById(R.id.fragment_player_small);
+        fullPlayerFragment = (FragmentPlayerFull) mFragmentManager.findFragmentById(R.id.fragment_player_full);
+
+        if (smallPlayerFragment == null || fullPlayerFragment == null) {
             smallPlayerFragment = new FragmentPlayerSmall();
             fullPlayerFragment = new FragmentPlayerFull();
 
@@ -313,7 +316,9 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
             default:
         }
 
-        mFragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+        // Without "Immediate", "Settings" fragment may become forever stuck in limbo receiving onResume.
+        // I'm not sure why.
+        mFragmentManager.popBackStackImmediate(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
         FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
         if (Utils.bottomNavigationEnabled(this))
             fragmentTransaction.replace(R.id.containerView, f).commit();
