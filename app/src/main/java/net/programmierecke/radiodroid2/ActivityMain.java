@@ -732,7 +732,6 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
         if (historyManager.size() > 0 && currentFragment instanceof FragmentAlarm) {
             DataRadioStation station = historyManager.getList().get(0);
             ((FragmentAlarm) currentFragment).getRam().add(station, hourOfDay, minute);
-            ((FragmentAlarm) currentFragment).onChanged();
         }
     }
 

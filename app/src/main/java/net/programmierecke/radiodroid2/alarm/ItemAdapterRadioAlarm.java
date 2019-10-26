@@ -56,9 +56,7 @@ public class ItemAdapterRadioAlarm extends ArrayAdapter<DataRadioStationAlarm> {
 		buttonRepeating.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {
-				aData.repeating = !aData.repeating;
 				ram.toggleRepeating(aData.id);
-				repeatDaysView.setVisibility(aData.repeating ? View.VISIBLE : View.GONE);
 			}
 		});
 
@@ -67,7 +65,6 @@ public class ItemAdapterRadioAlarm extends ArrayAdapter<DataRadioStationAlarm> {
 				@Override
 				public void onClick(View v) {
 					ram.remove(aData.id);
-					notifyDataSetChanged();
 				}
 			});
 		}
