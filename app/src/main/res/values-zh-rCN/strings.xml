@@ -12,6 +12,15 @@
     <string name="detail_stop">停止</string>
     <string name="detail_share">分享</string>
 
+    <string name="action_links">链接</string>
+    <string name="action_homepage">主页</string>
+    <string name="action_favorite">收藏</string>
+    <string name="action_alarm">闹钟</string>
+
+    <string name="action_station_visit_website">访问网站</string>
+    <string name="action_station_copy_stream_url">复制流媒体地址</string>
+    <string name="action_station_share">分享</string>
+    
     <string name="action_local">本地电台</string>
     <string name="action_skip_to_next">下一个</string>
     <string name="action_pause">暂停</string>
@@ -32,6 +41,9 @@
     <string name="action_tags">标签</string>
     <string name="action_countries">国家</string>
     <string name="action_languages">语言</string>
+    <string name="action_edit">编辑</string>
+    <string name="action_lyrics">歌词</string>
+    <string name="action_copy_info">复制信息</string>
     <string name="error_station_load">无法连接电台</string>
     <string name="error_list_update">无法连接 radio browser 服务器</string>
 
@@ -42,7 +54,6 @@
     <string name="nav_item_history">历史</string>
     <string name="nav_item_settings">设置</string>
     <string name="nav_item_alarm">闹钟</string>
-    <string name="tab_player_recordings">录音</string>
 
     <string name="about_text">此程序使用位于 https://www.radio-browser.info 的免费广播电台目录。\n任何人都可以添加电台到目录中或编辑已有电台，就像一个在线（流媒体）广播电台的维基一样。\n\n联系：\nsegler_alex@web.de\n\n漏洞跟踪：\nhttps://github.com/segler-alex/RadioDroid/issues\n\n如果您喜欢此软件并愿意提供帮助，敬请给本人发送邮件，我真的需要有绘图经验的朋友来让这个程序别太虐待眼睛了:)\n或许哪位朋友会画图标、图片...或者哪位程序员会修复漏洞，或者开发（功能，不是漏洞;）\n还有关于新功能的建议也一向非常感谢！\n\n此程序是在 GPLv3 https://www.gnu.org/licenses/gpl-3.0.html 授权下的免费软件。</string>
     <string name="about_version">版本：%1$s</string>
@@ -55,11 +66,11 @@
     <string name="sleep_timer_apply">应用</string>
     <string name="sleep_timer_clear">清除</string>
     <string name="nav_item_add_sleep">睡眠定时器</string>
-
+    
     <string name="nav_item_save_playlist">保存到播放列表</string>
     <string name="nav_item_load_playlist">从播放列表载入</string>
     <string name="confirm_overwrite_file">覆盖此文件吗？</string>
-    <string name="dialog_hint_file_name">输入文件名</string> 
+    <string name="dialog_hint_file_name">输入文件名</string>
     <string name="error_empty_field">必须填写此栏目</string>
     <string name="error_invalid_file_name">文件名无效</string>
     <string name="label_button_cancel">取消</string>
@@ -74,7 +85,7 @@
     <string name="theme_dark">暗色</string>
     <string name="settings_circular_icons">使用圆形图标</string>
     <string name="settings_compact_style">精简模式</string>
-    <string name="settings_compact_style_desc_off">使用大图标并显示电台详情</string> 
+    <string name="settings_compact_style_desc_off">使用大图标并显示电台详情</string>
     <string name="settings_compact_style_desc_on">使用小图标并隐藏电台详情</string>
     <string name="settings_bottom_navigation">底部导航栏</string>
 
@@ -205,6 +216,11 @@
     <string name="player_info_recording_to">正在录音到：\n%1$s</string>
     <string name="player_info_recorded_to">上次录音：\n%1$s</string>
 
+    <string name="tab_player_art">专辑封面</string>
+    <string name="tab_player_info">信息</string>
+    <string name="tab_player_history">历史</string>
+    <string name="tab_player_recordings">录音</string>    
+
     <string name="station_detail_bitrate">%1$1d kbps</string>
     <string name="station_detail_broken">无效</string>
 
@@ -232,12 +248,24 @@
     <string name="action_mpd_ok">MPD 已连接</string>
     <string name="action_mpd_connected">已连接到服务器：%1$s</string>
 
+    <string name="mpd_no_connection">未连接</string>
+    <string name="action_enable_mpd">启用 MPD</string>
+    <string name="action_disable_mpd">停用 MPD</string>
+    <string name="action_add_mpd_server">添加 MPD 服务器</string>
+    
+    <string name="action_play_in_external">使用外部播放器播放</string>
+    
     <string name="settings_radiobrowser_servers">RadioBrowser 服务器</string>
 
     <string name="settings_other">其它</string>
     <string name="settings_statistics">统计</string>
     <string name="settings_about">关于睿卓 (RadioDroid)</string>
 
+    <string name="description_btn_skip_to_next">转到下一个</string>
+    <string name="description_btn_skip_to_previous">转到上一个</string>
+
+    <string name="description_btn_setup_alarm">设置闹钟</string>
+    
     <string-array name="weekdays">
         <item>星期日</item>
         <item>星期一</item>
