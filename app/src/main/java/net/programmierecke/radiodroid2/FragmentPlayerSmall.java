@@ -174,14 +174,6 @@ public class FragmentPlayerSmall extends Fragment {
         if (lastStation != null) {
             if (startPlaying && !PlayerServiceUtil.isPlaying() && !mpdClient.isMpdEnabled()) {
                 Utils.Play(radioDroidApp, lastStation);
-            } else {
-                textViewStationName.setText(lastStation.Name);
-
-                if (!Utils.shouldLoadIcons(getContext())) {
-                    imageViewIcon.setVisibility(View.GONE);
-                } else {
-                    PlayerServiceUtil.getStationIcon(imageViewIcon, lastStation.IconUrl);
-                }
             }
         }
     }
@@ -227,7 +219,10 @@ public class FragmentPlayerSmall extends Fragment {
         if (!Utils.shouldLoadIcons(getContext())) {
             imageViewIcon.setVisibility(View.GONE);
         } else if (station != null) {
+            imageViewIcon.setVisibility(View.VISIBLE);
             PlayerServiceUtil.getStationIcon(imageViewIcon, station.IconUrl);
+        } else {
+            imageViewIcon.setImageResource(R.drawable.ic_launcher);
         }
 
         if (role == Role.PLAYER) {
