@@ -70,7 +70,7 @@
     <string name="nav_item_save_playlist">Guardar en lista de reproducción</string>
     <string name="nav_item_load_playlist">Cargar desde lista de reproducción</string>
     <string name="confirm_overwrite_file">¿Sobrescribir el archivo?</string>
-    <string name="dialog_hint_file_name">Indicar el nombre del archivo</string> 
+    <string name="dialog_hint_file_name">Indicar el nombre del archivo</string>
     <string name="error_empty_field">Este campo es obligatorio</string>
     <string name="error_invalid_file_name">Nombre de archivo no válido</string>
     <string name="label_button_cancel">Cancelar</string>
@@ -85,7 +85,7 @@
     <string name="theme_dark">Oscuro</string>
     <string name="settings_circular_icons">Usar iconos circulares</string>
     <string name="settings_compact_style">Modo compacto</string>
-    <string name="settings_compact_style_desc_off">Adoptar icono grande con los detalles de la estación</string> 
+    <string name="settings_compact_style_desc_off">Adoptar icono grande con los detalles de la estación</string>
     <string name="settings_compact_style_desc_on">Adoptar icono pequeño sin los detalles de la estación</string>
     <string name="settings_bottom_navigation">Navegación en parte inferior</string>
 
@@ -124,7 +124,7 @@
     <string name="settings_alarm">Alarma</string>
     <string name="settings_alarm_external">Abrir aplicación externa</string>
     <string name="settings_alarm_external_desc_on">Abrir la alarma con la aplicación externa predeterminada</string>
-    <string name="settings_alarm_external_desc_off">Abrir la alarma con RadioDroid</string> 
+    <string name="settings_alarm_external_desc_off">Abrir la alarma con RadioDroid</string>
     <string name="settings_alarm_audio_player">Reproductor de audio</string>
     <string name="settings_alarm_sleep_timer">Tiempo para dormir</string>
     <string name="settings_alarm_sleep_timer_desc">Parar la reproducción tras %1$s minutos</string>
@@ -134,7 +134,7 @@
     <string name="settings_auto_play_on_startup_off">No reproducir la última estación al iniciar</string>
     <string name="settings_play_external">Abrir reproductor externo</string>
     <string name="settings_play_external_desc_on">Reproducir estaciones con reproductor externo</string>
-    <string name="settings_play_external_desc_off">Reproducir estaciones con RadioDroid</string> 
+    <string name="settings_play_external_desc_off">Reproducir estaciones con RadioDroid</string>
     <string name="settings_equalizer">Ecualizador</string>
 
     <string name="settings_connectivity">Conexión</string>
@@ -159,15 +159,10 @@
     <string name="settings_recordings">Grabaciones</string>
     <string name="settings_record_name_formatting">Formato de nombre</string>
 
-    <string name="settings_record_name_formatting_default" translatable="false">${station}_${artist}_${track}_${date}_${time}</string>
-    <string name="settings_record_name_formatting_1" translatable="false">${station}_${artist}_${track}</string>
-    <string name="settings_record_name_formatting_2" translatable="false">${station}_${date}_${time}</string>
-    <string name="settings_record_name_formatting_3" translatable="false">${index}_${station}_${date}</string>
-
-    <string name="settings_record_name_formatting_default_display">station_artist_track_\u200bdate_\u200btime</string>
-    <string name="settings_record_name_formatting_1_display">station_artist_\u200btrack</string>
-    <string name="settings_record_name_formatting_2_display">station_date_\u200btime</string>
-    <string name="settings_record_name_formatting_3_display">index_station_\u200bdate</string>
+    <string name="settings_record_name_formatting_default_display">estación_artista_pista_\u200bfecha_\u200bhora</string>
+    <string name="settings_record_name_formatting_1_display">estación_artista_\u200bpista</string>
+    <string name="settings_record_name_formatting_2_display">estación_fecha_\u200bhora</string>
+    <string name="settings_record_name_formatting_3_display">Índices_estación_\u200bfecha</string>
 
     <string name="notify_pre_play">Conectando</string>
     <string name="notify_play">Reproduciendo</string>
@@ -186,7 +181,7 @@
     <string name="yes">Sí</string>
     <string name="no">No</string>
 
-	<string name="alert_select_mpd_server">Por favor selecciona un servidor</string>
+    <string name="alert_select_mpd_server">Por favor selecciona un servidor</string>
     <string name="alert_select_mpd_server_name">Nombre del servidor</string>
     <string name="hostname">Nombre del host</string>
     <string name="port">Puerto</string>
@@ -261,7 +256,6 @@
     <string name="action_play_in_external">Reproducir en reproductor externo</string>
 
     <string name="settings_radiobrowser_servers">Servidores RadioBrowser</string>
-    <string name="settings_radiobrowser_servers_default">www.radio-browser.info/webservice</string>
 
     <string name="settings_other">Otro</string>
     <string name="settings_statistics">Estadísticas</string>
