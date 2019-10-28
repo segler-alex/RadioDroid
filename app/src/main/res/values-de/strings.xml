@@ -64,10 +64,10 @@
     <string name="settings_show_broken_on">Alle Stationen werden angezeigt, auch nicht funktionierende.</string>
     <string name="settings_show_broken_off">Es werden nur funktionierende Stationen angezeigt, nicht funktionierende werden unterdrückt.</string>
 
-    <string name="startup_action_title">Startverhalten</string>
+    <string name="startup_action_title">Startverhalten der Anzeige</string>
     <string name="startup_show_all_stations">Starte mit der Listenansicht aller verfügbaren Stationen.</string>
-    <string name="startup_show_favorites">Starte mit Deiner Favoritenliste.</string>
-    <string name="startup_show_history">Starte mit der Liste Deiner bisher gespielten Stationen.</string>
+    <string name="startup_show_favorites">Starte mit der Favoritenliste.</string>
+    <string name="startup_show_history">Starte mit der Liste der bisher gespielten Stationen.</string>
     <string name="startup_show_last_view">Starte mit der letzten Ansicht.</string>
 
     <string name="settings_load_icons">Stationslogos</string>
@@ -83,12 +83,12 @@
     <string name="settings_icon_click_toggles_favorite_off">Ein Klick auf das Stationslogo startet das Abspielen.</string>
 
     <string name="settings_alarm">Wecker</string>
-    <string name="settings_alarm_external">Öffne extern</string>
+    <string name="settings_alarm_external">Interner/externer Alarmspieler</string>
     <string name="settings_alarm_audio_player">Audio-Abspieler</string>
     <string name="settings_alarm_sleep_timer">Alarmdauer</string>
     <string name="settings_alarm_sleep_timer_desc">Nach %1$s Minuten stoppen</string>
     <string name="settings_play">Abspieler</string>
-    <string name="settings_play_external">Öffne extern</string>
+    <string name="settings_play_external">Interner/externer Abspieler</string>
 
     <string name="settings_statistics">Statistik</string>
     <string name="settings_about">Über RadioDroid</string>
@@ -200,24 +200,24 @@
     <string name="notify_paused">Angehalten</string>
     <string name="notify_pre_play">Verbinde</string>
     <string name="refresh">Aktualisierung</string>
-    <string name="settings_alarm_external_desc_off">Öffnen Sie den Alarm mit RadioDroid</string>
-    <string name="settings_alarm_external_desc_on">Öffnen Sie den Alarm mit der externen Standard-App</string>
-    <string name="settings_auto_play_on_startup">Automatisches Abspielen</string>
-    <string name="settings_auto_play_on_startup_off">Spielen Sie nicht den letzten Sender beim Start</string>
-    <string name="settings_auto_play_on_startup_on">Letzten Sender beim Start abspielen</string>
+    <string name="settings_alarm_external_desc_off">Den Alarm mit RadioDroid abspielen.</string>
+    <string name="settings_alarm_external_desc_on">Den Alarm mit einer externen Standard-App abspielen.</string>
+    <string name="settings_auto_play_on_startup">Startverhalten des Abspielers</string>
+    <string name="settings_auto_play_on_startup_off">Die App startet still: die zuletzt gehörte Station wird nicht automatisch abgespielt.</string>
+    <string name="settings_auto_play_on_startup_on">Die zuletzt gehörte Station wird beim Start sofort abgespielt.</string>
     <string name="settings_bottom_navigation">Navigation unten</string>
-    <string name="settings_click_trend_icon_visible">Klicken Sie auf das Trend-Symbol</string>
-    <string name="settings_click_trend_icon_visible_off">Das Symbol wird ausgeblendet</string>
-    <string name="settings_click_trend_icon_visible_on">Das Symbol wird angezeigt</string>
-    <string name="settings_compact_style_desc_off">Großes Symbol mit Stationsdetails übernommen</string>
-    <string name="settings_compact_style_desc_on">Kleines Symbol ohne Stationsdetails übernommen</string>
+    <string name="settings_click_trend_icon_visible">Trendsymbolanzeige</string>
+    <string name="settings_click_trend_icon_visible_off">Es werden keine Trendsymbole angezeigt.</string>
+    <string name="settings_click_trend_icon_visible_on">Es werden Trendsymbole angezeigt.</string>
+    <string name="settings_compact_style_desc_off">Es werden große Symbole mit den Stationsdetails angezeigt.</string>
+    <string name="settings_compact_style_desc_on">Es werden kleine Symbole ohne Stationsdetails angezeigt.</string>
     <string name="settings_connect_timeout">Verbindungszeitüberschreitung</string>
     <string name="settings_milliseconds_format">%d Millisekunden</string>
-    <string name="settings_play_external_desc_off">Spiele Sender mit RadioDroid</string>
-    <string name="settings_play_external_desc_on">Stationen mit externem Player abspielen</string>
+    <string name="settings_play_external_desc_off">Stationen werden mit RadioDroid abgespielt.</string>
+    <string name="settings_play_external_desc_on">Stationen werden mit einem externem Player abspielt.</string>
     <string name="settings_proxy_action_test">Prüfung</string>
     <string name="settings_proxy_login">Nutzername</string>
-    <string name="settings_proxy_not_working">Verbindung zu %s konnte nicht hergestellt werden \n%s</string>
+    <string name="settings_proxy_not_working">Die Verbindung zu %s konnte nicht hergestellt werden \n%s.</string>
     <string name="settings_proxy_password">Passwort</string>
     <string name="settings_proxy_working">Erfolgreich verbunden mit %s</string>
     <string name="settings_radiobrowser_servers">RadioBrowser-Server</string>
