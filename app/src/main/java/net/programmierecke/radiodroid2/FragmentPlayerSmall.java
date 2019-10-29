@@ -50,6 +50,8 @@ public class FragmentPlayerSmall extends Fragment {
     private ImageButton buttonPlay;
     private ImageButton buttonMore;
 
+    private boolean firstPlayAttempted = false;
+
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -71,6 +73,9 @@ public class FragmentPlayerSmall extends Fragment {
                     }
                     case PlayerService.PLAYER_SERVICE_META_UPDATE: {
                         fullUpdate();
+                    }
+                    case PlayerService.PLAYER_SERVICE_BOUND: {
+                        tryPlayAtStart();
                     }
                 }
             }
@@ -128,7 +133,7 @@ public class FragmentPlayerSmall extends Fragment {
             }
         });
 
-        setSetLastStationFromHistory(PreferenceManager.getDefaultSharedPreferences(requireContext().getApplicationContext()).getBoolean("auto_play_on_startup", false));
+        tryPlayAtStart();
         fullUpdate();
         setupStationIcon();
     }
@@ -141,6 +146,7 @@ public class FragmentPlayerSmall extends Fragment {
 
         filter.addAction(PlayerService.PLAYER_SERVICE_STATE_CHANGE);
         filter.addAction(PlayerService.PLAYER_SERVICE_META_UPDATE);
+        filter.addAction(PlayerService.PLAYER_SERVICE_BOUND);
 
         LocalBroadcastManager.getInstance(requireContext()).registerReceiver(updateUIReceiver, filter);
     }
@@ -176,6 +182,21 @@ public class FragmentPlayerSmall extends Fragment {
                 Utils.Play(radioDroidApp, lastStation);
             }
         }
+    }
+
+    private void tryPlayAtStart() {
+        boolean play = false;
+
+        if (!firstPlayAttempted && PlayerServiceUtil.isServiceBound()) {
+            firstPlayAttempted = true;
+
+            if (!PlayerServiceUtil.isPlaying()) {
+                SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(requireContext().getApplicationContext());
+                play = sharedPreferences.getBoolean("auto_play_on_startup", false);
+            }
+        }
+
+        setSetLastStationFromHistory(play);
     }
 
     private void setupStationIcon() {
@@ -287,11 +308,7 @@ public class FragmentPlayerSmall extends Fragment {
                 return;
             }
 
-            SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(ctx.getApplicationContext());
-
-            if (sharedPreferences.getBoolean("auto_play_on_startup", false)) {
-                setSetLastStationFromHistory(true);
-            }
+            tryPlayAtStart();
         }
 
         @Override
