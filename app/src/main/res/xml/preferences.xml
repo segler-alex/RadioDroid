@@ -53,13 +53,6 @@
 
         <CheckBoxPreference
             android:defaultValue="true"
-            android:key="auto_play_on_startup"
-            android:summaryOff="@string/settings_auto_play_on_startup_off"
-            android:summaryOn="@string/settings_auto_play_on_startup_on"
-            android:title="@string/settings_auto_play_on_startup" />
-
-        <CheckBoxPreference
-            android:defaultValue="true"
             android:key="load_icons"
             android:summaryOff="@string/settings_load_icons_off"
             android:summaryOn="@string/settings_load_icons_on"
@@ -106,6 +99,13 @@
     <PreferenceScreen android:title="@string/settings_play"
         search:ignore="true"
         android:key="pref_category_player">
+
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="auto_play_on_startup"
+            android:summaryOff="@string/settings_auto_play_on_startup_off"
+            android:summaryOn="@string/settings_auto_play_on_startup_on"
+            android:title="@string/settings_auto_play_on_startup" />
 
         <CheckBoxPreference
             android:disableDependentsState="true"
