@@ -98,7 +98,7 @@
     <string name="settings_show_broken_on">Show broken stations in lists</string>
     <string name="settings_show_broken_off">Do not show broken stations in lists</string>
 
-    <string name="settings_startup_behaviour">Startup Behaviour</string>
+    <string name="settings_startup_behaviour">Start Behavior</string>
     <string name="startup_action_title">Start action</string>
     <string name="startup_action_title_desc">%s</string>
     <string name="startup_show_all_stations">Show all stations</string>

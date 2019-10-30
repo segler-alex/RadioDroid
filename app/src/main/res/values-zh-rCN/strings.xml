@@ -98,6 +98,7 @@
     <string name="settings_show_broken_on">在列表中显示无效电台</string>
     <string name="settings_show_broken_off">不在列表中显示无效电台</string>
 
+    <string name="settings_startup_behaviour">启动行为</string>
     <string name="startup_action_title">启动时</string>
     <string name="startup_action_title_desc">%s</string>
     <string name="startup_show_all_stations">显示所有电台</string>
