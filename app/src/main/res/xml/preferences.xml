@@ -58,8 +58,8 @@
             android:summaryOn="@string/settings_auto_play_on_startup_on"
             android:title="@string/settings_auto_play_on_startup" />
 
-
     </PreferenceScreen>
+
     <PreferenceScreen android:title="@string/settings_interaction"
         search:ignore="true"
         android:key="pref_category_interaction">
