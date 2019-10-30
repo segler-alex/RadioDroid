@@ -64,11 +64,18 @@
     <string name="settings_show_broken_on">Alle Stationen werden angezeigt, auch nicht funktionierende.</string>
     <string name="settings_show_broken_off">Es werden nur funktionierende Stationen angezeigt, nicht funktionierende werden unterdrückt.</string>
 
+    <string name="settings_startup_behaviour">Startverhalten</string>
+
     <string name="startup_action_title">Startverhalten der Anzeige</string>
     <string name="startup_show_all_stations">Starte mit der Listenansicht aller verfügbaren Stationen.</string>
     <string name="startup_show_favorites">Starte mit der Favoritenliste.</string>
     <string name="startup_show_history">Starte mit der Liste der bisher gespielten Stationen.</string>
     <string name="startup_show_last_view">Starte mit der letzten Ansicht.</string>
+
+    <string name="settings_auto_play_on_startup">Startverhalten des Abspielers</string>
+    <string name="settings_auto_play_on_startup_off">Die App startet still (die zuletzt gehörte Station wird nicht automatisch abgespielt).</string>
+    <string name="settings_auto_play_on_startup_on">Die zuletzt gehörte Station wird beim Start sofort abgespielt.</string>
+
 
     <string name="settings_load_icons">Stationslogos</string>
     <string name="settings_load_icons_on">Die Stationslogos werden im Hintergrund heruntergeladen; es kann einige Zeit dauern, bis alle Logos angezeigt werden.</string>
@@ -202,9 +209,6 @@
     <string name="refresh">Aktualisierung</string>
     <string name="settings_alarm_external_desc_off">Den Alarm mit RadioDroid abspielen.</string>
     <string name="settings_alarm_external_desc_on">Den Alarm mit einer externen Standard-App abspielen.</string>
-    <string name="settings_auto_play_on_startup">Startverhalten des Abspielers</string>
-    <string name="settings_auto_play_on_startup_off">Die App startet still: die zuletzt gehörte Station wird nicht automatisch abgespielt.</string>
-    <string name="settings_auto_play_on_startup_on">Die zuletzt gehörte Station wird beim Start sofort abgespielt.</string>
     <string name="settings_bottom_navigation">Navigation unten</string>
     <string name="settings_click_trend_icon_visible">Trendsymbolanzeige</string>
     <string name="settings_click_trend_icon_visible_off">Es werden keine Trendsymbole angezeigt.</string>
