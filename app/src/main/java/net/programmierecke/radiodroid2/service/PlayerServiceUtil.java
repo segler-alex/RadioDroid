@@ -14,6 +14,7 @@ import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.NetworkPolicy;
@@ -81,6 +82,10 @@ public class PlayerServiceUtil {
                     Log.d("PLAYER", "Service came online");
                 }
                 itsPlayerService = IPlayerService.Stub.asInterface(binder);
+
+                Intent local = new Intent();
+                local.setAction(PlayerService.PLAYER_SERVICE_BOUND);
+                LocalBroadcastManager.getInstance(mainContext).sendBroadcast(local);
             }
 
             public void onServiceDisconnected(ComponentName className) {
@@ -90,6 +95,10 @@ public class PlayerServiceUtil {
                 unBind(mainContext);
             }
         };
+    }
+
+    public static boolean isServiceBound() {
+        return itsPlayerService != null;
     }
 
     public static boolean isPlaying() {

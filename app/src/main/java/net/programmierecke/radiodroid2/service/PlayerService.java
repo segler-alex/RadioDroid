@@ -76,6 +76,8 @@ public class PlayerService extends Service implements RadioPlayer.PlayerListener
     public static final String PLAYER_SERVICE_STATE_CHANGE = "net.programmierecke.radiodroid2.statechange";
     public static final String PLAYER_SERVICE_STATE_EXTRA_KEY = "state";
 
+    public static final String PLAYER_SERVICE_BOUND = "net.programmierecke.radiodroid2.playerservicebound";
+
     private final String TAG = "PLAY";
 
     private final String ACTION_PAUSE = "pause";
