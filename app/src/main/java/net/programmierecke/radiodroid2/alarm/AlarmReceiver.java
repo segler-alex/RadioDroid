@@ -204,7 +204,6 @@ public class AlarmReceiver extends BroadcastReceiver {
         }.execute();
     }
 
-    int currentVolume;
     int minVolume;
     private void graduallyIncreaseAlarmVolume(final Context context, boolean checkIfPlaying) {
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
@@ -225,13 +224,13 @@ public class AlarmReceiver extends BroadcastReceiver {
         }
 
         int volumeRange = originalVolume - minVolume;
-        currentVolume = minVolume;
 
         audioManager.setStreamVolume(AudioManager.STREAM_ALARM, minVolume, 0);
 
         long triggerMillis = System.currentTimeMillis();
         Handler handler = new Handler();
         Runnable runnable = new Runnable() {
+            int currentVolume = minVolume;
             @Override
             public void run() {
                 if(BuildConfig.DEBUG) { Log.d(TAG, "Increase volume loop"); }
