@@ -25,37 +25,6 @@
         <item>60</item>
     </string-array>
 
-    <string-array name="gradually_increase_volume" translatable="true" >
-        <item>Never</item>
-        <item>10 seconds</item>
-        <item>20 seconds</item>
-        <item>30 seconds</item>
-        <item>40 seconds</item>
-        <item>50 seconds</item>
-        <item>1 minute</item>
-        <item>1 minute 10 seconds</item>
-        <item>1 minute 20 seconds</item>
-        <item>1 minute 30 seconds</item>
-        <item>1 minute 40 seconds</item>
-        <item>1 minute 50 seconds</item>
-        <item>2 minutes</item>
-    </string-array>
-    <string-array name="gradually_increase_volume_values" translatable="false" >
-        <item>0</item>
-        <item>10000</item>
-        <item>20000</item>
-        <item>30000</item>
-        <item>40000</item>
-        <item>50000</item>
-        <item>60000</item>
-        <item>70000</item>
-        <item>80000</item>
-        <item>90000</item>
-        <item>100000</item>
-        <item>110000</item>
-        <item>120000</item>
-    </string-array>
-
     <string-array name="startup_action_entries">
         <item>@string/startup_show_history</item>
         <item>@string/startup_show_favorites</item>

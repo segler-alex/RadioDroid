@@ -208,7 +208,7 @@ public class AlarmReceiver extends BroadcastReceiver {
     int minVolume;
     private void graduallyIncreaseAlarmVolume(final Context context, boolean checkIfPlaying) {
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
-        int slowWakeMillis = Integer.parseInt(sharedPref.getString("gradually_increase_volume", "0"));
+        int slowWakeMillis = sharedPref.getInt("gradually_increase_volume", 0) * 1000;
 
         AudioManager audioManager = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
         int originalVolume = audioManager.getStreamVolume(AudioManager.STREAM_ALARM);

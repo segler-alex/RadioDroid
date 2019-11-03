@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:title="@string/nav_item_settings"
     android:key="pref_toplevel"
     xmlns:search="http://schemas.android.com/apk/com.bytehamster.lib.preferencesearch">
@@ -158,13 +159,14 @@
             search:summary=""
             android:title="@string/settings_alarm_sleep_timer" />
 
-        <ListPreference
+        <SeekBarPreference
+            android:id="@+id/gradually_increase_volume"
             android:defaultValue="0"
+            app:min="0"
+            android:max="120"
             android:dependency="gradually_increase_volume"
-            android:entries="@array/gradually_increase_volume"
-            android:entryValues="@array/gradually_increase_volume_values"
             android:key="gradually_increase_volume"
-            android:summary="@string/settings_alarm_gradually_increase_volume_desc"
+            android:summary=""
             search:summary=""
             android:title="@string/settings_alarm_gradually_increase_volume" />
 
