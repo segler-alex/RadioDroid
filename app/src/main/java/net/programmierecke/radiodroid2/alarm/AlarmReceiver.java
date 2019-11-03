@@ -218,7 +218,6 @@ public class AlarmReceiver extends BroadcastReceiver {
     private void PlaySystemAlarm(Context context) {
         if(BuildConfig.DEBUG) { Log.d(TAG, "Starting system alarm"); }
 
-        //Define sound URI
         Uri soundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
 
         // Create the NotificationChannel, but only on API 26+ because
@@ -242,7 +241,6 @@ public class AlarmReceiver extends BroadcastReceiver {
             notificationManager.createNotificationChannel(channel);
         }
 
-        //Define Notification Manager
         NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
 
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context, BACKUP_NOTIFICATION_NAME)
@@ -253,7 +251,6 @@ public class AlarmReceiver extends BroadcastReceiver {
                 .setSound(soundUri)
                 .setAutoCancel(true);
 
-        //Display notification
         notificationManager.notify(BACKUP_NOTIFICATION_ID, mBuilder.build());
     }
 }
