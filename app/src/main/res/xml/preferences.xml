@@ -158,6 +158,16 @@
             search:summary=""
             android:title="@string/settings_alarm_sleep_timer" />
 
+        <ListPreference
+            android:defaultValue="0"
+            android:dependency="gradually_increase_volume"
+            android:entries="@array/gradually_increase_volume"
+            android:entryValues="@array/gradually_increase_volume_values"
+            android:key="gradually_increase_volume"
+            android:summary="@string/settings_alarm_gradually_increase_volume_desc"
+            search:summary=""
+            android:title="@string/settings_alarm_gradually_increase_volume" />
+
     </PreferenceScreen>
 
     <PreferenceScreen android:title="@string/settings_recordings"
