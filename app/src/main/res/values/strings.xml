@@ -295,4 +295,8 @@
     <string name="nav_item_statistics">Statistics</string>
     <string name="nav_item_about">About</string>
     <string name="refresh">Refresh</string>
+
+    <string name="alarm_backup">Backup Alarm</string>
+    <string name="alarm_fallback_info">Using system alarm as selected radio station failed to load</string>
+    <string name="alarm_back_desc">Backup system alarm for when the radio station fails to load</string>
 </resources>
