@@ -224,10 +224,7 @@ public class RadioAlarmManager {
                     + " " + calendar.get(Calendar.HOUR_OF_DAY) + ":" + calendar.get(Calendar.MINUTE)
             );
 
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                if(BuildConfig.DEBUG) { Log.d("ALARM","START setExactAndAllowWhileIdle"); }
-                alarmMgr.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP,calendar.getTimeInMillis(),alarmIntent);
-            }else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 if(BuildConfig.DEBUG) { Log.d("ALARM","START setAlarmClock"); }
                 alarmMgr.setAlarmClock(new AlarmManager.AlarmClockInfo(calendar.getTimeInMillis(),alarmIntent),alarmIntent);
             }else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
