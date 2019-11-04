@@ -127,7 +127,7 @@ public class FragmentSettings extends PreferenceFragmentCompat implements Shared
             int graduallyIncreaseVolume = getPreferenceManager().getSharedPreferences().getInt("gradually_increase_volume", 0);
             findPreference("gradually_increase_volume").setSummary(getResources().getQuantityString(R.plurals.settings_alarm_gradually_increase_volume_desc, graduallyIncreaseVolume, graduallyIncreaseVolume));
             findPreference("gradually_increase_volume").setOnPreferenceChangeListener((preference, newValue) -> {
-                final int scrubberValue = Integer.valueOf(String.valueOf(newValue));
+                final int scrubberValue = Integer.valueOf(String.valueOf(newValue)) * 10;
                 preference.setSummary(getResources().getQuantityString(R.plurals.settings_alarm_gradually_increase_volume_desc, scrubberValue, scrubberValue));
                 return true;
             });

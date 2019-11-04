@@ -163,7 +163,7 @@
             android:id="@+id/gradually_increase_volume"
             android:defaultValue="0"
             app:min="0"
-            android:max="120"
+            android:max="12"
             android:dependency="gradually_increase_volume"
             android:key="gradually_increase_volume"
             android:summary=""
