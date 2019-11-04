@@ -12,6 +12,15 @@
     <string name="detail_stop">Stop</string>
     <string name="detail_share">Dele</string>
 
+    <string name="action_links">Henvisninger</string>
+    <string name="action_homepage">Hjemmeside</string>
+    <string name="action_favorite">Favorit</string>
+    <string name="action_alarm">Alarm</string>
+
+    <string name="action_station_visit_website">Besøge netsted</string>
+    <string name="action_station_copy_stream_url">Kopiere strøm URL</string>
+    <string name="action_station_share">Dele</string>
+
     <string name="action_local">Lokal</string>
     <string name="action_skip_to_next">Næste</string>
     <string name="action_pause">Pause</string>
@@ -32,6 +41,9 @@
     <string name="action_tags">Mærker</string>
     <string name="action_countries">Lande</string>
     <string name="action_languages">Sprog</string>
+    <string name="action_edit">Redigere</string>
+    <string name="action_lyrics">Tekster</string>
+    <string name="action_copy_info">Kopi information</string>
     <string name="error_station_load">Kunne ikke forbinde til station</string>
     <string name="error_list_update">Kunne ikke forbinde til radio browser server</string>
 
@@ -42,7 +54,6 @@
     <string name="nav_item_history">Historik</string>
     <string name="nav_item_settings">Opsætning</string>
     <string name="nav_item_alarm">Alarm</string>
-    <string name="tab_player_recordings">Optagelser</string>
 
     <string name="about_text">Dette program bruger det åbne radio station bibliotek hos\nhttps://www.radio-browser.info\nEveryone can add stations to it or edit existing stations. It works like a wiki for online (streaming) radio stations.\n\nContact:\nsegler_alex@web.de\n\nBugtracker:\nhttps://github.com/segler-alex/RadioDroid/issues\n\nIf you like the software and want to help, feel free to send me an email. I really need someone with graphical experience to make the app nicer to the eye :) Maybe someone who can draw icons, images...but also programmers who fix bugs, or implement new ones (features not bugs ;)\nAlso ideas for new features are always appreciated!\n\nThis app is free software licensed under the GPLv3.\nhttps://www.gnu.org/licenses/gpl-3.0</string>
     <string name="about_version">Version: %1$s</string>
@@ -87,8 +98,9 @@
     <string name="settings_show_broken_on">Vis ugyldige stationer i lister</string>
     <string name="settings_show_broken_off">Vis ikke ugyldige stationer i lister</string>
 
+    <string name="settings_startup_behaviour">Start Behavior</string>
     <string name="startup_action_title">Start handling</string>
-    <string name="startup_action_title_desc">%s</string>
+   <string name="startup_action_title_desc">%s</string>
     <string name="startup_show_all_stations">Vis alle stationer</string>
     <string name="startup_show_favorites">Vis favoritter</string>
     <string name="startup_show_history">Vis historik</string>
@@ -148,6 +160,11 @@
     <string name="settings_recordings">Optagelser</string>
     <string name="settings_record_name_formatting">Navneformat</string>
 
+    <string name="settings_record_name_formatting_default" translatable="false">${station}_${artist}_${track}_${date}_${time}</string>
+    <string name="settings_record_name_formatting_1" translatable="false">${station}_${artist}_${track}</string>
+    <string name="settings_record_name_formatting_2" translatable="false">${station}_${date}_${time}</string>
+    <string name="settings_record_name_formatting_3" translatable="false">${index}_${station}_${date}</string>
+
     <string name="settings_record_name_formatting_default_display">station_kunstner_nummer_\u200bdato_\u200btidspunkt</string>
     <string name="settings_record_name_formatting_1_display">station_kunstner_\u200bnummer</string>
     <string name="settings_record_name_formatting_2_display">station_dato_\u200btidspunkt</string>
@@ -204,6 +221,10 @@
     <string name="player_info_transferred">Overført data: %1$s</string>
     <string name="player_info_recording_to">Optager til:\n%1$s</string>
     <string name="player_info_recorded_to">Sidte optagelse:\n%1$s</string>
+    <string name="tab_player_art">Album omslag</string>
+    <string name="tab_player_info">Information</string>
+    <string name="tab_player_history">Historik</string>
+    <string name="tab_player_recordings">Optagelser</string>
 
     <string name="station_detail_bitrate">%1$1d kbps</string>
     <string name="station_detail_broken">VIRKER IKKE</string>
@@ -232,12 +253,22 @@
     <string name="action_mpd_ok">MPD forbundet</string>
     <string name="action_mpd_connected">Forbundet til server: %1$s</string>
 
+    <string name="mpd_no_connection">Ingen forbindelse</string>
+    <string name="action_enable_mpd">Aktivere MPD</string>
+    <string name="action_disable_mpd">Deaktivere MPD</string>
+    <string name="action_add_mpd_server">Tilføje MPD server</string>
+
+    <string name="action_play_in_external">Afspil i ekstern afspiller</string>
+
     <string name="settings_radiobrowser_servers">RadioBrowser servere</string>
     <string name="settings_radiobrowser_servers_default">www.radio-browser.info/webservice</string>
 
     <string name="settings_other">Andet</string>
     <string name="settings_statistics">Statistikker</string>
     <string name="settings_about">Om RadioDroid</string>
+    <string name="description_btn_skip_to_next">Hop til næste</string>
+    <string name="description_btn_skip_to_previous">Hop til forrige</string>
+    <string name="description_btn_setup_alarm">Sætte alarm</string>
 
     <string-array name="weekdays">
         <item>S</item>
