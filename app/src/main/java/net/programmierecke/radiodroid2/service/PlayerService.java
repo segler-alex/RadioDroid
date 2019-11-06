@@ -157,6 +157,13 @@ public class PlayerService extends Service implements RadioPlayer.PlayerListener
         }
 
         @Override
+        public void SetVolume(float volume) {
+            if (radioPlayer != null) {
+                radioPlayer.setVolume(volume);
+            }
+        }
+
+        @Override
         public void addTimer(int secondsAdd) throws RemoteException {
             PlayerService.this.addTimer(secondsAdd);
         }
