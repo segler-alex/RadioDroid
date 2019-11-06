@@ -289,4 +289,8 @@
     <string name="nav_item_statistics">统计</string>
     <string name="nav_item_about">关于</string>
     <string name="refresh">刷新</string>
+
+    <string name="alarm_backup">备用闹钟</string>
+    <string name="alarm_fallback_info">所选电台载入失败，已使用系统闹钟</string>
+    <string name="alarm_back_desc">当电台载入失败时使用的备用系统闹钟</string>
 </resources>
