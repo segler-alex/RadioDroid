@@ -119,7 +119,6 @@ public class AlarmReceiver extends BroadcastReceiver {
             try {
                 station.playableUrl = url;
                 itsPlayerService.SetStation(station);
-                graduallyIncreaseAlarmVolume(itsPlayerService);
                 itsPlayerService.Play(true);
                 // default timeout 1 hour
                 itsPlayerService.addTimer(timeout*60);
@@ -192,6 +191,7 @@ public class AlarmReceiver extends BroadcastReceiver {
                         } else {
                             Intent anIntent = new Intent(context, PlayerService.class);
                             context.getApplicationContext().bindService(anIntent, svcConn, context.BIND_AUTO_CREATE);
+                            graduallyIncreaseAlarmVolume(context);
                             context.getApplicationContext().startService(anIntent);
                         }
                     } catch (Exception e) {
@@ -217,78 +217,77 @@ public class AlarmReceiver extends BroadcastReceiver {
         }.execute();
     }
 
-    private void graduallyIncreaseAlarmVolume(IPlayerService playerService) {
-        String foo = "VOLUME";
-//        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
-//        int slowWakeMillis = sharedPref.getInt("gradually_increase_volume", 0) * 10000;
-        int slowWakeMillis = 120000;
+    private void setAlarmVolume(float volume) {
+        try {
+            if (BuildConfig.DEBUG) { Log.d(TAG, "Setting volume to "+volume); }
+            itsPlayerService.SetVolume(volume);
+        } catch (Exception e) {
+            Log.e(TAG, "Couldn't set volume "+e);
+        }
+    }
+
+    private void graduallyIncreaseAlarmVolume(Context context) {
+        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
+        int slowWakeMillis = sharedPref.getInt("gradually_increase_volume", 0) * 10000;
 
         if (slowWakeMillis == 0) {
-            if (BuildConfig.DEBUG) { Log.d(foo, "Gradual alarm volume disabled"); }
+            if (BuildConfig.DEBUG) { Log.d(TAG, "Gradual alarm volume disabled"); }
             return;
         }
 
         float maxVolume = 100f;
         float minVolume = 0f;
         float volumeRange = maxVolume - minVolume;
+        long triggerMillis = System.currentTimeMillis();
+        int streamReadTimeout = sharedPref.getInt("stream_read_timeout", 10) * 10000;
+
+        setAlarmVolume(minVolume);
 
         Handler handler = new Handler();
         Runnable runnable = new Runnable() {
-            long triggerMillis = 0;
-            long elapsedMillis = 0;
+            boolean isPlaying = false;
+            long playStatedMillis = 0;
             float currentVolume = minVolume;
             @Override
             public void run() {
-                if(BuildConfig.DEBUG) { Log.d(foo, "Increase volume loop"); }
+                if(BuildConfig.DEBUG) { Log.d(TAG, "Increase volume loop"); }
 
-                boolean isPlaying;
+                long totalElapsedMillis = System.currentTimeMillis() - triggerMillis;
+
                 try {
-                    isPlaying = playerService.isPlaying();
+                    isPlaying = itsPlayerService.isPlaying();
                 } catch (Exception e) {
-                    if (BuildConfig.DEBUG) { Log.d(foo, "Couldn't get isPlaying"); }
-                    isPlaying = false;
+                    if (BuildConfig.DEBUG) { Log.d(TAG, "Couldn't get isPlaying"); }
                 }
 
-                if (elapsedMillis > 30000 && !isPlaying) {
-                    if (BuildConfig.DEBUG) { Log.d(foo, "No longer playing stopping loop"); }
-                    handler.removeCallbacks(this);
-                    return;
-                } else if (!isPlaying) {
-                    elapsedMillis = System.currentTimeMillis() - triggerMillis;
-                    handler.postDelayed(this, 1000);
-                } else {
-                    if (triggerMillis == 0) {
-                        triggerMillis = System.currentTimeMillis();
-                        try {
-                            if (BuildConfig.DEBUG) { Log.d(foo, "Setting volume to "+minVolume); }
-                            playerService.SetVolume(minVolume);
-                        } catch (Exception e) {
-                            Log.e(foo, "Couldn't set volume "+e);
-                        }
+                if (isPlaying) {
+                    if (playStatedMillis == 0) {
+                        playStatedMillis = System.currentTimeMillis();
+                        setAlarmVolume(minVolume);
                     }
 
-                    elapsedMillis = System.currentTimeMillis() - triggerMillis;
-
+                    long elapsedMillis = System.currentTimeMillis() - playStatedMillis;
                     float slowWakeProgress = (float) elapsedMillis / slowWakeMillis;
 
                     if (currentVolume < maxVolume) {
                         float newVolume = minVolume + Math.min(maxVolume, slowWakeProgress * volumeRange);
                         if (newVolume != currentVolume) {
-                            try {
-                                newVolume = newVolume / 100;
-                                if (BuildConfig.DEBUG) {
-                                    Log.d(foo, "Setting volume to " + newVolume);
-                                }
-                                itsPlayerService.SetVolume(newVolume);
-                            } catch (Exception e) {
-                                Log.e(foo, "Couldn't set volume " + e);
-                            }
+                            setAlarmVolume(newVolume / 100);
                             currentVolume = newVolume;
                         }
                         handler.postDelayed(this, 1000);
                     } else {
+                        if (BuildConfig.DEBUG) { Log.d(TAG, "Volume 100% - stopping loop"); }
                         handler.removeCallbacks(this);
                     }
+                } else if (playStatedMillis > 0) {
+                    if (BuildConfig.DEBUG) { Log.d(TAG, "No longer playing - stopping loop"); }
+                    handler.removeCallbacks(this);
+                } else if (totalElapsedMillis > streamReadTimeout) {
+                    if (BuildConfig.DEBUG) { Log.d(TAG, "Waiting for playback to start has exceeded streamReadTimeout - stopping"); }
+                    handler.removeCallbacks(this);
+                } else {
+                    handler.postDelayed(this, 1000);
                 }
             }
         };
