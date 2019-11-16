@@ -131,6 +131,7 @@
         android:layout_height="wrap_content"
         android:background="?attr/menuBottomBackgroundColor"
         app:itemBackground="?attr/selectableItemBackgroundBorderless"
+        app:itemHorizontalTranslationEnabled="true"
         app:itemIconTint="@color/menu_bottom_text_color"
         app:itemTextColor="@color/menu_bottom_text_color"
         app:menu="@menu/menu_bottom_navigation" />
