@@ -129,8 +129,8 @@
     <string name="settings_alarm_audio_player">Audio player</string>
     <string name="settings_alarm_sleep_timer">Sleep timer</string>
     <string name="settings_alarm_sleep_timer_desc">Stop playing after %1$s minutes</string>
-    <string name="settings_alarm_gradually_increase_volume">Gradually increase volume</string>
-    <plurals name="settings_alarm_gradually_increase_volume_desc">
+    <string name="settings_alarm_gradually_increase_volume_seconds">Gradually increase volume</string>
+    <plurals name="settings_alarm_gradually_increase_volume_seconds_desc">
         <item quantity="one">Over %d second</item>
         <item quantity="other">Over %d seconds</item>
     </plurals>

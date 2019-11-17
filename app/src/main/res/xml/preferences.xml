@@ -160,15 +160,15 @@
             android:title="@string/settings_alarm_sleep_timer" />
 
         <SeekBarPreference
-            android:id="@+id/gradually_increase_volume"
+            android:id="@+id/gradually_increase_volume_seconds"
             android:defaultValue="0"
             app:min="0"
             android:max="12"
-            android:dependency="gradually_increase_volume"
-            android:key="gradually_increase_volume"
+            android:dependency="gradually_increase_volume_seconds"
+            android:key="gradually_increase_volume_seconds"
             android:summary=""
             search:summary=""
-            android:title="@string/settings_alarm_gradually_increase_volume" />
+            android:title="@string/settings_alarm_gradually_increase_volume_seconds" />
 
     </PreferenceScreen>
 

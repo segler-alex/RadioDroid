@@ -124,11 +124,11 @@ public class FragmentSettings extends PreferenceFragmentCompat implements Shared
                 }
             });
         } else if (s.equals("pref_category_alarm")) {
-            int graduallyIncreaseVolume = getPreferenceManager().getSharedPreferences().getInt("gradually_increase_volume", 0) * 10;
-            findPreference("gradually_increase_volume").setSummary(getResources().getQuantityString(R.plurals.settings_alarm_gradually_increase_volume_desc, graduallyIncreaseVolume, graduallyIncreaseVolume));
-            findPreference("gradually_increase_volume").setOnPreferenceChangeListener((preference, newValue) -> {
+            int graduallyIncreaseVolume = getPreferenceManager().getSharedPreferences().getInt("gradually_increase_volume_seconds", 0) * 10;
+            findPreference("gradually_increase_volume_seconds").setSummary(getResources().getQuantityString(R.plurals.settings_alarm_gradually_increase_volume_seconds_desc, graduallyIncreaseVolume, graduallyIncreaseVolume));
+            findPreference("gradually_increase_volume_seconds").setOnPreferenceChangeListener((preference, newValue) -> {
                 final int scrubberValue = Integer.valueOf(String.valueOf(newValue)) * 10;
-                preference.setSummary(getResources().getQuantityString(R.plurals.settings_alarm_gradually_increase_volume_desc, scrubberValue, scrubberValue));
+                preference.setSummary(getResources().getQuantityString(R.plurals.settings_alarm_gradually_increase_volume_seconds_desc, scrubberValue, scrubberValue));
                 return true;
             });
         } else if (s.equals("pref_category_connectivity")) {

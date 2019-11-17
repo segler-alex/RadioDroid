@@ -217,62 +217,74 @@ public class AlarmReceiver extends BroadcastReceiver {
         }.execute();
     }
 
-    private void setAlarmVolume(float volume) {
+    private void setAlarmVolume(float volume, Context context) {
+        if (BuildConfig.DEBUG) { Log.d(TAG, "Setting volume to " + volume); }
         try {
-            if (BuildConfig.DEBUG) { Log.d(TAG, "Setting volume to "+volume); }
-            itsPlayerService.SetVolume(volume);
+            if (itsPlayerService.isPlaying()) {
+                try {
+                    itsPlayerService.SetVolume(volume);
+                } catch (Exception e) {
+                    Log.e(TAG, "Couldn't set volume", e);
+                    PlaySystemAlarm(context);
+                }
+            }
         } catch (Exception e) {
-            Log.e(TAG, "Couldn't set volume "+e);
+            if (BuildConfig.DEBUG) { Log.e(TAG, "Couldn't get isPlaying", e); }
         }
     }
 
     private void graduallyIncreaseAlarmVolume(Context context) {
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
-        int slowWakeMillis = sharedPref.getInt("gradually_increase_volume", 0) * 10000;
+        int slowWakeMillis = sharedPref.getInt("gradually_increase_volume_seconds", 0) * 1000;
 
         if (slowWakeMillis == 0) {
             if (BuildConfig.DEBUG) { Log.d(TAG, "Gradual alarm volume disabled"); }
             return;
         }
 
-        float maxVolume = 100f;
+        float maxVolume = 1f;
         float minVolume = 0f;
-        float volumeRange = maxVolume - minVolume;
         long triggerMillis = System.currentTimeMillis();
-        int streamReadTimeout = sharedPref.getInt("stream_read_timeout", 10) * 10000;
+        int streamReadTimeout = sharedPref.getInt("stream_read_timeout", 10) * 1000;
 
-        setAlarmVolume(minVolume);
+        setAlarmVolume(minVolume, context);
 
         Handler handler = new Handler();
         Runnable runnable = new Runnable() {
             boolean isPlaying = false;
-            long playStatedMillis = 0;
+            boolean hasAudioPlaybackStarted = false;
+            long playStartedMillis = 0;
             float currentVolume = minVolume;
+            int i = 0;
             @Override
             public void run() {
-                if(BuildConfig.DEBUG) { Log.d(TAG, "Increase volume loop"); }
+                i++;
+                if(BuildConfig.DEBUG) { Log.d(TAG, "Increase volume loop "+i); }
 
-                long totalElapsedMillis = System.currentTimeMillis() - triggerMillis;
+                long currentMillis = System.currentTimeMillis();
+                long totalElapsedMillis = currentMillis - triggerMillis;
 
                 try {
                     isPlaying = itsPlayerService.isPlaying();
-                } catch (Exception e) {
-                    if (BuildConfig.DEBUG) { Log.d(TAG, "Couldn't get isPlaying"); }
+                } catch (Exception ignore) {}
+
+                if (playStartedMillis == 0 && isPlaying) {
+                    playStartedMillis = currentMillis;
+                    setAlarmVolume(minVolume, context);
                 }
 
-                if (isPlaying) {
-                    if (playStatedMillis == 0) {
-                        playStatedMillis = System.currentTimeMillis();
-                        setAlarmVolume(minVolume);
-                    }
+                try {
+                    hasAudioPlaybackStarted = itsPlayerService.hasPlaybackStarted();
+                } catch (Exception ignore) {}
 
-                    long elapsedMillis = System.currentTimeMillis() - playStatedMillis;
-                    float slowWakeProgress = (float) elapsedMillis / slowWakeMillis;
+                if (hasAudioPlaybackStarted) {
+                    long elapsedMillis = currentMillis - playStartedMillis;
+                    float slowWakeProgress = (float) (elapsedMillis / slowWakeMillis) / 10;
 
                     if (currentVolume < maxVolume) {
-                        float newVolume = minVolume + Math.min(maxVolume, slowWakeProgress * volumeRange);
+                        float newVolume = Math.min(slowWakeProgress, maxVolume);
                         if (newVolume != currentVolume) {
-                            setAlarmVolume(newVolume / 100);
+                            setAlarmVolume(newVolume, context);
                             currentVolume = newVolume;
                         }
                         handler.postDelayed(this, 1000);
@@ -280,11 +292,17 @@ public class AlarmReceiver extends BroadcastReceiver {
                         if (BuildConfig.DEBUG) { Log.d(TAG, "Volume 100% - stopping loop"); }
                         handler.removeCallbacks(this);
                     }
-                } else if (playStatedMillis > 0) {
+                } else if (!isPlaying && playStartedMillis > 0) {
                     if (BuildConfig.DEBUG) { Log.d(TAG, "No longer playing - stopping loop"); }
                     handler.removeCallbacks(this);
                 } else if (totalElapsedMillis > streamReadTimeout) {
                     if (BuildConfig.DEBUG) { Log.d(TAG, "Waiting for playback to start has exceeded streamReadTimeout - stopping"); }
+                    try {
+                        itsPlayerService.Stop();
+                    } catch (Exception e) {
+                        if (BuildConfig.DEBUG) { Log.e(TAG, "Tried to stop stream, but failed with error:", e); }
+                    }
+                    PlaySystemAlarm(context);
                     handler.removeCallbacks(this);
                 } else {
                     handler.postDelayed(this, 1000);
