@@ -200,7 +200,7 @@
     <string name="image_button_record_request_permission">Berechtigungen für die Aufzeichnung anfordern</string>
     <string name="image_button_recordings">Aufnahmen</string>
     <string name="image_button_repeat">Wiederholen</string>
-    <string name="label_button_cancel">Stornieren</string>
+    <string name="label_button_cancel">Abbrechen</string>
     <string name="label_button_overwrite">Überschreiben</string>
     <string name="nav_item_about">Über</string>
     <string name="nav_item_statistics">Statistiken</string>
