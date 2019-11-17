@@ -67,8 +67,8 @@
     <string name="sleep_timer_clear">Clear</string>
     <string name="nav_item_add_sleep">Sleep timer</string>
 
-    <string name="nav_item_save_playlist">Save to playlist</string>
-    <string name="nav_item_load_playlist">Load from playlist</string>
+    <string name="nav_item_save_playlist">Export favorites as a playlist</string>
+    <string name="nav_item_load_playlist">Import favorites from a playlist</string>
     <string name="confirm_overwrite_file">Overwrite the file?</string>
     <string name="dialog_hint_file_name">Enter file name</string>
     <string name="error_empty_field">This field is required</string>
