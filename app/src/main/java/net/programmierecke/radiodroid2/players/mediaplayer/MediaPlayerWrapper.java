@@ -10,10 +10,10 @@ import androidx.annotation.NonNull;
 
 import net.programmierecke.radiodroid2.BuildConfig;
 import net.programmierecke.radiodroid2.R;
+import net.programmierecke.radiodroid2.players.PlayState;
 import net.programmierecke.radiodroid2.station.live.ShoutcastInfo;
 import net.programmierecke.radiodroid2.station.live.StreamLiveInfo;
 import net.programmierecke.radiodroid2.players.PlayerWrapper;
-import net.programmierecke.radiodroid2.players.RadioPlayer;
 import net.programmierecke.radiodroid2.recording.RecordableListener;
 
 import java.io.IOException;
@@ -94,9 +94,9 @@ public class MediaPlayerWrapper implements PlayerWrapper, StreamProxyListener {
                 public void onPrepared(MediaPlayer mp) {
                     playerIsInLegalState.set(true);
 
-                    stateListener.onStateChanged(RadioPlayer.PlayState.PrePlaying);
+                    stateListener.onStateChanged(PlayState.PrePlaying);
                     mediaPlayer.start();
-                    stateListener.onStateChanged(RadioPlayer.PlayState.Playing);
+                    stateListener.onStateChanged(PlayState.Playing);
                 }
             });
         } catch (IllegalArgumentException e) {
@@ -118,7 +118,7 @@ public class MediaPlayerWrapper implements PlayerWrapper, StreamProxyListener {
                 mediaPlayer.stop();
                 mediaPlayer.reset();
 
-                stateListener.onStateChanged(RadioPlayer.PlayState.Paused);
+                stateListener.onStateChanged(PlayState.Paused);
             } else {
                 stop();
             }
@@ -142,7 +142,7 @@ public class MediaPlayerWrapper implements PlayerWrapper, StreamProxyListener {
             playerIsInLegalState.set(true);
         }
 
-        stateListener.onStateChanged(RadioPlayer.PlayState.Idle);
+        stateListener.onStateChanged(PlayState.Idle);
 
         stopProxy();
     }

@@ -1,5 +1,6 @@
 package net.programmierecke.radiodroid2;
 
+import net.programmierecke.radiodroid2.players.PlayState;
 import net.programmierecke.radiodroid2.station.DataRadioStation;
 import net.programmierecke.radiodroid2.station.live.StreamLiveInfo;
 import net.programmierecke.radiodroid2.station.live.ShoutcastInfo;
@@ -24,7 +25,7 @@ StreamLiveInfo getMetadataLive();
 ShoutcastInfo getShoutcastInfo();
 MediaSessionCompat.Token getMediaSessionToken();
 boolean isPlaying();
-String getPlayState();
+PlayState getPlayState();
 void startRecording();
 void stopRecording();
 boolean isRecording();

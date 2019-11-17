@@ -46,11 +46,11 @@ import com.google.android.exoplayer2.upstream.DefaultBandwidthMeter;
 
 import net.programmierecke.radiodroid2.R;
 import net.programmierecke.radiodroid2.Utils;
+import net.programmierecke.radiodroid2.players.PlayState;
 import net.programmierecke.radiodroid2.recording.RecordableListener;
 import net.programmierecke.radiodroid2.station.live.ShoutcastInfo;
 import net.programmierecke.radiodroid2.station.live.StreamLiveInfo;
 import net.programmierecke.radiodroid2.players.PlayerWrapper;
-import net.programmierecke.radiodroid2.players.RadioPlayer;
 
 import java.io.IOException;
 import java.util.Map;
@@ -113,7 +113,7 @@ public class ExoPlayerWrapper implements PlayerWrapper, IcyDataSource.IcyDataSou
         this.context = context;
         this.streamUrl = streamUrl;
 
-        stateListener.onStateChanged(RadioPlayer.PlayState.PrePlaying);
+        stateListener.onStateChanged(PlayState.PrePlaying);
 
         if (player != null) {
             player.stop();
@@ -248,7 +248,7 @@ public class ExoPlayerWrapper implements PlayerWrapper, IcyDataSource.IcyDataSou
     public void onDataSourceConnectionLostIrrecoverably() {
         Log.i(TAG, "Connection lost irrecoverably.");
 
-        stateListener.onStateChanged(RadioPlayer.PlayState.Idle);
+        stateListener.onStateChanged(PlayState.Idle);
         stateListener.onPlayerError(R.string.error_stream_reconnect_timeout);
 
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
@@ -353,7 +353,7 @@ public class ExoPlayerWrapper implements PlayerWrapper, IcyDataSource.IcyDataSou
 
             if(!interruptedByConnectionLoss) {
                 stop();
-                stateListener.onStateChanged(RadioPlayer.PlayState.Idle);
+                stateListener.onStateChanged(PlayState.Idle);
                 stateListener.onPlayerError(R.string.error_play_stream);
             }
         }
@@ -507,7 +507,7 @@ public class ExoPlayerWrapper implements PlayerWrapper, IcyDataSource.IcyDataSou
 
         @Override
         public void onAudioSessionId(EventTime eventTime, int audioSessionId) {
-            stateListener.onStateChanged(RadioPlayer.PlayState.Playing);
+            stateListener.onStateChanged(PlayState.Playing);
         }
 
         @Override

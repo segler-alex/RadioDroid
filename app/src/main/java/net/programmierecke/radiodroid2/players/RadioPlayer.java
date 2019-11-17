@@ -37,13 +37,6 @@ public class RadioPlayer implements PlayerWrapper.PlayListener, Recordable {
 
     final private String TAG = "RadioPlayer";
 
-    public enum PlayState {
-        Idle,
-        PrePlaying,
-        Playing,
-        Paused
-    }
-
     public interface PlayerListener {
         void onStateChanged(final PlayState status, final int audioSessionId);
 

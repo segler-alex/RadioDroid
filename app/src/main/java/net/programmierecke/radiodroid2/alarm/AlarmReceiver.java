@@ -30,6 +30,7 @@ import net.programmierecke.radiodroid2.IPlayerService;
 import net.programmierecke.radiodroid2.R;
 import net.programmierecke.radiodroid2.RadioDroidApp;
 import net.programmierecke.radiodroid2.Utils;
+import net.programmierecke.radiodroid2.players.PlayState;
 import net.programmierecke.radiodroid2.service.PlayerService;
 import net.programmierecke.radiodroid2.station.DataRadioStation;
 
@@ -288,7 +289,7 @@ public class AlarmReceiver extends BroadcastReceiver {
                             setAlarmVolume(minVolume);
                         }
 
-                        hasAudioPlaybackStarted = itsPlayerService.getPlayState() == "Playing";
+                        hasAudioPlaybackStarted = itsPlayerService.getPlayState() == PlayState.Playing;
                     }
 
                     if (hasAudioPlaybackStarted) {
