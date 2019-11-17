@@ -235,20 +235,12 @@ public class AlarmReceiver extends BroadcastReceiver {
         }.execute();
     }
 
-    private void setAlarmVolume(float volume, Context context) {
+    private void setAlarmVolume(float volume) throws RemoteException {
         if (BuildConfig.DEBUG) {
             Log.d(TAG, "Setting volume to " + volume);
         }
-        try {
-            if (itsPlayerService.isPlaying()) {
-                try {
-                    itsPlayerService.SetVolume(volume);
-                } catch (Exception e) {
-                    Log.e(TAG, "Couldn't set volume", e);
-                    PlaySystemAlarm(context);
-                }
-            }
-        } catch (Exception ignore) {
+        if (itsPlayerService.isPlaying()) {
+            itsPlayerService.SetVolume(volume);
         }
     }
 
@@ -268,8 +260,6 @@ public class AlarmReceiver extends BroadcastReceiver {
         long triggerMillis = System.currentTimeMillis();
         int streamReadTimeout = sharedPref.getInt("stream_read_timeout", 10) * 1000;
 
-        setAlarmVolume(minVolume, context);
-
         Handler handler = new Handler();
         Runnable runnable = new Runnable() {
             boolean isPlaying = false;
@@ -280,66 +270,65 @@ public class AlarmReceiver extends BroadcastReceiver {
 
             @Override
             public void run() {
-                i++;
-                if (BuildConfig.DEBUG) {
-                    Log.d(TAG, "Increase volume loop " + i);
-                }
-
-                long currentMillis = System.currentTimeMillis();
-                long totalElapsedMillis = currentMillis - triggerMillis;
-
                 try {
-                    isPlaying = itsPlayerService.isPlaying();
-                } catch (Exception ignore) {
-                }
+                    i++;
+                    if (BuildConfig.DEBUG) {
+                        Log.d(TAG, "Increase volume loop " + i);
+                    }
 
-                if (playStartedMillis == 0 && isPlaying) {
-                    playStartedMillis = currentMillis;
-                    setAlarmVolume(minVolume, context);
-                }
+                    long currentMillis = System.currentTimeMillis();
+                    long totalElapsedMillis = currentMillis - triggerMillis;
 
-                try {
-                    hasAudioPlaybackStarted = itsPlayerService.hasPlaybackStarted();
-                } catch (Exception ignore) {
-                }
+                    if (itsPlayerService != null) {
+                        isPlaying = itsPlayerService.isPlaying();
 
-                if (hasAudioPlaybackStarted) {
-                    long elapsedMillis = currentMillis - playStartedMillis;
-                    float slowWakeProgress = (float) (elapsedMillis / slowWakeMillis) / 10;
-
-                    if (currentVolume < maxVolume) {
-                        float newVolume = Math.min(slowWakeProgress, maxVolume);
-                        if (newVolume != currentVolume) {
-                            setAlarmVolume(newVolume, context);
-                            currentVolume = newVolume;
+                        if (isPlaying && playStartedMillis == 0) {
+                            playStartedMillis = currentMillis;
+                            setAlarmVolume(minVolume);
                         }
-                        handler.postDelayed(this, 1000);
-                    } else {
+
+                        hasAudioPlaybackStarted = itsPlayerService.getPlayState() == "Playing";
+                    }
+
+                    if (hasAudioPlaybackStarted) {
+                        long elapsedMillis = currentMillis - playStartedMillis;
+                        float slowWakeProgress = (float) (elapsedMillis / slowWakeMillis) / 10;
+
+                        if (currentVolume < maxVolume) {
+                            float newVolume = Math.min(slowWakeProgress, maxVolume);
+                            if (newVolume != currentVolume) {
+                                setAlarmVolume(newVolume);
+                                currentVolume = newVolume;
+                            }
+                            handler.postDelayed(this, 1000);
+                        } else {
+                            if (BuildConfig.DEBUG) {
+                                Log.d(TAG, "Volume 100% - stopping loop");
+                            }
+                            handler.removeCallbacks(this);
+                        }
+                    } else if (!isPlaying && playStartedMillis > 0) {
                         if (BuildConfig.DEBUG) {
-                            Log.d(TAG, "Volume 100% - stopping loop");
+                            Log.d(TAG, "No longer playing - stopping loop");
                         }
                         handler.removeCallbacks(this);
-                    }
-                } else if (!isPlaying && playStartedMillis > 0) {
-                    if (BuildConfig.DEBUG) {
-                        Log.d(TAG, "No longer playing - stopping loop");
-                    }
-                    handler.removeCallbacks(this);
-                } else if (totalElapsedMillis > streamReadTimeout) {
-                    if (BuildConfig.DEBUG) {
-                        Log.d(TAG, "Waiting for playback to start has exceeded streamReadTimeout - stopping");
-                    }
-                    try {
-                        itsPlayerService.Stop();
-                    } catch (Exception e) {
+                    } else if (totalElapsedMillis > streamReadTimeout) {
                         if (BuildConfig.DEBUG) {
-                            Log.e(TAG, "Tried to stop stream, but failed with error:", e);
+                            Log.d(TAG, "Waiting for playback to start has exceeded streamReadTimeout - stopping");
                         }
+
+                        itsPlayerService.Stop();
+                        PlaySystemAlarm(context);
+                        handler.removeCallbacks(this);
+                    } else {
+                        handler.postDelayed(this, 1000);
+                    }
+                } catch (Exception e) {
+                    if (BuildConfig.DEBUG) {
+                        Log.e(TAG, "Error in increase volume loop - stopping", e);
                     }
                     PlaySystemAlarm(context);
                     handler.removeCallbacks(this);
-                } else {
-                    handler.postDelayed(this, 1000);
                 }
             }
         };

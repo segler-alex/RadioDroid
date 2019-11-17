@@ -214,8 +214,8 @@ public class PlayerService extends Service implements RadioPlayer.PlayerListener
         }
 
         @Override
-        public boolean hasPlaybackStarted() {
-            return radioPlayer.getPlayState() == RadioPlayer.PlayState.Playing;
+        public String getPlayState() {
+            return radioPlayer.getPlayState().toString();
         }
 
         @Override

@@ -24,7 +24,7 @@ StreamLiveInfo getMetadataLive();
 ShoutcastInfo getShoutcastInfo();
 MediaSessionCompat.Token getMediaSessionToken();
 boolean isPlaying();
-boolean hasPlaybackStarted();
+String getPlayState();
 void startRecording();
 void stopRecording();
 boolean isRecording();
