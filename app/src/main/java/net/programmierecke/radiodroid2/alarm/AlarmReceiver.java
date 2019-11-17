@@ -38,6 +38,7 @@ import okhttp3.OkHttpClient;
 
 public class AlarmReceiver extends BroadcastReceiver {
     String url;
+    Context sharedContext;
     int alarmId;
     DataRadioStation station;
     PowerManager powerManager;
@@ -137,10 +138,12 @@ public class AlarmReceiver extends BroadcastReceiver {
                 station.playableUrl = url;
                 itsPlayerService.SetStation(station);
                 itsPlayerService.Play(true);
+                graduallyIncreaseAlarmVolume(sharedContext);
                 // default timeout 1 hour
                 itsPlayerService.addTimer(timeout * 60);
             } catch (RemoteException e) {
                 Log.e(TAG, "play error:" + e);
+                PlaySystemAlarm(sharedContext);
             }
 
             releaseLocks();
@@ -209,8 +212,8 @@ public class AlarmReceiver extends BroadcastReceiver {
                             }
                         } else {
                             Intent anIntent = new Intent(context, PlayerService.class);
+                            sharedContext = context;
                             context.getApplicationContext().bindService(anIntent, svcConn, Context.BIND_AUTO_CREATE);
-                            graduallyIncreaseAlarmVolume(context);
                             context.getApplicationContext().startService(anIntent);
                         }
                     } catch (Exception e) {
@@ -281,16 +284,15 @@ public class AlarmReceiver extends BroadcastReceiver {
                     long currentMillis = System.currentTimeMillis();
                     long totalElapsedMillis = currentMillis - triggerMillis;
 
-                    if (itsPlayerService != null) {
-                        isPlaying = itsPlayerService.isPlaying();
+                    isPlaying = itsPlayerService.isPlaying();
 
-                        if (isPlaying && playStartedMillis == 0) {
-                            playStartedMillis = currentMillis;
-                            setAlarmVolume(minVolume);
-                        }
-
-                        hasAudioPlaybackStarted = itsPlayerService.getPlayState() == PlayState.Playing;
+                    if (isPlaying && playStartedMillis == 0) {
+                        playStartedMillis = currentMillis;
+                        setAlarmVolume(minVolume);
                     }
+
+                    hasAudioPlaybackStarted = itsPlayerService.getPlayState() == PlayState.Playing;
+
 
                     if (hasAudioPlaybackStarted) {
                         long elapsedMillis = currentMillis - playStartedMillis;
