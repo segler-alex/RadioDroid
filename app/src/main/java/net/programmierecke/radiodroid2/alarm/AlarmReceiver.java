@@ -27,10 +27,10 @@ import androidx.preference.PreferenceManager;
 
 import net.programmierecke.radiodroid2.BuildConfig;
 import net.programmierecke.radiodroid2.IPlayerService;
-import net.programmierecke.radiodroid2.service.PlayerService;
 import net.programmierecke.radiodroid2.R;
 import net.programmierecke.radiodroid2.RadioDroidApp;
 import net.programmierecke.radiodroid2.Utils;
+import net.programmierecke.radiodroid2.service.PlayerService;
 import net.programmierecke.radiodroid2.station.DataRadioStation;
 
 import okhttp3.OkHttpClient;
@@ -48,24 +48,30 @@ public class AlarmReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        if(BuildConfig.DEBUG) { Log.d(TAG,"received broadcast"); }
+        if (BuildConfig.DEBUG) {
+            Log.d(TAG, "received broadcast");
+        }
         aquireLocks(context);
-        
+
         Toast toast = Toast.makeText(context, context.getResources().getText(R.string.alert_alarm_working), Toast.LENGTH_SHORT);
         toast.show();
 
-        alarmId = intent.getIntExtra("id",-1);
-        if(BuildConfig.DEBUG) { Log.d(TAG,"alarm id:"+alarmId); }
+        alarmId = intent.getIntExtra("id", -1);
+        if (BuildConfig.DEBUG) {
+            Log.d(TAG, "alarm id:" + alarmId);
+        }
 
-        RadioDroidApp radioDroidApp = (RadioDroidApp)context.getApplicationContext();
+        RadioDroidApp radioDroidApp = (RadioDroidApp) context.getApplicationContext();
         RadioAlarmManager ram = radioDroidApp.getAlarmManager();
         station = ram.getStation(alarmId);
         ram.resetAllAlarms();
 
         if (station != null && alarmId >= 0) {
-            if(BuildConfig.DEBUG) { Log.d(TAG,"radio id:"+alarmId); }
+            if (BuildConfig.DEBUG) {
+                Log.d(TAG, "radio id:" + alarmId);
+            }
             Play(context, station.StationUuid);
-        }else{
+        } else {
             toast = Toast.makeText(context, context.getResources().getText(R.string.alert_alarm_not_working), Toast.LENGTH_SHORT);
             toast.show();
         }
@@ -77,7 +83,9 @@ public class AlarmReceiver extends BroadcastReceiver {
             wakeLock = powerManager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "AlarmReceiver:");
         }
         if (!wakeLock.isHeld()) {
-            if(BuildConfig.DEBUG) { Log.d(TAG,"acquire wakelock"); }
+            if (BuildConfig.DEBUG) {
+                Log.d(TAG, "acquire wakelock");
+            }
             wakeLock.acquire();
         }
         WifiManager wm = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
@@ -90,11 +98,13 @@ public class AlarmReceiver extends BroadcastReceiver {
                 }
             }
             if (!wifiLock.isHeld()) {
-                if(BuildConfig.DEBUG) { Log.d(TAG,"acquire wifilock"); }
+                if (BuildConfig.DEBUG) {
+                    Log.d(TAG, "acquire wifilock");
+                }
                 wifiLock.acquire();
             }
-        }else{
-            Log.e(TAG,"could not acquire wifi lock");
+        } else {
+            Log.e(TAG, "could not acquire wifi lock");
         }
     }
 
@@ -102,35 +112,43 @@ public class AlarmReceiver extends BroadcastReceiver {
         if (wakeLock != null) {
             wakeLock.release();
             wakeLock = null;
-            if(BuildConfig.DEBUG) { Log.d(TAG,"release wakelock"); }
+            if (BuildConfig.DEBUG) {
+                Log.d(TAG, "release wakelock");
+            }
         }
         if (wifiLock != null) {
             wifiLock.release();
             wifiLock = null;
-            if(BuildConfig.DEBUG) { Log.d(TAG,"release wifilock"); }
+            if (BuildConfig.DEBUG) {
+                Log.d(TAG, "release wifilock");
+            }
         }
     }
 
     IPlayerService itsPlayerService;
     private ServiceConnection svcConn = new ServiceConnection() {
         public void onServiceConnected(ComponentName className, IBinder binder) {
-            if(BuildConfig.DEBUG) { Log.d(TAG, "Service came online"); }
+            if (BuildConfig.DEBUG) {
+                Log.d(TAG, "Service came online");
+            }
             itsPlayerService = IPlayerService.Stub.asInterface(binder);
             try {
                 station.playableUrl = url;
                 itsPlayerService.SetStation(station);
                 itsPlayerService.Play(true);
                 // default timeout 1 hour
-                itsPlayerService.addTimer(timeout*60);
+                itsPlayerService.addTimer(timeout * 60);
             } catch (RemoteException e) {
-                Log.e(TAG,"play error:"+e);
+                Log.e(TAG, "play error:" + e);
             }
 
             releaseLocks();
         }
 
         public void onServiceDisconnected(ComponentName className) {
-            if(BuildConfig.DEBUG) { Log.d(TAG, "Service offline"); }
+            if (BuildConfig.DEBUG) {
+                Log.d(TAG, "Service offline");
+            }
             itsPlayerService = null;
         }
     };
@@ -145,15 +163,15 @@ public class AlarmReceiver extends BroadcastReceiver {
             @Override
             protected String doInBackground(Void... params) {
                 String result = null;
-                for (int i=0;i<20;i++){
+                for (int i = 0; i < 20; i++) {
                     result = Utils.getRealStationLink(httpClient, context, stationId);
-                    if (result != null){
+                    if (result != null) {
                         return result;
                     }
                     try {
                         Thread.sleep(500);
                     } catch (InterruptedException e) {
-                        Log.e(TAG,"Play() "+e);
+                        Log.e(TAG, "Play() " + e);
                     }
                 }
                 return result;
@@ -166,18 +184,18 @@ public class AlarmReceiver extends BroadcastReceiver {
 
                     SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
                     boolean play_external = sharedPref.getBoolean("alarm_external", false);
-                    String packageName = sharedPref.getString("shareapp_package",null);
-                    String activityName = sharedPref.getString("shareapp_activity",null);
+                    String packageName = sharedPref.getString("shareapp_package", null);
+                    String activityName = sharedPref.getString("shareapp_activity", null);
                     try {
                         timeout = Integer.parseInt(sharedPref.getString("alarm_timeout", "10"));
-                    }catch(Exception e){
+                    } catch (Exception e) {
                         timeout = 10;
                     }
                     try {
-                        if (play_external && packageName != null && activityName != null){
+                        if (play_external && packageName != null && activityName != null) {
                             Intent share = new Intent(Intent.ACTION_VIEW);
                             share.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                            share.setClassName(packageName,activityName);
+                            share.setClassName(packageName, activityName);
                             share.setDataAndType(Uri.parse(url), "audio/*");
                             context.startActivity(share);
                             if (wakeLock != null) {
@@ -190,12 +208,12 @@ public class AlarmReceiver extends BroadcastReceiver {
                             }
                         } else {
                             Intent anIntent = new Intent(context, PlayerService.class);
-                            context.getApplicationContext().bindService(anIntent, svcConn, context.BIND_AUTO_CREATE);
+                            context.getApplicationContext().bindService(anIntent, svcConn, Context.BIND_AUTO_CREATE);
                             graduallyIncreaseAlarmVolume(context);
                             context.getApplicationContext().startService(anIntent);
                         }
                     } catch (Exception e) {
-                        Log.e(TAG, "Error starting alarm intent "+e);
+                        Log.e(TAG, "Error starting alarm intent " + e);
                         PlaySystemAlarm(context);
                     }
                 } else {
@@ -218,7 +236,9 @@ public class AlarmReceiver extends BroadcastReceiver {
     }
 
     private void setAlarmVolume(float volume, Context context) {
-        if (BuildConfig.DEBUG) { Log.d(TAG, "Setting volume to " + volume); }
+        if (BuildConfig.DEBUG) {
+            Log.d(TAG, "Setting volume to " + volume);
+        }
         try {
             if (itsPlayerService.isPlaying()) {
                 try {
@@ -228,8 +248,7 @@ public class AlarmReceiver extends BroadcastReceiver {
                     PlaySystemAlarm(context);
                 }
             }
-        } catch (Exception e) {
-            if (BuildConfig.DEBUG) { Log.e(TAG, "Couldn't get isPlaying", e); }
+        } catch (Exception ignore) {
         }
     }
 
@@ -238,7 +257,9 @@ public class AlarmReceiver extends BroadcastReceiver {
         int slowWakeMillis = sharedPref.getInt("gradually_increase_volume_seconds", 0) * 1000;
 
         if (slowWakeMillis == 0) {
-            if (BuildConfig.DEBUG) { Log.d(TAG, "Gradual alarm volume disabled"); }
+            if (BuildConfig.DEBUG) {
+                Log.d(TAG, "Gradual alarm volume disabled");
+            }
             return;
         }
 
@@ -256,17 +277,21 @@ public class AlarmReceiver extends BroadcastReceiver {
             long playStartedMillis = 0;
             float currentVolume = minVolume;
             int i = 0;
+
             @Override
             public void run() {
                 i++;
-                if(BuildConfig.DEBUG) { Log.d(TAG, "Increase volume loop "+i); }
+                if (BuildConfig.DEBUG) {
+                    Log.d(TAG, "Increase volume loop " + i);
+                }
 
                 long currentMillis = System.currentTimeMillis();
                 long totalElapsedMillis = currentMillis - triggerMillis;
 
                 try {
                     isPlaying = itsPlayerService.isPlaying();
-                } catch (Exception ignore) {}
+                } catch (Exception ignore) {
+                }
 
                 if (playStartedMillis == 0 && isPlaying) {
                     playStartedMillis = currentMillis;
@@ -275,7 +300,8 @@ public class AlarmReceiver extends BroadcastReceiver {
 
                 try {
                     hasAudioPlaybackStarted = itsPlayerService.hasPlaybackStarted();
-                } catch (Exception ignore) {}
+                } catch (Exception ignore) {
+                }
 
                 if (hasAudioPlaybackStarted) {
                     long elapsedMillis = currentMillis - playStartedMillis;
@@ -289,18 +315,26 @@ public class AlarmReceiver extends BroadcastReceiver {
                         }
                         handler.postDelayed(this, 1000);
                     } else {
-                        if (BuildConfig.DEBUG) { Log.d(TAG, "Volume 100% - stopping loop"); }
+                        if (BuildConfig.DEBUG) {
+                            Log.d(TAG, "Volume 100% - stopping loop");
+                        }
                         handler.removeCallbacks(this);
                     }
                 } else if (!isPlaying && playStartedMillis > 0) {
-                    if (BuildConfig.DEBUG) { Log.d(TAG, "No longer playing - stopping loop"); }
+                    if (BuildConfig.DEBUG) {
+                        Log.d(TAG, "No longer playing - stopping loop");
+                    }
                     handler.removeCallbacks(this);
                 } else if (totalElapsedMillis > streamReadTimeout) {
-                    if (BuildConfig.DEBUG) { Log.d(TAG, "Waiting for playback to start has exceeded streamReadTimeout - stopping"); }
+                    if (BuildConfig.DEBUG) {
+                        Log.d(TAG, "Waiting for playback to start has exceeded streamReadTimeout - stopping");
+                    }
                     try {
                         itsPlayerService.Stop();
                     } catch (Exception e) {
-                        if (BuildConfig.DEBUG) { Log.e(TAG, "Tried to stop stream, but failed with error:", e); }
+                        if (BuildConfig.DEBUG) {
+                            Log.e(TAG, "Tried to stop stream, but failed with error:", e);
+                        }
                     }
                     PlaySystemAlarm(context);
                     handler.removeCallbacks(this);
@@ -313,7 +347,9 @@ public class AlarmReceiver extends BroadcastReceiver {
     }
 
     private void PlaySystemAlarm(Context context) {
-        if(BuildConfig.DEBUG) { Log.d(TAG, "Starting system alarm"); }
+        if (BuildConfig.DEBUG) {
+            Log.d(TAG, "Starting system alarm");
+        }
 
         Uri soundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
 
