@@ -164,6 +164,7 @@
             android:defaultValue="0"
             app:min="0"
             android:max="12"
+            app:updatesContinuously="true"
             android:dependency="gradually_increase_volume_seconds"
             android:key="gradually_increase_volume_seconds"
             android:summary=""

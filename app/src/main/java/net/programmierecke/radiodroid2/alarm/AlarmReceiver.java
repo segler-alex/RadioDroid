@@ -266,6 +266,7 @@ public class AlarmReceiver extends BroadcastReceiver {
             boolean hasAudioPlaybackStarted = false;
             long playStartedMillis = 0;
             float currentVolume = minVolume;
+            int repeatDelayMillis = 500;
             int i = 0;
 
             @Override
@@ -300,7 +301,7 @@ public class AlarmReceiver extends BroadcastReceiver {
                                 setAlarmVolume(newVolume);
                                 currentVolume = newVolume;
                             }
-                            handler.postDelayed(this, 1000);
+                            handler.postDelayed(this, repeatDelayMillis);
                         } else {
                             if (BuildConfig.DEBUG) {
                                 Log.d(TAG, "Volume 100% - stopping loop");
@@ -321,12 +322,10 @@ public class AlarmReceiver extends BroadcastReceiver {
                         PlaySystemAlarm(context);
                         handler.removeCallbacks(this);
                     } else {
-                        handler.postDelayed(this, 1000);
+                        handler.postDelayed(this, repeatDelayMillis);
                     }
                 } catch (Exception e) {
-                    if (BuildConfig.DEBUG) {
-                        Log.e(TAG, "Error in increase volume loop - stopping", e);
-                    }
+                    Log.e(TAG, "Error in increase volume loop - stopping", e);
                     PlaySystemAlarm(context);
                     handler.removeCallbacks(this);
                 }
