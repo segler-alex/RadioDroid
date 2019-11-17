@@ -190,8 +190,8 @@
     <string name="dialog_hint_file_name">Dateiname eingeben</string>
     <string name="error_empty_field">Dieses Feld wird benötigt</string>
     <string name="error_invalid_file_name">Ungültiger Dateiname</string>
-    <string name="error_stream_reconnect_timeout">Verbindung zum Stream kann nicht wiederhergestellt werden: Zeitüberschreitung</string>
-    <string name="giving_up_resume">Versuch, die Wiedergabe fortzusetzen, ignoriert</string>
+    <string name="error_stream_reconnect_timeout">Die Verbindung zum Stream konnte wegen Zeitüberschreitung nicht wiederhergestellt werden.</string>
+    <string name="giving_up_resume">Die Versuche zur Fortsetzung der Wiedergabe werden aufgegeben.</string>
     <string name="icon_click_trend_decreasing">Popularität abnehmend</string>
     <string name="icon_click_trend_increasing">Popularität steigt</string>
     <string name="icon_click_trend_stable">Beliebtheit stabil</string>
