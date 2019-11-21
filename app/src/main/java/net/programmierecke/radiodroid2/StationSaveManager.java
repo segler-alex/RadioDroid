@@ -226,8 +226,8 @@ public class StationSaveManager extends Observable {
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
         String str = sharedPref.getString(getSaveId(), null);
         if (str != null) {
-            DataRadioStation[] arr = DataRadioStation.DecodeJson(str);
-            Collections.addAll(listStations, arr);
+            List<DataRadioStation> arr = DataRadioStation.DecodeJson(str);
+            listStations.addAll(arr);
             if (hasInvalidUuids() && Utils.hasAnyConnection(context)) {
                 refreshStationsFromServer();
             }

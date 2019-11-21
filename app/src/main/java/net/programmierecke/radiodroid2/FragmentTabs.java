@@ -38,8 +38,8 @@ public class FragmentTabs extends Fragment implements IFragmentRefreshable, IFra
 
     private String searchQuery; // Search may be requested before onCreateView so we should wait
 
-    FragmentBase[] fragments = new FragmentBase[9];
-    String[] adresses = new String[]{
+    private Fragment[] fragments = new Fragment[9];
+    private String[] adresses = new String[]{
             itsAdressWWWLocal,
             itsAdressWWWTopClick,
             itsAdressWWWTopVote,
@@ -116,11 +116,11 @@ public class FragmentTabs extends Fragment implements IFragmentRefreshable, IFra
         }
         for (int i = 0; i < fragments.length; i++) {
             if (i < 5)
-                fragments[i] = new FragmentStations();
+                fragments[i] = new FragmentStations(false);
             else if (i < 8)
                 fragments[i] = new FragmentCategories();
             else
-                fragments[i] = new FragmentStations();
+                fragments[i] = new FragmentStations(true);
             Bundle bundle1 = new Bundle();
             bundle1.putString("url", RadioBrowserServerManager.getWebserviceEndpoint(getContext(),adresses[i]));
             fragments[i].setArguments(bundle1);
@@ -150,7 +150,7 @@ public class FragmentTabs extends Fragment implements IFragmentRefreshable, IFra
     public void Search(final String query) {
         if (viewPager != null) {
             viewPager.setCurrentItem(8, false);
-            fragments[8].SetDownloadUrl(query);
+            ((IFragmentSearchable)fragments[8]).Search(query);
         } else {
             searchQuery = query;
         }
@@ -158,8 +158,10 @@ public class FragmentTabs extends Fragment implements IFragmentRefreshable, IFra
 
     @Override
     public void Refresh() {
-        FragmentBase fragment = fragments[viewPager.getCurrentItem()];
-        fragment.DownloadUrl(true);
+        Fragment fragment = fragments[viewPager.getCurrentItem()];
+        if (fragment instanceof FragmentBase) {
+            ((FragmentBase) fragment).DownloadUrl(true);
+        }
     }
 
     class ViewPagerAdapter extends FragmentPagerAdapter {

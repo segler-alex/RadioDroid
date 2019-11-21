@@ -54,6 +54,7 @@ import java.io.InputStreamReader;
 import java.net.InetSocketAddress;
 import java.net.Proxy;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
@@ -194,12 +195,12 @@ public class Utils {
 		String result = Utils.downloadFeed(httpClient, ctx, RadioBrowserServerManager.getWebserviceEndpoint(ctx, "json/stations/byid/" + stationId), true, null);
 		if (result != null) {
 			try {
-				DataRadioStation[] list = DataRadioStation.DecodeJson(result);
+				List<DataRadioStation> list = DataRadioStation.DecodeJson(result);
 				if (list != null) {
-					if (list.length == 1) {
-						return list[0];
+					if (list.size() == 1) {
+						return list.get(0);
 					}
-					Log.e("UTIL", "stations by id did have length:" + list.length);
+					Log.e("UTIL", "stations by id did have length:" + list.size());
 				}
 			} catch (Exception e) {
 				Log.e("UTIL", "getStationByid() " + e);
@@ -213,12 +214,12 @@ public class Utils {
 		String result = Utils.downloadFeed(httpClient, ctx, RadioBrowserServerManager.getWebserviceEndpoint(ctx, "json/stations/byuuid/" + stationUuid), true, null);
 		if (result != null) {
 			try {
-				DataRadioStation[] list = DataRadioStation.DecodeJson(result);
+				List<DataRadioStation> list = DataRadioStation.DecodeJson(result);
 				if (list != null) {
-					if (list.length == 1) {
-						return list[0];
+					if (list.size() == 1) {
+						return list.get(0);
 					}
-					Log.e("UTIL", "stations by uuid did have length:" + list.length);
+					Log.e("UTIL", "stations by uuid did have length:" + list.size());
 				}
 			} catch (Exception e) {
 				Log.e("UTIL", "getStationByUuid() " + e);

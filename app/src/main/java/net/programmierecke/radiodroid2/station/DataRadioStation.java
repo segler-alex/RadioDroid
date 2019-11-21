@@ -107,7 +107,7 @@ public class DataRadioStation implements Parcelable {
 		return TextUtils.join(", ", aList);
 	}
 
-	public static DataRadioStation[] DecodeJson(String result) {
+	public static List<DataRadioStation> DecodeJson(String result) {
 		List<DataRadioStation> aList = new ArrayList<DataRadioStation>();
 		if (result != null) {
 			if (TextUtils.isGraphic(result)) {
@@ -172,7 +172,7 @@ public class DataRadioStation implements Parcelable {
 				}
 			}
 		}
-		return aList.toArray(new DataRadioStation[0]);
+		return aList;
 	}
 
 	public static DataRadioStation DecodeJsonSingle(String result) {

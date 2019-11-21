@@ -50,6 +50,10 @@ public class FragmentBase extends Fragment {
         return urlResult;
     }
 
+    protected boolean hasUrl() {
+        return !TextUtils.isEmpty(url);
+    }
+
     public void SetDownloadUrl(String theUrl) {
         if (BuildConfig.DEBUG) {
             Log.d(TAG, "new url " + theUrl);

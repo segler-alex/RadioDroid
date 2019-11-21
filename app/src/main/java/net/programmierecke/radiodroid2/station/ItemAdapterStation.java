@@ -1,5 +1,6 @@
 package net.programmierecke.radiodroid2.station;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -14,6 +15,8 @@ import android.content.pm.ShortcutManager;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
+
+import androidx.annotation.Nullable;
 import androidx.fragment.app.FragmentActivity;
 import androidx.core.content.ContextCompat;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
@@ -30,6 +33,7 @@ import android.widget.*;
 
 import net.programmierecke.radiodroid2.*;
 import net.programmierecke.radiodroid2.interfaces.IAdapterRefreshable;
+import net.programmierecke.radiodroid2.utils.CustomFilter;
 import net.programmierecke.radiodroid2.utils.RecyclerItemMoveAndSwipeHelper;
 import net.programmierecke.radiodroid2.service.PlayerService;
 import net.programmierecke.radiodroid2.service.PlayerServiceUtil;
@@ -42,20 +46,30 @@ public class ItemAdapterStation
         implements RecyclerItemMoveAndSwipeHelper.MoveAndSwipeCallback<ItemAdapterStation.StationViewHolder> {
 
     public interface StationActionsListener {
-        void onStationClick(DataRadioStation station);
+        void onStationClick(DataRadioStation station, int pos);
+
         void onStationMoved(int from, int to);
+
         void onStationSwiped(DataRadioStation station);
+
         void onStationMoveFinished();
+    }
+
+    public interface FilterListener {
+        void onSearchCompleted(StationsFilter.SearchStatus searchStatus);
     }
 
     private final String TAG = "AdapterStations";
 
     List<DataRadioStation> stationsList;
+    List<DataRadioStation> filteredStationsList = new ArrayList<>();
 
     int resourceId;
 
     private StationActionsListener stationActionsListener;
+    private FilterListener filterListener;
     private boolean supportsStationRemoval = false;
+    private StationsFilter.FilterType filterType = StationsFilter.FilterType.LOCAL;
 
     private boolean shouldLoadIcons;
 
@@ -70,6 +84,8 @@ public class ItemAdapterStation
     Drawable stationImagePlaceholder;
 
     private FavouriteManager favouriteManager;
+
+    private CustomFilter filter;
 
     private TagsView.TagSelectionCallback tagSelectionCallback = new TagsView.TagSelectionCallback() {
         @Override
@@ -127,7 +143,8 @@ public class ItemAdapterStation
         @Override
         public void onClick(View view) {
             if (stationActionsListener != null) {
-                stationActionsListener.onStationClick(stationsList.get(getAdapterPosition()));
+                int pos = getAdapterPosition();
+                stationActionsListener.onStationClick(filteredStationsList.get(pos), pos);
             }
         }
 
@@ -137,13 +154,14 @@ public class ItemAdapterStation
         }
     }
 
-    public ItemAdapterStation(FragmentActivity fragmentActivity, int resourceId) {
+    public ItemAdapterStation(FragmentActivity fragmentActivity, int resourceId, StationsFilter.FilterType filterType) {
         this.activity = fragmentActivity;
         this.resourceId = resourceId;
+        this.filterType = filterType;
 
         stationImagePlaceholder = ContextCompat.getDrawable(fragmentActivity, R.drawable.ic_photo_24dp);
 
-        RadioDroidApp radioDroidApp = (RadioDroidApp)fragmentActivity.getApplication();
+        RadioDroidApp radioDroidApp = (RadioDroidApp) fragmentActivity.getApplication();
         favouriteManager = radioDroidApp.getFavouriteManager();
         IntentFilter filter = new IntentFilter();
         filter.addAction(PlayerService.PLAYER_SERVICE_META_UPDATE);
@@ -155,18 +173,22 @@ public class ItemAdapterStation
             }
         };
 
-        LocalBroadcastManager.getInstance(getContext()).registerReceiver(this.updateUIReceiver,filter);
+        LocalBroadcastManager.getInstance(getContext()).registerReceiver(this.updateUIReceiver, filter);
     }
 
     public void setStationActionsListener(StationActionsListener stationActionsListener) {
         this.stationActionsListener = stationActionsListener;
     }
 
+    public void setFilterListener(FilterListener filterListener) {
+        this.filterListener = filterListener;
+    }
+
     public void enableItemRemoval(RecyclerView recyclerView) {
         if (!supportsStationRemoval) {
             supportsStationRemoval = true;
 
-            RecyclerItemSwipeHelper<StationViewHolder> swipeHelper = new RecyclerItemSwipeHelper<>(0, ItemTouchHelper.LEFT+ItemTouchHelper.RIGHT, this);
+            RecyclerItemSwipeHelper<StationViewHolder> swipeHelper = new RecyclerItemSwipeHelper<>(0, ItemTouchHelper.LEFT + ItemTouchHelper.RIGHT, this);
             new ItemTouchHelper(swipeHelper).attachToRecyclerView(recyclerView);
         }
     }
@@ -175,7 +197,7 @@ public class ItemAdapterStation
         if (!supportsStationRemoval) {
             supportsStationRemoval = true;
 
-            RecyclerItemMoveAndSwipeHelper<StationViewHolder> swipeAndMoveHelper = new RecyclerItemMoveAndSwipeHelper<>(ItemTouchHelper.UP|ItemTouchHelper.DOWN, ItemTouchHelper.LEFT|ItemTouchHelper.RIGHT, this);
+            RecyclerItemMoveAndSwipeHelper<StationViewHolder> swipeAndMoveHelper = new RecyclerItemMoveAndSwipeHelper<>(ItemTouchHelper.UP | ItemTouchHelper.DOWN, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT, this);
             new ItemTouchHelper(swipeAndMoveHelper).attachToRecyclerView(recyclerView);
         }
     }
@@ -183,7 +205,12 @@ public class ItemAdapterStation
     public void updateList(FragmentStarred refreshableList, List<DataRadioStation> stationsList) {
         this.refreshable = refreshableList;
         this.stationsList = stationsList;
+        this.filteredStationsList = stationsList;
 
+        notifyStationsChanged();
+    }
+
+    private void notifyStationsChanged() {
         expandedPosition = -1;
         playingStationPosition = -1;
 
@@ -204,7 +231,7 @@ public class ItemAdapterStation
 
     @Override
     public void onBindViewHolder(final StationViewHolder holder, int position) {
-        final DataRadioStation station = stationsList.get(position);
+        final DataRadioStation station = filteredStationsList.get(position);
 
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getContext().getApplicationContext());
         boolean useCircularIcons = Utils.useCircularIcons(getContext());
@@ -266,12 +293,11 @@ public class ItemAdapterStation
         });
 
         TypedValue tv = new TypedValue();
-        if(playingStationPosition == position) {
+        if (playingStationPosition == position) {
             getContext().getTheme().resolveAttribute(R.attr.colorAccentMy, tv, true);
             holder.textViewTitle.setTextColor(tv.data);
             holder.textViewTitle.setTypeface(null, Typeface.BOLD);
-        }
-        else {
+        } else {
             getContext().getTheme().resolveAttribute(R.attr.boxBackgroundColor, tv, true);
             holder.textViewTitle.setTypeface(holder.textViewShortDescription.getTypeface());
             getContext().getTheme().resolveAttribute(R.attr.iconsInItemBackgroundColor, tv, true);
@@ -316,7 +342,7 @@ public class ItemAdapterStation
         }
 
         if (isExpanded) {
-            holder.viewDetails = holder.stubDetails == null? holder.viewDetails : holder.stubDetails.inflate();
+            holder.viewDetails = holder.stubDetails == null ? holder.viewDetails : holder.stubDetails.inflate();
             holder.stubDetails = null;
             holder.viewTags = (TagsView) holder.viewDetails.findViewById(R.id.viewTags);
             holder.buttonStationLinks = holder.viewDetails.findViewById(R.id.buttonStationWebLink);
@@ -388,7 +414,7 @@ public class ItemAdapterStation
             holder.viewTags.setTags(Arrays.asList(tags));
             holder.viewTags.setTagSelectionCallback(tagSelectionCallback);
         }
-        if(holder.viewDetails != null)
+        if (holder.viewDetails != null)
             holder.viewDetails.setVisibility(isExpanded ? View.VISIBLE : View.GONE);
     }
 
@@ -405,12 +431,12 @@ public class ItemAdapterStation
 
     @Override
     public int getItemCount() {
-        return stationsList.size();
+        return filteredStationsList.size();
     }
 
     @Override
     public void onSwiped(StationViewHolder viewHolder, int direction) {
-        stationActionsListener.onStationSwiped(stationsList.get(viewHolder.getAdapterPosition()));
+        stationActionsListener.onStationSwiped(filteredStationsList.get(viewHolder.getAdapterPosition()));
     }
 
     @Override
@@ -429,12 +455,36 @@ public class ItemAdapterStation
         LocalBroadcastManager.getInstance(getContext()).unregisterReceiver(updateUIReceiver);
     }
 
+    public CustomFilter getFilter() {
+        if (filter == null) {
+            filter = new StationsFilter(getContext(), filterType, new StationsFilter.DataProvider() {
+                @Override
+                public List<DataRadioStation> getOriginalStationList() {
+                    return stationsList;
+                }
+
+                @Override
+                public void notifyFilteredStationsChanged(StationsFilter.SearchStatus status, List<DataRadioStation> filteredStations) {
+                    filteredStationsList = filteredStations;
+
+                    notifyStationsChanged();
+
+                    if (filterListener != null) {
+                        filterListener.onSearchCompleted(status);
+                    }
+                }
+            });
+        }
+
+        return filter;
+    }
+
     Context getContext() {
         return activity;
     }
 
     void setupIcon(boolean useCircularIcons, ImageView imageView, ImageView transparentImageView) {
-        if(useCircularIcons) {
+        if (useCircularIcons) {
             transparentImageView.setVisibility(View.VISIBLE);
             imageView.getLayoutParams().height = imageView.getLayoutParams().height = imageView.getLayoutParams().width;
             imageView.setBackgroundColor(getContext().getResources().getColor(android.R.color.black));
@@ -447,28 +497,28 @@ public class ItemAdapterStation
         holder.imageViewIcon.getLayoutParams().width = (int) getContext().getResources().getDimension(R.dimen.compact_style_icon_width);
 
         holder.textViewShortDescription.setVisibility(View.GONE);
-        if(holder.transparentImageView.getVisibility() == View.VISIBLE) {
-            holder.transparentImageView.getLayoutParams().height  = (int) getContext().getResources().getDimension(R.dimen.compact_style_icon_height);
-            holder.transparentImageView.getLayoutParams().width  = (int) getContext().getResources().getDimension(R.dimen.compact_style_icon_width);
+        if (holder.transparentImageView.getVisibility() == View.VISIBLE) {
+            holder.transparentImageView.getLayoutParams().height = (int) getContext().getResources().getDimension(R.dimen.compact_style_icon_height);
+            holder.transparentImageView.getLayoutParams().width = (int) getContext().getResources().getDimension(R.dimen.compact_style_icon_width);
             holder.imageViewIcon.getLayoutParams().height = (int) getContext().getResources().getDimension(R.dimen.compact_style_icon_height);
         }
     }
 
-    private void  highlightCurrentStation() {
-        if(!PlayerServiceUtil.isPlaying()) return;
+    private void highlightCurrentStation() {
+        if (!PlayerServiceUtil.isPlaying()) return;
 
         int oldPlayingStationPosition = playingStationPosition;
 
-        for (int i = 0; i < stationsList.size(); i++) {
-            if (stationsList.get(i).StationUuid.equals(PlayerServiceUtil.getStationId())) {
+        for (int i = 0; i < filteredStationsList.size(); i++) {
+            if (filteredStationsList.get(i).StationUuid.equals(PlayerServiceUtil.getStationId())) {
                 playingStationPosition = i;
                 break;
             }
         }
-        if(playingStationPosition != oldPlayingStationPosition) {
-            if(oldPlayingStationPosition > -1)
+        if (playingStationPosition != oldPlayingStationPosition) {
+            if (oldPlayingStationPosition > -1)
                 notifyItemChanged(oldPlayingStationPosition);
-            if(playingStationPosition > -1)
+            if (playingStationPosition > -1)
                 notifyItemChanged(playingStationPosition);
         }
     }

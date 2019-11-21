@@ -35,8 +35,8 @@ public class ItemAdapterIconOnlyStation extends ItemAdapterStation {
         }
     }
 
-    public ItemAdapterIconOnlyStation(FragmentActivity fragmentActivity, int resourceId) {
-        super(fragmentActivity, resourceId);
+    public ItemAdapterIconOnlyStation(FragmentActivity fragmentActivity, int resourceId, StationsFilter.FilterType filterType) {
+        super(fragmentActivity, resourceId, filterType);
     }
 
     @Override
@@ -49,7 +49,7 @@ public class ItemAdapterIconOnlyStation extends ItemAdapterStation {
 
     @Override
     public void onBindViewHolder(final ItemAdapterStation.StationViewHolder holder, int position) {
-        final DataRadioStation station = stationsList.get(position);
+        final DataRadioStation station = filteredStationsList.get(position);
 
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getContext().getApplicationContext());
         boolean useCircularIcons = Utils.useCircularIcons(getContext());
