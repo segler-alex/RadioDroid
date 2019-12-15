@@ -21,6 +21,7 @@ import com.google.android.material.snackbar.Snackbar;
 import net.programmierecke.radiodroid2.station.ItemAdapterStation;
 import net.programmierecke.radiodroid2.station.DataRadioStation;
 import net.programmierecke.radiodroid2.interfaces.IAdapterRefreshable;
+import net.programmierecke.radiodroid2.station.StationsFilter;
 
 public class FragmentHistory extends Fragment implements IAdapterRefreshable {
     private static final String TAG = "FragmentStarred";
@@ -66,10 +67,10 @@ public class FragmentHistory extends Fragment implements IAdapterRefreshable {
         historyManager = radioDroidApp.getHistoryManager();
         favouriteManager = radioDroidApp.getFavouriteManager();
 
-        ItemAdapterStation adapter = new ItemAdapterStation(getActivity(), R.layout.list_item_station);
+        ItemAdapterStation adapter = new ItemAdapterStation(getActivity(), R.layout.list_item_station, StationsFilter.FilterType.LOCAL);
         adapter.setStationActionsListener(new ItemAdapterStation.StationActionsListener() {
             @Override
-            public void onStationClick(DataRadioStation station) {
+            public void onStationClick(DataRadioStation station, int pos) {
                 FragmentHistory.this.onStationClick(station);
             }
 

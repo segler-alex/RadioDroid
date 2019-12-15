@@ -44,6 +44,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.navigation.NavigationView;
 
+import com.google.android.material.tabs.TabLayout;
 import com.mikepenz.iconics.Iconics;
 import com.mikepenz.iconics.context.IconicsLayoutInflater2;
 import com.rustamg.filedialogs.FileDialog;
@@ -53,6 +54,7 @@ import com.rustamg.filedialogs.SaveFileDialog;
 import net.programmierecke.radiodroid2.alarm.FragmentAlarm;
 import net.programmierecke.radiodroid2.alarm.TimePickerFragment;
 import net.programmierecke.radiodroid2.interfaces.IFragmentRefreshable;
+import net.programmierecke.radiodroid2.interfaces.IFragmentSearchable;
 import net.programmierecke.radiodroid2.service.MediaSessionCallback;
 import net.programmierecke.radiodroid2.service.PlayerServiceUtil;
 import net.programmierecke.radiodroid2.station.DataRadioStation;
@@ -87,6 +89,7 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
     private SearchView mSearchView;
 
     private AppBarLayout appBarLayout;
+    private TabLayout tabsView;
 
     DrawerLayout mDrawerLayout;
     NavigationView mNavigationView;
@@ -160,6 +163,7 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
         mFragmentManager = getSupportFragmentManager();
 
         appBarLayout = findViewById(R.id.app_bar_layout);
+        tabsView = findViewById(R.id.tabs);
         mDrawerLayout = findViewById(R.id.drawerLayout);
         mNavigationView = findViewById(R.id.my_navigation_view);
         mBottomNavigationView = findViewById(R.id.bottom_navigation);
@@ -529,6 +533,22 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
         menuItemAddAlarm = menu.findItem(R.id.action_add_alarm);
         mSearchView = (SearchView) MenuItemCompat.getActionView(menuItemSearch);
         mSearchView.setOnQueryTextListener(this);
+        mSearchView.setOnQueryTextFocusChangeListener(new View.OnFocusChangeListener() {
+            private int prevTabsVisibility = View.GONE;
+
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                mBottomNavigationView.setVisibility(hasFocus ? View.GONE : View.VISIBLE);
+
+                if (hasFocus) {
+                    prevTabsVisibility = tabsView.getVisibility();
+                    tabsView.setVisibility(View.GONE);
+                } else {
+                    tabsView.setVisibility(prevTabsVisibility);
+                }
+
+            }
+        });
 
         menuItemSleepTimer.setVisible(false);
         menuItemSearch.setVisible(false);
@@ -821,6 +841,13 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
 
     }
 
+    public void SearchStations(@NonNull String query) {
+        Fragment currentFragment = mFragmentManager.getFragments().get(mFragmentManager.getFragments().size() - 1);
+        if (currentFragment instanceof IFragmentSearchable) {
+            ((IFragmentSearchable) currentFragment).Search(query);
+        }
+    }
+
 //    public void togglePlayer() {
 //        FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
 //        if (smallPlayerFragment.isDetached()) {
@@ -836,23 +863,24 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
 
     @Override
     public boolean onQueryTextSubmit(String query) {
-        String queryEncoded;
-        try {
-            mSearchView.setQuery("", false);
-            mSearchView.clearFocus();
-            mSearchView.setIconified(true);
-            queryEncoded = URLEncoder.encode(query, "utf-8");
-            queryEncoded = queryEncoded.replace("+", "%20");
-            Search(RadioBrowserServerManager.getWebserviceEndpoint(this, "json/stations/byname/" + queryEncoded));
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }
+//        String queryEncoded;
+//        try {
+//            mSearchView.setQuery("", false);
+//            mSearchView.clearFocus();
+//            mSearchView.setIconified(true);
+//            queryEncoded = URLEncoder.encode(query, "utf-8");
+//            queryEncoded = queryEncoded.replace("+", "%20");
+//            SearchStations(query);
+//        } catch (UnsupportedEncodingException e) {
+//            e.printStackTrace();
+//        }
         return true;
     }
 
     @Override
     public boolean onQueryTextChange(String newText) {
-        return false;
+        SearchStations(newText);
+        return true;
     }
 
     private void setupBroadcastReceiver() {

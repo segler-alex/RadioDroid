@@ -25,6 +25,7 @@ import net.programmierecke.radiodroid2.station.ItemAdapterStation;
 import net.programmierecke.radiodroid2.station.DataRadioStation;
 import net.programmierecke.radiodroid2.station.ItemAdapterIconOnlyStation;
 import net.programmierecke.radiodroid2.interfaces.IAdapterRefreshable;
+import net.programmierecke.radiodroid2.station.StationsFilter;
 
 import java.util.Observable;
 import java.util.Observer;
@@ -66,7 +67,7 @@ public class FragmentStarred extends Fragment implements IAdapterRefreshable, Ob
         ItemAdapterStation adapter;
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getContext());
         if (sharedPref.getBoolean("load_icons", false) && sharedPref.getBoolean("icons_only_favorites_style", false)) {
-            adapter = new ItemAdapterIconOnlyStation(getActivity(), R.layout.list_item_icon_only_station);
+            adapter = new ItemAdapterIconOnlyStation(getActivity(), R.layout.list_item_icon_only_station, StationsFilter.FilterType.LOCAL);
             Context ctx = getContext();
             DisplayMetrics displayMetrics = ctx.getResources().getDisplayMetrics();
             int itemWidth = (int) ctx.getResources().getDimension(R.dimen.regular_style_icon_container_width);
@@ -76,7 +77,7 @@ public class FragmentStarred extends Fragment implements IAdapterRefreshable, Ob
             rvStations.setLayoutManager(glm);
             ((ItemAdapterIconOnlyStation)adapter).enableItemMove(rvStations);
         } else {
-            adapter = new ItemAdapterStation(getActivity(), R.layout.list_item_station);
+            adapter = new ItemAdapterStation(getActivity(), R.layout.list_item_station, StationsFilter.FilterType.LOCAL);
             LinearLayoutManager llm = new LinearLayoutManager(getContext());
             llm.setOrientation(RecyclerView.VERTICAL);
 
@@ -90,7 +91,7 @@ public class FragmentStarred extends Fragment implements IAdapterRefreshable, Ob
 
         adapter.setStationActionsListener(new ItemAdapterStation.StationActionsListener() {
             @Override
-            public void onStationClick(DataRadioStation station) {
+            public void onStationClick(DataRadioStation station, int pos) {
                 FragmentStarred.this.onStationClick(station);
             }
 
