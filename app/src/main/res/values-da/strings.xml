@@ -67,8 +67,8 @@
     <string name="sleep_timer_clear">Rydde</string>
     <string name="nav_item_add_sleep">Sove tidsforsinkelse</string>
 
-    <string name="nav_item_save_playlist">Gemme til afspilningsliste</string>
-    <string name="nav_item_load_playlist">Indlæse fra afspilningsliste</string>
+    <string name="nav_item_save_playlist">Eksportere favoritter som afspilningsliste</string>
+    <string name="nav_item_load_playlist">Importere favoritter fra afspilningsliste</string>
     <string name="confirm_overwrite_file">Overskrive fil?</string>
     <string name="dialog_hint_file_name">Indtaste filnavn</string>
     <string name="error_empty_field">Dette felt er påkrævet</string>
@@ -159,6 +159,7 @@
 
     <string name="settings_recordings">Optagelser</string>
     <string name="settings_record_name_formatting">Navneformat</string>
+
 
     <string name="settings_record_name_formatting_default_display">station_kunstner_nummer_\u200bdato_\u200btidspunkt</string>
     <string name="settings_record_name_formatting_1_display">station_kunstner_\u200bnummer</string>
@@ -256,12 +257,15 @@
     <string name="action_play_in_external">Afspil i ekstern afspiller</string>
 
     <string name="settings_radiobrowser_servers">RadioBrowser servere</string>
+    <string name="settings_radiobrowser_servers_default">www.radio-browser.info/webservice</string>
 
     <string name="settings_other">Andet</string>
     <string name="settings_statistics">Statistikker</string>
     <string name="settings_about">Om RadioDroid</string>
+
     <string name="description_btn_skip_to_next">Hop til næste</string>
     <string name="description_btn_skip_to_previous">Hop til forrige</string>
+
     <string name="description_btn_setup_alarm">Sætte alarm</string>
 
     <string-array name="weekdays">
@@ -286,4 +290,7 @@
     <string name="nav_item_statistics">Statistikker</string>
     <string name="nav_item_about">Om</string>
     <string name="refresh">Genopfriske</string>
+    <string name="alarm_backup">Alternativ alarm</string>
+    <string name="alarm_fallback_info">System alarm vedtaget som valgt radiostation kunne ikke indlæses</string>
+    <string name="alarm_back_desc">Alternativ system alarm vedtaget når radiostation ikke indlæses</string>
 </resources>
