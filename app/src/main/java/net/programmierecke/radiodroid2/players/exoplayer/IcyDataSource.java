@@ -239,6 +239,10 @@ public class IcyDataSource implements HttpDataSource {
     }
 
     private int readInternal(byte[] buffer, int offset, int readLength) throws HttpDataSourceException {
+        if (responseBody == null) {
+            throw new HttpDataSourceException(dataSpec, HttpDataSourceException.TYPE_READ);
+        }
+
         InputStream stream = responseBody.byteStream();
 
         int ret = 0;
