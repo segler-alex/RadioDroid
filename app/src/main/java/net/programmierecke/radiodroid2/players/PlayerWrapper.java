@@ -12,7 +12,7 @@ import okhttp3.OkHttpClient;
 
 public interface PlayerWrapper extends Recordable {
     interface PlayListener {
-        void onStateChanged(RadioPlayer.PlayState state);
+        void onStateChanged(PlayState state);
 
         void onPlayerError(final int messageId);
 
