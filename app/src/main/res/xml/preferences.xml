@@ -132,6 +132,13 @@
             android:key="pause_when_noisy"
             android:title="@string/settings_pause_when_noisy" />
 
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="auto_resume_on_headset_plug"
+            android:summaryOff="@string/settings_auto_resume_on_headset_plug_off"
+            android:summaryOn="@string/settings_auto_resume_on_headset_plug_on"
+            android:title="@string/settings_auto_resume_on_headset_plug" />
+
         <Preference
             android:key="equalizer"
             android:title="@string/settings_equalizer" />

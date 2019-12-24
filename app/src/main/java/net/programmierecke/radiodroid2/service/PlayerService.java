@@ -10,6 +10,8 @@ import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
+import android.bluetooth.BluetoothA2dp;
+import android.bluetooth.BluetoothHeadset;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
@@ -108,8 +110,9 @@ public class PlayerService extends Service implements RadioPlayer.PlayerListener
     private WifiManager.WifiLock wifiLock;
 
     private BecomingNoisyReceiver becomingNoisyReceiver = new BecomingNoisyReceiver();
+    private HeadsetConnectionReceiver headsetConnectionReceiver = new HeadsetConnectionReceiver();
 
-    private boolean resumeOnFocusGain = false;
+    private PauseReason pauseReason = PauseReason.NONE;
 
     private CountDownTimer timer;
     private long seconds = 0;
@@ -146,8 +149,8 @@ public class PlayerService extends Service implements RadioPlayer.PlayerListener
             PlayerService.this.playCurrentStation(isAlarm);
         }
 
-        public void Pause() throws RemoteException {
-            PlayerService.this.pause();
+        public void Pause(PauseReason pauseReason) throws RemoteException {
+            PlayerService.this.pause(pauseReason);
         }
 
         public void Resume() throws RemoteException {
@@ -278,6 +281,11 @@ public class PlayerService extends Service implements RadioPlayer.PlayerListener
         }
 
         @Override
+        public PauseReason getPauseReason() throws RemoteException {
+            return PlayerService.this.pauseReason;
+        }
+
+        @Override
         public void enableMPD(String hostname, int port) throws RemoteException {
             if (radioPlayer != null) {
                 // radioPlayer.enableMPDPlayer(hostname, port);
@@ -305,7 +313,7 @@ public class PlayerService extends Service implements RadioPlayer.PlayerListener
                         case AudioManager.AUDIOFOCUS_GAIN:
                             if (BuildConfig.DEBUG) Log.d(TAG, "audio focus gain");
 
-                            if (resumeOnFocusGain) {
+                            if (pauseReason == PauseReason.FOCUS_LOSS) {
                                 enableMediaSession();
                                 resume();
                             }
@@ -320,11 +328,10 @@ public class PlayerService extends Service implements RadioPlayer.PlayerListener
                         case AudioManager.AUDIOFOCUS_LOSS_TRANSIENT:
                             if (BuildConfig.DEBUG) Log.d(TAG, "audio focus loss transient");
 
-                            boolean resume = radioPlayer.isPlaying() || resumeOnFocusGain;
+                            if (radioPlayer.isPlaying()) {
+                                pause(PauseReason.FOCUS_LOSS);
+                            }
 
-                            pause();
-
-                            resumeOnFocusGain = resume;
                             break;
                         case AudioManager.AUDIOFOCUS_LOSS_TRANSIENT_CAN_DUCK:
                             if (BuildConfig.DEBUG)
@@ -403,6 +410,13 @@ public class PlayerService extends Service implements RadioPlayer.PlayerListener
 
         RadioDroidApp radioDroidApp = (RadioDroidApp) getApplication();
         trackHistoryRepository = radioDroidApp.getTrackHistoryRepository();
+
+        final IntentFilter headsetConnectionFilter = new IntentFilter();
+        headsetConnectionFilter.addAction(Intent.ACTION_HEADSET_PLUG);
+        headsetConnectionFilter.addAction(BluetoothHeadset.ACTION_CONNECTION_STATE_CHANGED);
+        headsetConnectionFilter.addAction(BluetoothA2dp.ACTION_CONNECTION_STATE_CHANGED);
+
+        registerReceiver(headsetConnectionReceiver, headsetConnectionFilter);
     }
 
     @Override
@@ -414,6 +428,8 @@ public class PlayerService extends Service implements RadioPlayer.PlayerListener
         mediaSession.release();
 
         radioPlayer.destroy();
+
+        unregisterReceiver(headsetConnectionReceiver);
     }
 
     @Override
@@ -432,7 +448,7 @@ public class PlayerService extends Service implements RadioPlayer.PlayerListener
                         stop();
                         break;
                     case ACTION_PAUSE:
-                        pause();
+                        pause(PauseReason.USER);
                         break;
                     case ACTION_RESUME:
                         resume();
@@ -479,10 +495,10 @@ public class PlayerService extends Service implements RadioPlayer.PlayerListener
         }
     }
 
-    public void pause() {
+    public void pause(PauseReason pauseReason) {
         if (BuildConfig.DEBUG) Log.d(TAG, "pausing playback.");
 
-        resumeOnFocusGain = false;
+        this.pauseReason = pauseReason;
 
         releaseWakeLockAndWifiLock();
         radioPlayer.pause();
@@ -515,7 +531,7 @@ public class PlayerService extends Service implements RadioPlayer.PlayerListener
     public void resume() {
         if (BuildConfig.DEBUG) Log.d(TAG, "resuming playback.");
 
-        resumeOnFocusGain = false;
+        this.pauseReason = PauseReason.NONE;
 
         if (!radioPlayer.isPlaying()) {
             acquireAudioFocus();
@@ -538,7 +554,7 @@ public class PlayerService extends Service implements RadioPlayer.PlayerListener
     public void stop() {
         if (BuildConfig.DEBUG) Log.d(TAG, "stopping playback.");
 
-        resumeOnFocusGain = false;
+        this.pauseReason = PauseReason.NONE;
 
         liveInfo = new StreamLiveInfo(null);
         streamInfo = null;

@@ -58,7 +58,7 @@ public class StationSaveManager extends Observable {
         notifyObservers();
     }
 
-    DataRadioStation getLast() {
+    public DataRadioStation getLast() {
         if (!listStations.isEmpty()) {
             return listStations.get(listStations.size() - 1);
         }
@@ -66,7 +66,7 @@ public class StationSaveManager extends Observable {
         return null;
     }
 
-    DataRadioStation getFirst() {
+    public DataRadioStation getFirst() {
         if (!listStations.isEmpty()) {
             return listStations.get(0);
         }
@@ -74,7 +74,7 @@ public class StationSaveManager extends Observable {
         return null;
     }
 
-    DataRadioStation getById(String id) {
+    public DataRadioStation getById(String id) {
         for (DataRadioStation station : listStations) {
             if (id.equals(station.StationUuid)) {
                 return station;

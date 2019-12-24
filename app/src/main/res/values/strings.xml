@@ -153,6 +153,10 @@
     <string name="settings_seconds_format">%d seconds</string>
     <string name="settings_milliseconds_format">%d milliseconds</string>
 
+    <string name="settings_auto_resume_on_headset_plug">Resume on headset plug-in</string>
+    <string name="settings_auto_resume_on_headset_plug_on">Resume playback on headset plug-in</string>
+    <string name="settings_auto_resume_on_headset_plug_off">Do nothing on headset plug-in</string>
+
     <string name="settings_warn_no_wifi">Off-Wi-Fi Warning</string>
     <string name="settings_warn_no_wifi_on">Warn when playing without Wi-Fi connection</string>
     <string name="settings_warn_no_wifi_off">No warning when not on Wi-Fi connection</string>
