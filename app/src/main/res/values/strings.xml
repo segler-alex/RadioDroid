@@ -155,11 +155,19 @@
     <string name="settings_seconds_format">%d seconds</string>
     <string name="settings_milliseconds_format">%d milliseconds</string>
 
+    <string name="settings_pause_when_noisy">Pause on headset disconnect</string>
+
+    <string name="settings_auto_resume_do_not_resume">Do not resume</string>
+
+    <string name="settings_auto_resume_on_wired_headset_connected">Resume on wired connection</string>
+    <string name="settings_auto_resume_on_wired_headset_connected_on">Resume playback on wired headset plug-in</string>
+
+    <string name="settings_auto_resume_on_bluetooth_a2dp_connected">Resume on bluetooth connection</string>
+    <string name="settings_auto_resume_on_bluetooth_a2dp_connected_on">Resume playback on bluetooth A2DP device connection</string>
+
     <string name="settings_warn_no_wifi">Off-Wi-Fi Warning</string>
     <string name="settings_warn_no_wifi_on">Warn when playing without Wi-Fi connection</string>
     <string name="settings_warn_no_wifi_off">No warning when not on Wi-Fi connection</string>
-
-    <string name="settings_pause_when_noisy">Pause playback when headset disconnects</string>
 
     <string name="settings_recordings">Recordings</string>
     <string name="settings_record_name_formatting">Name format</string>

@@ -163,10 +163,10 @@ public class PlayerServiceUtil {
         }
     }
 
-    public static void pause() {
+    public static void pause(PauseReason pauseReason) {
         if (itsPlayerService != null) {
             try {
-                itsPlayerService.Pause();
+                itsPlayerService.Pause(pauseReason);
             } catch (RemoteException e) {
                 Log.e("", "" + e);
             }
@@ -376,6 +376,17 @@ public class PlayerServiceUtil {
             }
         }
         return 0;
+    }
+
+    public static PauseReason getPauseReason() {
+        if (itsPlayerService != null) {
+            try {
+                return itsPlayerService.getPauseReason();
+            } catch (RemoteException e) {
+                Log.e("", "" + e);
+            }
+        }
+        return PauseReason.NONE;
     }
 
     public static void enableMPD(String hostname, int port) {
