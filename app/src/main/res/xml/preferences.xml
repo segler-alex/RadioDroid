@@ -127,6 +127,11 @@
             android:summaryOn="@string/settings_warn_no_wifi_on"
             android:title="@string/settings_warn_no_wifi" />
 
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="pause_when_noisy"
+            android:title="@string/settings_pause_when_noisy" />
+
         <Preference
             android:key="equalizer"
             android:title="@string/settings_equalizer" />
