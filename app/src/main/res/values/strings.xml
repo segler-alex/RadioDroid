@@ -157,6 +157,8 @@
     <string name="settings_warn_no_wifi_on">Warn when playing without Wi-Fi connection</string>
     <string name="settings_warn_no_wifi_off">No warning when not on Wi-Fi connection</string>
 
+    <string name="settings_pause_when_noisy">Pause playback when headset disconnects</string>
+
     <string name="settings_recordings">Recordings</string>
     <string name="settings_record_name_formatting">Name format</string>
 
