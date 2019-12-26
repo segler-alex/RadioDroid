@@ -12,6 +12,7 @@ import net.programmierecke.radiodroid2.station.live.metadata.TrackMetadataCallba
 import net.programmierecke.radiodroid2.station.live.metadata.lastfm.data.Image;
 import net.programmierecke.radiodroid2.station.live.metadata.lastfm.data.LfmTrackMetadata;
 import net.programmierecke.radiodroid2.station.live.metadata.lastfm.data.Track;
+import net.programmierecke.radiodroid2.utils.RateLimiter;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -32,8 +33,7 @@ public class LfmMetadataSearcher {
     private OkHttpClient httpClient;
     private Gson gson = new Gson();
 
-    private static final long API_REQUEST_COOLDOWN_MS = 30 * 1000; // 30 seconds
-    private long lastRequestTime = 0;
+    private RateLimiter rateLimiter = new RateLimiter(4, 60 * 1000);
 
     public LfmMetadataSearcher(OkHttpClient httpClient) {
         this.httpClient = httpClient;
@@ -56,25 +56,28 @@ public class LfmMetadataSearcher {
      */
     private String tryNormalizeTrack(@NonNull final String track) {
         String normalizedTrack = track
-                .replaceAll("\\(.*?\\)", "")
-                .replaceAll("\\[.*?\\]", "")
+                .replaceAll("\\(.*\\)", "")
+                .replaceAll("\\[.*\\]", "")
+                .replaceAll("\\*.*\\*", "")
                 .trim();
         return normalizedTrack.equals(track) ? null : normalizedTrack;
     }
 
     public void fetchTrackMetadata(String artist, @NonNull final String track, @NonNull final TrackMetadataCallback trackMetadataCallback) {
         if (BuildConfig.LastFMAPIKey.isEmpty() || TextUtils.isEmpty(track)) {
-            trackMetadataCallback.onFailure();
+            trackMetadataCallback.onFailure(TrackMetadataCallback.FailureType.UNRECOVERABLE);
             return;
         }
 
+        final String trimmedArtist = artist.trim();
+        final String trimmedTrack = track.trim();
+
         // We want to rate limit calls to Last.fm API to prevent exceeding unknown limits.
-        final long currentTime = System.currentTimeMillis();
-        if ((currentTime - lastRequestTime) > API_REQUEST_COOLDOWN_MS) {
-            lastRequestTime = currentTime;
-            httpClient.newCall(buildRequest(artist, track)).enqueue(new MetadataCallback(trackMetadataCallback, artist, track));
+        if (rateLimiter.allowed()) {
+            httpClient.newCall(buildRequest(trimmedArtist, trimmedTrack))
+                    .enqueue(new MetadataCallback(trackMetadataCallback, trimmedArtist, trimmedTrack));
         } else {
-            trackMetadataCallback.onFailure();
+            trackMetadataCallback.onFailure(TrackMetadataCallback.FailureType.RECOVERABLE);
         }
     }
 
@@ -97,7 +100,7 @@ public class LfmMetadataSearcher {
 
         @Override
         public void onFailure(Call call, IOException e) {
-            trackMetadataCallback.onFailure();
+            trackMetadataCallback.onFailure(TrackMetadataCallback.FailureType.RECOVERABLE);
         }
 
         @Override
@@ -109,12 +112,12 @@ public class LfmMetadataSearcher {
 
                 Track trackData = lfmTrackMetadata.getTrack();
 
-                if (trackData == null || trackData.getMbid() == null) {
+                if (trackData == null) {
                     String normalizedTrack = tryNormalizeTrack(track);
                     if (normalizedTrack != null && normalizedTrack.length() > 3) {
                         httpClient.newCall(buildRequest(artist, normalizedTrack)).enqueue(new MetadataCallback(trackMetadataCallback, artist, normalizedTrack));
                     } else {
-                        trackMetadataCallback.onFailure();
+                        trackMetadataCallback.onFailure(TrackMetadataCallback.FailureType.UNRECOVERABLE);
                     }
 
                     return;
@@ -163,7 +166,7 @@ public class LfmMetadataSearcher {
 
                 trackMetadataCallback.onSuccess(trackMetadata);
             } catch (Exception ex) {
-                trackMetadataCallback.onFailure();
+                trackMetadataCallback.onFailure(TrackMetadataCallback.FailureType.UNRECOVERABLE);
             }
         }
     }
