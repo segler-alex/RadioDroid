@@ -55,6 +55,7 @@ import net.programmierecke.radiodroid2.alarm.FragmentAlarm;
 import net.programmierecke.radiodroid2.alarm.TimePickerFragment;
 import net.programmierecke.radiodroid2.interfaces.IFragmentRefreshable;
 import net.programmierecke.radiodroid2.interfaces.IFragmentSearchable;
+import net.programmierecke.radiodroid2.players.PlayState;
 import net.programmierecke.radiodroid2.service.MediaSessionCallback;
 import net.programmierecke.radiodroid2.service.PlayerServiceUtil;
 import net.programmierecke.radiodroid2.station.DataRadioStation;
@@ -493,9 +494,9 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
 
         super.onPause();
 
-        if (!PlayerServiceUtil.isPlaying()) {
+        if (PlayerServiceUtil.getPlayerState() == PlayState.Idle) {
             PlayerServiceUtil.shutdownService();
-        } else {
+        } else if (PlayerServiceUtil.isPlaying()) {
             CastHandler.onPause();
         }
     }

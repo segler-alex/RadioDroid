@@ -23,6 +23,7 @@ import com.squareup.picasso.Picasso;
 import net.programmierecke.radiodroid2.BuildConfig;
 import net.programmierecke.radiodroid2.IPlayerService;
 import net.programmierecke.radiodroid2.R;
+import net.programmierecke.radiodroid2.players.PlayState;
 import net.programmierecke.radiodroid2.station.DataRadioStation;
 import net.programmierecke.radiodroid2.station.live.ShoutcastInfo;
 import net.programmierecke.radiodroid2.station.live.StreamLiveInfo;
@@ -109,6 +110,16 @@ public class PlayerServiceUtil {
             }
         }
         return false;
+    }
+
+    public static PlayState getPlayerState() {
+        if (itsPlayerService != null) {
+            try {
+                return itsPlayerService.getPlayerState();
+            } catch (RemoteException e) {
+            }
+        }
+        return PlayState.Idle;
     }
 
     public static void stop() {

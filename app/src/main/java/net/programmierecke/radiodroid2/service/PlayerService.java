@@ -23,6 +23,7 @@ import android.os.Build;
 import android.os.CountDownTimer;
 import android.os.Handler;
 import android.os.IBinder;
+import android.os.Parcelable;
 import android.os.PowerManager;
 import android.os.RemoteException;
 import android.support.v4.media.MediaMetadataCompat;
@@ -57,6 +58,7 @@ import net.programmierecke.radiodroid2.RadioDroidApp;
 import net.programmierecke.radiodroid2.Utils;
 import net.programmierecke.radiodroid2.history.TrackHistoryEntry;
 import net.programmierecke.radiodroid2.history.TrackHistoryRepository;
+import net.programmierecke.radiodroid2.players.PlayState;
 import net.programmierecke.radiodroid2.station.DataRadioStation;
 import net.programmierecke.radiodroid2.station.live.ShoutcastInfo;
 import net.programmierecke.radiodroid2.station.live.StreamLiveInfo;
@@ -204,6 +206,11 @@ public class PlayerService extends Service implements RadioPlayer.PlayerListener
         @Override
         public boolean isPlaying() throws RemoteException {
             return radioPlayer.isPlaying();
+        }
+
+        @Override
+        public PlayState getPlayerState() throws RemoteException {
+            return radioPlayer.getPlayState();
         }
 
         @Override
@@ -711,9 +718,9 @@ public class PlayerService extends Service implements RadioPlayer.PlayerListener
                 .addAction(R.drawable.ic_stop_white_24dp, getString(R.string.action_stop), pendingIntentStop)
                 .addAction(R.drawable.ic_skip_previous_24dp, getString(R.string.action_skip_to_previous), pendingIntentPrevious);
 
-        RadioPlayer.PlayState currentPlayerState = radioPlayer.getPlayState();
+        PlayState currentPlayerState = radioPlayer.getPlayState();
 
-        if (currentPlayerState == RadioPlayer.PlayState.Playing || currentPlayerState == RadioPlayer.PlayState.PrePlaying) {
+        if (currentPlayerState == PlayState.Playing || currentPlayerState == PlayState.PrePlaying) {
             Intent pauseIntent = new Intent(itsContext, PlayerService.class);
             pauseIntent.setAction(ACTION_PAUSE);
             PendingIntent pendingIntentPause = PendingIntent.getService(itsContext, 0, pauseIntent, 0);
@@ -721,7 +728,7 @@ public class PlayerService extends Service implements RadioPlayer.PlayerListener
             notificationBuilder.addAction(R.drawable.ic_pause_white_24dp, getString(R.string.action_pause), pendingIntentPause);
             notificationBuilder.setUsesChronometer(true)
                     .setOngoing(true);
-        } else if (currentPlayerState == RadioPlayer.PlayState.Paused || currentPlayerState == RadioPlayer.PlayState.Idle) {
+        } else if (currentPlayerState == PlayState.Paused || currentPlayerState == PlayState.Idle) {
             Intent resumeIntent = new Intent(itsContext, PlayerService.class);
             resumeIntent.setAction(ACTION_RESUME);
             PendingIntent pendingIntentResume = PendingIntent.getService(itsContext, 0, resumeIntent, 0);
@@ -742,7 +749,7 @@ public class PlayerService extends Service implements RadioPlayer.PlayerListener
 
         startForeground(NOTIFY_ID, notification);
 
-        if (currentPlayerState == RadioPlayer.PlayState.Paused) {
+        if (currentPlayerState == PlayState.Paused) {
             stopForeground(false); // necessary to make notification dismissible
         }
     }
@@ -762,7 +769,7 @@ public class PlayerService extends Service implements RadioPlayer.PlayerListener
         updateNotification(radioPlayer.getPlayState());
     }
 
-    private void updateNotification(RadioPlayer.PlayState playState) {
+    private void updateNotification(PlayState playState) {
         switch (playState) {
             case Idle:
                 NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
@@ -844,7 +851,7 @@ public class PlayerService extends Service implements RadioPlayer.PlayerListener
     }
 
     @Override
-    public void onStateChanged(final RadioPlayer.PlayState state, final int audioSessionId) {
+    public void onStateChanged(final PlayState state, final int audioSessionId) {
         // State changed can be called from the player's thread.
 
         Handler h = new Handler(itsContext.getMainLooper());
@@ -876,7 +883,7 @@ public class PlayerService extends Service implements RadioPlayer.PlayerListener
                     default: {
                         setMediaPlaybackState(PlaybackStateCompat.STATE_NONE);
 
-                        if (state != RadioPlayer.PlayState.PrePlaying) {
+                        if (state != PlayState.PrePlaying) {
                             disableMediaSession();
                         }
 
@@ -891,7 +898,7 @@ public class PlayerService extends Service implements RadioPlayer.PlayerListener
                             itsContext.sendBroadcast(i);
                         }
 
-                        if (state == RadioPlayer.PlayState.Idle) {
+                        if (state == PlayState.Idle) {
                             stop();
                         }
 
@@ -903,7 +910,7 @@ public class PlayerService extends Service implements RadioPlayer.PlayerListener
 
                 final Intent intent = new Intent();
                 intent.setAction(PLAYER_SERVICE_STATE_CHANGE);
-                intent.putExtra(PLAYER_SERVICE_STATE_EXTRA_KEY, state);
+                intent.putExtra(PLAYER_SERVICE_STATE_EXTRA_KEY, (Parcelable) state);
                 LocalBroadcastManager.getInstance(itsContext).sendBroadcast(intent);
             }
         });
