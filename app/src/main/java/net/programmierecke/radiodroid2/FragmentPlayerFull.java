@@ -88,6 +88,8 @@ public class FragmentPlayerFull extends Fragment {
     private static final int TIMED_UPDATE_INTERVAL = 1000; // 1 second
 
     private PlayerTrackMetadataCallback trackMetadataCallback;
+    private TrackMetadataCallback.FailureType trackMetadataLastFailureType = null;
+    private StreamLiveInfo lastLiveInfoForTrackMetadata = null;
 
     private RecordingsManager recordingsManager;
     private java.util.Observer recordingsObserver;
@@ -528,23 +530,45 @@ public class FragmentPlayerFull extends Fragment {
     }
 
     private void updateAlbumArt() {
-        if (trackMetadataCallback != null) {
-            trackMetadataCallback.cancel();
+        DataRadioStation station = PlayerServiceUtil.getCurrentStation();
+        if (station == null) {
+            return;
         }
 
-        if (PlayerServiceUtil.getCurrentStation() == null) {
+        final StreamLiveInfo liveInfo = PlayerServiceUtil.getMetadataLive();
+
+        if (lastLiveInfoForTrackMetadata != null &&
+                TextUtils.equals(lastLiveInfoForTrackMetadata.getArtist(), liveInfo.getArtist()) &&
+                TextUtils.equals(lastLiveInfoForTrackMetadata.getTrack(), liveInfo.getTrack()) &&
+                !TrackMetadataCallback.FailureType.RECOVERABLE.equals(trackMetadataLastFailureType)) {
             return;
+        }
+
+        if (TextUtils.isEmpty(liveInfo.getArtist()) || TextUtils.isEmpty(liveInfo.getTrack())) {
+            Picasso.get()
+                    .load(station.IconUrl)
+                    .into(artAndInfoPagerAdapter.imageViewArt);
+            return;
+        }
+
+        trackMetadataLastFailureType = null;
+        lastLiveInfoForTrackMetadata = liveInfo;
+
+        if (trackMetadataCallback != null) {
+            trackMetadataCallback.cancel();
         }
 
         final RadioDroidApp radioDroidApp = (RadioDroidApp) requireActivity().getApplication();
         TrackMetadataSearcher trackMetadataSearcher = radioDroidApp.getTrackMetadataSearcher();
 
-        final StreamLiveInfo liveInfo = PlayerServiceUtil.getMetadataLive();
-
         final WeakReference<FragmentPlayerFull> fragmentWeakReference = new WeakReference<>(this);
         trackHistoryRepository.getLastInsertedHistoryItem((trackHistoryEntry, dao) -> {
             if (trackHistoryEntry == null) {
                 Log.e(TAG, "trackHistoryEntry is null in updateAlbumArt which should not happen.");
+                return;
+            }
+
+            if (!TextUtils.isEmpty(trackHistoryEntry.artUrl)) {
                 return;
             }
 
@@ -595,13 +619,15 @@ public class FragmentPlayerFull extends Fragment {
         }
 
         @Override
-        public void onFailure() {
+        public void onFailure(@NonNull FailureType failureType) {
             FragmentPlayerFull fragment = fragmentWeakReference.get();
             if (fragment != null) {
                 fragment.requireActivity().runOnUiThread(() -> {
                     if (canceled) {
                         return;
                     }
+
+                    fragment.trackMetadataLastFailureType = failureType;
 
                     DataRadioStation station = Utils.getCurrentOrLastStation(fragment.requireContext());
 
@@ -610,6 +636,8 @@ public class FragmentPlayerFull extends Fragment {
                                 .load(station.IconUrl)
                                 .into(fragment.artAndInfoPagerAdapter.imageViewArt);
                     }
+
+                    fragment.trackMetadataCallback = null;
                 });
             }
         }
@@ -619,22 +647,30 @@ public class FragmentPlayerFull extends Fragment {
             FragmentPlayerFull fragment = fragmentWeakReference.get();
             if (fragment != null) {
                 fragment.requireActivity().runOnUiThread(() -> {
+                    if (canceled) {
+                        return;
+                    }
+
                     final List<TrackMetadata.AlbumArt> albumArts = trackMetadata.getAlbumArts();
                     if (!albumArts.isEmpty()) {
                         final String albumArtUrl = albumArts.get(0).url;
 
                         if (!TextUtils.isEmpty(albumArtUrl)) {
-                            if (!canceled) {
-                                Picasso.get()
-                                        .load(albumArtUrl)
-                                        .into(fragment.artAndInfoPagerAdapter.imageViewArt);
-                            }
+                            Picasso.get()
+                                    .load(albumArtUrl)
+                                    .into(fragment.artAndInfoPagerAdapter.imageViewArt);
 
                             if (!albumArtUrl.equals(trackHistoryEntry.stationIconUrl)) {
                                 fragment.trackHistoryRepository.setTrackArtUrl(trackHistoryEntry.uid, albumArtUrl);
                             }
+
+                            fragment.trackMetadataCallback = null;
+
+                            return;
                         }
                     }
+
+                    onFailure(FailureType.UNRECOVERABLE);
                 });
             }
         }
