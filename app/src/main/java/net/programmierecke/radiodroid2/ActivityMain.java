@@ -298,6 +298,10 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
             playerBottomSheet.setState(BottomSheetBehavior.STATE_COLLAPSED);
         }
 
+        if (mSearchView != null) {
+            mSearchView.clearFocus();
+        }
+
         mDrawerLayout.closeDrawers();
         Fragment f = null;
         String backStackTag = String.valueOf(selectedMenuItem);
