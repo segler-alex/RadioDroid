@@ -298,6 +298,10 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
             playerBottomSheet.setState(BottomSheetBehavior.STATE_COLLAPSED);
         }
 
+        if (mSearchView != null) {
+            mSearchView.clearFocus();
+        }
+
         mDrawerLayout.closeDrawers();
         Fragment f = null;
         String backStackTag = String.valueOf(selectedMenuItem);
@@ -539,7 +543,9 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
 
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
-                mBottomNavigationView.setVisibility(hasFocus ? View.GONE : View.VISIBLE);
+                if (Utils.bottomNavigationEnabled(ActivityMain.this)) {
+                    mBottomNavigationView.setVisibility(hasFocus ? View.GONE : View.VISIBLE);
+                }
 
                 if (hasFocus) {
                     prevTabsVisibility = tabsView.getVisibility();
