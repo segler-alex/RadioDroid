@@ -1,0 +1,29 @@
+[
+  {
+    "id": "87600",
+    "changeuuid": "b7a499c8-440a-11e8-b74d-52543be04c81",
+    "stationuuid": "9617a958-0601-11e8-ae97-52543be04c81",
+    "name": "Radio Paradise (320k)",
+    "url": "http://stream.station.test/audio.mp3",
+    "homepage": "https:\/\/www.radioparadise.com\/",
+    "favicon": "https:\/\/www.radioparadise.com\/favicon.ico",
+    "tags": "eclectic,radio,paradise,california,internet,free,non-commercial",
+    "country": "United States of America",
+    "countrycode": "US",
+    "state": "California",
+    "language": "English",
+    "votes": "11664",
+    "negativevotes": "0",
+    "lastchangetime": "2018-04-19 23:22:50",
+    "ip": "",
+    "codec": "AAC",
+    "bitrate": "320",
+    "hls": "0",
+    "lastcheckok": "1",
+    "lastchecktime": "2020-01-10 21:39:41",
+    "lastcheckoktime": "2020-01-10 21:39:41",
+    "clicktimestamp": "2020-01-11 21:06:45",
+    "clickcount": "315",
+    "clicktrend": "-43"
+  }
+]
