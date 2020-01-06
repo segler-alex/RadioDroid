@@ -27,6 +27,7 @@ import net.programmierecke.radiodroid2.station.ItemAdapterIconOnlyStation;
 import net.programmierecke.radiodroid2.interfaces.IAdapterRefreshable;
 import net.programmierecke.radiodroid2.station.StationsFilter;
 
+import java.util.Objects;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -115,12 +116,16 @@ public class FragmentStarred extends Fragment implements IAdapterRefreshable, Ob
 
             @Override
             public void onStationMoved(int from, int to) {
-                favouriteManager.move(from, to);
+                favouriteManager.moveWithoutNotify(from, to);
             }
 
             @Override
             public void onStationMoveFinished() {
-                favouriteManager.Save();
+                // We don't want to update RecyclerView during its layout process
+                Objects.requireNonNull(getView()).post(() -> {
+                    favouriteManager.Save();
+                    favouriteManager.notifyObservers();
+                });
             }
         });
 
