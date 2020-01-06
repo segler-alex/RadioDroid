@@ -35,6 +35,8 @@ import java.util.List;
 public class FragmentStations extends FragmentBase implements IFragmentSearchable {
     private static final String TAG = "FragmentStations";
 
+    public static final String KEY_SEARCH_ENABLED = "SEARCH_ENABLED";
+
     private RecyclerView rvStations;
     private ViewGroup layoutError;
     private MaterialButton btnRetry;
@@ -43,7 +45,7 @@ public class FragmentStations extends FragmentBase implements IFragmentSearchabl
     private SharedPreferences sharedPref;
     private FavouriteManager favouriteManager;
 
-    private boolean searchEnabled;
+    private boolean searchEnabled = false;
 
     private CustomFilter stationsFilter;
     private String lastQuery = "";
@@ -63,10 +65,6 @@ public class FragmentStations extends FragmentBase implements IFragmentSearchabl
 
             rvStations.getAdapter().notifyItemChanged(pos);
         }
-    }
-
-    public FragmentStations(boolean searchEnabled) {
-        this.searchEnabled = searchEnabled;
     }
 
     @Override
@@ -107,6 +105,11 @@ public class FragmentStations extends FragmentBase implements IFragmentSearchabl
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        Bundle bundle = getArguments();
+        if (bundle != null) {
+            searchEnabled = bundle.getBoolean(KEY_SEARCH_ENABLED, false);
+        }
+
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_stations_remote, container, false);
         rvStations = (RecyclerView) view.findViewById(R.id.recyclerViewStations);
