@@ -75,41 +75,17 @@
                 </com.google.android.material.appbar.CollapsingToolbarLayout>
             </com.google.android.material.appbar.AppBarLayout>
 
-            <androidx.core.widget.NestedScrollView
+            <FrameLayout
+                android:id="@+id/containerView"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_marginBottom="?android:attr/actionBarSize"
-                android:fillViewport="true"
-                app:layout_behavior="@string/appbar_scrolling_view_behavior">
-
-                <FrameLayout
-                    android:id="@+id/containerView"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical" />
-            </androidx.core.widget.NestedScrollView>
+                android:orientation="vertical"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
             <include layout="@layout/layout_player_bottom_sheet" />
 
         </androidx.coordinatorlayout.widget.CoordinatorLayout>
-
-        <!--<FrameLayout-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="match_parent"-->
-        <!--android:background="@android:color/transparent"-->
-        <!--android:orientation="vertical">-->
-
-        <!--<RelativeLayout-->
-        <!--android:id="@+id/miniPlayerView"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="?android:attr/actionBarSize"-->
-        <!--android:layout_gravity="bottom" />-->
-
-        <!--<RelativeLayout-->
-        <!--android:id="@+id/playerView"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="match_parent" />-->
-        <!--</FrameLayout>-->
 
         <com.google.android.material.navigation.NavigationView
             android:id="@+id/my_navigation_view"
