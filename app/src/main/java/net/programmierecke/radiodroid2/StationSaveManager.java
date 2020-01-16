@@ -107,9 +107,12 @@ public class StationSaveManager extends Observable {
         return listStations.get(listStations.size() - 1);
     }
 
-    public void move(int fromPos, int toPos) {
+    public void moveWithoutNotify(int fromPos, int toPos) {
         Collections.rotate(listStations.subList(Math.min(fromPos, toPos), Math.max(fromPos, toPos) + 1), Integer.signum(fromPos - toPos));
+    }
 
+    public void move(int fromPos, int toPos) {
+        moveWithoutNotify(fromPos, toPos);
         notifyObservers();
     }
 
