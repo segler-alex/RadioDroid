@@ -172,11 +172,7 @@ public class RadioPlayer implements PlayerWrapper.PlayListener, Recordable {
     public final void destroy() {
         stop();
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
-            if (playerThread != null) {
-                playerThread.quitSafely();
-            }
-        } else {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN) {
             Looper looper = playerThread.getLooper();
             if (looper != null) {
                 playerThreadHandler.post(() -> playerThread.quit());
