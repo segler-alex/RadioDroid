@@ -115,15 +115,19 @@ public class FragmentTabs extends Fragment implements IFragmentRefreshable, IFra
             adresses[0] = "json/stations/bycountryexact/" + country + "?order=clickcount&reverse=true";
         }
         for (int i = 0; i < fragments.length; i++) {
-            if (i < 5)
-                fragments[i] = new FragmentStations(false);
-            else if (i < 8)
+            Bundle bundle = new Bundle();
+
+            if (i < 5) {
+                fragments[i] = new FragmentStations();
+            } else if (i < 8) {
                 fragments[i] = new FragmentCategories();
-            else
-                fragments[i] = new FragmentStations(true);
-            Bundle bundle1 = new Bundle();
-            bundle1.putString("url", RadioBrowserServerManager.getWebserviceEndpoint(getContext(),adresses[i]));
-            fragments[i].setArguments(bundle1);
+            } else {
+                fragments[i] = new FragmentStations();
+                bundle.putBoolean(FragmentStations.KEY_SEARCH_ENABLED, true);
+            }
+
+            bundle.putString("url", RadioBrowserServerManager.getWebserviceEndpoint(getContext(),adresses[i]));
+            fragments[i].setArguments(bundle);
         }
 
         ((FragmentCategories) fragments[5]).EnableSingleUseFilter(true);
