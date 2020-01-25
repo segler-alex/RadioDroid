@@ -17,6 +17,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.provider.MediaStore;
 import android.text.TextUtils;
 import android.util.Log;
 import android.util.TypedValue;
@@ -173,9 +174,39 @@ public class Utils {
 		return null;
 	}
 
+	public static String downloadFeedRelative(OkHttpClient httpClient, Context ctx, String theRelativeUri, boolean forceUpdate, Map<String,String> dictParams) {
+		// try current server for download
+		String currentServer = RadioBrowserServerManager.getCurrentServer();
+		String endpoint = RadioBrowserServerManager.constructEndpoint(currentServer, theRelativeUri);
+		String result = downloadFeed(httpClient, ctx, endpoint,forceUpdate, dictParams);
+		if (result != null){
+			return result;
+		}
+
+		// get a list of all servers
+		String[] serverList = RadioBrowserServerManager.getServerList(false);
+
+		// try all other servers for download
+		for (String newServer: serverList){
+			if (newServer == currentServer){
+				continue;
+			}
+
+			endpoint = RadioBrowserServerManager.constructEndpoint(newServer, theRelativeUri);
+			result = downloadFeed(httpClient, ctx, endpoint,forceUpdate, dictParams);
+			if (result != null){
+				// set the working server as new current server
+				RadioBrowserServerManager.setCurrentServer(newServer);
+				return result;
+			}
+		}
+
+		return null;
+	}
+
 	public static String getRealStationLink(OkHttpClient httpClient, Context ctx, String stationId){
 		Log.i("UTIL","StationUUID:" + stationId);
-		String result = Utils.downloadFeed(httpClient, ctx, RadioBrowserServerManager.getWebserviceEndpoint(ctx, "v2/json/url/" + stationId), true, null);
+		String result = Utils.downloadFeedRelative(httpClient, ctx,  "v2/json/url/" + stationId, true, null);
 		if (result != null) {
 			Log.i("UTIL",result);
 			JSONObject jsonObj;
@@ -211,7 +242,7 @@ public class Utils {
 
 	public static DataRadioStation getStationByUuid(OkHttpClient httpClient, Context ctx, String stationUuid){
 		Log.w("UTIL","Search by uuid:"+stationUuid);
-		String result = Utils.downloadFeed(httpClient, ctx, RadioBrowserServerManager.getWebserviceEndpoint(ctx, "json/stations/byuuid/" + stationUuid), true, null);
+		String result = Utils.downloadFeedRelative(httpClient, ctx, "json/stations/byuuid/" + stationUuid, true, null);
 		if (result != null) {
 			try {
 				List<DataRadioStation> list = DataRadioStation.DecodeJson(result);

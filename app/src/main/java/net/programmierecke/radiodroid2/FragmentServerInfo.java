@@ -48,11 +48,7 @@ public class FragmentServerInfo extends Fragment implements IFragmentRefreshable
         new AsyncTask<Void, Void, String>() {
             @Override
             protected String doInBackground(Void... params) {
-                String endpoint = RadioBrowserServerManager.getWebserviceEndpoint(getActivity(),"json/stats");
-                if (endpoint != null) {
-                    return Utils.downloadFeed(httpClient, getActivity(), endpoint, forceUpdate, null);
-                }
-                return null;
+                return Utils.downloadFeedRelative(httpClient, getActivity(), "json/stats", forceUpdate, null);
             }
 
             @Override

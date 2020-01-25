@@ -205,7 +205,7 @@ public class StationActions {
                 final RadioDroidApp radioDroidApp = (RadioDroidApp) ctx.getApplicationContext();
                 final OkHttpClient httpClient = radioDroidApp.getHttpClient();
 
-                return Utils.downloadFeed(httpClient, ctx, RadioBrowserServerManager.getWebserviceEndpoint(ctx, "json/vote/" + station.StationUuid), true, null);
+                return Utils.downloadFeedRelative(httpClient, ctx, "json/vote/" + station.StationUuid, true, null);
             }
 
             @Override
