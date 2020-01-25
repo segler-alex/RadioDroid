@@ -19,7 +19,7 @@ import okhttp3.OkHttpClient;
 public class FragmentBase extends Fragment {
     private static final String TAG = "FragmentBase";
 
-    private String url;
+    private String relativeUrl;
     private String urlResult;
 
     private boolean isCreated = false;
@@ -38,9 +38,9 @@ public class FragmentBase extends Fragment {
 
         isCreated = true;
 
-        if (url == null) {
+        if (relativeUrl == null) {
             Bundle bundle = this.getArguments();
-            url = bundle.getString("url");
+            relativeUrl = bundle.getString("url");
         }
 
         DownloadUrl(false);
@@ -51,14 +51,14 @@ public class FragmentBase extends Fragment {
     }
 
     protected boolean hasUrl() {
-        return !TextUtils.isEmpty(url);
+        return !TextUtils.isEmpty(relativeUrl);
     }
 
     public void SetDownloadUrl(String theUrl) {
         if (BuildConfig.DEBUG) {
-            Log.d(TAG, "new url " + theUrl);
+            Log.d(TAG, "new relativeUrl " + theUrl);
         }
-        url = theUrl;
+        relativeUrl = theUrl;
         DownloadUrl(false);
     }
 
@@ -75,11 +75,11 @@ public class FragmentBase extends Fragment {
         final boolean show_broken = sharedPref.getBoolean("show_broken", false);
 
         if (BuildConfig.DEBUG) {
-            Log.d(TAG, "Download url:" + url);
+            Log.d(TAG, "Download relativeUrl:" + relativeUrl);
         }
 
-        if (TextUtils.isGraphic(url)) {
-            String cache = Utils.getCacheFile(getActivity(), url);
+        if (TextUtils.isGraphic(relativeUrl)) {
+            String cache = Utils.getCacheFile(getActivity(), relativeUrl);
             if (cache == null || forceUpdate) {
                 if (getContext() != null && displayProgress) {
                     getContext().sendBroadcast(new Intent(ActivityMain.ACTION_SHOW_LOADING));
@@ -95,7 +95,7 @@ public class FragmentBase extends Fragment {
                         if (!show_broken) {
                             p.put("hidebroken", "true");
                         }
-                        return Utils.downloadFeed(httpClient, getActivity(), url, forceUpdate, p);
+                        return Utils.downloadFeedRelative(httpClient, getActivity(), relativeUrl, forceUpdate, p);
                     }
 
                     @Override
@@ -104,11 +104,11 @@ public class FragmentBase extends Fragment {
                         if(getContext() != null)
                             getContext().sendBroadcast(new Intent(ActivityMain.ACTION_HIDE_LOADING));
                         if (BuildConfig.DEBUG) {
-                            Log.d(TAG, "Download url finished:" + url);
+                            Log.d(TAG, "Download relativeUrl finished:" + relativeUrl);
                         }
                         if (result != null) {
                             if (BuildConfig.DEBUG) {
-                                Log.d(TAG, "Download url OK:" + url);
+                                Log.d(TAG, "Download relativeUrl OK:" + relativeUrl);
                             }
                             urlResult = result;
                             RefreshListGui();

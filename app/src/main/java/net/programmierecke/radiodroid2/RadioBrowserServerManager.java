@@ -28,15 +28,6 @@ public class RadioBrowserServerManager {
         return "https://" + prefs.getString("radiobrowser_server", context.getString(R.string.settings_radiobrowser_servers_default));
     }
 
-    @Deprecated
-    public static String getWebserviceEndpoint(Context context, String command){
-        String a = getServerAddress(context);
-        if (a != null){
-            return a + "/" + command;
-        }
-        return null;
-    }
-
     /**
      * Blocking: do dns request do get a list of all available servers
      */

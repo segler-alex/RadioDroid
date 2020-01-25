@@ -7,6 +7,7 @@ import androidx.annotation.NonNull;
 
 import net.programmierecke.radiodroid2.RadioBrowserServerManager;
 import net.programmierecke.radiodroid2.RadioDroidApp;
+import net.programmierecke.radiodroid2.Utils;
 import net.programmierecke.radiodroid2.utils.CustomFilter;
 
 import org.jetbrains.annotations.NotNull;
@@ -80,6 +81,7 @@ public class StationsFilter extends CustomFilter {
         // TODO: use http client with custom timeouts
         OkHttpClient httpClient = radioDroidApp.getHttpClient();
 
+        /*
         String queryEncoded = null;
         try {
             queryEncoded = URLEncoder.encode(query, "utf-8");
@@ -88,33 +90,37 @@ public class StationsFilter extends CustomFilter {
         }
         assert queryEncoded != null;
         queryEncoded = queryEncoded.replace("+", "%20");
+        */
+        //String urlString = RadioBrowserServerManager.constructEndpoint(RadioBrowserServerManager.getCurrentServer(), "json/stations/byname/" + queryEncoded);
 
-        String urlString = RadioBrowserServerManager.getWebserviceEndpoint(context, "json/stations/byname/" + queryEncoded);
+        //Log.i(TAG, urlString);
 
-        Log.i(TAG, urlString);
-
-        HttpUrl.Builder httpBuider = HttpUrl.parse(urlString).newBuilder();
-        httpBuider.addQueryParameter("order", "clickcount");
+        //HttpUrl.Builder httpBuider = HttpUrl.parse(urlString).newBuilder();
+        //httpBuider.addQueryParameter("order", "clickcount");
         //httpBuider.addQueryParameter("limit", "100");
 
-        Request.Builder builder = new Request.Builder().url(httpBuider.build());
-        Request request = builder.get().build();
+        //Request.Builder builder = new Request.Builder().url(httpBuider.build());
+        //Request request = builder.get().build();
 
-        try {
-            Response response = httpClient.newCall(request).execute();
-            List<DataRadioStation> result = DataRadioStation.DecodeJson(response.body().string());
+        //try {
+            //Response response = httpClient.newCall(request).execute();
+            //List<DataRadioStation> result = DataRadioStation.DecodeJson(response.body().string());
+
+            String resultString = Utils.downloadFeedRelative(httpClient, this.context, query, false, null);
+            List<DataRadioStation> result = DataRadioStation.DecodeJson(resultString);
             lastRemoteSearchStatus = SearchStatus.SUCCESS;
             return result;
-        } catch (IOException e) {
-            lastRemoteSearchStatus = SearchStatus.ERROR;
-        }
+        //} catch (IOException e) {
+        //    lastRemoteSearchStatus = SearchStatus.ERROR;
+        //}
 
-        return new ArrayList<>();
+        //return new ArrayList<>();
     }
 
     @Override
     protected FilterResults performFiltering(CharSequence constraint) {
         final String query = constraint.toString().toLowerCase();
+        Log.d("FILTER", "performFiltering() " + query);
 
         if (query.isEmpty() || (query.length() < 3 && filterType == FilterType.GLOBAL)) {
             filteredStationsList = dataProvider.getOriginalStationList();

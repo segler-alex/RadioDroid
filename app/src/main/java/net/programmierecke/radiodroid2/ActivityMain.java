@@ -443,7 +443,7 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
                 try {
                     String queryEncoded = URLEncoder.encode(searchTag, "utf-8");
                     queryEncoded = queryEncoded.replace("+", "%20");
-                    Search(RadioBrowserServerManager.getWebserviceEndpoint(this, TAG_SEARCH_URL + "/" + queryEncoded));
+                    Search(TAG_SEARCH_URL + "/" + queryEncoded);
                 } catch (UnsupportedEncodingException e) {
                     e.printStackTrace();
                 }

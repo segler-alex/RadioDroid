@@ -134,7 +134,7 @@ public class Utils {
 		}
 	}
 
-	public static String downloadFeed(OkHttpClient httpClient, Context ctx, String theURI, boolean forceUpdate, Map<String,String> dictParams) {
+	private static String downloadFeed(OkHttpClient httpClient, Context ctx, String theURI, boolean forceUpdate, Map<String,String> dictParams) {
 		if (!forceUpdate) {
 			String cache = getCacheFile(ctx, theURI);
 			if (cache != null) {
@@ -223,7 +223,7 @@ public class Utils {
 	@Deprecated
 	public static DataRadioStation getStationById(OkHttpClient httpClient, Context ctx, String stationId) {
 		Log.w("UTIL", "Search by id:" + stationId);
-		String result = Utils.downloadFeed(httpClient, ctx, RadioBrowserServerManager.getWebserviceEndpoint(ctx, "json/stations/byid/" + stationId), true, null);
+		String result = Utils.downloadFeed(httpClient, ctx, "json/stations/byid/" + stationId, true, null);
 		if (result != null) {
 			try {
 				List<DataRadioStation> list = DataRadioStation.DecodeJson(result);

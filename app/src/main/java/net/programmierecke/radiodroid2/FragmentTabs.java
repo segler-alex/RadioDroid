@@ -126,7 +126,7 @@ public class FragmentTabs extends Fragment implements IFragmentRefreshable, IFra
                 bundle.putBoolean(FragmentStations.KEY_SEARCH_ENABLED, true);
             }
 
-            bundle.putString("url", RadioBrowserServerManager.getWebserviceEndpoint(getContext(),adresses[i]));
+            bundle.putString("url", adresses[i]);
             fragments[i].setArguments(bundle);
         }
 
