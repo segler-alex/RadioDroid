@@ -36,6 +36,13 @@ public class StationsFilter extends CustomFilter {
         ERROR
     }
 
+    public enum SearchStyle {
+        ByName,
+        ByLanguage,
+        ByCountry,
+        ByTag,
+    }
+
     public interface DataProvider {
         List<DataRadioStation> getOriginalStationList();
 
@@ -53,6 +60,8 @@ public class StationsFilter extends CustomFilter {
     private List<DataRadioStation> filteredStationsList;
     private SearchStatus lastRemoteSearchStatus = SearchStatus.SUCCESS;
 
+    private SearchStyle searchStyle = SearchStyle.ByName;
+
     private class WeightedStation {
         DataRadioStation station;
         int weight;
@@ -69,6 +78,11 @@ public class StationsFilter extends CustomFilter {
         this.dataProvider = dataProvider;
     }
 
+    public void setSearchStyle(SearchStyle searchStyle){
+        Log.d("FILTER","Changed search style:" + searchStyle);
+        this.searchStyle = searchStyle;
+    }
+
     private @NonNull
     List<DataRadioStation> searchGlobal(final @NotNull String query) {
         RadioDroidApp radioDroidApp = (RadioDroidApp) context.getApplicationContext();
@@ -79,7 +93,27 @@ public class StationsFilter extends CustomFilter {
         p.put("order", "clickcount");
         p.put("reverse", "true");
 
-        String resultString = Utils.downloadFeedRelative(httpClient, radioDroidApp, query, false, p);
+        String searchUrl = null;
+        switch (searchStyle){
+            case ByName:
+                searchUrl = "json/stations/byname/" + query;
+                break;
+            case ByCountry:
+                searchUrl = "json/stations/bycountryexact/" + query;
+                break;
+            case ByLanguage:
+                searchUrl = "json/stations/bylanguageexact/" + query;
+                break;
+            case ByTag:
+                searchUrl = "json/stations/bytagexact/" + query;
+                break;
+            default:
+                Log.e("FILTER", "unknown search style: "+searchStyle);
+                lastRemoteSearchStatus = SearchStatus.ERROR;
+                return new ArrayList<>();
+        }
+
+        String resultString = Utils.downloadFeedRelative(httpClient, radioDroidApp, searchUrl, false, p);
         if (resultString != null) {
             List<DataRadioStation> result = DataRadioStation.DecodeJson(resultString);
             lastRemoteSearchStatus = SearchStatus.SUCCESS;
@@ -119,7 +153,7 @@ public class StationsFilter extends CustomFilter {
                         needsFiltering = true;
                         break;
                     case GLOBAL:
-                        stationsToFilter = searchGlobal("/json/stations/byname/" + query);
+                        stationsToFilter = searchGlobal(query);
                         needsFiltering = false;
                         lastRemoteQuery = query;
                         break;

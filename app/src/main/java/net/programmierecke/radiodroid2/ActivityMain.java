@@ -59,6 +59,7 @@ import net.programmierecke.radiodroid2.players.PlayState;
 import net.programmierecke.radiodroid2.service.MediaSessionCallback;
 import net.programmierecke.radiodroid2.service.PlayerServiceUtil;
 import net.programmierecke.radiodroid2.station.DataRadioStation;
+import net.programmierecke.radiodroid2.station.StationsFilter;
 
 import java.io.File;
 import java.io.UnsupportedEncodingException;
@@ -443,7 +444,7 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
                 try {
                     String queryEncoded = URLEncoder.encode(searchTag, "utf-8");
                     queryEncoded = queryEncoded.replace("+", "%20");
-                    Search(TAG_SEARCH_URL + "/" + queryEncoded);
+                    Search(StationsFilter.SearchStyle.ByTag, queryEncoded);
                 } catch (UnsupportedEncodingException e) {
                     e.printStackTrace();
                 }
@@ -825,11 +826,11 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
             mNavigationView.getMenu().findItem(selectedMenuItem).setChecked(true);
     }
 
-    public void Search(String query) {
-        Log.d("MAIN","Search() query=" + query);
+    public void Search(StationsFilter.SearchStyle searchStyle, String query) {
+        Log.d("MAIN","Search() searchstyle=" + searchStyle + " query=" + query);
         Fragment currentFragment = mFragmentManager.getFragments().get(mFragmentManager.getFragments().size() - 1);
         if (currentFragment instanceof FragmentTabs) {
-            ((FragmentTabs) currentFragment).Search(query);
+            ((FragmentTabs) currentFragment).Search(searchStyle, query);
         } else {
             String backStackTag = String.valueOf(R.id.nav_item_stations);
             FragmentTabs f = new FragmentTabs();
@@ -842,7 +843,7 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
                 mNavigationView.getMenu().findItem(R.id.nav_item_stations).setChecked(true);
             }
 
-            f.Search(query);
+            f.Search(searchStyle, query);
             selectedMenuItem = R.id.nav_item_stations;
             invalidateOptionsMenu();
         }
@@ -852,7 +853,7 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
     public void SearchStations(@NonNull String query) {
         Fragment currentFragment = mFragmentManager.getFragments().get(mFragmentManager.getFragments().size() - 1);
         if (currentFragment instanceof IFragmentSearchable) {
-            ((IFragmentSearchable) currentFragment).Search(query);
+            ((IFragmentSearchable) currentFragment).Search(StationsFilter.SearchStyle.ByName, query);
         }
     }
 

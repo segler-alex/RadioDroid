@@ -15,6 +15,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import net.programmierecke.radiodroid2.adapters.ItemAdapterCategory;
 import net.programmierecke.radiodroid2.data.DataCategory;
+import net.programmierecke.radiodroid2.station.StationsFilter;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
@@ -24,7 +25,7 @@ public class FragmentCategories extends FragmentBase {
     private static final String TAG = "FragmentCategories";
 
     private RecyclerView rvCategories;
-    private String baseSearchAddress = "";
+    private StationsFilter.SearchStyle searchStyle = StationsFilter.SearchStyle.ByName;
     private SwipeRefreshLayout swipeRefreshLayout;
     private boolean singleUseFilter = false;
     private SharedPreferences sharedPref;
@@ -32,8 +33,8 @@ public class FragmentCategories extends FragmentBase {
     public FragmentCategories() {
     }
 
-    public void SetBaseSearchLink(String url) {
-        this.baseSearchAddress = url;
+    public void SetBaseSearchLink(StationsFilter.SearchStyle searchStyle) {
+        this.searchStyle = searchStyle;
     }
 
     void ClickOnItem(DataCategory theData) {
@@ -42,7 +43,8 @@ public class FragmentCategories extends FragmentBase {
         try {
             String queryEncoded = URLEncoder.encode(theData.Name, "utf-8");
             queryEncoded = queryEncoded.replace("+", "%20");
-            m.Search(baseSearchAddress + "/" + queryEncoded);
+
+            m.Search(this.searchStyle, queryEncoded);
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }

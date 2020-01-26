@@ -47,7 +47,8 @@ public class FragmentStations extends FragmentBase implements IFragmentSearchabl
 
     private boolean searchEnabled = false;
 
-    private CustomFilter stationsFilter;
+    private StationsFilter stationsFilter;
+    private StationsFilter.SearchStyle lastSearchStyle = StationsFilter.SearchStyle.ByName;
     private String lastQuery = "";
 
     void onStationClick(DataRadioStation theStation, int pos) {
@@ -166,7 +167,7 @@ public class FragmentStations extends FragmentBase implements IFragmentSearchabl
                 swipeRefreshLayout.setRefreshing(false);
             });
 
-            btnRetry.setOnClickListener(v -> Search(lastQuery));
+            btnRetry.setOnClickListener(v -> Search(lastSearchStyle, lastQuery));
         }
 
         LinearLayoutManager llm = new LinearLayoutManager(getContext());
@@ -185,7 +186,7 @@ public class FragmentStations extends FragmentBase implements IFragmentSearchabl
                     if (hasUrl()) {
                         DownloadUrl(true, false);
                     } else if (searchEnabled) {
-                        Search(lastQuery);
+                        Search(lastSearchStyle, lastQuery);
                     }
                 }
         );
@@ -202,7 +203,7 @@ public class FragmentStations extends FragmentBase implements IFragmentSearchabl
     }
 
     @Override
-    public void Search(String query) {
+    public void Search(StationsFilter.SearchStyle searchStyle, String query) {
         Log.d("STATIONS", "query = "+query);
         if (rvStations != null && searchEnabled) {
             if (!TextUtils.isEmpty(query)) {
@@ -210,6 +211,8 @@ public class FragmentStations extends FragmentBase implements IFragmentSearchabl
             }
 
             lastQuery = query;
+            lastSearchStyle = searchStyle;
+            stationsFilter.setSearchStyle(searchStyle);
             stationsFilter.filter(query);
         }
     }

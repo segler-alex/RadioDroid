@@ -20,6 +20,7 @@ import com.google.android.material.tabs.TabLayout;
 import net.programmierecke.radiodroid2.interfaces.IFragmentRefreshable;
 import net.programmierecke.radiodroid2.interfaces.IFragmentSearchable;
 import net.programmierecke.radiodroid2.station.FragmentStations;
+import net.programmierecke.radiodroid2.station.StationsFilter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -61,7 +62,7 @@ public class FragmentTabs extends Fragment implements IFragmentRefreshable, IFra
         setupViewPager(viewPager);
 
         if (searchQuery != null) {
-            Search(searchQuery);
+            Search(StationsFilter.SearchStyle.ByName, searchQuery);
             searchQuery = null;
         }
 
@@ -131,9 +132,9 @@ public class FragmentTabs extends Fragment implements IFragmentRefreshable, IFra
         }
 
         ((FragmentCategories) fragments[5]).EnableSingleUseFilter(true);
-        ((FragmentCategories) fragments[5]).SetBaseSearchLink("json/stations/bytagexact");
-        ((FragmentCategories) fragments[6]).SetBaseSearchLink("json/stations/bycountryexact");
-        ((FragmentCategories) fragments[7]).SetBaseSearchLink("json/stations/bylanguageexact");
+        ((FragmentCategories) fragments[5]).SetBaseSearchLink(StationsFilter.SearchStyle.ByTag);
+        ((FragmentCategories) fragments[6]).SetBaseSearchLink(StationsFilter.SearchStyle.ByCountry);
+        ((FragmentCategories) fragments[7]).SetBaseSearchLink(StationsFilter.SearchStyle.ByLanguage);
 
         FragmentManager m = getChildFragmentManager();
         ViewPagerAdapter adapter = new ViewPagerAdapter(m);
@@ -151,11 +152,11 @@ public class FragmentTabs extends Fragment implements IFragmentRefreshable, IFra
         viewPager.setAdapter(adapter);
     }
 
-    public void Search(final String query) {
+    public void Search(StationsFilter.SearchStyle searchStyle, final String query) {
         Log.d("TABS","Search = "+ query);
         if (viewPager != null) {
             viewPager.setCurrentItem(8, false);
-            ((IFragmentSearchable)fragments[8]).Search(query);
+            ((IFragmentSearchable)fragments[8]).Search(searchStyle, query);
         } else {
             searchQuery = query;
         }

@@ -85,7 +85,7 @@ public class ItemAdapterStation
 
     private FavouriteManager favouriteManager;
 
-    private CustomFilter filter;
+    private StationsFilter filter;
 
     private TagsView.TagSelectionCallback tagSelectionCallback = new TagsView.TagSelectionCallback() {
         @Override
@@ -458,7 +458,7 @@ public class ItemAdapterStation
         LocalBroadcastManager.getInstance(getContext()).unregisterReceiver(updateUIReceiver);
     }
 
-    public CustomFilter getFilter() {
+    public StationsFilter getFilter() {
         if (filter == null) {
             filter = new StationsFilter(getContext(), filterType, new StationsFilter.DataProvider() {
                 @Override
