@@ -17,6 +17,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 
 import me.xdrop.fuzzywuzzy.FuzzySearch;
@@ -81,40 +82,13 @@ public class StationsFilter extends CustomFilter {
         // TODO: use http client with custom timeouts
         OkHttpClient httpClient = radioDroidApp.getHttpClient();
 
-        /*
-        String queryEncoded = null;
-        try {
-            queryEncoded = URLEncoder.encode(query, "utf-8");
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }
-        assert queryEncoded != null;
-        queryEncoded = queryEncoded.replace("+", "%20");
-        */
-        //String urlString = RadioBrowserServerManager.constructEndpoint(RadioBrowserServerManager.getCurrentServer(), "json/stations/byname/" + queryEncoded);
+        HashMap<String, String> p = new HashMap<String, String>();
+        p.put("order", "clickcount");
 
-        //Log.i(TAG, urlString);
-
-        //HttpUrl.Builder httpBuider = HttpUrl.parse(urlString).newBuilder();
-        //httpBuider.addQueryParameter("order", "clickcount");
-        //httpBuider.addQueryParameter("limit", "100");
-
-        //Request.Builder builder = new Request.Builder().url(httpBuider.build());
-        //Request request = builder.get().build();
-
-        //try {
-            //Response response = httpClient.newCall(request).execute();
-            //List<DataRadioStation> result = DataRadioStation.DecodeJson(response.body().string());
-
-            String resultString = Utils.downloadFeedRelative(httpClient, this.context, query, false, null);
-            List<DataRadioStation> result = DataRadioStation.DecodeJson(resultString);
-            lastRemoteSearchStatus = SearchStatus.SUCCESS;
-            return result;
-        //} catch (IOException e) {
-        //    lastRemoteSearchStatus = SearchStatus.ERROR;
-        //}
-
-        //return new ArrayList<>();
+        String resultString = Utils.downloadFeedRelative(httpClient, radioDroidApp, query, false, p);
+        List<DataRadioStation> result = DataRadioStation.DecodeJson(resultString);
+        lastRemoteSearchStatus = SearchStatus.SUCCESS;
+        return result;
     }
 
     @Override
@@ -123,18 +97,22 @@ public class StationsFilter extends CustomFilter {
         Log.d("FILTER", "performFiltering() " + query);
 
         if (query.isEmpty() || (query.length() < 3 && filterType == FilterType.GLOBAL)) {
+            Log.d("FILTER", "performFiltering() 2 " + query);
             filteredStationsList = dataProvider.getOriginalStationList();
             lastRemoteQuery = "";
         } else {
+            Log.d("FILTER", "performFiltering() 3 " + query);
             List<DataRadioStation> stationsToFilter;
 
             boolean needsFiltering = false;
 
             if (!lastRemoteQuery.isEmpty() && query.startsWith(lastRemoteQuery) && lastRemoteSearchStatus != SearchStatus.ERROR) {
+                Log.d("FILTER", "performFiltering() 3a " + query);
                 // We can filter already existing list without making costly http call.
                 stationsToFilter = filteredStationsList;
                 needsFiltering = true;
             } else {
+                Log.d("FILTER", "performFiltering() 3b " + query);
                 switch (filterType) {
 
                     case LOCAL:
@@ -142,7 +120,7 @@ public class StationsFilter extends CustomFilter {
                         needsFiltering = true;
                         break;
                     case GLOBAL:
-                        stationsToFilter = searchGlobal(query);
+                        stationsToFilter = searchGlobal("/json/stations/byname/" + query);
                         needsFiltering = false;
                         lastRemoteQuery = query;
                         break;
@@ -152,6 +130,7 @@ public class StationsFilter extends CustomFilter {
             }
 
             if (needsFiltering) {
+                Log.d("FILTER", "performFiltering() 4a " + query);
                 ArrayList<WeightedStation> filteredStations = new ArrayList<>();
 
                 for (DataRadioStation station : stationsToFilter) {
@@ -175,6 +154,7 @@ public class StationsFilter extends CustomFilter {
                     filteredStationsList.add(weightedStation.station);
                 }
             } else {
+                Log.d("FILTER", "performFiltering() 4b " + query);
                 filteredStationsList = stationsToFilter;
             }
         }

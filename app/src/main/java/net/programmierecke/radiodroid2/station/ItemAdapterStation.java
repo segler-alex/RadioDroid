@@ -431,7 +431,10 @@ public class ItemAdapterStation
 
     @Override
     public int getItemCount() {
-        return filteredStationsList.size();
+        if (filteredStationsList != null) {
+            return filteredStationsList.size();
+        }
+        return 0;
     }
 
     @Override

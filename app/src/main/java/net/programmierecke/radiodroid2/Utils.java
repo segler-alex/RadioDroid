@@ -135,12 +135,14 @@ public class Utils {
 	}
 
 	private static String downloadFeed(OkHttpClient httpClient, Context ctx, String theURI, boolean forceUpdate, Map<String,String> dictParams) {
+		Log.i("DOWN", "Url="+theURI);
 		if (!forceUpdate) {
 			String cache = getCacheFile(ctx, theURI);
 			if (cache != null) {
 				return cache;
 			}
 		}
+		Log.i("DOWN", "Url="+theURI + " (not cached)");
 
 		try{
 			HttpUrl url = HttpUrl.parse(theURI);

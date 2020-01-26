@@ -19,15 +19,6 @@ public class RadioBrowserServerManager {
     static String currentServer = null;
     static String[] serverList = null;
 
-    @Deprecated
-    private static String getServerAddress(Context context){
-        if (context == null){
-            return "https://www.radio-browser.info/webservice";
-        }
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context.getApplicationContext());
-        return "https://" + prefs.getString("radiobrowser_server", context.getString(R.string.settings_radiobrowser_servers_default));
-    }
-
     /**
      * Blocking: do dns request do get a list of all available servers
      */
@@ -38,7 +29,7 @@ public class RadioBrowserServerManager {
             // add all round robin servers one by one to select them separately
             InetAddress[] list = InetAddress.getAllByName("all.api.radio-browser.info");
             for (InetAddress item : list) {
-                Log.e("DNS", "Found: " + item.toString() + " -> " + item.getCanonicalHostName());
+                Log.i("DNS", "Found: " + item.toString() + " -> " + item.getCanonicalHostName());
                 listResult.add(item.getCanonicalHostName());
             }
         } catch (UnknownHostException e) {

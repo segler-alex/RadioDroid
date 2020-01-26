@@ -826,6 +826,7 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
     }
 
     public void Search(String query) {
+        Log.d("MAIN","Search() query=" + query);
         Fragment currentFragment = mFragmentManager.getFragments().get(mFragmentManager.getFragments().size() - 1);
         if (currentFragment instanceof FragmentTabs) {
             ((FragmentTabs) currentFragment).Search(query);
