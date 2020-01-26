@@ -77,6 +77,7 @@ public class StationsFilter extends CustomFilter {
 
         HashMap<String, String> p = new HashMap<String, String>();
         p.put("order", "clickcount");
+        p.put("reverse", "true");
 
         String resultString = Utils.downloadFeedRelative(httpClient, radioDroidApp, query, false, p);
         if (resultString != null) {

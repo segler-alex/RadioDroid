@@ -509,6 +509,7 @@ public class ItemAdapterStation
 
     private void highlightCurrentStation() {
         if (!PlayerServiceUtil.isPlaying()) return;
+        if (filteredStationsList == null) return;
 
         int oldPlayingStationPosition = playingStationPosition;
 
