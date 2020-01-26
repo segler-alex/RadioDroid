@@ -152,6 +152,7 @@ public class FragmentTabs extends Fragment implements IFragmentRefreshable, IFra
     }
 
     public void Search(final String query) {
+        Log.d("TABS","Search = "+ query);
         if (viewPager != null) {
             viewPager.setCurrentItem(8, false);
             ((IFragmentSearchable)fragments[8]).Search(query);

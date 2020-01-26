@@ -203,6 +203,7 @@ public class FragmentStations extends FragmentBase implements IFragmentSearchabl
 
     @Override
     public void Search(String query) {
+        Log.d("STATIONS", "query = "+query);
         if (rvStations != null && searchEnabled) {
             if (!TextUtils.isEmpty(query)) {
                 getContext().sendBroadcast(new Intent(ActivityMain.ACTION_SHOW_LOADING));

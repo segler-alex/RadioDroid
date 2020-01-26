@@ -5,26 +5,19 @@ import android.util.Log;
 
 import androidx.annotation.NonNull;
 
-import net.programmierecke.radiodroid2.RadioBrowserServerManager;
 import net.programmierecke.radiodroid2.RadioDroidApp;
 import net.programmierecke.radiodroid2.Utils;
 import net.programmierecke.radiodroid2.utils.CustomFilter;
 
 import org.jetbrains.annotations.NotNull;
 
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
 import me.xdrop.fuzzywuzzy.FuzzySearch;
-import okhttp3.HttpUrl;
 import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
 
 public class StationsFilter extends CustomFilter {
     public enum FilterType {
@@ -86,9 +79,14 @@ public class StationsFilter extends CustomFilter {
         p.put("order", "clickcount");
 
         String resultString = Utils.downloadFeedRelative(httpClient, radioDroidApp, query, false, p);
-        List<DataRadioStation> result = DataRadioStation.DecodeJson(resultString);
-        lastRemoteSearchStatus = SearchStatus.SUCCESS;
-        return result;
+        if (resultString != null) {
+            List<DataRadioStation> result = DataRadioStation.DecodeJson(resultString);
+            lastRemoteSearchStatus = SearchStatus.SUCCESS;
+            return result;
+        }else{
+            lastRemoteSearchStatus = SearchStatus.ERROR;
+            return new ArrayList<>();
+        }
     }
 
     @Override
