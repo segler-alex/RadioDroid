@@ -102,18 +102,22 @@ public class FragmentTabs extends Fragment implements IFragmentRefreshable, IFra
     private void setupViewPager(ViewPager viewPager) {
         Context ctx = getContext();
         String countryCode = null;
-        String country = null;
         if (ctx != null) {
             TelephonyManager tm = (TelephonyManager) ctx.getSystemService(Context.TELEPHONY_SERVICE);
             countryCode = tm.getNetworkCountryIso();
             if (countryCode == null) {
                 countryCode = tm.getSimCountryIso();
             }
-            Log.e("YYY", "Found countrycode " + countryCode);
-            country = CountryCodeDictionary.getInstance().getCountryByCode(countryCode);
-            Log.e("YYY", "Found country " + country);
-
-            adresses[0] = "json/stations/bycountryexact/" + country + "?order=clickcount&reverse=true";
+            if (countryCode != null) {
+                if (countryCode.length() == 2) {
+                    Log.d("MAIN", "Found countrycode " + countryCode);
+                    adresses[0] = "json/stations/bycountrycodeexact/" + countryCode + "?order=clickcount&reverse=true";
+                }else{
+                    Log.e("MAIN", "countrycode length != 2");
+                }
+            }else{
+                Log.e("MAIN", "device countrycode and sim countrycode are null");
+            }
         }
         for (int i = 0; i < fragments.length; i++) {
             Bundle bundle = new Bundle();
@@ -138,7 +142,7 @@ public class FragmentTabs extends Fragment implements IFragmentRefreshable, IFra
 
         FragmentManager m = getChildFragmentManager();
         ViewPagerAdapter adapter = new ViewPagerAdapter(m);
-        if (country != null){
+        if (countryCode != null){
             adapter.addFragment(fragments[0], R.string.action_local);
         }
         adapter.addFragment(fragments[1], R.string.action_top_click);
