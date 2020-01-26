@@ -186,6 +186,8 @@ public class FragmentStations extends FragmentBase implements IFragmentSearchabl
                     if (hasUrl()) {
                         DownloadUrl(true, false);
                     } else if (searchEnabled) {
+                        // force refresh
+                        stationsFilter.clearList();
                         Search(lastSearchStyle, lastQuery);
                     }
                 }

@@ -124,6 +124,11 @@ public class StationsFilter extends CustomFilter {
         }
     }
 
+    public void clearList(){
+        Log.d("FILTER", "forced refetch");
+        lastRemoteQuery = "";
+    }
+
     @Override
     protected FilterResults performFiltering(CharSequence constraint) {
         final String query = constraint.toString().toLowerCase();

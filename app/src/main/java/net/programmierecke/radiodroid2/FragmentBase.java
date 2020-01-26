@@ -54,6 +54,7 @@ public class FragmentBase extends Fragment {
         return !TextUtils.isEmpty(relativeUrl);
     }
 
+    /*
     public void SetDownloadUrl(String theUrl) {
         if (BuildConfig.DEBUG) {
             Log.d(TAG, "new relativeUrl " + theUrl);
@@ -61,6 +62,7 @@ public class FragmentBase extends Fragment {
         relativeUrl = theUrl;
         DownloadUrl(false);
     }
+     */
 
     public void DownloadUrl(final boolean forceUpdate) {
         DownloadUrl(forceUpdate, true);
