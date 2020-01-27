@@ -1,5 +1,6 @@
 package net.programmierecke.radiodroid2;
 
+import android.Manifest;
 import android.app.TimePickerDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -87,6 +88,10 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
 
     private final String TAG_SEARCH_URL = "json/stations/bytagexact";
     private final String SAVE_LAST_MENU_ITEM = "LAST_MENU_ITEM";
+
+    public static final int PERM_REQ_STORAGE_FAV_SAVE = 1;
+    public static final int PERM_REQ_STORAGE_FAV_LOAD = 2;
+    public static final int PERM_REQ_STORAGE_RECORD = 3;
 
     private SearchView mSearchView;
 
@@ -459,8 +464,9 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
         if (BuildConfig.DEBUG) {
             Log.d(TAG, "on request permissions result:" + requestCode);
         }
+
         switch (requestCode) {
-            case Utils.REQUEST_EXTERNAL_STORAGE: {
+            case PERM_REQ_STORAGE_RECORD: {
                 // If request is cancelled, the result arrays are empty.
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     Fragment currentFragment = mFragmentManager.getFragments().get(mFragmentManager.getFragments().size() - 1);
@@ -473,6 +479,18 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
                 } else {
                     Toast toast = Toast.makeText(this, getResources().getString(R.string.error_record_needs_write), Toast.LENGTH_SHORT);
                     toast.show();
+                }
+                return;
+            }
+            case PERM_REQ_STORAGE_FAV_LOAD: {
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    LoadFavourites();
+                }
+                return;
+            }
+            case PERM_REQ_STORAGE_FAV_SAVE: {
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    SaveFavourites();
                 }
                 return;
             }
@@ -651,6 +669,24 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
         }
     }
 
+    void SaveFavourites(){
+        SaveFileDialog dialog = new SaveFileDialog();
+        dialog.setStyle(DialogFragment.STYLE_NO_TITLE, Utils.getThemeResId(this));
+        Bundle args = new Bundle();
+        args.putString(FileDialog.EXTENSION, ".m3u"); // file extension is optional
+        dialog.setArguments(args);
+        dialog.show(getSupportFragmentManager(), SaveFileDialog.class.getName());
+    }
+
+    void LoadFavourites(){
+        OpenFileDialog dialogOpen = new OpenFileDialog();
+        dialogOpen.setStyle(DialogFragment.STYLE_NO_TITLE, Utils.getThemeResId(this));
+        Bundle argsOpen = new Bundle();
+        argsOpen.putString(FileDialog.EXTENSION, ".m3u"); // file extension is optional
+        dialogOpen.setArguments(argsOpen);
+        dialogOpen.show(getSupportFragmentManager(), OpenFileDialog.class.getName());
+    }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem menuItem) {
         switch (menuItem.getItemId()) {
@@ -659,13 +695,8 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
                 return true;
             case R.id.action_save:
                 try {
-                    if (Utils.verifyStoragePermissions(this)) {
-                        SaveFileDialog dialog = new SaveFileDialog();
-                        dialog.setStyle(DialogFragment.STYLE_NO_TITLE, Utils.getThemeResId(this));
-                        Bundle args = new Bundle();
-                        args.putString(FileDialog.EXTENSION, ".m3u"); // file extension is optional
-                        dialog.setArguments(args);
-                        dialog.show(getSupportFragmentManager(), SaveFileDialog.class.getName());
+                    if (Utils.verifyStoragePermissions(this, PERM_REQ_STORAGE_FAV_SAVE)) {
+                        SaveFavourites();
                     }
                 } catch (Exception e) {
                     Log.e("MAIN", e.toString());
@@ -674,13 +705,8 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
                 return true;
             case R.id.action_load:
                 try {
-                    if (Utils.verifyStoragePermissions(this)) {
-                        OpenFileDialog dialogOpen = new OpenFileDialog();
-                        dialogOpen.setStyle(DialogFragment.STYLE_NO_TITLE, Utils.getThemeResId(this));
-                        Bundle argsOpen = new Bundle();
-                        argsOpen.putString(FileDialog.EXTENSION, ".m3u"); // file extension is optional
-                        dialogOpen.setArguments(argsOpen);
-                        dialogOpen.show(getSupportFragmentManager(), OpenFileDialog.class.getName());
+                    if (Utils.verifyStoragePermissions(this, PERM_REQ_STORAGE_FAV_LOAD)) {
+                        LoadFavourites();
                     }
                 } catch (Exception e) {
                     Log.e("MAIN", e.toString());

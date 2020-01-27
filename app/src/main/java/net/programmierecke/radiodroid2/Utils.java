@@ -374,12 +374,11 @@ public class Utils {
     }
 
     // Storage Permissions
-	public static final int REQUEST_EXTERNAL_STORAGE = 1;
 	private static String[] PERMISSIONS_STORAGE = {
 			Manifest.permission.WRITE_EXTERNAL_STORAGE
 	};
 
-	public static boolean verifyStoragePermissions(Activity activity) {
+	public static boolean verifyStoragePermissions(Activity activity, int request_id) {
 		// Check if we have write permission
 		int permission = ContextCompat.checkSelfPermission(activity, Manifest.permission.WRITE_EXTERNAL_STORAGE);
 
@@ -388,7 +387,7 @@ public class Utils {
 			ActivityCompat.requestPermissions(
 					activity,
 					PERMISSIONS_STORAGE,
-					REQUEST_EXTERNAL_STORAGE
+					request_id
 			);
 			return false;
 		}

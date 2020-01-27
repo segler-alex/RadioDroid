@@ -325,7 +325,7 @@ public class FragmentPlayerFull extends Fragment {
                 if (PlayerServiceUtil.isRecording()) {
                     PlayerServiceUtil.stopRecording();
                 } else {
-                    if (Utils.verifyStoragePermissions(getActivity())) {
+                    if (Utils.verifyStoragePermissions(getActivity(), ActivityMain.PERM_REQ_STORAGE_RECORD)) {
                         PlayerServiceUtil.startRecording();
                     }
                 }
@@ -822,7 +822,7 @@ public class FragmentPlayerFull extends Fragment {
     public void onRequestPermissionsResult(int requestCode,
                                            @NonNull String[] permissions, @NonNull int[] grantResults) {
         // If request is cancelled, the result arrays are empty.
-        if (requestCode == Utils.REQUEST_EXTERNAL_STORAGE) {
+        if (requestCode == ActivityMain.PERM_REQ_STORAGE_RECORD) {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 storagePermissionsDenied = false;
                 PlayerServiceUtil.startRecording();
