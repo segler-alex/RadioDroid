@@ -62,9 +62,11 @@ public class CountryCodeDictionary {
         }
     }
 
+    /*
     public String getCodeByCountry(String countryName) {
         return countryToCode.get(countryName.toLowerCase(Locale.ENGLISH));
     }
+    */
 
     public String getCountryByCode(String code) {
         return codeToCountry.get(code.toLowerCase(Locale.ENGLISH));

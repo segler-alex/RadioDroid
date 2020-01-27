@@ -39,7 +39,7 @@ public class DataRadioStation implements Parcelable {
 	static final String TAG = "DATAStation";
 	public static final int MAX_REFRESH_RETRIES = 16;
 
-	public DataRadioStation() {
+    public DataRadioStation() {
 	}
 
 	public String Name;
@@ -49,6 +49,7 @@ public class DataRadioStation implements Parcelable {
 	public String HomePageUrl;
 	public String IconUrl;
 	public String Country;
+	public String CountryCode;
 	public String State;
 	public String TagsAll;
 	public String Language;
@@ -141,6 +142,7 @@ public class DataRadioStation implements Parcelable {
 							aStation.HomePageUrl = anObject.getString("homepage");
 							aStation.TagsAll = anObject.getString("tags");
 							aStation.Country = anObject.getString("country");
+							aStation.CountryCode = anObject.getString("countrycode");
 							aStation.State = anObject.getString("state");
 							aStation.IconUrl = anObject.getString("favicon");
 							aStation.Language = anObject.getString("language");
@@ -205,6 +207,7 @@ public class DataRadioStation implements Parcelable {
 					aStation.HomePageUrl = anObject.getString("homepage");
 					aStation.TagsAll = anObject.getString("tags");
 					aStation.Country = anObject.getString("country");
+					aStation.CountryCode = anObject.getString("countrycode");
 					aStation.State = anObject.getString("state");
 					aStation.IconUrl = anObject.getString("favicon");
 					aStation.Language = anObject.getString("language");
@@ -245,6 +248,7 @@ public class DataRadioStation implements Parcelable {
 			obj.put("url",StreamUrl);
 			obj.put("favicon",IconUrl);
 			obj.put("country",Country);
+			obj.put("countrycode",CountryCode);
 			obj.put("state",State);
 			obj.put("tags",TagsAll);
 			obj.put("language",Language);
@@ -292,6 +296,7 @@ public class DataRadioStation implements Parcelable {
 		StreamUrl = station.StreamUrl;
 		IconUrl = station.IconUrl;
 		Country = station.Country;
+		CountryCode = station.CountryCode;
 		State = station.State;
 		TagsAll = station.TagsAll;
 		Language = station.Language;
@@ -319,6 +324,7 @@ public class DataRadioStation implements Parcelable {
 		dest.writeString(this.HomePageUrl);
 		dest.writeString(this.IconUrl);
 		dest.writeString(this.Country);
+		dest.writeString(this.CountryCode);
 		dest.writeString(this.State);
 		dest.writeString(this.TagsAll);
 		dest.writeString(this.Language);
@@ -341,6 +347,7 @@ public class DataRadioStation implements Parcelable {
 		this.HomePageUrl = in.readString();
 		this.IconUrl = in.readString();
 		this.Country = in.readString();
+		this.CountryCode = in.readString();
 		this.State = in.readString();
 		this.TagsAll = in.readString();
 		this.Language = in.readString();

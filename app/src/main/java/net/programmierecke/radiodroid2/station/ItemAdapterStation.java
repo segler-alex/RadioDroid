@@ -327,7 +327,7 @@ public class ItemAdapterStation
             holder.imageTrend.setVisibility(View.GONE);
         }
 
-        Drawable flag = CountryFlagsLoader.getInstance().getFlag(activity, station.Country);
+        Drawable flag = CountryFlagsLoader.getInstance().getFlag(activity, station.CountryCode);
 
         if (flag != null) {
             float k = flag.getMinimumWidth() / (float) flag.getMinimumHeight();

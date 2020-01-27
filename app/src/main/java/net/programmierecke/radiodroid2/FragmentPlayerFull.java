@@ -452,7 +452,7 @@ public class FragmentPlayerFull extends Fragment {
             final ShoutcastInfo shoutcastInfo = PlayerServiceUtil.getShoutcastInfo();
             // TODO: add some of shoutcast info
 
-            Drawable flag = CountryFlagsLoader.getInstance().getFlag(requireContext(), station.Country);
+            Drawable flag = CountryFlagsLoader.getInstance().getFlag(requireContext(), station.CountryCode);
             if (flag != null) {
                 float k = flag.getMinimumWidth() / (float) flag.getMinimumHeight();
                 float viewHeight = artAndInfoPagerAdapter.textViewStationDescription.getTextSize();
