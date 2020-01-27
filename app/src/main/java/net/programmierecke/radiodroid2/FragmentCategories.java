@@ -2,6 +2,7 @@ package net.programmierecke.radiodroid2;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -20,6 +21,7 @@ import net.programmierecke.radiodroid2.station.StationsFilter;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class FragmentCategories extends FragmentBase {
     private static final String TAG = "FragmentCategories";
@@ -69,13 +71,22 @@ public class FragmentCategories extends FragmentBase {
         DataCategory[] data = DataCategory.DecodeJson(getUrlResult());
 
         if (BuildConfig.DEBUG) Log.d(TAG, "categories count:" + data.length);
+        CountryCodeDictionary countryDict = CountryCodeDictionary.getInstance();
+        CountryFlagsLoader flagsDict = CountryFlagsLoader.getInstance();
 
         for (DataCategory aData : data) {
             if (!singleUseFilter || show_single_use_tags || (aData.UsedCount > 1)) {
+                if (searchStyle == StationsFilter.SearchStyle.ByCountryCodeExact){
+                    aData.Label = countryDict.getCountryByCode(aData.Name);
+                    aData.Icon = flagsDict.getFlag(requireContext(), aData.Name);
+                }
                 filteredCategoriesList.add(aData);
             }
         }
 
+        if (searchStyle == StationsFilter.SearchStyle.ByCountryCodeExact) {
+            Collections.sort(filteredCategoriesList);
+        }
         ItemAdapterCategory adapter = (ItemAdapterCategory) rvCategories.getAdapter();
         adapter.updateList(filteredCategoriesList);
     }

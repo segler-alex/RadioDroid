@@ -444,7 +444,7 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
                 try {
                     String queryEncoded = URLEncoder.encode(searchTag, "utf-8");
                     queryEncoded = queryEncoded.replace("+", "%20");
-                    Search(StationsFilter.SearchStyle.ByTag, queryEncoded);
+                    Search(StationsFilter.SearchStyle.ByTagExact, queryEncoded);
                 } catch (UnsupportedEncodingException e) {
                     e.printStackTrace();
                 }

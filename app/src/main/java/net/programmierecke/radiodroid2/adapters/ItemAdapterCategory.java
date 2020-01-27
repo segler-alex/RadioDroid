@@ -3,6 +3,7 @@ package net.programmierecke.radiodroid2.adapters;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
@@ -25,11 +26,13 @@ public class ItemAdapterCategory extends RecyclerView.Adapter<ItemAdapterCategor
     class CategoryViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         TextView textViewName;
         TextView textViewCount;
+        ImageView iconView;
 
         CategoryViewHolder(View itemView) {
             super(itemView);
             textViewName = (TextView) itemView.findViewById(R.id.textViewTop);
             textViewCount = (TextView) itemView.findViewById(R.id.textViewBottom);
+            iconView = (ImageView) itemView.findViewById(R.id.iconCategoryViewIcon);
             itemView.setOnClickListener(this);
         }
 
@@ -67,7 +70,14 @@ public class ItemAdapterCategory extends RecyclerView.Adapter<ItemAdapterCategor
     public void onBindViewHolder(CategoryViewHolder holder, int position) {
         final DataCategory category = categoriesList.get(position);
 
-        holder.textViewName.setText(category.Name);
+        if (category.Label != null){
+            holder.textViewName.setText(category.Label);
+        }else{
+            holder.textViewName.setText(category.Name);
+        }
+        if (category.Icon != null){
+            holder.iconView.setImageDrawable(category.Icon);
+        }
         holder.textViewCount.setText(String.valueOf(category.UsedCount));
     }
 

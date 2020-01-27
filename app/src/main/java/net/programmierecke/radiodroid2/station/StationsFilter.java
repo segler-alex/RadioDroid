@@ -38,9 +38,9 @@ public class StationsFilter extends CustomFilter {
 
     public enum SearchStyle {
         ByName,
-        ByLanguage,
-        ByCountry,
-        ByTag,
+        ByLanguageExact,
+        ByCountryCodeExact,
+        ByTagExact,
     }
 
     public interface DataProvider {
@@ -98,13 +98,13 @@ public class StationsFilter extends CustomFilter {
             case ByName:
                 searchUrl = "json/stations/byname/" + query;
                 break;
-            case ByCountry:
-                searchUrl = "json/stations/bycountryexact/" + query;
+            case ByCountryCodeExact:
+                searchUrl = "json/stations/bycountrycodeexact/" + query;
                 break;
-            case ByLanguage:
+            case ByLanguageExact:
                 searchUrl = "json/stations/bylanguageexact/" + query;
                 break;
-            case ByTag:
+            case ByTagExact:
                 searchUrl = "json/stations/bytagexact/" + query;
                 break;
             default:
@@ -134,7 +134,7 @@ public class StationsFilter extends CustomFilter {
         final String query = constraint.toString().toLowerCase();
         Log.d("FILTER", "performFiltering() " + query);
 
-        if (query.isEmpty() || (query.length() < 3 && filterType == FilterType.GLOBAL)) {
+        if (searchStyle == SearchStyle.ByName && (query.isEmpty() || (query.length() < 3 && filterType == FilterType.GLOBAL))) {
             Log.d("FILTER", "performFiltering() 2 " + query);
             filteredStationsList = dataProvider.getOriginalStationList();
             lastRemoteQuery = "";

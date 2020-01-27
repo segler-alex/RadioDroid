@@ -32,7 +32,7 @@ public class FragmentTabs extends Fragment implements IFragmentRefreshable, IFra
     private String itsAdressWWWChangedLately = "json/stations/lastchange/100";
     private String itsAdressWWWCurrentlyHeard = "json/stations/lastclick/100";
     private String itsAdressWWWTags = "json/tags";
-    private String itsAdressWWWCountries = "json/countries";
+    private String itsAdressWWWCountries = "json/countrycodes";
     private String itsAdressWWWLanguages = "json/languages";
 
     private ViewPager viewPager;
@@ -136,9 +136,9 @@ public class FragmentTabs extends Fragment implements IFragmentRefreshable, IFra
         }
 
         ((FragmentCategories) fragments[5]).EnableSingleUseFilter(true);
-        ((FragmentCategories) fragments[5]).SetBaseSearchLink(StationsFilter.SearchStyle.ByTag);
-        ((FragmentCategories) fragments[6]).SetBaseSearchLink(StationsFilter.SearchStyle.ByCountry);
-        ((FragmentCategories) fragments[7]).SetBaseSearchLink(StationsFilter.SearchStyle.ByLanguage);
+        ((FragmentCategories) fragments[5]).SetBaseSearchLink(StationsFilter.SearchStyle.ByTagExact);
+        ((FragmentCategories) fragments[6]).SetBaseSearchLink(StationsFilter.SearchStyle.ByCountryCodeExact);
+        ((FragmentCategories) fragments[7]).SetBaseSearchLink(StationsFilter.SearchStyle.ByLanguageExact);
 
         FragmentManager m = getChildFragmentManager();
         ViewPagerAdapter adapter = new ViewPagerAdapter(m);

@@ -43,7 +43,6 @@ public class CountryCodeDictionary {
         }
     }
 
-    private Map<String, String> countryToCode = new HashMap<>();
     private Map<String, String> codeToCountry = new HashMap<>();
 
     public void load(Context context) {
@@ -57,16 +56,9 @@ public class CountryCodeDictionary {
         Collection<Country> countries = gson.fromJson(reader, collectionType);
 
         for (CountryCodeDictionary.Country country : countries) {
-            countryToCode.put(country.getName().toLowerCase(Locale.ENGLISH), country.getCode().toLowerCase(Locale.ENGLISH));
             codeToCountry.put(country.getCode().toLowerCase(Locale.ENGLISH), country.getName().toLowerCase(Locale.ENGLISH));
         }
     }
-
-    /*
-    public String getCodeByCountry(String countryName) {
-        return countryToCode.get(countryName.toLowerCase(Locale.ENGLISH));
-    }
-    */
 
     public String getCountryByCode(String code) {
         return codeToCountry.get(code.toLowerCase(Locale.ENGLISH));
