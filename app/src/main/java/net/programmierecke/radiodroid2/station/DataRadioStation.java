@@ -142,7 +142,9 @@ public class DataRadioStation implements Parcelable {
 							aStation.HomePageUrl = anObject.getString("homepage");
 							aStation.TagsAll = anObject.getString("tags");
 							aStation.Country = anObject.getString("country");
-							aStation.CountryCode = anObject.getString("countrycode");
+							if (anObject.has("countrycode")) {
+								aStation.CountryCode = anObject.getString("countrycode");
+							}
 							aStation.State = anObject.getString("state");
 							aStation.IconUrl = anObject.getString("favicon");
 							aStation.Language = anObject.getString("language");
@@ -207,7 +209,9 @@ public class DataRadioStation implements Parcelable {
 					aStation.HomePageUrl = anObject.getString("homepage");
 					aStation.TagsAll = anObject.getString("tags");
 					aStation.Country = anObject.getString("country");
-					aStation.CountryCode = anObject.getString("countrycode");
+					if (anObject.has("countrycode")) {
+						aStation.CountryCode = anObject.getString("countrycode");
+					}
 					aStation.State = anObject.getString("state");
 					aStation.IconUrl = anObject.getString("favicon");
 					aStation.Language = anObject.getString("language");
