@@ -9,7 +9,6 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.content.res.Resources;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -37,7 +36,6 @@ import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.preference.PreferenceManager;
 
 import com.bytehamster.lib.preferencesearch.SearchPreferenceResult;
@@ -60,7 +58,6 @@ import net.programmierecke.radiodroid2.interfaces.IFragmentRefreshable;
 import net.programmierecke.radiodroid2.interfaces.IFragmentSearchable;
 import net.programmierecke.radiodroid2.players.PlayState;
 import net.programmierecke.radiodroid2.service.MediaSessionCallback;
-import net.programmierecke.radiodroid2.service.PlayerService;
 import net.programmierecke.radiodroid2.service.PlayerServiceUtil;
 import net.programmierecke.radiodroid2.station.DataRadioStation;
 import net.programmierecke.radiodroid2.station.StationsFilter;
@@ -166,6 +163,7 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
         setSupportActionBar(myToolbar);
 
         PlayerServiceUtil.bind(this);
+        setupBroadcastReceiver();
 
         selectedMenuItem = sharedPref.getInt("last_selectedMenuItem", -1);
         instanceStateWasSaved = savedInstanceState != null;
@@ -343,7 +341,7 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
             fragmentTransaction.replace(R.id.containerView, f).addToBackStack(backStackTag).commit();
 
         // User selected a menuItem. Let's hide progressBar
-        LocalBroadcastManager.getInstance(this).sendBroadcast(new Intent(ActivityMain.ACTION_HIDE_LOADING));
+        sendBroadcast(new Intent(ActivityMain.ACTION_HIDE_LOADING));
         invalidateOptionsMenu();
         checkMenuItems();
 
@@ -503,10 +501,12 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
     public void onDestroy() {
         super.onDestroy();
         PlayerServiceUtil.unBind(this);
+        unregisterReceiver(broadcastReceiver);
     }
 
     @Override
     protected void onPause() {
+
         SharedPreferences.Editor ed = sharedPref.edit();
         ed.putInt("last_selectedMenuItem", selectedMenuItem);
         ed.apply();
@@ -514,8 +514,6 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
         if (BuildConfig.DEBUG) {
             Log.d(TAG, "PAUSED");
         }
-
-        LocalBroadcastManager.getInstance(this).unregisterReceiver(broadcastReceiver);
 
         super.onPause();
 
@@ -533,8 +531,6 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
         if (BuildConfig.DEBUG) {
             Log.d(TAG, "RESUMED");
         }
-
-        setupBroadcastReceiver();
 
         PlayerServiceUtil.bind(this);
         CastHandler.onResume();
@@ -926,22 +922,17 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
         IntentFilter filter = new IntentFilter();
         filter.addAction(ACTION_HIDE_LOADING);
         filter.addAction(ACTION_SHOW_LOADING);
-        filter.addAction(PlayerService.PLAYER_SERVICE_METERED_CONNECTION);
         broadcastReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
-                if (intent.getAction().equals(ACTION_HIDE_LOADING)) {
+                Intent mIntent = intent;
+                if (mIntent.getAction().equals(ACTION_HIDE_LOADING))
                     hideLoadingIcon();
-                } else if (intent.getAction().equals(ACTION_SHOW_LOADING)) {
+                else if (mIntent.getAction().equals(ACTION_SHOW_LOADING))
                     showLoadingIcon();
-                } else if (intent.getAction().equals(PlayerService.PLAYER_SERVICE_METERED_CONNECTION)) {
-                    Utils.showMeteredConnectionDialog(ActivityMain.this,
-                            () -> Utils.play((RadioDroidApp) getApplication(), PlayerServiceUtil.getCurrentStation()));
-                }
             }
         };
-
-        LocalBroadcastManager.getInstance(this).registerReceiver(broadcastReceiver, filter);
+        registerReceiver(broadcastReceiver, filter);
     }
 
     // Loading listener

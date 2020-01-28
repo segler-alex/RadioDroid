@@ -241,6 +241,8 @@
         <item>Copia l\'URL del flux de dades</item>
     </string-array>
 
+    <string name="no_wifi_title">No hi ha connexió sense fils (WiFi WLAN)</string>
+    <string name="no_wifi_connection">No hi ha connexió sense fils (WiFi WLAN) iniciant %1$s, premeu per a continuar.</string>
     <string name="nav_item_statistics">Estadístiques</string>
     <string name="nav_item_about">Quant a</string>
     <string name="refresh">Actualització</string>

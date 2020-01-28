@@ -10,18 +10,13 @@ import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
-import android.bluetooth.BluetoothA2dp;
-import android.bluetooth.BluetoothHeadset;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.SharedPreferences;
-import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.media.AudioManager;
-import android.media.ToneGenerator;
 import android.media.audiofx.AudioEffect;
 import android.net.wifi.WifiManager;
 import android.os.Build;
@@ -50,7 +45,6 @@ import androidx.core.content.res.ResourcesCompat;
 import androidx.core.graphics.drawable.RoundedBitmapDrawable;
 import androidx.core.graphics.drawable.RoundedBitmapDrawableFactory;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
-import androidx.preference.PreferenceManager;
 
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
@@ -78,15 +72,11 @@ public class PlayerService extends Service implements RadioPlayer.PlayerListener
     protected static final int NOTIFY_ID = 1;
     private static final String NOTIFICATION_CHANNEL_ID = "default";
 
-    public static final String METERED_CONNECTION_WARNING_KEY = "warn_no_wifi";
-
     public static final String PLAYER_SERVICE_TIMER_UPDATE = "net.programmierecke.radiodroid2.timerupdate";
     public static final String PLAYER_SERVICE_META_UPDATE = "net.programmierecke.radiodroid2.metaupdate";
 
     public static final String PLAYER_SERVICE_STATE_CHANGE = "net.programmierecke.radiodroid2.statechange";
     public static final String PLAYER_SERVICE_STATE_EXTRA_KEY = "state";
-
-    public static final String PLAYER_SERVICE_METERED_CONNECTION = "net.programmierecke.radiodroid2.metered_connection";
 
     public static final String PLAYER_SERVICE_BOUND = "net.programmierecke.radiodroid2.playerservicebound";
 
@@ -100,10 +90,6 @@ public class PlayerService extends Service implements RadioPlayer.PlayerListener
 
     private static final float FULL_VOLUME = 100f;
     private static final float DUCK_VOLUME = 40f;
-
-    private static final int METERED_CONNECTION_WARNING_COOLDOWN = 20 * 1000; // 20 seconds
-
-    private SharedPreferences sharedPref;
 
     private TrackHistoryRepository trackHistoryRepository;
 
@@ -122,14 +108,8 @@ public class PlayerService extends Service implements RadioPlayer.PlayerListener
     private WifiManager.WifiLock wifiLock;
 
     private BecomingNoisyReceiver becomingNoisyReceiver = new BecomingNoisyReceiver();
-    private HeadsetConnectionReceiver headsetConnectionReceiver = new HeadsetConnectionReceiver();
-    private ConnectivityChecker connectivityChecker = new ConnectivityChecker();
 
-    private PauseReason pauseReason = PauseReason.NONE;
-
-    private int lastErrorFromPlayer = -1;
-
-    private long lastMeteredConnectionWarningTime;
+    private boolean resumeOnFocusGain = false;
 
     private CountDownTimer timer;
     private long seconds = 0;
@@ -166,8 +146,8 @@ public class PlayerService extends Service implements RadioPlayer.PlayerListener
             PlayerService.this.playCurrentStation(isAlarm);
         }
 
-        public void Pause(PauseReason pauseReason) throws RemoteException {
-            PlayerService.this.pause(pauseReason);
+        public void Pause() throws RemoteException {
+            PlayerService.this.pause();
         }
 
         public void Resume() throws RemoteException {
@@ -298,11 +278,6 @@ public class PlayerService extends Service implements RadioPlayer.PlayerListener
         }
 
         @Override
-        public PauseReason getPauseReason() throws RemoteException {
-            return PlayerService.this.pauseReason;
-        }
-
-        @Override
         public void enableMPD(String hostname, int port) throws RemoteException {
             if (radioPlayer != null) {
                 // radioPlayer.enableMPDPlayer(hostname, port);
@@ -330,7 +305,7 @@ public class PlayerService extends Service implements RadioPlayer.PlayerListener
                         case AudioManager.AUDIOFOCUS_GAIN:
                             if (BuildConfig.DEBUG) Log.d(TAG, "audio focus gain");
 
-                            if (pauseReason == PauseReason.FOCUS_LOSS) {
+                            if (resumeOnFocusGain) {
                                 enableMediaSession();
                                 resume();
                             }
@@ -345,10 +320,11 @@ public class PlayerService extends Service implements RadioPlayer.PlayerListener
                         case AudioManager.AUDIOFOCUS_LOSS_TRANSIENT:
                             if (BuildConfig.DEBUG) Log.d(TAG, "audio focus loss transient");
 
-                            if (radioPlayer.isPlaying()) {
-                                pause(PauseReason.FOCUS_LOSS);
-                            }
+                            boolean resume = radioPlayer.isPlaying() || resumeOnFocusGain;
 
+                            pause();
+
+                            resumeOnFocusGain = resume;
                             break;
                         case AudioManager.AUDIOFOCUS_LOSS_TRANSIENT_CAN_DUCK:
                             if (BuildConfig.DEBUG)
@@ -359,17 +335,6 @@ public class PlayerService extends Service implements RadioPlayer.PlayerListener
                     }
                 }
             };
-
-    private ConnectivityChecker.ConnectivityCallback connectivityCallback = new ConnectivityChecker.ConnectivityCallback() {
-        @Override
-        public void onConnectivityChanged(boolean connected, ConnectivityChecker.ConnectionType connectionType) {
-            if (connectionType == ConnectivityChecker.ConnectionType.METERED && sharedPref.getBoolean(METERED_CONNECTION_WARNING_KEY, false)) {
-                PlayerService.this.pause(PauseReason.METERED_CONNECTION);
-
-                warnAboutMeteredConnection();
-            }
-        }
-    };
 
     private long getTimerSeconds() {
         return seconds;
@@ -417,9 +382,6 @@ public class PlayerService extends Service implements RadioPlayer.PlayerListener
     @Override
     public void onCreate() {
         super.onCreate();
-
-        sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
-
         itsContext = this;
         timer = null;
         powerManager = (PowerManager) itsContext.getSystemService(Context.POWER_SERVICE);
@@ -441,13 +403,6 @@ public class PlayerService extends Service implements RadioPlayer.PlayerListener
 
         RadioDroidApp radioDroidApp = (RadioDroidApp) getApplication();
         trackHistoryRepository = radioDroidApp.getTrackHistoryRepository();
-
-        final IntentFilter headsetConnectionFilter = new IntentFilter();
-        headsetConnectionFilter.addAction(Intent.ACTION_HEADSET_PLUG);
-        headsetConnectionFilter.addAction(BluetoothHeadset.ACTION_CONNECTION_STATE_CHANGED);
-        headsetConnectionFilter.addAction(BluetoothA2dp.ACTION_CONNECTION_STATE_CHANGED);
-
-        registerReceiver(headsetConnectionReceiver, headsetConnectionFilter);
     }
 
     @Override
@@ -459,8 +414,6 @@ public class PlayerService extends Service implements RadioPlayer.PlayerListener
         mediaSession.release();
 
         radioPlayer.destroy();
-
-        unregisterReceiver(headsetConnectionReceiver);
     }
 
     @Override
@@ -479,7 +432,7 @@ public class PlayerService extends Service implements RadioPlayer.PlayerListener
                         stop();
                         break;
                     case ACTION_PAUSE:
-                        pause(PauseReason.USER);
+                        pause();
                         break;
                     case ACTION_RESUME:
                         resume();
@@ -522,26 +475,14 @@ public class PlayerService extends Service implements RadioPlayer.PlayerListener
         if (result == AudioManager.AUDIOFOCUS_REQUEST_GRANTED) {
             // Start playback.
             enableMediaSession();
-
-            liveInfo = new StreamLiveInfo(null);
-            streamInfo = null;
-
-            acquireWakeLockAndWifiLock();
-
-            radioPlayer.play(currentStation, isAlarm);
+            replayCurrent(isAlarm);
         }
     }
 
-    public void pause(PauseReason pauseReason) {
-        if (BuildConfig.DEBUG) {
-            Log.d(TAG, String.format("pausing playback, reason %s", pauseReason.toString()));
-        }
+    public void pause() {
+        if (BuildConfig.DEBUG) Log.d(TAG, "pausing playback.");
 
-        this.pauseReason = pauseReason;
-
-        if (pauseReason == PauseReason.METERED_CONNECTION) {
-            lastMeteredConnectionWarningTime = System.currentTimeMillis();
-        }
+        resumeOnFocusGain = false;
 
         releaseWakeLockAndWifiLock();
         radioPlayer.pause();
@@ -554,15 +495,8 @@ public class PlayerService extends Service implements RadioPlayer.PlayerListener
 
         RadioDroidApp radioDroidApp = (RadioDroidApp) getApplication();
         DataRadioStation station = radioDroidApp.getFavouriteManager().getNextById(currentStation.StationUuid);
-
         if (station != null) {
-            if (radioPlayer.isPlaying()) {
-                // Since we are using data at the moment user doesn't need any notifications about
-                // metered connection because he already received them if there were any.
-                Utils.play(radioDroidApp, station);
-            } else {
-                Utils.playAndWarnIfMetered(radioDroidApp, station);
-            }
+            Utils.Play(radioDroidApp, station, itsContext, false);
         }
     }
 
@@ -574,48 +508,29 @@ public class PlayerService extends Service implements RadioPlayer.PlayerListener
         RadioDroidApp radioDroidApp = (RadioDroidApp) getApplication();
         DataRadioStation station = radioDroidApp.getFavouriteManager().getPreviousById(currentStation.StationUuid);
         if (station != null) {
-            if (radioPlayer.isPlaying()) {
-                Utils.play(radioDroidApp, station);
-            } else {
-                Utils.playAndWarnIfMetered(radioDroidApp, station);
-            }
+            Utils.Play(radioDroidApp, station, itsContext, false);
         }
     }
 
     public void resume() {
         if (BuildConfig.DEBUG) Log.d(TAG, "resuming playback.");
 
-        boolean bypassMeteredConnectionWarning = false;
-
-        if (pauseReason == PauseReason.METERED_CONNECTION) {
-            long now = System.currentTimeMillis();
-            long delta = now - lastMeteredConnectionWarningTime;
-
-            bypassMeteredConnectionWarning = delta < METERED_CONNECTION_WARNING_COOLDOWN && delta > 0;
-        }
-
-        this.pauseReason = PauseReason.NONE;
-        this.lastMeteredConnectionWarningTime = 0;
+        resumeOnFocusGain = false;
 
         if (!radioPlayer.isPlaying()) {
-            RadioDroidApp radioDroidApp = (RadioDroidApp) getApplication();
-            DataRadioStation station = currentStation;
-
-            if (currentStation == null) {
+            acquireAudioFocus();
+            if (currentStation != null && currentStation.playableUrl != null) {
+                replayCurrent(false);
+            } else {
+                DataRadioStation lastStation;
+                RadioDroidApp radioDroidApp = (RadioDroidApp) getApplication();
                 HistoryManager historyManager = radioDroidApp.getHistoryManager();
-                station = historyManager.getFirst();
-            }
+                List<DataRadioStation> history = historyManager.getList();
 
-            if (station != null) {
-                startMeteredConnectionListener();
-                acquireAudioFocus();
-
-                if (bypassMeteredConnectionWarning) {
-                    Utils.play(radioDroidApp, station);
-                } else {
-                    Utils.playAndWarnIfMetered(radioDroidApp, station);
+                if (history.size() > 0) {
+                    lastStation = history.get(0);
+                    Utils.Play(radioDroidApp, lastStation, itsContext, false);
                 }
-
             }
         }
     }
@@ -623,8 +538,7 @@ public class PlayerService extends Service implements RadioPlayer.PlayerListener
     public void stop() {
         if (BuildConfig.DEBUG) Log.d(TAG, "stopping playback.");
 
-        this.pauseReason = PauseReason.NONE;
-        this.lastMeteredConnectionWarningTime = 0;
+        resumeOnFocusGain = false;
 
         liveInfo = new StreamLiveInfo(null);
         streamInfo = null;
@@ -637,9 +551,18 @@ public class PlayerService extends Service implements RadioPlayer.PlayerListener
 
         stopForeground(true);
 
-        stopMeteredConnectionListener();
-
         //sendBroadCast(PLAYER_SERVICE_STATE_CHANGE);
+    }
+
+    public void replayCurrent(final boolean isAlarm) {
+        if (BuildConfig.DEBUG) Log.d(TAG, "replaying current.");
+
+        liveInfo = new StreamLiveInfo(null);
+        streamInfo = null;
+
+        acquireWakeLockAndWifiLock();
+
+        radioPlayer.play(currentStation, isAlarm);
     }
 
     private void setMediaPlaybackState(int state) {
@@ -782,18 +705,6 @@ public class PlayerService extends Service implements RadioPlayer.PlayerListener
             notificationManager.createNotificationChannel(notificationChannel);
         }
 
-        PlayState currentPlayerState = radioPlayer.getPlayState();
-
-        if (currentPlayerState == PlayState.Paused && pauseReason == PauseReason.METERED_CONNECTION) {
-            theMessage = itsContext.getResources().getString(R.string.notify_metered_connection);
-        } else if (lastErrorFromPlayer != -1) {
-            try {
-                theMessage = itsContext.getResources().getString(lastErrorFromPlayer);
-            } catch (Resources.NotFoundException ex) {
-                Log.e(TAG, String.format("Unknown play error: %d", lastErrorFromPlayer), ex);
-            }
-        }
-
         PendingIntent contentIntent = PendingIntent.getActivity(itsContext, 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
         NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(itsContext, NOTIFICATION_CHANNEL_ID)
                 .setContentIntent(contentIntent)
@@ -806,6 +717,8 @@ public class PlayerService extends Service implements RadioPlayer.PlayerListener
                 .setLargeIcon(radioIcon.getBitmap())
                 .addAction(R.drawable.ic_stop_white_24dp, getString(R.string.action_stop), pendingIntentStop)
                 .addAction(R.drawable.ic_skip_previous_24dp, getString(R.string.action_skip_to_previous), pendingIntentPrevious);
+
+        PlayState currentPlayerState = radioPlayer.getPlayState();
 
         if (currentPlayerState == PlayState.Playing || currentPlayerState == PlayState.PrePlaying) {
             Intent pauseIntent = new Intent(itsContext, PlayerService.class);
@@ -937,23 +850,6 @@ public class PlayerService extends Service implements RadioPlayer.PlayerListener
                 });
     }
 
-    private void warnAboutMeteredConnection() {
-        ToneGenerator toneG = new ToneGenerator(AudioManager.STREAM_ALARM, 100);
-        toneG.startTone(ToneGenerator.TONE_SUP_RADIO_NOTAVAIL, 2000);
-
-        sendBroadCast(PLAYER_SERVICE_METERED_CONNECTION);
-    }
-
-    private void startMeteredConnectionListener() {
-        if (sharedPref.getBoolean(METERED_CONNECTION_WARNING_KEY, false)) {
-            connectivityChecker.startListening(PlayerService.this, connectivityCallback);
-        }
-    }
-
-    private void stopMeteredConnectionListener() {
-        connectivityChecker.stopListening(PlayerService.this);
-    }
-
     @Override
     public void onStateChanged(final PlayState state, final int audioSessionId) {
         // State changed can be called from the player's thread.
@@ -963,8 +859,6 @@ public class PlayerService extends Service implements RadioPlayer.PlayerListener
         h.post(new Runnable() {
             @Override
             public void run() {
-                lastErrorFromPlayer = -1;
-
                 switch (state) {
                     case Paused:
                         setMediaPlaybackState(PlaybackStateCompat.STATE_PAUSED);
@@ -1012,12 +906,6 @@ public class PlayerService extends Service implements RadioPlayer.PlayerListener
                     }
                 }
 
-                if (state != PlayState.Paused && state != PlayState.Idle) {
-                    startMeteredConnectionListener();
-                } else {
-                    stopMeteredConnectionListener();
-                }
-
                 updateNotification(state);
 
                 final Intent intent = new Intent();
@@ -1029,16 +917,8 @@ public class PlayerService extends Service implements RadioPlayer.PlayerListener
     }
 
     @Override
-    public void onPlayerWarning(int messageId) {
-        onPlayerError(messageId);
-    }
-
-    @Override
     public void onPlayerError(int messageId) {
-        this.lastErrorFromPlayer = messageId;
-
         toastOnUi(messageId);
-        updateNotification();
     }
 
     @Override

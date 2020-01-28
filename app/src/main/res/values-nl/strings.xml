@@ -228,6 +228,8 @@
 
     <string name="notify_stream_url_copied">Stream-URL is gekopieerd!</string>
 
+    <string name="no_wifi_title">Geen Wi-Fi-verbinding!</string>
+    <string name="no_wifi_connection">Geen Wi-Fi-verbinding bij het afspelen van %1$s. Druk op \'Oké\' om door te gaan.</string>
     <string name="nav_item_statistics">Statistieken</string>
     <string name="nav_item_about">Over</string>
     <string name="settings_mpd_port">MPD-poort</string>

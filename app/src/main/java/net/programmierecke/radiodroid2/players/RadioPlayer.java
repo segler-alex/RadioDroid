@@ -12,7 +12,6 @@ import android.util.Log;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.preference.PreferenceManager;
 
 import net.programmierecke.radiodroid2.ActivityMain;
@@ -40,8 +39,6 @@ public class RadioPlayer implements PlayerWrapper.PlayListener, Recordable {
 
     public interface PlayerListener {
         void onStateChanged(final PlayState status, final int audioSessionId);
-
-        void onPlayerWarning(final int messageId);
 
         void onPlayerError(final int messageId);
 
@@ -288,14 +285,9 @@ public class RadioPlayer implements PlayerWrapper.PlayListener, Recordable {
     }
 
     @Override
-    public void onPlayerWarning(int messageId) {
-        playerThreadHandler.post(() -> playerListener.onPlayerWarning(messageId));
-    }
-
-    @Override
     public void onPlayerError(int messageId) {
-        pause();
-        playerThreadHandler.post(() -> playerListener.onPlayerError(messageId));
+        stop();
+        playerListener.onPlayerError(messageId);
     }
 
     @Override
@@ -347,7 +339,7 @@ public class RadioPlayer implements PlayerWrapper.PlayListener, Recordable {
         @Override
         protected void onCancelled() {
             if (radioPlayer.realStationLinkRetrieveTask == null) {
-                LocalBroadcastManager.getInstance(radioPlayer.mainContext).sendBroadcast(new Intent(ActivityMain.ACTION_HIDE_LOADING));
+                radioPlayer.mainContext.sendBroadcast(new Intent(ActivityMain.ACTION_HIDE_LOADING));
             }
 
             super.onCancelled();
@@ -355,7 +347,7 @@ public class RadioPlayer implements PlayerWrapper.PlayListener, Recordable {
 
         @Override
         protected void onPostExecute(String result) {
-            LocalBroadcastManager.getInstance(radioPlayer.mainContext).sendBroadcast(new Intent(ActivityMain.ACTION_HIDE_LOADING));
+            radioPlayer.mainContext.sendBroadcast(new Intent(ActivityMain.ACTION_HIDE_LOADING));
 
             if (result != null) {
                 station.playableUrl = result;

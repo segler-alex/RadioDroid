@@ -213,6 +213,8 @@
     <string name="notify_stream_url_copied">Adresa URL streamu úspešne skopírovaná</string>
 
 
+    <string name="no_wifi_title">Žiadne pripojenie WiFi</string>
+    <string name="no_wifi_connection">Pri spúšťaní %1$s nie ste pripojení k sieti WiFi. Pokračujte klepnutím na tlačidlo \'Ok\'.</string>
     <string name="nav_item_statistics">Štatistika</string>
     <string name="nav_item_about">O aplikácii</string>
     <string name="refresh">Obnoviť</string>

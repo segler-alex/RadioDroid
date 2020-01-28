@@ -172,4 +172,7 @@
     </string-array>
 
     <string name="notify_stream_url_copied">URL du flux copié avec succès !</string>
+
+    <string name="no_wifi_title">Pas de connexion Wi-Fi (WLAN)</string>
+    <string name="no_wifi_connection">Pas de connexion Wi-Fi (WLAN) lors du démarrage de %1$s. Veuillez appuyer sur \'OK\' pour continuer.</string>
 </resources>

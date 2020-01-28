@@ -14,8 +14,6 @@ public interface PlayerWrapper extends Recordable {
     interface PlayListener {
         void onStateChanged(PlayState state);
 
-        void onPlayerWarning(final int messageId);
-
         void onPlayerError(final int messageId);
 
         void onDataSourceShoutcastInfo(ShoutcastInfo shoutcastInfo, boolean isHls);

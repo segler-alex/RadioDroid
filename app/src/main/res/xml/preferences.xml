@@ -132,20 +132,6 @@
             android:key="pause_when_noisy"
             android:title="@string/settings_pause_when_noisy" />
 
-        <CheckBoxPreference
-            android:defaultValue="false"
-            android:key="auto_resume_on_wired_headset_connection"
-            android:summaryOff="@string/settings_auto_resume_do_not_resume"
-            android:summaryOn="@string/settings_auto_resume_on_wired_headset_connected_on"
-            android:title="@string/settings_auto_resume_on_wired_headset_connected" />
-
-        <CheckBoxPreference
-            android:defaultValue="false"
-            android:key="auto_resume_on_bluetooth_a2dp_connection"
-            android:summaryOff="@string/settings_auto_resume_do_not_resume"
-            android:summaryOn="@string/settings_auto_resume_on_bluetooth_a2dp_connected_on"
-            android:title="@string/settings_auto_resume_on_bluetooth_a2dp_connected" />
-
         <Preference
             android:key="equalizer"
             android:title="@string/settings_equalizer" />

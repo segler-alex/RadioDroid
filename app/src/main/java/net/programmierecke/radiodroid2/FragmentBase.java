@@ -10,7 +10,6 @@ import android.util.Log;
 import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
-import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.preference.PreferenceManager;
 
 import java.util.HashMap;
@@ -105,7 +104,7 @@ public class FragmentBase extends Fragment {
                     protected void onPostExecute(String result) {
                         DownloadFinished();
                         if(getContext() != null)
-                            LocalBroadcastManager.getInstance(getContext()).sendBroadcast(new Intent(ActivityMain.ACTION_HIDE_LOADING));
+                            getContext().sendBroadcast(new Intent(ActivityMain.ACTION_HIDE_LOADING));
                         if (BuildConfig.DEBUG) {
                             Log.d(TAG, "Download relativeUrl finished:" + relativeUrl);
                         }

@@ -255,6 +255,8 @@
         <item>Disalin URL Stream</item>
     </string-array>
 
+    <string name="no_wifi_title">Tidak ada koneksi Wi-Fi (WLAN)</string>
+    <string name="no_wifi_connection">Tidak ada koneksi Wi-Fi (WLAN) ketika memulai %1$s. Tekan \'OK\' untuk melanjutkan.</string>
     <string name="nav_item_statistics">Statistik</string>
     <string name="nav_item_about">Tentang</string>
     <string name="refresh">Segarkan</string>

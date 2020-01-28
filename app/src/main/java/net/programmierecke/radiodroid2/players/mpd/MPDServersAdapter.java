@@ -17,7 +17,6 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatImageButton;
-import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.RecyclerView;
@@ -31,8 +30,6 @@ import net.programmierecke.radiodroid2.players.mpd.tasks.MPDChangeVolumeTask;
 import net.programmierecke.radiodroid2.players.mpd.tasks.MPDPauseTask;
 import net.programmierecke.radiodroid2.players.mpd.tasks.MPDPlayTask;
 import net.programmierecke.radiodroid2.players.mpd.tasks.MPDResumeTask;
-import net.programmierecke.radiodroid2.service.ConnectivityChecker;
-import net.programmierecke.radiodroid2.service.PlayerService;
 import net.programmierecke.radiodroid2.service.PlayerServiceUtil;
 import net.programmierecke.radiodroid2.station.DataRadioStation;
 
@@ -147,7 +144,7 @@ public class MPDServersAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                 return;
             }
 
-            LocalBroadcastManager.getInstance(ctx).sendBroadcast(new Intent(ActivityMain.ACTION_HIDE_LOADING));
+            ctx.sendBroadcast(new Intent(ActivityMain.ACTION_HIDE_LOADING));
 
             if (result != null) {
                 stationToPlay.playableUrl = result;
@@ -182,8 +179,6 @@ public class MPDServersAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     private final Context context;
 
     private final boolean showPlayInExternal;
-    private final boolean warnOnMeteredConnection;
-
     private int fixedViewsCount;
 
     private List<Integer> viewTypes = new ArrayList<>();
@@ -206,7 +201,6 @@ public class MPDServersAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
         showPlayInExternal = sharedPref.getBoolean("play_external", false) && stationToPlay != null;
-        warnOnMeteredConnection = sharedPref.getBoolean(PlayerService.METERED_CONNECTION_WARNING_KEY, false);
 
         fixedViewsCount = 0;
         if (stationToPlay != null) {
@@ -273,7 +267,7 @@ public class MPDServersAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                     holder.btnPlay.setImageResource(R.drawable.ic_play_circle);
                     holder.btnPlay.setContentDescription(context.getString(R.string.detail_play));
                 } else {
-                    Utils.playAndWarnIfMetered((RadioDroidApp) context.getApplicationContext(), stationToPlay);
+                    Utils.Play((RadioDroidApp) context.getApplicationContext(), stationToPlay);
 
                     holder.btnPlay.setImageResource(R.drawable.ic_pause_circle);
                     holder.btnPlay.setContentDescription(context.getResources().getString(R.string.detail_pause));
@@ -282,14 +276,7 @@ public class MPDServersAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         } else if (holder.getItemViewType() == PlayerType.EXTERNAL.getValue()) {
             holder.textViewDescription.setText(R.string.action_play_in_external);
 
-            Runnable play = () -> new PlayStationTask(PlayerType.EXTERNAL, null, null, stationToPlay, context).execute();
-
-            if (warnOnMeteredConnection && ConnectivityChecker.getCurrentConnectionType(context) == ConnectivityChecker.ConnectionType.METERED) {
-                Utils.showMeteredConnectionDialog(context, play);
-            } else {
-                holder.btnPlay.setOnClickListener(view -> play.run());
-            }
-
+            holder.btnPlay.setOnClickListener(view -> new PlayStationTask(PlayerType.EXTERNAL, null, null, stationToPlay, context).execute());
         } else if (holder.getItemViewType() == PlayerType.CAST.getValue()) {
             holder.textViewDescription.setText(R.string.media_route_menu_title);
 

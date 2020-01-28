@@ -435,15 +435,11 @@ public class FragmentPlayerFull extends Fragment {
 
     private void playLastFromHistory() {
         RadioDroidApp radioDroidApp = (RadioDroidApp) requireActivity().getApplication();
-        DataRadioStation station = PlayerServiceUtil.getCurrentStation();
+        HistoryManager historyManager = radioDroidApp.getHistoryManager();
+        DataRadioStation lastStation = historyManager.getFirst();
 
-        if (station == null) {
-            HistoryManager historyManager = radioDroidApp.getHistoryManager();
-            station = historyManager.getFirst();
-        }
-
-        if (station != null) {
-            Utils.showPlaySelection(radioDroidApp, station, getActivity().getSupportFragmentManager());
+        if (lastStation != null) {
+            Utils.Play(radioDroidApp, lastStation);
         }
     }
 

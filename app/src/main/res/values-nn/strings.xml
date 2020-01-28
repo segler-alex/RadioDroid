@@ -176,6 +176,8 @@
     <item>L</item>
   </string-array>
   <string name="notify_stream_url_copied">Adressa til radiostraumen er no kopiert</string>
+  <string name="no_wifi_title">Manglar Wi-Fi-samband (WLAN)</string>
+  <string name="no_wifi_connection">Manglar Wi-Fi-samband (WLAN) ved start av %1$s. Trykk «OK» for å halda fram.</string>
   <string name="nav_item_statistics">Statistikk</string>
   <string name="nav_item_about">Om</string>
   <string name="settings_mpd_port">MPD-port</string>

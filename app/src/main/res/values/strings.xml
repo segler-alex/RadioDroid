@@ -155,20 +155,11 @@
     <string name="settings_seconds_format">%d seconds</string>
     <string name="settings_milliseconds_format">%d milliseconds</string>
 
-    <string name="settings_pause_when_noisy">Pause on headset disconnect</string>
-
-    <string name="settings_auto_resume_do_not_resume">Do not resume</string>
-
-    <string name="settings_auto_resume_on_wired_headset_connected">Resume on wired connection</string>
-    <string name="settings_auto_resume_on_wired_headset_connected_on">Resume playback on wired headset plug-in</string>
-
-    <string name="settings_auto_resume_on_bluetooth_a2dp_connected">Resume on bluetooth connection</string>
-    <string name="settings_auto_resume_on_bluetooth_a2dp_connected_on">Resume playback on bluetooth A2DP device connection</string>
-
-    <!-- TODO: rename to "Metered connection warning" since wi-fi could be a metered connection -->
     <string name="settings_warn_no_wifi">Off-Wi-Fi Warning</string>
     <string name="settings_warn_no_wifi_on">Warn when playing without Wi-Fi connection</string>
     <string name="settings_warn_no_wifi_off">No warning when not on Wi-Fi connection</string>
+
+    <string name="settings_pause_when_noisy">Pause playback when headset disconnects</string>
 
     <string name="settings_recordings">Recordings</string>
     <string name="settings_record_name_formatting">Name format</string>
@@ -186,8 +177,6 @@
     <string name="notify_pre_play">Connecting</string>
     <string name="notify_play">Playing</string>
     <string name="notify_paused">Paused</string>
-    <string name="notify_metered_connection">Warning! Metered connection detected</string>
-
     <string name="notify_starred">Station has been added to favorites</string>
     <string name="notify_autostarred">Station has been automatically added to favorites</string>
     <string name="notify_unstarred">Station has been removed from favorites</string>
@@ -306,8 +295,8 @@
         <item>Copy Stream URL</item>
     </string-array>
 
-    <string name="alert_metered_connection_title">Metered connection detected</string>
-    <string name="alert_metered_connection_message">Metered connection may incur additional charges, press \'OK\' to continue.</string>
+    <string name="no_wifi_title">No Wi-Fi (WLAN) connection</string>
+    <string name="no_wifi_connection">No Wi-Fi (WLAN) connection when starting %1$s, press \'OK\' to continue.</string>
     <string name="nav_item_statistics">Statistics</string>
     <string name="nav_item_about">About</string>
     <string name="refresh">Refresh</string>

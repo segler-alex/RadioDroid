@@ -36,7 +36,7 @@ public class MediaSessionCallback extends MediaSessionCompat.Callback {
             if (event.getAction() == KeyEvent.ACTION_UP && !event.isLongPress()) {
                 try {
                     if (playerService.isPlaying()) {
-                        playerService.Pause(PauseReason.USER);
+                        playerService.Pause();
                     } else {
                         playerService.Resume();
                     }
@@ -53,7 +53,7 @@ public class MediaSessionCallback extends MediaSessionCompat.Callback {
     @Override
     public void onPause() {
         try {
-            playerService.Pause(PauseReason.USER);
+            playerService.Pause();
         } catch (RemoteException e) {
             e.printStackTrace();
         }
