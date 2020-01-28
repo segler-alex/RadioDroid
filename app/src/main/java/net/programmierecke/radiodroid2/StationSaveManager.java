@@ -16,6 +16,7 @@ import net.programmierecke.radiodroid2.station.DataRadioStation;
 import net.programmierecke.radiodroid2.interfaces.IChanged;
 
 import androidx.annotation.Nullable;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import org.json.JSONArray;
 
@@ -217,7 +218,7 @@ public class StationSaveManager extends Observable {
 
                 notifyObservers();
 
-                context.sendBroadcast(new Intent(ActivityMain.ACTION_HIDE_LOADING));
+                LocalBroadcastManager.getInstance(context).sendBroadcast(new Intent(ActivityMain.ACTION_HIDE_LOADING));
                 super.onPostExecute(result);
             }
         }.execute();

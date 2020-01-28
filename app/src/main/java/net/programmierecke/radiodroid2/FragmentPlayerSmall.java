@@ -15,7 +15,6 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.preference.PreferenceManager;
 
 import net.programmierecke.radiodroid2.players.mpd.MPDClient;
-import net.programmierecke.radiodroid2.players.mpd.MPDServersDialog;
 import net.programmierecke.radiodroid2.service.PlayerService;
 import net.programmierecke.radiodroid2.service.PlayerServiceUtil;
 import net.programmierecke.radiodroid2.station.DataRadioStation;
@@ -110,7 +109,7 @@ public class FragmentPlayerSmall extends Fragment {
             } else {
                 buttonPlay.setImageResource(R.drawable.ic_pause_circle);
                 buttonPlay.setContentDescription(getResources().getString(R.string.detail_pause));
-                setSetLastStationFromHistory(true);
+                playLastFromHistory();
             }
         });
 
@@ -149,6 +148,8 @@ public class FragmentPlayerSmall extends Fragment {
         filter.addAction(PlayerService.PLAYER_SERVICE_BOUND);
 
         LocalBroadcastManager.getInstance(requireContext()).registerReceiver(updateUIReceiver, filter);
+
+        fullUpdate();
     }
 
     @Override
@@ -172,15 +173,17 @@ public class FragmentPlayerSmall extends Fragment {
         fullUpdate();
     }
 
-    private void setSetLastStationFromHistory(boolean startPlaying) {
+    private void playLastFromHistory() {
         RadioDroidApp radioDroidApp = (RadioDroidApp) requireActivity().getApplication();
-        HistoryManager historyManager = radioDroidApp.getHistoryManager();
-        DataRadioStation lastStation = historyManager.getFirst();
+        DataRadioStation station = PlayerServiceUtil.getCurrentStation();
 
-        if (lastStation != null) {
-            if (startPlaying && !PlayerServiceUtil.isPlaying() && !mpdClient.isMpdEnabled()) {
-                Utils.Play(radioDroidApp, lastStation);
-            }
+        if (station == null) {
+            HistoryManager historyManager = radioDroidApp.getHistoryManager();
+            station = historyManager.getFirst();
+        }
+
+        if (station != null && !PlayerServiceUtil.isPlaying()) {
+            Utils.showPlaySelection(radioDroidApp, station, getActivity().getSupportFragmentManager());
         }
     }
 
@@ -196,7 +199,9 @@ public class FragmentPlayerSmall extends Fragment {
             }
         }
 
-        setSetLastStationFromHistory(play);
+        if (play) {
+            playLastFromHistory();
+        }
     }
 
     private void setupStationIcon() {

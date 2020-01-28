@@ -12,6 +12,7 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import net.programmierecke.radiodroid2.adapters.ItemAdapterStatistics;
 import net.programmierecke.radiodroid2.data.DataStatistics;
@@ -54,7 +55,7 @@ public class FragmentServerInfo extends Fragment implements IFragmentRefreshable
             @Override
             protected void onPostExecute(String result) {
                 if(getContext() != null)
-                    getContext().sendBroadcast(new Intent(ActivityMain.ACTION_HIDE_LOADING));
+                    LocalBroadcastManager.getInstance(getContext()).sendBroadcast(new Intent(ActivityMain.ACTION_HIDE_LOADING));
                 if (result != null) {
                     itemAdapterStatistics.clear();
                     DataStatistics[] items = DataStatistics.DecodeJson(result);

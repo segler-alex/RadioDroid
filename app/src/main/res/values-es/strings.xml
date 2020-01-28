@@ -283,8 +283,6 @@
         <item>Copiar la URLde la transmisión</item>
     </string-array>
 
-    <string name="no_wifi_title">No hay conexión WiFi (WLAN)</string>
-    <string name="no_wifi_connection">No hay conexión WiFi (WLAN) al iniciar %1$s. Presiona \'Aceptar\' para continuar.</string>
     <string name="nav_item_statistics">Estadísticas</string>
     <string name="nav_item_about">Acerca de</string>
     <string name="refresh">Recargar</string>

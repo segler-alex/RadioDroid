@@ -143,6 +143,16 @@ public class PlayerServiceUtil {
         }
     }
 
+    public static void setStation(DataRadioStation station) {
+        if (itsPlayerService != null) {
+            try {
+                itsPlayerService.SetStation(station);
+            } catch (RemoteException e) {
+                Log.e("", "" + e);
+            }
+        }
+    }
+
     public static void skipToNext() {
         if (itsPlayerService != null) {
             try {

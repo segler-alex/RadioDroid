@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -163,7 +164,7 @@ public class FragmentStations extends FragmentBase implements IFragmentSearchabl
 
             adapter.setFilterListener(searchStatus -> {
                 layoutError.setVisibility(searchStatus == StationsFilter.SearchStatus.ERROR ? View.VISIBLE : View.GONE);
-                getContext().sendBroadcast(new Intent(ActivityMain.ACTION_HIDE_LOADING));
+                LocalBroadcastManager.getInstance(getContext()).sendBroadcast(new Intent(ActivityMain.ACTION_HIDE_LOADING));
                 swipeRefreshLayout.setRefreshing(false);
             });
 
@@ -209,7 +210,7 @@ public class FragmentStations extends FragmentBase implements IFragmentSearchabl
         Log.d("STATIONS", "query = "+query);
         if (rvStations != null && searchEnabled) {
             if (!TextUtils.isEmpty(query)) {
-                getContext().sendBroadcast(new Intent(ActivityMain.ACTION_SHOW_LOADING));
+                LocalBroadcastManager.getInstance(getContext()).sendBroadcast(new Intent(ActivityMain.ACTION_SHOW_LOADING));
             }
 
             lastQuery = query;
