@@ -124,8 +124,8 @@ public class FragmentSettings extends PreferenceFragmentCompat implements Shared
                 }
             });
         } else if (s.equals("pref_category_connectivity")) {
-            final ListPreference servers = (ListPreference) findPreference("radiobrowser_server");
-            updateDnsList(servers);
+            //final ListPreference servers = (ListPreference) findPreference("radiobrowser_server");
+            //updateDnsList(servers);
 
             findPreference("settings_proxy").setOnPreferenceClickListener(new OnPreferenceClickListener() {
                 @Override
@@ -175,6 +175,7 @@ public class FragmentSettings extends PreferenceFragmentCompat implements Shared
         }
     }
 
+    /*
     private void setServersData(String[] list, ListPreference servers) {
         servers.setEntries(list);
         if (list.length > 0){
@@ -187,20 +188,7 @@ public class FragmentSettings extends PreferenceFragmentCompat implements Shared
         final AsyncTask<Void, Void, String[]> xxx = new AsyncTask<Void, Void, String[]>() {
             @Override
             protected String[] doInBackground(Void... params) {
-                Vector<String> listResult = new Vector<String>();
-                // add default server
-                listResult.add("www.radio-browser.info/webservice");
-                try {
-                    // add all round robin servers one by one to select them separately
-                    InetAddress[] list = InetAddress.getAllByName("all.api.radio-browser.info");
-                    for (InetAddress item : list) {
-                        Log.e("XXX", item.toString() + " -> " + item.getCanonicalHostName());
-                        listResult.add(item.getCanonicalHostName());
-                    }
-                } catch (UnknownHostException e) {
-                    e.printStackTrace();
-                }
-                return listResult.toArray(new String[0]);
+                return RadioBrowserServerManager.getServerList(false);
             }
 
             @Override
@@ -210,6 +198,7 @@ public class FragmentSettings extends PreferenceFragmentCompat implements Shared
             }
         }.execute();
     }
+    */
 
     @Override
     public void onResume() {
