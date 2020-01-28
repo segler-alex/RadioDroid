@@ -1,5 +1,6 @@
 package net.programmierecke.radiodroid2;
 
+import net.programmierecke.radiodroid2.service.PauseReason;
 import net.programmierecke.radiodroid2.station.DataRadioStation;
 import net.programmierecke.radiodroid2.station.live.StreamLiveInfo;
 import net.programmierecke.radiodroid2.station.live.ShoutcastInfo;
@@ -10,7 +11,7 @@ interface IPlayerService
 {
 void SetStation(in DataRadioStation station);
 void Play(boolean isAlarm);
-void Pause();
+void Pause(in PauseReason pauseReason);
 void Resume();
 void Stop();
 void SkipToNext();
@@ -33,6 +34,7 @@ long getTransferredBytes();
 long getBufferedSeconds();
 long getLastPlayStartTime();
 boolean getIsHls();
+PauseReason getPauseReason();
 
 void enableMPD(String hostname, int port);
 void disableMPD();

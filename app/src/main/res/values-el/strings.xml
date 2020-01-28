@@ -220,10 +220,6 @@
 
     <string name="notify_stream_url_copied">Η Διεύθυνση Url της Ροής Έχει Αντιγραφεί με Επιτυχία!</string>
 
-    <string name="no_wifi_title">Καμία σύνδεση Γουάι-Φάι (Τοπικό Δίκτυο)</string>
-    <string name="no_wifi_connection">Καμία σύνδεση Γουάι-Φάι (Τοπικό Δίκτυο) κατά την εκκίνηση του %1$s. \n
-    \n
-    Πίεσε το «Εντάξει» για να συνεχίσεις.</string>
     <string name="nav_item_statistics">Στατιστικά</string>
     <string name="nav_item_about">Σχετικά με...</string>
     <string name="settings_mpd_port">Θύρα MPD</string>

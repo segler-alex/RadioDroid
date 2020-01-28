@@ -255,8 +255,6 @@
         <item>Skopiuj adres URL strumienia</item>
     </string-array>
 
-    <string name="no_wifi_title">Brak połączenia Wi-Fi (WLAN)</string>
-    <string name="no_wifi_connection">Brak połączenia Wi-Fi (WLAN) podczas uruchamiania %1$s. Naciśnij \'OK\' aby kontynuować.</string>
     <string name="nav_item_statistics">Statystyki</string>
     <string name="nav_item_about">O</string>
     <string name="refresh">Odśwież</string>

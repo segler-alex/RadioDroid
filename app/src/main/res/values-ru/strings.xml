@@ -186,7 +186,5 @@
 
     <string name="notify_stream_url_copied">Ссылка на стрим была успешно скопирована!</string>
 
-    <string name="no_wifi_title">Нет WiFi (WLAN) соединения</string>
-    <string name="no_wifi_connection">Не WiFi (WLAN) соединения при старте %1$s. Нажмите \'Да\', что бы продолжить.</string>
     <string name="refresh">Обновить</string>
 </resources>

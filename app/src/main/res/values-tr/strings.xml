@@ -215,8 +215,6 @@
 
     <string name="notify_stream_url_copied">Yayın Url\'si Başarıyla Kopyalandı!</string>
 
-    <string name="no_wifi_title">Kablosuz (WLAN) bağlantısı yok</string>
-    <string name="no_wifi_connection">%1$s başlatılırken kablosuz (WLAN) bağlantısı yok. Devam etmek için \'Tamam\'a basın.</string>
     <string name="nav_item_statistics">İstatistikler</string>
     <string name="nav_item_about">Hakkında</string>
     <string name="settings_mpd_port">MPD portu</string>

@@ -8,6 +8,8 @@ import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.Uri;
+import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 import android.view.Surface;
 
@@ -54,8 +56,6 @@ import net.programmierecke.radiodroid2.players.PlayerWrapper;
 
 import java.io.IOException;
 import java.util.Map;
-import java.util.Timer;
-import java.util.TimerTask;
 
 import okhttp3.OkHttpClient;
 
@@ -78,20 +78,21 @@ public class ExoPlayerWrapper implements PlayerWrapper, IcyDataSource.IcyDataSou
     private boolean isHls;
     private boolean isPlayingFlag;
 
-    Context context;
-    MediaSource audioSource;
+    private Handler playerThreadHandler;
 
-    boolean interruptedByConnectionLoss = false;
+    private Context context;
+    private MediaSource audioSource;
+
+    private Runnable fullStopTask;
 
     private final BroadcastReceiver networkChangedReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
-            final boolean warn_no_wifi = sharedPref.getBoolean("warn_no_wifi", false);
-            if (interruptedByConnectionLoss && player != null && audioSource != null
-                    && (Utils.hasWifiConnection(context) || (!warn_no_wifi && Utils.hasAnyConnection(context)))) {
-                interruptedByConnectionLoss = false;
+            if (fullStopTask != null && player != null && audioSource != null && Utils.hasAnyConnection(context)) {
                 Log.i(TAG, "Regained connection. Resuming playback.");
+
+                cancelStopTask();
+
                 player.prepare(audioSource);
                 player.setPlayWhenReady(true);
             }
@@ -103,7 +104,7 @@ public class ExoPlayerWrapper implements PlayerWrapper, IcyDataSource.IcyDataSou
     public void playRemote(@NonNull OkHttpClient httpClient, @NonNull String streamUrl, @NonNull Context context, boolean isAlarm) {
         // I don't know why, but it is still possible that streamUrl is null,
         // I still get exceptions from this from google
-        if (streamUrl == null){
+        if (streamUrl == null) {
             return;
         }
         if (!streamUrl.equals(this.streamUrl)) {
@@ -112,6 +113,8 @@ public class ExoPlayerWrapper implements PlayerWrapper, IcyDataSource.IcyDataSou
 
         this.context = context;
         this.streamUrl = streamUrl;
+
+        cancelStopTask();
 
         stateListener.onStateChanged(PlayState.PrePlaying);
 
@@ -130,6 +133,10 @@ public class ExoPlayerWrapper implements PlayerWrapper, IcyDataSource.IcyDataSou
 
             player.addListener(new ExoPlayerListener());
             player.addAnalyticsListener(new AnalyticEventListener());
+        }
+
+        if (playerThreadHandler == null) {
+            playerThreadHandler = new Handler(Looper.getMainLooper());
         }
 
         isHls = streamUrl.endsWith(".m3u8");
@@ -153,7 +160,6 @@ public class ExoPlayerWrapper implements PlayerWrapper, IcyDataSource.IcyDataSou
 
         player.setPlayWhenReady(true);
 
-        interruptedByConnectionLoss = false;
         context.registerReceiver(networkChangedReceiver, new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
 
         // State changed will be called when audio session id is available.
@@ -162,6 +168,8 @@ public class ExoPlayerWrapper implements PlayerWrapper, IcyDataSource.IcyDataSou
     @Override
     public void pause() {
         Log.i(TAG, "Pause. Stopping exoplayer.");
+
+        cancelStopTask();
 
         if (player != null) {
             context.unregisterReceiver(networkChangedReceiver);
@@ -174,6 +182,8 @@ public class ExoPlayerWrapper implements PlayerWrapper, IcyDataSource.IcyDataSou
     @Override
     public void stop() {
         Log.i(TAG, "Stopping exoplayer.");
+
+        cancelStopTask();
 
         if (player != null) {
             context.unregisterReceiver(networkChangedReceiver);
@@ -248,28 +258,34 @@ public class ExoPlayerWrapper implements PlayerWrapper, IcyDataSource.IcyDataSou
     public void onDataSourceConnectionLostIrrecoverably() {
         Log.i(TAG, "Connection lost irrecoverably.");
 
-        stateListener.onStateChanged(PlayState.Idle);
-        stateListener.onPlayerError(R.string.error_stream_reconnect_timeout);
+        playerThreadHandler.post(() -> {
+            SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
+            int resumeWithin = sharedPref.getInt("settings_resume_within", 60);
+            if (resumeWithin > 0) {
+                Log.d(TAG, "Trying to resume playback within " + resumeWithin + "s.");
 
-        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
-        int resumeWithin = sharedPref.getInt("settings_resume_within", 60);
-        if(resumeWithin > 0) {
-            Log.d(TAG, "Trying to resume playback within " + resumeWithin + "s.");
-            player.setPlayWhenReady(false);
-            interruptedByConnectionLoss = true;
-            new Timer().schedule(new TimerTask() {
-                @Override
-                public void run() {
-                    if (interruptedByConnectionLoss) {
-                        interruptedByConnectionLoss = false;
-                        stop();
-                        stateListener.onPlayerError(R.string.giving_up_resume);
-                    }
-                }
-            }, resumeWithin * 1000);
-        } else {
-            stop();
-        }
+                // We want user to be able to paused during connection loss.
+                // TODO: Find a way to notify user that even if current state is Playing
+                //       we are actually trying to reconnect.
+                //stateListener.onStateChanged(PlayState.Paused);
+
+                cancelStopTask();
+
+                fullStopTask = () -> {
+                    stop();
+                    stateListener.onPlayerError(R.string.giving_up_resume);
+
+                    ExoPlayerWrapper.this.fullStopTask = null;
+                };
+                playerThreadHandler.postDelayed(fullStopTask, resumeWithin * 1000);
+
+                stateListener.onPlayerWarning(R.string.error_stream_reconnect_timeout);
+            } else {
+                stop();
+
+                stateListener.onPlayerError(R.string.error_stream_reconnect_timeout);
+            }
+        });
     }
 
     @Override
@@ -325,6 +341,13 @@ public class ExoPlayerWrapper implements PlayerWrapper, IcyDataSource.IcyDataSou
         return isHls ? "ts" : "mp3";
     }
 
+    private void cancelStopTask() {
+        if (fullStopTask != null) {
+            playerThreadHandler.removeCallbacks(fullStopTask);
+            fullStopTask = null;
+        }
+    }
+
     private class ExoPlayerListener implements Player.EventListener {
 
         @Override
@@ -351,9 +374,8 @@ public class ExoPlayerWrapper implements PlayerWrapper, IcyDataSource.IcyDataSou
         public void onPlayerError(ExoPlaybackException error) {
             // Stop playing since it is either irrecoverable error in the player or our data source failed to reconnect.
 
-            if(!interruptedByConnectionLoss) {
+            if (fullStopTask != null) {
                 stop();
-                stateListener.onStateChanged(PlayState.Idle);
                 stateListener.onPlayerError(R.string.error_play_stream);
             }
         }

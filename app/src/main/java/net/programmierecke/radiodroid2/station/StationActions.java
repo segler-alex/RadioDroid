@@ -16,6 +16,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.FragmentActivity;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import net.programmierecke.radiodroid2.ActivityMain;
 import net.programmierecke.radiodroid2.R;
@@ -104,7 +105,7 @@ public class StationActions {
                     return;
                 }
 
-                ctx.sendBroadcast(new Intent(ActivityMain.ACTION_HIDE_LOADING));
+                LocalBroadcastManager.getInstance(ctx).sendBroadcast(new Intent(ActivityMain.ACTION_HIDE_LOADING));
 
                 if (result != null) {
                     ClipboardManager clipboard = (ClipboardManager) ctx.getSystemService(Context.CLIPBOARD_SERVICE);
@@ -171,7 +172,7 @@ public class StationActions {
                     return;
                 }
 
-                ctx.sendBroadcast(new Intent(ActivityMain.ACTION_HIDE_LOADING));
+                LocalBroadcastManager.getInstance(ctx).sendBroadcast(new Intent(ActivityMain.ACTION_HIDE_LOADING));
 
                 if (result != null) {
                     Intent share = new Intent(Intent.ACTION_VIEW);

@@ -16,6 +16,7 @@ import net.programmierecke.radiodroid2.station.DataRadioStation;
 import net.programmierecke.radiodroid2.interfaces.IChanged;
 
 import androidx.annotation.Nullable;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import org.json.JSONArray;
 
@@ -58,7 +59,7 @@ public class StationSaveManager extends Observable {
         notifyObservers();
     }
 
-    DataRadioStation getLast() {
+    public DataRadioStation getLast() {
         if (!listStations.isEmpty()) {
             return listStations.get(listStations.size() - 1);
         }
@@ -66,7 +67,7 @@ public class StationSaveManager extends Observable {
         return null;
     }
 
-    DataRadioStation getFirst() {
+    public DataRadioStation getFirst() {
         if (!listStations.isEmpty()) {
             return listStations.get(0);
         }
@@ -74,7 +75,7 @@ public class StationSaveManager extends Observable {
         return null;
     }
 
-    DataRadioStation getById(String id) {
+    public DataRadioStation getById(String id) {
         for (DataRadioStation station : listStations) {
             if (id.equals(station.StationUuid)) {
                 return station;
@@ -217,7 +218,7 @@ public class StationSaveManager extends Observable {
 
                 notifyObservers();
 
-                context.sendBroadcast(new Intent(ActivityMain.ACTION_HIDE_LOADING));
+                LocalBroadcastManager.getInstance(context).sendBroadcast(new Intent(ActivityMain.ACTION_HIDE_LOADING));
                 super.onPostExecute(result);
             }
         }.execute();

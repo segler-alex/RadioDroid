@@ -285,8 +285,6 @@
         <item>Kopiere strøm URL</item>
     </string-array>
 
-    <string name="no_wifi_title">Ingen trådløs forbindelse</string>
-    <string name="no_wifi_connection">Ingen trådløs forbindelse under opstart af %1$s, klik \'O.k.\' for at fortsætte.</string>
     <string name="nav_item_statistics">Statistikker</string>
     <string name="nav_item_about">Om</string>
     <string name="refresh">Genopfriske</string>
