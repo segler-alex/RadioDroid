@@ -468,15 +468,20 @@ public class Utils {
 		return themeAttributeToColor(R.attr.colorAccent, context, Color.LTGRAY);
 	}
 
-	public static void setOkHttpProxy(@NonNull OkHttpClient.Builder builder, @NonNull final ProxySettings proxySettings) {
-		if (TextUtils.isEmpty(proxySettings.host)) {
-			return;
-		}
-
+	/**
+	 * Add proxy to an okhttp builder.
+	 * @return true if successful, false otherwise
+	 */
+	public static boolean setOkHttpProxy(@NonNull OkHttpClient.Builder builder, @NonNull final ProxySettings proxySettings) {
 		if (proxySettings.type == Proxy.Type.DIRECT) {
-			return;
+			return true;
 		}
-
+		if (TextUtils.isEmpty(proxySettings.host)) {
+			return false;
+		}
+		if (proxySettings.port < 1 || proxySettings.port > 65535){
+			return false;
+		}
 		InetSocketAddress proxyAddress = InetSocketAddress.createUnresolved(proxySettings.host, proxySettings.port);
 		Proxy proxy = new Proxy(proxySettings.type, proxyAddress);
 
@@ -495,6 +500,7 @@ public class Utils {
 
 			builder.authenticator(proxyAuthenticator);
 		}
+		return true;
 	}
 
     public static Uri resourceToUri(Resources resources, int resID) {

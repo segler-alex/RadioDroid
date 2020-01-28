@@ -2,6 +2,7 @@ package net.programmierecke.radiodroid2;
 
 import android.app.Application;
 import android.content.SharedPreferences;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatDelegate;
@@ -136,15 +137,27 @@ public class RadioDroidApp extends MultiDexApplication {
 
     public OkHttpClient.Builder newHttpClient() {
         OkHttpClient.Builder builder = new OkHttpClient.Builder().connectionPool(connectionPool);
-        setCurrentOkHttpProxy(builder);
+        if (!setCurrentOkHttpProxy(builder)){
+            Toast toast = Toast.makeText(this, getResources().getString(R.string.ignore_proxy_settings_invalid), Toast.LENGTH_SHORT);
+            toast.show();
+        }
         return builder;
     }
 
-    public void setCurrentOkHttpProxy(@NonNull OkHttpClient.Builder builder) {
+    public OkHttpClient.Builder newHttpClientWithoutProxy() {
+        OkHttpClient.Builder builder = new OkHttpClient.Builder().connectionPool(connectionPool);
+        return builder;
+    }
+
+    public boolean setCurrentOkHttpProxy(@NonNull OkHttpClient.Builder builder) {
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
         ProxySettings proxySettings = ProxySettings.fromPreferences(sharedPref);
         if (proxySettings != null) {
-            Utils.setOkHttpProxy(builder, proxySettings);
+            if (!Utils.setOkHttpProxy(builder, proxySettings)){
+                // proxy settings are not valid
+                return false;
+            }
         }
+        return true;
     }
 }
