@@ -204,6 +204,7 @@
 
     <string name="alert_select_mpd_server">Please select a server</string>
     <string name="alert_select_mpd_server_name">Server name</string>
+    <string name="alert_select_mpd_server_password">Server password</string>
     <string name="hostname">Hostname</string>
     <string name="port">Port</string>
 

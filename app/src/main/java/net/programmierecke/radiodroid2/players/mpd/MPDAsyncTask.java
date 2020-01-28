@@ -1,5 +1,6 @@
 package net.programmierecke.radiodroid2.players.mpd;
 
+import android.text.TextUtils;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
@@ -33,8 +34,8 @@ public class MPDAsyncTask implements Runnable {
         void onFailure(@NonNull MPDAsyncTask task);
     }
 
-    private Queue<ReadStage> readStages;
-    private Queue<WriteStage> writeStages;
+    private LinkedList<ReadStage> readStages;
+    private LinkedList<WriteStage> writeStages;
     private FailureCallback failureCallback;
 
     private long timeoutMs;
@@ -64,6 +65,11 @@ public class MPDAsyncTask implements Runnable {
     @Override
     public void run() {
         try {
+            if (!TextUtils.isEmpty(mpdServerData.password)){
+                this.readStages.addFirst(okReadStage());
+                this.writeStages.addFirst(loginWriteStage(mpdServerData.password));
+            }
+
             Socket s = new Socket();
             s.connect(new InetSocketAddress(mpdServerData.hostname, mpdServerData.port), (int) timeoutMs);
             BufferedReader reader = new BufferedReader(new InputStreamReader(s.getInputStream(), Charset.forName("UTF-8")));
@@ -135,6 +141,13 @@ public class MPDAsyncTask implements Runnable {
     protected static MPDAsyncTask.WriteStage statusWriteStage() {
         return (task, bufferedWriter) -> {
             bufferedWriter.write("status\n");
+            return true;
+        };
+    }
+
+    protected static MPDAsyncTask.WriteStage loginWriteStage(String password) {
+        return (task, bufferedWriter) -> {
+            bufferedWriter.write("password " + password + "\n");
             return true;
         };
     }

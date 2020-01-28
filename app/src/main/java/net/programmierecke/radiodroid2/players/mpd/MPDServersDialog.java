@@ -158,6 +158,7 @@ public class MPDServersDialog extends BottomSheetDialogFragment {
         View server_view = inflater.inflate(R.layout.layout_server_alert, null);
         final EditText editName = server_view.findViewById(R.id.mpd_server_name);
         final EditText editHostnameH = server_view.findViewById(R.id.mpd_server_hostname);
+        final EditText editPassword = server_view.findViewById(R.id.mpd_server_password);
         final EditText editPort = server_view.findViewById(R.id.mpd_server_port);
 
         if (server != null) {
@@ -179,6 +180,7 @@ public class MPDServersDialog extends BottomSheetDialogFragment {
             btnPositive.setOnClickListener(v -> {
                 String serverName = editName.getText().toString().trim();
                 String hostname = editHostnameH.getText().toString().trim();
+                String password = editPassword.getText().toString().trim();
                 int port = parseIntWithDefault(editPort.getText().toString().trim(), 0);
 
                 if (serverName.isEmpty() || hostname.isEmpty() || port == 0) {
@@ -189,10 +191,11 @@ public class MPDServersDialog extends BottomSheetDialogFragment {
                     server.name = serverName;
                     server.hostname = hostname;
                     server.port = port;
+                    server.password = password;
 
                     serversRepository.updatePersistentData(server);
                 } else {
-                    MPDServerData server1 = new MPDServerData(serverName, hostname, port);
+                    MPDServerData server1 = new MPDServerData(serverName, hostname, port, password);
                     serversRepository.addServer(server1);
                 }
 

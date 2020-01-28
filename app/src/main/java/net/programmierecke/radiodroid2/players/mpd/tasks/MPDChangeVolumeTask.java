@@ -5,10 +5,11 @@ import android.annotation.SuppressLint;
 import androidx.annotation.Nullable;
 
 import net.programmierecke.radiodroid2.players.mpd.MPDAsyncTask;
+import net.programmierecke.radiodroid2.players.mpd.MPDServerData;
 
 public class MPDChangeVolumeTask extends MPDAsyncTask {
     @SuppressLint("DefaultLocale")
-    public MPDChangeVolumeTask(final int deltaVolume, @Nullable FailureCallback failureCallback) {
+    public MPDChangeVolumeTask(final int deltaVolume, @Nullable FailureCallback failureCallback, MPDServerData server) {
         setStages(
                 new MPDAsyncTask.ReadStage[]{
                         okReadStage(),

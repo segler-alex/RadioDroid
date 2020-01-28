@@ -17,6 +17,7 @@ public class MPDServerData {
     public String name;
     public String hostname;
     public int port;
+    public String password;
 
     // Runtime status
     public boolean isReachable = false;
@@ -25,16 +26,18 @@ public class MPDServerData {
 
     public boolean connected = false;
 
-    public MPDServerData(@NonNull String name, @NonNull String hostname, int port) {
+    public MPDServerData(@NonNull String name, @NonNull String hostname, int port, String password) {
         this.name = name;
         this.hostname = hostname;
         this.port = port;
+        this.password = password;
     }
 
     public MPDServerData(MPDServerData other) {
         this.id = other.id;
         this.name = other.name;
         this.hostname = other.hostname;
+        this.password = other.password;
         this.port = other.port;
         this.isReachable = other.isReachable;
         this.status = other.status;
@@ -86,6 +89,7 @@ public class MPDServerData {
         if (isReachable != o.isReachable) return false;
         if (volume != o.volume) return false;
         if (connected != o.connected) return false;
+        if (password != null ? !password.equals(o.password) : o.password != null) return false;
         if (name != null ? !name.equals(o.name) : o.name != null) return false;
         if (hostname != null ? !hostname.equals(o.hostname) : o.hostname != null)
             return false;

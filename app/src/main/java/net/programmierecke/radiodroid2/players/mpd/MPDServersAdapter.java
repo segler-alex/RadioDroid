@@ -325,9 +325,9 @@ public class MPDServersAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             holder.btnDecreaseVolume.setVisibility(View.VISIBLE);
             holder.btnIncreaseVolume.setVisibility(View.VISIBLE);
 
-            holder.btnDecreaseVolume.setOnClickListener(view -> mpdClient.enqueueTask(mpdServerData, new MPDChangeVolumeTask(-10, null)));
+            holder.btnDecreaseVolume.setOnClickListener(view -> mpdClient.enqueueTask(mpdServerData, new MPDChangeVolumeTask(-10, null, mpdServerData)));
 
-            holder.btnIncreaseVolume.setOnClickListener(view -> mpdClient.enqueueTask(mpdServerData, new MPDChangeVolumeTask(10, null)));
+            holder.btnIncreaseVolume.setOnClickListener(view -> mpdClient.enqueueTask(mpdServerData, new MPDChangeVolumeTask(10, null, mpdServerData)));
         } else {
             holder.btnDecreaseVolume.setVisibility(View.INVISIBLE);
             holder.btnIncreaseVolume.setVisibility(View.INVISIBLE);
