@@ -25,6 +25,8 @@ public class FragmentBase extends Fragment {
 
     private boolean isCreated = false;
 
+    private AsyncTask task = null;
+
     public FragmentBase() {
     }
 
@@ -45,6 +47,15 @@ public class FragmentBase extends Fragment {
         }
 
         DownloadUrl(false);
+    }
+
+    @Override
+    public void onDestroy() {
+        if (task != null) {
+            task.cancel(true);
+        }
+
+        super.onDestroy();
     }
 
     protected String getUrlResult() {
@@ -73,6 +84,10 @@ public class FragmentBase extends Fragment {
         if (!isCreated) {
             return;
         }
+        if (task != null){
+            task.cancel(true);
+            task = null;
+        }
 
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getContext());
         final boolean show_broken = sharedPref.getBoolean("show_broken", false);
@@ -91,7 +106,7 @@ public class FragmentBase extends Fragment {
                 RadioDroidApp radioDroidApp = (RadioDroidApp) getActivity().getApplication();
                 final OkHttpClient httpClient = radioDroidApp.getHttpClient();
 
-                new AsyncTask<Void, Void, String>() {
+                task = new AsyncTask<Void, Void, String>() {
                     @Override
                     protected String doInBackground(Void... params) {
                         HashMap<String, String> p = new HashMap<String, String>();
