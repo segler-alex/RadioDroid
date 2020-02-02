@@ -38,4 +38,6 @@ PauseReason getPauseReason();
 
 void enableMPD(String hostname, int port);
 void disableMPD();
+
+void warnAboutMeteredConnection();
 }

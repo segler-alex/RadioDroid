@@ -304,17 +304,10 @@ public class Utils {
         final boolean warnOnMetered = sharedPref.getBoolean("warn_no_wifi", false);
 
         if (warnOnMetered && ConnectivityChecker.getCurrentConnectionType(radioDroidApp) == ConnectivityChecker.ConnectionType.METERED) {
-            ToneGenerator toneG = new ToneGenerator(AudioManager.STREAM_ALARM, 100);
-            toneG.startTone(ToneGenerator.TONE_SUP_RADIO_NOTAVAIL, 2000);
-
-            Intent local = new Intent();
-            local.setAction(PlayerService.PLAYER_SERVICE_METERED_CONNECTION);
-            LocalBroadcastManager.getInstance(radioDroidApp).sendBroadcast(local);
-
             // Making sure that resuming from notification or some external event will actually resume
             // and not issue warning a second time.
             PlayerServiceUtil.setStation(station);
-            PlayerServiceUtil.pause(PauseReason.METERED_CONNECTION);
+            PlayerServiceUtil.warnAboutMeteredConnection();
         } else {
             play(radioDroidApp, station);
         }

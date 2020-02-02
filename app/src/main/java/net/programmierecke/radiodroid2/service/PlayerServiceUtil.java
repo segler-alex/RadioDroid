@@ -418,4 +418,14 @@ public class PlayerServiceUtil {
             }
         }
     }
+
+    public static void warnAboutMeteredConnection() {
+        if (itsPlayerService != null) {
+            try {
+                itsPlayerService.warnAboutMeteredConnection();
+            } catch (RemoteException e) {
+                Log.e("", "" + e);
+            }
+        }
+    }
 }
