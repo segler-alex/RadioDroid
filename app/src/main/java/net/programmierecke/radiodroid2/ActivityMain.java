@@ -596,17 +596,16 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
         menuItemIconsView.setVisible(false);
         menuItemAddAlarm.setVisible(false);
 
+        boolean mpd_is_visible = false;
         RadioDroidApp radioDroidApp = (RadioDroidApp) getApplication();
         if (radioDroidApp != null) {
             MPDClient mpdClient = radioDroidApp.getMpdClient();
             if (mpdClient != null) {
                 MPDServersRepository repository = mpdClient.getMpdServersRepository();
-                if (repository != null) {
-                    LiveData<List<MPDServerData>> mpdServers = repository.getAllServers();
-                    menuItemMpd.setVisible(mpdServers.getValue().size() > 0);
-                }
+                mpd_is_visible = !repository.isEmpty();
             }
         }
+        menuItemMpd.setVisible(mpd_is_visible);
 
         switch (selectedMenuItem) {
             case R.id.nav_item_stations: {
