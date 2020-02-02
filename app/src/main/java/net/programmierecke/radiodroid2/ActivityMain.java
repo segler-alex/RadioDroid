@@ -37,6 +37,7 @@ import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.LiveData;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.preference.PreferenceManager;
 
@@ -59,6 +60,8 @@ import net.programmierecke.radiodroid2.alarm.TimePickerFragment;
 import net.programmierecke.radiodroid2.interfaces.IFragmentRefreshable;
 import net.programmierecke.radiodroid2.interfaces.IFragmentSearchable;
 import net.programmierecke.radiodroid2.players.PlayState;
+import net.programmierecke.radiodroid2.players.mpd.MPDServerData;
+import net.programmierecke.radiodroid2.players.mpd.MPDServersRepository;
 import net.programmierecke.radiodroid2.service.MediaSessionCallback;
 import net.programmierecke.radiodroid2.service.PlayerService;
 import net.programmierecke.radiodroid2.service.PlayerServiceUtil;
@@ -69,6 +72,7 @@ import java.io.File;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.Date;
+import java.util.List;
 
 import okhttp3.OkHttpClient;
 
@@ -121,6 +125,7 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
     MenuItem menuItemIconsView;
     MenuItem menuItemListView;
     MenuItem menuItemAddAlarm;
+    MenuItem menuItemMpd;
 
     private SharedPreferences sharedPref;
 
@@ -559,6 +564,7 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
         menuItemListView = menu.findItem(R.id.action_list_view);
         menuItemIconsView = menu.findItem(R.id.action_icons_view);
         menuItemAddAlarm = menu.findItem(R.id.action_add_alarm);
+        menuItemMpd = menu.findItem(R.id.action_mpd);
         mSearchView = (SearchView) MenuItemCompat.getActionView(menuItemSearch);
         mSearchView.setOnQueryTextListener(this);
         mSearchView.setOnQueryTextFocusChangeListener(new View.OnFocusChangeListener() {
@@ -588,6 +594,10 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
         menuItemListView.setVisible(false);
         menuItemIconsView.setVisible(false);
         menuItemAddAlarm.setVisible(false);
+        
+        MPDServersRepository mpdServersRepository = new MPDServersRepository(getApplicationContext());
+        LiveData<List<MPDServerData>> mpdServers = mpdServersRepository.getAllServers();
+        menuItemMpd.setVisible(mpdServers.getValue().size() > 0);
 
         switch (selectedMenuItem) {
             case R.id.nav_item_stations: {
