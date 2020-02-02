@@ -56,7 +56,7 @@ public class CountryCodeDictionary {
         Collection<Country> countries = gson.fromJson(reader, collectionType);
 
         for (CountryCodeDictionary.Country country : countries) {
-            codeToCountry.put(country.getCode().toLowerCase(Locale.ENGLISH), country.getName().toLowerCase(Locale.ENGLISH));
+            codeToCountry.put(country.getCode().toLowerCase(Locale.ENGLISH), country.getName());
         }
     }
 
