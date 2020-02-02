@@ -1,9 +1,11 @@
 package net.programmierecke.radiodroid2.station;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
+import androidx.preference.PreferenceManager;
 
 import net.programmierecke.radiodroid2.RadioDroidApp;
 import net.programmierecke.radiodroid2.Utils;
@@ -89,9 +91,13 @@ public class StationsFilter extends CustomFilter {
         // TODO: use http client with custom timeouts
         OkHttpClient httpClient = radioDroidApp.getHttpClient();
 
+        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this.context);
+        final boolean show_broken = sharedPref.getBoolean("show_broken", false);
+
         HashMap<String, String> p = new HashMap<String, String>();
         p.put("order", "clickcount");
         p.put("reverse", "true");
+        p.put("hidebroken", ""+(!show_broken));
 
         String searchUrl = null;
         switch (searchStyle){

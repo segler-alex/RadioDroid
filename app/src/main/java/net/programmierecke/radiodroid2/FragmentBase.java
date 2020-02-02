@@ -110,9 +110,7 @@ public class FragmentBase extends Fragment {
                     @Override
                     protected String doInBackground(Void... params) {
                         HashMap<String, String> p = new HashMap<String, String>();
-                        if (!show_broken) {
-                            p.put("hidebroken", "true");
-                        }
+                        p.put("hidebroken", ""+(!show_broken));
                         return Utils.downloadFeedRelative(httpClient, getActivity(), relativeUrl, forceUpdate, p);
                     }
 

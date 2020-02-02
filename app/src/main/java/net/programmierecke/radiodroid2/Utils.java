@@ -213,7 +213,7 @@ public class Utils {
 
     public static String getRealStationLink(OkHttpClient httpClient, Context ctx, String stationId) {
         Log.i("UTIL", "StationUUID:" + stationId);
-        String result = Utils.downloadFeedRelative(httpClient, ctx, "v2/json/url/" + stationId, true, null);
+        String result = Utils.downloadFeedRelative(httpClient, ctx, "json/url/" + stationId, true, null);
         if (result != null) {
             Log.i("UTIL", result);
             JSONObject jsonObj;
