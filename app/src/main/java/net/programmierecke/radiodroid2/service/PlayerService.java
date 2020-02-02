@@ -2,7 +2,6 @@ package net.programmierecke.radiodroid2.service;
 
 import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
 import java.util.Map;
 
 import android.app.Notification;
@@ -65,6 +64,7 @@ import net.programmierecke.radiodroid2.Utils;
 import net.programmierecke.radiodroid2.history.TrackHistoryEntry;
 import net.programmierecke.radiodroid2.history.TrackHistoryRepository;
 import net.programmierecke.radiodroid2.players.PlayState;
+import net.programmierecke.radiodroid2.players.selector.PlayerType;
 import net.programmierecke.radiodroid2.station.DataRadioStation;
 import net.programmierecke.radiodroid2.station.live.ShoutcastInfo;
 import net.programmierecke.radiodroid2.station.live.StreamLiveInfo;
@@ -87,6 +87,7 @@ public class PlayerService extends Service implements RadioPlayer.PlayerListener
     public static final String PLAYER_SERVICE_STATE_EXTRA_KEY = "state";
 
     public static final String PLAYER_SERVICE_METERED_CONNECTION = "net.programmierecke.radiodroid2.metered_connection";
+    public static final String PLAYER_SERVICE_METERED_CONNECTION_PLAYER_TYPE = "PLAYER_TYPE";
 
     public static final String PLAYER_SERVICE_BOUND = "net.programmierecke.radiodroid2.playerservicebound";
 
@@ -323,8 +324,8 @@ public class PlayerService extends Service implements RadioPlayer.PlayerListener
         }
 
         @Override
-        public void warnAboutMeteredConnection() throws RemoteException {
-            PlayerService.this.warnAboutMeteredConnection();
+        public void warnAboutMeteredConnection(PlayerType playerType) throws RemoteException {
+            PlayerService.this.warnAboutMeteredConnection(playerType);
         }
     };
 
@@ -375,7 +376,7 @@ public class PlayerService extends Service implements RadioPlayer.PlayerListener
         @Override
         public void onConnectivityChanged(boolean connected, ConnectivityChecker.ConnectionType connectionType) {
             if (connectionType == ConnectivityChecker.ConnectionType.METERED && sharedPref.getBoolean(METERED_CONNECTION_WARNING_KEY, false)) {
-                warnAboutMeteredConnection();
+                warnAboutMeteredConnection(PlayerType.RADIODROID);
             }
         }
     };
@@ -574,7 +575,7 @@ public class PlayerService extends Service implements RadioPlayer.PlayerListener
                 // metered connection because he already received them if there were any.
                 Utils.play(radioDroidApp, station);
             } else {
-                Utils.playAndWarnIfMetered(radioDroidApp, station);
+                Utils.playAndWarnIfMetered(radioDroidApp, station, PlayerType.RADIODROID, () -> Utils.play(radioDroidApp, station));
             }
         }
     }
@@ -590,7 +591,7 @@ public class PlayerService extends Service implements RadioPlayer.PlayerListener
             if (radioPlayer.isPlaying()) {
                 Utils.play(radioDroidApp, station);
             } else {
-                Utils.playAndWarnIfMetered(radioDroidApp, station);
+                Utils.playAndWarnIfMetered(radioDroidApp, station, PlayerType.RADIODROID, () -> Utils.play(radioDroidApp, station));
             }
         }
     }
@@ -628,7 +629,8 @@ public class PlayerService extends Service implements RadioPlayer.PlayerListener
 
                     Utils.play(radioDroidApp, station);
                 } else {
-                    Utils.playAndWarnIfMetered(radioDroidApp, station);
+                    DataRadioStation finalStation = station;
+                    Utils.playAndWarnIfMetered(radioDroidApp, station, PlayerType.RADIODROID, () -> Utils.play(radioDroidApp, finalStation));
                 }
 
             }
@@ -989,7 +991,7 @@ public class PlayerService extends Service implements RadioPlayer.PlayerListener
                 });
     }
 
-    private void warnAboutMeteredConnection() {
+    private void warnAboutMeteredConnection(PlayerType playerType) {
         // The idea is to play a warning and give user some time frame to press the play media button
         // again to resume the playback. However media buttons may not work as expected and think
         // that current state is "playing" and send us "pause" regardless of our attempt to set state
@@ -1020,7 +1022,11 @@ public class PlayerService extends Service implements RadioPlayer.PlayerListener
 
         handler.postDelayed(toneGeneratorStopRunnable, AUDIO_WARNING_DURATION);
 
-        sendBroadCast(PLAYER_SERVICE_METERED_CONNECTION);
+        Intent broadcast = new Intent();
+        broadcast.setAction(PLAYER_SERVICE_METERED_CONNECTION);
+        broadcast.putExtra(PLAYER_SERVICE_METERED_CONNECTION_PLAYER_TYPE, (Parcelable) playerType);
+        LocalBroadcastManager.getInstance(itsContext).sendBroadcast(broadcast);
+
         updateNotification(PlayState.Paused);
     }
 

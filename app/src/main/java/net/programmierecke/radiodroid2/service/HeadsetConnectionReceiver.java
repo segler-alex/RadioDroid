@@ -15,6 +15,7 @@ import androidx.preference.PreferenceManager;
 import net.programmierecke.radiodroid2.HistoryManager;
 import net.programmierecke.radiodroid2.RadioDroidApp;
 import net.programmierecke.radiodroid2.Utils;
+import net.programmierecke.radiodroid2.players.selector.PlayerType;
 import net.programmierecke.radiodroid2.station.DataRadioStation;
 
 public class HeadsetConnectionReceiver extends BroadcastReceiver {
@@ -64,7 +65,7 @@ public class HeadsetConnectionReceiver extends BroadcastReceiver {
 
             if (lastStation != null) {
                 if (!PlayerServiceUtil.isPlaying() && !radioDroidApp.getMpdClient().isMpdEnabled()) {
-                    Utils.playAndWarnIfMetered(radioDroidApp, lastStation);
+                    Utils.playAndWarnIfMetered(radioDroidApp, lastStation, PlayerType.RADIODROID, () -> Utils.play(radioDroidApp, lastStation));
                 }
             }
         }

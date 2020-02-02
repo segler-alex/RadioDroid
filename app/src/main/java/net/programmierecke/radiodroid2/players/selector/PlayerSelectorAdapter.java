@@ -1,10 +1,7 @@
-package net.programmierecke.radiodroid2.players.mpd;
+package net.programmierecke.radiodroid2.players.selector;
 
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
-import android.net.Uri;
-import android.os.AsyncTask;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,57 +9,36 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatImageButton;
-import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
-import net.programmierecke.radiodroid2.ActivityMain;
 import net.programmierecke.radiodroid2.CastHandler;
 import net.programmierecke.radiodroid2.R;
 import net.programmierecke.radiodroid2.RadioDroidApp;
 import net.programmierecke.radiodroid2.Utils;
+import net.programmierecke.radiodroid2.players.mpd.MPDClient;
+import net.programmierecke.radiodroid2.players.mpd.MPDServerData;
 import net.programmierecke.radiodroid2.players.mpd.tasks.MPDChangeVolumeTask;
 import net.programmierecke.radiodroid2.players.mpd.tasks.MPDPauseTask;
-import net.programmierecke.radiodroid2.players.mpd.tasks.MPDPlayTask;
 import net.programmierecke.radiodroid2.players.mpd.tasks.MPDResumeTask;
-import net.programmierecke.radiodroid2.service.ConnectivityChecker;
 import net.programmierecke.radiodroid2.service.PlayerService;
 import net.programmierecke.radiodroid2.service.PlayerServiceUtil;
 import net.programmierecke.radiodroid2.station.DataRadioStation;
 
-import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MPDServersAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class PlayerSelectorAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     interface ActionListener {
         void editServer(@NonNull MPDServerData mpdServerData);
 
         void removeServer(@NonNull MPDServerData mpdServerData);
-    }
-
-    private enum PlayerType {
-        MPD_SERVER(0),
-        RADIODROID(1),
-        EXTERNAL(2),
-        CAST(3);
-
-        private final int value;
-
-        PlayerType(final int value) {
-            this.value = value;
-        }
-
-        public int getValue() {
-            return value;
-        }
     }
 
     private class MPDServerItemViewHolder extends RecyclerView.ViewHolder {
@@ -104,79 +80,6 @@ public class MPDServersAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         }
     }
 
-    static class PlayStationTask extends AsyncTask<Void, Void, String> {
-        private PlayerType playerType;
-        private MPDClient mpdClient;
-        private MPDServerData mpdServerData;
-        private DataRadioStation stationToPlay;
-        private WeakReference<Context> contextWeakReference;
-
-        public PlayStationTask(PlayerType playerType, @Nullable MPDClient mpdClient, @Nullable MPDServerData mpdServerData, @NonNull DataRadioStation stationToPlay, @NonNull Context ctx) {
-            this.playerType = playerType;
-            this.mpdClient = mpdClient;
-            this.mpdServerData = mpdServerData;
-            this.stationToPlay = stationToPlay;
-            this.contextWeakReference = new WeakReference<>(ctx);
-        }
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-
-            Context ctx = contextWeakReference.get();
-            if (ctx != null) {
-                LocalBroadcastManager.getInstance(ctx).sendBroadcast(new Intent(ActivityMain.ACTION_SHOW_LOADING));
-            }
-        }
-
-        @Override
-        protected String doInBackground(Void... params) {
-            Context ctx = contextWeakReference.get();
-            if (ctx != null) {
-                RadioDroidApp radioDroidApp = (RadioDroidApp) ctx.getApplicationContext();
-                return Utils.getRealStationLink(radioDroidApp.getHttpClient(), ctx.getApplicationContext(), stationToPlay.StationUuid);
-            } else {
-                return null;
-            }
-        }
-
-        @Override
-        protected void onPostExecute(String result) {
-            Context ctx = contextWeakReference.get();
-            if (ctx == null) {
-                return;
-            }
-
-            LocalBroadcastManager.getInstance(ctx).sendBroadcast(new Intent(ActivityMain.ACTION_HIDE_LOADING));
-
-            if (result != null) {
-                stationToPlay.playableUrl = result;
-
-                switch (playerType) {
-                    case MPD_SERVER:
-                        mpdClient.enqueueTask(mpdServerData, new MPDPlayTask(result, null));
-                        break;
-                    case RADIODROID:
-                        // Nothing
-                        break;
-                    case EXTERNAL:
-                        Intent share = new Intent(Intent.ACTION_VIEW);
-                        share.setDataAndType(Uri.parse(result), "audio/*");
-                        ctx.startActivity(share);
-                        break;
-                    case CAST:
-                        CastHandler.PlayRemote(stationToPlay.Name, result, stationToPlay.IconUrl);
-                        break;
-                }
-            } else {
-                Toast toast = Toast.makeText(ctx.getApplicationContext(),
-                        ctx.getResources()
-                                .getText(R.string.error_station_load), Toast.LENGTH_SHORT);
-                toast.show();
-            }
-            super.onPostExecute(result);
-        }
-    }
 
     private final LayoutInflater inflater;
     private final Context context;
@@ -195,7 +98,7 @@ public class MPDServersAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     private MPDClient mpdClient;
     private List<MPDServerData> mpdServers;
 
-    protected MPDServersAdapter(@NonNull Context context, @Nullable DataRadioStation stationToPlay) {
+    protected PlayerSelectorAdapter(@NonNull Context context, @Nullable DataRadioStation stationToPlay) {
         //super(DIFF_CALLBACK);
 
         this.context = context;
@@ -273,7 +176,8 @@ public class MPDServersAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                     holder.btnPlay.setImageResource(R.drawable.ic_play_circle);
                     holder.btnPlay.setContentDescription(context.getString(R.string.detail_play));
                 } else {
-                    Utils.playAndWarnIfMetered((RadioDroidApp) context.getApplicationContext(), stationToPlay);
+                    Utils.playAndWarnIfMetered((RadioDroidApp) context.getApplicationContext(), stationToPlay, PlayerType.RADIODROID,
+                            () -> Utils.play((RadioDroidApp) context.getApplicationContext(), stationToPlay));
 
                     holder.btnPlay.setImageResource(R.drawable.ic_pause_circle);
                     holder.btnPlay.setContentDescription(context.getResources().getString(R.string.detail_pause));
@@ -282,18 +186,13 @@ public class MPDServersAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         } else if (holder.getItemViewType() == PlayerType.EXTERNAL.getValue()) {
             holder.textViewDescription.setText(R.string.action_play_in_external);
 
-            Runnable play = () -> new PlayStationTask(PlayerType.EXTERNAL, null, null, stationToPlay, context).execute();
-
-            if (warnOnMeteredConnection && ConnectivityChecker.getCurrentConnectionType(context) == ConnectivityChecker.ConnectionType.METERED) {
-                Utils.showMeteredConnectionDialog(context, play);
-            } else {
-                holder.btnPlay.setOnClickListener(view -> play.run());
-            }
+            holder.btnPlay.setOnClickListener(v -> Utils.playAndWarnIfMetered((RadioDroidApp) context.getApplicationContext(), stationToPlay,
+                    PlayerType.EXTERNAL, () -> PlayStationTask.playExternal(stationToPlay, context).execute()));
 
         } else if (holder.getItemViewType() == PlayerType.CAST.getValue()) {
             holder.textViewDescription.setText(R.string.media_route_menu_title);
 
-            holder.btnPlay.setOnClickListener(view -> new PlayStationTask(PlayerType.CAST, null, null, stationToPlay, context).execute());
+            holder.btnPlay.setOnClickListener(view -> PlayStationTask.playCAST(stationToPlay, context).execute());
         }
     }
 
@@ -364,7 +263,7 @@ public class MPDServersAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                         break;
                     }
                     case R.id.action_play: {
-                        new PlayStationTask(PlayerType.MPD_SERVER, mpdClient, mpdServerData, stationToPlay, context).execute();
+                        PlayStationTask.playMPD(mpdClient, mpdServerData, stationToPlay, context).execute();
                         break;
                     }
                     case R.id.action_pause: {
@@ -385,7 +284,7 @@ public class MPDServersAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                 holder.btnPlay.setImageResource(R.drawable.ic_play_circle);
 
                 if (mpdServerData.status != MPDServerData.Status.Playing) {
-                    holder.btnPlay.setOnClickListener(view -> new PlayStationTask(PlayerType.MPD_SERVER, mpdClient, mpdServerData, stationToPlay, context).execute());
+                    holder.btnPlay.setOnClickListener(view -> PlayStationTask.playMPD(mpdClient, mpdServerData, stationToPlay, context).execute());
                 } else {
                     holder.btnPlay.setOnClickListener(view -> mpdClient.enqueueTask(mpdServerData, new MPDResumeTask(null)));
                 }

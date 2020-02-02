@@ -6,7 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class MPDServerData {
-    enum Status {
+    public enum Status {
         Idle,
         Paused,
         Playing,

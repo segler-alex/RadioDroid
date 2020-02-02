@@ -4,13 +4,10 @@ import android.Manifest;
 import android.app.Activity;
 import android.content.ContentResolver;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.graphics.Color;
-import android.media.AudioManager;
-import android.media.ToneGenerator;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
@@ -25,7 +22,6 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
-import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.preference.PreferenceManager;
 
 import com.google.gson.Gson;
@@ -34,10 +30,9 @@ import com.mikepenz.iconics.IconicsDrawable;
 import com.mikepenz.iconics.IconicsSize;
 import com.mikepenz.iconics.typeface.IIcon;
 
-import net.programmierecke.radiodroid2.players.mpd.MPDServersDialog;
+import net.programmierecke.radiodroid2.players.selector.PlayerSelectorDialog;
+import net.programmierecke.radiodroid2.players.selector.PlayerType;
 import net.programmierecke.radiodroid2.service.ConnectivityChecker;
-import net.programmierecke.radiodroid2.service.PauseReason;
-import net.programmierecke.radiodroid2.service.PlayerService;
 import net.programmierecke.radiodroid2.service.PlayerServiceUtil;
 import net.programmierecke.radiodroid2.station.DataRadioStation;
 
@@ -279,13 +274,13 @@ public class Utils {
     }
 
     public static void showMpdServersDialog(final RadioDroidApp radioDroidApp, final FragmentManager fragmentManager, @Nullable final DataRadioStation station) {
-        Fragment oldFragment = fragmentManager.findFragmentByTag(MPDServersDialog.FRAGMENT_TAG);
+        Fragment oldFragment = fragmentManager.findFragmentByTag(PlayerSelectorDialog.FRAGMENT_TAG);
         if (oldFragment != null && oldFragment.isVisible()) {
             return;
         }
 
-        MPDServersDialog mpdServersDialogFragment = new MPDServersDialog(radioDroidApp.getMpdClient(), station);
-        mpdServersDialogFragment.show(fragmentManager, MPDServersDialog.FRAGMENT_TAG);
+        PlayerSelectorDialog playerSelectorDialogFragment = new PlayerSelectorDialog(radioDroidApp.getMpdClient(), station);
+        playerSelectorDialogFragment.show(fragmentManager, PlayerSelectorDialog.FRAGMENT_TAG);
     }
 
     public static void showPlaySelection(final RadioDroidApp radioDroidApp, final DataRadioStation station, final FragmentManager fragmentManager) {
@@ -295,11 +290,11 @@ public class Utils {
         if (radioDroidApp.getMpdClient().isMpdEnabled() || play_external || CastHandler.isCastSessionAvailable()) {
             showMpdServersDialog(radioDroidApp, fragmentManager, station);
         } else {
-            playAndWarnIfMetered(radioDroidApp, station);
+            playAndWarnIfMetered(radioDroidApp, station, PlayerType.RADIODROID, () -> play(radioDroidApp, station));
         }
     }
 
-    public static void playAndWarnIfMetered(final RadioDroidApp radioDroidApp, final DataRadioStation station) {
+    public static void playAndWarnIfMetered(RadioDroidApp radioDroidApp, DataRadioStation station, PlayerType playerType, Runnable playFunc) {
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(radioDroidApp);
         final boolean warnOnMetered = sharedPref.getBoolean("warn_no_wifi", false);
 
@@ -307,9 +302,9 @@ public class Utils {
             // Making sure that resuming from notification or some external event will actually resume
             // and not issue warning a second time.
             PlayerServiceUtil.setStation(station);
-            PlayerServiceUtil.warnAboutMeteredConnection();
+            PlayerServiceUtil.warnAboutMeteredConnection(playerType);
         } else {
-            play(radioDroidApp, station);
+            playFunc.run();
         }
     }
 
@@ -318,19 +313,6 @@ public class Utils {
         historyManager.add(station);
 
         PlayerServiceUtil.play(station);
-    }
-
-    public static void showMeteredConnectionDialog(Context context, @NonNull Runnable positiveFunc) {
-        Resources res = context.getResources();
-        String title = res.getString(R.string.alert_metered_connection_title);
-        String text = res.getString(R.string.alert_metered_connection_message);
-        new android.app.AlertDialog.Builder(context)
-                .setTitle(title)
-                .setMessage(text)
-                .setNegativeButton(android.R.string.cancel, null)
-                .setPositiveButton(android.R.string.ok, (dialog, which) -> positiveFunc.run())
-                .create()
-                .show();
     }
 
     public static boolean shouldLoadIcons(final Context context) {

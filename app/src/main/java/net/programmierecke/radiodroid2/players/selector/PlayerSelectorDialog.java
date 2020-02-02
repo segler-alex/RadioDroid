@@ -1,4 +1,4 @@
-package net.programmierecke.radiodroid2.players.mpd;
+package net.programmierecke.radiodroid2.players.selector;
 
 
 import android.content.BroadcastReceiver;
@@ -25,6 +25,9 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 
 import net.programmierecke.radiodroid2.R;
 import net.programmierecke.radiodroid2.RadioDroidApp;
+import net.programmierecke.radiodroid2.players.mpd.MPDClient;
+import net.programmierecke.radiodroid2.players.mpd.MPDServerData;
+import net.programmierecke.radiodroid2.players.mpd.MPDServersRepository;
 import net.programmierecke.radiodroid2.service.PlayerService;
 import net.programmierecke.radiodroid2.station.DataRadioStation;
 
@@ -32,7 +35,7 @@ import java.util.List;
 
 import static net.programmierecke.radiodroid2.Utils.parseIntWithDefault;
 
-public class MPDServersDialog extends BottomSheetDialogFragment {
+public class PlayerSelectorDialog extends BottomSheetDialogFragment {
 
     public static final String FRAGMENT_TAG = "mpd_servers_dialog_fragment";
 
@@ -42,18 +45,18 @@ public class MPDServersDialog extends BottomSheetDialogFragment {
     private BroadcastReceiver updateUIReceiver;
 
     private RecyclerView recyclerViewServers;
-    private MPDServersAdapter mpdServersAdapter;
+    private PlayerSelectorAdapter playerSelectorAdapter;
 
     private MPDServersRepository serversRepository;
 
     private Button btnEnableMPD;
     private Button btnAddMPDServer;
 
-    public MPDServersDialog(@NonNull MPDClient mpdClient) {
+    public PlayerSelectorDialog(@NonNull MPDClient mpdClient) {
         this.mpdClient = mpdClient;
     }
 
-    public MPDServersDialog(@NonNull MPDClient mpdClient, @NonNull DataRadioStation stationToPlay) {
+    public PlayerSelectorDialog(@NonNull MPDClient mpdClient, @NonNull DataRadioStation stationToPlay) {
         this.mpdClient = mpdClient;
         this.stationToPlay = stationToPlay;
     }
@@ -72,8 +75,8 @@ public class MPDServersDialog extends BottomSheetDialogFragment {
         GridLayoutManager llm = new GridLayoutManager(getContext(), 2, RecyclerView.VERTICAL, false);
         recyclerViewServers.setLayoutManager(llm);
 
-        mpdServersAdapter = new MPDServersAdapter(requireContext(), stationToPlay);
-        mpdServersAdapter.setActionListener(new MPDServersAdapter.ActionListener() {
+        playerSelectorAdapter = new PlayerSelectorAdapter(requireContext(), stationToPlay);
+        playerSelectorAdapter.setActionListener(new PlayerSelectorAdapter.ActionListener() {
             @Override
             public void editServer(@NonNull MPDServerData mpdServerData) {
                 editOrAddServer(new MPDServerData(mpdServerData));
@@ -84,7 +87,7 @@ public class MPDServersDialog extends BottomSheetDialogFragment {
                 serversRepository.removeServer(mpdServerData);
             }
         });
-        recyclerViewServers.setAdapter(mpdServersAdapter);
+        recyclerViewServers.setAdapter(playerSelectorAdapter);
 
         btnEnableMPD = view.findViewById(R.id.btnEnableMPD);
         btnAddMPDServer = view.findViewById(R.id.btnAddMPDServer);
@@ -107,7 +110,7 @@ public class MPDServersDialog extends BottomSheetDialogFragment {
 
 
         LiveData<List<MPDServerData>> servers = serversRepository.getAllServers();
-        servers.observe(this, mpdServers -> mpdServersAdapter.setEntries(mpdServers));
+        servers.observe(this, mpdServers -> playerSelectorAdapter.setEntries(mpdServers));
 
         updateUIReceiver = new BroadcastReceiver() {
             @Override
