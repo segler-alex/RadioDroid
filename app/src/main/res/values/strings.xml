@@ -186,7 +186,7 @@
     <string name="notify_pre_play">Connecting</string>
     <string name="notify_play">Playing</string>
     <string name="notify_paused">Paused</string>
-    <string name="notify_metered_connection">Warning! Metered connection detected</string>
+    <string name="notify_metered_connection">Metered connection!</string>
 
     <string name="notify_starred">Station has been added to favorites</string>
     <string name="notify_autostarred">Station has been automatically added to favorites</string>
