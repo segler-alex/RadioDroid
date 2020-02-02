@@ -21,13 +21,11 @@
         android:icon="@drawable/ic_view_list_24dp"
         app:showAsAction="always" />
 
-    <!--
     <item
         android:id="@+id/action_mpd"
         android:title="@string/settings_mpd"
         android:icon="@drawable/mpd"
         app:showAsAction="always" />
-    -->
 
     <item
         android:id="@+id/media_route_menu_item"

@@ -719,11 +719,9 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
             case R.id.action_set_sleep_timer:
                 changeTimer();
                 return true;
-                /*
             case R.id.action_mpd:
                 selectMPDServer();
                 return true;
-                 */
             case R.id.action_delete:
                 if (selectedMenuItem == R.id.nav_item_history) {
                     new AlertDialog.Builder(this)
