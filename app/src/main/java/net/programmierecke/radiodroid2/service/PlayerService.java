@@ -686,7 +686,8 @@ public class PlayerService extends Service implements RadioPlayer.PlayerListener
             String error = "";
 
             PlayState currentPlayerState = radioPlayer.getPlayState();
-            if (currentPlayerState == PlayState.Paused && pauseReason == PauseReason.METERED_CONNECTION) {
+            if ((currentPlayerState == PlayState.Paused || currentPlayerState == PlayState.Idle)
+                    && pauseReason == PauseReason.METERED_CONNECTION) {
                 error = itsContext.getResources().getString(R.string.notify_metered_connection);
             } else {
                 try {
@@ -826,7 +827,8 @@ public class PlayerService extends Service implements RadioPlayer.PlayerListener
 
         PlayState currentPlayerState = radioPlayer.getPlayState();
 
-        if (currentPlayerState == PlayState.Paused && pauseReason == PauseReason.METERED_CONNECTION) {
+        if ((currentPlayerState == PlayState.Paused || currentPlayerState == PlayState.Idle)
+                && pauseReason == PauseReason.METERED_CONNECTION) {
             theMessage = itsContext.getResources().getString(R.string.notify_metered_connection);
         } else if (lastErrorFromPlayer != -1) {
             try {
