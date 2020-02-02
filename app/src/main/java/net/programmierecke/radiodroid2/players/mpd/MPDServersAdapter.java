@@ -125,7 +125,7 @@ public class MPDServersAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
             Context ctx = contextWeakReference.get();
             if (ctx != null) {
-                ctx.sendBroadcast(new Intent(ActivityMain.ACTION_SHOW_LOADING));
+                LocalBroadcastManager.getInstance(ctx).sendBroadcast(new Intent(ActivityMain.ACTION_SHOW_LOADING));
             }
         }
 

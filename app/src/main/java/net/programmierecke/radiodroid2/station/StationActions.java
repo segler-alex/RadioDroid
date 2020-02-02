@@ -79,7 +79,7 @@ public class StationActions {
     }
 
     private static void retrieveAndCopyStreamUrlToClipboard(final @NonNull Context context, final @NonNull DataRadioStation station) {
-        context.sendBroadcast(new Intent(ActivityMain.ACTION_SHOW_LOADING));
+        LocalBroadcastManager.getInstance(context).sendBroadcast(new Intent(ActivityMain.ACTION_SHOW_LOADING));
 
         final WeakReference<Context> contextRef = new WeakReference<>(context);
 
@@ -147,7 +147,7 @@ public class StationActions {
     }
 
     public static void share(final @NonNull Context context, final @NonNull DataRadioStation station) {
-        context.sendBroadcast(new Intent(ActivityMain.ACTION_SHOW_LOADING));
+        LocalBroadcastManager.getInstance(context).sendBroadcast(new Intent(ActivityMain.ACTION_SHOW_LOADING));
 
         final WeakReference<Context> contextRef = new WeakReference<>(context);
 

@@ -197,7 +197,7 @@ public class StationSaveManager extends Observable {
     private void refreshStationsFromServer() {
         final RadioDroidApp radioDroidApp = (RadioDroidApp) context.getApplicationContext();
         final OkHttpClient httpClient = radioDroidApp.getHttpClient();
-        context.sendBroadcast(new Intent(ActivityMain.ACTION_SHOW_LOADING));
+        LocalBroadcastManager.getInstance(context).sendBroadcast(new Intent(ActivityMain.ACTION_SHOW_LOADING));
 
         new AsyncTask<Void, Void, Integer>() {
             @Override

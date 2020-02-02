@@ -323,7 +323,7 @@ public class RadioPlayer implements PlayerWrapper.PlayListener, Recordable {
 
         @Override
         protected void onPreExecute() {
-            radioPlayer.mainContext.sendBroadcast(new Intent(ActivityMain.ACTION_SHOW_LOADING));
+            LocalBroadcastManager.getInstance(radioPlayer.mainContext).sendBroadcast(new Intent(ActivityMain.ACTION_SHOW_LOADING));
 
             super.onPreExecute();
         }
