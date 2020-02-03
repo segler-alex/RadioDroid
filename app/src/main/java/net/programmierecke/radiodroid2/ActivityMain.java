@@ -60,6 +60,7 @@ import net.programmierecke.radiodroid2.alarm.TimePickerFragment;
 import net.programmierecke.radiodroid2.interfaces.IFragmentRefreshable;
 import net.programmierecke.radiodroid2.interfaces.IFragmentSearchable;
 import net.programmierecke.radiodroid2.players.PlayState;
+import net.programmierecke.radiodroid2.players.mpd.MPDClient;
 import net.programmierecke.radiodroid2.players.mpd.MPDServerData;
 import net.programmierecke.radiodroid2.players.mpd.MPDServersRepository;
 import net.programmierecke.radiodroid2.players.selector.PlayStationTask;
@@ -599,9 +600,16 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
         menuItemIconsView.setVisible(false);
         menuItemAddAlarm.setVisible(false);
 
-        MPDServersRepository mpdServersRepository = new MPDServersRepository(getApplicationContext());
-        LiveData<List<MPDServerData>> mpdServers = mpdServersRepository.getAllServers();
-        menuItemMpd.setVisible(mpdServers.getValue().size() > 0);
+        boolean mpd_is_visible = false;
+        RadioDroidApp radioDroidApp = (RadioDroidApp) getApplication();
+        if (radioDroidApp != null) {
+            MPDClient mpdClient = radioDroidApp.getMpdClient();
+            if (mpdClient != null) {
+                MPDServersRepository repository = mpdClient.getMpdServersRepository();
+                mpd_is_visible = !repository.isEmpty();
+            }
+        }
+        menuItemMpd.setVisible(mpd_is_visible);
 
         switch (selectedMenuItem) {
             case R.id.nav_item_stations: {
@@ -621,7 +629,6 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
                 } else if (sharedPref.getBoolean("load_icons", false)) {
                     menuItemIconsView.setVisible(true);
                 }
-                RadioDroidApp radioDroidApp = (RadioDroidApp) getApplication();
                 if (radioDroidApp.getFavouriteManager().isEmpty()) {
                     menuItemDelete.setVisible(false);
                 } else {
@@ -634,7 +641,6 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
                 menuItemSleepTimer.setVisible(true);
                 //menuItemSearch.setVisible(true);
 
-                RadioDroidApp radioDroidApp = (RadioDroidApp) getApplication();
                 if (!radioDroidApp.getHistoryManager().isEmpty()) {
                     menuItemDelete.setVisible(true).setTitle(R.string.action_delete_history);
                 }

@@ -102,6 +102,7 @@ public class FragmentStarred extends Fragment implements IAdapterRefreshable, Ob
 
                 Snackbar snackbar = Snackbar
                         .make(rvStations, R.string.notify_station_removed_from_list, Snackbar.LENGTH_LONG);
+                snackbar.setAnchorView(getView().getRootView().findViewById(R.id.bottom_sheet));
                 snackbar.setAction(R.string.action_station_removed_from_list_undo, new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {

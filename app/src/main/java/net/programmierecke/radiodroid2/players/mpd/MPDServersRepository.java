@@ -52,6 +52,16 @@ public class MPDServersRepository {
         serversLiveData.postValue(servers);
     }
 
+    public boolean isEmpty(){
+        if (serversLiveData != null){
+            List<MPDServerData> list = serversLiveData.getValue();
+            if (list != null){
+                return list.size() == 0;
+            }
+        }
+        return true;
+    }
+
     public void removeServer(@NonNull MPDServerData mpdServerData) {
         boolean changed = false;
         for (int i = 0; i < servers.size(); i++) {
