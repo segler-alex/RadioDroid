@@ -7,9 +7,10 @@ import android.content.IntentFilter;
 import android.net.ConnectivityManager;
 import android.net.Network;
 import android.net.NetworkCapabilities;
-import android.net.NetworkInfo;
 import android.net.NetworkRequest;
 import android.os.Build;
+
+import androidx.core.net.ConnectivityManagerCompat;
 
 public class ConnectivityChecker {
 
@@ -33,12 +34,7 @@ public class ConnectivityChecker {
 
     public static ConnectionType getCurrentConnectionType(Context context) {
         ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-            return connectivityManager.isActiveNetworkMetered() ? ConnectionType.METERED : ConnectionType.NOT_METERED;
-        } else {
-            NetworkInfo wifiNetworkInfo = connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
-            return (wifiNetworkInfo != null && wifiNetworkInfo.isConnected()) ? ConnectionType.NOT_METERED : ConnectionType.METERED;
-        }
+        return ConnectivityManagerCompat.isActiveNetworkMetered(connectivityManager) ? ConnectionType.METERED : ConnectionType.NOT_METERED;
     }
 
     public void startListening(Context context, ConnectivityCallback connectivityCallback) {
@@ -67,15 +63,7 @@ public class ConnectivityChecker {
                 @Override
                 public void onReceive(Context context, Intent intent) {
                     boolean connected = !intent.hasExtra(ConnectivityManager.EXTRA_NO_CONNECTIVITY);
-
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-                        onConnectivityChanged(connected, connectivityManager.isActiveNetworkMetered() ? ConnectionType.METERED : ConnectionType.NOT_METERED);
-                    } else {
-                        // On API 15 there is no known to me way to check if connection is metered.
-                        NetworkInfo wifiNetworkInfo = connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
-                        onConnectivityChanged(connected, (wifiNetworkInfo != null && wifiNetworkInfo.isConnected()) ? ConnectionType.NOT_METERED : ConnectionType.METERED);
-                    }
-
+                    onConnectivityChanged(connected, ConnectivityManagerCompat.isActiveNetworkMetered(connectivityManager) ? ConnectionType.METERED : ConnectionType.NOT_METERED);
                 }
             };
             context.registerReceiver(networkBroadcastReceiver, new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));

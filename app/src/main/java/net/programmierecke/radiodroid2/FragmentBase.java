@@ -100,7 +100,7 @@ public class FragmentBase extends Fragment {
             String cache = Utils.getCacheFile(getActivity(), relativeUrl);
             if (cache == null || forceUpdate) {
                 if (getContext() != null && displayProgress) {
-                    getContext().sendBroadcast(new Intent(ActivityMain.ACTION_SHOW_LOADING));
+                    LocalBroadcastManager.getInstance(getContext()).sendBroadcast(new Intent(ActivityMain.ACTION_SHOW_LOADING));
                 }
 
                 RadioDroidApp radioDroidApp = (RadioDroidApp) getActivity().getApplication();

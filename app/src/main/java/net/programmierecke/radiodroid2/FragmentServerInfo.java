@@ -41,7 +41,7 @@ public class FragmentServerInfo extends Fragment implements IFragmentRefreshable
     }
 
     void Download(final boolean forceUpdate){
-        getContext().sendBroadcast(new Intent(ActivityMain.ACTION_SHOW_LOADING));
+        LocalBroadcastManager.getInstance(getContext()).sendBroadcast(new Intent(ActivityMain.ACTION_SHOW_LOADING));
 
         RadioDroidApp radioDroidApp = (RadioDroidApp) getActivity().getApplication();
         final OkHttpClient httpClient = radioDroidApp.getHttpClient();

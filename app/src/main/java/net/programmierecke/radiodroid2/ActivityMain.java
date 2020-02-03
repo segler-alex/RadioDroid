@@ -63,6 +63,8 @@ import net.programmierecke.radiodroid2.players.PlayState;
 import net.programmierecke.radiodroid2.players.mpd.MPDClient;
 import net.programmierecke.radiodroid2.players.mpd.MPDServerData;
 import net.programmierecke.radiodroid2.players.mpd.MPDServersRepository;
+import net.programmierecke.radiodroid2.players.selector.PlayStationTask;
+import net.programmierecke.radiodroid2.players.selector.PlayerType;
 import net.programmierecke.radiodroid2.service.MediaSessionCallback;
 import net.programmierecke.radiodroid2.service.PlayerService;
 import net.programmierecke.radiodroid2.service.PlayerServiceUtil;
@@ -135,6 +137,8 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
     private boolean instanceStateWasSaved;
 
     private Date lastExitTry;
+
+    private AlertDialog meteredConnectionAlertDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -689,7 +693,7 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
         }
     }
 
-    void SaveFavourites(){
+    void SaveFavourites() {
         SaveFileDialog dialog = new SaveFileDialog();
         dialog.setStyle(DialogFragment.STYLE_NO_TITLE, Utils.getThemeResId(this));
         Bundle args = new Bundle();
@@ -698,7 +702,7 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
         dialog.show(getSupportFragmentManager(), SaveFileDialog.class.getName());
     }
 
-    void LoadFavourites(){
+    void LoadFavourites() {
         OpenFileDialog dialogOpen = new OpenFileDialog();
         dialogOpen.setStyle(DialogFragment.STYLE_NO_TITLE, Utils.getThemeResId(this));
         Bundle argsOpen = new Bundle();
@@ -873,7 +877,7 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
     }
 
     public void Search(StationsFilter.SearchStyle searchStyle, String query) {
-        Log.d("MAIN","Search() searchstyle=" + searchStyle + " query=" + query);
+        Log.d("MAIN", "Search() searchstyle=" + searchStyle + " query=" + query);
         Fragment currentFragment = mFragmentManager.getFragments().get(mFragmentManager.getFragments().size() - 1);
         if (currentFragment instanceof FragmentTabs) {
             ((FragmentTabs) currentFragment).Search(searchStyle, query);
@@ -938,10 +942,26 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
         return true;
     }
 
+    private void showMeteredConnectionDialog(@NonNull Runnable playFunc) {
+        Resources res = this.getResources();
+        String title = res.getString(R.string.alert_metered_connection_title);
+        String text = res.getString(R.string.alert_metered_connection_message);
+        meteredConnectionAlertDialog = new AlertDialog.Builder(this)
+                .setTitle(title)
+                .setMessage(text)
+                .setNegativeButton(android.R.string.cancel, null)
+                .setPositiveButton(android.R.string.ok, (dialog, which) -> playFunc.run())
+                .setOnDismissListener(dialog -> meteredConnectionAlertDialog = null)
+                .create();
+
+        meteredConnectionAlertDialog.show();
+    }
+
     private void setupBroadcastReceiver() {
         IntentFilter filter = new IntentFilter();
         filter.addAction(ACTION_HIDE_LOADING);
         filter.addAction(ACTION_SHOW_LOADING);
+        filter.addAction(PlayerService.PLAYER_SERVICE_STATE_CHANGE);
         filter.addAction(PlayerService.PLAYER_SERVICE_METERED_CONNECTION);
         broadcastReceiver = new BroadcastReceiver() {
             @Override
@@ -951,8 +971,33 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
                 } else if (intent.getAction().equals(ACTION_SHOW_LOADING)) {
                     showLoadingIcon();
                 } else if (intent.getAction().equals(PlayerService.PLAYER_SERVICE_METERED_CONNECTION)) {
-                    Utils.showMeteredConnectionDialog(ActivityMain.this,
-                            () -> Utils.play((RadioDroidApp) getApplication(), PlayerServiceUtil.getCurrentStation()));
+                    if (meteredConnectionAlertDialog != null) {
+                        meteredConnectionAlertDialog.cancel();
+                        meteredConnectionAlertDialog = null;
+                    }
+
+                    PlayerType playerType = intent.getParcelableExtra(PlayerService.PLAYER_SERVICE_METERED_CONNECTION_PLAYER_TYPE);
+
+                    switch (playerType) {
+                        case RADIODROID:
+                            showMeteredConnectionDialog(() -> Utils.play((RadioDroidApp) getApplication(), PlayerServiceUtil.getCurrentStation()));
+                            break;
+                        case EXTERNAL:
+                            DataRadioStation currentStation = PlayerServiceUtil.getCurrentStation();
+                            if (currentStation != null) {
+                                showMeteredConnectionDialog(() -> PlayStationTask.playExternal(currentStation, ActivityMain.this).execute());
+                            }
+                            break;
+                        default:
+                            Log.e(TAG, String.format("broadcastReceiver unexpected PlayerType '%s'", playerType.toString()));
+                    }
+                } else if (intent.getAction().equals(PlayerService.PLAYER_SERVICE_STATE_CHANGE)) {
+                    if (PlayerServiceUtil.isPlaying()) {
+                        if (meteredConnectionAlertDialog != null) {
+                            meteredConnectionAlertDialog.cancel();
+                            meteredConnectionAlertDialog = null;
+                        }
+                    }
                 }
             }
         };

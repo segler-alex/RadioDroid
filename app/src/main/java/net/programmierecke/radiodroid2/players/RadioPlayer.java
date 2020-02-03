@@ -141,6 +141,10 @@ public class RadioPlayer implements PlayerWrapper.PlayListener, Recordable {
         cancelStationLinkRetrieval();
 
         playerThreadHandler.post(() -> {
+            if (playState == PlayState.Idle || playState == PlayState.Paused) {
+                return;
+            }
+
             final int audioSessionId = getAudioSessionId();
             currentPlayer.pause();
 
@@ -253,6 +257,10 @@ public class RadioPlayer implements PlayerWrapper.PlayListener, Recordable {
     private void setState(PlayState state, int audioSessionId) {
         if (BuildConfig.DEBUG) Log.d(TAG, String.format("set state '%s'", state.name()));
 
+        if (playState == state) {
+            return;
+        }
+
         if (BuildConfig.DEBUG) {
             if (state == PlayState.Playing) {
                 playerThreadHandler.removeCallbacks(bufferCheckRunnable);
@@ -323,7 +331,7 @@ public class RadioPlayer implements PlayerWrapper.PlayListener, Recordable {
 
         @Override
         protected void onPreExecute() {
-            radioPlayer.mainContext.sendBroadcast(new Intent(ActivityMain.ACTION_SHOW_LOADING));
+            LocalBroadcastManager.getInstance(radioPlayer.mainContext).sendBroadcast(new Intent(ActivityMain.ACTION_SHOW_LOADING));
 
             super.onPreExecute();
         }

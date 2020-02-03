@@ -6,6 +6,8 @@ import android.content.Intent;
 import android.content.ServiceConnection;
 import android.content.res.Resources;
 import android.os.IBinder;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.os.RemoteException;
 import android.util.Log;
 
@@ -24,6 +26,7 @@ import net.programmierecke.radiodroid2.BuildConfig;
 import net.programmierecke.radiodroid2.IPlayerService;
 import net.programmierecke.radiodroid2.R;
 import net.programmierecke.radiodroid2.players.PlayState;
+import net.programmierecke.radiodroid2.players.selector.PlayerType;
 import net.programmierecke.radiodroid2.station.DataRadioStation;
 import net.programmierecke.radiodroid2.station.live.ShoutcastInfo;
 import net.programmierecke.radiodroid2.station.live.StreamLiveInfo;
@@ -413,6 +416,16 @@ public class PlayerServiceUtil {
         if (itsPlayerService != null) {
             try {
                 itsPlayerService.disableMPD();
+            } catch (RemoteException e) {
+                Log.e("", "" + e);
+            }
+        }
+    }
+
+    public static void warnAboutMeteredConnection(PlayerType playerType) {
+        if (itsPlayerService != null) {
+            try {
+                itsPlayerService.warnAboutMeteredConnection(playerType);
             } catch (RemoteException e) {
                 Log.e("", "" + e);
             }

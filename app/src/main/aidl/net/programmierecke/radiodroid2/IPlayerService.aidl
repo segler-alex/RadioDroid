@@ -5,6 +5,7 @@ import net.programmierecke.radiodroid2.station.DataRadioStation;
 import net.programmierecke.radiodroid2.station.live.StreamLiveInfo;
 import net.programmierecke.radiodroid2.station.live.ShoutcastInfo;
 import net.programmierecke.radiodroid2.players.PlayState;
+import net.programmierecke.radiodroid2.players.selector.PlayerType;
 import android.support.v4.media.session.MediaSessionCompat;
 
 interface IPlayerService
@@ -38,4 +39,6 @@ PauseReason getPauseReason();
 
 void enableMPD(String hostname, int port);
 void disableMPD();
+
+void warnAboutMeteredConnection(in PlayerType playerType);
 }
