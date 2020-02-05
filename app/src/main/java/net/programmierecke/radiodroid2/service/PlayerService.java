@@ -477,6 +477,10 @@ public class PlayerService extends Service implements RadioPlayer.PlayerListener
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+        // Service could be started by external forces, e.g. when we had the last media session
+        // and user presses play/pause media button.
+        PlayerServiceUtil.bind(itsContext.getApplicationContext());
+
         if (intent != null) {
             String action = intent.getAction();
             if (action != null) {
