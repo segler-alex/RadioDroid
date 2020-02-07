@@ -41,15 +41,7 @@ public class FragmentCategories extends FragmentBase {
 
     void ClickOnItem(DataCategory theData) {
         ActivityMain m = (ActivityMain) getActivity();
-
-        try {
-            String queryEncoded = URLEncoder.encode(theData.Name, "utf-8");
-            queryEncoded = queryEncoded.replace("+", "%20");
-
-            m.Search(this.searchStyle, queryEncoded);
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }
+        m.Search(this.searchStyle, theData.Name);
     }
 
     @Override

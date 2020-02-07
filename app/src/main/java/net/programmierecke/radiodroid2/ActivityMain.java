@@ -457,14 +457,10 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
             }.execute();
         } else {
             final String searchTag = extras.getString(EXTRA_SEARCH_TAG);
+            Log.d("MAIN","received search request for tag 1: "+searchTag);
             if (searchTag != null) {
-                try {
-                    String queryEncoded = URLEncoder.encode(searchTag, "utf-8");
-                    queryEncoded = queryEncoded.replace("+", "%20");
-                    Search(StationsFilter.SearchStyle.ByTagExact, queryEncoded);
-                } catch (UnsupportedEncodingException e) {
-                    e.printStackTrace();
-                }
+                Log.d("MAIN","received search request for tag 2: "+searchTag);
+                Search(StationsFilter.SearchStyle.ByTagExact, searchTag);
             }
         }
         setIntent(intent);
@@ -901,6 +897,7 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
     }
 
     public void SearchStations(@NonNull String query) {
+        Log.d("MAIN", "SearchStations() " + query);
         Fragment currentFragment = mFragmentManager.getFragments().get(mFragmentManager.getFragments().size() - 1);
         if (currentFragment instanceof IFragmentSearchable) {
             ((IFragmentSearchable) currentFragment).Search(StationsFilter.SearchStyle.ByName, query);

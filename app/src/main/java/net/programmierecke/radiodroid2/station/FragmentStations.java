@@ -107,6 +107,7 @@ public class FragmentStations extends FragmentBase implements IFragmentSearchabl
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        Log.d("STATIONS","onCreateView()");
         Bundle bundle = getArguments();
         if (bundle != null) {
             searchEnabled = bundle.getBoolean(KEY_SEARCH_ENABLED, false);
@@ -196,6 +197,12 @@ public class FragmentStations extends FragmentBase implements IFragmentSearchabl
 
         RefreshListGui();
 
+        if (lastQuery != null){
+            Log.d("STATIONS", "do queued search for: "+lastQuery + " style="+lastSearchStyle);
+            stationsFilter.clearList();
+            Search(lastSearchStyle, lastQuery);
+        }
+
         return view;
     }
 
@@ -207,16 +214,20 @@ public class FragmentStations extends FragmentBase implements IFragmentSearchabl
 
     @Override
     public void Search(StationsFilter.SearchStyle searchStyle, String query) {
-        Log.d("STATIONS", "query = "+query);
+        Log.d("STATIONS", "query = "+query + " searchStyle="+searchStyle);
+        lastQuery = query;
+        lastSearchStyle = searchStyle;
+
         if (rvStations != null && searchEnabled) {
+            Log.d("STATIONS", "query a = "+query);
             if (!TextUtils.isEmpty(query)) {
                 LocalBroadcastManager.getInstance(getContext()).sendBroadcast(new Intent(ActivityMain.ACTION_SHOW_LOADING));
             }
 
-            lastQuery = query;
-            lastSearchStyle = searchStyle;
             stationsFilter.setSearchStyle(searchStyle);
             stationsFilter.filter(query);
+        }else{
+            Log.d("STATIONS", "query b = "+query + " " + searchEnabled + " ");
         }
     }
 

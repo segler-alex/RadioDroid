@@ -13,6 +13,8 @@ import net.programmierecke.radiodroid2.utils.CustomFilter;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -87,6 +89,7 @@ public class StationsFilter extends CustomFilter {
 
     private @NonNull
     List<DataRadioStation> searchGlobal(final @NotNull String query) {
+        Log.d("FILTER", "searchGlobal 1:" + query);
         RadioDroidApp radioDroidApp = (RadioDroidApp) context.getApplicationContext();
         // TODO: use http client with custom timeouts
         OkHttpClient httpClient = radioDroidApp.getHttpClient();
@@ -99,32 +102,45 @@ public class StationsFilter extends CustomFilter {
         p.put("reverse", "true");
         p.put("hidebroken", ""+(!show_broken));
 
-        String searchUrl = null;
-        switch (searchStyle){
-            case ByName:
-                searchUrl = "json/stations/byname/" + query;
-                break;
-            case ByCountryCodeExact:
-                searchUrl = "json/stations/bycountrycodeexact/" + query;
-                break;
-            case ByLanguageExact:
-                searchUrl = "json/stations/bylanguageexact/" + query;
-                break;
-            case ByTagExact:
-                searchUrl = "json/stations/bytagexact/" + query;
-                break;
-            default:
-                Log.e("FILTER", "unknown search style: "+searchStyle);
+        try {
+            String queryEncoded = URLEncoder.encode(query, "utf-8");
+            queryEncoded = queryEncoded.replace("+", "%20");
+
+            String searchUrl = null;
+            switch (searchStyle){
+                case ByName:
+                    searchUrl = "json/stations/byname/" + queryEncoded;
+                    break;
+                case ByCountryCodeExact:
+                    searchUrl = "json/stations/bycountrycodeexact/" + queryEncoded;
+                    break;
+                case ByLanguageExact:
+                    searchUrl = "json/stations/bylanguageexact/" + queryEncoded;
+                    break;
+                case ByTagExact:
+                    searchUrl = "json/stations/bytagexact/" + queryEncoded;
+                    break;
+                default:
+                    Log.d("FILTER", "unknown search style: "+searchStyle);
+                    lastRemoteSearchStatus = SearchStatus.ERROR;
+                    return new ArrayList<>();
+            }
+
+            Log.d("FILTER", "searchGlobal 2:" + query);
+
+            String resultString = Utils.downloadFeedRelative(httpClient, radioDroidApp, searchUrl, false, p);
+            if (resultString != null) {
+                Log.d("FILTER", "searchGlobal 3a:" + query);
+                List<DataRadioStation> result = DataRadioStation.DecodeJson(resultString);
+                lastRemoteSearchStatus = SearchStatus.SUCCESS;
+                return result;
+            }else{
+                Log.d("FILTER", "searchGlobal 3b:" + query);
                 lastRemoteSearchStatus = SearchStatus.ERROR;
                 return new ArrayList<>();
-        }
-
-        String resultString = Utils.downloadFeedRelative(httpClient, radioDroidApp, searchUrl, false, p);
-        if (resultString != null) {
-            List<DataRadioStation> result = DataRadioStation.DecodeJson(resultString);
-            lastRemoteSearchStatus = SearchStatus.SUCCESS;
-            return result;
-        }else{
+            }
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
             lastRemoteSearchStatus = SearchStatus.ERROR;
             return new ArrayList<>();
         }
@@ -151,7 +167,7 @@ public class StationsFilter extends CustomFilter {
             boolean needsFiltering = false;
 
             if (!lastRemoteQuery.isEmpty() && query.startsWith(lastRemoteQuery) && lastRemoteSearchStatus != SearchStatus.ERROR) {
-                Log.d("FILTER", "performFiltering() 3a " + query);
+                Log.d("FILTER", "performFiltering() 3a " + query + " lastRemoteQuery=" + lastRemoteQuery);
                 // We can filter already existing list without making costly http call.
                 stationsToFilter = filteredStationsList;
                 needsFiltering = true;

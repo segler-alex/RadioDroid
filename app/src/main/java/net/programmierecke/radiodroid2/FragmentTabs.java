@@ -37,7 +37,8 @@ public class FragmentTabs extends Fragment implements IFragmentRefreshable, IFra
 
     private ViewPager viewPager;
 
-    private String searchQuery; // Search may be requested before onCreateView so we should wait
+    private String queuedSearchQuery; // Search may be requested before onCreateView so we should wait
+    private StationsFilter.SearchStyle queuedSearchStyle;
 
     private Fragment[] fragments = new Fragment[9];
     private String[] adresses = new String[]{
@@ -61,9 +62,11 @@ public class FragmentTabs extends Fragment implements IFragmentRefreshable, IFra
 
         setupViewPager(viewPager);
 
-        if (searchQuery != null) {
-            Search(StationsFilter.SearchStyle.ByName, searchQuery);
-            searchQuery = null;
+        if (queuedSearchQuery != null) {
+            Log.d("TABS", "do queued search by name:"+ queuedSearchQuery);
+            Search(queuedSearchStyle, queuedSearchQuery);
+            queuedSearchQuery = null;
+            queuedSearchStyle = StationsFilter.SearchStyle.ByName;
         }
 
         /*
@@ -157,12 +160,15 @@ public class FragmentTabs extends Fragment implements IFragmentRefreshable, IFra
     }
 
     public void Search(StationsFilter.SearchStyle searchStyle, final String query) {
-        Log.d("TABS","Search = "+ query);
+        Log.d("TABS","Search = "+ query + " searchStyle="+searchStyle);
         if (viewPager != null) {
+            Log.d("TABS","a Search = "+ query);
             viewPager.setCurrentItem(8, false);
             ((IFragmentSearchable)fragments[8]).Search(searchStyle, query);
         } else {
-            searchQuery = query;
+            Log.d("TABS","b Search = "+ query);
+            queuedSearchQuery = query;
+            queuedSearchStyle = searchStyle;
         }
     }
 
