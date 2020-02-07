@@ -56,6 +56,7 @@ import com.squareup.picasso.Target;
 
 import net.programmierecke.radiodroid2.ActivityMain;
 import net.programmierecke.radiodroid2.BuildConfig;
+import net.programmierecke.radiodroid2.FavouriteManager;
 import net.programmierecke.radiodroid2.HistoryManager;
 import net.programmierecke.radiodroid2.IPlayerService;
 import net.programmierecke.radiodroid2.R;
@@ -79,6 +80,8 @@ public class PlayerService extends Service implements RadioPlayer.PlayerListener
     private static final String NOTIFICATION_CHANNEL_ID = "default";
 
     public static final String METERED_CONNECTION_WARNING_KEY = "warn_no_wifi";
+
+    public static final String PLAYER_SERVICE_NO_NOTIFICATION_EXTRA = "no_notification";
 
     public static final String PLAYER_SERVICE_TIMER_UPDATE = "net.programmierecke.radiodroid2.timerupdate";
     public static final String PLAYER_SERVICE_META_UPDATE = "net.programmierecke.radiodroid2.metaupdate";
@@ -147,6 +150,8 @@ public class PlayerService extends Service implements RadioPlayer.PlayerListener
     private boolean isHls = false;
 
     private long lastPlayStartTime = 0;
+
+    private boolean notificationIsActive = false;
 
     void sendBroadCast(String action) {
         Intent local = new Intent();
@@ -460,6 +465,17 @@ public class PlayerService extends Service implements RadioPlayer.PlayerListener
         headsetConnectionFilter.addAction(BluetoothA2dp.ACTION_CONNECTION_STATE_CHANGED);
 
         registerReceiver(headsetConnectionReceiver, headsetConnectionFilter);
+
+        NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            NotificationChannel notificationChannel = new NotificationChannel(NOTIFICATION_CHANNEL_ID, "RadioDroid2 Player", NotificationManager.IMPORTANCE_LOW);
+
+            // Configure the notification channel.
+            notificationChannel.setDescription("Channel description");
+            notificationChannel.enableLights(false);
+            notificationChannel.enableVibration(false);
+            notificationManager.createNotificationChannel(notificationChannel);
+        }
     }
 
     @Override
@@ -477,6 +493,12 @@ public class PlayerService extends Service implements RadioPlayer.PlayerListener
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+        // Service could be started by external forces, e.g. when we had the last media session
+        // and user presses play/pause media button.
+        PlayerServiceUtil.bind(itsContext.getApplicationContext());
+
+        boolean showNotification = true;
+
         if (intent != null) {
             String action = intent.getAction();
             if (action != null) {
@@ -517,6 +539,45 @@ public class PlayerService extends Service implements RadioPlayer.PlayerListener
             }
 
             MediaButtonReceiver.handleIntent(mediaSession, intent);
+
+            showNotification = !intent.getBooleanExtra(PLAYER_SERVICE_NO_NOTIFICATION_EXTRA, false);
+        }
+
+        // It is an error for service started via Context.startForegroundService not to create
+        // a notification since Android O. It must call startForeground within 5 seconds of being started.
+        // Thus if we can show a notification - we always show it.
+        if (showNotification && !notificationIsActive) {
+            if (currentStation == null) {
+                RadioDroidApp radioDroidApp = (RadioDroidApp) getApplication();
+                HistoryManager historyManager = radioDroidApp.getHistoryManager();
+                currentStation = historyManager.getFirst();
+            }
+
+            if (currentStation == null) {
+                RadioDroidApp radioDroidApp = (RadioDroidApp) getApplication();
+                FavouriteManager favouriteManager = radioDroidApp.getFavouriteManager();
+                currentStation = favouriteManager.getFirst();
+            }
+
+            if (currentStation == null) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    // On Android O+ we MUST show notification if started via startForegroundService
+
+                    NotificationChannel channel = new NotificationChannel(NOTIFICATION_CHANNEL_ID,
+                            "Temporary", NotificationManager.IMPORTANCE_DEFAULT);
+                    ((NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE)).createNotificationChannel(channel);
+                    Notification notification = new NotificationCompat.Builder(this, NOTIFICATION_CHANNEL_ID)
+                            .setContentTitle("")
+                            .setContentText("").build();
+                    startForeground(NOTIFY_ID, notification);
+                    stopForeground(true);
+                } else {
+                    stopSelf();
+                    return START_NOT_STICKY;
+                }
+            } else {
+                updateNotification(PlayState.Paused);
+            }
         }
 
         return super.onStartCommand(intent, flags, startId);
@@ -642,6 +703,7 @@ public class PlayerService extends Service implements RadioPlayer.PlayerListener
 
         this.pauseReason = PauseReason.NONE;
         this.lastMeteredConnectionWarningTime = 0;
+        this.notificationIsActive = false;
 
         liveInfo = new StreamLiveInfo(null);
         streamInfo = null;
@@ -814,17 +876,6 @@ public class PlayerService extends Service implements RadioPlayer.PlayerListener
         previousIntent.setAction(ACTION_SKIP_TO_PREVIOUS);
         PendingIntent pendingIntentPrevious = PendingIntent.getService(itsContext, 0, previousIntent, 0);
 
-        NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            NotificationChannel notificationChannel = new NotificationChannel(NOTIFICATION_CHANNEL_ID, "RadioDroid2 Player", NotificationManager.IMPORTANCE_LOW);
-
-            // Configure the notification channel.
-            notificationChannel.setDescription("Channel description");
-            notificationChannel.enableLights(false);
-            notificationChannel.enableVibration(false);
-            notificationManager.createNotificationChannel(notificationChannel);
-        }
-
         PlayState currentPlayerState = radioPlayer.getPlayState();
 
         if ((currentPlayerState == PlayState.Paused || currentPlayerState == PlayState.Idle)
@@ -879,6 +930,7 @@ public class PlayerService extends Service implements RadioPlayer.PlayerListener
         Notification notification = notificationBuilder.build();
 
         startForeground(NOTIFY_ID, notification);
+        notificationIsActive = true;
 
         if (currentPlayerState == PlayState.Paused) {
             stopForeground(false); // necessary to make notification dismissible

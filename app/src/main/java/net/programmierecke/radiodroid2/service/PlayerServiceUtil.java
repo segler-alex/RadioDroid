@@ -41,6 +41,7 @@ public class PlayerServiceUtil {
         if (mBound) return;
 
         Intent anIntent = new Intent(context, PlayerService.class);
+        anIntent.putExtra(PlayerService.PLAYER_SERVICE_NO_NOTIFICATION_EXTRA, true);
         mainContext = context;
         serviceConnection = getServiceConnection();
         context.startService(anIntent);
