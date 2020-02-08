@@ -25,8 +25,6 @@ public class RadioBrowserServerManager {
     private static String[] doDnsServerListing() {
         Log.d("DNS", "doDnsServerListing()");
         Vector<String> listResult = new Vector<String>();
-        listResult.add("www.radio-browser.info/webservice");
-        /*
         try {
             // add all round robin servers one by one to select them separately
             InetAddress[] list = InetAddress.getAllByName("all.api.radio-browser.info");
@@ -37,7 +35,6 @@ public class RadioBrowserServerManager {
         } catch (UnknownHostException e) {
             e.printStackTrace();
         }
-         */
         Log.d("DNS", "doDnsServerListing() Found servers: " + listResult.size());
         return listResult.toArray(new String[0]);
     }
@@ -56,8 +53,6 @@ public class RadioBrowserServerManager {
      * Blocking: return current selected server. Select one, if there is no current server.
      */
     public static String getCurrentServer() {
-        return "www.radio-browser.info/webservice";
-        /*
         if (currentServer == null){
             String[] serverList = getServerList(false);
             if (serverList.length > 0){
@@ -69,7 +64,6 @@ public class RadioBrowserServerManager {
             }
         }
         return currentServer;
-         */
     }
 
     /**
