@@ -141,12 +141,12 @@ public class RadioDroidApp extends MultiDexApplication {
             Toast toast = Toast.makeText(this, getResources().getString(R.string.ignore_proxy_settings_invalid), Toast.LENGTH_SHORT);
             toast.show();
         }
-        return builder;
+        return Utils.enableTls12OnPreLollipop(builder);
     }
 
     public OkHttpClient.Builder newHttpClientWithoutProxy() {
         OkHttpClient.Builder builder = new OkHttpClient.Builder().connectionPool(connectionPool);
-        return builder;
+        return Utils.enableTls12OnPreLollipop(builder);
     }
 
     public boolean setCurrentOkHttpProxy(@NonNull OkHttpClient.Builder builder) {
