@@ -197,7 +197,7 @@ public class FragmentStations extends FragmentBase implements IFragmentSearchabl
 
         RefreshListGui();
 
-        if (lastQuery != null){
+        if (lastQuery != null && stationsFilter != null){
             Log.d("STATIONS", "do queued search for: "+lastQuery + " style="+lastSearchStyle);
             stationsFilter.clearList();
             Search(lastSearchStyle, lastQuery);
