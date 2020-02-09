@@ -5,6 +5,7 @@ import android.app.Application;
 import android.content.*;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.*;
 import android.widget.*;
 
@@ -14,6 +15,7 @@ import androidx.fragment.app.Fragment;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.preference.PreferenceManager;
 
+import net.programmierecke.radiodroid2.history.TrackHistoryRepository;
 import net.programmierecke.radiodroid2.players.mpd.MPDClient;
 import net.programmierecke.radiodroid2.service.PlayerService;
 import net.programmierecke.radiodroid2.service.PlayerServiceUtil;
@@ -22,6 +24,8 @@ import net.programmierecke.radiodroid2.station.StationActions;
 import net.programmierecke.radiodroid2.station.live.StreamLiveInfo;
 
 public class FragmentPlayerSmall extends Fragment {
+    private TrackHistoryRepository trackHistoryRepository;
+
     public enum Role {
         HEADER,
         PLAYER
@@ -59,6 +63,8 @@ public class FragmentPlayerSmall extends Fragment {
 
         RadioDroidApp radioDroidApp = (RadioDroidApp) requireActivity().getApplication();
         mpdClient = radioDroidApp.getMpdClient();
+
+        trackHistoryRepository = radioDroidApp.getTrackHistoryRepository();
 
         updateUIReceiver = new BroadcastReceiver() {
             @Override
@@ -290,6 +296,10 @@ public class FragmentPlayerSmall extends Fragment {
                 }
                 case R.id.action_set_alarm: {
                     StationActions.setAsAlarm(requireActivity(), currentStation);
+                    break;
+                }
+                case R.id.action_delete_stream_history: {
+                    trackHistoryRepository.deleteHistory();
                     break;
                 }
             }

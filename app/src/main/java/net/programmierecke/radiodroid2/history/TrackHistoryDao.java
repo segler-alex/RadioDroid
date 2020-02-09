@@ -41,4 +41,7 @@ public interface TrackHistoryDao {
 
     @Query("DELETE FROM track_history WHERE uid < (SELECT MIN(uid) FROM (SELECT uid FROM track_history ORDER BY uid DESC LIMIT :limit))")
     void truncateHistory(int limit);
+
+    @Query("DELETE FROM track_history")
+    void deleteHistory();
 }
