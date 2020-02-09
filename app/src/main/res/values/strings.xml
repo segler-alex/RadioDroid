@@ -165,7 +165,7 @@
     <string name="settings_auto_resume_on_bluetooth_a2dp_connected">Resume on bluetooth connection</string>
     <string name="settings_auto_resume_on_bluetooth_a2dp_connected_on">Resume playback on bluetooth A2DP device connection</string>
 
-    <string name="settings_show_album_art">Show album art in full player</string>
+    <string name="settings_show_album_art">Show album art</string>
     <string name="settings_show_album_art_off">Album art is not shown in full screen player</string>
     <string name="settings_show_album_art_on">Album art is shown in full screen player</string>
 
