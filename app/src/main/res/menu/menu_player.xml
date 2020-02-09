@@ -26,5 +26,5 @@
     <item
         android:id="@+id/action_delete_stream_history"
         android:icon="@drawable/ic_delete_black_24dp"
-        android:title="@string/nav_item_delete_stream_history"/>
+        android:title="@string/action_delete_stream_history"/>
 </menu>
