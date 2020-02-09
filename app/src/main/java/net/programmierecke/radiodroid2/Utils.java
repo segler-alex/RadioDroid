@@ -542,6 +542,8 @@ public class Utils {
 
                 List<ConnectionSpec> specs = new ArrayList<>();
                 specs.add(cs);
+                specs.add(ConnectionSpec.COMPATIBLE_TLS);
+                specs.add(ConnectionSpec.CLEARTEXT);
 
                 client.connectionSpecs(specs);
             } catch (Exception exc) {
