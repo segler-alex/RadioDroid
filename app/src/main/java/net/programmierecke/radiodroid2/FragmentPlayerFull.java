@@ -4,6 +4,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
@@ -30,6 +31,7 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.paging.PagedList;
+import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -448,6 +450,7 @@ public class FragmentPlayerFull extends Fragment {
     }
 
     private void fullUpdate() {
+        Log.e("XXX","Fullupdate()");
         DataRadioStation station = Utils.getCurrentOrLastStation(requireContext());
 
         if (station != null) {
@@ -484,6 +487,15 @@ public class FragmentPlayerFull extends Fragment {
         updateFavouriteButton();
 
         timedUpdateTask.run();
+
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getContext());
+        final boolean show_album_art = prefs.getBoolean("settings_show_album_art", true);
+        if (show_album_art) {
+            pagerArtAndInfo.setVisibility(View.VISIBLE);
+        }else{
+            pagerArtAndInfo.setVisibility(View.GONE);
+        }
+
 
         initialized = true;
     }

@@ -149,6 +149,14 @@
         <Preference
             android:key="equalizer"
             android:title="@string/settings_equalizer" />
+
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="settings_show_album_art"
+            android:summaryOff="@string/settings_show_album_art_off"
+            android:summaryOn="@string/settings_show_album_art_on"
+            android:title="@string/settings_show_album_art" />
+
     </PreferenceScreen>
 
     <PreferenceScreen android:title="@string/settings_alarm"

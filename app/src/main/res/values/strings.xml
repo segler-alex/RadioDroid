@@ -165,6 +165,10 @@
     <string name="settings_auto_resume_on_bluetooth_a2dp_connected">Resume on bluetooth connection</string>
     <string name="settings_auto_resume_on_bluetooth_a2dp_connected_on">Resume playback on bluetooth A2DP device connection</string>
 
+    <string name="settings_show_album_art">Show album art in full player</string>
+    <string name="settings_show_album_art_off">Album art is not shown in full screen player</string>
+    <string name="settings_show_album_art_on">Album art is shown in full screen player</string>
+
     <!-- TODO: rename to "Metered connection warning" since wi-fi could be a metered connection -->
     <string name="settings_warn_no_wifi">Off-Wi-Fi Warning</string>
     <string name="settings_warn_no_wifi_on">Warn when playing without Wi-Fi connection</string>
