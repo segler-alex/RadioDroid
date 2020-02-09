@@ -85,4 +85,10 @@ public class TrackHistoryRepository {
             callback.onItemFetched(item, dao);
         });
     }
+
+    public void deleteHistory() {
+        queryExecutor.execute(() -> {
+            dao.deleteHistory();
+        });
+    }
 }
