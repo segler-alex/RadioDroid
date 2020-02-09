@@ -79,7 +79,7 @@ dependencies {
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'androidx.appcompat:appcompat:1.1.0'
     implementation 'androidx.recyclerview:recyclerview:1.1.0'
-    implementation 'com.google.android.material:material:1.1.0-rc02'
+    implementation 'com.google.android.material:material:1.1.0'
     implementation 'androidx.preference:preference:1.1.0'
     implementation 'androidx.mediarouter:mediarouter:1.1.0'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
@@ -114,10 +114,8 @@ dependencies {
     implementation "androidx.paging:paging-runtime:2.1.0"
 
     implementation 'com.github.ByteHamster:SearchPreference:v1.2.5'
-    playImplementation 'com.google.android.gms:play-services-cast:17.1.0'
-    playImplementation 'com.google.android.gms:play-services-cast-framework:17.1.0'
-
-    playImplementation 'com.google.android.gms:play-services-safetynet:17.0.0'
+    playImplementation 'com.google.android.gms:play-services-cast:18.0.0'
+    playImplementation 'com.google.android.gms:play-services-cast-framework:18.0.0'
 }
 
 
