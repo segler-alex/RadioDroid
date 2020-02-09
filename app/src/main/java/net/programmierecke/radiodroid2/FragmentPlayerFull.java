@@ -450,7 +450,6 @@ public class FragmentPlayerFull extends Fragment {
     }
 
     private void fullUpdate() {
-        Log.e("XXX","Fullupdate()");
         DataRadioStation station = Utils.getCurrentOrLastStation(requireContext());
 
         if (station != null) {
