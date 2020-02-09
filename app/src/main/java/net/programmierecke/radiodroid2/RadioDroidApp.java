@@ -1,6 +1,5 @@
 package net.programmierecke.radiodroid2;
 
-import android.app.Application;
 import android.content.SharedPreferences;
 import android.widget.Toast;
 
@@ -67,6 +66,8 @@ public class RadioDroidApp extends MultiDexApplication {
         super.onCreate();
 
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
+
+        GoogleProviderHelper.use(getBaseContext());
 
         connectionPool = new ConnectionPool();
 
