@@ -5,6 +5,6 @@ import android.util.Log;
 
 public class GoogleProviderHelper{
     public static void use(Context ctx){
-        Log.e("HLP","Google helper not installed because compiled as FREE version.");
+        Log.i("HLP","Google helper not installed because compiled as FREE version.");
     }
 }

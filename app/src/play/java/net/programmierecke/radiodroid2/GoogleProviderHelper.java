@@ -10,9 +10,9 @@ import com.google.android.gms.security.ProviderInstaller;
 public class GoogleProviderHelper{
     public static void use(Context ctx){
         try {
-            Log.e("HLP","Try to install google helper for higher TLS support..");
+            Log.i("HLP","Try to install google helper for higher TLS support..");
             ProviderInstaller.installIfNeeded(ctx);
-            Log.e("HLP","Google helper was installed OK.");
+            Log.i("HLP","Google helper was installed OK.");
         } catch (GooglePlayServicesRepairableException e) {
             Log.e("HLP","Google helper was not installed because services not repairable!");
             e.printStackTrace();
