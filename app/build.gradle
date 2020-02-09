@@ -116,6 +116,7 @@ dependencies {
     implementation 'com.github.ByteHamster:SearchPreference:v1.2.5'
     playImplementation 'com.google.android.gms:play-services-cast:18.0.0'
     playImplementation 'com.google.android.gms:play-services-cast-framework:18.0.0'
+    playImplementation 'com.google.android.gms:play-services-safetynet:17.0.0'
 }
 
 
