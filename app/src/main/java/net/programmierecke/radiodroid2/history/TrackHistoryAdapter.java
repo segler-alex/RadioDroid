@@ -8,8 +8,10 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.text.TextUtils;
 import android.text.format.DateUtils;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -148,7 +150,8 @@ public class TrackHistoryAdapter extends PagedListAdapter<TrackHistoryEntry, Tra
                 context.startActivity(new Intent("com.geecko.QuickLyric.getLyrics")
                         .putExtra("TAGS", new String[]{historyEntry.artist, historyEntry.track}));
             } else {
-                // TODO: send to QuickLyric's download page
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=com.geecko.QuickLyric"));
+                context.startActivity(browserIntent);
             }
         });
 
