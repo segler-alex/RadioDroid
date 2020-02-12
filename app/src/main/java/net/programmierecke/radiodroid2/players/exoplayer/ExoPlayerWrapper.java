@@ -373,8 +373,7 @@ public class ExoPlayerWrapper implements PlayerWrapper, IcyDataSource.IcyDataSou
         @Override
         public void onPlayerError(ExoPlaybackException error) {
             // Stop playing since it is either irrecoverable error in the player or our data source failed to reconnect.
-
-            if (fullStopTask != null) {
+            if (fullStopTask != null || error.type != ExoPlaybackException.TYPE_SOURCE) {
                 stop();
                 stateListener.onPlayerError(R.string.error_play_stream);
             }
