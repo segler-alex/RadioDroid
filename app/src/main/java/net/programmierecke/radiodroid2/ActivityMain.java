@@ -146,8 +146,7 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
         LayoutInflaterCompat.setFactory2(getLayoutInflater(), new IconicsLayoutInflater2(getDelegate()));
 
         super.onCreate(savedInstanceState);
-        Intent intent = getIntent();
-        onNewIntent(intent);
+
         if (sharedPref == null) {
             PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
             sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
@@ -420,49 +419,6 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
-        String action = intent.getAction();
-        final Bundle extras = intent.getExtras();
-        if (extras == null) {
-            return;
-        }
-
-        if (MediaSessionCallback.ACTION_PLAY_STATION_BY_UUID.equals(action)) {
-            final Context context = getApplicationContext();
-            final String stationUUID = extras.getString(EXTRA_STATION_UUID);
-            if (TextUtils.isEmpty(stationUUID))
-                return;
-            intent.removeExtra(EXTRA_STATION_UUID); // mark intent as consumed
-            RadioDroidApp radioDroidApp = (RadioDroidApp) getApplication();
-            final OkHttpClient httpClient = radioDroidApp.getHttpClient();
-
-            new AsyncTask<Void, Void, DataRadioStation>() {
-                @Override
-                protected DataRadioStation doInBackground(Void... params) {
-                    return Utils.getStationByUuid(httpClient, context, stationUUID);
-                }
-
-                @Override
-                protected void onPostExecute(DataRadioStation station) {
-                    if (!isFinishing()) {
-                        if (station != null) {
-                            Utils.showPlaySelection(radioDroidApp, station, getSupportFragmentManager());
-
-                            Fragment currentFragment = mFragmentManager.getFragments().get(mFragmentManager.getFragments().size() - 1);
-                            if (currentFragment instanceof FragmentHistory) {
-                                ((FragmentHistory) currentFragment).RefreshListGui();
-                            }
-                        }
-                    }
-                }
-            }.execute();
-        } else {
-            final String searchTag = extras.getString(EXTRA_SEARCH_TAG);
-            Log.d("MAIN","received search request for tag 1: "+searchTag);
-            if (searchTag != null) {
-                Log.d("MAIN","received search request for tag 2: "+searchTag);
-                Search(StationsFilter.SearchStyle.ByTagExact, searchTag);
-            }
-        }
         setIntent(intent);
     }
 
@@ -532,6 +488,52 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
         }
     }
 
+    private void handleIntent(@NonNull Intent intent) {
+        String action = intent.getAction();
+        final Bundle extras = intent.getExtras();
+        if (extras == null) {
+            return;
+        }
+
+        if (MediaSessionCallback.ACTION_PLAY_STATION_BY_UUID.equals(action)) {
+            final Context context = getApplicationContext();
+            final String stationUUID = extras.getString(EXTRA_STATION_UUID);
+            if (TextUtils.isEmpty(stationUUID))
+                return;
+            intent.removeExtra(EXTRA_STATION_UUID); // mark intent as consumed
+            RadioDroidApp radioDroidApp = (RadioDroidApp) getApplication();
+            final OkHttpClient httpClient = radioDroidApp.getHttpClient();
+
+            new AsyncTask<Void, Void, DataRadioStation>() {
+                @Override
+                protected DataRadioStation doInBackground(Void... params) {
+                    return Utils.getStationByUuid(httpClient, context, stationUUID);
+                }
+
+                @Override
+                protected void onPostExecute(DataRadioStation station) {
+                    if (!isFinishing()) {
+                        if (station != null) {
+                            Utils.showPlaySelection(radioDroidApp, station, getSupportFragmentManager());
+
+                            Fragment currentFragment = mFragmentManager.getFragments().get(mFragmentManager.getFragments().size() - 1);
+                            if (currentFragment instanceof FragmentHistory) {
+                                ((FragmentHistory) currentFragment).RefreshListGui();
+                            }
+                        }
+                    }
+                }
+            }.execute();
+        } else {
+            final String searchTag = extras.getString(EXTRA_SEARCH_TAG);
+            Log.d("MAIN","received search request for tag 1: "+searchTag);
+            if (searchTag != null) {
+                Log.d("MAIN","received search request for tag 2: "+searchTag);
+                Search(StationsFilter.SearchStyle.ByTagExact, searchTag);
+            }
+        }
+    }
+
     @Override
     protected void onResume() {
         super.onResume();
@@ -547,6 +549,12 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
 
         if (playerBottomSheet.getState() == BottomSheetBehavior.STATE_EXPANDED) {
             appBarLayout.setExpanded(false);
+        }
+
+        Intent intent = getIntent();
+        if (intent != null) {
+            handleIntent(intent);
+            setIntent(null);
         }
     }
 
