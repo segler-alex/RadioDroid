@@ -17,6 +17,7 @@ import androidx.preference.PreferenceManager;
 
 import net.programmierecke.radiodroid2.history.TrackHistoryRepository;
 import net.programmierecke.radiodroid2.players.mpd.MPDClient;
+import net.programmierecke.radiodroid2.service.PauseReason;
 import net.programmierecke.radiodroid2.service.PlayerService;
 import net.programmierecke.radiodroid2.service.PlayerServiceUtil;
 import net.programmierecke.radiodroid2.station.DataRadioStation;
@@ -111,7 +112,7 @@ public class FragmentPlayerSmall extends Fragment {
                     PlayerServiceUtil.stopRecording();
                 }
 
-                PlayerServiceUtil.stop();
+                PlayerServiceUtil.pause(PauseReason.USER);
             } else {
                 buttonPlay.setImageResource(R.drawable.ic_pause_circle);
                 buttonPlay.setContentDescription(getResources().getString(R.string.detail_pause));
