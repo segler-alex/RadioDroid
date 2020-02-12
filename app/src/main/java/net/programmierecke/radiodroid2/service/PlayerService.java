@@ -511,7 +511,7 @@ public class PlayerService extends Service implements RadioPlayer.PlayerListener
                         break;
                     case ACTION_STOP:
                         stop();
-                        break;
+                        return START_NOT_STICKY;
                     case ACTION_PAUSE:
                         pause(PauseReason.USER);
                         break;
