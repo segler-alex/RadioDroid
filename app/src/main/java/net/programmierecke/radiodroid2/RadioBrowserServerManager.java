@@ -43,7 +43,7 @@ public class RadioBrowserServerManager {
      * Blocking: return current cached server list. Generate list if still null.
      */
     public static String[] getServerList(boolean forceRefresh){
-        if ((serverList == null) || forceRefresh){
+        if (serverList == null || serverList.length == 0 || forceRefresh){
             serverList = doDnsServerListing();
         }
         return serverList;
