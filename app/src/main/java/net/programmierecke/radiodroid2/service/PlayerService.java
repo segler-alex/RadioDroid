@@ -357,7 +357,10 @@ public class PlayerService extends Service implements RadioPlayer.PlayerListener
                         case AudioManager.AUDIOFOCUS_LOSS:
                             if (BuildConfig.DEBUG) Log.d(TAG, "audio focus loss");
 
-                            stop();
+                            if (radioPlayer.isPlaying()) {
+                                pause(PauseReason.FOCUS_LOSS);
+                            }
+
                             break;
                         case AudioManager.AUDIOFOCUS_LOSS_TRANSIENT:
                             if (BuildConfig.DEBUG) Log.d(TAG, "audio focus loss transient");
