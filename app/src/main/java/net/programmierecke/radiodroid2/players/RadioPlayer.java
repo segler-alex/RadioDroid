@@ -371,6 +371,8 @@ public class RadioPlayer implements PlayerWrapper.PlayListener, Recordable {
             } else {
                 Toast toast = Toast.makeText(radioPlayer.mainContext.getApplicationContext(), radioPlayer.mainContext.getResources().getText(R.string.error_station_load), Toast.LENGTH_SHORT);
                 toast.show();
+
+                radioPlayer.onPlayerError(R.string.error_station_load);
             }
 
             radioPlayer.realStationLinkRetrieveTask = null;

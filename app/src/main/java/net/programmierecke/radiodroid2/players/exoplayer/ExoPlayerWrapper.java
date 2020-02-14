@@ -373,8 +373,7 @@ public class ExoPlayerWrapper implements PlayerWrapper, IcyDataSource.IcyDataSou
         @Override
         public void onPlayerError(ExoPlaybackException error) {
             // Stop playing since it is either irrecoverable error in the player or our data source failed to reconnect.
-
-            if (fullStopTask != null) {
+            if (fullStopTask != null || error.type != ExoPlaybackException.TYPE_SOURCE) {
                 stop();
                 stateListener.onPlayerError(R.string.error_play_stream);
             }
@@ -394,7 +393,17 @@ public class ExoPlayerWrapper implements PlayerWrapper, IcyDataSource.IcyDataSou
     private class AnalyticEventListener implements AnalyticsListener {
         @Override
         public void onPlayerStateChanged(EventTime eventTime, boolean playWhenReady, int playbackState) {
-            isPlayingFlag = playWhenReady;
+            isPlayingFlag = playbackState == Player.STATE_READY || playbackState == Player.STATE_BUFFERING;
+
+            switch (playbackState) {
+                case Player.STATE_READY:
+                    stateListener.onStateChanged(PlayState.Playing);
+                    break;
+                case Player.STATE_BUFFERING:
+                    stateListener.onStateChanged(PlayState.PrePlaying);
+                    break;
+            }
+
         }
 
         @Override
@@ -529,7 +538,7 @@ public class ExoPlayerWrapper implements PlayerWrapper, IcyDataSource.IcyDataSou
 
         @Override
         public void onAudioSessionId(EventTime eventTime, int audioSessionId) {
-            stateListener.onStateChanged(PlayState.Playing);
+
         }
 
         @Override
