@@ -46,6 +46,7 @@ import net.programmierecke.radiodroid2.recording.Recordable;
 import net.programmierecke.radiodroid2.recording.RecordingsAdapter;
 import net.programmierecke.radiodroid2.recording.RecordingsManager;
 import net.programmierecke.radiodroid2.recording.RunningRecordingInfo;
+import net.programmierecke.radiodroid2.service.PauseReason;
 import net.programmierecke.radiodroid2.service.PlayerService;
 import net.programmierecke.radiodroid2.service.PlayerServiceUtil;
 import net.programmierecke.radiodroid2.station.DataRadioStation;
@@ -307,7 +308,7 @@ public class FragmentPlayerFull extends Fragment {
                         updateRunningRecording();
                     }
 
-                    PlayerServiceUtil.stop();
+                    PlayerServiceUtil.pause(PauseReason.USER);
 
                     updatePlaybackButtons(false, false);
                 } else {

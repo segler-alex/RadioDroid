@@ -26,6 +26,7 @@ import net.programmierecke.radiodroid2.players.mpd.MPDServerData;
 import net.programmierecke.radiodroid2.players.mpd.tasks.MPDChangeVolumeTask;
 import net.programmierecke.radiodroid2.players.mpd.tasks.MPDPauseTask;
 import net.programmierecke.radiodroid2.players.mpd.tasks.MPDResumeTask;
+import net.programmierecke.radiodroid2.service.PauseReason;
 import net.programmierecke.radiodroid2.service.PlayerService;
 import net.programmierecke.radiodroid2.service.PlayerServiceUtil;
 import net.programmierecke.radiodroid2.station.DataRadioStation;
@@ -171,7 +172,7 @@ public class PlayerSelectorAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                         PlayerServiceUtil.stopRecording();
                     }
 
-                    PlayerServiceUtil.stop();
+                    PlayerServiceUtil.pause(PauseReason.USER);
 
                     holder.btnPlay.setImageResource(R.drawable.ic_play_circle);
                     holder.btnPlay.setContentDescription(context.getString(R.string.detail_play));
