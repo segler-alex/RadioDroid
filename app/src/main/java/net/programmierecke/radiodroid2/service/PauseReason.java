@@ -8,6 +8,7 @@ public enum PauseReason implements Parcelable {
     NONE,
     BECAME_NOISY,
     FOCUS_LOSS,
+    FOCUS_LOSS_TRANSIENT,
     METERED_CONNECTION,
     USER;
 

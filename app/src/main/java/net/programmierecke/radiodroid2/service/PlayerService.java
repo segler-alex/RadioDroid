@@ -347,7 +347,7 @@ public class PlayerService extends Service implements RadioPlayer.PlayerListener
                         case AudioManager.AUDIOFOCUS_GAIN:
                             if (BuildConfig.DEBUG) Log.d(TAG, "audio focus gain");
 
-                            if (pauseReason == PauseReason.FOCUS_LOSS) {
+                            if (pauseReason == PauseReason.FOCUS_LOSS_TRANSIENT) {
                                 enableMediaSession();
                                 resume();
                             }
@@ -357,13 +357,16 @@ public class PlayerService extends Service implements RadioPlayer.PlayerListener
                         case AudioManager.AUDIOFOCUS_LOSS:
                             if (BuildConfig.DEBUG) Log.d(TAG, "audio focus loss");
 
-                            stop();
+                            if (radioPlayer.isPlaying()) {
+                                pause(PauseReason.FOCUS_LOSS);
+                            }
+
                             break;
                         case AudioManager.AUDIOFOCUS_LOSS_TRANSIENT:
                             if (BuildConfig.DEBUG) Log.d(TAG, "audio focus loss transient");
 
                             if (radioPlayer.isPlaying()) {
-                                pause(PauseReason.FOCUS_LOSS);
+                                pause(PauseReason.FOCUS_LOSS_TRANSIENT);
                             }
 
                             break;
