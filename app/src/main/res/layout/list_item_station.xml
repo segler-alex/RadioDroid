@@ -77,29 +77,30 @@
 
             <TextView
                     android:id="@+id/textViewTitle"
-                    android:layout_width="fill_parent"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:ellipsize="end"
-                    android:maxLines="1"
+                    android:lines="1"
+                    android:scrollbars="none"
                     android:textAppearance="@style/TextAppearance.AppCompat.Body2" />
 
             <TextView
                     android:id="@+id/textViewShortDescription"
-                    android:layout_width="fill_parent"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:drawablePadding="4sp"
                     android:ellipsize="end"
-                    android:maxLines="1"
-                    android:minLines="1"
+                    android:lines="1"
+                    android:scrollbars="none"
                     android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 
             <TextView
                     android:id="@+id/textViewTags"
-                    android:layout_width="fill_parent"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:ellipsize="end"
-                    android:maxLines="1"
-                    android:minLines="1"
+                    android:lines="1"
+                    android:scrollbars="none"
                     android:textColor="@color/textColorSecondary"
                     android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 
