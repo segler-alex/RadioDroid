@@ -4,22 +4,22 @@
     <string name="detail_name">Navn</string>
     <string name="detail_tags">Mærker</string>
     <string name="detail_country">Land</string>
-    <string name="detail_create_shortcut">Tilføje til startskærm</string>
+    <string name="detail_create_shortcut">Tilføj til startskærm</string>
     <string name="detail_language">Sprog</string>
     <string name="detail_weblink">Net henvisning</string>
     <string name="detail_play">Afspil</string>
     <string name="detail_pause">Pause</string>
     <string name="detail_stop">Stop</string>
-    <string name="detail_share">Dele</string>
+    <string name="detail_share">Del</string>
 
     <string name="action_links">Henvisninger</string>
     <string name="action_homepage">Hjemmeside</string>
     <string name="action_favorite">Favorit</string>
     <string name="action_alarm">Alarm</string>
 
-    <string name="action_station_visit_website">Besøge netsted</string>
+    <string name="action_station_visit_website">Besøg netsted</string>
     <string name="action_station_copy_stream_url">Kopiere strøm URL</string>
-    <string name="action_station_share">Dele</string>
+    <string name="action_station_share">Del</string>
 
     <string name="action_local">Lokal</string>
     <string name="action_skip_to_next">Næste</string>
@@ -54,6 +54,7 @@
     <string name="nav_item_history">Historik</string>
     <string name="nav_item_settings">Opsætning</string>
     <string name="nav_item_alarm">Alarm</string>
+    <string name="action_delete_stream_history">Ryd spor historik</string>
 
     <string name="about_text">Dette program bruger det åbne radio station bibliotek hos\nhttps://www.radio-browser.info\nEveryone can add stations to it or edit existing stations. It works like a wiki for online (streaming) radio stations.\n\nContact:\nsegler_alex@web.de\n\nBugtracker:\nhttps://github.com/segler-alex/RadioDroid/issues\n\nIf you like the software and want to help, feel free to send me an email. I really need someone with graphical experience to make the app nicer to the eye :) Maybe someone who can draw icons, images...but also programmers who fix bugs, or implement new ones (features not bugs ;)\nAlso ideas for new features are always appreciated!\n\nThis app is free software licensed under the GPLv3.\nhttps://www.gnu.org/licenses/gpl-3.0</string>
     <string name="about_version">Version: %1$s</string>
@@ -63,8 +64,8 @@
 
     <string name="sleep_timer" formatted="true">Sove tidsforsinkelse: %1$02d:%2$02d</string>
     <string name="sleep_timer_title">Stop afspilning efter det valgte minut</string>
-    <string name="sleep_timer_apply">Anvende</string>
-    <string name="sleep_timer_clear">Rydde</string>
+    <string name="sleep_timer_apply">Anvend</string>
+    <string name="sleep_timer_clear">Ryd</string>
     <string name="nav_item_add_sleep">Sove tidsforsinkelse</string>
 
     <string name="nav_item_save_playlist">Eksportere favoritter som afspilningsliste</string>
@@ -76,17 +77,17 @@
     <string name="label_button_cancel">Annullere</string>
     <string name="label_button_overwrite">Overskrive</string>
 
-    <string name="searchpreference_clear_history">Rydde historik</string>
+    <string name="searchpreference_clear_history">Ryd historik</string>
     <string name="searchpreference_no_results">Intet resultat</string>
     <string name="searchpreference_search">Søge…</string>
     <string name="settings_appearance">Udseende</string>
     <string name="settings_theme_selection_title">Tema</string>
     <string name="theme_light">Lys</string>
     <string name="theme_dark">Mørk</string>
-    <string name="settings_circular_icons">Brug cirkulære ikoner</string>
+    <string name="settings_circular_icons">Brug runde ikoner</string>
     <string name="settings_compact_style">Tæt tilstand</string>
-    <string name="settings_compact_style_desc_off">Stort ikon tilføjet station detaljer</string>
-    <string name="settings_compact_style_desc_on">Lille ikon ikke tilføjet station detaljer</string>
+    <string name="settings_compact_style_desc_off">Stort ikon tilføjet med station detaljer</string>
+    <string name="settings_compact_style_desc_on">Lille ikon tilføjet uden station detaljer</string>
     <string name="settings_bottom_navigation">Bundnavigation</string>
 
     <string name="settings_interaction">Interaktion</string>
@@ -98,8 +99,8 @@
     <string name="settings_show_broken_on">Vis ugyldige stationer i lister</string>
     <string name="settings_show_broken_off">Vis ikke ugyldige stationer i lister</string>
 
-    <string name="settings_startup_behaviour">Start Behavior</string>
-    <string name="startup_action_title">Start handling</string>
+    <string name="settings_startup_behaviour">Start opførsel</string>
+    <string name="startup_action_title">Start håndtering</string>
     <string name="startup_action_title_desc">%s</string>
     <string name="startup_show_all_stations">Vis alle stationer</string>
     <string name="startup_show_favorites">Vis favoritter</string>
@@ -140,7 +141,7 @@
 
     <string name="settings_connectivity">Tilslutningsmuligheder</string>
     <string name="settings_connect_timeout">Tilslutning tidsudløb</string>
-    <string name="settings_read_timeout">Læse tidsudløb</string>
+    <string name="settings_read_timeout">Læs tidsudløb</string>
     <string name="settings_resume_timeout">Genoptag tidsudløb</string>
     <string name="settings_retry_timeout">Prøv igen tidsudløb</string>
     <string name="settings_retry_delay">Gentilslutning forsinkelse</string>
@@ -150,9 +151,22 @@
     <string name="settings_proxy_action_test">Test</string>
     <string name="settings_proxy_working">Forbundet til %s</string>
     <string name="settings_proxy_not_working">Mislykket forbundet til %s\n%s</string>
+    <string name="settings_proxy_invalid">Mellemvært værdier er ugyldige.</string>
+    <string name="ignore_proxy_settings_invalid">Ignorere mellemvært opsætning da den er ugyldig.</string>
     <string name="settings_seconds_format">%d sekunder</string>
     <string name="settings_milliseconds_format">%d millisekunder</string>
 
+    <string name="settings_pause_when_noisy">Pause når hovedtelefon afbrrydes</string>
+
+    <string name="settings_auto_resume_do_not_resume">Genoptag ikke</string>
+
+    <string name="settings_auto_resume_on_wired_headset_connected">Genoptag ved trådet forbindelse</string>
+    <string name="settings_auto_resume_on_wired_headset_connected_on">Genoptag afspilning ved trådet hovedtelefon tisluttet</string>
+
+    <string name="settings_auto_resume_on_bluetooth_a2dp_connected">Genoptag ved bluetooth forbindelse</string>
+    <string name="settings_auto_resume_on_bluetooth_a2dp_connected_on">Genoptag afspilning ved  bluetooth A2DP enhed forbindelse</string>
+
+    <!-- TODO: rename to "Metered connection warning" since wi-fi could be a metered connection -->
     <string name="settings_warn_no_wifi">Trådløst slukke advarsel</string>
     <string name="settings_warn_no_wifi_on">Advare når der afspilles uden trådløst tilslutning</string>
     <string name="settings_warn_no_wifi_off">Ingen advarsel når ikke på trådløst tislutning</string>
@@ -160,6 +174,10 @@
     <string name="settings_recordings">Optagelser</string>
     <string name="settings_record_name_formatting">Navneformat</string>
 
+    <string name="settings_record_name_formatting_default" translatable="false">${station}_${artist}_${track}_${date}_${time}</string>
+    <string name="settings_record_name_formatting_1" translatable="false">${station}_${artist}_${track}</string>
+    <string name="settings_record_name_formatting_2" translatable="false">${station}_${date}_${time}</string>
+    <string name="settings_record_name_formatting_3" translatable="false">${index}_${station}_${date}</string>
 
     <string name="settings_record_name_formatting_default_display">station_kunstner_nummer_\u200bdato_\u200btidspunkt</string>
     <string name="settings_record_name_formatting_1_display">station_kunstner_\u200bnummer</string>
@@ -168,7 +186,9 @@
 
     <string name="notify_pre_play">Forbinder</string>
     <string name="notify_play">Afspiller</string>
-    <string name="notify_paused">På pause</string>
+    <string name="notify_paused">Pauset</string>
+    <string name="notify_metered_connection">Afmålt forbindelse!</string>
+
     <string name="notify_starred">Station er tilføjet til favoritter</string>
     <string name="notify_autostarred">Station er tilføjet automatisk til favoritter</string>
     <string name="notify_unstarred">Station er fjernet fra favoritter</string>
@@ -176,27 +196,28 @@
     <string name="notify_deleted_history">Historikken er blevet fjernet</string>
 
     <string name="notify_station_removed_from_list">1 fjernet</string>
-    <string name="action_station_removed_from_list_undo">Genskabe</string>
+    <string name="action_station_removed_from_list_undo">Genskab</string>
 
-    <string name="alert_delete_history">Slette historik?</string>
-    <string name="alert_delete_favorites">Slette alle favoritter?</string>
+    <string name="alert_delete_history">Slet historik?</string>
+    <string name="alert_delete_favorites">Slet alle favoritter?</string>
     <string name="yes">Ja</string>
     <string name="no">Nej</string>
 
-    <string name="alert_select_mpd_server">Vælge en server</string>
+    <string name="alert_select_mpd_server">Vælg server</string>
     <string name="alert_select_mpd_server_name">Server navn</string>
+    <string name="alert_select_mpd_server_password">Server adgangskode</string>
     <string name="hostname">Værtsnavn</string>
     <string name="port">Port</string>
 
-    <string name="alert_select_mpd_server_add">Tilføje</string>
-    <string name="alert_select_mpd_server_save">Gemme</string>
-    <string name="alert_select_mpd_server_remove">Fjerne</string>
-    <string name="alert_add_or_edit_mpd_server">Indtaste oplysninger om en server</string>
+    <string name="alert_select_mpd_server_add">Tilføj</string>
+    <string name="alert_select_mpd_server_save">Gem</string>
+    <string name="alert_select_mpd_server_remove">Fjern</string>
+    <string name="alert_add_or_edit_mpd_server">Indtast server oplysninger</string>
     <string name="alert_alarm_working">Alarm tid nu</string>
-    <string name="alert_alarm_not_working">Ikke nok oplysning for alarm</string>
-    <string name="alert_select_external_alarm_app">Vælge lyd afspiller</string>
+    <string name="alert_alarm_not_working">Ikke nok alarm oplysning</string>
+    <string name="alert_select_external_alarm_app">Vælg lyd afspiller</string>
 
-    <string name="alert_press_back_to_exit">Tryk på tilbage én gang mere for at afslutte</string>
+    <string name="alert_press_back_to_exit">Tryk én gang mere på tilbage for at afslutte</string>
 
     <string name="error_stream_url">Strøm URL problem</string>
     <string name="error_caching_stream">Strøm mellemlager problem</string>
@@ -211,12 +232,13 @@
 
     <string name="player_info_status">Status:&#160;</string>
     <string name="player_info_status_stopped">stoppet</string>
-    <string name="player_info_status_playing">afspille</string>
-    <string name="player_info_status_recording">optage</string>
-    <string name="player_info_status_playing_and_recording">afspille og optage</string>
+    <string name="player_info_status_playing">afspiller</string>
+    <string name="player_info_status_recording">optager</string>
+    <string name="player_info_status_playing_and_recording">afspiller og optager</string>
     <string name="player_info_transferred">Overført data: %1$s</string>
     <string name="player_info_recording_to">Optager til:\n%1$s</string>
     <string name="player_info_recorded_to">Sidte optagelse:\n%1$s</string>
+
     <string name="tab_player_art">Album omslag</string>
     <string name="tab_player_info">Information</string>
     <string name="tab_player_history">Historik</string>
@@ -263,7 +285,7 @@
     <string name="description_btn_skip_to_next">Hop til næste</string>
     <string name="description_btn_skip_to_previous">Hop til forrige</string>
 
-    <string name="description_btn_setup_alarm">Sætte alarm</string>
+    <string name="description_btn_setup_alarm">Sæt alarm</string>
 
     <string-array name="weekdays">
         <item>S</item>
@@ -282,9 +304,12 @@
         <item>Kopiere strøm URL</item>
     </string-array>
 
+    <string name="alert_metered_connection_title">Afmålt forbindelse opdaget</string>
+    <string name="alert_metered_connection_message">Afmålt forbindelse kan medføre ekstra geby,tryk \'OK\' for at fortsætte.</string>
     <string name="nav_item_statistics">Statistikker</string>
     <string name="nav_item_about">Om</string>
-    <string name="refresh">Genopfriske</string>
+    <string name="refresh">Genopfrisk</string>
+
     <string name="alarm_backup">Alternativ alarm</string>
     <string name="alarm_fallback_info">System alarm vedtaget som valgt radiostation kunne ikke indlæses</string>
     <string name="alarm_back_desc">Alternativ system alarm vedtaget når radiostation ikke indlæses</string>
