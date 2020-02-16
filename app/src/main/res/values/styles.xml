@@ -108,11 +108,11 @@
         <item name="android:windowBackground">@color/windowBackgroundDark</item>
     </style>
 
-    <style name="BottomSheetDialogTheme" parent="Theme.Design.Light.BottomSheetDialog">
+    <style name="BottomSheetDialogTheme" parent="Theme.MaterialComponents.Light.BottomSheetDialog">
         <item name="bottomSheetStyle">@style/BottomSheetTheme</item>
     </style>
 
-    <style name="BottomSheetDialogTheme.Dark" parent="Theme.Design.BottomSheetDialog">
+    <style name="BottomSheetDialogTheme.Dark" parent="Theme.MaterialComponents.BottomSheetDialog">
         <item name="bottomSheetStyle">@style/BottomSheetTheme.Dark</item>
     </style>
 
