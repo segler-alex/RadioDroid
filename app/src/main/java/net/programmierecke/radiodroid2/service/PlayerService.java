@@ -942,7 +942,7 @@ public class PlayerService extends Service implements RadioPlayer.PlayerListener
         startForeground(NOTIFY_ID, notification);
         notificationIsActive = true;
 
-        if (currentPlayerState == PlayState.Paused) {
+        if (currentPlayerState == PlayState.Paused || currentPlayerState == PlayState.Idle) {
             stopForeground(false); // necessary to make notification dismissible
         }
     }
