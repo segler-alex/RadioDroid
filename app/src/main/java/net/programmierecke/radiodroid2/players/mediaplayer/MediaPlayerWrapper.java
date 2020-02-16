@@ -80,10 +80,13 @@ public class MediaPlayerWrapper implements PlayerWrapper, StreamProxyListener {
         if (mediaPlayer == null) {
             mediaPlayer = new MediaPlayer();
         }
+
         if (mediaPlayer.isPlaying()) {
             mediaPlayer.stop();
-            mediaPlayer.reset();
         }
+
+        mediaPlayer.reset();
+
         try {
             mediaPlayer.setAudioStreamType(isAlarm ? AudioManager.STREAM_ALARM : AudioManager.STREAM_MUSIC);
             mediaPlayer.setDataSource(proxyUrl);
@@ -98,6 +101,11 @@ public class MediaPlayerWrapper implements PlayerWrapper, StreamProxyListener {
                     mediaPlayer.start();
                     stateListener.onStateChanged(PlayState.Playing);
                 }
+            });
+
+            mediaPlayer.setOnErrorListener((mp, what, extra) -> {
+                stateListener.onPlayerError(R.string.error_play_stream);
+                return true;
             });
         } catch (IllegalArgumentException e) {
             Log.e(TAG, "" + e);
