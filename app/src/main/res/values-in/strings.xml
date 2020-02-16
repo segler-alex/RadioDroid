@@ -232,8 +232,6 @@
     <string name="action_mpd_ok">MPD terkoneksi</string>
     <string name="action_mpd_connected">Terhubung ke server: %1$s</string>
 
-    <string name="settings_radiobrowser_servers">Server RadioBrowser</string>
-
     <string name="settings_other">Lainnya</string>
     <string name="settings_statistics">Statistik</string>
     <string name="settings_about">Tentang RadioDroid</string>

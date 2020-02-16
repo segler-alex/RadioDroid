@@ -278,9 +278,6 @@
 
     <string name="action_play_in_external">Play in external player</string>
 
-    <string name="settings_radiobrowser_servers">RadioBrowser servers</string>
-    <string name="settings_radiobrowser_servers_default">www.radio-browser.info/webservice</string>
-
     <string name="settings_other">Other</string>
     <string name="settings_statistics">Statistics</string>
     <string name="settings_about">About RadioDroid</string>

@@ -255,8 +255,6 @@
     <string name="action_add_mpd_server">添加 MPD 服务器</string>
     
     <string name="action_play_in_external">使用外部播放器播放</string>
-    
-    <string name="settings_radiobrowser_servers">RadioBrowser 服务器</string>
 
     <string name="settings_other">其它</string>
     <string name="settings_statistics">统计</string>
