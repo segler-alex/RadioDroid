@@ -47,14 +47,6 @@
         <item>@string/theme_dark</item>
     </string-array>
 
-    <string-array name="settings_radiobrowser_servers" translatable="false">
-        <item>loading</item>
-    </string-array>
-
-    <string-array name="settings_radiobrowser_servers_display" translatable="false">
-        <item>@string/progress_loading</item>
-    </string-array>
-
     <string-array name="settings_record_name_formatting_list">
         <item>@string/settings_record_name_formatting_default</item>
         <item>@string/settings_record_name_formatting_1</item>

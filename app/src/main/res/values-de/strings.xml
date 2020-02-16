@@ -222,7 +222,6 @@
     <string name="settings_proxy_not_working">Die Verbindung zu %s konnte nicht hergestellt werden \n%s.</string>
     <string name="settings_proxy_password">Passwort</string>
     <string name="settings_proxy_working">Erfolgreich verbunden mit %s</string>
-    <string name="settings_radiobrowser_servers">RadioBrowser-Server</string>
     <string name="settings_read_timeout">Zeitüberschreitung beim Lesen</string>
     <string name="settings_record_name_formatting">Namensformat</string>
     <string name="settings_resume_timeout">Zeitüberschreitung für Wiederverbindungsversuche nach Verbindungsverlust</string>

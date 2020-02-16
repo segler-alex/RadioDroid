@@ -209,9 +209,6 @@
     <string name="action_mpd_ok">MPD is verbonden</string>
     <string name="action_mpd_connected">Verbonden met server: %1$s</string>
 
-    <!--<string name="settings_radiobrowser_servers">RadioBrowser-servers</string>-->
-    <string name="settings_radiobrowser_servers_default">www.radio-browser.info/webservice</string>
-
     <string name="settings_other">Overig</string>
     <string name="settings_statistics">Statistieken</string>
     <string name="settings_about">Over RadioDroid</string>

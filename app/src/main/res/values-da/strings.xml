@@ -256,9 +256,6 @@
 
     <string name="action_play_in_external">Afspil i ekstern afspiller</string>
 
-    <string name="settings_radiobrowser_servers">RadioBrowser servere</string>
-    <string name="settings_radiobrowser_servers_default">www.radio-browser.info/webservice</string>
-
     <string name="settings_other">Andet</string>
     <string name="settings_statistics">Statistikker</string>
     <string name="settings_about">Om RadioDroid</string>

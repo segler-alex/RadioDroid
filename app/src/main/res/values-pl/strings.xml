@@ -232,8 +232,6 @@
     <string name="action_mpd_ok">MPD podłączony</string>
     <string name="action_mpd_connected">Połączono z serwerem: %1$s</string>
 
-    <string name="settings_radiobrowser_servers">Serwery RadioBrowser</string>
-
     <string name="settings_other">Inne</string>
     <string name="settings_statistics">Statystyki</string>
     <string name="settings_about">O RadioDroid</string>

@@ -202,8 +202,6 @@
     <string name="action_mpd_ok">Συνδέθηκε το MPD</string>
     <string name="action_mpd_connected">Συνδέθηκε στον εξυπηρετητή:  %1$s</string>
 
-    <!--<string name="settings_radiobrowser_servers">Εξυπηρετητές του RadioBrowser</string>-->
-
     <string name="settings_other">Άλλα</string>
     <string name="settings_statistics">Στατιστικά</string>
     <string name="settings_about">Σχετικά με το ΡάδιοΔροειδές</string>

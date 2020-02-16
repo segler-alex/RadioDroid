@@ -217,9 +217,6 @@
     <string name="action_mpd_ok">Connexió MPD</string>
     <string name="action_mpd_connected">Connectat al servidor: %1$s</string>
 
-    <string name="settings_radiobrowser_servers">Servidors de RadioBrowser</string>
-    <string name="settings_radiobrowser_servers_default">www.radio-browser.info/webservice</string>
-
     <string name="settings_other">Altres</string>
     <string name="settings_statistics">Estadístiques</string>
     <string name="settings_about">Quant a RadioDroid</string>
