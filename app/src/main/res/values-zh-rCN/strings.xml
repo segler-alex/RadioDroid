@@ -31,6 +31,7 @@
     <string name="action_delete">删除</string>
     <string name="action_delete_history">删除历史</string>
     <string name="action_delete_favorites">删除收藏</string>
+    <string name="action_delete_stream_history">清除音轨记录</string>
     <string name="action_ok">确认</string>
     <string name="action_cancel">取消</string>
     <string name="action_top_click">访问排行</string>
@@ -67,8 +68,8 @@
     <string name="sleep_timer_clear">清除</string>
     <string name="nav_item_add_sleep">睡眠定时器</string>
     
-    <string name="nav_item_save_playlist">保存到播放列表</string>
-    <string name="nav_item_load_playlist">从播放列表载入</string>
+    <string name="nav_item_save_playlist">导出收藏到播放列表</string>
+    <string name="nav_item_load_playlist">从播放列表导入收藏</string>
     <string name="confirm_overwrite_file">覆盖此文件吗？</string>
     <string name="dialog_hint_file_name">输入文件名</string>
     <string name="error_empty_field">必须填写此栏目</string>
@@ -150,9 +151,21 @@
     <string name="settings_proxy_action_test">测试</string>
     <string name="settings_proxy_working">成功连接到 %s</string>
     <string name="settings_proxy_not_working">未能连接到 %s\n%s</string>
+    <string name="settings_proxy_invalid">您提供的代理服务器值无效</string>
+    <string name="ignore_proxy_settings_invalid">已忽略无效的代理服务器设置</string>
     <string name="settings_seconds_format">%d 秒</string>
     <string name="settings_milliseconds_format">%d 毫秒</string>
+    
+    <string name="settings_pause_when_noisy">耳机断开时暂停</string>
 
+    <string name="settings_auto_resume_do_not_resume">不恢复</string>
+
+    <string name="settings_auto_resume_on_wired_headset_connected">有线连接时恢复</string>
+    <string name="settings_auto_resume_on_wired_headset_connected_on">有线耳机插入时恢复播放</string>
+
+    <string name="settings_auto_resume_on_bluetooth_a2dp_connected">蓝牙连接时恢复</string>
+    <string name="settings_auto_resume_on_bluetooth_a2dp_connected_on">蓝牙 A2DP 设备连接时恢复播放</string>
+    
     <string name="settings_warn_no_wifi">未使用 Wi-Fi 时警告</string>
     <string name="settings_warn_no_wifi_on">播放时无 Wi-Fi 连接警告</string>
     <string name="settings_warn_no_wifi_off">未使用 Wi-Fi 连接时不警告</string>
@@ -168,6 +181,8 @@
     <string name="notify_pre_play">正在连接</string>
     <string name="notify_play">正在播放</string>
     <string name="notify_paused">已暂停</string>
+    <string name="notify_metered_connection">计量连接</string>
+
     <string name="notify_starred">电台已被收藏</string>
     <string name="notify_autostarred">电台已被自动收藏</string>
     <string name="notify_unstarred">电台已从收藏移除</string>
@@ -184,6 +199,7 @@
 
     <string name="alert_select_mpd_server">请选择服务器</string>
     <string name="alert_select_mpd_server_name">服务器名</string>
+    <string name="alert_select_mpd_server_password">服务器密码</string>
     <string name="hostname">主机名</string>
     <string name="port">端口</string>
 
@@ -282,6 +298,8 @@
         <item>复制流媒体地址</item>
     </string-array>
 
+    <string name="alert_metered_connection_title">检测到计量连接</string>
+    <string name="alert_metered_connection_message">计量连接可能会产生额外费用，按\'确认\'继续。</string>
     <string name="nav_item_statistics">统计</string>
     <string name="nav_item_about">关于</string>
     <string name="refresh">刷新</string>

@@ -31,6 +31,7 @@
     <string name="action_delete">Delete</string>
     <string name="action_delete_history">Delete history</string>
     <string name="action_delete_favorites">Delete favorites</string>
+    <string name="action_delete_stream_history">Clear track history</string>
     <string name="action_ok">OK</string>
     <string name="action_cancel">Cancel</string>
     <string name="action_top_click">Top Click</string>
@@ -54,7 +55,6 @@
     <string name="nav_item_history">History</string>
     <string name="nav_item_settings">Settings</string>
     <string name="nav_item_alarm">Alarm</string>
-    <string name="action_delete_stream_history">Clear track history</string>
 
     <string name="about_text">This app uses the free radio station directory at\nhttps://www.radio-browser.info\nEveryone can add stations to it or edit existing stations. It works like a wiki for online (streaming) radio stations.\n\nContact:\nsegler_alex@web.de\n\nBugtracker:\nhttps://github.com/segler-alex/RadioDroid/issues\n\nIf you like the software and want to help, feel free to send me an email. I really need someone with graphical experience to make the app nicer to the eye :) Maybe someone who can draw icons, images...but also programmers who fix bugs, or implement new ones (features not bugs ;)\nAlso ideas for new features are always appreciated!\n\nThis app is free software licensed under the GPLv3.\nhttps://www.gnu.org/licenses/gpl-3.0.html</string>
     <string name="about_version">Version: %1$s</string>
@@ -68,8 +68,8 @@
     <string name="sleep_timer_clear">Clear</string>
     <string name="nav_item_add_sleep">Sleep timer</string>
 
-    <string name="nav_item_save_playlist">Export favorites as a playlist</string>
-    <string name="nav_item_load_playlist">Import favorites from a playlist</string>
+    <string name="nav_item_save_playlist">Export favorites as playlist</string>
+    <string name="nav_item_load_playlist">Import favorites from playlist</string>
     <string name="confirm_overwrite_file">Overwrite the file?</string>
     <string name="dialog_hint_file_name">Enter file name</string>
     <string name="error_empty_field">This field is required</string>
@@ -151,8 +151,8 @@
     <string name="settings_proxy_action_test">Test</string>
     <string name="settings_proxy_working">Successfully connected to %s</string>
     <string name="settings_proxy_not_working">Failed to connect to %s\n%s</string>
-    <string name="settings_proxy_invalid">The values you provided for the proxy are invalid.</string>
-    <string name="ignore_proxy_settings_invalid">Ignoring proxy settings, because settings are invalid.</string>
+    <string name="settings_proxy_invalid">The values you provided for the proxy are invalid</string>
+    <string name="ignore_proxy_settings_invalid">Ignored the invalid proxy settings</string>
     <string name="settings_seconds_format">%d seconds</string>
     <string name="settings_milliseconds_format">%d milliseconds</string>
 
@@ -166,7 +166,6 @@
     <string name="settings_auto_resume_on_bluetooth_a2dp_connected">Resume on bluetooth connection</string>
     <string name="settings_auto_resume_on_bluetooth_a2dp_connected_on">Resume playback on bluetooth A2DP device connection</string>
 
-    <!-- TODO: rename to "Metered connection warning" since wi-fi could be a metered connection -->
     <string name="settings_warn_no_wifi">Off-Wi-Fi Warning</string>
     <string name="settings_warn_no_wifi_on">Warn when playing without Wi-Fi connection</string>
     <string name="settings_warn_no_wifi_off">No warning when not on Wi-Fi connection</string>
@@ -187,7 +186,7 @@
     <string name="notify_pre_play">Connecting</string>
     <string name="notify_play">Playing</string>
     <string name="notify_paused">Paused</string>
-    <string name="notify_metered_connection">Metered connection!</string>
+    <string name="notify_metered_connection">Metered connection</string>
 
     <string name="notify_starred">Station has been added to favorites</string>
     <string name="notify_autostarred">Station has been automatically added to favorites</string>
