@@ -215,6 +215,16 @@
     <string name="settings_compact_style_desc_on">Es werden kleine Symbole ohne Stationsdetails angezeigt.</string>
     <string name="settings_connect_timeout">Verbindungszeitüberschreitung</string>
     <string name="settings_milliseconds_format">%d Millisekunden</string>
+
+    <string name="settings_pause_when_noisy">Pause bei Kopfhörertrennung</string>
+
+    <string name="settings_auto_resume_on_wired_headset_connected">Kopfhörer/Kabelverbindung</string>
+    <string name="settings_auto_resume_on_wired_headset_connected_on">Die Wiedergabe wird bei Kopfhörer/Kabelwiederverbindung fortgesetzt.</string>
+    <string name="settings_auto_resume_do_not_resume">Die Wiedergabe wird bei Wiederanschluss des Abspielgeräts (Kopfhörer/Kabel/Bluetooth) nicht fortgesetzt.</string>
+
+    <string name="settings_auto_resume_on_bluetooth_a2dp_connected">Bluetoothverbindung</string>
+    <string name="settings_auto_resume_on_bluetooth_a2dp_connected_on">Die Wiedergabe wird bei Bluetoothwiederverbindung fortgesetzt.</string>
+
     <string name="settings_play_external_desc_off">Stationen werden mit RadioDroid abgespielt.</string>
     <string name="settings_play_external_desc_on">Stationen werden mit einem externem Player abspielt.</string>
     <string name="settings_proxy_action_test">Prüfung</string>
