@@ -3,6 +3,8 @@ package net.programmierecke.radiodroid2.station.live;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.google.android.exoplayer2.metadata.icy.IcyHeaders;
+
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -33,6 +35,14 @@ public class ShoutcastInfo implements Parcelable {
     public int sampleRate;
 
     public ShoutcastInfo() {
+    }
+
+    public ShoutcastInfo(IcyHeaders icyHeaders) {
+        this.bitrate = icyHeaders.bitrate;
+        this.audioGenre = icyHeaders.genre;
+        this.serverPublic = icyHeaders.isPublic;
+        this.audioName = icyHeaders.name;
+        this.audioHomePage = icyHeaders.url;
     }
 
     public static ShoutcastInfo Decode(Response response) {

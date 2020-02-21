@@ -88,8 +88,6 @@ public class IcyDataSource implements HttpDataSource {
     private ResponseBody responseBody;
     private Map<String, List<String>> responseHeaders;
 
-    private int remainingUntilMetadata = Integer.MAX_VALUE;
-
     private byte readBuffer[] = new byte[256 * 16];
 
     private boolean opened;
@@ -171,13 +169,6 @@ public class IcyDataSource implements HttpDataSource {
             // try to get shoutcast information from stream connection
             shoutcastInfo = ShoutcastInfo.Decode(response);
             dataSourceListener.onDataSourceShoutcastInfo(shoutcastInfo);
-
-            if (shoutcastInfo != null) {
-                remainingUntilMetadata = shoutcastInfo.metadataOffset;
-            } else {
-                remainingUntilMetadata = Integer.MAX_VALUE;
-            }
-
             return responseBody.contentLength();
         }
     }
@@ -247,24 +238,13 @@ public class IcyDataSource implements HttpDataSource {
 
         int ret = 0;
         try {
-            ret = stream.read(buffer, offset, remainingUntilMetadata < readLength ? remainingUntilMetadata : readLength);
+            ret = stream.read(buffer, offset, readLength);
         } catch (IOException e) {
             throw new HttpDataSourceException(e, dataSpec, HttpDataSourceException.TYPE_READ);
         }
 
         if(ret > 0) {
             dataSourceListener.onDataSourceBytesRead(buffer, offset, ret);
-        }
-
-        if (remainingUntilMetadata == ret) {
-            try {
-                readMetaData(stream);
-                remainingUntilMetadata = shoutcastInfo.metadataOffset;
-            } catch (IOException e) {
-                throw new HttpDataSourceException(e, dataSpec, HttpDataSourceException.TYPE_READ);
-            }
-        } else {
-            remainingUntilMetadata -= ret;
         }
 
         return ret;
@@ -295,65 +275,9 @@ public class IcyDataSource implements HttpDataSource {
         return responseHeaders;
     }
 
-    private int readMetaData(InputStream inputStream) throws IOException {
-        int metadataBytes = inputStream.read() * 16;
-        int metadataBytesToRead = metadataBytes;
-        int readBytesBufferMetadata = 0;
-        int readBytes;
-
-        if (metadataBytes > 0) {
-            Arrays.fill(readBuffer, (byte) 0);
-            while (true) {
-                readBytes = inputStream.read(readBuffer, readBytesBufferMetadata, metadataBytesToRead);
-                if (readBytes == 0) {
-                    continue;
-                }
-                if (readBytes < 0) {
-                    break;
-                }
-                metadataBytesToRead -= readBytes;
-                readBytesBufferMetadata += readBytes;
-                if (metadataBytesToRead <= 0) {
-                    String s = new String(readBuffer, 0, metadataBytes, "utf-8");
-
-                    if (BuildConfig.DEBUG) Log.d(TAG, "METADATA:" + s);
-
-                    Map<String, String> rawMetadata = decodeShoutcastMetadata(s);
-                    streamLiveInfo = new StreamLiveInfo(rawMetadata);
-
-                    dataSourceListener.onDataSourceStreamLiveInfo(streamLiveInfo);
-
-                    if (BuildConfig.DEBUG) Log.d(TAG, "META:" + streamLiveInfo.getTitle());
-                    break;
-                }
-            }
-        }
-        return readBytesBufferMetadata + 1;
-    }
-
-    private Map<String, String> decodeShoutcastMetadata(String metadataStr) {
-        Map<String, String> metadata = new HashMap<>();
-
-        String[] kvs = metadataStr.split(";");
-
-        for (String kv : kvs) {
-            final int n = kv.indexOf('=');
-            if (n < 1) continue;
-
-            final boolean isString = n + 1 < kv.length()
-                    && kv.charAt(kv.length() - 1) == '\''
-                    && kv.charAt(n + 1) == '\'';
-
-            final String key = kv.substring(0, n);
-            final String val = isString ?
-                    kv.substring(n + 2, kv.length() - 1) :
-                    n + 1 < kv.length() ?
-                            kv.substring(n + 1) : "";
-
-            metadata.put(key, val);
-        }
-
-        return metadata;
+    @Override
+    public int getResponseCode() {
+        return 0;
     }
 
     @Override

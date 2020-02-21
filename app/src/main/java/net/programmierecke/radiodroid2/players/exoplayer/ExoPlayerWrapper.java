@@ -33,6 +33,10 @@ import com.google.android.exoplayer2.decoder.DecoderCounters;
 import com.google.android.exoplayer2.extractor.DefaultExtractorsFactory;
 import com.google.android.exoplayer2.extractor.ExtractorsFactory;
 import com.google.android.exoplayer2.metadata.Metadata;
+import com.google.android.exoplayer2.metadata.MetadataOutput;
+import com.google.android.exoplayer2.metadata.icy.IcyHeaders;
+import com.google.android.exoplayer2.metadata.icy.IcyInfo;
+import com.google.android.exoplayer2.metadata.id3.Id3Frame;
 import com.google.android.exoplayer2.source.ExtractorMediaSource;
 import com.google.android.exoplayer2.source.MediaSource;
 import com.google.android.exoplayer2.source.MediaSourceEventListener;
@@ -46,6 +50,7 @@ import com.google.android.exoplayer2.trackselection.TrackSelector;
 import com.google.android.exoplayer2.upstream.DataSource;
 import com.google.android.exoplayer2.upstream.DefaultBandwidthMeter;
 
+import net.programmierecke.radiodroid2.BuildConfig;
 import net.programmierecke.radiodroid2.R;
 import net.programmierecke.radiodroid2.Utils;
 import net.programmierecke.radiodroid2.players.PlayState;
@@ -55,11 +60,12 @@ import net.programmierecke.radiodroid2.station.live.StreamLiveInfo;
 import net.programmierecke.radiodroid2.players.PlayerWrapper;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.Map;
 
 import okhttp3.OkHttpClient;
 
-public class ExoPlayerWrapper implements PlayerWrapper, IcyDataSource.IcyDataSourceListener {
+public class ExoPlayerWrapper implements PlayerWrapper, IcyDataSource.IcyDataSourceListener, MetadataOutput {
 
     final private String TAG = "ExoPlayerWrapper";
 
@@ -133,6 +139,7 @@ public class ExoPlayerWrapper implements PlayerWrapper, IcyDataSource.IcyDataSou
 
             player.addListener(new ExoPlayerListener());
             player.addAnalyticsListener(new AnalyticEventListener());
+            player.addMetadataOutput(this);
         }
 
         if (playerThreadHandler == null) {
@@ -252,6 +259,38 @@ public class ExoPlayerWrapper implements PlayerWrapper, IcyDataSource.IcyDataSou
     @Override
     public void onDataSourceConnectionLost() {
 
+    }
+
+    @Override
+    public void onMetadata(Metadata metadata) {
+        if (BuildConfig.DEBUG) Log.d(TAG, "META: " + metadata.toString());
+        if ((metadata != null)) {
+            final int length = metadata.length();
+            if (length > 0) {
+                for (int i = 0; i < length; i++) {
+                    final Metadata.Entry entry = metadata.get(i);
+                    if (entry == null) {
+                        continue;
+                    }
+                    if (entry instanceof IcyInfo) {
+                        final IcyInfo icyInfo = ((IcyInfo) entry);
+                        Log.d(TAG, "IcyInfo: " + icyInfo.title);
+                        Map<String, String> rawMetadata =  new HashMap<String, String>() {{
+                            put("StreamTitle", icyInfo.title);
+                        }};
+                        StreamLiveInfo streamLiveInfo = new StreamLiveInfo(rawMetadata);
+                        onDataSourceStreamLiveInfo(streamLiveInfo);
+                    } else if (entry instanceof IcyHeaders) {
+                        final IcyHeaders icyHeaders = ((IcyHeaders) entry);
+                        Log.d(TAG, "IcyHeaders: " + icyHeaders.toString());
+                        onDataSourceShoutcastInfo(new ShoutcastInfo(icyHeaders));
+                    } else if (entry instanceof Id3Frame) {
+                        final Id3Frame id3Frame = ((Id3Frame) entry);
+                        Log.d(TAG, "id3 metadata: " + id3Frame.toString());
+                    }
+                }
+            }
+        }
     }
 
     @Override

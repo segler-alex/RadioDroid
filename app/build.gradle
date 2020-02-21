@@ -18,7 +18,7 @@ android {
 
     defaultConfig {
         applicationId "net.programmierecke.radiodroid2"
-        minSdkVersion 15
+        minSdkVersion 16
         targetSdkVersion 28
 
         versionCode 93
@@ -95,9 +95,9 @@ dependencies {
     implementation 'com.google.code.gson:gson:2.8.6'
     implementation 'com.squareup.picasso:picasso:2.71828'
     implementation 'jp.wasabeef:picasso-transformations:2.2.1'
-    implementation 'com.google.android.exoplayer:exoplayer-core:2.9.6'
-    implementation 'com.google.android.exoplayer:exoplayer-hls:2.9.6'
-    implementation 'com.google.android.exoplayer:exoplayer:2.9.6'
+    implementation 'com.google.android.exoplayer:exoplayer-core:2.11.3'
+    implementation 'com.google.android.exoplayer:exoplayer-hls:2.11.3'
+    implementation 'com.google.android.exoplayer:exoplayer:2.11.3'
     implementation "com.mikepenz:iconics-core:4.0.2"
     implementation 'com.mikepenz:google-material-typeface:3.0.1.4.original-kotlin@aar'
     implementation 'com.mikepenz:community-material-typeface:3.5.95.1-kotlin@aar'
