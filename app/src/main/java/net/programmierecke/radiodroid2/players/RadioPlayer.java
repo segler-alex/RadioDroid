@@ -1,21 +1,16 @@
 package net.programmierecke.radiodroid2.players;
 
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Handler;
 import android.os.HandlerThread;
 import android.os.Looper;
 import android.util.Log;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.preference.PreferenceManager;
 
-import net.programmierecke.radiodroid2.ActivityMain;
 import net.programmierecke.radiodroid2.BuildConfig;
 import net.programmierecke.radiodroid2.R;
 import net.programmierecke.radiodroid2.RadioDroidApp;
@@ -66,7 +61,7 @@ public class RadioPlayer implements PlayerWrapper.PlayListener, Recordable {
 
     private StreamLiveInfo lastLiveInfo;
 
-    private RealStationLinkRetrieveTask realStationLinkRetrieveTask;
+    private PlayStationTask playStationTask;
 
     private Runnable bufferCheckRunnable = new Runnable() {
         @Override
@@ -126,14 +121,23 @@ public class RadioPlayer implements PlayerWrapper.PlayListener, Recordable {
     public final void play(final DataRadioStation station, final boolean isAlarm) {
         setState(PlayState.PrePlaying, -1);
 
-        realStationLinkRetrieveTask = new RealStationLinkRetrieveTask(this, station, isAlarm);
-        realStationLinkRetrieveTask.execute();
+        playStationTask = new PlayStationTask(station, mainContext,
+                (url) -> RadioPlayer.this.play(station.playableUrl, station.Name, isAlarm),
+                (executionResult) -> {
+                    RadioPlayer.this.playStationTask = null;
+
+                    if (executionResult == PlayStationTask.ExecutionResult.FAILURE) {
+                        RadioPlayer.this.onPlayerError(R.string.error_station_load);
+                    }
+                });
+
+        playStationTask.execute();
     }
 
     private void cancelStationLinkRetrieval() {
-        if (realStationLinkRetrieveTask != null) {
-            realStationLinkRetrieveTask.cancel(true);
-            realStationLinkRetrieveTask = null;
+        if (playStationTask != null) {
+            playStationTask.cancel(true);
+            playStationTask = null;
         }
     }
 
@@ -315,69 +319,5 @@ public class RadioPlayer implements PlayerWrapper.PlayListener, Recordable {
     public void onDataSourceStreamLiveInfo(StreamLiveInfo liveInfo) {
         lastLiveInfo = liveInfo;
         playerListener.foundLiveStreamInfo(liveInfo);
-    }
-
-    private static class RealStationLinkRetrieveTask extends AsyncTask<Void, Void, String> {
-
-        private RadioPlayer radioPlayer;
-        private DataRadioStation station;
-        private boolean isAlarm;
-
-        public RealStationLinkRetrieveTask(RadioPlayer radioPlayer, DataRadioStation station, boolean isAlarm) {
-            this.radioPlayer = radioPlayer;
-            this.station = station;
-            this.isAlarm = isAlarm;
-        }
-
-        @Override
-        protected void onPreExecute() {
-            LocalBroadcastManager.getInstance(radioPlayer.mainContext).sendBroadcast(new Intent(ActivityMain.ACTION_SHOW_LOADING));
-
-            super.onPreExecute();
-        }
-
-        @Override
-        protected String doInBackground(Void... params) {
-            RadioDroidApp radioDroidApp = (RadioDroidApp) radioPlayer.mainContext.getApplicationContext();
-            final OkHttpClient httpClient = radioDroidApp.getHttpClient();
-
-            if (!station.hasValidUuid()) {
-                station.refresh(httpClient, radioPlayer.mainContext);
-            }
-
-            if (isCancelled()) {
-                return null;
-            }
-
-            return Utils.getRealStationLink(httpClient, radioPlayer.mainContext.getApplicationContext(), station.StationUuid);
-        }
-
-        @Override
-        protected void onCancelled() {
-            if (radioPlayer.realStationLinkRetrieveTask == null) {
-                LocalBroadcastManager.getInstance(radioPlayer.mainContext).sendBroadcast(new Intent(ActivityMain.ACTION_HIDE_LOADING));
-            }
-
-            super.onCancelled();
-        }
-
-        @Override
-        protected void onPostExecute(String result) {
-            LocalBroadcastManager.getInstance(radioPlayer.mainContext).sendBroadcast(new Intent(ActivityMain.ACTION_HIDE_LOADING));
-
-            if (result != null) {
-                station.playableUrl = result;
-                radioPlayer.play(station.playableUrl, station.Name, isAlarm);
-            } else {
-                Toast toast = Toast.makeText(radioPlayer.mainContext.getApplicationContext(), radioPlayer.mainContext.getResources().getText(R.string.error_station_load), Toast.LENGTH_SHORT);
-                toast.show();
-
-                radioPlayer.onPlayerError(R.string.error_station_load);
-            }
-
-            radioPlayer.realStationLinkRetrieveTask = null;
-
-            super.onPostExecute(result);
-        }
     }
 }
