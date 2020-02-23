@@ -2,9 +2,12 @@ package net.programmierecke.radiodroid2;
 
 import android.annotation.TargetApi;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.ShortcutInfo;
 import android.content.pm.ShortcutManager;
 import android.os.Build;
+
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import net.programmierecke.radiodroid2.station.DataRadioStation;
 
@@ -12,23 +15,27 @@ import java.util.ArrayList;
 
 import static java.lang.Math.min;
 
-public class FavouriteManager extends StationSaveManager{
+public class FavouriteManager extends StationSaveManager {
     @Override
-    protected String getSaveId(){
+    protected String getSaveId() {
         return "favourites";
     }
 
     public FavouriteManager(Context ctx) {
         super(ctx);
+
+        setStationStatusListener((station, favourite) -> {
+            Intent local = new Intent();
+            local.setAction(DataRadioStation.RADIO_STATION_LOCAL_INFO_CHAGED);
+            local.putExtra(DataRadioStation.RADIO_STATION_UUID, station.StationUuid);
+            LocalBroadcastManager.getInstance(ctx).sendBroadcast(local);
+        });
     }
 
     @Override
-    public void add(DataRadioStation station){
+    public void add(DataRadioStation station) {
         if (!has(station.StationUuid)) {
-            listStations.add(station);
-            Save();
-
-            notifyObservers();
+            super.add(station);
         }
     }
 

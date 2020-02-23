@@ -39,6 +39,9 @@ public class DataRadioStation implements Parcelable {
 	static final String TAG = "DATAStation";
 	public static final int MAX_REFRESH_RETRIES = 16;
 
+	public static final String RADIO_STATION_LOCAL_INFO_CHAGED = "net.programmierecke.radiodroid2.radiostation.changed";
+	public static final String RADIO_STATION_UUID = "UUID";
+
     public DataRadioStation() {
 	}
 

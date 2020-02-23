@@ -165,11 +165,25 @@ public class ItemAdapterStation
         favouriteManager = radioDroidApp.getFavouriteManager();
         IntentFilter filter = new IntentFilter();
         filter.addAction(PlayerService.PLAYER_SERVICE_META_UPDATE);
+        filter.addAction(DataRadioStation.RADIO_STATION_LOCAL_INFO_CHAGED);
 
         this.updateUIReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
-                highlightCurrentStation();
+                if (intent == null) {
+                    return;
+                }
+
+                switch (intent.getAction()) {
+                    case PlayerService.PLAYER_SERVICE_META_UPDATE:
+                        highlightCurrentStation();
+                        break;
+                    case DataRadioStation.RADIO_STATION_LOCAL_INFO_CHAGED:
+                        String uuid = intent.getStringExtra(DataRadioStation.RADIO_STATION_UUID);
+                        notifyChangedByStationUuid(uuid);
+                        break;
+                }
+
             }
         };
 
@@ -513,8 +527,9 @@ public class ItemAdapterStation
 
         int oldPlayingStationPosition = playingStationPosition;
 
+        String currentStationUuid = PlayerServiceUtil.getStationId();
         for (int i = 0; i < filteredStationsList.size(); i++) {
-            if (filteredStationsList.get(i).StationUuid.equals(PlayerServiceUtil.getStationId())) {
+            if (filteredStationsList.get(i).StationUuid.equals(currentStationUuid)) {
                 playingStationPosition = i;
                 break;
             }
@@ -524,6 +539,16 @@ public class ItemAdapterStation
                 notifyItemChanged(oldPlayingStationPosition);
             if (playingStationPosition > -1)
                 notifyItemChanged(playingStationPosition);
+        }
+    }
+
+    private void notifyChangedByStationUuid(String uuid) {
+        // TODO: Iterate through view holders instead of whole collection
+        for (int i = 0; i < filteredStationsList.size(); i++) {
+            if (filteredStationsList.get(i).StationUuid.equals(uuid)) {
+                notifyItemChanged(i);
+                break;
+            }
         }
     }
 }
