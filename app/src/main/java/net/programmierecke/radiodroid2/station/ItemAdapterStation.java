@@ -33,7 +33,6 @@ import android.widget.*;
 
 import net.programmierecke.radiodroid2.*;
 import net.programmierecke.radiodroid2.interfaces.IAdapterRefreshable;
-import net.programmierecke.radiodroid2.utils.CustomFilter;
 import net.programmierecke.radiodroid2.utils.RecyclerItemMoveAndSwipeHelper;
 import net.programmierecke.radiodroid2.service.PlayerService;
 import net.programmierecke.radiodroid2.service.PlayerServiceUtil;
@@ -119,6 +118,7 @@ public class ItemAdapterStation
         ImageButton buttonAddAlarm;
         TagsView viewTags;
         ImageButton buttonCreateShortcut;
+        ImageButton buttonPlayInRadioDroid;
 
         StationViewHolder(View itemView) {
             super(itemView);
@@ -363,6 +363,7 @@ public class ItemAdapterStation
             holder.buttonBookmark = holder.viewDetails.findViewById(R.id.buttonBookmark);
             holder.buttonAddAlarm = holder.viewDetails.findViewById(R.id.buttonAddAlarm);
             holder.buttonCreateShortcut = holder.viewDetails.findViewById(R.id.buttonCreateShortcut);
+            holder.buttonPlayInRadioDroid = holder.viewDetails.findViewById(R.id.buttonPlayInRadioDroid);
 
 //            holder.buttonShare.setOnClickListener(new View.OnClickListener() {
 //                @Override
@@ -422,6 +423,11 @@ public class ItemAdapterStation
                 public void onClick(View view) {
                     StationActions.setAsAlarm(activity, station);
                 }
+            });
+
+            // TODO: Maybe show only when external player is enabled?
+            holder.buttonPlayInRadioDroid.setOnClickListener(v -> {
+                StationActions.playInRadioDroid(getContext(), station);
             });
 
             String[] tags = station.TagsAll.split(",");

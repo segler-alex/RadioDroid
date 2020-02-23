@@ -11,6 +11,7 @@
     <string name="detail_pause">Pause</string>
     <string name="detail_stop">Stop</string>
     <string name="detail_share">Share</string>
+    <string name="detail_play_in_radiodroid">Play in RadioDroid</string>
 
     <string name="action_links">Links</string>
     <string name="action_homepage">Homepage</string>

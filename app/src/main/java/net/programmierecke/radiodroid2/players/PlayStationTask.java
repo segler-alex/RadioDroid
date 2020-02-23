@@ -2,6 +2,7 @@ package net.programmierecke.radiodroid2.players;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.widget.Toast;
@@ -9,9 +10,11 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
+import androidx.preference.PreferenceManager;
 
 import net.programmierecke.radiodroid2.ActivityMain;
 import net.programmierecke.radiodroid2.CastHandler;
+import net.programmierecke.radiodroid2.FavouriteManager;
 import net.programmierecke.radiodroid2.HistoryManager;
 import net.programmierecke.radiodroid2.R;
 import net.programmierecke.radiodroid2.RadioDroidApp;
@@ -78,8 +81,21 @@ public class PlayStationTask extends AsyncTask<Void, Void, String> {
         LocalBroadcastManager.getInstance(ctx).sendBroadcast(new Intent(ActivityMain.ACTION_SHOW_LOADING));
 
         RadioDroidApp radioDroidApp = (RadioDroidApp) ctx.getApplicationContext();
+
         HistoryManager historyManager = radioDroidApp.getHistoryManager();
         historyManager.add(stationToPlay);
+
+        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(ctx);
+        boolean autoFavorite = sharedPref.getBoolean("auto_favorite", false);
+
+        if (autoFavorite) {
+            FavouriteManager favouriteManager = radioDroidApp.getFavouriteManager();
+            if (!favouriteManager.has(stationToPlay.StationUuid)) {
+                favouriteManager.add(stationToPlay);
+                Toast toast = Toast.makeText(ctx, ctx.getString(R.string.notify_autostarred), Toast.LENGTH_SHORT);
+                toast.show();
+            }
+        }
     }
 
     @Override
