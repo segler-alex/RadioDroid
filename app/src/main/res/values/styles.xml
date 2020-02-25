@@ -26,6 +26,7 @@
 
         <item name="menuTextColorSelected">@color/menuTextColorSelected</item>
         <item name="menuTextColorDefault">@color/menuTextColorDefault</item>
+        <item name="itemTextAppearance">@style/MenuTextAppearance</item>
 
         <item name="menuBottomTextColorSelected">@color/menuBottomTextColorSelected</item>
         <item name="menuBottomTextColorDefault">@color/menuBottomTextColorDefault</item>
@@ -66,6 +67,7 @@
 
         <item name="menuTextColorSelected">@color/menuTextColorSelectedDark</item>
         <item name="menuTextColorDefault">@color/menuTextColorDefaultDark</item>
+        <item name="android:itemTextAppearance">@style/MenuTextAppearance</item>
 
         <item name="menuBottomTextColorSelected">@color/menuBottomTextColorSelectedDark</item>
         <item name="menuBottomTextColorDefault">@color/menuBottomTextColorDefaultDark</item>
@@ -127,5 +129,9 @@
     <style name="ProgressBarCircle" parent="Widget.AppCompat.ProgressBar">
         <item name="colorAccent">@android:color/white</item>
 
+    </style>
+
+    <style name="MenuTextAppearance" parent="@android:style/TextAppearance.Widget.IconMenu.Item">
+        <item name="android:textColor">@color/textColorPrimary</item>
     </style>
 </resources>
