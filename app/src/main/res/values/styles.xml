@@ -34,6 +34,7 @@
 
         <item name="colorTabUnderline">@color/colorTabUnderline</item>
 
+        <item name="android:itemBackground">@color/windowBackground</item>
         <item name="iconsInItemBackgroundColor">@color/iconsInItemBackgroundColor</item>
 
         <item name="met_baseColor">?android:textColorPrimary</item>
@@ -75,6 +76,7 @@
 
         <item name="colorTabUnderline">@color/colorTabUnderlineDark</item>
 
+        <item name="android:itemBackground">@color/windowBackgroundDark</item>
         <item name="iconsInItemBackgroundColor">@color/iconsInItemBackgroundColorDark</item>
 
         <item name="met_baseColor">?android:textColorPrimary</item>
