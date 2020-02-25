@@ -12,7 +12,7 @@ public class BecomingNoisyReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        if (AudioManager.ACTION_AUDIO_BECOMING_NOISY.equals(intent.getAction())) {
+        if (AudioManager.ACTION_AUDIO_BECOMING_NOISY.equals(intent.getAction()) && PlayerServiceUtil.isPlaying()) {
             SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
             if (sharedPref.getBoolean("pause_when_noisy", true)) {
                 PlayerServiceUtil.pause(PauseReason.BECAME_NOISY);
