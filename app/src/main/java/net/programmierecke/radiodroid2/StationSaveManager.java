@@ -13,7 +13,6 @@ import android.util.Log;
 import android.widget.Toast;
 
 import net.programmierecke.radiodroid2.station.DataRadioStation;
-import net.programmierecke.radiodroid2.interfaces.IChanged;
 
 import androidx.annotation.Nullable;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
@@ -35,8 +34,14 @@ import info.debatty.java.stringsimilarity.Cosine;
 import okhttp3.OkHttpClient;
 
 public class StationSaveManager extends Observable {
+    protected interface StationStatusListener {
+        void onStationStatusChanged(DataRadioStation station, boolean favourite);
+    }
+
     Context context;
     List<DataRadioStation> listStations = new ArrayList<DataRadioStation>();
+
+    protected StationStatusListener stationStatusListener;
 
     public StationSaveManager(Context ctx) {
         this.context = ctx;
@@ -47,9 +52,19 @@ public class StationSaveManager extends Observable {
         return "default";
     }
 
+    protected void setStationStatusListener(StationStatusListener stationStatusListener) {
+        this.stationStatusListener = stationStatusListener;
+    }
+
     public void add(DataRadioStation station) {
         listStations.add(station);
         Save();
+
+        notifyObservers();
+
+        if (stationStatusListener != null) {
+            stationStatusListener.onStationStatusChanged(station, true);
+        }
     }
 
     public void addFront(DataRadioStation station) {
@@ -57,6 +72,10 @@ public class StationSaveManager extends Observable {
         Save();
 
         notifyObservers();
+
+        if (stationStatusListener != null) {
+            stationStatusListener.onStationStatusChanged(station, true);
+        }
     }
 
     public DataRadioStation getLast() {
@@ -137,10 +156,16 @@ public class StationSaveManager extends Observable {
 
     public int remove(String id) {
         for (int i = 0; i < listStations.size(); i++) {
-            if (listStations.get(i).StationUuid.equals(id)) {
+            DataRadioStation station = listStations.get(i);
+            if (station.StationUuid.equals(id)) {
                 listStations.remove(i);
                 Save();
                 notifyObservers();
+
+                if (stationStatusListener != null) {
+                    stationStatusListener.onStationStatusChanged(station, false);
+                }
+
                 return i;
             }
         }
@@ -153,13 +178,24 @@ public class StationSaveManager extends Observable {
         Save();
 
         notifyObservers();
+
+        if (stationStatusListener != null) {
+            stationStatusListener.onStationStatusChanged(station, false);
+        }
     }
 
     public void clear() {
-        listStations.clear();
+        List<DataRadioStation> oldStation = listStations;
+        listStations = new ArrayList<>();
         Save();
 
         notifyObservers();
+
+        if (stationStatusListener != null) {
+            for (DataRadioStation station : oldStation) {
+                stationStatusListener.onStationStatusChanged(station, false);
+            }
+        }
     }
 
     @Override

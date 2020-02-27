@@ -33,7 +33,6 @@ import android.widget.*;
 
 import net.programmierecke.radiodroid2.*;
 import net.programmierecke.radiodroid2.interfaces.IAdapterRefreshable;
-import net.programmierecke.radiodroid2.utils.CustomFilter;
 import net.programmierecke.radiodroid2.utils.RecyclerItemMoveAndSwipeHelper;
 import net.programmierecke.radiodroid2.service.PlayerService;
 import net.programmierecke.radiodroid2.service.PlayerServiceUtil;
@@ -119,6 +118,7 @@ public class ItemAdapterStation
         ImageButton buttonAddAlarm;
         TagsView viewTags;
         ImageButton buttonCreateShortcut;
+        ImageButton buttonPlayInRadioDroid;
 
         StationViewHolder(View itemView) {
             super(itemView);
@@ -165,11 +165,25 @@ public class ItemAdapterStation
         favouriteManager = radioDroidApp.getFavouriteManager();
         IntentFilter filter = new IntentFilter();
         filter.addAction(PlayerService.PLAYER_SERVICE_META_UPDATE);
+        filter.addAction(DataRadioStation.RADIO_STATION_LOCAL_INFO_CHAGED);
 
         this.updateUIReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
-                highlightCurrentStation();
+                if (intent == null) {
+                    return;
+                }
+
+                switch (intent.getAction()) {
+                    case PlayerService.PLAYER_SERVICE_META_UPDATE:
+                        highlightCurrentStation();
+                        break;
+                    case DataRadioStation.RADIO_STATION_LOCAL_INFO_CHAGED:
+                        String uuid = intent.getStringExtra(DataRadioStation.RADIO_STATION_UUID);
+                        notifyChangedByStationUuid(uuid);
+                        break;
+                }
+
             }
         };
 
@@ -349,6 +363,7 @@ public class ItemAdapterStation
             holder.buttonBookmark = holder.viewDetails.findViewById(R.id.buttonBookmark);
             holder.buttonAddAlarm = holder.viewDetails.findViewById(R.id.buttonAddAlarm);
             holder.buttonCreateShortcut = holder.viewDetails.findViewById(R.id.buttonCreateShortcut);
+            holder.buttonPlayInRadioDroid = holder.viewDetails.findViewById(R.id.buttonPlayInRadioDroid);
 
 //            holder.buttonShare.setOnClickListener(new View.OnClickListener() {
 //                @Override
@@ -408,6 +423,11 @@ public class ItemAdapterStation
                 public void onClick(View view) {
                     StationActions.setAsAlarm(activity, station);
                 }
+            });
+
+            // TODO: Maybe show only when external player is enabled?
+            holder.buttonPlayInRadioDroid.setOnClickListener(v -> {
+                StationActions.playInRadioDroid(getContext(), station);
             });
 
             String[] tags = station.TagsAll.split(",");
@@ -513,8 +533,9 @@ public class ItemAdapterStation
 
         int oldPlayingStationPosition = playingStationPosition;
 
+        String currentStationUuid = PlayerServiceUtil.getStationId();
         for (int i = 0; i < filteredStationsList.size(); i++) {
-            if (filteredStationsList.get(i).StationUuid.equals(PlayerServiceUtil.getStationId())) {
+            if (filteredStationsList.get(i).StationUuid.equals(currentStationUuid)) {
                 playingStationPosition = i;
                 break;
             }
@@ -524,6 +545,16 @@ public class ItemAdapterStation
                 notifyItemChanged(oldPlayingStationPosition);
             if (playingStationPosition > -1)
                 notifyItemChanged(playingStationPosition);
+        }
+    }
+
+    private void notifyChangedByStationUuid(String uuid) {
+        // TODO: Iterate through view holders instead of whole collection
+        for (int i = 0; i < filteredStationsList.size(); i++) {
+            if (filteredStationsList.get(i).StationUuid.equals(uuid)) {
+                notifyItemChanged(i);
+                break;
+            }
         }
     }
 }

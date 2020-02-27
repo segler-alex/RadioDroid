@@ -9,7 +9,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.preference.PreferenceManager;
@@ -22,7 +21,6 @@ import com.google.android.material.button.MaterialButton;
 
 import net.programmierecke.radiodroid2.ActivityMain;
 import net.programmierecke.radiodroid2.BuildConfig;
-import net.programmierecke.radiodroid2.FavouriteManager;
 import net.programmierecke.radiodroid2.FragmentBase;
 import net.programmierecke.radiodroid2.R;
 import net.programmierecke.radiodroid2.RadioDroidApp;
@@ -44,7 +42,6 @@ public class FragmentStations extends FragmentBase implements IFragmentSearchabl
     private SwipeRefreshLayout swipeRefreshLayout;
 
     private SharedPreferences sharedPref;
-    private FavouriteManager favouriteManager;
 
     private boolean searchEnabled = false;
 
@@ -53,20 +50,8 @@ public class FragmentStations extends FragmentBase implements IFragmentSearchabl
     private String lastQuery = "";
 
     void onStationClick(DataRadioStation theStation, int pos) {
-        Context context = getContext();
-
         RadioDroidApp radioDroidApp = (RadioDroidApp) getActivity().getApplication();
         Utils.showPlaySelection(radioDroidApp, theStation, getActivity().getSupportFragmentManager());
-
-        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
-        final Boolean autoFavorite = sharedPref.getBoolean("auto_favorite", false);
-        if (autoFavorite && !favouriteManager.has(theStation.StationUuid)) {
-            favouriteManager.add(theStation);
-            Toast toast = Toast.makeText(context, context.getString(R.string.notify_autostarred), Toast.LENGTH_SHORT);
-            toast.show();
-
-            rvStations.getAdapter().notifyItemChanged(pos);
-        }
     }
 
     @Override
@@ -118,9 +103,6 @@ public class FragmentStations extends FragmentBase implements IFragmentSearchabl
         rvStations = (RecyclerView) view.findViewById(R.id.recyclerViewStations);
         layoutError = view.findViewById(R.id.layoutError);
         btnRetry = view.findViewById(R.id.btnRefresh);
-
-        RadioDroidApp radioDroidApp = (RadioDroidApp) getActivity().getApplication();
-        favouriteManager = radioDroidApp.getFavouriteManager();
 
         ItemAdapterStation adapter = new ItemAdapterStation(getActivity(), R.layout.list_item_station, StationsFilter.FilterType.GLOBAL);
         adapter.setStationActionsListener(new ItemAdapterStation.StationActionsListener() {

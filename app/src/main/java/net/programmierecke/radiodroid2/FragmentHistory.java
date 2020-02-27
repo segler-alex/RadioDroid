@@ -1,17 +1,13 @@
 package net.programmierecke.radiodroid2;
 
-import android.content.Context;
-import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
-import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -29,21 +25,10 @@ public class FragmentHistory extends Fragment implements IAdapterRefreshable {
     private RecyclerView rvStations;
 
     private HistoryManager historyManager;
-    private FavouriteManager favouriteManager;
 
     void onStationClick(DataRadioStation theStation) {
-        Context context = getContext();
-
         RadioDroidApp radioDroidApp = (RadioDroidApp) getActivity().getApplication();
         Utils.showPlaySelection(radioDroidApp, theStation, getActivity().getSupportFragmentManager());
-
-        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
-        final Boolean autoFavorite = sharedPref.getBoolean("auto_favorite", false);
-        if (autoFavorite && !favouriteManager.has(theStation.StationUuid)) {
-            favouriteManager.add(theStation);
-            Toast toast = Toast.makeText(context, context.getString(R.string.notify_autostarred), Toast.LENGTH_SHORT);
-            toast.show();
-        }
 
         RefreshListGui();
         rvStations.smoothScrollToPosition(0);
@@ -65,7 +50,6 @@ public class FragmentHistory extends Fragment implements IAdapterRefreshable {
                              Bundle savedInstanceState) {
         RadioDroidApp radioDroidApp = (RadioDroidApp) getActivity().getApplication();
         historyManager = radioDroidApp.getHistoryManager();
-        favouriteManager = radioDroidApp.getFavouriteManager();
 
         ItemAdapterStation adapter = new ItemAdapterStation(getActivity(), R.layout.list_item_station, StationsFilter.FilterType.LOCAL);
         adapter.setStationActionsListener(new ItemAdapterStation.StationActionsListener() {

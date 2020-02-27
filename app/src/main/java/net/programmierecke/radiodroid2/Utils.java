@@ -320,9 +320,6 @@ public class Utils {
     }
 
     public static void play(final RadioDroidApp radioDroidApp, final DataRadioStation station) {
-        HistoryManager historyManager = radioDroidApp.getHistoryManager();
-        historyManager.add(station);
-
         PlayerServiceUtil.play(station);
     }
 

@@ -24,6 +24,7 @@ import net.programmierecke.radiodroid2.RadioBrowserServerManager;
 import net.programmierecke.radiodroid2.RadioDroidApp;
 import net.programmierecke.radiodroid2.Utils;
 import net.programmierecke.radiodroid2.alarm.TimePickerFragment;
+import net.programmierecke.radiodroid2.players.selector.PlayerType;
 import net.programmierecke.radiodroid2.views.ItemListDialog;
 
 import java.lang.ref.WeakReference;
@@ -49,18 +50,15 @@ public class StationActions {
                 R.string.action_station_visit_website, R.string.action_station_copy_stream_url, R.string.action_station_share
         }, resourceId -> {
             switch (resourceId) {
-                case R.string.action_station_visit_website:
-                {
+                case R.string.action_station_visit_website: {
                     openStationHomeUrl(activity, station);
                     break;
                 }
-                case R.string.action_station_copy_stream_url:
-                {
+                case R.string.action_station_copy_stream_url: {
                     retrieveAndCopyStreamUrlToClipboard(activity, station);
                     break;
                 }
-                case R.string.action_station_share:
-                {
+                case R.string.action_station_share: {
                     share(activity, station);
                     break;
                 }
@@ -190,6 +188,13 @@ public class StationActions {
                 super.onPostExecute(result);
             }
         }.execute();
+    }
+
+    public static void playInRadioDroid(final @NonNull Context context, final @NonNull DataRadioStation station) {
+        RadioDroidApp radioDroidApp = (RadioDroidApp) context.getApplicationContext();
+
+        Utils.playAndWarnIfMetered(radioDroidApp, station,
+                PlayerType.RADIODROID, () -> Utils.play(radioDroidApp, station));
     }
 
     private static void vote(final @NonNull Context context, final @NonNull DataRadioStation station) {
