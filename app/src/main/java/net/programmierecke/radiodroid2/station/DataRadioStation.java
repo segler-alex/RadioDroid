@@ -111,6 +111,16 @@ public class DataRadioStation implements Parcelable {
 		return TextUtils.join(", ", aList);
 	}
 
+	public boolean hasIcon() {
+		return !TextUtils.isEmpty(IconUrl);
+	}
+
+	private void fixStationFields() {
+		if (IconUrl == null || TextUtils.isEmpty(IconUrl.trim())) {
+			IconUrl = "";
+		}
+	}
+
 	public static List<DataRadioStation> DecodeJson(String result) {
 		List<DataRadioStation> aList = new ArrayList<DataRadioStation>();
 		if (result != null) {
@@ -167,6 +177,8 @@ public class DataRadioStation implements Parcelable {
 							if (anObject.has("hls")){
 								aStation.Hls = anObject.getInt("hls") != 0;
 							}
+
+							aStation.fixStationFields();
 
 							aList.add(aStation);
 						}catch(Exception e){
@@ -231,6 +243,8 @@ public class DataRadioStation implements Parcelable {
 					if (anObject.has("lastcheckok")){
 						aStation.Working = anObject.getInt("lastcheckok") != 0;
 					}
+
+					aStation.fixStationFields();
 
 					return aStation;
 				} catch (JSONException e) {
@@ -387,7 +401,7 @@ public class DataRadioStation implements Parcelable {
 
     public void prepareShortcut(Context ctx, ShortcutReadyListener cb) {
         Picasso.get()
-                .load((TextUtils.isEmpty(IconUrl) ? resourceToUri(ctx.getResources(), R.drawable.ic_launcher).toString() : IconUrl))
+                .load((!hasIcon() ? resourceToUri(ctx.getResources(), R.drawable.ic_launcher).toString() : IconUrl))
                 .error(R.drawable.ic_launcher)
                 .transform(Utils.useCircularIcons(ctx) ? new CropCircleTransformation() : new CropSquareTransformation())
                 .transform(new RoundedCornersTransformation(12, 2, RoundedCornersTransformation.CornerType.ALL))
