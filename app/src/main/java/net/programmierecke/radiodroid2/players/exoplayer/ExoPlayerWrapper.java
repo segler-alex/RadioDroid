@@ -274,12 +274,14 @@ public class ExoPlayerWrapper implements PlayerWrapper, IcyDataSource.IcyDataSou
                     }
                     if (entry instanceof IcyInfo) {
                         final IcyInfo icyInfo = ((IcyInfo) entry);
-                        Log.d(TAG, "IcyInfo: " + icyInfo.title);
-                        Map<String, String> rawMetadata =  new HashMap<String, String>() {{
-                            put("StreamTitle", icyInfo.title);
-                        }};
-                        StreamLiveInfo streamLiveInfo = new StreamLiveInfo(rawMetadata);
-                        onDataSourceStreamLiveInfo(streamLiveInfo);
+                        Log.d(TAG, "IcyInfo: " + icyInfo.toString());
+                        if (icyInfo.title != null) {
+                            Map<String, String> rawMetadata = new HashMap<String, String>() {{
+                                put("StreamTitle", icyInfo.title);
+                            }};
+                            StreamLiveInfo streamLiveInfo = new StreamLiveInfo(rawMetadata);
+                            onDataSourceStreamLiveInfo(streamLiveInfo);
+                        }
                     } else if (entry instanceof IcyHeaders) {
                         final IcyHeaders icyHeaders = ((IcyHeaders) entry);
                         Log.d(TAG, "IcyHeaders: " + icyHeaders.toString());
