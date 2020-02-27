@@ -33,9 +33,12 @@ import net.programmierecke.radiodroid2.station.live.StreamLiveInfo;
 
 public class PlayerServiceUtil {
 
+    private final static String TAG = "PlayerServiceUtil";
+
     private static Context mainContext = null;
     private static boolean mBound;
     private static ServiceConnection serviceConnection;
+    private static DataRadioStation stationToPlayWhenOnline;
 
     public static void bind(Context context) {
         if (mBound) return;
@@ -91,6 +94,12 @@ public class PlayerServiceUtil {
                 Intent local = new Intent();
                 local.setAction(PlayerService.PLAYER_SERVICE_BOUND);
                 LocalBroadcastManager.getInstance(mainContext).sendBroadcast(local);
+
+                if (stationToPlayWhenOnline != null) {
+                    DataRadioStation station = stationToPlayWhenOnline;
+                    stationToPlayWhenOnline = null;
+                    play(station);
+                }
             }
 
             public void onServiceDisconnected(ComponentName className) {
@@ -144,6 +153,9 @@ public class PlayerServiceUtil {
             } catch (RemoteException e) {
                 Log.e("", "" + e);
             }
+        } else {
+            if (BuildConfig.DEBUG) Log.d(TAG, "Player not yet online. Starting when ready.");
+            stationToPlayWhenOnline = station;
         }
     }
 
