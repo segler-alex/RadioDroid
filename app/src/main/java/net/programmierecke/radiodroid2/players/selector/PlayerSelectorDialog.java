@@ -116,7 +116,7 @@ public class PlayerSelectorDialog extends BottomSheetDialogFragment {
             @Override
             public void onReceive(Context context, Intent intent) {
                 if (PlayerService.PLAYER_SERVICE_STATE_CHANGE.equals(intent.getAction())) {
-                    // fullUpdate();
+                    playerSelectorAdapter.notifyRadioDroidPlaybackStateChanged();
                 }
             }
         };
