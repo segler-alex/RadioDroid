@@ -1,4 +1,4 @@
-package net.programmierecke.radiodroid2;
+package net.programmierecke.radiodroid2.service;
 
 import android.content.BroadcastReceiver;
 import android.content.ComponentName;
@@ -16,9 +16,8 @@ import androidx.annotation.Nullable;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.media.MediaBrowserServiceCompat;
 
-import net.programmierecke.radiodroid2.service.MediaSessionCallback;
-import net.programmierecke.radiodroid2.service.PlayerService;
-import net.programmierecke.radiodroid2.service.RadioDroidBrowser;
+import net.programmierecke.radiodroid2.IPlayerService;
+import net.programmierecke.radiodroid2.RadioDroidApp;
 import net.programmierecke.radiodroid2.station.DataRadioStation;
 import net.programmierecke.radiodroid2.utils.GetRealLinkAndPlayTask;
 
