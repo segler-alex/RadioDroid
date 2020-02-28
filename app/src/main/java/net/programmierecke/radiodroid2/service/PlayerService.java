@@ -500,6 +500,18 @@ public class PlayerService extends Service implements RadioPlayer.PlayerListener
         // and user presses play/pause media button.
         PlayerServiceUtil.bind(itsContext.getApplicationContext());
 
+        if (currentStation == null) {
+            RadioDroidApp radioDroidApp = (RadioDroidApp) getApplication();
+            HistoryManager historyManager = radioDroidApp.getHistoryManager();
+            currentStation = historyManager.getFirst();
+        }
+
+        if (currentStation == null) {
+            RadioDroidApp radioDroidApp = (RadioDroidApp) getApplication();
+            FavouriteManager favouriteManager = radioDroidApp.getFavouriteManager();
+            currentStation = favouriteManager.getFirst();
+        }
+
         boolean showNotification = true;
 
         if (intent != null) {
@@ -551,18 +563,6 @@ public class PlayerService extends Service implements RadioPlayer.PlayerListener
         // Thus if we can show a notification - we always show it.
         if (showNotification && !notificationIsActive) {
             if (currentStation == null) {
-                RadioDroidApp radioDroidApp = (RadioDroidApp) getApplication();
-                HistoryManager historyManager = radioDroidApp.getHistoryManager();
-                currentStation = historyManager.getFirst();
-            }
-
-            if (currentStation == null) {
-                RadioDroidApp radioDroidApp = (RadioDroidApp) getApplication();
-                FavouriteManager favouriteManager = radioDroidApp.getFavouriteManager();
-                currentStation = favouriteManager.getFirst();
-            }
-
-            if (currentStation == null) {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                     // On Android O+ we MUST show notification if started via startForegroundService
 
@@ -584,6 +584,21 @@ public class PlayerService extends Service implements RadioPlayer.PlayerListener
         }
 
         return super.onStartCommand(intent, flags, startId);
+    }
+
+    private void playWithoutWarnings(DataRadioStation station) {
+        setStation(station);
+        playCurrentStation(false);
+    }
+
+    private void playAndWarnIfMetered(DataRadioStation station) {
+        RadioDroidApp radioDroidApp = (RadioDroidApp) getApplication();
+        Utils.playAndWarnIfMetered(radioDroidApp, station, PlayerType.RADIODROID,
+                () -> playWithoutWarnings(station),
+                (station1, playerType) -> {
+                    setStation(station1);
+                    warnAboutMeteredConnection(playerType);
+                });
     }
 
     public void setStation(DataRadioStation station) {
@@ -644,9 +659,9 @@ public class PlayerService extends Service implements RadioPlayer.PlayerListener
             if (radioPlayer.isPlaying()) {
                 // Since we are using data at the moment user doesn't need any notifications about
                 // metered connection because he already received them if there were any.
-                Utils.play(radioDroidApp, station);
+                playWithoutWarnings(station);
             } else {
-                Utils.playAndWarnIfMetered(radioDroidApp, station, PlayerType.RADIODROID, () -> Utils.play(radioDroidApp, station));
+                playAndWarnIfMetered(station);
             }
         }
     }
@@ -660,9 +675,9 @@ public class PlayerService extends Service implements RadioPlayer.PlayerListener
         DataRadioStation station = radioDroidApp.getFavouriteManager().getPreviousById(currentStation.StationUuid);
         if (station != null) {
             if (radioPlayer.isPlaying()) {
-                Utils.play(radioDroidApp, station);
+                playWithoutWarnings(station);
             } else {
-                Utils.playAndWarnIfMetered(radioDroidApp, station, PlayerType.RADIODROID, () -> Utils.play(radioDroidApp, station));
+                playAndWarnIfMetered(station);
             }
         }
     }
@@ -698,10 +713,9 @@ public class PlayerService extends Service implements RadioPlayer.PlayerListener
                     startMeteredConnectionListener();
                     acquireAudioFocus();
 
-                    Utils.play(radioDroidApp, station);
+                    playWithoutWarnings(station);
                 } else {
-                    DataRadioStation finalStation = station;
-                    Utils.playAndWarnIfMetered(radioDroidApp, station, PlayerType.RADIODROID, () -> Utils.play(radioDroidApp, finalStation));
+                    playAndWarnIfMetered(station);
                 }
 
             }
