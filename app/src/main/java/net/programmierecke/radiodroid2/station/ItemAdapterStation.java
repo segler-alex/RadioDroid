@@ -360,10 +360,13 @@ public class ItemAdapterStation
             holder.stubDetails = null;
             holder.viewTags = (TagsView) holder.viewDetails.findViewById(R.id.viewTags);
             holder.buttonStationLinks = holder.viewDetails.findViewById(R.id.buttonStationWebLink);
+            holder.buttonStationLinks.setImageResource(R.drawable.ic_store_black_24dp);
             holder.buttonBookmark = holder.viewDetails.findViewById(R.id.buttonBookmark);
             holder.buttonAddAlarm = holder.viewDetails.findViewById(R.id.buttonAddAlarm);
+            holder.buttonAddAlarm.setImageResource(R.drawable.ic_add_alarm_black_24dp);
             holder.buttonCreateShortcut = holder.viewDetails.findViewById(R.id.buttonCreateShortcut);
             holder.buttonPlayInRadioDroid = holder.viewDetails.findViewById(R.id.buttonPlayInRadioDroid);
+            holder.buttonPlayInRadioDroid.setImageResource(R.drawable.ic_play_in_radiodroid);
 
 //            holder.buttonShare.setOnClickListener(new View.OnClickListener() {
 //                @Override
@@ -408,6 +411,7 @@ public class ItemAdapterStation
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O_MR1
                     && getContext().getApplicationContext().getSystemService(ShortcutManager.class).isRequestPinShortcutSupported()) {
                 holder.buttonCreateShortcut.setVisibility(View.VISIBLE);
+                holder.buttonCreateShortcut.setImageResource(R.drawable.ic_back_arrow_24dp);
                 holder.buttonCreateShortcut.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
