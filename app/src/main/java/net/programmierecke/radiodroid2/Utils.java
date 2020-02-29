@@ -201,7 +201,7 @@ public class Utils {
 
         // try all other servers for download
         for (String newServer : serverList) {
-            if (newServer == currentServer) {
+            if (newServer.equals(currentServer)) {
                 continue;
             }
 
