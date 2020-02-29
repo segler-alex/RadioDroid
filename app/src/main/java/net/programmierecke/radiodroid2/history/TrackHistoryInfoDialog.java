@@ -1,5 +1,6 @@
 package net.programmierecke.radiodroid2.history;
 
+import android.content.ActivityNotFoundException;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
@@ -18,6 +19,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.appcompat.widget.AppCompatImageView;
 import androidx.core.content.ContextCompat;
@@ -77,8 +79,25 @@ public class TrackHistoryInfoDialog extends BottomSheetDialogFragment {
                 getContext().startActivity(new Intent("com.geecko.QuickLyric.getLyrics")
                         .putExtra("TAGS", new String[]{historyEntry.artist, historyEntry.track}));
             } else {
-                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=com.geecko.QuickLyric"));
-                getContext().startActivity(browserIntent);
+                new AlertDialog.Builder(getContext())
+                        .setMessage(this.getString(R.string.alert_install_lyrics_app))
+                        .setCancelable(true)
+                        .setPositiveButton(this.getString(R.string.yes), (dialog, id) -> {
+                            try {
+                                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=com.geecko.QuickLyric"));
+                                getContext().startActivity(browserIntent);
+                            } catch (ActivityNotFoundException ex) {
+                                try {
+                                    Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=com.geecko.QuickLyric"));
+                                    getContext().startActivity(browserIntent);
+                                } catch (ActivityNotFoundException ex2) {
+                                    Toast toast = Toast.makeText(getContext(), R.string.notify_open_link_failure, Toast.LENGTH_LONG);
+                                    toast.show();
+                                }
+                            }
+                        })
+                        .setNegativeButton(this.getString(R.string.no), null)
+                        .show();
             }
         });
 
