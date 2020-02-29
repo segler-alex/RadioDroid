@@ -29,7 +29,9 @@ public class RadioBrowserServerManager {
             // add all round robin servers one by one to select them separately
             InetAddress[] list = InetAddress.getAllByName("all.api.radio-browser.info");
             for (InetAddress item : list) {
-                Log.i("DNS", "Found: " + item.toString() + " -> " + item.getCanonicalHostName());
+                // do not use original variable, it could fall back to "all.api.radio-browser.info"
+                InetAddress new_item = InetAddress.getByName(item.getHostAddress());
+                Log.i("DNS", "Found: " + new_item.toString() + " -> " + new_item.getCanonicalHostName());
                 String name = item.getCanonicalHostName();
                 if (name != "all.api.radio-browser.info") {
                     listResult.add(item.getCanonicalHostName());
