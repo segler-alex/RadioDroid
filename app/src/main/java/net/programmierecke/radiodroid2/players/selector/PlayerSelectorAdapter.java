@@ -134,6 +134,15 @@ public class PlayerSelectorAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         this.actionListener = actionListener;
     }
 
+    public void notifyRadioDroidPlaybackStateChanged() {
+        if (stationToPlay != null) {
+            int pos = viewTypes.indexOf(PlayerType.RADIODROID.getValue());
+            if (pos != -1) {
+                notifyItemChanged(pos);
+            }
+        }
+    }
+
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -174,15 +183,9 @@ public class PlayerSelectorAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                     }
 
                     PlayerServiceUtil.pause(PauseReason.USER);
-
-                    holder.btnPlay.setImageResource(R.drawable.ic_play_circle);
-                    holder.btnPlay.setContentDescription(context.getString(R.string.detail_play));
                 } else {
                     Utils.playAndWarnIfMetered((RadioDroidApp) context.getApplicationContext(), stationToPlay, PlayerType.RADIODROID,
                             () -> Utils.play((RadioDroidApp) context.getApplicationContext(), stationToPlay));
-
-                    holder.btnPlay.setImageResource(R.drawable.ic_pause_circle);
-                    holder.btnPlay.setContentDescription(context.getResources().getString(R.string.detail_pause));
                 }
             });
         } else if (holder.getItemViewType() == PlayerType.EXTERNAL.getValue()) {

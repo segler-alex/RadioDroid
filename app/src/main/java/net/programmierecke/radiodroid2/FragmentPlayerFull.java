@@ -309,12 +309,11 @@ public class FragmentPlayerFull extends Fragment {
                     }
 
                     PlayerServiceUtil.pause(PauseReason.USER);
-
-                    updatePlaybackButtons(false, false);
                 } else {
                     playLastFromHistory();
-                    updatePlaybackButtons(true, false);
                 }
+
+                updatePlaybackButtons(PlayerServiceUtil.isPlaying(), PlayerServiceUtil.isRecording());
             }
         });
 

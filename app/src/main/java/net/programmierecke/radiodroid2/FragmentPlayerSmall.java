@@ -106,16 +106,12 @@ public class FragmentPlayerSmall extends Fragment {
 
         buttonPlay.setOnClickListener(v -> {
             if (PlayerServiceUtil.isPlaying()) {
-                buttonPlay.setImageResource(R.drawable.ic_play_circle);
-                buttonPlay.setContentDescription(getResources().getString(R.string.detail_play));
                 if (PlayerServiceUtil.isRecording()) {
                     PlayerServiceUtil.stopRecording();
                 }
 
                 PlayerServiceUtil.pause(PauseReason.USER);
             } else {
-                buttonPlay.setImageResource(R.drawable.ic_pause_circle);
-                buttonPlay.setContentDescription(getResources().getString(R.string.detail_pause));
                 playLastFromHistory();
             }
         });
