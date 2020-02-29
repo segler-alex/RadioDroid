@@ -306,14 +306,28 @@ public class Utils {
     }
 
     public static void playAndWarnIfMetered(RadioDroidApp radioDroidApp, DataRadioStation station, PlayerType playerType, Runnable playFunc) {
+        playAndWarnIfMetered(radioDroidApp, station, playerType, playFunc,
+                (station1, playerType1) -> {
+                    // Making sure that resuming from notification or some external event will actually resume
+                    // and not issue warning a second time.
+                    PlayerServiceUtil.setStation(station1);
+                    PlayerServiceUtil.warnAboutMeteredConnection(playerType1);
+                });
+    }
+
+    public interface MeteredWarningCallback {
+        void warn(DataRadioStation station, PlayerType playerType);
+    }
+
+    // TODO: Sort out the indirection when PlayerService won't need aidl and we won't need to have
+    //  PlayerServiceUtil as a proxy between common code and the service.
+    public static void playAndWarnIfMetered(RadioDroidApp radioDroidApp, DataRadioStation station, PlayerType playerType,
+                                            Runnable playFunc, MeteredWarningCallback warningCallback) {
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(radioDroidApp);
         final boolean warnOnMetered = sharedPref.getBoolean("warn_no_wifi", false);
 
         if (warnOnMetered && ConnectivityChecker.getCurrentConnectionType(radioDroidApp) == ConnectivityChecker.ConnectionType.METERED) {
-            // Making sure that resuming from notification or some external event will actually resume
-            // and not issue warning a second time.
-            PlayerServiceUtil.setStation(station);
-            PlayerServiceUtil.warnAboutMeteredConnection(playerType);
+            warningCallback.warn(station, playerType);
         } else {
             playFunc.run();
         }
