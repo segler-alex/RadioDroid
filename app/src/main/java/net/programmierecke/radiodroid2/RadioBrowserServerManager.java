@@ -30,7 +30,10 @@ public class RadioBrowserServerManager {
             InetAddress[] list = InetAddress.getAllByName("all.api.radio-browser.info");
             for (InetAddress item : list) {
                 Log.i("DNS", "Found: " + item.toString() + " -> " + item.getCanonicalHostName());
-                listResult.add(item.getCanonicalHostName());
+                String name = item.getCanonicalHostName();
+                if (name != "all.api.radio-browser.info") {
+                    listResult.add(item.getCanonicalHostName());
+                }
             }
         } catch (UnknownHostException e) {
             e.printStackTrace();
