@@ -1,10 +1,6 @@
 package net.programmierecke.radiodroid2;
 
-import android.content.Context;
-import android.content.SharedPreferences;
 import android.util.Log;
-
-import androidx.preference.PreferenceManager;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;

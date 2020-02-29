@@ -619,6 +619,7 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
                 //menuItemSearch.setVisible(true);
                 menuItemSave.setVisible(true);
                 menuItemLoad.setVisible(true);
+                menuItemSave.setTitle(R.string.nav_item_save_playlist);
 
                 if (sharedPref.getBoolean("icons_only_favorites_style", false)) {
                     menuItemListView.setVisible(true);
@@ -636,6 +637,8 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
             case R.id.nav_item_history: {
                 menuItemSleepTimer.setVisible(true);
                 //menuItemSearch.setVisible(true);
+                menuItemSave.setVisible(true);
+                menuItemSave.setTitle(R.string.nav_item_save_history_playlist);
 
                 if (!radioDroidApp.getHistoryManager().isEmpty()) {
                     menuItemDelete.setVisible(true).setTitle(R.string.action_delete_history);
@@ -678,9 +681,14 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
             Log.i("MAIN", "save to " + file.getParent() + "/" + file.getName());
             RadioDroidApp radioDroidApp = (RadioDroidApp) getApplication();
             FavouriteManager favouriteManager = radioDroidApp.getFavouriteManager();
+            HistoryManager historyManager = radioDroidApp.getHistoryManager();
 
             if (dialog instanceof SaveFileDialog) {
-                favouriteManager.SaveM3U(file.getParent(), file.getName());
+                if (selectedMenuItem == R.id.nav_item_starred) {
+                    favouriteManager.SaveM3U(file.getParent(), file.getName());
+                }else if (selectedMenuItem == R.id.nav_item_history) {
+                    historyManager.SaveM3U(file.getParent(), file.getName());
+                }
             } else if (dialog instanceof OpenFileDialog) {
                 favouriteManager.LoadM3U(file.getParent(), file.getName());
             }

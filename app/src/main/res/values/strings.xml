@@ -71,6 +71,7 @@
 
     <string name="nav_item_save_playlist">Export favorites as playlist</string>
     <string name="nav_item_load_playlist">Import favorites from playlist</string>
+    <string name="nav_item_save_history_playlist">Export history as playlist</string>
     <string name="confirm_overwrite_file">Overwrite the file?</string>
     <string name="dialog_hint_file_name">Enter file name</string>
     <string name="error_empty_field">This field is required</string>
