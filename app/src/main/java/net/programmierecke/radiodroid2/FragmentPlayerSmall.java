@@ -247,10 +247,11 @@ public class FragmentPlayerSmall extends Fragment {
 
         if (!Utils.shouldLoadIcons(getContext())) {
             imageViewIcon.setVisibility(View.GONE);
-        } else if (station != null) {
+        } else if (station != null && station.hasIcon()) {
             imageViewIcon.setVisibility(View.VISIBLE);
             PlayerServiceUtil.getStationIcon(imageViewIcon, station.IconUrl);
         } else {
+            imageViewIcon.setVisibility(View.VISIBLE);
             imageViewIcon.setImageResource(R.drawable.ic_launcher);
         }
 

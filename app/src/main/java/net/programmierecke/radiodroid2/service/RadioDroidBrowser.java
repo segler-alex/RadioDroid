@@ -108,7 +108,7 @@ public class RadioDroidBrowser {
                 };
                 imageLoadTargets.add(imageLoadTarget);
 
-                Picasso.get().load((TextUtils.isEmpty(station.IconUrl) ? resourceToUri(resources, R.drawable.ic_launcher).toString() : station.IconUrl))
+                Picasso.get().load((!station.hasIcon() ? resourceToUri(resources, R.drawable.ic_launcher).toString() : station.IconUrl))
                         .transform(new CropSquareTransformation())
                         .error(R.drawable.ic_launcher)
                         .transform(Utils.useCircularIcons(context) ? new CropCircleTransformation() : new CropSquareTransformation())

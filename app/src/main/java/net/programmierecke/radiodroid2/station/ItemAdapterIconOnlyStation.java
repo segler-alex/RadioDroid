@@ -54,7 +54,7 @@ public class ItemAdapterIconOnlyStation extends ItemAdapterStation {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getContext().getApplicationContext());
         boolean useCircularIcons = Utils.useCircularIcons(getContext());
 
-        if (!station.IconUrl.isEmpty()) {
+        if (station.hasIcon()) {
             setupIcon(useCircularIcons, holder.imageViewIcon, holder.transparentImageView);
             PlayerServiceUtil.getStationIcon(holder.imageViewIcon, station.IconUrl);
         } else {

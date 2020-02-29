@@ -1019,7 +1019,7 @@ public class PlayerService extends Service implements RadioPlayer.PlayerListener
     private void downloadRadioIcon() {
         final float px = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 70, getResources().getDisplayMetrics());
 
-        if (currentStation.IconUrl == null || currentStation.IconUrl.trim().equals("")) {
+        if (!currentStation.hasIcon()) {
             radioIcon = (BitmapDrawable) ResourcesCompat.getDrawable(getResources(), R.drawable.ic_launcher, null);
             updateNotification();
             return;
