@@ -33,7 +33,7 @@ public class RadioBrowserServerManager {
                 InetAddress new_item = InetAddress.getByName(item.getHostAddress());
                 Log.i("DNS", "Found: " + new_item.toString() + " -> " + new_item.getCanonicalHostName());
                 String name = item.getCanonicalHostName();
-                if (name != "all.api.radio-browser.info") {
+                if (!name.equals("all.api.radio-browser.info")) {
                     listResult.add(item.getCanonicalHostName());
                 }
             }
