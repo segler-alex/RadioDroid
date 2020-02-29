@@ -195,8 +195,12 @@
     <string name="notify_deleted_favorites">The favorites have been deleted</string>
     <string name="notify_deleted_history">The history has been deleted</string>
 
+    <string name="notify_open_link_failure">No application found to open the link</string>
+
     <string name="notify_station_removed_from_list">1 Removed</string>
     <string name="action_station_removed_from_list_undo">UNDO</string>
+
+    <string name="alert_install_lyrics_app">QuickLyric is not installed on your device. Would you like to get it from a store?</string>
 
     <string name="alert_delete_history">Do you really want to delete the history?</string>
     <string name="alert_delete_favorites">Do you really want to delete all favorites?</string>
