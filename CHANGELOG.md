@@ -5,6 +5,25 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 
+## [0.81] - ??
+### Added
+- Export history to m3u
+
+### Fixed
+- Make sure all.api.radio-browser.info is not used directly
+- Play time in fullscreen player
+- Some crashes
+- Stop notification relaunch after stop
+- External player interactions
+- Autostart of notification
+
+### Changed
+- Library: material 1.2.0-alpha05
+- Library: gson 2.8.6
+- Library: cast 18.1.0
+- Library: lifecycle 2.2.0
+- Library: searchpreference 2.0.0
+
 ## [0.80] - 2020-02-10
 ### Added
 - Fullscreen player
