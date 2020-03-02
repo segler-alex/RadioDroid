@@ -11,6 +11,7 @@
     <string name="detail_pause">暂停</string>
     <string name="detail_stop">停止</string>
     <string name="detail_share">分享</string>
+    <string name="detail_play_in_radiodroid">使用睿卓播放</string>
 
     <string name="action_links">链接</string>
     <string name="action_homepage">主页</string>
@@ -70,6 +71,7 @@
     
     <string name="nav_item_save_playlist">导出收藏到播放列表</string>
     <string name="nav_item_load_playlist">从播放列表导入收藏</string>
+    <string name="nav_item_save_history_playlist">导出历史到播放列表</string>
     <string name="confirm_overwrite_file">覆盖此文件吗？</string>
     <string name="dialog_hint_file_name">输入文件名</string>
     <string name="error_empty_field">必须填写此栏目</string>
@@ -189,8 +191,12 @@
     <string name="notify_deleted_favorites">收藏已被删除</string>
     <string name="notify_deleted_history">历史已被删除</string>
 
+    <string name="notify_open_link_failure">未发现打开链接的应用</string>
+
     <string name="notify_station_removed_from_list">1项已移除</string>
     <string name="action_station_removed_from_list_undo">撤消</string>
+
+    <string name="alert_install_lyrics_app">您的设备上未安装 QuickLyric。您想从 Google Play 商店下载吗？</string>
 
     <string name="alert_delete_history">您真要删除历史吗？</string>
     <string name="alert_delete_favorites">您真要删除全部收藏吗？</string>
