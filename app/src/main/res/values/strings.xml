@@ -303,6 +303,7 @@
     </string-array>
 
     <string name="notify_stream_url_copied">Stream URL successfully copied</string>
+    <string name="notify_track_info_copied">Track info successfully copied</string>
 
     <string-array name="actions_station_link">
         <item>Visit Website</item>

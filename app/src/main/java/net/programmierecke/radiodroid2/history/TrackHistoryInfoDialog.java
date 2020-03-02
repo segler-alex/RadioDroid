@@ -107,7 +107,7 @@ public class TrackHistoryInfoDialog extends BottomSheetDialogFragment {
                 ClipData clip = ClipData.newPlainText("Track info", String.format("%s %s", historyEntry.artist, historyEntry.track));
                 clipboard.setPrimaryClip(clip);
 
-                CharSequence toastText = getContext().getResources().getText(R.string.notify_stream_url_copied);
+                CharSequence toastText = getContext().getResources().getText(R.string.notify_track_info_copied);
                 Toast.makeText(getContext().getApplicationContext(), toastText, Toast.LENGTH_SHORT).show();
             } else {
                 //Log.e(TAG, "Clipboard is NULL!");
