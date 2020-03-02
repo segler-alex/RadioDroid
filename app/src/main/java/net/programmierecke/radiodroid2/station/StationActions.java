@@ -216,7 +216,6 @@ public class StationActions {
 
             @Override
             protected void onPostExecute(String result) {
-                Log.i(TAG, result);
                 super.onPostExecute(result);
             }
         }.execute();
