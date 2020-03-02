@@ -26,6 +26,7 @@ import androidx.preference.PreferenceManager;
 
 import net.programmierecke.radiodroid2.BuildConfig;
 import net.programmierecke.radiodroid2.IPlayerService;
+import net.programmierecke.radiodroid2.service.ConnectivityChecker;
 import net.programmierecke.radiodroid2.service.PlayerService;
 import net.programmierecke.radiodroid2.R;
 import net.programmierecke.radiodroid2.RadioDroidApp;
@@ -63,7 +64,14 @@ public class AlarmReceiver extends BroadcastReceiver {
 
         if (station != null && alarmId >= 0) {
             if(BuildConfig.DEBUG) { Log.d(TAG,"radio id:"+alarmId); }
-            Play(context, station.StationUuid);
+
+            SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(radioDroidApp);
+            final boolean warnOnMetered = sharedPref.getBoolean("warn_no_wifi", false);
+            if (warnOnMetered && ConnectivityChecker.getCurrentConnectionType(radioDroidApp) == ConnectivityChecker.ConnectionType.METERED) {
+                PlaySystemAlarm(context);
+            } else {
+                Play(context, station.StationUuid);
+            }
         }else{
             toast = Toast.makeText(context, context.getResources().getText(R.string.alert_alarm_not_working), Toast.LENGTH_SHORT);
             toast.show();
