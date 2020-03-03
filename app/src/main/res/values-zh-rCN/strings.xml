@@ -32,7 +32,7 @@
     <string name="action_delete">删除</string>
     <string name="action_delete_history">删除历史</string>
     <string name="action_delete_favorites">删除收藏</string>
-    <string name="action_delete_stream_history">清除音轨记录</string>
+    <string name="action_delete_stream_history">清除曲目记录</string>
     <string name="action_ok">确认</string>
     <string name="action_cancel">取消</string>
     <string name="action_top_click">访问排行</string>
@@ -175,8 +175,8 @@
     <string name="settings_recordings">录音</string>
     <string name="settings_record_name_formatting">文件格式</string>
 
-    <string name="settings_record_name_formatting_default_display">电台_艺术家_音轨_\u200b日期_\u200b时间</string>
-    <string name="settings_record_name_formatting_1_display">电台_艺术家_\u200b音轨</string>
+    <string name="settings_record_name_formatting_default_display">电台_艺术家_曲目_\u200b日期_\u200b时间</string>
+    <string name="settings_record_name_formatting_1_display">电台_艺术家_\u200b曲目</string>
     <string name="settings_record_name_formatting_2_display">电台_日期_\u200b时间</string>
     <string name="settings_record_name_formatting_3_display">索引号_电台_\u200b日期</string>
 
@@ -298,6 +298,8 @@
     </string-array>
 
     <string name="notify_stream_url_copied">流媒体地址复制成功</string>
+    <string name="notify_track_info_copied">曲目信息复制成功</string>
+
 
     <string-array name="actions_station_link">
         <item>访问网站</item>
