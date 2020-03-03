@@ -14,6 +14,8 @@ import android.widget.ToggleButton;
 
 import androidx.appcompat.widget.SwitchCompat;
 
+import com.mikepenz.iconics.view.IconicsImageView;
+
 import net.programmierecke.radiodroid2.BuildConfig;
 import net.programmierecke.radiodroid2.R;
 import net.programmierecke.radiodroid2.RadioDroidApp;
@@ -46,7 +48,7 @@ public class ItemAdapterRadioAlarm extends ArrayAdapter<DataRadioStationAlarm> {
 		TextView tvTime = (TextView) v.findViewById(R.id.textViewTime);
 		SwitchCompat s = (SwitchCompat)v.findViewById(R.id.switch1);
 		ImageButton b = (ImageButton) v.findViewById(R.id.buttonDeleteAlarm);
-		final ImageButton buttonRepeating = (ImageButton) v.findViewById(R.id.checkboxRepeating);
+		final IconicsImageView buttonRepeating = v.findViewById(R.id.checkboxRepeating);
 		final LinearLayout repeatDaysView = (LinearLayout) v.findViewById(R.id.repeatDaysView);
 
 		if (repeatDaysView.getChildCount() < 1) {

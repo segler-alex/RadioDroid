@@ -99,6 +99,7 @@ dependencies {
     implementation 'com.google.android.exoplayer:exoplayer-hls:2.9.6'
     implementation 'com.google.android.exoplayer:exoplayer:2.9.6'
     implementation "com.mikepenz:iconics-core:4.0.2"
+    implementation "com.mikepenz:iconics-views:4.0.2"
     implementation 'com.mikepenz:google-material-typeface:3.0.1.4.original-kotlin@aar'
     implementation 'com.mikepenz:community-material-typeface:3.5.95.1-kotlin@aar'
     implementation 'com.github.rustamg:file-dialogs:1.0'
