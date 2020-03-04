@@ -11,6 +11,7 @@
     <string name="action_delete">Löschen</string>
     <string name="action_delete_history">Liste bisher gespielter Sender löschen</string>
     <string name="action_delete_favorites">Favoriten löschen</string>
+    <string name="action_delete_stream_history">Trackinformationen löschen</string>
     <string name="action_cancel">Abbrechen</string>
     <string name="action_top_click">Meiste Klicks</string>
     <string name="action_top_vote">Höchste Bewertung</string>
