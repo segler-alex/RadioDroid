@@ -640,7 +640,7 @@ public class PlayerService extends Service implements RadioPlayer.PlayerListener
 
         // Pausing due to focus loss means that we can gain it again
         // so we should keep the focus and the wait for callback.
-        if (pauseReason != PauseReason.FOCUS_LOSS) {
+        if (pauseReason != PauseReason.FOCUS_LOSS_TRANSIENT) {
             releaseAudioFocus();
         }
 
