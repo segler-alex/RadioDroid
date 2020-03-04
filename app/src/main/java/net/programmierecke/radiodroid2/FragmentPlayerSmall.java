@@ -237,13 +237,13 @@ public class FragmentPlayerSmall extends Fragment {
         if (!TextUtils.isEmpty(streamTitle)) {
             textViewLiveInfo.setVisibility(View.VISIBLE);
             textViewLiveInfo.setText(streamTitle);
-            textViewLiveInfoBig.setText(streamTitle);
             textViewStationName.setGravity(Gravity.BOTTOM);
         } else {
             textViewLiveInfo.setVisibility(View.GONE);
-            textViewLiveInfoBig.setText(stationName);
             textViewStationName.setGravity(Gravity.CENTER_VERTICAL);
         }
+
+        textViewLiveInfoBig.setText(stationName);
 
         if (!Utils.shouldLoadIcons(getContext())) {
             imageViewIcon.setVisibility(View.GONE);
