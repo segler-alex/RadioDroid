@@ -451,10 +451,17 @@ public class FragmentPlayerFull extends Fragment {
         DataRadioStation station = Utils.getCurrentOrLastStation(requireContext());
 
         if (station != null) {
-            textViewGeneralInfo.setText(station.Name);
-
             final ShoutcastInfo shoutcastInfo = PlayerServiceUtil.getShoutcastInfo();
             // TODO: add some of shoutcast info
+
+            final StreamLiveInfo liveInfo = PlayerServiceUtil.getMetadataLive();
+            String streamTitle = liveInfo.getTitle();
+
+            if (!TextUtils.isEmpty(streamTitle)) {
+                textViewGeneralInfo.setText(streamTitle);
+            } else {
+                textViewGeneralInfo.setText(station.Name);
+            }
 
             Drawable flag = CountryFlagsLoader.getInstance().getFlag(requireContext(), station.CountryCode);
             if (flag != null) {
