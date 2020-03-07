@@ -5,6 +5,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 
+## [0.82] - 2020-03-07
+### Fixed
+- Audio focus on pause
+- Sudden stop of playback after it beeing resumed after connection loss
+
+### Changed
+- Swap station name and track name in full screen player
+
 ## [0.81] - 2020-03-03
 ### Added
 - Export history to m3u
