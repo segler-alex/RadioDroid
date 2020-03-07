@@ -397,6 +397,7 @@ public class ExoPlayerWrapper implements PlayerWrapper, IcyDataSource.IcyDataSou
 
             switch (playbackState) {
                 case Player.STATE_READY:
+                    cancelStopTask();
                     stateListener.onStateChanged(PlayState.Playing);
                     break;
                 case Player.STATE_BUFFERING:
