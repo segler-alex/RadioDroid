@@ -40,6 +40,13 @@ public class FavouriteManager extends StationSaveManager {
     }
 
     @Override
+    public void restore(DataRadioStation station, int pos) {
+        if (!has(station.StationUuid)) {
+            super.restore(station, pos);
+        }
+    }
+
+    @Override
     void Load() {
         super.Load();
         updateShortcuts();

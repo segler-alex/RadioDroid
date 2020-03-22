@@ -286,7 +286,7 @@ public class FragmentPlayerSmall extends Fragment {
                 }
                 case R.id.action_bookmark: {
                     if (stationIsInFavourites) {
-                        StationActions.removeFromFavourites(requireContext(), currentStation);
+                        StationActions.removeFromFavourites(requireContext(), getView(), currentStation);
                     } else {
                         StationActions.markAsFavourite(requireContext(), currentStation);
                     }

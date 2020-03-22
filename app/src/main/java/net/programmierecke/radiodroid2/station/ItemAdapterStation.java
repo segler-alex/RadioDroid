@@ -271,7 +271,7 @@ public class ItemAdapterStation
                     @Override
                     public void onClick(View view) {
                         if (favouriteManager.has(station.StationUuid)) {
-                            StationActions.removeFromFavourites(getContext(), station);
+                            StationActions.removeFromFavourites(getContext(), view, station);
                         } else {
                             StationActions.markAsFavourite(getContext(), station);
                         }
@@ -385,7 +385,7 @@ public class ItemAdapterStation
                 holder.buttonBookmark.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        StationActions.removeFromFavourites(getContext(), station);
+                        StationActions.removeFromFavourites(getContext(), view, station);
 
                         int position = holder.getAdapterPosition();
                         notifyItemChanged(position);
