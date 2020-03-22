@@ -152,11 +152,10 @@ public class StationActions {
             final View viewAttachTo = view.getRootView().findViewById(R.id.fragment_player_small);
 
             Snackbar snackbar = Snackbar
-                    .make(viewAttachTo, R.string.notify_station_removed_from_list, Snackbar.LENGTH_LONG);
+                    .make(viewAttachTo, R.string.notify_station_removed_from_list, 6000);
             snackbar.setAnchorView(viewAttachTo);
             snackbar.setAction(R.string.action_station_removed_from_list_undo, view1 -> favouriteManager.restore(station, removedIdx));
             snackbar.setActionTextColor(Color.GREEN);
-            snackbar.setDuration(BaseTransientBottomBar.LENGTH_LONG);
             snackbar.show();
         }
     }
