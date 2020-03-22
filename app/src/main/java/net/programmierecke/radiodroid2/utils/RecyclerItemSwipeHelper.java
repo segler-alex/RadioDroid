@@ -3,6 +3,7 @@ package net.programmierecke.radiodroid2.utils;
 import android.graphics.Canvas;
 import android.view.View;
 
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -67,5 +68,17 @@ public class RecyclerItemSwipeHelper<ViewHolderType extends SwipeableViewHolder>
         @SuppressWarnings("unchecked")
         ViewHolderType viewHolderType = (ViewHolderType) viewHolder;
         swipeListener.onSwiped(viewHolderType, direction);
+    }
+
+    @Override
+    public float getSwipeVelocityThreshold(float defaultValue) {
+        // Effectively disable flinging because it's too easy to accidentally perform it.
+        return 1;
+    }
+
+    @Override
+    public float getSwipeThreshold(@NonNull RecyclerView.ViewHolder viewHolder) {
+        // Since flinging is disabled we reduce swipe threshold.
+        return 0.35f;
     }
 }
