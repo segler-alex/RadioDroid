@@ -30,11 +30,15 @@ public class RadioBrowserServerManager {
                 Log.i("DNS", "Found: " + new_item.toString() + " -> " + new_item.getCanonicalHostName());
                 String name = item.getCanonicalHostName();
                 if (!name.equals("all.api.radio-browser.info")) {
-                    listResult.add(item.getCanonicalHostName());
+                    listResult.add(name);
                 }
             }
         } catch (UnknownHostException e) {
             e.printStackTrace();
+        }
+        if (listResult.size() == 0){
+            Log.w("DNS", "Fallback to de1.api.radio-browser.info because dns call did not work.");
+            listResult.add("de1.api.radio-browser.info");
         }
         Log.d("DNS", "doDnsServerListing() Found servers: " + listResult.size());
         return listResult.toArray(new String[0]);
