@@ -48,6 +48,7 @@
 
     <string name="nav_item_save_playlist">Favoriten als Playlist exportieren</string>
     <string name="nav_item_load_playlist">Favoriten von Playlist importieren</string>
+    <string name="nav_item_save_history_playlist">Verlauf als Playlist exportieren</string>
 
     <string name="settings_appearance">Aussehen</string>
     <string name="settings_theme_selection_title">Thema</string>
