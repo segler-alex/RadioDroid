@@ -14,9 +14,9 @@
         android:layout_marginLeft="5dp"
         android:layout_marginEnd="20dp"
         android:layout_marginRight="20dp"
+        android:contentDescription="@null"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:contentDescription="@null" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/textViewTrackName"
@@ -25,19 +25,15 @@
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginTop="4dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="4dp"
         android:ellipsize="marquee"
         android:singleLine="true"
+        app:layout_constraintBottom_toTopOf="@+id/textViewTrackArtist"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@id/imageViewStationIcon"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <androidx.constraintlayout.widget.Barrier
-        android:id="@+id/barrier1"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:barrierDirection="bottom"
-        app:constraint_referenced_ids=",textViewTrackName,imageViewStationIcon" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_chainStyle="spread" />
 
     <TextView
         android:id="@+id/textViewTrackArtist"
@@ -45,12 +41,13 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
+        android:layout_marginEnd="8dp"
         android:layout_marginBottom="4dp"
         android:ellipsize="marquee"
         android:singleLine="true"
-        app:layout_constraintBottom_toBottomOf="@id/barrier1"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@id/imageViewStationIcon" />
+        app:layout_constraintStart_toEndOf="@id/imageViewStationIcon"
+        app:layout_constraintTop_toBottomOf="@id/textViewTrackName" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
