@@ -75,7 +75,6 @@ public class FragmentHistory extends Fragment implements IAdapterRefreshable {
                         RefreshListGui();
                     }
                 });
-                snackbar.setActionTextColor(Color.GREEN);
                 snackbar.show();
             }
 

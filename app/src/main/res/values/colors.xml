@@ -38,4 +38,7 @@
     <color name="iconsInItemBackgroundColorDark">@android:color/white</color>
 
     <color name="startRecordingColor">#ff3333</color>
+
+    <color name="snackBarButtonColor">#D500F9</color>
+    <color name="snackBarButtonColorDark">@color/snackBarButtonColor</color>
 </resources>

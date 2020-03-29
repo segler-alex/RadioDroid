@@ -155,7 +155,6 @@ public class StationActions {
                     .make(viewAttachTo, R.string.notify_station_removed_from_list, 6000);
             snackbar.setAnchorView(viewAttachTo);
             snackbar.setAction(R.string.action_station_removed_from_list_undo, view1 -> favouriteManager.restore(station, removedIdx));
-            snackbar.setActionTextColor(Color.GREEN);
             snackbar.show();
         }
     }

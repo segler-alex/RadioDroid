@@ -41,6 +41,8 @@
         <item name="met_textColorHint">?android:textColorHint</item>
         <item name="met_primaryColor">?android:colorPrimary</item>
 
+        <item name="snackbarButtonStyle">@style/SnackBarButton</item>
+
         <!-- workaround for lower API -->
         <item name="colorAccentMy">@color/colorAccent</item>
 
@@ -82,6 +84,8 @@
         <item name="met_baseColor">?android:textColorPrimary</item>
         <item name="met_textColorHint">?android:textColorHint</item>
         <item name="met_primaryColor">?android:colorPrimaryDark</item>
+
+        <item name="snackbarButtonStyle">@style/SnackBarButtonDark</item>
 
         <!-- workaround for lower API -->
         <item name="colorAccentMy">@color/colorAccentDark</item>
@@ -135,5 +139,13 @@
 
     <style name="MenuTextAppearance" parent="@android:style/TextAppearance.Widget.IconMenu.Item">
         <item name="android:textColor">@color/textColorPrimary</item>
+    </style>
+
+    <style name="SnackBarButton" parent="@style/Widget.MaterialComponents.Button.TextButton.Snackbar">
+        <item name="android:textColor">@color/snackBarButtonColor</item>
+    </style>
+
+    <style name="SnackBarButtonDark" parent="@style/Widget.MaterialComponents.Button.TextButton.Snackbar">
+        <item name="android:textColor">@color/snackBarButtonColor</item>
     </style>
 </resources>
