@@ -7,10 +7,6 @@
         android:icon="@drawable/ic_store_black_24dp"
         android:title="@string/action_homepage" />
     <item
-        android:id="@+id/action_share"
-        android:icon="@drawable/ic_share_24dp"
-        android:title="@string/action_station_share" />
-    <item
         android:id="@+id/action_bookmark"
         android:icon="@drawable/ic_star_border_black_24dp"
         android:title="@string/detail_star" />

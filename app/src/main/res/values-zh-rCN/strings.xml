@@ -241,7 +241,7 @@
 
     <string name="tab_player_art">专辑封面</string>
     <string name="tab_player_info">信息</string>
-    <string name="tab_player_history">历史</string>
+    <string name="tab_player_history">曲目历史</string>
     <string name="tab_player_recordings">录音</string>    
 
     <string name="station_detail_bitrate">%1$1d kbps</string>

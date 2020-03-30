@@ -165,8 +165,8 @@
     <string name="settings_auto_resume_on_wired_headset_connected">Resume on wired connection</string>
     <string name="settings_auto_resume_on_wired_headset_connected_on">Resume playback on wired headset plug-in</string>
 
-    <string name="settings_auto_resume_on_bluetooth_a2dp_connected">Resume on bluetooth connection</string>
-    <string name="settings_auto_resume_on_bluetooth_a2dp_connected_on">Resume playback on bluetooth A2DP device connection</string>
+    <string name="settings_auto_resume_on_bluetooth_a2dp_connected">Resume on Bluetooth connection</string>
+    <string name="settings_auto_resume_on_bluetooth_a2dp_connected_on">Resume playback on Bluetooth A2DP device connection</string>
 
     <string name="settings_warn_no_wifi">Off-Wi-Fi Warning</string>
     <string name="settings_warn_no_wifi_on">Warn when playing without Wi-Fi connection</string>
@@ -244,9 +244,9 @@
     <string name="player_info_recording_to">Recording to:\n%1$s</string>
     <string name="player_info_recorded_to">Last recording:\n%1$s</string>
 
-    <string name="tab_player_art">Album Art</string>
+    <string name="tab_player_art">Album art</string>
     <string name="tab_player_info">Info</string>
-    <string name="tab_player_history">History</string>
+    <string name="tab_player_history">Track history</string>
     <string name="tab_player_recordings">Recordings</string>
 
     <string name="station_detail_bitrate">%1$1d kbps</string>

@@ -163,8 +163,8 @@
     <string name="settings_auto_resume_on_wired_headset_connected">Genoptag ved trådet forbindelse</string>
     <string name="settings_auto_resume_on_wired_headset_connected_on">Genoptag afspilning ved trådet hovedtelefon tisluttet</string>
 
-    <string name="settings_auto_resume_on_bluetooth_a2dp_connected">Genoptag ved bluetooth forbindelse</string>
-    <string name="settings_auto_resume_on_bluetooth_a2dp_connected_on">Genoptag afspilning ved  bluetooth A2DP enhed forbindelse</string>
+    <string name="settings_auto_resume_on_bluetooth_a2dp_connected">Genoptag ved Bluetooth forbindelse</string>
+    <string name="settings_auto_resume_on_bluetooth_a2dp_connected_on">Genoptag afspilning ved  Bluetooth A2DP enhed forbindelse</string>
 
     <string name="settings_warn_no_wifi">Trådløst slukke advarsel</string>
     <string name="settings_warn_no_wifi_on">Advare når der afspilles uden trådløst tilslutning</string>
@@ -235,7 +235,7 @@
 
     <string name="tab_player_art">Album omslag</string>
     <string name="tab_player_info">Information</string>
-    <string name="tab_player_history">Historik</string>
+    <string name="tab_player_history">Spor historik</string>
     <string name="tab_player_recordings">Optagelser</string>
 
     <string name="station_detail_bitrate">%1$1d kbps</string>
