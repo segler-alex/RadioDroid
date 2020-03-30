@@ -17,6 +17,7 @@ import com.google.android.material.snackbar.Snackbar;
 import net.programmierecke.radiodroid2.station.ItemAdapterStation;
 import net.programmierecke.radiodroid2.station.DataRadioStation;
 import net.programmierecke.radiodroid2.interfaces.IAdapterRefreshable;
+import net.programmierecke.radiodroid2.station.StationActions;
 import net.programmierecke.radiodroid2.station.StationsFilter;
 
 public class FragmentHistory extends Fragment implements IAdapterRefreshable {
@@ -65,7 +66,7 @@ public class FragmentHistory extends Fragment implements IAdapterRefreshable {
                 RefreshListGui();
 
                 Snackbar snackbar = Snackbar
-                        .make(rvStations, R.string.notify_station_removed_from_list, Snackbar.LENGTH_LONG);
+                        .make(rvStations, R.string.notify_station_removed_from_list, 6000);
                 snackbar.setAnchorView(getView().getRootView().findViewById(R.id.bottom_sheet));
                 snackbar.setAction(R.string.action_station_removed_from_list_undo, new View.OnClickListener() {
                     @Override
@@ -74,8 +75,6 @@ public class FragmentHistory extends Fragment implements IAdapterRefreshable {
                         RefreshListGui();
                     }
                 });
-                snackbar.setActionTextColor(Color.GREEN);
-                snackbar.setDuration(Snackbar.LENGTH_LONG);
                 snackbar.show();
             }
 

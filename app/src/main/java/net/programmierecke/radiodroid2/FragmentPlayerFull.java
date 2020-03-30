@@ -344,7 +344,7 @@ public class FragmentPlayerFull extends Fragment {
             }
 
             if (favouriteManager.has(station.StationUuid)) {
-                StationActions.removeFromFavourites(requireContext(), station);
+                StationActions.removeFromFavourites(requireContext(), null, station);
             } else {
                 StationActions.markAsFavourite(requireContext(), station);
             }

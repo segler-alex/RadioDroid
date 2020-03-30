@@ -6,19 +6,26 @@ import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.View;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.FragmentActivity;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
+import com.google.android.material.snackbar.BaseTransientBottomBar;
+import com.google.android.material.snackbar.Snackbar;
+
 import net.programmierecke.radiodroid2.ActivityMain;
+import net.programmierecke.radiodroid2.FavouriteManager;
 import net.programmierecke.radiodroid2.R;
 import net.programmierecke.radiodroid2.RadioBrowserServerManager;
 import net.programmierecke.radiodroid2.RadioDroidApp;
@@ -136,12 +143,20 @@ public class StationActions {
         vote(context, station);
     }
 
-    public static void removeFromFavourites(final @NonNull Context context, final @NonNull DataRadioStation station) {
+    public static void removeFromFavourites(final @NonNull Context context, final @Nullable View view, final @NonNull DataRadioStation station) {
         final RadioDroidApp radioDroidApp = (RadioDroidApp) context.getApplicationContext();
-        radioDroidApp.getFavouriteManager().remove(station.StationUuid);
+        final FavouriteManager favouriteManager = radioDroidApp.getFavouriteManager();
+        final int removedIdx = favouriteManager.remove(station.StationUuid);
 
-        Toast toast = Toast.makeText(context, context.getString(R.string.notify_unstarred), Toast.LENGTH_SHORT);
-        toast.show();
+        if (view != null) {
+            final View viewAttachTo = view.getRootView().findViewById(R.id.fragment_player_small);
+
+            Snackbar snackbar = Snackbar
+                    .make(viewAttachTo, R.string.notify_station_removed_from_list, 6000);
+            snackbar.setAnchorView(viewAttachTo);
+            snackbar.setAction(R.string.action_station_removed_from_list_undo, view1 -> favouriteManager.restore(station, removedIdx));
+            snackbar.show();
+        }
     }
 
     public static void share(final @NonNull Context context, final @NonNull DataRadioStation station) {

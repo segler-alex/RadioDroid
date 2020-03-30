@@ -25,6 +25,7 @@ import net.programmierecke.radiodroid2.station.ItemAdapterStation;
 import net.programmierecke.radiodroid2.station.DataRadioStation;
 import net.programmierecke.radiodroid2.station.ItemAdapterIconOnlyStation;
 import net.programmierecke.radiodroid2.interfaces.IAdapterRefreshable;
+import net.programmierecke.radiodroid2.station.StationActions;
 import net.programmierecke.radiodroid2.station.StationsFilter;
 
 import java.util.Objects;
@@ -98,21 +99,7 @@ public class FragmentStarred extends Fragment implements IAdapterRefreshable, Ob
 
             @Override
             public void onStationSwiped(final DataRadioStation station) {
-                final int removedIdx = favouriteManager.remove(station.StationUuid);
-
-                Snackbar snackbar = Snackbar
-                        .make(rvStations, R.string.notify_station_removed_from_list, Snackbar.LENGTH_LONG);
-                snackbar.setAnchorView(getView().getRootView().findViewById(R.id.bottom_sheet));
-                snackbar.setAction(R.string.action_station_removed_from_list_undo, new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        favouriteManager.restore(station, removedIdx);
-                        RefreshListGui();
-                    }
-                });
-                snackbar.setActionTextColor(Color.GREEN);
-                snackbar.setDuration(BaseTransientBottomBar.LENGTH_LONG);
-                snackbar.show();
+                StationActions.removeFromFavourites(requireContext(), getView(), station);
             }
 
             @Override
