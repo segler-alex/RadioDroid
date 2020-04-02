@@ -74,7 +74,7 @@ public class FragmentAlarm extends Fragment implements TimePickerDialog.OnTimeSe
     DataRadioStationAlarm clickedAlarm = null;
     private void ClickOnItem(DataRadioStationAlarm anObject) {
         clickedAlarm = anObject;
-        TimePickerFragment newFragment = new TimePickerFragment();
+        TimePickerFragment newFragment = new TimePickerFragment(clickedAlarm.hour, clickedAlarm.minute);
         newFragment.setCallback(this);
         newFragment.show(getActivity().getSupportFragmentManager(), "timePicker");
     }
