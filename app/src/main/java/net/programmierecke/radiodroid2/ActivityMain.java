@@ -94,7 +94,6 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
 
     public static final int PERM_REQ_STORAGE_FAV_SAVE = 1;
     public static final int PERM_REQ_STORAGE_FAV_LOAD = 2;
-    public static final int PERM_REQ_STORAGE_RECORD = 3;
 
     private SearchView mSearchView;
 
@@ -421,23 +420,9 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
             Log.d(TAG, "on request permissions result:" + requestCode);
         }
 
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
         switch (requestCode) {
-            case PERM_REQ_STORAGE_RECORD: {
-                // If request is cancelled, the result arrays are empty.
-                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    Fragment currentFragment = mFragmentManager.getFragments().get(mFragmentManager.getFragments().size() - 1);
-                    if (currentFragment instanceof IFragmentRefreshable) {
-                        if (BuildConfig.DEBUG) {
-                            Log.d(TAG, "REFRESH VIEW");
-                        }
-                        ((IFragmentRefreshable) currentFragment).Refresh();
-                    }
-                } else {
-                    Toast toast = Toast.makeText(this, getResources().getString(R.string.error_record_needs_write), Toast.LENGTH_SHORT);
-                    toast.show();
-                }
-                return;
-            }
             case PERM_REQ_STORAGE_FAV_LOAD: {
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     LoadFavourites();

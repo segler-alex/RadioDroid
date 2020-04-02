@@ -408,6 +408,19 @@ public class Utils {
         return true;
     }
 
+    public static boolean verifyStoragePermissions(Fragment fragment, int request_id) {
+        // Check if we have write permission
+        int permission = ContextCompat.checkSelfPermission(fragment.requireContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE);
+
+        if (permission != PackageManager.PERMISSION_GRANTED) {
+            // We don't have permission so prompt the user
+            fragment.requestPermissions(PERMISSIONS_STORAGE, request_id);
+            return false;
+        }
+
+        return true;
+    }
+
     public static String getReadableBytes(double bytes) {
         String[] str = new String[]{"B", "KB", "MB", "GB", "TB"};
         for (String aStr : str) {
