@@ -498,27 +498,34 @@ public class FragmentPlayerFull extends Fragment {
     }
 
     private void updatePlaybackButtons(boolean playing, boolean recording) {
+        updatePlayButton(playing);
+        updateRecordButton(playing, recording);
+    }
+
+    private void updatePlayButton(boolean playing) {
         if (playing) {
             btnPlay.setImageResource(R.drawable.ic_pause_circle);
             btnPlay.setContentDescription(getResources().getString(R.string.detail_pause));
-
-            btnRecord.setEnabled(true);
-            if (recording) {
-                btnRecord.setImageResource(R.drawable.ic_stop_recording);
-                btnRecord.setContentDescription(getResources().getString(R.string.detail_stop));
-            } else {
-                btnRecord.setImageResource(R.drawable.ic_start_recording);
-                if (!storagePermissionsDenied) {
-                    btnRecord.setContentDescription(getResources().getString(R.string.image_button_record));
-                } else {
-                    btnRecord.setContentDescription(getResources().getString(R.string.image_button_record_request_permission));
-                }
-            }
         } else {
             btnPlay.setImageResource(R.drawable.ic_play_circle);
             btnPlay.setContentDescription(getResources().getString(R.string.detail_play));
+        }
+    }
 
-            btnRecord.setEnabled(false);
+    private void updateRecordButton(boolean playing, boolean recording) {
+        btnRecord.setEnabled(playing);
+
+        if (recording) {
+            btnRecord.setImageResource(R.drawable.ic_stop_recording);
+            btnRecord.setContentDescription(getResources().getString(R.string.detail_stop));
+        } else {
+            btnRecord.setImageResource(R.drawable.ic_start_recording);
+
+            if (!storagePermissionsDenied) {
+                btnRecord.setContentDescription(getResources().getString(R.string.image_button_record));
+            } else {
+                btnRecord.setContentDescription(getResources().getString(R.string.image_button_record_request_permission));
+            }
         }
     }
 
