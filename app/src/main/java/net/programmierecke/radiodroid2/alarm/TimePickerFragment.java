@@ -14,18 +14,27 @@ import net.programmierecke.radiodroid2.Utils;
 import java.util.Calendar;
 
 public class TimePickerFragment extends DialogFragment implements TimePickerDialog.OnTimeSetListener {
-    TimePickerDialog.OnTimeSetListener callback;
+    private TimePickerDialog.OnTimeSetListener callback;
+    private int initialHour;
+    private int initialMinute;
+
+    public TimePickerFragment() {
+        final Calendar c = Calendar.getInstance();
+        this.initialHour = c.get(Calendar.HOUR_OF_DAY);
+        this.initialMinute = c.get(Calendar.MINUTE);
+    }
+
+    public TimePickerFragment(int initialHour, int initialMinute) {
+        this.initialHour = initialHour;
+        this.initialMinute = initialMinute;
+    }
 
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        // Use the current time as the default values for the picker
-        final Calendar c = Calendar.getInstance();
-        int hour = c.get(Calendar.HOUR_OF_DAY);
-        int minute = c.get(Calendar.MINUTE);
-
         // Create a new instance of TimePickerDialog and return it
-        return new TimePickerDialog(getActivity(), Utils.getTimePickerThemeResId(getActivity()), this, hour, minute, DateFormat.is24HourFormat(getActivity()));
+        return new TimePickerDialog(getActivity(), Utils.getTimePickerThemeResId(getActivity()),
+                this, initialHour, initialMinute, DateFormat.is24HourFormat(getActivity()));
     }
 
     public void setCallback(TimePickerDialog.OnTimeSetListener callback) {
@@ -35,8 +44,8 @@ public class TimePickerFragment extends DialogFragment implements TimePickerDial
     @Override
     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
         // this is needed, because on some devices onTimeSet is called twice!!
-        if (callback != null){
-            callback.onTimeSet(view,hourOfDay,minute);
+        if (callback != null) {
+            callback.onTimeSet(view, hourOfDay, minute);
             callback = null;
         }
     }
