@@ -69,6 +69,8 @@ import java.util.Observable;
 public class FragmentPlayerFull extends Fragment {
     private final String TAG = "FragmentPlayerFull";
 
+    private final static int PERM_REQ_STORAGE_RECORD = 1001;
+
     /**
      * Fragment may be a part of another view which could be dragged/scrolled
      * and certain hacks may require the fragment to request them to stop
@@ -325,7 +327,7 @@ public class FragmentPlayerFull extends Fragment {
                 if (PlayerServiceUtil.isRecording()) {
                     PlayerServiceUtil.stopRecording();
                 } else {
-                    if (Utils.verifyStoragePermissions(getActivity(), ActivityMain.PERM_REQ_STORAGE_RECORD)) {
+                    if (Utils.verifyStoragePermissions(FragmentPlayerFull.this, PERM_REQ_STORAGE_RECORD)) {
                         PlayerServiceUtil.startRecording();
                     }
                 }
@@ -844,7 +846,7 @@ public class FragmentPlayerFull extends Fragment {
     public void onRequestPermissionsResult(int requestCode,
                                            @NonNull String[] permissions, @NonNull int[] grantResults) {
         // If request is cancelled, the result arrays are empty.
-        if (requestCode == ActivityMain.PERM_REQ_STORAGE_RECORD) {
+        if (requestCode == PERM_REQ_STORAGE_RECORD) {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 storagePermissionsDenied = false;
                 PlayerServiceUtil.startRecording();
