@@ -18,37 +18,28 @@ import androidx.annotation.Nullable;
 import androidx.preference.PreferenceManager;
 
 import com.google.android.exoplayer2.C;
-import com.google.android.exoplayer2.DefaultLoadControl;
-import com.google.android.exoplayer2.DefaultRenderersFactory;
 import com.google.android.exoplayer2.ExoPlaybackException;
-import com.google.android.exoplayer2.ExoPlayerFactory;
 import com.google.android.exoplayer2.Format;
-import com.google.android.exoplayer2.LoadControl;
 import com.google.android.exoplayer2.PlaybackParameters;
 import com.google.android.exoplayer2.Player;
 import com.google.android.exoplayer2.SimpleExoPlayer;
 import com.google.android.exoplayer2.analytics.AnalyticsListener;
 import com.google.android.exoplayer2.audio.AudioAttributes;
 import com.google.android.exoplayer2.decoder.DecoderCounters;
-import com.google.android.exoplayer2.extractor.DefaultExtractorsFactory;
-import com.google.android.exoplayer2.extractor.ExtractorsFactory;
 import com.google.android.exoplayer2.metadata.Metadata;
 import com.google.android.exoplayer2.metadata.MetadataOutput;
 import com.google.android.exoplayer2.metadata.icy.IcyHeaders;
 import com.google.android.exoplayer2.metadata.icy.IcyInfo;
 import com.google.android.exoplayer2.metadata.id3.Id3Frame;
-import com.google.android.exoplayer2.source.ExtractorMediaSource;
 import com.google.android.exoplayer2.source.MediaSource;
 import com.google.android.exoplayer2.source.MediaSourceEventListener;
+import com.google.android.exoplayer2.source.ProgressiveMediaSource;
 import com.google.android.exoplayer2.source.TrackGroupArray;
 import com.google.android.exoplayer2.source.hls.HlsMediaSource;
-import com.google.android.exoplayer2.trackselection.AdaptiveTrackSelection;
-import com.google.android.exoplayer2.trackselection.DefaultTrackSelector;
-import com.google.android.exoplayer2.trackselection.TrackSelection;
 import com.google.android.exoplayer2.trackselection.TrackSelectionArray;
-import com.google.android.exoplayer2.trackselection.TrackSelector;
 import com.google.android.exoplayer2.upstream.DataSource;
 import com.google.android.exoplayer2.upstream.DefaultBandwidthMeter;
+import com.google.android.exoplayer2.upstream.DefaultLoadErrorHandlingPolicy;
 
 import net.programmierecke.radiodroid2.BuildConfig;
 import net.programmierecke.radiodroid2.R;
@@ -106,6 +97,32 @@ public class ExoPlayerWrapper implements PlayerWrapper, IcyDataSource.IcyDataSou
     };
 
 
+    public final class CustomLoadErrorHandlingPolicy
+            extends DefaultLoadErrorHandlingPolicy {
+        int retryDelay = 500;
+        int retryCount = 10;
+
+        CustomLoadErrorHandlingPolicy(int retryTimeout, int retryDelay) {
+            super();
+            this.retryDelay = retryDelay;
+            this.retryCount = 1000 * retryTimeout / retryDelay + 1;
+        }
+
+        @Override
+        public long getRetryDelayMsFor(
+                int dataType,
+                long loadDurationMs,
+                IOException exception,
+                int errorCount) {
+                return retryDelay;
+        }
+
+        @Override
+        public int getMinimumLoadableRetryCount(int dataType) {
+            return retryCount;
+        }
+    }
+
     @Override
     public void playRemote(@NonNull OkHttpClient httpClient, @NonNull String streamUrl, @NonNull Context context, boolean isAlarm) {
         // I don't know why, but it is still possible that streamUrl is null,
@@ -129,11 +146,7 @@ public class ExoPlayerWrapper implements PlayerWrapper, IcyDataSource.IcyDataSou
         }
 
         if (player == null) {
-            TrackSelection.Factory videoTrackSelectionFactory = new AdaptiveTrackSelection.Factory();
-            TrackSelector trackSelector = new DefaultTrackSelector(videoTrackSelectionFactory);
-
-            LoadControl loadControl = new DefaultLoadControl.Builder().createDefaultLoadControl();
-            player = ExoPlayerFactory.newSimpleInstance(context, new DefaultRenderersFactory(context), trackSelector, loadControl);
+            player = new SimpleExoPlayer.Builder(context).build();
             player.setAudioAttributes(new AudioAttributes.Builder().setContentType(C.CONTENT_TYPE_MUSIC)
                     .setUsage(isAlarm ? C.USAGE_ALARM : C.USAGE_MEDIA).build());
 
@@ -154,14 +167,11 @@ public class ExoPlayerWrapper implements PlayerWrapper, IcyDataSource.IcyDataSou
 
         DataSource.Factory dataSourceFactory = new RadioDataSourceFactory(httpClient, bandwidthMeter, this, retryTimeout, retryDelay);
         // Produces Extractor instances for parsing the media data.
-        ExtractorsFactory extractorsFactory = new DefaultExtractorsFactory();
-
         if (!isHls) {
-            audioSource = new ExtractorMediaSource.Factory(dataSourceFactory).setExtractorsFactory(extractorsFactory)
-                    .createMediaSource(Uri.parse(streamUrl));
+            audioSource = new ProgressiveMediaSource.Factory(dataSourceFactory).setLoadErrorHandlingPolicy(new CustomLoadErrorHandlingPolicy(retryTimeout, retryDelay)).createMediaSource(Uri.parse(streamUrl));
             player.prepare(audioSource);
         } else {
-            audioSource = new HlsMediaSource.Factory(dataSourceFactory).createMediaSource(Uri.parse(streamUrl));
+            audioSource = new HlsMediaSource.Factory(dataSourceFactory).setLoadErrorHandlingPolicy(new CustomLoadErrorHandlingPolicy(retryTimeout, retryDelay)).createMediaSource(Uri.parse(streamUrl));
             player.prepare(audioSource);
         }
 

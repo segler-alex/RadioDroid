@@ -80,15 +80,10 @@ public class IcyDataSource implements HttpDataSource {
     private final TransferListener transferListener;
     private final IcyDataSourceListener dataSourceListener;
 
-    private long timeUntilStopReconnecting;
-    private long delayBetweenReconnections;
-
     private Request request;
 
     private ResponseBody responseBody;
     private Map<String, List<String>> responseHeaders;
-
-    private byte readBuffer[] = new byte[256 * 16];
 
     private boolean opened;
 
@@ -97,14 +92,10 @@ public class IcyDataSource implements HttpDataSource {
 
     public IcyDataSource(@NonNull OkHttpClient httpClient,
                          @NonNull TransferListener listener,
-                         @NonNull IcyDataSourceListener dataSourceListener,
-                         long timeUntilStopReconnecting,
-                         long delayBetweenReconnections) {
+                         @NonNull IcyDataSourceListener dataSourceListener) {
         this.httpClient = httpClient;
         this.transferListener = listener;
         this.dataSourceListener = dataSourceListener;
-        this.timeUntilStopReconnecting = timeUntilStopReconnecting;
-        this.delayBetweenReconnections = delayBetweenReconnections;
     }
 
     @Override
@@ -173,12 +164,6 @@ public class IcyDataSource implements HttpDataSource {
         }
     }
 
-    private void reconnect() throws HttpDataSourceException {
-        close();
-        connect();
-        Log.i(TAG, "Reconnected successfully!");
-    }
-
     @Override
     public void close() throws HttpDataSourceException {
         if (opened) {
@@ -200,33 +185,9 @@ public class IcyDataSource implements HttpDataSource {
             return bytesTransferred;
         } catch (HttpDataSourceException readError) {
             dataSourceListener.onDataSourceConnectionLost();
-
-            final long reconnectStartTime = System.currentTimeMillis();
-
-            while (true) {
-                final long currentTime = System.currentTimeMillis();
-
-                if (BuildConfig.DEBUG) Log.d(TAG, "Reconnecting...");
-
-                try {
-                    reconnect();
-                    break;
-                } catch (HttpDataSourceException ex) {
-                    try {
-                        Thread.sleep(delayBetweenReconnections);
-                    } catch (InterruptedException e) {
-                        break;
-                    }
-                }
-
-                if (currentTime - reconnectStartTime > timeUntilStopReconnecting) {
-                    dataSourceListener.onDataSourceConnectionLostIrrecoverably();
-                    throw new HttpDataSourceException("Reconnection retry time ended.", dataSpec, HttpDataSourceException.TYPE_READ);
-                }
-            }
+            dataSourceListener.onDataSourceConnectionLostIrrecoverably();
+            throw new HttpDataSourceException("Reconnection retry time ended.", dataSpec, HttpDataSourceException.TYPE_READ);
         }
-
-        return 0;
     }
 
     private int readInternal(byte[] buffer, int offset, int readLength) throws HttpDataSourceException {
