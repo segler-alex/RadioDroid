@@ -185,8 +185,7 @@ public class IcyDataSource implements HttpDataSource {
             return bytesTransferred;
         } catch (HttpDataSourceException readError) {
             dataSourceListener.onDataSourceConnectionLost();
-            dataSourceListener.onDataSourceConnectionLostIrrecoverably();
-            throw new HttpDataSourceException("Reconnection retry time ended.", dataSpec, HttpDataSourceException.TYPE_READ);
+            throw readError;
         }
     }
 
