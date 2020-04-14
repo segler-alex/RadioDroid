@@ -99,14 +99,7 @@ public class ExoPlayerWrapper implements PlayerWrapper, IcyDataSource.IcyDataSou
 
     public final class CustomLoadErrorHandlingPolicy
             extends DefaultLoadErrorHandlingPolicy {
-        int retryDelay = 500;
-        int retryCount = 10;
-
-        CustomLoadErrorHandlingPolicy(int retryTimeout, int retryDelay) {
-            super();
-            this.retryDelay = retryDelay;
-            this.retryCount = 1000 * retryTimeout / retryDelay + 1;
-        }
+        final SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
 
         @Override
         public long getRetryDelayMsFor(
@@ -114,12 +107,17 @@ public class ExoPlayerWrapper implements PlayerWrapper, IcyDataSource.IcyDataSou
                 long loadDurationMs,
                 IOException exception,
                 int errorCount) {
-                return retryDelay;
+            int retryDelay = sharedPrefs.getInt("settings_retry_delay", 100);;
+            if (BuildConfig.DEBUG) {
+                Log.d(TAG, "Providing retry delay of " + retryDelay + "ms for: data type " + dataType + ", load duration: " + loadDurationMs + "ms, error count: " + errorCount + ", exception: " + exception.getClass() + ", message: " + exception.getMessage());
+            }
+            return retryDelay;
         }
 
         @Override
         public int getMinimumLoadableRetryCount(int dataType) {
-            return retryCount;
+            int retryDelay = sharedPrefs.getInt("settings_retry_delay", 100);;
+            return sharedPrefs.getInt("settings_retry_timeout", 10) * 1000 / retryDelay + 1;
         }
     }
 
@@ -168,10 +166,10 @@ public class ExoPlayerWrapper implements PlayerWrapper, IcyDataSource.IcyDataSou
         DataSource.Factory dataSourceFactory = new RadioDataSourceFactory(httpClient, bandwidthMeter, this, retryTimeout, retryDelay);
         // Produces Extractor instances for parsing the media data.
         if (!isHls) {
-            audioSource = new ProgressiveMediaSource.Factory(dataSourceFactory).setLoadErrorHandlingPolicy(new CustomLoadErrorHandlingPolicy(retryTimeout, retryDelay)).createMediaSource(Uri.parse(streamUrl));
+            audioSource = new ProgressiveMediaSource.Factory(dataSourceFactory).setLoadErrorHandlingPolicy(new CustomLoadErrorHandlingPolicy()).createMediaSource(Uri.parse(streamUrl));
             player.prepare(audioSource);
         } else {
-            audioSource = new HlsMediaSource.Factory(dataSourceFactory).setLoadErrorHandlingPolicy(new CustomLoadErrorHandlingPolicy(retryTimeout, retryDelay)).createMediaSource(Uri.parse(streamUrl));
+            audioSource = new HlsMediaSource.Factory(dataSourceFactory).setLoadErrorHandlingPolicy(new CustomLoadErrorHandlingPolicy()).createMediaSource(Uri.parse(streamUrl));
             player.prepare(audioSource);
         }
 
