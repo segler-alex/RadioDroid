@@ -108,6 +108,10 @@ public class ExoPlayerWrapper implements PlayerWrapper, IcyDataSource.IcyDataSou
                 IOException exception,
                 int errorCount) {
             int retryDelay = sharedPrefs.getInt("settings_retry_delay", 100);;
+            if (!Utils.hasAnyConnection(context)) {
+                resumeWhenNetworkConnected();
+                retryDelay = 1000 * sharedPrefs.getInt("settings_resume_within", 60);
+            }
             if (BuildConfig.DEBUG) {
                 Log.d(TAG, "Providing retry delay of " + retryDelay + "ms for: data type " + dataType + ", load duration: " + loadDurationMs + "ms, error count: " + errorCount + ", exception: " + exception.getClass() + ", message: " + exception.getMessage());
             }
@@ -306,7 +310,9 @@ public class ExoPlayerWrapper implements PlayerWrapper, IcyDataSource.IcyDataSou
     @Override
     public void onDataSourceConnectionLostIrrecoverably() {
         Log.i(TAG, "Connection lost irrecoverably.");
+    }
 
+    void resumeWhenNetworkConnected() {
         playerThreadHandler.post(() -> {
             SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
             int resumeWithin = sharedPref.getInt("settings_resume_within", 60);
