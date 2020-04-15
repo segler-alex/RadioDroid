@@ -26,10 +26,11 @@ public class RadioBrowserServerManager {
             InetAddress[] list = InetAddress.getAllByName("all.api.radio-browser.info");
             for (InetAddress item : list) {
                 // do not use original variable, it could fall back to "all.api.radio-browser.info"
-                InetAddress new_item = InetAddress.getByName(item.getHostAddress());
+                String currentHostAddress = item.getHostAddress();
+                InetAddress new_item = InetAddress.getByName(currentHostAddress);
                 Log.i("DNS", "Found: " + new_item.toString() + " -> " + new_item.getCanonicalHostName());
                 String name = item.getCanonicalHostName();
-                if (!name.equals("all.api.radio-browser.info")) {
+                if (!name.equals("all.api.radio-browser.info") && !name.equals(currentHostAddress)) {
                     listResult.add(name);
                 }
             }
@@ -37,6 +38,7 @@ public class RadioBrowserServerManager {
             e.printStackTrace();
         }
         if (listResult.size() == 0){
+            // should we inform people that their internet provider is not able to do reverse lookups? (= is shit)
             Log.w("DNS", "Fallback to de1.api.radio-browser.info because dns call did not work.");
             listResult.add("de1.api.radio-browser.info");
         }
