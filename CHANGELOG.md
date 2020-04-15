@@ -4,8 +4,17 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
+
+## [0.83] - 2020-04-15
+### Changed
+- "Remove from favorites" usability
+- Track history with icons disabled (#774)
+
 ### Fixed
 - Added fallback if dns resolve does not return anything
+- Fix state updating of record button (#785)
+- Show previously picked time when editing alarm's time (#784)
+- Start recording after storage permissions are granted (#783)
 
 ## [0.82] - 2020-03-07
 ### Fixed
