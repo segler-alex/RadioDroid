@@ -95,11 +95,13 @@ public class ExoPlayerWrapper implements PlayerWrapper, IcyDataSource.IcyDataSou
             }
         }
     };
-
-
-    public final class CustomLoadErrorHandlingPolicy
-            extends DefaultLoadErrorHandlingPolicy {
+    final class CustomLoadErrorHandlingPolicy extends DefaultLoadErrorHandlingPolicy {
+        final int MIN_RETRY_DELAY_MS = 10;
         final SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
+
+        int getSanitizedRetryDelaySettingsMs() {
+            return Math.max(sharedPrefs.getInt("settings_retry_delay", 100), MIN_RETRY_DELAY_MS);
+        }
 
         @Override
         public long getRetryDelayMsFor(
@@ -107,7 +109,7 @@ public class ExoPlayerWrapper implements PlayerWrapper, IcyDataSource.IcyDataSou
                 long loadDurationMs,
                 IOException exception,
                 int errorCount) {
-            int retryDelay = sharedPrefs.getInt("settings_retry_delay", 100);;
+            int retryDelay = getSanitizedRetryDelaySettingsMs();
             if (!Utils.hasAnyConnection(context)) {
                 resumeWhenNetworkConnected();
                 retryDelay = 1000 * sharedPrefs.getInt("settings_resume_within", 60);
@@ -120,8 +122,7 @@ public class ExoPlayerWrapper implements PlayerWrapper, IcyDataSource.IcyDataSou
 
         @Override
         public int getMinimumLoadableRetryCount(int dataType) {
-            int retryDelay = sharedPrefs.getInt("settings_retry_delay", 100);;
-            return sharedPrefs.getInt("settings_retry_timeout", 10) * 1000 / retryDelay + 1;
+            return sharedPrefs.getInt("settings_retry_timeout", 10) * 1000 / getSanitizedRetryDelaySettingsMs() + 1;
         }
     }
 
