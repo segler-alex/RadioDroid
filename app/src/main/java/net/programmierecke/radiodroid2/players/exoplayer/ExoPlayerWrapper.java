@@ -343,7 +343,7 @@ public class ExoPlayerWrapper implements PlayerWrapper, IcyDataSource.IcyDataSou
                 };
                 playerThreadHandler.postDelayed(fullStopTask, resumeWithin * 1000);
 
-                stateListener.onPlayerWarning(R.string.error_stream_reconnect_timeout);
+                stateListener.onPlayerWarning(R.string.warning_no_network_trying_resume);
             } else {
                 stop();
 
