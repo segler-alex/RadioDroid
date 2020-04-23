@@ -119,9 +119,13 @@ public class ExoPlayerWrapper implements PlayerWrapper, IcyDataSource.IcyDataSou
             }
 
             if (!Utils.hasAnyConnection(context)) {
-                resumeWhenNetworkConnected();
-                retryDelay = 1000 * sharedPrefs.getInt("settings_resume_within", 60);
+                int resumeWithinS = sharedPrefs.getInt("settings_resume_within", 60);
+                if (resumeWithinS > 0) {
+                    resumeWhenNetworkConnected();
+                    retryDelay = 1000 * resumeWithinS + retryDelay;
+                }
             }
+
             if (BuildConfig.DEBUG) {
                 Log.d(TAG, "Providing retry delay of " + retryDelay + "ms for: data type " + dataType + ", load duration: " + loadDurationMs + "ms, error count: " + errorCount + ", exception: " + exception.getClass() + ", message: " + exception.getMessage());
             }
