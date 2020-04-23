@@ -40,6 +40,7 @@ import com.google.android.exoplayer2.trackselection.TrackSelectionArray;
 import com.google.android.exoplayer2.upstream.DataSource;
 import com.google.android.exoplayer2.upstream.DefaultBandwidthMeter;
 import com.google.android.exoplayer2.upstream.DefaultLoadErrorHandlingPolicy;
+import com.google.android.exoplayer2.upstream.HttpDataSource;
 
 import net.programmierecke.radiodroid2.BuildConfig;
 import net.programmierecke.radiodroid2.R;
@@ -109,7 +110,14 @@ public class ExoPlayerWrapper implements PlayerWrapper, IcyDataSource.IcyDataSou
                 long loadDurationMs,
                 IOException exception,
                 int errorCount) {
+
             int retryDelay = getSanitizedRetryDelaySettingsMs();
+
+            if (exception instanceof HttpDataSource.InvalidContentTypeException) {
+                stateListener.onPlayerError(R.string.error_play_stream);
+                return C.TIME_UNSET; // Immediately surface error if we cannot play content type
+            }
+
             if (!Utils.hasAnyConnection(context)) {
                 resumeWhenNetworkConnected();
                 retryDelay = 1000 * sharedPrefs.getInt("settings_resume_within", 60);
