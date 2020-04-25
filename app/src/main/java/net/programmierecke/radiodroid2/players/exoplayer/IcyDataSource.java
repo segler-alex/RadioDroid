@@ -205,7 +205,7 @@ public class IcyDataSource implements HttpDataSource {
         }
 
         if (bytesRead > metadataBytesToSkip) {
-            dataSourceListener.onDataSourceBytesRead(buffer, offset +  metadataBytesToSkip, bytesRead - metadataBytesToSkip);
+            dataSourceListener.onDataSourceBytesRead(buffer, offset + metadataBytesToSkip, bytesRead - metadataBytesToSkip);
             metadataBytesToSkip = 0;
         } else {
             metadataBytesToSkip -= bytesRead;
