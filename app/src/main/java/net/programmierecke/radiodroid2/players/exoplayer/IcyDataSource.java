@@ -2,7 +2,6 @@ package net.programmierecke.radiodroid2.players.exoplayer;
 
 
 import android.net.Uri;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -12,14 +11,11 @@ import com.google.android.exoplayer2.upstream.DefaultHttpDataSource;
 import com.google.android.exoplayer2.upstream.HttpDataSource;
 import com.google.android.exoplayer2.upstream.TransferListener;
 
-import net.programmierecke.radiodroid2.BuildConfig;
 import net.programmierecke.radiodroid2.station.live.ShoutcastInfo;
 import net.programmierecke.radiodroid2.station.live.StreamLiveInfo;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -85,6 +81,8 @@ public class IcyDataSource implements HttpDataSource {
     private ResponseBody responseBody;
     private Map<String, List<String>> responseHeaders;
 
+    private int metadataBytesToSkip = 0;
+    private int remainingUntilMetadata = Integer.MAX_VALUE;
     private boolean opened;
 
     private ShoutcastInfo shoutcastInfo;
@@ -160,6 +158,14 @@ public class IcyDataSource implements HttpDataSource {
             // try to get shoutcast information from stream connection
             shoutcastInfo = ShoutcastInfo.Decode(response);
             dataSourceListener.onDataSourceShoutcastInfo(shoutcastInfo);
+
+            metadataBytesToSkip = 0;
+            if (shoutcastInfo != null) {
+                remainingUntilMetadata = shoutcastInfo.metadataOffset;
+            } else {
+                remainingUntilMetadata = Integer.MAX_VALUE;
+            }
+
             return responseBody.contentLength();
         }
     }
@@ -189,6 +195,24 @@ public class IcyDataSource implements HttpDataSource {
         }
     }
 
+    private void sendToDataSourceListenersWithoutMetadata(byte[] buffer, int offset, int bytesRead) {
+        if (bytesRead > remainingUntilMetadata) {
+            if (remainingUntilMetadata > 0) {
+                dataSourceListener.onDataSourceBytesRead(buffer, offset, remainingUntilMetadata);
+            }
+            metadataBytesToSkip = buffer[offset + remainingUntilMetadata] * 16 + 1;
+            remainingUntilMetadata = shoutcastInfo.metadataOffset + remainingUntilMetadata + metadataBytesToSkip;
+        }
+
+        if (bytesRead > metadataBytesToSkip) {
+            dataSourceListener.onDataSourceBytesRead(buffer, offset +  metadataBytesToSkip, bytesRead - metadataBytesToSkip);
+            metadataBytesToSkip = 0;
+        } else {
+            metadataBytesToSkip -= bytesRead;
+        }
+        remainingUntilMetadata -= bytesRead;
+    }
+
     private int readInternal(byte[] buffer, int offset, int readLength) throws HttpDataSourceException {
         if (responseBody == null) {
             throw new HttpDataSourceException(dataSpec, HttpDataSourceException.TYPE_READ);
@@ -196,18 +220,16 @@ public class IcyDataSource implements HttpDataSource {
 
         InputStream stream = responseBody.byteStream();
 
-        int ret = 0;
+        int bytesRead = 0;
         try {
-            ret = stream.read(buffer, offset, readLength);
+            bytesRead = stream.read(buffer, offset, readLength);
         } catch (IOException e) {
             throw new HttpDataSourceException(e, dataSpec, HttpDataSourceException.TYPE_READ);
         }
 
-        if(ret > 0) {
-            dataSourceListener.onDataSourceBytesRead(buffer, offset, ret);
-        }
+        sendToDataSourceListenersWithoutMetadata(buffer, offset, bytesRead);
 
-        return ret;
+        return bytesRead;
     }
 
     @Override
