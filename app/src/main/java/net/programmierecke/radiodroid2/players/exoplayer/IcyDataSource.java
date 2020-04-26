@@ -81,11 +81,11 @@ public class IcyDataSource implements HttpDataSource {
     private ResponseBody responseBody;
     private Map<String, List<String>> responseHeaders;
 
-    private int metadataBytesToSkip = 0;
-    private int remainingUntilMetadata = Integer.MAX_VALUE;
+    int metadataBytesToSkip = 0;
+    int remainingUntilMetadata = Integer.MAX_VALUE;
     private boolean opened;
 
-    private ShoutcastInfo shoutcastInfo;
+    ShoutcastInfo shoutcastInfo;
     private StreamLiveInfo streamLiveInfo;
 
     public IcyDataSource(@NonNull OkHttpClient httpClient,
@@ -195,22 +195,33 @@ public class IcyDataSource implements HttpDataSource {
         }
     }
 
-    private void sendToDataSourceListenersWithoutMetadata(byte[] buffer, int offset, int bytesRead) {
-        if (bytesRead > remainingUntilMetadata) {
-            if (remainingUntilMetadata > 0) {
-                dataSourceListener.onDataSourceBytesRead(buffer, offset, remainingUntilMetadata);
+    void sendToDataSourceListenersWithoutMetadata(byte[] buffer, int offset, int bytesAvailable) {
+        int canSkip = Math.min(metadataBytesToSkip, bytesAvailable);
+        offset += canSkip;
+        bytesAvailable -= canSkip;
+        remainingUntilMetadata -= canSkip;
+        while (bytesAvailable > 0) {
+            if (bytesAvailable > remainingUntilMetadata) { // do we need to handle a metadata frame at all?
+                if (remainingUntilMetadata > 0) { // is there any audio data before the metadata frame?
+                    dataSourceListener.onDataSourceBytesRead(buffer, offset, remainingUntilMetadata);
+                    offset += remainingUntilMetadata;
+                    bytesAvailable -= remainingUntilMetadata;
+                }
+                metadataBytesToSkip = buffer[offset] * 16 + 1;
+                remainingUntilMetadata = shoutcastInfo.metadataOffset + metadataBytesToSkip;
             }
-            metadataBytesToSkip = buffer[offset + remainingUntilMetadata] * 16 + 1;
-            remainingUntilMetadata = shoutcastInfo.metadataOffset + remainingUntilMetadata + metadataBytesToSkip;
-        }
 
-        if (bytesRead > metadataBytesToSkip) {
-            dataSourceListener.onDataSourceBytesRead(buffer, offset + metadataBytesToSkip, bytesRead - metadataBytesToSkip);
-            metadataBytesToSkip = 0;
-        } else {
-            metadataBytesToSkip -= bytesRead;
+            int bytesLeft = Math.min(bytesAvailable, remainingUntilMetadata);
+            if (bytesLeft > metadataBytesToSkip) { // is there audio data left we need to send?
+                dataSourceListener.onDataSourceBytesRead(buffer, offset + metadataBytesToSkip, bytesLeft - metadataBytesToSkip);
+                metadataBytesToSkip = 0;
+            } else {
+                metadataBytesToSkip -= bytesLeft;
+            }
+            offset += bytesLeft;
+            bytesAvailable -= bytesLeft;
+            remainingUntilMetadata -= bytesLeft;
         }
-        remainingUntilMetadata -= bytesRead;
     }
 
     private int readInternal(byte[] buffer, int offset, int readLength) throws HttpDataSourceException {
