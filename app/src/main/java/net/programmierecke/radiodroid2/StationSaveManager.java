@@ -304,7 +304,7 @@ public class StationSaveManager extends Observable {
     }
 
     public void SaveM3U(final String filePath, final String fileName) {
-        Toast toast = Toast.makeText(context, "Writing to " + filePath + "/" + fileName + ".. Please wait..", Toast.LENGTH_SHORT);
+        Toast toast = Toast.makeText(context, context.getResources().getString(R.string.notify_save_playlist_now, filePath, fileName), Toast.LENGTH_LONG);
         toast.show();
 
         new AsyncTask<Void, Void, Boolean>() {
@@ -317,11 +317,11 @@ public class StationSaveManager extends Observable {
             protected void onPostExecute(Boolean result) {
                 if (result.booleanValue()) {
                     Log.i("SAVE", "OK");
-                    Toast toast = Toast.makeText(context, "Wrote " + filePath + "/" + fileName, Toast.LENGTH_SHORT);
+                    Toast toast = Toast.makeText(context, context.getResources().getString(R.string.notify_save_playlist_ok, filePath, fileName), Toast.LENGTH_LONG);
                     toast.show();
                 } else {
                     Log.i("SAVE", "NOK");
-                    Toast toast = Toast.makeText(context, "Write failed: " + filePath + "/" + fileName, Toast.LENGTH_SHORT);
+                    Toast toast = Toast.makeText(context, context.getResources().getString(R.string.notify_save_playlist_nok, filePath, fileName), Toast.LENGTH_LONG);
                     toast.show();
                 }
                 super.onPostExecute(result);
@@ -330,7 +330,7 @@ public class StationSaveManager extends Observable {
     }
 
     public void LoadM3U(final String filePath, final String fileName) {
-        Toast toast = Toast.makeText(context, "Loading from " + filePath + "/" + fileName + ".. Please wait..", Toast.LENGTH_SHORT);
+        Toast toast = Toast.makeText(context, context.getResources().getString(R.string.notify_load_playlist_now, filePath, fileName), Toast.LENGTH_LONG);
         toast.show();
 
         new AsyncTask<Void, Void, DataRadioStation[]>() {
@@ -346,11 +346,11 @@ public class StationSaveManager extends Observable {
                     for (DataRadioStation station : result) {
                         add(station);
                     }
-                    Toast toast = Toast.makeText(context, "Loaded " + result.length + " stations from " + filePath + "/" + fileName, Toast.LENGTH_SHORT);
+                    Toast toast = Toast.makeText(context, context.getResources().getString(R.string.notify_load_playlist_ok, result.length, filePath, fileName), Toast.LENGTH_LONG);
                     toast.show();
                 } else {
                     Log.e("LOAD", "Load failed");
-                    Toast toast = Toast.makeText(context, "Could not load from " + filePath + "/" + fileName, Toast.LENGTH_SHORT);
+                    Toast toast = Toast.makeText(context, context.getResources().getString(R.string.notify_load_playlist_nok, filePath, fileName), Toast.LENGTH_LONG);
                     toast.show();
                 }
 
