@@ -32,7 +32,7 @@
     <string name="action_delete">删除</string>
     <string name="action_delete_history">删除历史</string>
     <string name="action_delete_favorites">删除收藏</string>
-    <string name="action_delete_stream_history">清除曲目记录</string>
+    <string name="action_delete_stream_history">清除曲目历史</string>
     <string name="action_ok">确认</string>
     <string name="action_cancel">取消</string>
     <string name="action_top_click">访问排行</string>
@@ -78,6 +78,12 @@
     <string name="error_invalid_file_name">文件名无效</string>
     <string name="label_button_cancel">取消</string>
     <string name="label_button_overwrite">覆盖</string>
+    <string name="notify_load_playlist_nok">无法从 %1$s&#47;%2$s 导入</string>
+    <string name="notify_load_playlist_now">正在从 %1$s&#47;%2$s 导入，请稍候。</string>
+    <string name="notify_load_playlist_ok">已从 %2$s&#47;%3$s 导入 %1$d 个电台</string>
+    <string name="notify_save_playlist_nok">无法导出到 %1$s&#47;%2$s</string>
+    <string name="notify_save_playlist_now">正在导出到 %1$s&#47;%2$s，请稍候。</string>
+    <string name="notify_save_playlist_ok">成功导出到 %1$s&#47;%2$s</string>
 
     <string name="searchpreference_clear_history">清除历史</string>
     <string name="searchpreference_no_results">无匹配项</string>

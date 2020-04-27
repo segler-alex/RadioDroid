@@ -78,6 +78,12 @@
     <string name="error_invalid_file_name">Invalid file name</string>
     <string name="label_button_cancel">Cancel</string>
     <string name="label_button_overwrite">Overwrite</string>
+    <string name="notify_load_playlist_nok">Could not import from %1$s&#47;%2$s</string>
+    <string name="notify_load_playlist_now">Importing from %1$s&#47;%2$s, please wait.</string>
+    <string name="notify_load_playlist_ok">Imported %1$d stations from %2$s&#47;%3$s</string>
+    <string name="notify_save_playlist_nok">Could not export to %1$s&#47;%2$s</string>
+    <string name="notify_save_playlist_now">Exporting to %1$s&#47;%2$s, please wait.</string>
+    <string name="notify_save_playlist_ok">Exported to %1$s&#47;%2$s successfully</string>
 
     <string name="searchpreference_clear_history">Clear history</string>
     <string name="searchpreference_no_results">No results</string>
