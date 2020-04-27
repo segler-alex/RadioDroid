@@ -19,7 +19,7 @@ android {
     defaultConfig {
         applicationId "net.programmierecke.radiodroid2"
         minSdkVersion 15
-        targetSdkVersion 28
+        targetSdkVersion 29
 
         versionCode 93
         versionName "0.83"
