@@ -11,6 +11,7 @@
     <string name="detail_pause">Pausar</string>
     <string name="detail_stop">Parar</string>
     <string name="detail_share">Compartir</string>
+    <string name="detail_play_in_radiodroid">Reproducir en RadioDroid</string>
 
     <string name="action_links">Enlaces</string>
     <string name="action_homepage">Página de inicio</string>
@@ -31,6 +32,7 @@
     <string name="action_delete">Borrar</string>
     <string name="action_delete_history">Borrar historial</string>
     <string name="action_delete_favorites">Borrar favoritos</string>
+    <string name="action_delete_stream_history">Clear track history</string>
     <string name="action_ok">Aceptar</string>
     <string name="action_cancel">Cancelar</string>
     <string name="action_top_click">Más clics</string>
@@ -69,12 +71,19 @@
 
     <string name="nav_item_save_playlist">Guardar en lista de reproducción</string>
     <string name="nav_item_load_playlist">Cargar desde lista de reproducción</string>
+    <string name="nav_item_save_history_playlist">Exportar historial como lista de reproducción</string>
     <string name="confirm_overwrite_file">¿Sobrescribir el archivo?</string>
     <string name="dialog_hint_file_name">Indicar el nombre del archivo</string>
     <string name="error_empty_field">Este campo es obligatorio</string>
     <string name="error_invalid_file_name">Nombre de archivo no válido</string>
     <string name="label_button_cancel">Cancelar</string>
     <string name="label_button_overwrite">Sobrescribir</string>
+    <string name="notify_load_playlist_nok">No se pudo importar desde %1$s&#47;%2$s</string>
+    <string name="notify_load_playlist_now">Importando desde %1$s&#47;%2$s, por favor, espera.</string>
+    <string name="notify_load_playlist_ok">Importadas %1$d estaciones desde %2$s&#47;%3$s</string>
+    <string name="notify_save_playlist_nok">No se pudo exportar a %1$s&#47;%2$s</string>
+    <string name="notify_save_playlist_now">Exportando a %1$s&#47;%2$s, por favor, espera.</string>
+    <string name="notify_save_playlist_ok">Exportado a %1$s&#47;%2$s correctamente</string>
 
     <string name="searchpreference_clear_history">Limpiar historial</string>
     <string name="searchpreference_no_results">No hay resultados</string>
@@ -98,6 +107,7 @@
     <string name="settings_show_broken_on">Mostrar estaciones rotas en las listas</string>
     <string name="settings_show_broken_off">No mostrar estaciones rotas en las listas</string>
 
+    <string name="settings_startup_behaviour">Start Behavior</string>
     <string name="startup_action_title">Iniciar acción</string>
     <string name="startup_action_title_desc">%s</string>
     <string name="startup_show_all_stations">Mostrar todas las estaciones</string>
@@ -149,8 +159,20 @@
     <string name="settings_proxy_action_test">Probar</string>
     <string name="settings_proxy_working">Conectado correctamente a %s</string>
     <string name="settings_proxy_not_working">Falló la conexión a %s\n%s</string>
+    <string name="settings_proxy_invalid">Los valores proporcionados para el proxy no son válidos</string>
+    <string name="ignore_proxy_settings_invalid">Se han ignorado los ajustes de proxy inválidos</string>
     <string name="settings_seconds_format">%d segundos</string>
     <string name="settings_milliseconds_format">%d milisegundos</string>
+
+    <string name="settings_pause_when_noisy">Pausar al desconectar auriculares</string>
+
+    <string name="settings_auto_resume_do_not_resume">No continuar</string>
+
+    <string name="settings_auto_resume_on_wired_headset_connected">Continuar con conexión cableada</string>
+    <string name="settings_auto_resume_on_wired_headset_connected_on">Continuar la reproducción al conectar auriculares cableados</string>
+
+    <string name="settings_auto_resume_on_bluetooth_a2dp_connected">Continuar con conexión Bluetooth</string>
+    <string name="settings_auto_resume_on_bluetooth_a2dp_connected_on">Continuar la reproducción al conectar dispositivos A2DP Bluetooth</string>
 
     <string name="settings_warn_no_wifi">Avisar cuando no haya Wi-Fi</string>
     <string name="settings_warn_no_wifi_on">Avisar cuando se reproduzca sin conexión Wi-Fi</string>
@@ -162,19 +184,30 @@
     <string name="settings_record_name_formatting_default_display">estación_artista_pista_\u200bfecha_\u200bhora</string>
     <string name="settings_record_name_formatting_1_display">estación_artista_\u200bpista</string>
     <string name="settings_record_name_formatting_2_display">estación_fecha_\u200bhora</string>
-    <string name="settings_record_name_formatting_3_display">Índices_estación_\u200bfecha</string>
+    <string name="settings_record_name_formatting_3_display">índices_estación_\u200bfecha</string>
+
+    <string name="settings_record_name_formatting_default_display">estación_artista_pista_\u200bfecha_\u200bhora</string>
+    <string name="settings_record_name_formatting_1_display">estación_artista_\u200bpista</string>
+    <string name="settings_record_name_formatting_2_display">estación_fecha_\u200bhora</string>
+    <string name="settings_record_name_formatting_3_display">índice_estación_\u200bfecha</string>
 
     <string name="notify_pre_play">Conectando</string>
     <string name="notify_play">Reproduciendo</string>
     <string name="notify_paused">En pausa</string>
+    <string name="notify_metered_connection">Conexión de uso medido</string>
+
     <string name="notify_starred">La estación ha sido marcada como favorita</string>
     <string name="notify_autostarred">La estación ha sido marcada automáticamente como favorita</string>
     <string name="notify_unstarred">La estación ha sido borrada de la lista de favoritos</string>
     <string name="notify_deleted_favorites">Los favoritos han sido borrados.</string>
     <string name="notify_deleted_history">El historial ha sido borrado.</string>
 
+    <string name="notify_open_link_failure">No se encontró aplicación para abrir el enlace</string>
+
     <string name="notify_station_removed_from_list">1 borrada</string>
     <string name="action_station_removed_from_list_undo">DESHACER</string>
+
+    <string name="alert_install_lyrics_app">QuickLyric no está instalada en el dispositivo. ¿Te gustaría conseguirla desde Google Play Store?</string>
 
     <string name="alert_delete_history">¿Realmente quieres borrar el historial?</string>
     <string name="alert_delete_favorites">¿Realmente quieres eliminar todos los favoritos?</string>
@@ -183,6 +216,7 @@
 
     <string name="alert_select_mpd_server">Por favor selecciona un servidor</string>
     <string name="alert_select_mpd_server_name">Nombre del servidor</string>
+    <string name="alert_select_mpd_server_password">Contraseña del servidor</string>
     <string name="hostname">Nombre del host</string>
     <string name="port">Puerto</string>
 
@@ -275,13 +309,20 @@
     </string-array>
 
     <string name="notify_stream_url_copied">URL de la transmisión copiada con éxito</string>
+    <string name="notify_track_info_copied">Información de la pista copiada correctamente</string>
 
     <string-array name="actions_station_link">
         <item>Visitar sitio web</item>
         <item>Copiar la URLde la transmisión</item>
     </string-array>
 
+    <string name="alert_metered_connection_title">Detectada conexión de uso medido</string>
+    <string name="alert_metered_connection_message">La conexión de uso medido puedo ocasionar cargos adicionales, pulsa \'Aceptar\' para continuar.</string>
     <string name="nav_item_statistics">Estadísticas</string>
     <string name="nav_item_about">Acerca de</string>
     <string name="refresh">Recargar</string>
+
+    <string name="alarm_backup">Alarma alternativa</string>
+    <string name="alarm_fallback_info">Alarma del sistema adoptada como estación de radio seleccionada falló al cargar</string>
+    <string name="alarm_back_desc">Sistema alternativo de alarma adoptado cuando falla la carga de la estación de radio</string>
 </resources>
