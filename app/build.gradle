@@ -125,8 +125,8 @@ dependencies {
     playImplementation 'com.google.android.gms:play-services-cast:18.1.0'
     playImplementation 'com.google.android.gms:play-services-cast-framework:18.1.0'
     playImplementation 'com.google.android.gms:play-services-safetynet:17.0.0'
-    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.6.1'
-    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.6.1'
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.6.2'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.6.2'
 }
 
 
