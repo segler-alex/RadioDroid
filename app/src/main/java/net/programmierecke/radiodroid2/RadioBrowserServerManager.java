@@ -31,6 +31,7 @@ public class RadioBrowserServerManager {
                 Log.i("DNS", "Found: " + new_item.toString() + " -> " + new_item.getCanonicalHostName());
                 String name = item.getCanonicalHostName();
                 if (!name.equals("all.api.radio-browser.info") && !name.equals(currentHostAddress)) {
+                    Log.i("DNS", "Added entry: '" + name+"'");
                     listResult.add(name);
                 }
             }
