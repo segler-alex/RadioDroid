@@ -234,7 +234,7 @@
     <string name="error_caching_stream">Problema al «cachear» la emisión</string>
     <string name="error_play_stream">No se puede reproducir la emisión</string>
     <string name="error_stream_reconnect_timeout">No se puede volver a conectar a la transmisión: tiempo de espera agotado</string>
-    <string name="giving_up_resume">Intento de continuar la retransmisión ignorado</string>
+    <string name="giving_up_resume">Intento de continuar la retransmisión abandonado</string>
 
     <string name="error_record_needs_write">Necesito permisos de escritura para grabar</string>
     <string name="error_grant_audiofocus">La solicitud de enfoque de audio no fue otorgada por el sistema</string>
