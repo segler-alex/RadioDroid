@@ -1,23 +1,42 @@
 package net.programmierecke.radiodroid2.utils;
 
+import android.content.Context;
 import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.mikepenz.iconics.IconicsColor;
+import com.mikepenz.iconics.IconicsDrawable;
+import com.mikepenz.iconics.IconicsSize;
+import com.mikepenz.iconics.typeface.library.googlematerial.GoogleMaterial;
+
 public class RecyclerItemSwipeHelper<ViewHolderType extends SwipeableViewHolder> extends ItemTouchHelper.SimpleCallback {
+
 
     public interface SwipeCallback<ViewHolderType> {
         void onSwiped(ViewHolderType viewHolder, int direction);
     }
 
     private SwipeCallback<ViewHolderType> swipeListener;
+    private boolean swipeToDeleteIsEnabled;
+    private IconicsDrawable icon;
+    private final ColorDrawable background;
 
-    public RecyclerItemSwipeHelper(int dragDirs, int swipeDirs, SwipeCallback<ViewHolderType> swipeListener) {
+    public RecyclerItemSwipeHelper(Context context, int dragDirs, int swipeDirs, SwipeCallback<ViewHolderType> swipeListener) {
         super(dragDirs, swipeDirs);
         this.swipeListener = swipeListener;
+        swipeToDeleteIsEnabled = ((swipeDirs & ItemTouchHelper.LEFT) > 0) || ((swipeDirs & ItemTouchHelper.RIGHT) > 0);
+        background = new ColorDrawable(Color.RED);
+        if (swipeToDeleteIsEnabled) {
+            icon = new IconicsDrawable(context, GoogleMaterial.Icon.gmd_delete_sweep)
+                    .size(IconicsSize.dp(48))
+                    .color(IconicsColor.colorInt(Color.WHITE));
+        }
     }
 
     @Override
@@ -43,14 +62,58 @@ public class RecyclerItemSwipeHelper<ViewHolderType extends SwipeableViewHolder>
         getDefaultUIUtil().clearView(foregroundView);
     }
 
+    private void drawSwipeToDeleteBackground(Canvas c, View itemView, float dX, float dY) {
+        int backgroundCornerOffset = 20;
+        int iconMargin = (itemView.getHeight() - icon.getIntrinsicHeight()) / 2;
+        int iconTop = itemView.getTop() + (itemView.getHeight() - icon.getIntrinsicHeight()) / 2;
+        int iconBottom = iconTop + icon.getIntrinsicHeight();
+
+        if (dX > 0) { // Swiping to the right
+            int iconRight = itemView.getLeft() + iconMargin + icon.getIntrinsicWidth();
+            int iconLeft = itemView.getLeft() + iconMargin;
+
+            int magicConstraint = (itemView.getLeft() + ((int) dX) < iconRight + iconMargin) ? (int)dX - icon.getIntrinsicWidth() - ( iconMargin * 2 ) : 0;
+            iconLeft += magicConstraint;
+            iconRight += magicConstraint;
+            icon.setBounds(iconLeft, iconTop, iconRight, iconBottom);
+
+            background.setBounds(itemView.getLeft(), itemView.getTop(),
+                    itemView.getLeft() + ((int) dX),
+                    itemView.getBottom());
+        } else if (dX < 0) { // Swiping to the left
+            int iconRight = itemView.getRight()- iconMargin;
+            int iconLeft = itemView.getRight()- iconMargin - icon.getIntrinsicWidth();
+
+            int magicConstraint = (itemView.getRight() + ((int) dX) > iconLeft - iconMargin) ? icon.getIntrinsicWidth() + ( iconMargin * 2 ) + (int)dX : 0;
+            iconLeft += magicConstraint;
+            iconRight += magicConstraint;
+            icon.setBounds(iconLeft, iconTop, iconRight, iconBottom);
+
+            background.setBounds(itemView.getRight(), itemView.getTop(),
+                    itemView.getRight() + ((int) dX),
+                    itemView.getBottom());
+        } else { // view is unSwiped
+            icon.setBounds(0, 0, 0, 0);
+            background.setBounds(0, 0, 0, 0);
+        }
+
+        background.draw(c);
+        icon.draw(c);
+    }
+
     @Override
     public void onChildDraw(Canvas c, RecyclerView recyclerView,
                             RecyclerView.ViewHolder viewHolder, float dX, float dY,
                             int actionState, boolean isCurrentlyActive) {
         final View foregroundView = ((SwipeableViewHolder) viewHolder).getForegroundView();
 
+        if (swipeToDeleteIsEnabled) {
+            drawSwipeToDeleteBackground(c, viewHolder.itemView, dX, dY);
+        }
+
         getDefaultUIUtil().onDraw(c, recyclerView, foregroundView, dX, dY,
                 actionState, isCurrentlyActive);
+
     }
 
     @Override

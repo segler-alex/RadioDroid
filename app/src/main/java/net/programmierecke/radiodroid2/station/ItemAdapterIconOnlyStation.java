@@ -74,7 +74,7 @@ public class ItemAdapterIconOnlyStation extends ItemAdapterStation {
     }
 
     public void enableItemMove(RecyclerView recyclerView) {
-        RecyclerItemMoveAndSwipeHelper<ItemAdapterStation.StationViewHolder> swipeAndMoveHelper = new RecyclerItemMoveAndSwipeHelper<>(ItemTouchHelper.UP | ItemTouchHelper.DOWN | ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT, 0, this);
+        RecyclerItemMoveAndSwipeHelper<ItemAdapterStation.StationViewHolder> swipeAndMoveHelper = new RecyclerItemMoveAndSwipeHelper<>(getContext(),ItemTouchHelper.UP | ItemTouchHelper.DOWN | ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT, 0, this);
         new ItemTouchHelper(swipeAndMoveHelper).attachToRecyclerView(recyclerView);
     }
 }

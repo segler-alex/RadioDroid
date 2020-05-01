@@ -202,7 +202,7 @@ public class ItemAdapterStation
         if (!supportsStationRemoval) {
             supportsStationRemoval = true;
 
-            RecyclerItemSwipeHelper<StationViewHolder> swipeHelper = new RecyclerItemSwipeHelper<>(0, ItemTouchHelper.LEFT + ItemTouchHelper.RIGHT, this);
+            RecyclerItemSwipeHelper<StationViewHolder> swipeHelper = new RecyclerItemSwipeHelper<>(getContext(), 0, ItemTouchHelper.LEFT + ItemTouchHelper.RIGHT, this);
             new ItemTouchHelper(swipeHelper).attachToRecyclerView(recyclerView);
         }
     }
@@ -211,7 +211,7 @@ public class ItemAdapterStation
         if (!supportsStationRemoval) {
             supportsStationRemoval = true;
 
-            RecyclerItemMoveAndSwipeHelper<StationViewHolder> swipeAndMoveHelper = new RecyclerItemMoveAndSwipeHelper<>(ItemTouchHelper.UP | ItemTouchHelper.DOWN, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT, this);
+            RecyclerItemMoveAndSwipeHelper<StationViewHolder> swipeAndMoveHelper = new RecyclerItemMoveAndSwipeHelper<>(getContext(), ItemTouchHelper.UP | ItemTouchHelper.DOWN, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT, this);
             new ItemTouchHelper(swipeAndMoveHelper).attachToRecyclerView(recyclerView);
         }
     }
