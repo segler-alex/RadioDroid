@@ -32,6 +32,9 @@
         <item name="menuBottomTextColorDefault">@color/menuBottomTextColorDefault</item>
         <item name="menuBottomBackgroundColor">@color/menuBottomBackgroundColor</item>
 
+        <item name="swipeDeleteIconColor">@color/swipeDeleteIconColor</item>
+        <item name="swipeDeleteBackgroundColor">@color/swipeDeleteBackgroundColor</item>
+
         <item name="colorTabUnderline">@color/colorTabUnderline</item>
 
         <item name="android:itemBackground">@color/windowBackground</item>
@@ -75,6 +78,9 @@
         <item name="menuBottomTextColorSelected">@color/menuBottomTextColorSelectedDark</item>
         <item name="menuBottomTextColorDefault">@color/menuBottomTextColorDefaultDark</item>
         <item name="menuBottomBackgroundColor">@color/menuBottomBackgroundColorDark</item>
+
+        <item name="swipeDeleteIconColor">@color/swipeDeleteIconColorDark</item>
+        <item name="swipeDeleteBackgroundColor">@color/swipeDeleteBackgroundColorDark</item>
 
         <item name="colorTabUnderline">@color/colorTabUnderlineDark</item>
 

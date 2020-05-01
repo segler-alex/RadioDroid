@@ -15,6 +15,9 @@ import com.mikepenz.iconics.IconicsDrawable;
 import com.mikepenz.iconics.IconicsSize;
 import com.mikepenz.iconics.typeface.library.googlematerial.GoogleMaterial;
 
+import net.programmierecke.radiodroid2.R;
+import net.programmierecke.radiodroid2.Utils;
+
 public class RecyclerItemSwipeHelper<ViewHolderType extends SwipeableViewHolder> extends ItemTouchHelper.SimpleCallback {
 
 
@@ -31,11 +34,11 @@ public class RecyclerItemSwipeHelper<ViewHolderType extends SwipeableViewHolder>
         super(dragDirs, swipeDirs);
         this.swipeListener = swipeListener;
         swipeToDeleteIsEnabled = ((swipeDirs & ItemTouchHelper.LEFT) > 0) || ((swipeDirs & ItemTouchHelper.RIGHT) > 0);
-        background = new ColorDrawable(Color.RED);
+        background = new ColorDrawable(Utils.themeAttributeToColor(R.attr.swipeDeleteBackgroundColor, context, Color.RED));
         if (swipeToDeleteIsEnabled) {
             icon = new IconicsDrawable(context, GoogleMaterial.Icon.gmd_delete_sweep)
                     .size(IconicsSize.dp(48))
-                    .color(IconicsColor.colorInt(Color.WHITE));
+                    .color(IconicsColor.colorInt(Utils.themeAttributeToColor(R.attr.swipeDeleteIconColor, context, Color.WHITE)));
         }
     }
 
