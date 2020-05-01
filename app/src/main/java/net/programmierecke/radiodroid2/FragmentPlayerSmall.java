@@ -284,14 +284,6 @@ public class FragmentPlayerSmall extends Fragment {
                     StationActions.share(requireContext(), currentStation);
                     break;
                 }
-                case R.id.action_bookmark: {
-                    if (stationIsInFavourites) {
-                        StationActions.removeFromFavourites(requireContext(), getView(), currentStation);
-                    } else {
-                        StationActions.markAsFavourite(requireContext(), currentStation);
-                    }
-                    break;
-                }
                 case R.id.action_set_alarm: {
                     StationActions.setAsAlarm(requireActivity(), currentStation);
                     break;
