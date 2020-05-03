@@ -1,5 +1,7 @@
 package net.programmierecke.radiodroid2.utils;
 
+import android.content.Context;
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -13,8 +15,8 @@ public class RecyclerItemMoveAndSwipeHelper<ViewHolderType extends SwipeableView
     private MoveAndSwipeCallback<ViewHolderType> moveAndSwipeListener;
 
     @SuppressWarnings("unchecked")
-    public RecyclerItemMoveAndSwipeHelper(int dragDirs, int swipeDirs, MoveAndSwipeCallback<ViewHolderType> moveAndSwipeListener) {
-        super(dragDirs, swipeDirs, moveAndSwipeListener);
+    public RecyclerItemMoveAndSwipeHelper(Context context, int dragDirs, int swipeDirs, MoveAndSwipeCallback<ViewHolderType> moveAndSwipeListener) {
+        super(context, dragDirs, swipeDirs, moveAndSwipeListener);
         this.moveAndSwipeListener = moveAndSwipeListener;
     }
 

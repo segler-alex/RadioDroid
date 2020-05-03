@@ -14,5 +14,8 @@
 
     <attr name="iconsInItemBackgroundColor" format="reference" />
 
+    <attr name="swipeDeleteIconColor" format="reference" />
+    <attr name="swipeDeleteBackgroundColor" format="reference" />
+
     <attr name="colorAccentMy" format="reference" />
 </resources>
