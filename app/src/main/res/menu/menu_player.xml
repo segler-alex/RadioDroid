@@ -7,15 +7,6 @@
         android:icon="@drawable/ic_store_black_24dp"
         android:title="@string/action_homepage" />
     <item
-        android:id="@+id/action_bookmark"
-        android:icon="@drawable/ic_star_border_black_24dp"
-        android:title="@string/detail_star" />
-    <!--<item-->
-    <!--android:id="@+id/action_unstar"-->
-    <!--android:icon="@drawable/ic_star_black_24dp"-->
-    <!--android:title="@string/detail_unstar"-->
-    <!--app:showAsAction="ifRoom"/>-->
-    <item
         android:id="@+id/action_set_alarm"
         android:icon="@drawable/ic_query_builder_black_24dp"
         android:title="@string/action_alarm" />
