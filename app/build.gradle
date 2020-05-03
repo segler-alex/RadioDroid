@@ -1,4 +1,5 @@
 apply plugin: 'com.android.application'
+apply plugin: "de.mannodermaus.android-junit5"
 
 android {
 
@@ -18,7 +19,7 @@ android {
 
     defaultConfig {
         applicationId "net.programmierecke.radiodroid2"
-        minSdkVersion 15
+        minSdkVersion 16
         targetSdkVersion 29
 
         versionCode 93
@@ -67,6 +68,13 @@ android {
             dimension "one"
         }
     }
+
+    testOptions {
+        unitTests.all {
+            useJUnit()
+        }
+        unitTests.returnDefaultValues = true
+    }
 }
 
 def getLastFMApiKey() {
@@ -95,9 +103,9 @@ dependencies {
     implementation 'com.google.code.gson:gson:2.8.6'
     implementation 'com.squareup.picasso:picasso:2.71828'
     implementation 'jp.wasabeef:picasso-transformations:2.2.1'
-    implementation 'com.google.android.exoplayer:exoplayer-core:2.9.6'
-    implementation 'com.google.android.exoplayer:exoplayer-hls:2.9.6'
-    implementation 'com.google.android.exoplayer:exoplayer:2.9.6'
+    implementation 'com.google.android.exoplayer:exoplayer-core:2.11.4'
+    implementation 'com.google.android.exoplayer:exoplayer-hls:2.11.4'
+    implementation 'com.google.android.exoplayer:exoplayer:2.11.4'
     implementation "com.mikepenz:iconics-core:4.0.2"
     implementation 'com.mikepenz:google-material-typeface:3.0.1.4.original-kotlin@aar'
     implementation 'com.mikepenz:community-material-typeface:3.5.95.1-kotlin@aar'
@@ -117,6 +125,8 @@ dependencies {
     playImplementation 'com.google.android.gms:play-services-cast:18.1.0'
     playImplementation 'com.google.android.gms:play-services-cast-framework:18.1.0'
     playImplementation 'com.google.android.gms:play-services-safetynet:17.0.0'
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.6.2'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.6.2'
 }
 
 
