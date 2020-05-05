@@ -326,4 +326,9 @@
     <string name="alarm_backup">Alternative Alarm</string>
     <string name="alarm_fallback_info">System alarm adopted as selected radio station failed to load</string>
     <string name="alarm_back_desc">Alternative system alarm adopted when the radio station fails to load</string>
+
+    <string name="context_menu_weblinks">Web Links</string>
+    <string name="context_menu_add_alarm">Add Alaram</string>
+    <string name="context_menu_create_shortcut">Create Shortcut</string>
+    <string name="context_menu_delete">Delete</string>
 </resources>

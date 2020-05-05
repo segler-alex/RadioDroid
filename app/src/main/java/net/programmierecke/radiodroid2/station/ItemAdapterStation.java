@@ -65,7 +65,7 @@ public class ItemAdapterStation
 
     int resourceId;
 
-    private StationActionsListener stationActionsListener;
+    StationActionsListener stationActionsListener;
     private FilterListener filterListener;
     private boolean supportsStationRemoval = false;
     private StationsFilter.FilterType filterType = StationsFilter.FilterType.LOCAL;
@@ -73,7 +73,7 @@ public class ItemAdapterStation
     private boolean shouldLoadIcons;
 
     private IAdapterRefreshable refreshable;
-    private FragmentActivity activity;
+    FragmentActivity activity;
 
     private BroadcastReceiver updateUIReceiver;
 
@@ -439,7 +439,7 @@ public class ItemAdapterStation
     }
 
     @TargetApi(26)
-    class CreatePinShortcutListener implements DataRadioStation.ShortcutReadyListener {
+    public class CreatePinShortcutListener implements DataRadioStation.ShortcutReadyListener {
         @Override
         public void onShortcutReadyListener(ShortcutInfo shortcut) {
             ShortcutManager shortcutManager = getContext().getApplicationContext().getSystemService(ShortcutManager.class);
@@ -460,6 +460,11 @@ public class ItemAdapterStation
     @Override
     public void onSwiped(StationViewHolder viewHolder, int direction) {
         stationActionsListener.onStationSwiped(filteredStationsList.get(viewHolder.getAdapterPosition()));
+    }
+
+    @Override
+    public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
+        return false;
     }
 
     @Override

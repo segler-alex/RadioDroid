@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView;
 public class RecyclerItemMoveAndSwipeHelper<ViewHolderType extends SwipeableViewHolder> extends RecyclerItemSwipeHelper {
 
     public interface MoveAndSwipeCallback<ViewHolderType> extends SwipeCallback<ViewHolderType>  {
+        boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target);
         void onMoved(ViewHolderType viewHolder, int from, int to);
         void onMoveEnded(ViewHolderType viewHolder);
     }
@@ -27,6 +28,7 @@ public class RecyclerItemMoveAndSwipeHelper<ViewHolderType extends SwipeableView
 
     @Override
     public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
+        moveAndSwipeListener.onMove(recyclerView, viewHolder, target);
         return true;
     }
 
