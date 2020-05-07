@@ -45,7 +45,8 @@
             <!--</intent-filter>-->
         </activity>
         <service
-            android:name="net.programmierecke.radiodroid2.service.PlayerService">
+            android:name="net.programmierecke.radiodroid2.service.PlayerService"
+            android:permission="android.permission.BIND_JOB_SERVICE">
             <intent-filter>
                 <action android:name="android.intent.action.MEDIA_BUTTON" />
             </intent-filter>
