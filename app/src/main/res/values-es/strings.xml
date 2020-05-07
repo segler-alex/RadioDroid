@@ -186,11 +186,6 @@
     <string name="settings_record_name_formatting_2_display">estación_fecha_\u200bhora</string>
     <string name="settings_record_name_formatting_3_display">índices_estación_\u200bfecha</string>
 
-    <string name="settings_record_name_formatting_default_display">estación_artista_pista_\u200bfecha_\u200bhora</string>
-    <string name="settings_record_name_formatting_1_display">estación_artista_\u200bpista</string>
-    <string name="settings_record_name_formatting_2_display">estación_fecha_\u200bhora</string>
-    <string name="settings_record_name_formatting_3_display">índice_estación_\u200bfecha</string>
-
     <string name="notify_pre_play">Conectando</string>
     <string name="notify_play">Reproduciendo</string>
     <string name="notify_paused">En pausa</string>
