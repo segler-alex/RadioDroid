@@ -189,7 +189,7 @@
     <string name="error_caching_stream">Problem z buforowaniem strumienia</string>
     <string name="error_play_stream">Nie można odtwarzać strumienia</string>
     <string name="error_stream_reconnect_timeout">Nie można ponownie połączyć się ze strumieniem: przekroczenie czasu oczekiwania</string>
-    <string name="giving_up_resume">Próba wznowienia odtwarzania została zignorowana</string>
+    <string name="giving_up_resume">Próba wznowienia odtwarzania została zaniechana</string>
 
     <string name="error_record_needs_write">Potrzebujesz uprawnień do zapisu dla nagrywania</string>
     <string name="error_grant_audiofocus">Żądanie dla audio focus nie zostało przyznane przez system</string>
