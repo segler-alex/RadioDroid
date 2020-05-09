@@ -289,6 +289,7 @@
     <string name="action_add_mpd_server">Add MPD server</string>
 
     <string name="action_play_in_external">Play in external player</string>
+    <string name="action_choose_external_player">Choose external audio stream player</string>
 
     <string name="settings_other">Other</string>
     <string name="settings_statistics">Statistics</string>
@@ -330,6 +331,7 @@
     <string name="context_menu_share">Share</string>
     <string name="context_menu_visit_homepage">Visit homepage</string>
     <string name="context_menu_play_in_radiodrid">Play in RadioDroid</string>
+    <string name="context_menu_play_in_external_player">Play in external player</string>
     <string name="context_menu_add_alarm">Add Alaram</string>
     <string name="context_menu_create_shortcut">Create shortcut</string>
     <string name="context_menu_delete">Delete</string>

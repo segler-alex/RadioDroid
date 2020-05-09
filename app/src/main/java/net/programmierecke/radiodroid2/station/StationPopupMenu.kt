@@ -9,6 +9,7 @@ import androidx.preference.PreferenceManager
 import com.github.zawadz88.materialpopupmenu.MaterialPopupMenu
 import com.github.zawadz88.materialpopupmenu.popupMenu
 import com.mikepenz.iconics.IconicsDrawable
+import com.mikepenz.iconics.typeface.library.community.material.CommunityMaterial
 import com.mikepenz.iconics.typeface.library.googlematerial.GoogleMaterial
 import com.mikepenz.iconics.utils.sizeDp
 import net.programmierecke.radiodroid2.R
@@ -29,6 +30,14 @@ object StationPopupMenu {
                         icon = R.drawable.ic_play_in_radiodroid_24dp
                         callback = {
                             StationActions.playInRadioDroid(context, station)
+                        }
+                    }
+                } else {
+                    item {
+                        labelRes = R.string.context_menu_play_in_external_player
+                        iconDrawable = IconicsDrawable(context, CommunityMaterial.Icon2.cmd_play_box_outline).sizeDp(24)
+                        callback = {
+                            StationActions.playInExternalPlayer(context, station)
                         }
                     }
                 }
