@@ -328,9 +328,9 @@
     <string name="alarm_back_desc">Alternative system alarm adopted when the radio station fails to load</string>
 
     <string name="context_menu_share">Share</string>
-    <string name="context_menu_visit_homepage">Visit Homepage</string>
+    <string name="context_menu_visit_homepage">Visit homepage</string>
     <string name="context_menu_play_in_radiodrid">Play in RadioDroid</string>
     <string name="context_menu_add_alarm">Add Alaram</string>
-    <string name="context_menu_create_shortcut">Create Shortcut</string>
+    <string name="context_menu_create_shortcut">Create shortcut</string>
     <string name="context_menu_delete">Delete</string>
 </resources>
