@@ -5,23 +5,45 @@ import android.os.Build
 import android.view.Gravity
 import android.view.View
 import androidx.fragment.app.FragmentActivity
+import androidx.preference.PreferenceManager
 import com.github.zawadz88.materialpopupmenu.MaterialPopupMenu
 import com.github.zawadz88.materialpopupmenu.popupMenu
+import com.mikepenz.iconics.IconicsDrawable
+import com.mikepenz.iconics.typeface.library.googlematerial.GoogleMaterial
+import com.mikepenz.iconics.utils.sizeDp
 import net.programmierecke.radiodroid2.R
 import net.programmierecke.radiodroid2.Utils
 
 object StationPopupMenu {
     fun open(view: View, context: Context, activity: FragmentActivity, station: DataRadioStation, itemAdapterStation: ItemAdapterStation): MaterialPopupMenu {
         val rootView = view.rootView
+        val sharedPref = PreferenceManager.getDefaultSharedPreferences(activity.applicationContext)
+        val play_external = sharedPref.getBoolean("play_external", false)
         val popupMenu = popupMenu {
             dropdownGravity = Gravity.BOTTOM
             style = if (Utils.isDarkTheme(context)) R.style.Widget_MPM_Menu_Dark else R.style.Widget_MPM_Menu
             section {
+                if (play_external) {
+                    item {
+                        labelRes = R.string.context_menu_play_in_radiodrid
+                        icon = R.drawable.ic_play_in_radiodroid_24dp
+                        callback = {
+                            StationActions.playInRadioDroid(context, station)
+                        }
+                    }
+                }
                 item {
-                    labelRes = R.string.context_menu_weblinks
-                    icon = R.drawable.ic_store_black_24dp
+                    labelRes = R.string.context_menu_visit_homepage
+                    iconDrawable = IconicsDrawable(context, GoogleMaterial.Icon.gmd_home).sizeDp(24)
                     callback = {
-                        StationActions.showWebLinks(activity, station)
+                        StationActions.openStationHomeUrl(activity, station)
+                    }
+                }
+                item {
+                    labelRes = R.string.context_menu_share
+                    icon = R.drawable.ic_share_24dp
+                    callback = {
+                        StationActions.share(context, station)
                     }
                 }
                 item {
