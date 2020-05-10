@@ -22,14 +22,16 @@ import net.programmierecke.radiodroid2.utils.RecyclerItemMoveAndSwipeHelper;
 import net.programmierecke.radiodroid2.utils.SwipeableViewHolder;
 
 public class ItemAdapterIconOnlyStation extends ItemAdapterStation implements RecyclerItemMoveAndSwipeHelper.MoveAndSwipeCallback<ItemAdapterStation.StationViewHolder> {
-    DataRadioStation currentStation;
-
-    private final String TAG = "AdapterIconOnlyStations";
+    private RecyclerItemMoveAndSwipeHelper<ItemAdapterStation.StationViewHolder> swipeAndMoveHelper = null;
 
     @Override
-    public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
-        ((StationViewHolder)viewHolder).dismissContextMenu();
-        return false;
+    public void onDragged(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, double dX, double dY) {
+        final View foregroundView = ((SwipeableViewHolder) viewHolder).getForegroundView();
+        double dismissMenuThreshold = (swipeAndMoveHelper == null ? 0.1 : swipeAndMoveHelper.getMoveThreshold(viewHolder));
+        if (dX > foregroundView.getWidth() * dismissMenuThreshold ||
+                dY > foregroundView.getHeight() * dismissMenuThreshold) {
+            ((StationViewHolder) viewHolder).dismissContextMenu();
+        }
     }
 
     class StationViewHolder extends ItemAdapterStation.StationViewHolder implements View.OnClickListener, View.OnCreateContextMenuListener, SwipeableViewHolder {
@@ -109,7 +111,7 @@ public class ItemAdapterIconOnlyStation extends ItemAdapterStation implements Re
     }
 
     public void enableItemMove(RecyclerView recyclerView) {
-        RecyclerItemMoveAndSwipeHelper<ItemAdapterStation.StationViewHolder> swipeAndMoveHelper = new RecyclerItemMoveAndSwipeHelper<>(getContext(),ItemTouchHelper.UP | ItemTouchHelper.DOWN | ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT, 0, this);
+        swipeAndMoveHelper = new RecyclerItemMoveAndSwipeHelper<>(getContext(), ItemTouchHelper.UP | ItemTouchHelper.DOWN | ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT, 0, this);
         new ItemTouchHelper(swipeAndMoveHelper).attachToRecyclerView(recyclerView);
     }
 }
