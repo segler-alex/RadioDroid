@@ -22,38 +22,7 @@ import net.programmierecke.radiodroid2.service.PlayerServiceUtil;
 import net.programmierecke.radiodroid2.utils.RecyclerItemMoveAndSwipeHelper;
 import net.programmierecke.radiodroid2.utils.SwipeableViewHolder;
 
-public class ItemAdapterIconOnlyStation extends ItemAdapterStation implements RecyclerItemMoveAndSwipeHelper.MoveAndSwipeCallback<ItemAdapterStation.StationViewHolder> {
-    private static final String TAG = "IconOnlyStation";
-    private static final long MIN_INTERVAL_BETWEEN_DRAG_AND_MENU_OPEN = 200;
-    private final double DISMISS_MENU_DRAG_THRESHOLD = 0.15;
-    private RecyclerItemMoveAndSwipeHelper<ItemAdapterStation.StationViewHolder> swipeAndMoveHelper = null;
-    private final long NEVER_IN_THE_FUTURE = Long.MAX_VALUE / 2;
-    private long timeLastDragEnded = 0;
-
-    @Override
-    public void onDragged(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, double dX, double dY) {
-        final View foregroundView = ((SwipeableViewHolder) viewHolder).getForegroundView();
-        final StationViewHolder stationViewHolder = (StationViewHolder) viewHolder;
-
-        if (Math.abs(dX) > foregroundView.getWidth() * DISMISS_MENU_DRAG_THRESHOLD ||
-                Math.abs(dY) > foregroundView.getHeight() * DISMISS_MENU_DRAG_THRESHOLD) {
-            stationViewHolder.dismissContextMenu();
-        } else if (stationViewHolder.contextMenu == null) {
-            // long-press inside distance tolerance but menu is not yet created
-            if (System.currentTimeMillis() > timeLastDragEnded + MIN_INTERVAL_BETWEEN_DRAG_AND_MENU_OPEN) {
-                Log.d(TAG, "Creating contextMenu from onDragged");
-                stationViewHolder.onCreateContextMenu(null, foregroundView, null);
-            }
-        } else {
-            timeLastDragEnded = NEVER_IN_THE_FUTURE;
-        }
-    }
-
-    @Override
-    public void onMoveEnded(ItemAdapterStation.StationViewHolder viewHolder) {
-        timeLastDragEnded = System.currentTimeMillis();
-        super.onMoveEnded(viewHolder);
-    }
+public class ItemAdapterIconOnlyStation extends ItemAdapaterContextMenuStation implements RecyclerItemMoveAndSwipeHelper.MoveAndSwipeCallback<ItemAdapterStation.StationViewHolder> {
 
     class StationViewHolder extends ItemAdapterStation.StationViewHolder implements View.OnClickListener, View.OnCreateContextMenuListener, SwipeableViewHolder {
         MaterialPopupMenu contextMenu = null;
@@ -126,11 +95,10 @@ public class ItemAdapterIconOnlyStation extends ItemAdapterStation implements Re
             getContext().getTheme().resolveAttribute(R.attr.boxBackgroundColor, tv, true);
             holder.frameLayout.setBackgroundColor(tv.data);
         }
-
     }
 
     public void enableItemMove(RecyclerView recyclerView) {
-        swipeAndMoveHelper = new RecyclerItemMoveAndSwipeHelper<>(getContext(), ItemTouchHelper.UP | ItemTouchHelper.DOWN | ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT, 0, this);
+        RecyclerItemMoveAndSwipeHelper swipeAndMoveHelper = new RecyclerItemMoveAndSwipeHelper<>(getContext(), ItemTouchHelper.UP | ItemTouchHelper.DOWN | ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT, 0, this);
         new ItemTouchHelper(swipeAndMoveHelper).attachToRecyclerView(recyclerView);
     }
 }
