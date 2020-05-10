@@ -13,7 +13,10 @@ import com.mikepenz.iconics.typeface.library.community.material.CommunityMateria
 import com.mikepenz.iconics.typeface.library.googlematerial.GoogleMaterial
 import com.mikepenz.iconics.utils.sizeDp
 import net.programmierecke.radiodroid2.R
+import net.programmierecke.radiodroid2.RadioDroidApp
 import net.programmierecke.radiodroid2.Utils
+import net.programmierecke.radiodroid2.players.PlayStationTask
+import net.programmierecke.radiodroid2.players.selector.PlayerType
 
 object StationPopupMenu {
     fun open(view: View, context: Context, activity: FragmentActivity, station: DataRadioStation, itemAdapterStation: ItemAdapterStation): MaterialPopupMenu {
@@ -38,7 +41,8 @@ object StationPopupMenu {
                         labelRes = R.string.context_menu_play_in_external_player
                         iconDrawable = IconicsDrawable(context, CommunityMaterial.Icon2.cmd_play_box_outline).sizeDp(24)
                         callback = {
-                            StationActions.playInExternalPlayer(context, station)
+                            Utils.playAndWarnIfMetered(context.applicationContext as RadioDroidApp, station,
+                                    PlayerType.EXTERNAL) { PlayStationTask.playExternal(station, context).execute() }
                         }
                     }
                 }

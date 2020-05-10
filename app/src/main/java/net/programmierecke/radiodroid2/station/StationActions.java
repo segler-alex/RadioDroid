@@ -212,52 +212,6 @@ public class StationActions {
                 PlayerType.RADIODROID, () -> Utils.play(radioDroidApp, station));
     }
 
-    public static void playInExternalPlayer(final @NonNull Context context, final @NonNull DataRadioStation station) {
-        LocalBroadcastManager.getInstance(context).sendBroadcast(new Intent(ActivityMain.ACTION_SHOW_LOADING));
-
-        final WeakReference<Context> contextRef = new WeakReference<>(context);
-
-        new AsyncTask<Void, Void, String>() {
-            @Override
-            protected String doInBackground(Void... params) {
-                Context ctx = contextRef.get();
-                if (ctx == null) {
-                    return null;
-                }
-
-                final RadioDroidApp radioDroidApp = (RadioDroidApp) ctx.getApplicationContext();
-                final OkHttpClient httpClient = radioDroidApp.getHttpClient();
-
-                return Utils.getRealStationLink(httpClient, radioDroidApp, station.StationUuid);
-            }
-
-            @Override
-            protected void onPostExecute(String result) {
-                Context ctx = contextRef.get();
-                if (ctx == null) {
-                    return;
-                }
-
-                LocalBroadcastManager.getInstance(ctx).sendBroadcast(new Intent(ActivityMain.ACTION_HIDE_LOADING));
-
-                if (result != null) {
-                    Intent share = new Intent(Intent.ACTION_VIEW);
-                    share.setDataAndType(Uri.parse(result), "audio/*");
-                    String title = ctx.getResources().getString(R.string.action_choose_external_player);
-                    Intent chooser = Intent.createChooser(share, title);
-
-                    if (share.resolveActivity(ctx.getPackageManager()) != null) {
-                        ctx.startActivity(chooser);
-                    }
-                } else {
-                    Toast toast = Toast.makeText(ctx.getApplicationContext(), ctx.getResources().getText(R.string.error_station_load), Toast.LENGTH_SHORT);
-                    toast.show();
-                }
-                super.onPostExecute(result);
-            }
-        }.execute();
-    }
-
     private static void vote(final @NonNull Context context, final @NonNull DataRadioStation station) {
         final WeakReference<Context> contextRef = new WeakReference<>(context);
 
