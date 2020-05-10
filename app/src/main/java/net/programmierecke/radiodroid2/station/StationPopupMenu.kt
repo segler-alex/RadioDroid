@@ -20,8 +20,9 @@ object StationPopupMenu {
         val rootView = view.rootView
         val sharedPref = PreferenceManager.getDefaultSharedPreferences(activity.applicationContext)
         val play_external = sharedPref.getBoolean("play_external", false)
+        val gravity = if (view.y + view.height > view.rootView.height / 2) Gravity.TOP else Gravity.BOTTOM
         val popupMenu = popupMenu {
-            dropdownGravity = Gravity.BOTTOM
+            dropdownGravity = gravity
             style = if (Utils.isDarkTheme(context)) R.style.Widget_MPM_Menu_Dark else R.style.Widget_MPM_Menu
             section {
                 if (play_external) {

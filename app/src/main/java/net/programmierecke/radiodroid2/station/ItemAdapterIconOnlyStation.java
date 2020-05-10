@@ -1,6 +1,7 @@
 package net.programmierecke.radiodroid2.station;
 
 import android.content.SharedPreferences;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
@@ -22,20 +23,40 @@ import net.programmierecke.radiodroid2.utils.RecyclerItemMoveAndSwipeHelper;
 import net.programmierecke.radiodroid2.utils.SwipeableViewHolder;
 
 public class ItemAdapterIconOnlyStation extends ItemAdapterStation implements RecyclerItemMoveAndSwipeHelper.MoveAndSwipeCallback<ItemAdapterStation.StationViewHolder> {
+    private static final String TAG = "IconOnlyStation";
+    private static final long MIN_INTERVAL_BETWEEN_DRAG_AND_MENU_OPEN = 200;
+    private final double DISMISS_MENU_DRAG_THRESHOLD = 0.15;
     private RecyclerItemMoveAndSwipeHelper<ItemAdapterStation.StationViewHolder> swipeAndMoveHelper = null;
+    private final long NEVER_IN_THE_FUTURE = Long.MAX_VALUE / 2;
+    private long timeLastDragEnded = 0;
 
     @Override
     public void onDragged(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, double dX, double dY) {
         final View foregroundView = ((SwipeableViewHolder) viewHolder).getForegroundView();
-        double dismissMenuThreshold = (swipeAndMoveHelper == null ? 0.1 : swipeAndMoveHelper.getMoveThreshold(viewHolder));
-        if (dX > foregroundView.getWidth() * dismissMenuThreshold ||
-                dY > foregroundView.getHeight() * dismissMenuThreshold) {
-            ((StationViewHolder) viewHolder).dismissContextMenu();
+        final StationViewHolder stationViewHolder = (StationViewHolder) viewHolder;
+
+        if (Math.abs(dX) > foregroundView.getWidth() * DISMISS_MENU_DRAG_THRESHOLD ||
+                Math.abs(dY) > foregroundView.getHeight() * DISMISS_MENU_DRAG_THRESHOLD) {
+            stationViewHolder.dismissContextMenu();
+        } else if (stationViewHolder.contextMenu == null) {
+            // long-press inside distance tolerance but menu is not yet created
+            if (System.currentTimeMillis() > timeLastDragEnded + MIN_INTERVAL_BETWEEN_DRAG_AND_MENU_OPEN) {
+                Log.d(TAG, "Creating contextMenu from onDragged");
+                stationViewHolder.onCreateContextMenu(null, foregroundView, null);
+            }
+        } else {
+            timeLastDragEnded = NEVER_IN_THE_FUTURE;
         }
     }
 
+    @Override
+    public void onMoveEnded(ItemAdapterStation.StationViewHolder viewHolder) {
+        timeLastDragEnded = System.currentTimeMillis();
+        super.onMoveEnded(viewHolder);
+    }
+
     class StationViewHolder extends ItemAdapterStation.StationViewHolder implements View.OnClickListener, View.OnCreateContextMenuListener, SwipeableViewHolder {
-        MaterialPopupMenu materialPopupMenu = null;
+        MaterialPopupMenu contextMenu = null;
 
         StationViewHolder(View itemView) {
             super(itemView);
@@ -45,26 +66,24 @@ public class ItemAdapterIconOnlyStation extends ItemAdapterStation implements Re
 
             imageViewIcon = itemView.findViewById(R.id.iconImageViewIcon);
             transparentImageView = itemView.findViewById(R.id.iconTransparentCircle);
-            itemView.setOnClickListener(this);
             itemView.setOnCreateContextMenuListener(this);
         }
 
         public void dismissContextMenu() {
-            if (materialPopupMenu != null) {
-                materialPopupMenu.dismiss();
-                materialPopupMenu = null;
+            if (contextMenu != null) {
+                contextMenu.dismiss();
+                contextMenu = null;
             }
         }
 
         @Override
         public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
-            if (materialPopupMenu != null)
+            if (contextMenu != null)
                 return;
-
             int pos = getAdapterPosition();
             DataRadioStation station = filteredStationsList.get(pos);
-            materialPopupMenu = StationPopupMenu.INSTANCE.open(v, getContext(), activity, station, ItemAdapterIconOnlyStation.this);
-            materialPopupMenu.setOnDismissListener(() -> {
+            contextMenu = StationPopupMenu.INSTANCE.open(v, getContext(), activity, station, ItemAdapterIconOnlyStation.this);
+            contextMenu.setOnDismissListener(() -> {
                 dismissContextMenu();
                 return null;
             });
