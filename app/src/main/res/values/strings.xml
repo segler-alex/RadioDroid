@@ -332,7 +332,7 @@
     <string name="context_menu_visit_homepage">Visit homepage</string>
     <string name="context_menu_play_in_radiodrid">Play in RadioDroid</string>
     <string name="context_menu_play_in_external_player">Play in external player</string>
-    <string name="context_menu_add_alarm">Add Alaram</string>
-    <string name="context_menu_create_shortcut">Create shortcut</string>
+    <string name="context_menu_add_alarm">Add alaram</string>
+    <string name="context_menu_create_shortcut">Add to home screen</string>
     <string name="context_menu_delete">Delete</string>
 </resources>
