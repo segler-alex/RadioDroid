@@ -11,6 +11,7 @@
     <string name="detail_pause">Pause</string>
     <string name="detail_stop">Stop</string>
     <string name="detail_share">Del</string>
+    <string name="detail_play_in_radiodroid">Afspil i RadioDroid</string>
 
     <string name="action_links">Henvisninger</string>
     <string name="action_homepage">Hjemmeside</string>
@@ -70,12 +71,19 @@
 
     <string name="nav_item_save_playlist">Eksportere favoritter som afspilningsliste</string>
     <string name="nav_item_load_playlist">Importere favoritter fra afspilningsliste</string>
+    <string name="nav_item_save_history_playlist">Eksportere hisotrik som afspilningsliste</string>
     <string name="confirm_overwrite_file">Overskrive fil?</string>
     <string name="dialog_hint_file_name">Indtaste filnavn</string>
     <string name="error_empty_field">Dette felt er påkrævet</string>
     <string name="error_invalid_file_name">Ugyldigt filnavn</string>
     <string name="label_button_cancel">Annullere</string>
     <string name="label_button_overwrite">Overskrive</string>
+    <string name="notify_load_playlist_nok">Kunne ikke importere fra %1$s&#47;%2$s</string>
+    <string name="notify_load_playlist_now">Importerer fra %1$s&#47;%2$s, vent.</string>
+    <string name="notify_load_playlist_ok">Importerede %1$d stationer fra %2$s&#47;%3$s</string>
+    <string name="notify_save_playlist_nok">Kunne ikke eksportere til %1$s&#47;%2$s</string>
+    <string name="notify_save_playlist_now">Eksporterer til %1$s&#47;%2$s, vent.</string>
+    <string name="notify_save_playlist_ok">Eksporteret til %1$s&#47;%2$s</string>
 
     <string name="searchpreference_clear_history">Ryd historik</string>
     <string name="searchpreference_no_results">Intet resultat</string>
@@ -173,6 +181,11 @@
     <string name="settings_recordings">Optagelser</string>
     <string name="settings_record_name_formatting">Navneformat</string>
 
+    <string name="settings_record_name_formatting_default" translatable="false">${station}_${artist}_${track}_${date}_${time}</string>
+    <string name="settings_record_name_formatting_1" translatable="false">${station}_${artist}_${track}</string>
+    <string name="settings_record_name_formatting_2" translatable="false">${station}_${date}_${time}</string>
+    <string name="settings_record_name_formatting_3" translatable="false">${index}_${station}_${date}</string>
+
     <string name="settings_record_name_formatting_default_display">station_kunstner_nummer_\u200bdato_\u200btidspunkt</string>
     <string name="settings_record_name_formatting_1_display">station_kunstner_\u200bnummer</string>
     <string name="settings_record_name_formatting_2_display">station_dato_\u200btidspunkt</string>
@@ -189,8 +202,12 @@
     <string name="notify_deleted_favorites">Favoritter er blevet slettet</string>
     <string name="notify_deleted_history">Historikken er blevet fjernet</string>
 
+    <string name="notify_open_link_failure">Intet program fundet til at åbne henvisning</string>
+
     <string name="notify_station_removed_from_list">1 fjernet</string>
     <string name="action_station_removed_from_list_undo">Genskab</string>
+
+    <string name="alert_install_lyrics_app">QuickLyric er ikke installeret på enhed. Hente den fra Google Play Store?</string>
 
     <string name="alert_delete_history">Slet historik?</string>
     <string name="alert_delete_favorites">Slet alle favoritter?</string>
@@ -217,6 +234,7 @@
     <string name="error_caching_stream">Strøm mellemlager problem</string>
     <string name="error_play_stream">Kan ikke afspille strøm</string>
     <string name="error_stream_reconnect_timeout">Kan ikke forbinde til strøm: tidsudløb</string>
+    <string name="warning_no_network_trying_resume">Ingen netværk forbindelse. Genoptager når forbindelse er tilbage.</string>
     <string name="giving_up_resume">Forsøg på genopatage afspilning afvist</string>
 
     <string name="error_record_needs_write">Behøver skrive tilladelse for optagning</string>
@@ -231,7 +249,7 @@
     <string name="player_info_status_playing_and_recording">afspiller og optager</string>
     <string name="player_info_transferred">Overført data: %1$s</string>
     <string name="player_info_recording_to">Optager til:\n%1$s</string>
-    <string name="player_info_recorded_to">Sidte optagelse:\n%1$s</string>
+    <string name="player_info_recorded_to">Sidste optagelse:\n%1$s</string>
 
     <string name="tab_player_art">Album omslag</string>
     <string name="tab_player_info">Information</string>
@@ -292,6 +310,7 @@
     </string-array>
 
     <string name="notify_stream_url_copied">Strøm URL kopieret</string>
+    <string name="notify_track_info_copied">Nummer information kopieret</string>
 
     <string-array name="actions_station_link">
         <item>Besøge netsted</item>
