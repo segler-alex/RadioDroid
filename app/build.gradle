@@ -1,5 +1,7 @@
 apply plugin: 'com.android.application'
 apply plugin: "de.mannodermaus.android-junit5"
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
 
 android {
 
@@ -127,6 +129,7 @@ dependencies {
     playImplementation 'com.google.android.gms:play-services-safetynet:17.0.0'
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.6.2'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.6.2'
+    implementation 'com.github.zawadz88.materialpopupmenu:material-popup-menu:3.4.0'
 }
 
 

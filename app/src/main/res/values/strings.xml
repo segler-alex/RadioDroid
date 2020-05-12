@@ -289,6 +289,7 @@
     <string name="action_add_mpd_server">Add MPD server</string>
 
     <string name="action_play_in_external">Play in external player</string>
+    <string name="action_choose_external_player">Choose external audio stream player</string>
 
     <string name="settings_other">Other</string>
     <string name="settings_statistics">Statistics</string>
@@ -326,4 +327,12 @@
     <string name="alarm_backup">Alternative Alarm</string>
     <string name="alarm_fallback_info">System alarm adopted as selected radio station failed to load</string>
     <string name="alarm_back_desc">Alternative system alarm adopted when the radio station fails to load</string>
+
+    <string name="context_menu_share">@string/detail_share</string>
+    <string name="context_menu_visit_homepage">@string/action_station_visit_website</string>
+    <string name="context_menu_play_in_radiodrid">@string/detail_play_in_radiodroid</string>
+    <string name="context_menu_play_in_external_player">@string/action_play_in_external</string>
+    <string name="context_menu_add_alarm">@string/action_alarm</string>
+    <string name="context_menu_create_shortcut">@string/detail_create_shortcut</string>
+    <string name="context_menu_delete">@string/action_delete</string>
 </resources>
