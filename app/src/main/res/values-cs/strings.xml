@@ -35,7 +35,7 @@
     <string name="progress_loading">Načítání...</string>
 
     <string name="sleep_timer" formatted="true">Časovač před spaním: %1$02d:%2$02d</string>
-    <string name="nav_item_add_sleep">+15 min</string>
+    <string name="nav_item_add_sleep">Časovač před spaním</string>
 
     <string name="settings_single_use_tags">Zobrazit osamocené tagy</string>
     <string name="settings_single_use_tags_desc_off">Tagy použité pouze jednou nebudou zobrazeny</string>
