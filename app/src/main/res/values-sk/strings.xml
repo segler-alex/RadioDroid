@@ -63,7 +63,7 @@
     <string name="sleep_timer_title">Koľko minút do automatického zastavenia</string>
     <string name="sleep_timer_apply">Použiť</string>
     <string name="sleep_timer_clear">Vynulovať</string>
-    <string name="nav_item_add_sleep">+15 minút</string>
+    <string name="nav_item_add_sleep">Časovač zaspávania</string>
 
     <string name="settings_theme_selection_title">Vzhľad</string>
     <string name="theme_light">Svetlý</string>

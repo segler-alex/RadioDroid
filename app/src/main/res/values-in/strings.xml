@@ -62,7 +62,7 @@
     <string name="sleep_timer_title">Berhenti bermain sesudah menit yang dipilih</string>
     <string name="sleep_timer_apply">Terapkan</string>
     <string name="sleep_timer_clear">Bersihkan</string>
-    <string name="nav_item_add_sleep">+15 menit</string>
+    <string name="nav_item_add_sleep">Waktu tidur</string>
 
     <string name="nav_item_save_playlist">Simpan ke daftar main</string>
     <string name="nav_item_load_playlist">Memilih dari daftar main</string>

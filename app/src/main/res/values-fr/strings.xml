@@ -60,7 +60,7 @@
     <string name="sleep_timer_title">Combien de minutes avant l\'arrêt?</string>
     <string name="sleep_timer_apply">Appliquer</string>
     <string name="sleep_timer_clear">Effacer</string>
-    <string name="nav_item_add_sleep">+15 mins</string>
+    <string name="nav_item_add_sleep">Temps de sommeil</string>
 
     <string name="settings_theme_selection_title">Thème</string>
     <string name="theme_light">Clair</string>

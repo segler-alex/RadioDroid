@@ -51,7 +51,7 @@
     <string name="sleep_timer_title">Hány perc maradt a leállításig?</string>
     <string name="sleep_timer_apply">Alkalmaz</string>
     <string name="sleep_timer_clear">Törlés</string>
-    <string name="nav_item_add_sleep">+15 perc</string>
+    <string name="nav_item_add_sleep">Alvási időzítő</string>
 
     <string name="nav_item_save_playlist">Mentés lejátzólistára</string>
     <string name="nav_item_load_playlist">Betöltés lejátszólistából</string>

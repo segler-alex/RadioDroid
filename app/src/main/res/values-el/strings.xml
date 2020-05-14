@@ -70,7 +70,7 @@
     <string name="sleep_timer_title">Πόσα λεπτά πριν τη διακοπή;</string>
     <string name="sleep_timer_apply">Εφαρμογή</string>
     <string name="sleep_timer_clear">Καθάρισμα</string>
-    <string name="nav_item_add_sleep">+15 λεπτά</string>
+    <string name="nav_item_add_sleep">Χρονοδιακόπτης ύπνου</string>
 
     <string name="settings_theme_selection_title">Θέμα</string>
     <string name="theme_light">Φωτεινό</string>
