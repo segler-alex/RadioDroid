@@ -57,7 +57,7 @@
     <string name="nav_item_settings">设置</string>
     <string name="nav_item_alarm">闹钟</string>
 
-    <string name="about_text">此程序使用位于 https://www.radio-browser.info 的免费广播电台目录。\n任何人都可以添加电台到目录中或编辑已有电台，就像一个在线（流媒体）广播电台的维基一样。\n\n联系：\nsegler_alex@web.de\n\n漏洞跟踪：\nhttps://github.com/segler-alex/RadioDroid/issues\n\n如果您喜欢此软件并愿意提供帮助，敬请给本人发送邮件，我真的需要有绘图经验的朋友来让这个程序别太虐待眼睛了:)\n或许哪位朋友会画图标、图片...或者哪位程序员会修复漏洞，或者开发（功能，不是漏洞;）\n还有关于新功能的建议也一向非常感谢！\n\n此程序是在 GPLv3 https://www.gnu.org/licenses/gpl-3.0.html 授权下的免费软件。</string>
+    <string name="about_text">此程序使用位于 https://www.radio-browser.info 的免费广播电台目录。\n任何人都可以添加电台到目录中或编辑已有电台，就像一个在线（流媒体）广播电台的维基一样。\n\n联系：\nsegler_alex@web.de\n\n漏洞跟踪：\nhttps://github.com/segler-alex/RadioDroid/issues\n\n如果您喜欢此软件并愿意提供帮助，敬请给本人发送邮件，我真的需要有绘图经验的朋友来让这个程序别太虐待眼睛了:)\n或许哪位朋友会画图标、图片...或者哪位程序员会修复漏洞，或者开发（功能，不是漏洞;）\n还有关于新功能的建议也一向非常感谢！\n\n此程序是在 GPLv3 授权下的免费软件。https://www.gnu.org/licenses/gpl-3.0.html</string>
     <string name="about_version">版本：%1$s</string>
     <string name="detail_star">添加到收藏</string>
     <string name="detail_unstar">从收藏删除</string>
@@ -283,6 +283,7 @@
     <string name="action_add_mpd_server">添加 MPD 服务器</string>
     
     <string name="action_play_in_external">使用外部播放器播放</string>
+    <string name="action_choose_external_player">选择外部播放器</string>
 
     <string name="settings_other">其它</string>
     <string name="settings_statistics">统计</string>
@@ -321,4 +322,12 @@
     <string name="alarm_backup">备用闹钟</string>
     <string name="alarm_fallback_info">所选电台载入失败，已使用系统闹钟</string>
     <string name="alarm_back_desc">当电台载入失败时使用的备用系统闹钟</string>
+
+    <string name="context_menu_share">@string/detail_share</string>
+    <string name="context_menu_visit_homepage">@string/action_station_visit_website</string>
+    <string name="context_menu_play_in_radiodrid">@string/detail_play_in_radiodroid</string>
+    <string name="context_menu_play_in_external_player">@string/action_play_in_external</string>
+    <string name="context_menu_add_alarm">@string/action_alarm</string>
+    <string name="context_menu_create_shortcut">@string/detail_create_shortcut</string>
+    <string name="context_menu_delete">@string/action_delete</string>
 </resources>
