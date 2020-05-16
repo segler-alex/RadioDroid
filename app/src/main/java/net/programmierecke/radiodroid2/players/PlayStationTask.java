@@ -60,7 +60,8 @@ public class PlayStationTask extends AsyncTask<Void, Void, String> {
     public static PlayStationTask playExternal(DataRadioStation stationToPlay, Context ctx) {
         return new PlayStationTask(stationToPlay, ctx, url -> {
             Intent share = new Intent(Intent.ACTION_VIEW);
-            share.setDataAndType(Uri.parse(url), "audio/*");
+            share.setType("audio/*");
+            share.setData(Uri.parse(url));
             ctx.startActivity(share);
         }, null);
     }
