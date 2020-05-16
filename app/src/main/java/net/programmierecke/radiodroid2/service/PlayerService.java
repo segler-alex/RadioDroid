@@ -1085,7 +1085,7 @@ public class PlayerService extends JobIntentService implements RadioPlayer.Playe
         handler.post(() -> {
             setMediaPlaybackState(PlaybackStateCompat.STATE_PLAYING);
 
-            toneGenerator = new ToneGenerator(AudioManager.STREAM_ALARM, 100);
+            toneGenerator = new ToneGenerator(AudioManager.STREAM_MUSIC, 100);
             toneGenerator.startTone(ToneGenerator.TONE_SUP_RADIO_NOTAVAIL, AUDIO_WARNING_DURATION);
         });
 
