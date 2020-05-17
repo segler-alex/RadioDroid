@@ -56,6 +56,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.TrustManager;
@@ -317,6 +319,11 @@ public class Utils {
                     PlayerServiceUtil.setStation(station1);
                     PlayerServiceUtil.warnAboutMeteredConnection(playerType1);
                 });
+    }
+
+    public static boolean urlIndicatesHlsStream(String streamUrl) {
+        final Pattern p = Pattern.compile(".*\\.m3u8([#?\\s].*)?$");
+        return p.matcher(streamUrl).matches();
     }
 
     public interface MeteredWarningCallback {

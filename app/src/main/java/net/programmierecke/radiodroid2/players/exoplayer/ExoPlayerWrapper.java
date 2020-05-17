@@ -182,7 +182,7 @@ public class ExoPlayerWrapper implements PlayerWrapper, IcyDataSource.IcyDataSou
             playerThreadHandler = new Handler(Looper.getMainLooper());
         }
 
-        isHls = streamUrl.endsWith(".m3u8");
+        isHls = Utils.urlIndicatesHlsStream(streamUrl);
 
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context.getApplicationContext());
         final int retryTimeout = prefs.getInt("settings_retry_timeout", 10);
