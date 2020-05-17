@@ -16,7 +16,6 @@ import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 
-import androidx.annotation.Nullable;
 import androidx.fragment.app.FragmentActivity;
 import androidx.core.content.ContextCompat;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
@@ -31,8 +30,15 @@ import android.view.ViewGroup;
 import android.view.ViewStub;
 import android.widget.*;
 
+import com.mikepenz.iconics.IconicsDrawable;
+import com.mikepenz.iconics.IconicsSize;
+import com.mikepenz.iconics.typeface.library.community.material.CommunityMaterial;
+import com.mikepenz.iconics.view.IconicsImageButton;
+
 import net.programmierecke.radiodroid2.*;
 import net.programmierecke.radiodroid2.interfaces.IAdapterRefreshable;
+import net.programmierecke.radiodroid2.players.PlayStationTask;
+import net.programmierecke.radiodroid2.players.selector.PlayerType;
 import net.programmierecke.radiodroid2.utils.RecyclerItemMoveAndSwipeHelper;
 import net.programmierecke.radiodroid2.service.PlayerService;
 import net.programmierecke.radiodroid2.service.PlayerServiceUtil;
@@ -112,13 +118,14 @@ public class ItemAdapterStation
 
         View viewDetails;
         ViewStub stubDetails;
-        ImageButton buttonStationLinks;
+        IconicsImageButton buttonVisitWebsite;
         ImageButton buttonBookmark;
+        ImageButton buttonShare;
         ImageView imageTrend;
         ImageButton buttonAddAlarm;
         TagsView viewTags;
         ImageButton buttonCreateShortcut;
-        ImageButton buttonPlayInRadioDroid;
+        ImageButton buttonPlayInternalOrExternal;
 
         StationViewHolder(View itemView) {
             super(itemView);
@@ -359,49 +366,30 @@ public class ItemAdapterStation
             holder.viewDetails = holder.stubDetails == null ? holder.viewDetails : holder.stubDetails.inflate();
             holder.stubDetails = null;
             holder.viewTags = (TagsView) holder.viewDetails.findViewById(R.id.viewTags);
-            holder.buttonStationLinks = holder.viewDetails.findViewById(R.id.buttonStationWebLink);
+            holder.buttonVisitWebsite = holder.viewDetails.findViewById(R.id.buttonVisitWebsite);
+            holder.buttonShare = holder.viewDetails.findViewById(R.id.buttonShare);
             holder.buttonBookmark = holder.viewDetails.findViewById(R.id.buttonBookmark);
             holder.buttonAddAlarm = holder.viewDetails.findViewById(R.id.buttonAddAlarm);
             holder.buttonCreateShortcut = holder.viewDetails.findViewById(R.id.buttonCreateShortcut);
-            holder.buttonPlayInRadioDroid = holder.viewDetails.findViewById(R.id.buttonPlayInRadioDroid);
+            holder.buttonPlayInternalOrExternal = holder.viewDetails.findViewById(R.id.buttonPlayInRadioDroid);
 
-//            holder.buttonShare.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View view) {
-//                    StationActions.share(getContext(), station);
-//                }
-//            });
-
-            holder.buttonStationLinks.setOnClickListener(new View.OnClickListener() {
+            holder.buttonVisitWebsite.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    StationActions.showWebLinks(activity, station);
+                    StationActions.openStationHomeUrl(activity, station);
                 }
             });
 
+            holder.buttonShare.setOnClickListener(view -> StationActions.share(activity, station));
+
             if (favouriteManager.has(station.StationUuid)) {
-                holder.buttonBookmark.setImageResource(R.drawable.ic_star_black_24dp);
-                holder.buttonBookmark.setContentDescription(getContext().getApplicationContext().getString(R.string.detail_unstar));
-                holder.buttonBookmark.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        StationActions.removeFromFavourites(getContext(), view, station);
-
-                        int position = holder.getAdapterPosition();
-                        notifyItemChanged(position);
-                    }
-                });
+                // favorite stations should only be removed in the favorites view
+                holder.buttonBookmark.setVisibility(View.GONE);
             } else {
-                holder.buttonBookmark.setImageResource(R.drawable.ic_star_border_black_24dp);
-                holder.buttonBookmark.setContentDescription(getContext().getApplicationContext().getString(R.string.detail_star));
-                holder.buttonBookmark.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        StationActions.markAsFavourite(getContext(), station);
-
-                        int position = holder.getAdapterPosition();
-                        notifyItemChanged(position);
-                    }
+                holder.buttonShare.setOnClickListener(view -> {
+                    StationActions.markAsFavourite(getContext(), station);
+                    int position1 = holder.getAdapterPosition();
+                    notifyItemChanged(position1);
                 });
             }
 
@@ -425,11 +413,17 @@ public class ItemAdapterStation
                 }
             });
 
-            // TODO: Maybe show only when external player is enabled?
-            holder.buttonPlayInRadioDroid.setOnClickListener(v -> {
-                StationActions.playInRadioDroid(getContext(), station);
-            });
-
+            if (prefs.getBoolean("play_external", false)) {
+                holder.buttonPlayInternalOrExternal.setOnClickListener(v -> {
+                    StationActions.playInRadioDroid(getContext(), station);
+                });
+            } else {
+                Context context = getContext();
+                holder.buttonPlayInternalOrExternal.setContentDescription(getContext().getString(R.string.detail_play_in_external_player));
+                holder.buttonPlayInternalOrExternal.setImageDrawable(new IconicsDrawable(getContext(), CommunityMaterial.Icon2.cmd_play_box_outline).size(IconicsSize.dp(24)));
+                holder.buttonPlayInternalOrExternal.setOnClickListener(v -> Utils.playAndWarnIfMetered((RadioDroidApp) context.getApplicationContext(), station,
+                        PlayerType.EXTERNAL, () -> PlayStationTask.playExternal(station, context).execute()));
+            }
             String[] tags = station.TagsAll.split(",");
             holder.viewTags.setTags(Arrays.asList(tags));
             holder.viewTags.setTagSelectionCallback(tagSelectionCallback);
