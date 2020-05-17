@@ -7,6 +7,7 @@
     <string name="detail_create_shortcut">Agregar a la pantalla de inicio</string>
     <string name="detail_language">Idioma</string>
     <string name="detail_weblink">Enlace web</string>
+    <string name="detail_visit_website">@string/action_station_visit_website</string>
     <string name="detail_play">Reproducir</string>
     <string name="detail_pause">Pausar</string>
     <string name="detail_stop">Parar</string>
@@ -61,6 +62,7 @@
     <string name="about_version">Versión : %1$s</string>
     <string name="detail_star">Agregar a favoritos</string>
     <string name="detail_unstar">Quitar de favoritos</string>
+    <string name="detail_play_in_external_player">@string/action_play_in_external</string>
     <string name="progress_loading">Cargando...</string>
 
     <string name="sleep_timer" formatted="true">Tiempo para dormir: %1$02d:%2$02d</string>

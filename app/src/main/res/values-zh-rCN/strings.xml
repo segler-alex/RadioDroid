@@ -7,6 +7,7 @@
     <string name="detail_create_shortcut">添加到主屏幕</string>
     <string name="detail_language">语言</string>
     <string name="detail_weblink">网络链接</string>
+    <string name="detail_visit_website">@string/action_station_visit_website</string>
     <string name="detail_play">播放</string>
     <string name="detail_pause">暂停</string>
     <string name="detail_stop">停止</string>
@@ -61,6 +62,7 @@
     <string name="about_version">版本：%1$s</string>
     <string name="detail_star">添加到收藏</string>
     <string name="detail_unstar">从收藏删除</string>
+    <string name="detail_play_in_external_player">@string/action_play_in_external</string>
     <string name="progress_loading">正在载入...</string>
 
     <string name="sleep_timer" formatted="true">睡眠定时器：%1$02d:%2$02d</string>
