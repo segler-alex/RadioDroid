@@ -234,12 +234,12 @@ public class RadioDroidBrowser {
                 .build(),
                 MediaBrowserCompat.MediaItem.FLAG_BROWSABLE));
 
-        mediaItems.add(new MediaBrowserCompat.MediaItem(new MediaDescriptionCompat.Builder()
+/*        mediaItems.add(new MediaBrowserCompat.MediaItem(new MediaDescriptionCompat.Builder()
                 .setMediaId(MEDIA_ID_MUSICS_TOP)
                 .setTitle(resources.getString(R.string.action_top_click))
                 .setIconUri(resourceToUri(resources, R.drawable.ic_restore_black_24dp))
                 .build(),
-                MediaBrowserCompat.MediaItem.FLAG_BROWSABLE));
+                MediaBrowserCompat.MediaItem.FLAG_BROWSABLE));*/
         return mediaItems;
     }
 
