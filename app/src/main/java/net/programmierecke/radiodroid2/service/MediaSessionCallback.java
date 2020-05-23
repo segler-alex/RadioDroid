@@ -116,9 +116,9 @@ public class MediaSessionCallback extends MediaSessionCompat.Callback {
         DataRadioStation station = ((RadioDroidApp) context.getApplicationContext()).getFavouriteManager().getBestNameMatch(query);
         if (station == null)
            station = ((RadioDroidApp) context.getApplicationContext()).getHistoryManager().getBestNameMatch(query);
-        if (station != null) {
-            GetRealLinkAndPlayTask playTask = new GetRealLinkAndPlayTask(context, station, playerService);
-            playTask.execute();
-        }
+        if (station == null)
+            station = ((RadioDroidApp) context.getApplicationContext()).getFallbackStationsManager().getBestNameMatch(query);
+        GetRealLinkAndPlayTask playTask = new GetRealLinkAndPlayTask(context, station, playerService);
+        playTask.execute();
     }
 }

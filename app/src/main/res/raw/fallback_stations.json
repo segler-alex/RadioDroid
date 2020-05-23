@@ -1,0 +1,21 @@
+[
+   {
+      "bitrate" : "56",
+      "changeuuid" : "08debbaf-bf7e-11e9-8502-52543be04c81",
+      "clickcount" : 564,
+      "clicktrend" : -7,
+      "codec" : "MP3",
+      "country" : "United Kingdom",
+      "countrycode" : "GB",
+      "favicon" : "https://cdn-radiotime-logos.tunein.com/s24948q.png",
+      "homepage" : "http://www.bbc.co.uk/worldserviceradio",
+      "language" : "",
+      "lastcheckok" : "1",
+      "name" : "BBC World Service News",
+      "state" : "",
+      "stationuuid" : "08debba2-bf7e-11e9-8502-52543be04c81",
+      "tags" : "news",
+      "url" : "http://bbcwssc.ic.llnwd.net/stream/bbcwssc_mp1_ws-einws",
+      "votes" : 123
+   }
+]
