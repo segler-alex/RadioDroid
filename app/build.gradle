@@ -40,6 +40,10 @@ android {
         // It must neither be present in /res/values/strings.xml
         // nor in /res/values/string_no_translate.xml
         resValue 'string', 'app_name_untranslated', 'RadioDroid'
+        // 1) Make sure to use the AndroidJUnitRunner, of a subclass of it. This requires a dependency on androidx.test:runner, too!
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        // 2) Connect JUnit 5 to the runner
+        testInstrumentationRunnerArgument("runnerBuilder", "de.mannodermaus.junit5.AndroidJUnit5Builder")
     }
 
     sourceSets {
@@ -76,6 +80,9 @@ android {
             useJUnit()
         }
         unitTests.returnDefaultValues = true
+    }
+    packagingOptions {
+        exclude "META-INF/LICENSE*"
     }
 }
 
@@ -128,6 +135,13 @@ dependencies {
     playImplementation 'com.google.android.gms:play-services-cast:18.1.0'
     playImplementation 'com.google.android.gms:play-services-cast-framework:18.1.0'
     playImplementation 'com.google.android.gms:play-services-safetynet:17.0.0'
+
+    androidTestImplementation "androidx.test:runner:1.2.0"
+    androidTestImplementation "org.junit.jupiter:junit-jupiter-api:5.6.2"
+    androidTestImplementation "de.mannodermaus.junit5:android-test-core:1.0.0"
+    androidTestRuntimeOnly "de.mannodermaus.junit5:android-test-runner:1.0.0"
+    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
+
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.6.2'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.6.2'
     implementation 'com.github.zawadz88.materialpopupmenu:material-popup-menu:3.4.0'
