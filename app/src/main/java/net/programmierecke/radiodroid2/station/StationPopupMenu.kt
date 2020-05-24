@@ -30,7 +30,7 @@ object StationPopupMenu {
             section {
                 if (play_external) {
                     item {
-                        labelRes = R.string.context_menu_play_in_radiodrid
+                        labelRes = R.string.context_menu_play_in_radiodroid
                         icon = R.drawable.ic_play_in_radiodroid_24dp
                         callback = {
                             StationActions.playInRadioDroid(context, station)
