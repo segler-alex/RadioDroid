@@ -68,12 +68,13 @@
             android:background="?attr/selectableItemBackgroundBorderless"
             android:contentDescription="@string/image_button_delete" />
 
-        <ImageButton
+        <com.mikepenz.iconics.view.IconicsImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/checkboxRepeating"
             android:tint="?attr/iconsInItemBackgroundColor"
-            app:srcCompat="@drawable/ic_refresh_black_24dp"
+            app:iiv_size="24dp"
+            app:iiv_icon="cmd-calendar-edit"
             android:layout_gravity="center"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:layout_margin="20dp" />
