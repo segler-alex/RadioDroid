@@ -1000,6 +1000,7 @@ public class PlayerService extends JobIntentService implements RadioPlayer.Playe
 
                 if (mediaSession != null) {
                     final MediaMetadataCompat.Builder builder = new MediaMetadataCompat.Builder();
+                    builder.putLong(MediaMetadataCompat.METADATA_KEY_DURATION, -1);
                     builder.putString(MediaMetadataCompat.METADATA_KEY_ALBUM, currentStation.Name);
                     builder.putString(MediaMetadataCompat.METADATA_KEY_ARTIST, liveInfo.getArtist());
                     builder.putString(MediaMetadataCompat.METADATA_KEY_TITLE, liveInfo.getTrack());
