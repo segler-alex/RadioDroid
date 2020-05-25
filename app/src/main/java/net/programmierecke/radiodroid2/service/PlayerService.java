@@ -968,6 +968,7 @@ public class PlayerService extends JobIntentService implements RadioPlayer.Playe
             @Override
             public void run() {
                 Toast.makeText(itsContext, itsContext.getResources().getString(messageId), Toast.LENGTH_SHORT).show();
+                ((RadioDroidApp)(getApplication())).getTextToSpeechPlayer().speak(messageId);
             }
         });
     }
