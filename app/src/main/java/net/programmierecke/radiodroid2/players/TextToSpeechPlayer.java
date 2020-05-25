@@ -60,6 +60,10 @@ public class TextToSpeechPlayer {
             tts.speak(string, TextToSpeech.QUEUE_ADD, null);
     }
 
+    public void stop() {
+        if (ttsIsSupported)
+            tts.stop();
+    }
 
     public static boolean resStringIsLocalized(Context context, Locale locale, int stringResId) {
         String stringWithCurrentLocale = getResStringByLocale(context, stringResId, locale);
