@@ -13,6 +13,7 @@ import com.squareup.picasso.Picasso;
 
 import net.programmierecke.radiodroid2.alarm.RadioAlarmManager;
 import net.programmierecke.radiodroid2.history.TrackHistoryRepository;
+import net.programmierecke.radiodroid2.players.TextToSpeechPlayer;
 import net.programmierecke.radiodroid2.players.mpd.MPDClient;
 import net.programmierecke.radiodroid2.station.live.metadata.TrackMetadataSearcher;
 import net.programmierecke.radiodroid2.proxy.ProxySettings;
@@ -42,6 +43,7 @@ public class RadioDroidApp extends MultiDexApplication {
 
     private ConnectionPool connectionPool;
     private OkHttpClient httpClient;
+    private TextToSpeechPlayer textToSpeechPlayer;
 
     public class UserAgentInterceptor implements Interceptor {
 
@@ -91,6 +93,8 @@ public class RadioDroidApp extends MultiDexApplication {
         mpdClient = new MPDClient(this);
 
         trackMetadataSearcher = new TrackMetadataSearcher(httpClient);
+
+        textToSpeechPlayer = new TextToSpeechPlayer(this, R.string.warning_no_network_trying_resume);
 
         recordingsManager.updateRecordingsList();
     }
@@ -160,5 +164,9 @@ public class RadioDroidApp extends MultiDexApplication {
             }
         }
         return true;
+    }
+
+    public TextToSpeechPlayer getTextToSpeechPlayer() {
+        return textToSpeechPlayer;
     }
 }
