@@ -183,15 +183,10 @@
     <string name="settings_recordings">Rekaman</string>
     <string name="settings_record_name_formatting">Format nama</string>
 
-    <string name="settings_record_name_formatting_default" translatable="false">${station}_${artist}_${track}_${date}_${time}</string>
-    <string name="settings_record_name_formatting_1" translatable="false">${station}_${artist}_${track}</string>
-    <string name="settings_record_name_formatting_2" translatable="false">${station}_${date}_${time}</string>
-    <string name="settings_record_name_formatting_3" translatable="false">${index}_${station}_${date}</string>
-
-    <string name="settings_record_name_formatting_default_display">station_artist_track_\u200bdate_\u200btime</string>
-    <string name="settings_record_name_formatting_1_display">station_artist_\u200btrack</string>
-    <string name="settings_record_name_formatting_2_display">station_date_\u200btime</string>
-    <string name="settings_record_name_formatting_3_display">index_station_\u200bdate</string>
+    <string name="settings_record_name_formatting_default_display">stasiun_artis_jalur_\u200btanggal_\u200bwaktu</string>
+    <string name="settings_record_name_formatting_1_display">stasiun_artis_\u200bjalur</string>
+    <string name="settings_record_name_formatting_2_display">stasiun_tanggal_\u200bwaktu</string>
+    <string name="settings_record_name_formatting_3_display">indeks_stasiun_\u200btanggal</string>
 
     <string name="notify_pre_play">Menyambung</string>
     <string name="notify_play">Memutar</string>
