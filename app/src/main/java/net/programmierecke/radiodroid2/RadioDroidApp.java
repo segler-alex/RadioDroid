@@ -94,7 +94,7 @@ public class RadioDroidApp extends MultiDexApplication {
 
         trackMetadataSearcher = new TrackMetadataSearcher(httpClient);
 
-        textToSpeechPlayer = new TextToSpeechPlayer(this, R.string.warning_no_network_trying_resume);
+        textToSpeechPlayer = new TextToSpeechPlayer(this, R.string.warning_network_lost_trying_resume);
 
         recordingsManager.updateRecordingsList();
     }

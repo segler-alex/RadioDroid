@@ -231,7 +231,7 @@
     <string name="error_caching_stream">Masalah cache stream</string>
     <string name="error_play_stream">Tidak bisa memutar stream</string>
     <string name="error_stream_reconnect_timeout">Tidak bisa menyambung ke stream: waktu habis</string>
-    <string name="warning_no_network_trying_resume">Tidak ada koneksi jaringan. Mencoba melanjutkan saat koneksi kembali tersambung.</string>
+    <string name="warning_network_lost_trying_resume">Tidak ada koneksi jaringan. Mencoba melanjutkan saat koneksi kembali tersambung.</string>
     <string name="giving_up_resume">Menyerah dalam mencoba melanjutkan pemutaran</string>
 
     <string name="error_record_needs_write">Membutuhkan izin akses penyimpanan untuk merekam</string>
