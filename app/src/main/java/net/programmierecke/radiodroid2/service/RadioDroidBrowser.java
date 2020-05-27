@@ -182,9 +182,27 @@ public class RadioDroidBrowser {
         this.radioDroidApp = radioDroidApp;
     }
 
-    @Nullable
+    public static final String CONTENT_STYLE_SUPPORTED = "android.media.browse.CONTENT_STYLE_SUPPORTED";
+    public static final String CONTENT_STYLE_PLAYABLE_HINT = "android.media.browse.CONTENT_STYLE_PLAYABLE_HINT";
+    public static final String CONTENT_STYLE_BROWSABLE_HINT = "android.media.browse.CONTENT_STYLE_BROWSABLE_HINT";
+    public static final int CONTENT_STYLE_LIST_ITEM_HINT_VALUE = 1;
+    public static final int CONTENT_STYLE_GRID_ITEM_HINT_VALUE = 2;
+
+   @Nullable
     public MediaBrowserServiceCompat.BrowserRoot onGetRoot(@NonNull String clientPackageName, int clientUid, @Nullable Bundle rootHints) {
-        return new MediaBrowserServiceCompat.BrowserRoot(MEDIA_ID_ROOT, null);
+       SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(radioDroidApp.getApplicationContext().getApplicationContext());
+       showIconsInBrowser = sharedPref.getBoolean("show_station_icons_in_hud_browser", false);
+       Bundle extras = new Bundle();
+       extras.putInt(CONTENT_STYLE_BROWSABLE_HINT, CONTENT_STYLE_LIST_ITEM_HINT_VALUE);
+       if (showIconsInBrowser) {
+           Log.d(TAG, "Setting grid style for playables");
+           extras.putInt(CONTENT_STYLE_PLAYABLE_HINT, CONTENT_STYLE_GRID_ITEM_HINT_VALUE);
+       } else {
+           Log.d(TAG, "Setting list style for playables");
+           extras.putInt(CONTENT_STYLE_PLAYABLE_HINT, CONTENT_STYLE_LIST_ITEM_HINT_VALUE);
+       }
+       extras.putBoolean(CONTENT_STYLE_SUPPORTED, true);
+       return new MediaBrowserServiceCompat.BrowserRoot(MEDIA_ID_ROOT, extras);
     }
 
     public void onLoadChildren(@NonNull String parentId, @NonNull MediaBrowserServiceCompat.Result<List<MediaBrowserCompat.MediaItem>> result) {
