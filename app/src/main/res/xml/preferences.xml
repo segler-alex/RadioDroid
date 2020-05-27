@@ -245,6 +245,20 @@
             android:title="@string/settings_proxy" />
     </PreferenceScreen>
 
+    <PreferenceScreen
+        search:ignore="true"
+        android:key="pref_category_android_auto"
+        android:title="@string/settings_android_auto">
+
+        <CheckBoxPreference
+            android:key="show_station_icons_in_hud_browser"
+            android:defaultValue="false"
+            android:summaryOff="@string/settings_show_station_icons_in_hud_browser_desc_off"
+            android:summaryOn="@string/settings_show_station_icons_in_hud_browser_desc_on"
+            android:title="@string/settings_show_station_icons_in_hud_browser" />
+
+    </PreferenceScreen>
+
     <PreferenceScreen android:title="@string/settings_other"
         search:ignore="true"
         android:key="pref_category_other">

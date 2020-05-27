@@ -1,7 +1,7 @@
 package net.programmierecke.radiodroid2.service;
 
-import android.content.ContentResolver;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -12,15 +12,13 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.media.MediaBrowserCompat;
 import android.support.v4.media.MediaDescriptionCompat;
+import android.support.v4.media.MediaMetadataCompat;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-
-import android.support.v4.media.MediaBrowserCompat;
 import androidx.media.MediaBrowserServiceCompat;
-import android.support.v4.media.MediaDescriptionCompat;
-import android.support.v4.media.MediaMetadataCompat;
-import android.text.TextUtils;
+import androidx.preference.PreferenceManager;
 
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
@@ -46,6 +44,8 @@ import static net.programmierecke.radiodroid2.Utils.resourceToUri;
 
 
 public class RadioDroidBrowser {
+    private static final String TAG = "RadioDroidBrowser" ;
+    private static Boolean showIconsInBrowser = false;
     private static final String MEDIA_ID_ROOT = "__ROOT__";
     private static final String MEDIA_ID_MUSICS_FAVORITE = "__FAVORITE__";
     private static final String MEDIA_ID_MUSICS_HISTORY = "__HISTORY__";
@@ -142,20 +142,33 @@ public class RadioDroidBrowser {
             }
 
             List<MediaBrowserCompat.MediaItem> mediaItems = new ArrayList<>();
+            SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(context.getApplicationContext());
+            showIconsInBrowser = sharedPref.getBoolean("show_station_icons_in_hud_browser", false);
 
             for (DataRadioStation station : stations) {
+
                 Bitmap stationIcon = stationIdToIcon.get(station.StationUuid);
+
                 if (stationIcon == null)
                     stationIcon = BitmapFactory.decodeResource(Resources.getSystem(), R.drawable.ic_launcher);
                 Bundle extras = new Bundle();
                 extras.putParcelable(MediaMetadataCompat.METADATA_KEY_ALBUM_ART, stationIcon);
                 extras.putParcelable(MediaMetadataCompat.METADATA_KEY_DISPLAY_ICON, stationIcon);
-                mediaItems.add(new MediaBrowserCompat.MediaItem(new MediaDescriptionCompat.Builder()
+                MediaDescriptionCompat.Builder mediaItem = new MediaDescriptionCompat.Builder()
                         .setMediaId(MEDIA_ID_MUSICS_HISTORY + LEAF_SEPARATOR + station.StationUuid)
                         .setTitle(station.Name)
-                        .setIconBitmap(stationIcon)
-                        .setExtras(extras)
-                        .build(),
+                        .setDescription(station.Country + " " + station.Country + " " + station.TagsAll)
+                        .setExtras(extras);
+
+                if (showIconsInBrowser) {
+                    if (stationIcon != null) {
+                        mediaItem.setIconBitmap(stationIcon);
+                    } else {
+                        mediaItem.setIconUri(resourceToUri(resources, R.drawable.ic_music_note_grey_24dp));
+                    }
+                }
+
+                mediaItems.add(new MediaBrowserCompat.MediaItem(mediaItem.build(),
                         MediaBrowserCompat.MediaItem.FLAG_PLAYABLE));
             }
 
