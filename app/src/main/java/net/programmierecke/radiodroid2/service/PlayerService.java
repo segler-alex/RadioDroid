@@ -459,8 +459,7 @@ public class PlayerService extends JobIntentService implements RadioPlayer.Playe
         Intent startActivityIntent = new Intent(itsContext.getApplicationContext(), ActivityMain.class);
         mediaSession.setSessionActivity(PendingIntent.getActivity(itsContext.getApplicationContext(), 0, startActivityIntent, PendingIntent.FLAG_UPDATE_CURRENT));
 
-        mediaSession.setFlags(MediaSessionCompat.FLAG_HANDLES_MEDIA_BUTTONS | MediaSessionCompat.FLAG_HANDLES_TRANSPORT_CONTROLS);
-
+        setMediaPlaybackState(PlaybackStateCompat.STATE_NONE);
         RadioDroidApp radioDroidApp = (RadioDroidApp) getApplication();
         trackHistoryRepository = radioDroidApp.getTrackHistoryRepository();
 
@@ -654,6 +653,7 @@ public class PlayerService extends JobIntentService implements RadioPlayer.Playe
             return;
         }
 
+        setMediaPlaybackState(PlaybackStateCompat.STATE_SKIPPING_TO_NEXT);
         RadioDroidApp radioDroidApp = (RadioDroidApp) getApplication();
         DataRadioStation station = radioDroidApp.getFavouriteManager().getNextById(currentStation.StationUuid);
 
@@ -673,6 +673,7 @@ public class PlayerService extends JobIntentService implements RadioPlayer.Playe
             return;
         }
 
+        setMediaPlaybackState(PlaybackStateCompat.STATE_SKIPPING_TO_PREVIOUS);
         RadioDroidApp radioDroidApp = (RadioDroidApp) getApplication();
         DataRadioStation station = radioDroidApp.getFavouriteManager().getPreviousById(currentStation.StationUuid);
         if (station != null) {
@@ -793,14 +794,16 @@ public class PlayerService extends JobIntentService implements RadioPlayer.Playe
     }
 
     private void enableMediaSession() {
-        if (BuildConfig.DEBUG) Log.d(TAG, "enabling media session.");
+        if (!mediaSession.isActive()) {
+            if (BuildConfig.DEBUG) Log.d(TAG, "enabling media session.");
 
-        IntentFilter becomingNoisyFilter = new IntentFilter(AudioManager.ACTION_AUDIO_BECOMING_NOISY);
-        registerReceiver(becomingNoisyReceiver, becomingNoisyFilter);
+            IntentFilter becomingNoisyFilter = new IntentFilter(AudioManager.ACTION_AUDIO_BECOMING_NOISY);
+            registerReceiver(becomingNoisyReceiver, becomingNoisyFilter);
 
-        mediaSession.setActive(true);
+            mediaSession.setActive(true);
 
-        setMediaPlaybackState(PlaybackStateCompat.STATE_NONE);
+            setMediaPlaybackState(PlaybackStateCompat.STATE_NONE);
+        }
     }
 
     private void disableMediaSession() {
