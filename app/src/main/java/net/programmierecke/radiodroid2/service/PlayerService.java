@@ -8,7 +8,6 @@ import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
-import android.app.Service;
 import android.bluetooth.BluetoothA2dp;
 import android.bluetooth.BluetoothHeadset;
 import android.content.Context;
@@ -654,8 +653,7 @@ public class PlayerService extends JobIntentService implements RadioPlayer.Playe
         }
 
         setMediaPlaybackState(PlaybackStateCompat.STATE_SKIPPING_TO_NEXT);
-        RadioDroidApp radioDroidApp = (RadioDroidApp) getApplication();
-        DataRadioStation station = radioDroidApp.getFavouriteManager().getNextById(currentStation.StationUuid);
+        DataRadioStation station = currentStation.queue.getNextById(currentStation.StationUuid);
 
         if (station != null) {
             if (radioPlayer.isPlaying()) {
@@ -673,9 +671,7 @@ public class PlayerService extends JobIntentService implements RadioPlayer.Playe
             return;
         }
 
-        setMediaPlaybackState(PlaybackStateCompat.STATE_SKIPPING_TO_PREVIOUS);
-        RadioDroidApp radioDroidApp = (RadioDroidApp) getApplication();
-        DataRadioStation station = radioDroidApp.getFavouriteManager().getPreviousById(currentStation.StationUuid);
+        DataRadioStation station = currentStation.queue.getPreviousById(currentStation.StationUuid);
         if (station != null) {
             if (radioPlayer.isPlaying()) {
                 playWithoutWarnings(station);
