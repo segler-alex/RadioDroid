@@ -194,7 +194,7 @@ public class RadioDroidBrowser {
        showIconsInBrowser = sharedPref.getBoolean("show_station_icons_in_hud_browser", false);
        Bundle extras = new Bundle();
        extras.putInt(CONTENT_STYLE_BROWSABLE_HINT, CONTENT_STYLE_LIST_ITEM_HINT_VALUE);
-       if (showIconsInBrowser) {
+       if (showIconsInBrowser && sharedPref.getBoolean("settings_grid_style_hud_icon_display", false)) {
            Log.d(TAG, "Setting grid style for playables");
            extras.putInt(CONTENT_STYLE_PLAYABLE_HINT, CONTENT_STYLE_GRID_ITEM_HINT_VALUE);
        } else {
