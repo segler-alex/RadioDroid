@@ -4,7 +4,12 @@ import android.app.Application;
 import android.content.Intent;
 import android.os.StrictMode;
 
+import androidx.test.platform.app.InstrumentationRegistry;
 import androidx.test.runner.AndroidJUnitRunner;
+import androidx.test.uiautomator.UiDevice;
+import androidx.test.uiautomator.UiObject;
+import androidx.test.uiautomator.UiObjectNotFoundException;
+import androidx.test.uiautomator.UiSelector;
 
 import net.programmierecke.radiodroid2.RadioDroidApp;
 import net.programmierecke.radiodroid2.tests.utils.http.HttpToMockInterceptor;
@@ -31,6 +36,13 @@ public class CustomTestRunner extends AndroidJUnitRunner {
         radioDroidApp.setTestsInterceptor(httpToMockInterceptor);
 
         super.callApplicationOnCreate(app);
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        clearUnintendedDialogs();
     }
 
     public void setCustomRequestDispatcher(@Nullable MockHttpDispatcher.CustomRequestDispatcher customRequestDispatcher) {
@@ -66,5 +78,29 @@ public class CustomTestRunner extends AndroidJUnitRunner {
         httpToMockInterceptor = new HttpToMockInterceptor(mockWebServer);
 
         StrictMode.setThreadPolicy(oldPolicy);
+    }
+
+    private void clearUnintendedDialogs() {
+        UiDevice uiDevice = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation());
+
+        final String[] COMMON_BUTTONS = {
+                "Cancel", "Dismiss", "No", "OK", "Yes",
+        };
+
+        UiObject button = null;
+        for (String keyword : COMMON_BUTTONS) {
+            button = uiDevice.findObject(new UiSelector().text(keyword).enabled(true));
+            if (button != null && button.exists()) {
+                break;
+            }
+        }
+
+        try {
+            if (button != null && button.exists()) {
+                button.waitForExists(1000);
+                button.click();
+            }
+        } catch (UiObjectNotFoundException ignored) {
+        }
     }
 }
