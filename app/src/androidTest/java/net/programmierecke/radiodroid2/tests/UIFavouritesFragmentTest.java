@@ -115,6 +115,22 @@ public class UIFavouritesFragmentTest {
     }
 
     @Test
+    public void stationInFavourites_ShouldBeReordered_WithSimpleDragAndDrop() {
+        onView(ViewMatchers.withId(R.id.nav_item_starred)).perform(ViewActions.click());
+        // 0 1
+
+        onView(withId(R.id.recyclerViewStations)).perform(scrollToRecyclerItem(0));
+        onView(withId(R.id.recyclerViewStations)).perform(recyclerDragAndDrop(1, 0));
+        // 1 0
+        onView(withRecyclerView(R.id.recyclerViewStations).atPosition(0))
+                .check(matches(hasDescendant(withText(getFakeRadioStationName(1)))));
+        assertEquals(getFakeRadioStationName(1), favouriteManager.getList().get(0).Name);
+        onView(withRecyclerView(R.id.recyclerViewStations).atPosition(1))
+                .check(matches(hasDescendant(withText(getFakeRadioStationName(0)))));
+        assertEquals(getFakeRadioStationName(0), favouriteManager.getList().get(1).Name);
+    }
+
+    @Test
     public void stationInFavourites_ShouldBeDeleted_WithSwipeRight() {
         onView(withId(R.id.nav_item_starred)).perform(ViewActions.click());
 
