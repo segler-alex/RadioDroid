@@ -29,6 +29,7 @@ jobs:
           api: ${{ matrix.api }}
           tag: default
           abi: x86
+          disableAnimations: true
           hardwareProfile: Nexus 6
       - name: Save instrumented tests output
         uses: actions/upload-artifact@master
