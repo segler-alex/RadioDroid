@@ -26,7 +26,7 @@ public class ConditionWatcher {
 
         @Override
         public long getTimeoutInterval() {
-            return 250;
+            return 2000;
         }
     };
 
@@ -38,7 +38,7 @@ public class ConditionWatcher {
 
         @Override
         public long getTimeoutInterval() {
-            return 1000;
+            return 3000;
         }
     };
 
