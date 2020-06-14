@@ -10,7 +10,7 @@ on:
 
 jobs:
   integration-test:
-    runs-on: macOS-10.14
+    runs-on: macOS-10.15
     strategy:
       matrix:
         api: [16, 21, 27, 29]
@@ -20,9 +20,9 @@ jobs:
         uses: actions/setup-java@v1
         with:
           java-version: 1.8
-      - uses: malinskiy/action-android/install-sdk@release/0.0.6
+      - uses: malinskiy/action-android/install-sdk@release/0.0.7
       - name: Instrumented tests
-        uses: malinskiy/action-android/emulator-run-cmd@release/0.0.6
+        uses: malinskiy/action-android/emulator-run-cmd@release/0.0.7
         timeout-minutes: 35
         with:
           cmd: ./gradlew connectedFreeDebugAndroidTest
