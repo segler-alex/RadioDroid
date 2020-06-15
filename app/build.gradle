@@ -93,6 +93,7 @@ android {
         unitTests.all {
             useJUnit()
         }
+        animationsDisabled = true
         unitTests.returnDefaultValues = true
     }
 }
