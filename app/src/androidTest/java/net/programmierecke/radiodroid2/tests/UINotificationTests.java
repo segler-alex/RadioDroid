@@ -38,8 +38,8 @@ import static org.junit.Assert.assertNotNull;
 
 @LargeTest
 @RunWith(AndroidJUnit4.class)
-// UiDevice can be used only with API 18+
-@SdkSuppress(minSdkVersion = 18)
+// UI notifications currently only work with API 26+
+@SdkSuppress(minSdkVersion = 26)
 public class UINotificationTests {
 
     @Rule
