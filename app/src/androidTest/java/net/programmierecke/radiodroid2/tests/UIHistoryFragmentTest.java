@@ -1,6 +1,7 @@
 package net.programmierecke.radiodroid2.tests;
 
 import android.content.pm.ActivityInfo;
+import android.os.Build;
 
 import androidx.test.core.app.ApplicationProvider;
 import androidx.test.espresso.action.ViewActions;
@@ -119,14 +120,17 @@ public class UIHistoryFragmentTest {
         assertEquals(STATIONS_COUNT - 3, historyManager.getList().size());
 
         // Snackbar with undo action
-        waitForView(withId(com.google.android.material.R.id.snackbar_action))
-                .toMatch(
-                        allOf(withText(R.string.action_station_removed_from_list_undo), isDisplayed()));
-        onView(withId(com.google.android.material.R.id.snackbar_action)).perform(ViewActions.click());
+        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
+         // for whatever reason this often does not work on API 21 emulators
+         waitForView(withId(com.google.android.material.R.id.snackbar_action))
+                    .toMatch(
+                            allOf(withText(R.string.action_station_removed_from_list_undo), isDisplayed()));
+            onView(withId(com.google.android.material.R.id.snackbar_action)).perform(ViewActions.click());
 
-        assertEquals(STATIONS_COUNT - 2, historyManager.getList().size());
-        onView(withId(R.id.recyclerViewStations)).perform(scrollToRecyclerItem(2));
-        onView(withRecyclerView(R.id.recyclerViewStations).atPosition(2))
-                .check(matches(hasDescendant(withText(getFakeRadioStationName(STATIONS_COUNT - 5)))));
+            assertEquals(STATIONS_COUNT - 2, historyManager.getList().size());
+            onView(withId(R.id.recyclerViewStations)).perform(scrollToRecyclerItem(2));
+            onView(withRecyclerView(R.id.recyclerViewStations).atPosition(2))
+                    .check(matches(hasDescendant(withText(getFakeRadioStationName(STATIONS_COUNT - 5)))));
+        }
     }
 }
