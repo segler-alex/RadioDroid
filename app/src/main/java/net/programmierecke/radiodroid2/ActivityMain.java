@@ -252,6 +252,9 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
                 // Hide full screen player's fragment if it is not visible to reduce resource usage.
 
                 if (newState == BottomSheetBehavior.STATE_EXPANDED) {
+                    if (smallPlayerFragment.getContext() == null)
+                        return;
+
                     appBarLayout.setExpanded(false);
                     smallPlayerFragment.setRole(FragmentPlayerSmall.Role.HEADER);
 

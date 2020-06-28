@@ -59,7 +59,7 @@ public class FavouriteManager extends StationSaveManager {
     }
 
     public void updateShortcuts() {
-        if (Build.VERSION.SDK_INT >= 25) {
+        if (Build.VERSION.SDK_INT >= 25 && !BuildConfig.IS_TESTING.get()) {
             int number = min(listStations.size(), ActivityMain.MAX_DYNAMIC_LAUNCHER_SHORTCUTS);
             SetDynamicAppLauncherShortcuts setDynamicAppLauncherShortcuts = new SetDynamicAppLauncherShortcuts(number);
             for (int i = 0; i < number; i++) {

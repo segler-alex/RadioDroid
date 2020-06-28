@@ -18,9 +18,11 @@ import net.programmierecke.radiodroid2.station.live.metadata.TrackMetadataSearch
 import net.programmierecke.radiodroid2.proxy.ProxySettings;
 import net.programmierecke.radiodroid2.recording.RecordingsManager;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
+import okhttp3.Cache;
 import okhttp3.ConnectionPool;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
@@ -42,6 +44,8 @@ public class RadioDroidApp extends MultiDexApplication {
 
     private ConnectionPool connectionPool;
     private OkHttpClient httpClient;
+
+    private Interceptor testsInterceptor;
 
     public class UserAgentInterceptor implements Interceptor {
 
@@ -74,7 +78,7 @@ public class RadioDroidApp extends MultiDexApplication {
         rebuildHttpClient();
 
         Picasso.Builder builder = new Picasso.Builder(this);
-        builder.downloader(new OkHttp3Downloader(this, Integer.MAX_VALUE));
+        builder.downloader(new OkHttp3Downloader(newHttpClientForPicasso()));
         Picasso picassoInstance = builder.build();
         Picasso.setSingletonInstance(picassoInstance);
 
@@ -95,13 +99,18 @@ public class RadioDroidApp extends MultiDexApplication {
         recordingsManager.updateRecordingsList();
     }
 
+    public void setTestsInterceptor(Interceptor testsInterceptor) {
+        this.testsInterceptor = testsInterceptor;
+    }
+
     public void rebuildHttpClient() {
-        httpClient = newHttpClient()
+        OkHttpClient.Builder builder = newHttpClient()
                 .connectTimeout(10, TimeUnit.SECONDS)
                 .writeTimeout(10, TimeUnit.SECONDS)
                 .readTimeout(10, TimeUnit.SECONDS)
-                .addInterceptor(new UserAgentInterceptor("RadioDroid2/" + BuildConfig.VERSION_NAME))
-                .build();
+                .addInterceptor(new UserAgentInterceptor("RadioDroid2/" + BuildConfig.VERSION_NAME));
+
+        httpClient = builder.build();
     }
 
     public HistoryManager getHistoryManager() {
@@ -138,7 +147,12 @@ public class RadioDroidApp extends MultiDexApplication {
 
     public OkHttpClient.Builder newHttpClient() {
         OkHttpClient.Builder builder = new OkHttpClient.Builder().connectionPool(connectionPool);
-        if (!setCurrentOkHttpProxy(builder)){
+
+        if (testsInterceptor != null) {
+            builder.addInterceptor(testsInterceptor);
+        }
+
+        if (!setCurrentOkHttpProxy(builder)) {
             Toast toast = Toast.makeText(this, getResources().getString(R.string.ignore_proxy_settings_invalid), Toast.LENGTH_SHORT);
             toast.show();
         }
@@ -147,6 +161,11 @@ public class RadioDroidApp extends MultiDexApplication {
 
     public OkHttpClient.Builder newHttpClientWithoutProxy() {
         OkHttpClient.Builder builder = new OkHttpClient.Builder().connectionPool(connectionPool);
+
+        if (testsInterceptor != null) {
+            builder.addInterceptor(testsInterceptor);
+        }
+
         return Utils.enableTls12OnPreLollipop(builder);
     }
 
@@ -154,11 +173,31 @@ public class RadioDroidApp extends MultiDexApplication {
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
         ProxySettings proxySettings = ProxySettings.fromPreferences(sharedPref);
         if (proxySettings != null) {
-            if (!Utils.setOkHttpProxy(builder, proxySettings)){
+            if (!Utils.setOkHttpProxy(builder, proxySettings)) {
                 // proxy settings are not valid
                 return false;
             }
         }
         return true;
+    }
+
+    private OkHttpClient newHttpClientForPicasso() {
+        File cache = new File(getCacheDir(), "picasso-cache");
+        if (!cache.exists()) {
+            //noinspection ResultOfMethodCallIgnored
+            cache.mkdirs();
+        }
+
+        OkHttpClient.Builder builder = new OkHttpClient.Builder()
+                .addInterceptor(new UserAgentInterceptor("RadioDroid2/" + BuildConfig.VERSION_NAME))
+                .cache(new Cache(cache, Integer.MAX_VALUE));
+
+        if (testsInterceptor != null) {
+            builder.addInterceptor(testsInterceptor);
+        }
+
+        setCurrentOkHttpProxy(builder);
+
+        return builder.build();
     }
 }
