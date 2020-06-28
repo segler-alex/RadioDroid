@@ -103,6 +103,11 @@ def getLastFMApiKey() {
     return value != null ? value : ''
 }
 
+ext {
+    exoplayerVersion = '2.11.4'
+    iconicsVersion = '4.0.2'
+}
+
 dependencies {
     implementation 'androidx.multidex:multidex:2.0.1'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
@@ -124,10 +129,10 @@ dependencies {
     implementation 'com.google.code.gson:gson:2.8.6'
     implementation 'com.squareup.picasso:picasso:2.71828'
     implementation 'jp.wasabeef:picasso-transformations:2.2.1'
-    implementation 'com.google.android.exoplayer:exoplayer-core:2.11.4'
-    implementation 'com.google.android.exoplayer:exoplayer-hls:2.11.4'
-    implementation "com.mikepenz:iconics-core:4.0.2"
-    implementation "com.mikepenz:iconics-views:4.0.2"
+    implementation "com.google.android.exoplayer:exoplayer-core:$exoplayerVersion"
+    implementation "com.google.android.exoplayer:exoplayer-hls:$exoplayerVersion"
+    implementation "com.mikepenz:iconics-core:$iconicsVersion"
+    implementation "com.mikepenz:iconics-views:$iconicsVersion"
     implementation 'com.mikepenz:google-material-typeface:3.0.1.4.original-kotlin@aar'
     implementation 'com.mikepenz:community-material-typeface:3.5.95.1-kotlin@aar'
     implementation 'com.github.rustamg:file-dialogs:1.0'

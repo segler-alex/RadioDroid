@@ -1,0 +1,22 @@
+version: 2
+updates:
+- package-ecosystem: github-actions
+  directory: "/"
+  schedule:
+    interval: daily
+    time: '04:00'
+  open-pull-requests-limit: 10
+- package-ecosystem: gradle
+  directory: "/"
+  schedule:
+    interval: daily
+    time: '04:00'
+  ignore:
+    - dependency-name: "com.squareup.okhttp3:okhttp"
+      versions: ["3.13.+", "3.14.+", "4.+"]
+    - dependency-name: "com.mikepenz:iconics-core"
+      versions: ["5.+"]
+    - dependency-name: "com.mikepenz:iconics-views"
+      versions: ["5.+"]
+  open-pull-requests-limit: 10
+
