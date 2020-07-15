@@ -124,7 +124,7 @@ dependencies {
 
     // Keep OkHttp 3.12.X to support Android 4.X, see https://developer.squareup.com/blog/okhttp-3-13-requires-android-5
     //noinspection GradleDependency
-    implementation 'com.squareup.okhttp3:okhttp:3.12.10'
+    implementation 'com.squareup.okhttp3:okhttp:3.12.12'
 
     implementation 'com.google.code.gson:gson:2.8.6'
     implementation 'com.squareup.picasso:picasso:2.71828'
