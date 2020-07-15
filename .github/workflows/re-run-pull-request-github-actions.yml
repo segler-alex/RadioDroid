@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: (GET-&-PUT Github API) Push empty commit to PR branch
-        uses: actions/github-script@0.2.0
+        uses: actions/github-script@v2
         with:
           github-token: ${{secrets.PAT}}
           script: |
