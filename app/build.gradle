@@ -136,7 +136,7 @@ dependencies {
     implementation 'com.mikepenz:google-material-typeface:3.0.1.4.original-kotlin@aar'
     implementation 'com.mikepenz:community-material-typeface:3.5.95.1-kotlin@aar'
     implementation 'com.github.rustamg:file-dialogs:1.0'
-    implementation 'info.debatty:java-string-similarity:1.2.1'
+    implementation 'info.debatty:java-string-similarity:2.0.0'
     implementation 'me.xdrop:fuzzywuzzy:1.2.0'
     implementation 'com.github.zawadz88.materialpopupmenu:material-popup-menu:3.4.0'
     implementation 'com.github.ByteHamster:SearchPreference:v2.0.0'
