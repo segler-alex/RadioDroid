@@ -134,7 +134,7 @@ dependencies {
     implementation "com.mikepenz:iconics-core:$iconicsVersion"
     implementation "com.mikepenz:iconics-views:$iconicsVersion"
     implementation 'com.mikepenz:google-material-typeface:3.0.1.4.original-kotlin@aar'
-    implementation 'com.mikepenz:community-material-typeface:3.5.95.1-kotlin@aar'
+    implementation 'com.mikepenz:community-material-typeface:5.3.45.1-kotlin@aar'
     implementation 'com.github.rustamg:file-dialogs:1.0'
     implementation 'info.debatty:java-string-similarity:1.2.1'
     implementation 'me.xdrop:fuzzywuzzy:1.2.0'
