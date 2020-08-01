@@ -1,0 +1,1 @@
+-keep class net.programmierecke.radiodroid2.tests.** { *; }

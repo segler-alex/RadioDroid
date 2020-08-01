@@ -386,7 +386,7 @@ public class ItemAdapterStation
                 // favorite stations should only be removed in the favorites view
                 holder.buttonBookmark.setVisibility(View.GONE);
             } else {
-                holder.buttonShare.setOnClickListener(view -> {
+                holder.buttonBookmark.setOnClickListener(view -> {
                     StationActions.markAsFavourite(getContext(), station);
                     int position1 = holder.getAdapterPosition();
                     notifyItemChanged(position1);

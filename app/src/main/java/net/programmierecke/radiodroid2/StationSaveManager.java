@@ -249,27 +249,36 @@ public class StationSaveManager extends Observable {
         final OkHttpClient httpClient = radioDroidApp.getHttpClient();
         LocalBroadcastManager.getInstance(context).sendBroadcast(new Intent(ActivityMain.ACTION_SHOW_LOADING));
 
-        new AsyncTask<Void, Void, Integer>() {
+        new AsyncTask<Void, Void, ArrayList<DataRadioStation>>() {
+            private ArrayList<DataRadioStation> savedStations;
+
             @Override
-            protected Integer doInBackground(Void... params) {
-                ArrayList<DataRadioStation> stationsToRemove = new ArrayList<DataRadioStation>();
-                for (DataRadioStation station : listStations) {
+            protected void onPreExecute() {
+                savedStations = new ArrayList<>(listStations);
+            }
+
+            @Override
+            protected ArrayList<DataRadioStation> doInBackground(Void... params) {
+                ArrayList<DataRadioStation> stationsToRemove = new ArrayList<>();
+                for (DataRadioStation station : savedStations) {
                     if (!station.refresh(httpClient, context) && !station.hasValidUuid() && station.RefreshRetryCount > DataRadioStation.MAX_REFRESH_RETRIES) {
                         stationsToRemove.add(station);
                     }
                 }
-                listStations.removeAll(stationsToRemove);
-                return stationsToRemove.size();
+
+                return stationsToRemove;
             }
 
             @Override
-            protected void onPostExecute(Integer result) {
+            protected void onPostExecute(ArrayList<DataRadioStation> stationsToRemove) {
+                listStations.removeAll(stationsToRemove);
+
                 Save();
 
                 notifyObservers();
 
                 LocalBroadcastManager.getInstance(context).sendBroadcast(new Intent(ActivityMain.ACTION_HIDE_LOADING));
-                super.onPostExecute(result);
+                super.onPostExecute(stationsToRemove);
             }
         }.execute();
     }

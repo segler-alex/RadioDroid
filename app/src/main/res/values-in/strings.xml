@@ -4,34 +4,51 @@
     <string name="detail_name">Nama</string>
     <string name="detail_tags">Tag</string>
     <string name="detail_country">Negara</string>
+    <string name="detail_create_shortcut">Tambahkan ke layar beranda</string>
     <string name="detail_language">Bahasa</string>
-    <string name="detail_weblink">Tautan Web</string>
-    <string name="detail_play">Mainkan</string>
+    <string name="detail_weblink">Tautan web</string>
+    <string name="detail_visit_website">@string/action_station_visit_website</string>
+    <string name="detail_play">Putar</string>
     <string name="detail_pause">Jeda</string>
-    <string name="detail_stop">Berhenti</string>
+    <string name="detail_stop">Setop</string>
     <string name="detail_share">Bagikan</string>
+    <string name="detail_play_in_radiodroid">Putar di RadioDroid</string>
+
+    <string name="action_links">Tautan</string>
+    <string name="action_homepage">Situs resmi</string>
+    <string name="action_favorite">Favorit</string>
+    <string name="action_alarm">Alarm</string>
+
+    <string name="action_station_visit_website">Kunjungi situs web</string>
+    <string name="action_station_copy_stream_url">Salin URL stream</string>
+    <string name="action_station_share">Bagikan</string>
 
     <string name="action_local">Lokal</string>
     <string name="action_skip_to_next">Berikutnya</string>
     <string name="action_pause">Jeda</string>
     <string name="action_skip_to_previous">Sebelumnya</string>
     <string name="action_resume">Lanjutkan</string>
-    <string name="action_stop">Berhenti</string>
-    <string name="action_search">Mencari</string>
+    <string name="action_stop">Setop</string>
+    <string name="action_search">Cari</string>
     <string name="action_delete">Hapus</string>
     <string name="action_delete_history">Hapus riwayat</string>
     <string name="action_delete_favorites">Hapus favorit</string>
-    <string name="action_ok">OK</string>
+    <string name="action_delete_stream_history">Hapus riwayat stream</string>
+    <string name="action_ok">OKE</string>
     <string name="action_cancel">Batal</string>
-    <string name="action_top_click">Klik Terbanyak</string>
-    <string name="action_top_vote">Vote Terbanyak</string>
-    <string name="action_changed_lately">Diubah baru-baru ini</string>
-    <string name="action_currently_playing">Dimainkan</string>
+    <string name="action_top_click">Top Klik</string>
+    <string name="action_toggle_view">Ubah tampilan</string>
+    <string name="action_top_vote">Top Vote</string>
+    <string name="action_changed_lately">Berubah baru</string>
+    <string name="action_currently_playing">Diputar</string>
     <string name="action_tags">Tag</string>
     <string name="action_countries">Negara</string>
     <string name="action_languages">Bahasa</string>
-    <string name="error_station_load">Tidak dapat menghubungkan ke server stasiun</string>
-    <string name="error_list_update">Tidak dapat menghubungkan ke server radio browser</string>
+    <string name="action_edit">Sunting</string>
+    <string name="action_lyrics">Lirik</string>
+    <string name="action_copy_info">Salin Info</string>
+    <string name="error_station_load">Tidak bisa menyambung ke stasiun</string>
+    <string name="error_list_update">Tidak bisa menyambung ke server peramban radio</string>
 
     <string name="share_action">Bagikan tautan stasiun dengan..</string>
 
@@ -40,220 +57,279 @@
     <string name="nav_item_history">Riwayat</string>
     <string name="nav_item_settings">Pengaturan</string>
     <string name="nav_item_alarm">Alarm</string>
-    <string name="tab_player_recordings">Merekam</string>
 
-    <string name="about_text">Aplikasi ini menggunakan direktori stasiun radio secara gratis di\n
-   https://www.radio-browser.info\n
-   Kalian bisa menambahkan atau mengubah stasiun radio yang ada. Ini seperti sebuah wiki untuk (streaming) stasiun radio.\n
-   \n
-   Kontak:\n
-   segler_alex@web.de\n
-   \n
-   Bugtracker:\n
-   https://github.com/segler-alex/RadioDroid/issues\n
-   \n
-   Jika kamu suka software ini dan ingin membantu, kirimkan kami email secara bebas. Saya sangat membutuhkan seseorang dengan keahlian grafik untuk membuat aplikasi ini sedap dipandang :) mungkin seseorang yang dapat menggambar ikon, gambar... tapi juga programer yang dapat memecahkan masalah, atau mengimplementasikan hal yang baru (sebuah fitur tapi bukan bugs ;)</string>
+    <string name="about_text">Aplikasi ini menggunakan direktori radio gratis di \nhttps://www.radio-browser.info\nSemua orang bisa menambahkan stasiun radio atau menyunting stasiun yang sudah ada. Bekerja seperti wiki untuk stasiun radio daring (streaming).\n\nKontak:\nsegler_alex@web.de\n\nPelacak bug:\nhttps://github.com/segler-alex/RadioDroid/issues\n\nJuka anda menyukai aplikasi ini dan ingin membantu, jangan sungkan untuk mengirim surel. Saya sangat membutuhkan seseorang dengan keahlian grafis untuk membuat desain aplikasi ini menjadi lebih baik :) Mungkin seseorang yang bisa menggambar ikon, aset gambar...tetapi juga programer yang bisa memperbaiki bug, atau mengimplementasikan fitur baru.\nSaran ide-ide baru juga selalu kami hargai!\n\nAplikasi ini adalah perangkat lunak bebas dibawah naungan lisensi GPLv3.\nhttps://www.gnu.org/licenses/gpl-3.0.html</string>
     <string name="about_version">Versi: %1$s</string>
-    <string name="detail_star">Tambahkan ke favorite</string>
+    <string name="detail_star">Tambahkan ke favorit</string>
     <string name="detail_unstar">Hapus dari favorit</string>
+    <string name="detail_play_in_external_player">@string/action_play_in_external</string>
     <string name="progress_loading">Memuat...</string>
 
     <string name="sleep_timer" formatted="true">Waktu tidur: %1$02d:%2$02d</string>
-    <string name="sleep_timer_title">Berhenti bermain sesudah menit yang dipilih</string>
+    <string name="sleep_timer_title">Setop pemutaran setelah rentang waktu</string>
     <string name="sleep_timer_apply">Terapkan</string>
-    <string name="sleep_timer_clear">Bersihkan</string>
+    <string name="sleep_timer_clear">Hapus</string>
     <string name="nav_item_add_sleep">Waktu tidur</string>
 
-    <string name="nav_item_save_playlist">Simpan ke daftar main</string>
-    <string name="nav_item_load_playlist">Memilih dari daftar main</string>
-    <string name="confirm_overwrite_file">Timpa file?</string>
-    <string name="dialog_hint_file_name">Masukan nama file</string> 
-    <string name="error_empty_field">Kolom ini dibutuhkan</string>
-    <string name="error_invalid_file_name">Name file tidak benar</string>
+    <string name="nav_item_save_playlist">Ekspor favorit sebagai daftar putar</string>
+    <string name="nav_item_load_playlist">Impor favorit dari daftar putar</string>
+    <string name="nav_item_save_history_playlist">Ekspor riwayat sebagai daftar putar</string>
+    <string name="confirm_overwrite_file">Timpa berkas?</string>
+    <string name="dialog_hint_file_name">Masukkan nama berkas</string>
+    <string name="error_empty_field">Ruas ini dibutuhkan</string>
+    <string name="error_invalid_file_name">Nama berkas tidak valid</string>
     <string name="label_button_cancel">Batal</string>
-    <string name="label_button_overwrite">Menimpa</string>
+    <string name="label_button_overwrite">Timpa</string>
+    <string name="notify_load_playlist_nok">Tidak bisa mengimpor dari %1$s&#47;%2$s</string>
+    <string name="notify_load_playlist_now">Mengimpor dari %1$s&#47;%2$s, silakan tunggu.</string>
+    <string name="notify_load_playlist_ok">Mengimpor %1$d stasiun dari %2$s&#47;%3$s</string>
+    <string name="notify_save_playlist_nok">Tidak bisa mengekspor ke %1$s&#47;%2$s</string>
+    <string name="notify_save_playlist_now">Mengekspor ke %1$s&#47;%2$s, silakan tunggu.</string>
+    <string name="notify_save_playlist_ok">Berhasil mengekspor ke %1$s&#47;%2$s</string>
 
+    <string name="searchpreference_clear_history">Hapus riwayat</string>
+    <string name="searchpreference_no_results">Tidak ada hasil</string>
+    <string name="searchpreference_search">Cari…</string>
+    <string name="settings_appearance">Tampilan</string>
     <string name="settings_theme_selection_title">Tema</string>
     <string name="theme_light">Terang</string>
     <string name="theme_dark">Gelap</string>
-    <string name="settings_circular_icons">Gunakan ikon lingkaran</string>
+    <string name="settings_circular_icons">Gunakan ikon bundar</string>
     <string name="settings_compact_style">Mode ringkas</string>
-    <string name="settings_compact_style_desc_off">Diadaptasikan ikon besar dengan detil stasiun</string> 
-    <string name="settings_compact_style_desc_on">Diadaptasikan ikon kecil tanpa detil stasiun</string>
+    <string name="settings_compact_style_desc_off">Ikon besar dengan detail stasiun</string>
+    <string name="settings_compact_style_desc_on">Ikon kecil tanpa detail stasiun</string>
     <string name="settings_bottom_navigation">Navigasi bawah</string>
 
-    <string name="settings_single_use_tags">Tampilkan penggunaan tag langka</string>
-    <string name="settings_single_use_tags_desc_off">Penggunaan tag langka tidak akan ditampilkan</string>
-    <string name="settings_single_use_tags_desc_on">Penggunaan tag langka ditampilkan</string>
+    <string name="settings_interaction">Interaksi</string>
+    <string name="settings_single_use_tags">Tampilkan tag yang jarang digunakan</string>
+    <string name="settings_single_use_tags_desc_off">Tag yang jarang digunakan tidak akan ditampilkan</string>
+    <string name="settings_single_use_tags_desc_on">Tag yang jarang digunakan akan ditampilkan</string>
 
     <string name="settings_show_broken">Stasiun rusak</string>
-    <string name="settings_show_broken_on">Tampilkan stasiun rusak di daftar</string>
-    <string name="settings_show_broken_off">Jangan tampilkan stasiun rusak di daftar</string>
+    <string name="settings_show_broken_on">Menampilkan stasiun yang rusak di dalam daftar</string>
+    <string name="settings_show_broken_off">Menyembunyikan stasiun yang rusak di dalam daftar</string>
 
-    <string name="startup_action_title">Mulai aksi</string>
+    <string name="settings_startup_behaviour">Perilaku Mulai</string>
+    <string name="startup_action_title">Tindakan mulai</string>
     <string name="startup_action_title_desc">%s</string>
     <string name="startup_show_all_stations">Tampilkan semua stasiun</string>
     <string name="startup_show_favorites">Tampilkan favorit</string>
     <string name="startup_show_history">Tampilkan riwayat</string>
-    <string name="startup_show_last_view">Terakhir lihat</string>
+    <string name="startup_show_last_view">Tampilan terakhir</string>
 
     <string name="settings_load_icons">Tampilkan ikon stasiun</string>
-    <string name="settings_load_icons_on">Ikon akan terunduh</string>
-    <string name="settings_load_icons_off">Ikon tidak akan terunduh</string>
+    <string name="settings_load_icons_on">Ikon akan diunduh</string>
+    <string name="settings_load_icons_off">Ikon tidak akan diunduh</string>
 
-    <string name="settings_auto_favorite">Favorite-otomatis</string>
-    <string name="settings_auto_favorite_on">Tambahkan stasiun otomatis ke favorit ketika bermain</string>
-    <string name="settings_auto_favorite_off">Jangan tambahkan stasiun otomatis ke favorit ketika bermain</string>
+    <string name="settings_auto_favorite">Otomatis favorit</string>
+    <string name="settings_auto_favorite_on">Menambahkan stasiun secara otomatis ke favorit saat memutar</string>
+    <string name="settings_auto_favorite_off">Tidak menambahkan stasiun secara otomatis ke favorit saat memutar</string>
 
-    <string name="settings_icon_click_toggles_favorite">Klik-favorit</string>
-    <string name="settings_icon_click_toggles_favorite_on">Klik ikon stasiun untuk menambahkan atau membuang stasiun</string>
-    <string name="settings_icon_click_toggles_favorite_off">Klik ikon stasiun untuk memainkan</string>
+    <string name="settings_icon_click_toggles_favorite">Klik favorit</string>
+    <string name="settings_icon_click_toggles_favorite_on">Klik ikon stasiun untuk menambahkan atau menghapus stasiun favorit</string>
+    <string name="settings_icon_click_toggles_favorite_off">Klik ikon stasiun untuk memulai pemutaran</string>
 
-    <string name="settings_click_trend_icon_visible">Klik ikon trend</string>
+    <string name="settings_click_trend_icon_visible">Klik ikon tren</string>
     <string name="settings_click_trend_icon_visible_on">Ikon akan ditampilkan</string>
     <string name="settings_click_trend_icon_visible_off">Ikon akan disembunyikan</string>
 
     <string name="settings_alarm">Alarm</string>
     <string name="settings_alarm_external">Aktifkan aplikasi eksternal</string>
     <string name="settings_alarm_external_desc_on">Buka alarm dengan aplikasi eksternal bawaan</string>
-    <string name="settings_alarm_external_desc_off">Buka alarm dengan RadioDroid</string> 
+    <string name="settings_alarm_external_desc_off">Buka alarm dengan RadioDroid</string>
     <string name="settings_alarm_audio_player">Pemutar audio</string>
-    <string name="settings_alarm_sleep_timer">Pengatur waktu tidur</string>
-    <string name="settings_alarm_sleep_timer_desc">Berhenti memainkan setelah %1$s menit</string>
+    <string name="settings_alarm_sleep_timer">Waktu tidur</string>
+    <string name="settings_alarm_sleep_timer_desc">Setop pemutaran setelah %1$s menit</string>
     <string name="settings_play">Pemutar</string>
+    <string name="settings_auto_play_on_startup">Putar otomatis</string>
+    <string name="settings_auto_play_on_startup_on">Putar stasiun terakhir saat memulai</string>
+    <string name="settings_auto_play_on_startup_off">Jangan putar stasiun terakhir saat memulai</string>
     <string name="settings_play_external">Aktifkan pemutar eksternal</string>
-    <string name="settings_play_external_desc_on">Mainkan stasiun dengan pemutar eksternal</string>
-    <string name="settings_play_external_desc_off">Mainkan stasiun dengan RadioDroid</string> 
+    <string name="settings_play_external_desc_on">Putar stasiun dengan pemutar eksternal</string>
+    <string name="settings_play_external_desc_off">Putar stasiun dengan RadioDroid</string>
     <string name="settings_equalizer">Equalizer</string>
 
     <string name="settings_connectivity">Konektivitas</string>
-    <string name="settings_connect_timeout">Waktu koneksi habis</string>
-    <string name="settings_read_timeout">Waktu baca habis</string>
-    <string name="settings_resume_timeout">Waktu melanjutkan habis</string>
-    <string name="settings_retry_timeout">Waktu coba habis</string>
-    <string name="settings_retry_delay">Menunda rekoneksi</string>
+    <string name="settings_connect_timeout">Batas waktu koneksi</string>
+    <string name="settings_read_timeout">Batas waktu baca</string>
+    <string name="settings_resume_timeout">Batas waktu melanjutkan</string>
+    <string name="settings_retry_timeout">Batas waktu pengulangan</string>
+    <string name="settings_retry_delay">Waktu tunda koneksi kembali</string>
     <string name="settings_proxy">Proksi</string>
-    <string name="settings_proxy_login">Nama Pengguna</string>
-    <string name="settings_proxy_password">Katasandi</string>
+    <string name="settings_proxy_login">Nama pengguna</string>
+    <string name="settings_proxy_password">Sandi</string>
     <string name="settings_proxy_action_test">Tes</string>
-    <string name="settings_proxy_working">Berhasil menghubungkan %s</string>
-    <string name="settings_proxy_not_working">Gagal untuk menghubungkan %s\n
-  %s</string>
+    <string name="settings_proxy_working">Berhasil terhubung ke %s</string>
+    <string name="settings_proxy_not_working">Gagal menyambung ke %s\n%s</string>
+    <string name="settings_proxy_invalid">Nilai yang anda berikan untuk proksi tidak valid</string>
+    <string name="ignore_proxy_settings_invalid">Abaikan pengaturan proksi yang tidak valid</string>
     <string name="settings_seconds_format">%d detik</string>
     <string name="settings_milliseconds_format">%d milidetik</string>
 
-    <string name="settings_warn_no_wifi">Ingatkan ketika tidak ada Wi-Fi</string>
-    <string name="settings_warn_no_wifi_on">Ingatkan ketika memainkan tanpa koneksi Wi-Fi</string>
-    <string name="settings_warn_no_wifi_off">Tidak ada peringatan ketika tidak ada Wi-Fi</string>
+    <string name="settings_pause_when_noisy">Jeda saat headset dilepas</string>
 
-    <string name="settings_recordings">Merekam</string>
-    <string name="settings_record_name_formatting">Nama format</string>
+    <string name="settings_auto_resume_do_not_resume">Jangan lanjutkan</string>
+
+    <string name="settings_auto_resume_on_wired_headset_connected">Lanjutkan pada koneksi kabel</string>
+    <string name="settings_auto_resume_on_wired_headset_connected_on">Lanjutkan pemutaran saat koneksi kabel disambungkan</string>
+
+    <string name="settings_auto_resume_on_bluetooth_a2dp_connected">Lanjutkan pada koneksi Bluetooth</string>
+    <string name="settings_auto_resume_on_bluetooth_a2dp_connected_on">Lanjutkan pemutaran pada koneksi perangkat Bluetooth A2DP</string>
+
+    <string name="settings_warn_no_wifi">Peringatan Wi-Fi</string>
+    <string name="settings_warn_no_wifi_on">Peringatkan saat memutar tanpa koneksi Wi-Fi</string>
+    <string name="settings_warn_no_wifi_off">Jangan peringatkan saat memutar tanpa koneksi Wi-Fi</string>
+
+    <string name="settings_recordings">Rekaman</string>
+    <string name="settings_record_name_formatting">Format nama</string>
 
     <string name="settings_record_name_formatting_default_display">stasiun_artis_jalur_\u200btanggal_\u200bwaktu</string>
     <string name="settings_record_name_formatting_1_display">stasiun_artis_\u200bjalur</string>
     <string name="settings_record_name_formatting_2_display">stasiun_tanggal_\u200bwaktu</string>
     <string name="settings_record_name_formatting_3_display">indeks_stasiun_\u200btanggal</string>
 
-    <string name="notify_pre_play">Menghubungkan</string>
-    <string name="notify_play">Memainkan</string>
+    <string name="notify_pre_play">Menyambung</string>
+    <string name="notify_play">Memutar</string>
     <string name="notify_paused">Dijeda</string>
+    <string name="notify_metered_connection">Koneksi terbatas</string>
+
     <string name="notify_starred">Stasiun telah ditambahkan ke favorit</string>
-    <string name="notify_autostarred">Stasiun telah otomatis ditambahkan ke favorit</string>
-    <string name="notify_unstarred">Stasiun telah dibuang dari favorit</string>
-    <string name="notify_deleted_favorites">Favorit sudah dihapus</string>
-    <string name="notify_deleted_history">Riwayat sudah dihapus</string>
+    <string name="notify_autostarred">Stasiun telah ditambahkan secara otomatis ke favorit</string>
+    <string name="notify_unstarred">Stasiun telah dihapus dari favorit</string>
+    <string name="notify_deleted_favorites">Favorit telah dihapus</string>
+    <string name="notify_deleted_history">Riwayat telah dihapus</string>
 
-    <string name="notify_station_removed_from_list">1 Terhapus</string>
-    <string name="action_station_removed_from_list_undo">Undur</string>
+    <string name="notify_open_link_failure">Tidak ada aplikasi untuk membuka tautan</string>
 
-    <string name="alert_delete_history">Apa kau yakin ingin menghapus semua riwayat?</string>
-    <string name="alert_delete_favorites">Apa kau yakin ingin menghapus semua favorit?</string>
-    <string name="yes">Ya</string>
+    <string name="notify_station_removed_from_list">1 Dibuang</string>
+    <string name="action_station_removed_from_list_undo">URUNG</string>
+
+    <string name="alert_install_lyrics_app">QuickLyric tidak dipasang pada perangkat anda. Apakah anda ingin mengunduhnya dari Toko Google Play?</string>
+
+    <string name="alert_delete_history">Apakah anda yakin ingin menghapus riwayat?</string>
+    <string name="alert_delete_favorites">Apakah anda yakin ingin menghapus semua favorit?</string>
+    <string name="yes">Iya</string>
     <string name="no">Tidak</string>
 
-    <string name="alert_select_mpd_server">Pilih server</string>
+    <string name="alert_select_mpd_server">Silakan pilih server</string>
     <string name="alert_select_mpd_server_name">Nama server</string>
-    <string name="hostname">Nama host</string>
-    <string name="port">Port</string>
+    <string name="alert_select_mpd_server_password">Sandi server</string>
+    <string name="hostname">Nama hos</string>
+    <string name="port">Porta</string>
 
-    <string name="alert_select_mpd_server_add">Tambahkan</string>
+    <string name="alert_select_mpd_server_add">Tambah</string>
     <string name="alert_select_mpd_server_save">Simpan</string>
-    <string name="alert_select_mpd_server_remove">Buang</string>
-    <string name="alert_add_or_edit_mpd_server">Masukan secara detil tentang server</string>
+    <string name="alert_select_mpd_server_remove">Hapus</string>
+    <string name="alert_add_or_edit_mpd_server">Masukkan detail tentang server</string>
+    <string name="alert_alarm_working">Waktu alarm sekarang</string>
+    <string name="alert_alarm_not_working">Tidak cukup info untuk alarm</string>
     <string name="alert_select_external_alarm_app">Pilih pemutar audio</string>
 
     <string name="alert_press_back_to_exit">Tekan sekali lagi untuk keluar</string>
 
     <string name="error_stream_url">Masalah URL stream</string>
-    <string name="error_caching_stream">Masalah stream cache</string>
-    <string name="error_play_stream">Tidak dapat memainkan stream</string>
-    <string name="error_stream_reconnect_timeout">Tidak dapat menghubungkan kembali ke stream: waktu habis.</string>
-    <string name="giving_up_resume">Percobaan untuk melanjutkan kembali di acuhkan.</string>
+    <string name="error_caching_stream">Masalah cache stream</string>
+    <string name="error_play_stream">Tidak bisa memutar stream</string>
+    <string name="error_stream_reconnect_timeout">Tidak bisa menyambung ke stream: waktu habis</string>
+    <string name="warning_no_network_trying_resume">Tidak ada koneksi jaringan. Mencoba melanjutkan saat koneksi kembali tersambung.</string>
+    <string name="giving_up_resume">Menyerah dalam mencoba melanjutkan pemutaran</string>
 
-    <string name="error_record_needs_write">Membutuhkan izin menulis file untuk perekaman!</string>
-    <string name="error_grant_audiofocus">Meminta untuk audio focus tidak diperbolehkan sistem.</string>
+    <string name="error_record_needs_write">Membutuhkan izin akses penyimpanan untuk merekam</string>
+    <string name="error_grant_audiofocus">Permintaan fokus audio tidak diberikan oleh sistem</string>
 
-    <string name="error_no_equalizer_found">Aplikasi equalizer tidak ditemukan!</string>
+    <string name="error_no_equalizer_found">Tidak ada aplikasi equalizer yang ditemukan</string>
 
-    <string name="player_info_status_stopped">terhenti</string>
-    <string name="player_info_status_playing">memainkan</string>
+    <string name="player_info_status">Status:&#160;</string>
+    <string name="player_info_status_stopped">disetop</string>
+    <string name="player_info_status_playing">memutar</string>
     <string name="player_info_status_recording">merekam</string>
-    <string name="player_info_status_playing_and_recording">memainkan dan merekam</string>
-    <string name="player_info_transferred">Mengirim data: %1$s</string>
-    <string name="player_info_recording_to">Merekam:\n
-  %1$s</string>
-    <string name="player_info_recorded_to">Terakhir merekam:\n
-  %1$s</string>
+    <string name="player_info_status_playing_and_recording">memutar dan merekam</string>
+    <string name="player_info_transferred">Data ditransfer: %1$s</string>
+    <string name="player_info_recording_to">Merekam ke:\n%1$s</string>
+    <string name="player_info_recorded_to">Rekaman terakhir:\n%1$s</string>
+
+    <string name="tab_player_art">Kover album</string>
+    <string name="tab_player_info">Info</string>
+    <string name="tab_player_history">Riwayat trek</string>
+    <string name="tab_player_recordings">Rekaman</string>
 
     <string name="station_detail_bitrate">%1$1d kbps</string>
     <string name="station_detail_broken">RUSAK</string>
 
-    <string name="image_button_disable">Dimatikan</string>
+    <string name="image_button_disable">Nonaktifkan</string>
     <string name="image_button_record">Rekam</string>
-    <string name="image_button_record_request_permission">Meminta izin untuk merekam</string>
-    <string name="image_button_recordings">Merekam</string>
+    <string name="image_button_record_request_permission">Minta izin untuk merekam</string>
+    <string name="image_button_recordings">Rekaman</string>
     <string name="image_button_delete">Hapus</string>
-    <string name="image_button_more">Lebih</string>
-    <string name="image_button_less">Kurang lebih</string>
-    <string name="image_button_repeat">Mengulang</string>
-    <string name="image_button_dont_repeat">Tidak dapat mengulang</string>
-    <string name="icon_click_trend_decreasing">Penurunan popularitas</string>
-    <string name="icon_click_trend_increasing">Penaikan popularitas</string>
+    <string name="image_button_more">Lebih banyak</string>
+    <string name="image_button_less">Lebih sedikit</string>
+    <string name="image_button_repeat">Ulangi</string>
+    <string name="image_button_dont_repeat">Jangan ulangi repeat</string>
+    <string name="icon_click_trend_decreasing">Popularitas turun</string>
+    <string name="icon_click_trend_increasing">Popularitas naik </string>
     <string name="icon_click_trend_stable">Popularitas stabil</string>
 
     <string name="media_route_menu_title">GoogleCast</string>
     <string name="app_id">5A97BAE4</string>
     <string name="app_name">RadioDroid</string>
 
-    <string name="settings_mpd">Pemutar Musik Daemon</string>
-    <string name="settings_mpd_port">MPD port</string>
-    <string name="settings_view_mpd_servers">Server kamu</string>
-    <string name="action_mpd_nok">MPD tidak terkoneksi</string>
-    <string name="action_mpd_ok">MPD terkoneksi</string>
-    <string name="action_mpd_connected">Terhubung ke server: %1$s</string>
+    <string name="settings_mpd">Daemon Pemutar Musik</string>
+    <string name="settings_mpd_port">Porta MPD</string>
+    <string name="settings_view_mpd_servers">Server anda</string>
+    <string name="action_mpd_nok">MPD tidak tersambung</string>
+    <string name="action_mpd_ok">MPD tersambung</string>
+    <string name="action_mpd_connected">Tersambung ke server: %1$s</string>
+
+    <string name="mpd_no_connection">Tidak ada koneksi</string>
+    <string name="action_enable_mpd">Aktifkan MPD</string>
+    <string name="action_disable_mpd">Nonaktifkan MPD</string>
+    <string name="action_add_mpd_server">Tambah server MPD</string>
+
+    <string name="action_play_in_external">Putar di pemutar eksternal</string>
+    <string name="action_choose_external_player">Pilih pemutar eksternal</string>
 
     <string name="settings_other">Lainnya</string>
     <string name="settings_statistics">Statistik</string>
     <string name="settings_about">Tentang RadioDroid</string>
 
+    <string name="description_btn_skip_to_next">Lewati ke berikutnya</string>
+    <string name="description_btn_skip_to_previous">Lewati ke sebelumnya</string>
+
+    <string name="description_btn_setup_alarm">Setel alarm</string>
+
     <string-array name="weekdays">
-        <item>Minggu</item>
-        <item>Senin</item>
-        <item>Selasa</item>
-        <item>Rabu</item>
-        <item>Kamis</item>
-        <item>Jumat</item>
-        <item>Sabtu</item>
-    </string-array>
-    
-    <string name="notify_stream_url_copied">URL stream berhasil disalin!</string>
-    
-    <string-array name="actions_station_link">
-        <item>Kunjungi Situs Web</item>
-        <item>Disalin URL Stream</item>
+        <item>Min</item>
+        <item>Sen</item>
+        <item>Sel</item>
+        <item>Rab</item>
+        <item>Kam</item>
+        <item>Jum</item>
+        <item>Sab</item>
     </string-array>
 
+    <string name="notify_stream_url_copied">URL stream berhasil di salin</string>
+    <string name="notify_track_info_copied">Info trek berhasil di salin</string>
+
+    <string-array name="actions_station_link">
+        <item>Kunjungi situs web</item>
+        <item>Salin URL stream</item>
+    </string-array>
+
+    <string name="alert_metered_connection_title">Mendeteksi koneksi terukur</string>
+    <string name="alert_metered_connection_message">Koneksi terukur akan menyebabkan penggunaan data lebih, tekan \'OKE\' untuk melanjutkan.</string>
     <string name="nav_item_statistics">Statistik</string>
     <string name="nav_item_about">Tentang</string>
     <string name="refresh">Segarkan</string>
+
+    <string name="alarm_backup">Alarm Alternatif</string>
+    <string name="alarm_fallback_info">Alarm sistem yang dipilih saat stasiun radio gagal dimuat</string>
+    <string name="alarm_back_desc">Alarm sistem alternatif yang akan digunakan saat stasiun radio gagal dimuat</string>
+
+    <string name="context_menu_share">@string/detail_share</string>
+    <string name="context_menu_visit_homepage">@string/action_station_visit_website</string>
+    <string name="context_menu_play_in_radiodroid">@string/detail_play_in_radiodroid</string>
+    <string name="context_menu_play_in_external_player">@string/action_play_in_external</string>
+    <string name="context_menu_add_alarm">@string/action_alarm</string>
+    <string name="context_menu_create_shortcut">@string/detail_create_shortcut</string>
+    <string name="context_menu_delete">@string/action_delete</string>
 </resources>

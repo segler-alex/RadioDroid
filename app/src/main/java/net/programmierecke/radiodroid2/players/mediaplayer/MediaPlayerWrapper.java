@@ -10,6 +10,7 @@ import androidx.annotation.NonNull;
 
 import net.programmierecke.radiodroid2.BuildConfig;
 import net.programmierecke.radiodroid2.R;
+import net.programmierecke.radiodroid2.Utils;
 import net.programmierecke.radiodroid2.players.PlayState;
 import net.programmierecke.radiodroid2.station.live.ShoutcastInfo;
 import net.programmierecke.radiodroid2.station.live.StreamLiveInfo;
@@ -59,7 +60,7 @@ public class MediaPlayerWrapper implements PlayerWrapper, StreamProxyListener {
 
         Log.v(TAG, "Stream url:" + streamUrl);
 
-        isHls = streamUrl.endsWith(".m3u8");
+        isHls = Utils.urlIndicatesHlsStream(streamUrl);
 
         if (!isHls) {
             if (proxy != null) {

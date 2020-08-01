@@ -1,0 +1,7 @@
+{
+  "ok": "true",
+  "message": "retrieved station url",
+  "stationuuid": "9617a958-0601-11e8-ae97-52543be04c81",
+  "name": "Dummy name",
+  "url": "http://localhost:8888/audio.mp3"
+}
