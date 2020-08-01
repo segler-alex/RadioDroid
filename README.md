@@ -7,7 +7,10 @@
 <a href="https://play.google.com/store/apps/details?id=net.programmierecke.radiodroid2" target="_blank">
 <img src="https://play.google.com/intl/en_us/badges/images/generic/en-play-badge.png" alt="Get it on Google Play" height="80"/></a></div>
 
+
+
 ### <div align=center>Please add issues or feature requests on github under issues.</div>
+### <div align=center>Download releases here https://github.com/segler-alex/RadioDroid/releases</div>
 
 <div align=center><a href="http://www.gnu.org/licenses/gpl-3.0.html" target="_blank">
 <img src="http://www.gnu.org/graphics/gplv3-with-text-84x42.png" alt="GPLv3 Logo"/></a></div>
