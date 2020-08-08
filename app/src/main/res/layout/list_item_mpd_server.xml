@@ -44,6 +44,18 @@
             app:srcCompat="@drawable/ic_more" />
 
         <ImageButton
+            android:id="@+id/buttonStop"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="@string/detail_stop"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/buttonPlay"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_stop" />
+
+        <ImageButton
             android:id="@+id/buttonPlay"
             android:layout_width="64dp"
             android:layout_height="64dp"
@@ -51,7 +63,7 @@
             android:contentDescription="@string/detail_play"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintStart_toEndOf="@id/buttonStop"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/ic_play_circle" />
 
