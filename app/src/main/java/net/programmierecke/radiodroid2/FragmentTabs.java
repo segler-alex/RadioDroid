@@ -145,11 +145,15 @@ public class FragmentTabs extends Fragment implements IFragmentRefreshable, IFra
         fragments[IDX_SEARCH] = new FragmentStations();
 
         for (int i=0;i<fragments.length;i++) {
-            Bundle bundle1 = new Bundle();
-            bundle1.putString("url", addresses[i]);
-            fragments[i].setArguments(bundle1);
-        }
+            Bundle bundle = new Bundle();
+            bundle.putString("url", addresses[i]);
 
+            if (i == IDX_SEARCH) {
+                bundle.putBoolean(FragmentStations.KEY_SEARCH_ENABLED, true);
+            }
+
+            fragments[i].setArguments(bundle);
+        }
 
         ((FragmentCategories) fragments[IDX_TAGS]).EnableSingleUseFilter(true);
         ((FragmentCategories) fragments[IDX_TAGS]).SetBaseSearchLink(StationsFilter.SearchStyle.ByTagExact);
