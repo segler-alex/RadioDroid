@@ -134,6 +134,7 @@ public class FragmentTabs extends Fragment implements IFragmentRefreshable, IFra
                 Log.e("MAIN", "device countrycode and sim countrycode are null");
             }
         }
+        fragments[IDX_LOCAL] = new FragmentStations();
         fragments[IDX_TOP_CLICK] = new FragmentStations();
         fragments[IDX_TOP_VOTE] = new FragmentStations();
         fragments[IDX_CHANGED_LATELY] = new FragmentStations();
