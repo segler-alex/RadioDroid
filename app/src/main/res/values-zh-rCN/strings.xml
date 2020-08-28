@@ -231,6 +231,7 @@
     <string name="error_caching_stream">流媒体缓存错误</string>
     <string name="error_play_stream">无法播放流媒体</string>
     <string name="error_stream_reconnect_timeout">无法重新连接到流媒体：超时</string>
+    <string name="warning_no_network_trying_resume">无网络连接。正尝试在连接可用时恢复播放。</string>
     <string name="giving_up_resume">已忽略尝试恢复播放</string>
 
     <string name="error_record_needs_write">需要写入权限才能录音</string>
