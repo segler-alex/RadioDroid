@@ -1,0 +1,335 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+    <string name="detail_name">Nome</string>
+    <string name="detail_tags">Etichette</string>
+    <string name="detail_country">Nazione</string>
+    <string name="detail_create_shortcut">Aggiungi alla schermata iniziale</string>
+    <string name="detail_language">Lingua</string>
+    <string name="detail_weblink">Collegamento web</string>
+    <string name="detail_visit_website">@string/action_station_visit_website</string>
+    <string name="detail_play">Riproduci</string>
+    <string name="detail_pause">Pausa</string>
+    <string name="detail_stop">Interrompi</string>
+    <string name="detail_share">Condividi</string>
+    <string name="detail_play_in_radiodroid">Riproduci in RadioDroid</string>
+
+    <string name="action_links">Collegamenti</string>
+    <string name="action_homepage">Pagina di inizio</string>
+    <string name="action_favorite">Preferito</string>
+    <string name="action_alarm">Sveglia</string>
+
+    <string name="action_station_visit_website">Visita sito web</string>
+    <string name="action_station_copy_stream_url">Copia URL del flusso</string>
+    <string name="action_station_share">Condividi</string>
+
+    <string name="action_local">Locale</string>
+    <string name="action_skip_to_next">Seguente</string>
+    <string name="action_pause">Pausa</string>
+    <string name="action_skip_to_previous">Precedente</string>
+    <string name="action_resume">Riprendi</string>
+    <string name="action_stop">Ferma</string>
+    <string name="action_search">Cerca</string>
+    <string name="action_delete">Cancella</string>
+    <string name="action_delete_history">Cancella cronologia</string>
+    <string name="action_delete_favorites">Cancella preferiti</string>
+    <string name="action_delete_stream_history">Svuota cronologia delle tracce</string>
+    <string name="action_ok">OK</string>
+    <string name="action_cancel">Annulla</string>
+    <string name="action_top_click">Maggiori clic</string>
+    <string name="action_toggle_view">Commuta vista</string>
+    <string name="action_top_vote">Maggiori voti</string>
+    <string name="action_changed_lately">Modificate recentemente</string>
+    <string name="action_currently_playing">In onda</string>
+    <string name="action_tags">Etichette</string>
+    <string name="action_countries">Nazioni</string>
+    <string name="action_languages">Lingue</string>
+    <string name="action_edit">Modifica</string>
+    <string name="action_lyrics">Testo</string>
+    <string name="action_copy_info">Copia info</string>
+    <string name="error_station_load">Impossibile connettersi alla stazione</string>
+    <string name="error_list_update">Impossibile connettersi al server di scoperta delle radio</string>
+
+    <string name="share_action">Condividi collegamento alla stazione con...</string>
+
+    <string name="nav_item_stations">Stazioni</string>
+    <string name="nav_item_starred">Preferiti</string>
+    <string name="nav_item_history">Cronologia</string>
+    <string name="nav_item_settings">Impostazioni</string>
+    <string name="nav_item_alarm">Sveglia</string>
+
+    <string name="about_text">Questa applicazione usa il direttorio libero di radio presso\nhttps://www.radio-browser.info\nChiunque può aggiungere stazioni radio o modificare quelle esistenti. Funziona come una wiki per le stazioni radio che trasmettono (streaming) su internet.\n\Centatti:\nsegler_alex@web.de\n\Gestore di bachi:\nhttps://github.com/segler-alex/RadioDroid/issues\n\nSe ti piace questo software e vuoi aiutare, sentiti libero di inviare un email. Ho davvero bisogno di qualcuno con esperienza grafica che possa rendere l'applicazione più bella da vedere :) Magari qualcuno che sa disegnare icone, immagini... Ma anche programmatori per sistemare i bachi, o implementare nuove caratteristiche. ;)\nInoltre sono sempre apprezzate idee per nuove caratteristiche!\n\nQuesta applicazione è software libero sotto la licenza\nhttps://www.gnu.org/licenses/gpl-3.0.html</string>
+    <string name="about_version">Versione: %1$s</string>
+    <string name="detail_star">Aggiungi ai preferiti</string>
+    <string name="detail_unstar">Cancella dai favoriti</string>
+    <string name="detail_play_in_external_player">@string/action_play_in_external</string>
+    <string name="progress_loading">Caricamento...</string>
+
+    <string name="sleep_timer" formatted="true">Tempo di sonno: %1$02d:%2$02d</string>
+    <string name="sleep_timer_title">Smetti la riproduzione dopo il minuto selezionato</string>
+    <string name="sleep_timer_apply">Applica</string>
+    <string name="sleep_timer_clear">Annulla</string>
+    <string name="nav_item_add_sleep">Tempo di sonno</string>
+
+    <string name="nav_item_save_playlist">Esporta preferiti nella playlist</string>
+    <string name="nav_item_load_playlist">Importa preferiti dalla playlist</string>
+    <string name="nav_item_save_history_playlist">Esporta cronologia come playlist</string>
+    <string name="confirm_overwrite_file">Sovrascrivere il documento?</string>
+    <string name="dialog_hint_file_name">Indica il nome del documento</string>
+    <string name="error_empty_field">Questo campo è obbligatorio</string>
+    <string name="error_invalid_file_name">Nome del documento non valido</string>
+    <string name="label_button_cancel">Annulla</string>
+    <string name="label_button_overwrite">Sovrascrivi</string>
+    <string name="notify_load_playlist_nok">Impossibile importare da %1$s&#47;%2$s</string>
+    <string name="notify_load_playlist_now">Importando da %1$s&#47;%2$s, please wait.</string>
+    <string name="notify_load_playlist_ok">Importate %1$d stazioni da %2$s&#47;%3$s</string>
+    <string name="notify_save_playlist_nok">Impossibile esportare a %1$s&#47;%2$s</string>
+    <string name="notify_save_playlist_now">Esportando a %1$s&#47;%2$s, per favore aspetta.</string>
+    <string name="notify_save_playlist_ok">Esportato a %1$s&#47;%2$s correttamente</string>
+
+    <string name="searchpreference_clear_history">Svuota cronologia</string>
+    <string name="searchpreference_no_results">Nessun risultato</string>
+    <string name="searchpreference_search">Cerca…</string>
+    <string name="settings_appearance">Aspetto</string>
+    <string name="settings_theme_selection_title">Tema</string>
+    <string name="theme_light">Chiaro</string>
+    <string name="theme_dark">Scuro</string>
+    <string name="settings_circular_icons">Usa icone circolari</string>
+    <string name="settings_compact_style">Modalità compatta</string>
+    <string name="settings_compact_style_desc_off">Adotta icone grandi per i dettagli della stazione</string>
+    <string name="settings_compact_style_desc_on">Adotta icone piccole per i dettagli della stazione</string>
+    <string name="settings_bottom_navigation">Navigazione in basso</string>
+
+    <string name="settings_interaction">Interazione</string>
+    <string name="settings_single_use_tags">Mostra etichette poco usate</string>
+    <string name="settings_single_use_tags_desc_off">Le etichette poco usate non saranno mostrate</string>
+    <string name="settings_single_use_tags_desc_on">Le etichette poco usate saranno mostrate</string>
+
+    <string name="settings_show_broken">Stazioni rotte</string>
+    <string name="settings_show_broken_on">Mostra stazioni rotte nelle liste</string>
+    <string name="settings_show_broken_off">Non mostrare stazioni rotte nelle liste</string>
+
+    <string name="settings_startup_behaviour">Comportamento all'avvio</string>
+    <string name="startup_action_title">Inizia azione</string>
+    <string name="startup_action_title_desc">%s</string>
+    <string name="startup_show_all_stations">Mostra tutte le stazioni</string>
+    <string name="startup_show_favorites">Mostra preferiti</string>
+    <string name="startup_show_history">Mostra cronologia</string>
+    <string name="startup_show_last_view">Ultima vista</string>
+
+    <string name="settings_load_icons">Mostra icone delle stazioni</string>
+    <string name="settings_load_icons_on">Le icone saranno scaricate</string>
+    <string name="settings_load_icons_off">Le icone non saranno scaricate</string>
+
+    <string name="settings_auto_favorite">Auto-preferiti</string>
+    <string name="settings_auto_favorite_on">Le stazioni saranno aggiunte in automatico ai preferiti quando sono riprodotte</string>
+    <string name="settings_auto_favorite_off">Le stazioni non saranno aggiunte in automatico ai preferiti quando sono riprodotte</string>
+
+    <string name="settings_icon_click_toggles_favorite">Clic dell'icona</string>
+    <string name="settings_icon_click_toggles_favorite_on">Un clic sull'icona della stazione la aggiunge o toglie dai preferiti</string>
+    <string name="settings_icon_click_toggles_favorite_off">Un clic sull'icona della stazione inizia a riprodurre</string>
+
+    <string name="settings_click_trend_icon_visible">Icona della tendenza</string>
+    <string name="settings_click_trend_icon_visible_on">L'icona sarà visibile</string>
+    <string name="settings_click_trend_icon_visible_off">L'icona sarà nascosta</string>
+
+    <string name="settings_alarm">Sveglia</string>
+    <string name="settings_alarm_external">Apri applicazione esterna</string>
+    <string name="settings_alarm_external_desc_on">Apri la sveglia con l'applicazione esterna predefinita</string>
+    <string name="settings_alarm_external_desc_off">Apri la sveglia con RadioDroid</string>
+    <string name="settings_alarm_audio_player">Riproduttore di audio</string>
+    <string name="settings_alarm_sleep_timer">Tempo di sonno</string>
+    <string name="settings_alarm_sleep_timer_desc">Smetti di riprodurre dopo %1$s minuti</string>
+    <string name="settings_play">Riproduttore</string>
+    <string name="settings_auto_play_on_startup">Auto-riproduzione</string>
+    <string name="settings_auto_play_on_startup_on">Riproduci l'ultima stazione all'avvio</string>
+    <string name="settings_auto_play_on_startup_off">Non riprodurre l'ultima stazione all'avvio</string>
+    <string name="settings_play_external">Apri riproduttore esterno</string>
+    <string name="settings_play_external_desc_on">Riproduci stazioni con riproduttore esterno</string>
+    <string name="settings_play_external_desc_off">Riproduci stazioni con RadioDroid</string>
+    <string name="settings_equalizer">Equalizzatore</string>
+
+    <string name="settings_connectivity">Connessione</string>
+    <string name="settings_connect_timeout">Timeout di connessione della trasmissione</string>
+    <string name="settings_read_timeout">Timeout di lettura della trasmissione</string>
+    <string name="settings_resume_timeout">Timeout di ripresa della trasmissione</string>
+    <string name="settings_retry_timeout">Timeout di riprova</string>
+    <string name="settings_retry_delay">Ritardo di riconnessione</string>
+    <string name="settings_proxy">Proxy</string>
+    <string name="settings_proxy_login">Utente</string>
+    <string name="settings_proxy_password">Password</string>
+    <string name="settings_proxy_action_test">Prova</string>
+    <string name="settings_proxy_working">Connesso con successo a %s</string>
+    <string name="settings_proxy_not_working">Connessione fallita a %s\n%s</string>
+    <string name="settings_proxy_invalid">I valori forniti per il proxy non sono validi</string>
+    <string name="ignore_proxy_settings_invalid">Sono state ignorate le  impostazioni non valide del proxy</string>
+    <string name="settings_seconds_format">%d secondi</string>
+    <string name="settings_milliseconds_format">%d millisecondi</string>
+
+    <string name="settings_pause_when_noisy">Pausa alla disconnessione delle cuffie</string>
+
+    <string name="settings_auto_resume_do_not_resume">Non riprendere</string>
+
+    <string name="settings_auto_resume_on_wired_headset_connected">Riprendi con cavo connesso</string>
+    <string name="settings_auto_resume_on_wired_headset_connected_on">Riprendi la riproduzione alla connessione di auricolari cablati</string>
+
+    <string name="settings_auto_resume_on_bluetooth_a2dp_connected">Riprendi con connessione Bluetooth</string>
+    <string name="settings_auto_resume_on_bluetooth_a2dp_connected_on">Riprendi la riproduzione alla connessione di dispositivi A2DP Bluetooth</string>
+
+    <string name="settings_warn_no_wifi">Avviso di Wi-Fi spento</string>
+    <string name="settings_warn_no_wifi_on">Avvisa quando si riproduce senza connessione Wi-Fi</string>
+    <string name="settings_warn_no_wifi_off">Non avvisare quando si riproduce senza connessione Wi-Fi</string>
+
+    <string name="settings_recordings">Registrazioni</string>
+    <string name="settings_record_name_formatting">Formato del nome</string>
+
+    <string name="settings_record_name_formatting_default_display">stazione_artista_traccia_\u200bdata_\u200bora</string>
+    <string name="settings_record_name_formatting_1_display">stazione_artista_\u200btraccia</string>
+    <string name="settings_record_name_formatting_2_display">stazione_data_\u200bora</string>
+    <string name="settings_record_name_formatting_3_display">indice_stazione_\u200bdata</string>
+
+    <string name="notify_pre_play">Connettendo</string>
+    <string name="notify_play">Riproducendo</string>
+    <string name="notify_paused">In pausa</string>
+    <string name="notify_metered_connection">Connessione misurata</string>
+
+    <string name="notify_starred">La stazione è stata marcata come preferita</string>
+    <string name="notify_autostarred">La stazione è stata marcata automaticamente come preferita</string>
+    <string name="notify_unstarred">La stazione è stata cancellata dai preferiti</string>
+    <string name="notify_deleted_favorites">I preferiti sono stati cancellati</string>
+    <string name="notify_deleted_history">La cronologia è stata cancellata</string>
+
+    <string name="notify_open_link_failure">Nessuna applicazione trovata per aprire il collegamento</string>
+
+    <string name="notify_station_removed_from_list">1 cancellata</string>
+    <string name="action_station_removed_from_list_undo">DISFA</string>
+
+    <string name="alert_install_lyrics_app">QuickLyric non è installato sul dispositivo. Vuoi scaricarlo dal Google Play Store?</string>
+
+    <string name="alert_delete_history">Vuoi davvero cancellare la cronologia?</string>
+    <string name="alert_delete_favorites">Vuoi davvero cancellare i preferiti?</string>
+    <string name="yes">Sì</string>
+    <string name="no">No</string>
+
+    <string name="alert_select_mpd_server">Per favore scegli un server</string>
+    <string name="alert_select_mpd_server_name">Nome del server</string>
+    <string name="alert_select_mpd_server_password">Password del server</string>
+    <string name="hostname">Nome dell'host</string>
+    <string name="port">Porta</string>
+
+    <string name="alert_select_mpd_server_add">Aggiungi</string>
+    <string name="alert_select_mpd_server_save">Salva</string>
+    <string name="alert_select_mpd_server_remove">Remove</string>
+    <string name="alert_add_or_edit_mpd_server">Inserisci i dettagli del server</string>
+    <string name="alert_alarm_working">Tempo della sveglia ora</string>
+    <string name="alert_alarm_not_working">Non ci sono abbastanza informazioni per la sveglia</string>
+    <string name="alert_select_external_alarm_app">Scegli riproduttore audio</string>
+
+    <string name="alert_press_back_to_exit">Premi indietro ancora una volta per uscire</string>
+
+    <string name="error_stream_url">Problema con l'URL del flusso</string>
+    <string name="error_caching_stream">Problema con la cache del flusso</string>
+    <string name="error_play_stream">Impossibile riprodurre il flusso</string>
+    <string name="error_stream_reconnect_timeout">Impossibile riconnettersi al flusso: timeout</string>
+    <string name="warning_no_network_trying_resume">Nessuna connessione di rete. Provo a riprenderla quando la connessione torna.</string>
+    <string name="giving_up_resume">Abbandono il tentativo di riprendere la riproduzione</string>
+
+    <string name="error_record_needs_write">Necessito dei permessi di scrittura per registrare</string>
+    <string name="error_grant_audiofocus">La richiesta dell'audio non è stata accettata dal sistema</string>
+
+    <string name="error_no_equalizer_found">Nessuna applicazione di equalizzazione</string>
+
+    <string name="player_info_status">Stato:&#160;</string>
+    <string name="player_info_status_stopped">interrotto</string>
+    <string name="player_info_status_playing">riproducendo</string>
+    <string name="player_info_status_recording">registrando</string>
+    <string name="player_info_status_playing_and_recording">riproducendo e registrando</string>
+    <string name="player_info_transferred">Dati trasferiti: %1$s</string>
+    <string name="player_info_recording_to">Registrando a:\n%1$s</string>
+    <string name="player_info_recorded_to">Ultima registrazione:\n%1$s</string>
+
+    <string name="tab_player_art">Copertina</string>
+    <string name="tab_player_info">Info</string>
+    <string name="tab_player_history">Cronologia</string>
+    <string name="tab_player_recordings">Registrazioni</string>
+
+    <string name="station_detail_bitrate">%1$1d kbps</string>
+    <string name="station_detail_broken">ROTTO</string>
+
+    <string name="image_button_disable">Disabilita</string>
+    <string name="image_button_record">Registra</string>
+    <string name="image_button_record_request_permission">Richiedi permesso di registrazione</string>
+    <string name="image_button_recordings">Registrazioni</string>
+    <string name="image_button_delete">Cancella</string>
+    <string name="image_button_more">Più</string>
+    <string name="image_button_less">Meno</string>
+    <string name="image_button_repeat">Ripeti</string>
+    <string name="image_button_dont_repeat">Non ripetere</string>
+    <string name="icon_click_trend_decreasing">Popolarità decrescente</string>
+    <string name="icon_click_trend_increasing">Popolarità crescente</string>
+    <string name="icon_click_trend_stable">Popolarità stabile</string>
+
+    <string name="media_route_menu_title">GoogleCast</string>
+    <string name="app_id">5A97BAE4</string>
+    <string name="app_name">RadioDroid</string>
+
+    <string name="settings_mpd">Music Player Daemon</string>
+    <string name="settings_mpd_port">Porta di MPD</string>
+    <string name="settings_view_mpd_servers">I tuoi server</string>
+    <string name="action_mpd_nok">MPD non connesso</string>
+    <string name="action_mpd_ok">MPD connesso</string>
+    <string name="action_mpd_connected">Connesso al server: %1$s</string>
+
+    <string name="mpd_no_connection">Nessuna connessione</string>
+    <string name="action_enable_mpd">Abilita MPD</string>
+    <string name="action_disable_mpd">Disabilita MPD</string>
+    <string name="action_add_mpd_server">Aggiungi server MPD</string>
+
+    <string name="action_play_in_external">Riproduci in riproduttore esterno</string>
+    <string name="action_choose_external_player">Scegli riproduttore esterno</string>
+
+    <string name="settings_other">Altro</string>
+    <string name="settings_statistics">Statistiche</string>
+    <string name="settings_about">Circa RadioDroid</string>
+
+    <string name="description_btn_skip_to_next">Salta al seguente</string>
+    <string name="description_btn_skip_to_previous">Salta al precedente</string>
+
+    <string name="description_btn_setup_alarm">Imposta sveglia</string>
+
+    <string-array name="weekdays">
+        <item>D</item>
+        <item>L</item>
+        <item>M</item>
+        <item>M</item>
+        <item>G</item>
+        <item>V</item>
+        <item>S</item>
+    </string-array>
+
+    <string name="notify_stream_url_copied">L'URL del flusso copiato correttamente</string>
+    <string name="notify_track_info_copied">Informazioni sulla traccia copiate correttamente</string>
+
+    <string-array name="actions_station_link">
+        <item>Visita sito web</item>
+        <item>Copia URL del flusso</item>
+    </string-array>
+
+    <string name="alert_metered_connection_title">Rilevata connessione a uso misurato</string>
+    <string name="alert_metered_connection_message">La connessione ad uso misurato può incorrere in costi aggiuntivi, premi \'OK\' per continuare.</string>
+    <string name="nav_item_statistics">Statistiche</string>
+    <string name="nav_item_about">Circa</string>
+    <string name="refresh">Ricarica</string>
+
+    <string name="alarm_backup">Sveglia alternativa</string>
+    <string name="alarm_fallback_info">Sveglia del sistema adottata se la stazione radio selezionata ha fallito il caricamento</string>
+    <string name="alarm_back_desc">Il sistema alternativo di sveglia adottato quando il caricamento della stazione radio fallisce</string>
+
+    <string name="context_menu_share">@string/detail_share</string>
+    <string name="context_menu_visit_homepage">@string/action_station_visit_website</string>
+    <string name="context_menu_play_in_radiodroid">@string/detail_play_in_radiodroid</string>
+    <string name="context_menu_play_in_external_player">@string/action_play_in_external</string>
+    <string name="context_menu_add_alarm">@string/action_alarm</string>
+    <string name="context_menu_create_shortcut">@string/detail_create_shortcut</string>
+    <string name="context_menu_delete">@string/action_delete</string>
+</resources>
