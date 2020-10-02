@@ -17,10 +17,10 @@
     <string name="action_search">Ara</string>
     <string name="action_delete">Sil</string>
     <string name="action_delete_history">Geçmişi sil</string>
-    <string name="action_delete_favorites">Beğenilenleri sil</string>
+    <string name="action_delete_favorites">Favorileri sil</string>
     <string name="action_cancel">İptal</string>
-    <string name="action_top_click">ÇokTıklanan</string>
-    <string name="action_top_vote">ÇokOylanan</string>
+    <string name="action_top_click">Çok Tıklanan</string>
+    <string name="action_top_vote">Çok Oylanan</string>
     <string name="action_changed_lately">Yakında değişen</string>
     <string name="action_currently_playing">Oynatılıyor</string>
     <string name="action_tags">Etiketler</string>
@@ -32,7 +32,7 @@
     <string name="error_station_load">İstasyona bağlanılamadı</string>
     <string name="error_list_update">Radyo tarayıcı sunucusuna bağlanılamadı</string>
 
-    <string name="share_action">Share station link with..</string>
+    <string name="share_action">İstasyon linkini paylaş..</string>
 
     <string name="nav_item_stations">İstasyonlar</string>
     <string name="nav_item_starred">Yıldızlı</string>
