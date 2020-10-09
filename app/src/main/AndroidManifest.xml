@@ -13,6 +13,7 @@
     <uses-permission android:name="android.permission.BLUETOOTH" />
 
     <application
+        android:banner="@mipmap/ic_banner"
         android:name=".RadioDroidApp"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
