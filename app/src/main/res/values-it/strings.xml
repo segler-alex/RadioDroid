@@ -58,7 +58,7 @@
     <string name="nav_item_settings">Impostazioni</string>
     <string name="nav_item_alarm">Sveglia</string>
 
-    <string name="about_text">Questa applicazione usa il direttorio libero di radio presso\nhttps://www.radio-browser.info\nChiunque può aggiungere stazioni radio o modificare quelle esistenti. Funziona come una wiki per le stazioni radio che trasmettono (streaming) su internet.\n\Centatti:\nsegler_alex@web.de\n\Gestore di bachi:\nhttps://github.com/segler-alex/RadioDroid/issues\n\nSe ti piace questo software e vuoi aiutare, sentiti libero di inviare un email. Ho davvero bisogno di qualcuno con esperienza grafica che possa rendere l'applicazione più bella da vedere :) Magari qualcuno che sa disegnare icone, immagini... Ma anche programmatori per sistemare i bachi, o implementare nuove caratteristiche. ;)\nInoltre sono sempre apprezzate idee per nuove caratteristiche!\n\nQuesta applicazione è software libero sotto la licenza\nhttps://www.gnu.org/licenses/gpl-3.0.html</string>
+    <string name="about_text">Questa applicazione usa il direttorio libero di radio presso\nhttps://www.radio-browser.info\nChiunque può aggiungere stazioni radio o modificare quelle esistenti. Funziona come una wiki per le stazioni radio che trasmettono (streaming) su internet.\n\Centatti:\nsegler_alex@web.de\n\Gestore di bachi:\nhttps://github.com/segler-alex/RadioDroid/issues\n\nSe ti piace questo software e vuoi aiutare, sentiti libero di inviare un email. Ho davvero bisogno di qualcuno con esperienza grafica che possa rendere l\'applicazione più bella da vedere :) Magari qualcuno che sa disegnare icone, immagini... Ma anche programmatori per sistemare i bachi, o implementare nuove caratteristiche. ;)\nInoltre sono sempre apprezzate idee per nuove caratteristiche!\n\nQuesta applicazione è software libero sotto la licenza\nhttps://www.gnu.org/licenses/gpl-3.0.html</string>
     <string name="about_version">Versione: %1$s</string>
     <string name="detail_star">Aggiungi ai preferiti</string>
     <string name="detail_unstar">Cancella dai favoriti</string>
@@ -109,7 +109,7 @@
     <string name="settings_show_broken_on">Mostra stazioni rotte nelle liste</string>
     <string name="settings_show_broken_off">Non mostrare stazioni rotte nelle liste</string>
 
-    <string name="settings_startup_behaviour">Comportamento all'avvio</string>
+    <string name="settings_startup_behaviour">Comportamento all\'avvio</string>
     <string name="startup_action_title">Inizia azione</string>
     <string name="startup_action_title_desc">%s</string>
     <string name="startup_show_all_stations">Mostra tutte le stazioni</string>
@@ -125,25 +125,25 @@
     <string name="settings_auto_favorite_on">Le stazioni saranno aggiunte in automatico ai preferiti quando sono riprodotte</string>
     <string name="settings_auto_favorite_off">Le stazioni non saranno aggiunte in automatico ai preferiti quando sono riprodotte</string>
 
-    <string name="settings_icon_click_toggles_favorite">Clic dell'icona</string>
-    <string name="settings_icon_click_toggles_favorite_on">Un clic sull'icona della stazione la aggiunge o toglie dai preferiti</string>
-    <string name="settings_icon_click_toggles_favorite_off">Un clic sull'icona della stazione inizia a riprodurre</string>
+    <string name="settings_icon_click_toggles_favorite">Clic dell\'icona</string>
+    <string name="settings_icon_click_toggles_favorite_on">Un clic sull\'icona della stazione la aggiunge o toglie dai preferiti</string>
+    <string name="settings_icon_click_toggles_favorite_off">Un clic sull\'icona della stazione inizia a riprodurre</string>
 
     <string name="settings_click_trend_icon_visible">Icona della tendenza</string>
-    <string name="settings_click_trend_icon_visible_on">L'icona sarà visibile</string>
-    <string name="settings_click_trend_icon_visible_off">L'icona sarà nascosta</string>
+    <string name="settings_click_trend_icon_visible_on">L\'icona sarà visibile</string>
+    <string name="settings_click_trend_icon_visible_off">L\'icona sarà nascosta</string>
 
     <string name="settings_alarm">Sveglia</string>
     <string name="settings_alarm_external">Apri applicazione esterna</string>
-    <string name="settings_alarm_external_desc_on">Apri la sveglia con l'applicazione esterna predefinita</string>
+    <string name="settings_alarm_external_desc_on">Apri la sveglia con l\'applicazione esterna predefinita</string>
     <string name="settings_alarm_external_desc_off">Apri la sveglia con RadioDroid</string>
     <string name="settings_alarm_audio_player">Riproduttore di audio</string>
     <string name="settings_alarm_sleep_timer">Tempo di sonno</string>
     <string name="settings_alarm_sleep_timer_desc">Smetti di riprodurre dopo %1$s minuti</string>
     <string name="settings_play">Riproduttore</string>
     <string name="settings_auto_play_on_startup">Auto-riproduzione</string>
-    <string name="settings_auto_play_on_startup_on">Riproduci l'ultima stazione all'avvio</string>
-    <string name="settings_auto_play_on_startup_off">Non riprodurre l'ultima stazione all'avvio</string>
+    <string name="settings_auto_play_on_startup_on">Riproduci l\'ultima stazione all\'avvio</string>
+    <string name="settings_auto_play_on_startup_off">Non riprodurre l\'ultima stazione all\'avvio</string>
     <string name="settings_play_external">Apri riproduttore esterno</string>
     <string name="settings_play_external_desc_on">Riproduci stazioni con riproduttore esterno</string>
     <string name="settings_play_external_desc_off">Riproduci stazioni con RadioDroid</string>
@@ -214,7 +214,7 @@
     <string name="alert_select_mpd_server">Per favore scegli un server</string>
     <string name="alert_select_mpd_server_name">Nome del server</string>
     <string name="alert_select_mpd_server_password">Password del server</string>
-    <string name="hostname">Nome dell'host</string>
+    <string name="hostname">Nome dell\'host</string>
     <string name="port">Porta</string>
 
     <string name="alert_select_mpd_server_add">Aggiungi</string>
@@ -227,7 +227,7 @@
 
     <string name="alert_press_back_to_exit">Premi indietro ancora una volta per uscire</string>
 
-    <string name="error_stream_url">Problema con l'URL del flusso</string>
+    <string name="error_stream_url">Problema con l\'URL del flusso</string>
     <string name="error_caching_stream">Problema con la cache del flusso</string>
     <string name="error_play_stream">Impossibile riprodurre il flusso</string>
     <string name="error_stream_reconnect_timeout">Impossibile riconnettersi al flusso: timeout</string>
@@ -235,7 +235,7 @@
     <string name="giving_up_resume">Abbandono il tentativo di riprendere la riproduzione</string>
 
     <string name="error_record_needs_write">Necessito dei permessi di scrittura per registrare</string>
-    <string name="error_grant_audiofocus">La richiesta dell'audio non è stata accettata dal sistema</string>
+    <string name="error_grant_audiofocus">La richiesta dell\'audio non è stata accettata dal sistema</string>
 
     <string name="error_no_equalizer_found">Nessuna applicazione di equalizzazione</string>
 
@@ -307,7 +307,7 @@
         <item>S</item>
     </string-array>
 
-    <string name="notify_stream_url_copied">L'URL del flusso copiato correttamente</string>
+    <string name="notify_stream_url_copied">L\'URL del flusso copiato correttamente</string>
     <string name="notify_track_info_copied">Informazioni sulla traccia copiate correttamente</string>
 
     <string-array name="actions_station_link">
