@@ -444,7 +444,7 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
     @Override
     public void onDestroy() {
         super.onDestroy();
-        PlayerServiceUtil.unBind(this);
+        PlayerServiceUtil.unBind();
     }
 
     @Override

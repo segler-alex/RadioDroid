@@ -23,44 +23,48 @@ import net.programmierecke.radiodroid2.station.DataRadioStation
 import net.programmierecke.radiodroid2.station.live.ShoutcastInfo
 import net.programmierecke.radiodroid2.station.live.StreamLiveInfo
 
+private sealed class ServiceState
+private object ServiceUnbound : ServiceState()
+private data class ServiceBound(val mainContext: Context, val serviceConnection: ServiceConnection) : ServiceState()
+
 object PlayerServiceUtil {
-    private var mainContext: Context? = null
-    private var bound = false
-    private var serviceConnection: ServiceConnection? = null
+    private var serviceState: ServiceState = ServiceUnbound
     @JvmStatic
     fun bind(context: Context) {
-        if (bound) return
+        if (serviceState is ServiceBound) return
         val intent = Intent(context, PlayerService::class.java)
         intent.putExtra(PlayerService.PLAYER_SERVICE_NO_NOTIFICATION_EXTRA, true)
-        mainContext = context
-        serviceConnection = getServiceConnection()
+        val serviceConnection = getServiceConnection(context)
         context.startService(intent)
-        context.bindService(intent, serviceConnection!!, Context.BIND_AUTO_CREATE)
-        bound = true
+        context.bindService(intent, serviceConnection, Context.BIND_AUTO_CREATE)
+        serviceState = ServiceBound(
+                mainContext = context,
+                serviceConnection = serviceConnection
+        )
     }
 
     @JvmStatic
-    fun unBind(context: Context?) {
-        try {
-            context?.unbindService(serviceConnection!!)
-        } catch (e: Exception) {
+    fun unBind() {
+        (serviceState as? ServiceBound)?.also { (context, serviceConnection) ->
+            try {
+                context.unbindService(serviceConnection)
+            } catch (e: Exception) {
+            }
         }
-        serviceConnection = null
-        bound = false
+        serviceState = ServiceUnbound
     }
 
     @JvmStatic
     fun shutdownService() {
-        if (mainContext != null) {
+        (serviceState as? ServiceBound)?.also { (context, serviceConnection) ->
             try {
                 if (BuildConfig.DEBUG) {
                     Log.d("PlayerServiceUtil", "PlayerServiceUtil: shutdownService")
                 }
-                val intent = Intent(mainContext, PlayerService::class.java)
-                unBind(mainContext)
-                mainContext?.stopService(intent)
+                val intent = Intent(context, PlayerService::class.java)
+                unBind()
+                context.stopService(intent)
                 itsPlayerService = null
-                serviceConnection = null
             } catch (e: Exception) {
                 if (BuildConfig.DEBUG) {
                     Log.d("PlayerServiceUtil", "PlayerServiceUtil: shutdownService E001:" + e.message)
@@ -70,7 +74,7 @@ object PlayerServiceUtil {
     }
 
     private var itsPlayerService: IPlayerService? = null
-    private fun getServiceConnection(): ServiceConnection {
+    private fun getServiceConnection(context: Context): ServiceConnection {
         return object : ServiceConnection {
             override fun onServiceConnected(className: ComponentName, binder: IBinder) {
                 if (BuildConfig.DEBUG) {
@@ -79,14 +83,14 @@ object PlayerServiceUtil {
                 itsPlayerService = IPlayerService.Stub.asInterface(binder)
                 val local = Intent()
                 local.action = PlayerService.PLAYER_SERVICE_BOUND
-                LocalBroadcastManager.getInstance(mainContext!!).sendBroadcast(local)
+                LocalBroadcastManager.getInstance(context).sendBroadcast(local)
             }
 
             override fun onServiceDisconnected(className: ComponentName) {
                 if (BuildConfig.DEBUG) {
                     Log.d("PLAYER", "Service offline")
                 }
-                unBind(mainContext)
+                unBind()
             }
         }
     }
@@ -237,25 +241,27 @@ object PlayerServiceUtil {
     fun getStationIcon(holder: ImageView?, fromUrl: String?) {
         if (fromUrl == null || fromUrl.isBlank()) return
 
-        val r = mainContext!!.resources
-        val px = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 70f, r.displayMetrics)
-        val imageLoadCallback: Callback = object : Callback {
-            override fun onSuccess() {}
-            override fun onError(e: Exception) {
-                Picasso.get()
-                        .load(fromUrl)
-                        .placeholder(ContextCompat.getDrawable(mainContext!!, R.drawable.ic_photo_24dp)!!)
-                        .resize(px.toInt(), 0)
-                        .networkPolicy(NetworkPolicy.NO_CACHE)
-                        .into(holder)
+        (serviceState as? ServiceBound)?.also { (context, serviceConnection) ->
+            val r = context.resources
+            val px = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 70f, r.displayMetrics)
+            val imageLoadCallback: Callback = object : Callback {
+                override fun onSuccess() {}
+                override fun onError(e: Exception) {
+                    Picasso.get()
+                            .load(fromUrl)
+                            .placeholder(ContextCompat.getDrawable(context, R.drawable.ic_photo_24dp)!!)
+                            .resize(px.toInt(), 0)
+                            .networkPolicy(NetworkPolicy.NO_CACHE)
+                            .into(holder)
+                }
             }
+            Picasso.get()
+                    .load(fromUrl)
+                    .placeholder(ContextCompat.getDrawable(context, R.drawable.ic_photo_24dp)!!)
+                    .resize(px.toInt(), 0)
+                    .networkPolicy(NetworkPolicy.OFFLINE)
+                    .into(holder, imageLoadCallback)
         }
-        Picasso.get()
-                .load(fromUrl)
-                .placeholder(ContextCompat.getDrawable(mainContext!!, R.drawable.ic_photo_24dp)!!)
-                .resize(px.toInt(), 0)
-                .networkPolicy(NetworkPolicy.OFFLINE)
-                .into(holder, imageLoadCallback)
     }
 
     @JvmStatic
