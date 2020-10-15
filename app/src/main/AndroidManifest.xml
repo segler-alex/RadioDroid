@@ -3,6 +3,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="net.programmierecke.radiodroid2">
 
+    <uses-feature android:name="android.hardware.touchscreen"
+        android:required="false" />
+    <uses-feature android:name="android.software.leanback"
+        android:required="false" />
+
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
@@ -13,6 +18,7 @@
     <uses-permission android:name="android.permission.BLUETOOTH" />
 
     <application
+        android:banner="@mipmap/ic_banner"
         android:name=".RadioDroidApp"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -38,6 +44,7 @@
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
+                <category android:name="android.intent.category.LEANBACK_LAUNCHER" />
             </intent-filter>
 
             <!-- Use this intent filter to get voice searches, like "Play The Beatles" -->
