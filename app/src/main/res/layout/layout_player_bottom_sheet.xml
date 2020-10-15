@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:translationZ="10dp"
+    app:gestureInsetBottomIgnored="true"
     app:behavior_hideable="false"
     app:behavior_peekHeight="?android:attr/actionBarSize"
     app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">

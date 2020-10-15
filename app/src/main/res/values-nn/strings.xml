@@ -45,7 +45,7 @@
   <string name="sleep_timer_title">Kor mange minutt før avspelingsstopp?</string>
   <string name="sleep_timer_apply">Bruk</string>
   <string name="sleep_timer_clear">Tøm</string>
-  <string name="nav_item_add_sleep">+15 min</string>
+  <string name="nav_item_add_sleep">Nedteljing</string>
   <string name="nav_item_save_playlist">Lagra til speleliste</string>
   <string name="nav_item_load_playlist">Last frå speleliste</string>
   <string name="settings_theme_selection_title">Tema</string>

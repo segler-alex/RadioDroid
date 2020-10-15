@@ -27,6 +27,7 @@ import net.programmierecke.radiodroid2.players.mpd.MPDServerData;
 import net.programmierecke.radiodroid2.players.mpd.tasks.MPDChangeVolumeTask;
 import net.programmierecke.radiodroid2.players.mpd.tasks.MPDPauseTask;
 import net.programmierecke.radiodroid2.players.mpd.tasks.MPDResumeTask;
+import net.programmierecke.radiodroid2.players.mpd.tasks.MPDStopTask;
 import net.programmierecke.radiodroid2.service.PauseReason;
 import net.programmierecke.radiodroid2.service.PlayerService;
 import net.programmierecke.radiodroid2.service.PlayerServiceUtil;
@@ -47,6 +48,7 @@ public class PlayerSelectorAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         final ImageView imgConnectionStatus;
         final TextView textViewServerName;
         final ImageButton btnPlay;
+        final ImageButton btnStop;
         final ImageButton btnMore;
         final TextView textViewNoConnection;
         final AppCompatImageButton btnDecreaseVolume;
@@ -61,6 +63,7 @@ public class PlayerSelectorAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             imgConnectionStatus = itemView.findViewById(R.id.imgConnectionStatus);
             textViewServerName = itemView.findViewById(R.id.textViewMPDName);
             btnPlay = itemView.findViewById(R.id.buttonPlay);
+            btnStop = itemView.findViewById(R.id.buttonStop);
             btnMore = itemView.findViewById(R.id.buttonMore);
             textViewNoConnection = itemView.findViewById(R.id.textViewNoConnection);
             btnDecreaseVolume = itemView.findViewById(R.id.buttonMPDDecreaseVolume);
@@ -223,6 +226,14 @@ public class PlayerSelectorAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
         if (holder.mpdServerData.connected && stationToPlay == null && holder.mpdServerData.status != MPDServerData.Status.Playing) {
             holder.btnPlay.setVisibility(View.GONE);
+        }
+
+        if (holder.mpdServerData.connected && holder.mpdServerData.status != MPDServerData.Status.Idle) {
+            holder.btnStop.setVisibility(View.VISIBLE);
+
+            holder.btnStop.setOnClickListener(view -> mpdClient.enqueueTask(mpdServerData, new MPDStopTask(null)));
+        } else {
+            holder.btnStop.setVisibility(View.GONE);
         }
 
         if (holder.mpdServerData.connected && holder.mpdServerData.status != MPDServerData.Status.Idle) {

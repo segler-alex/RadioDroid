@@ -7,6 +7,7 @@
     <string name="detail_create_shortcut">Add to home screen</string>
     <string name="detail_language">Language</string>
     <string name="detail_weblink">Weblink</string>
+    <string name="detail_visit_website">@string/action_station_visit_website</string>
     <string name="detail_play">Play</string>
     <string name="detail_pause">Pause</string>
     <string name="detail_stop">Stop</string>
@@ -61,6 +62,7 @@
     <string name="about_version">Version: %1$s</string>
     <string name="detail_star">Add to favorites</string>
     <string name="detail_unstar">Delete from favorites</string>
+    <string name="detail_play_in_external_player">@string/action_play_in_external</string>
     <string name="progress_loading">Loading...</string>
 
     <string name="sleep_timer" formatted="true">Sleep timer: %1$02d:%2$02d</string>
@@ -234,7 +236,8 @@
     <string name="error_caching_stream">Stream caching problem</string>
     <string name="error_play_stream">Unable to play stream</string>
     <string name="error_stream_reconnect_timeout">Unable to reconnect to the stream: timeout</string>
-    <string name="giving_up_resume">Attempt to resume playback ignored</string>
+    <string name="warning_no_network_trying_resume">No network connection. Trying to resume when connection is back.</string>
+    <string name="giving_up_resume">Giving up attempt to resume playback</string>
 
     <string name="error_record_needs_write">Need write permission for recording</string>
     <string name="error_grant_audiofocus">Request for audio focus was not granted by the system</string>
@@ -288,6 +291,7 @@
     <string name="action_add_mpd_server">Add MPD server</string>
 
     <string name="action_play_in_external">Play in external player</string>
+    <string name="action_choose_external_player">Choose external player</string>
 
     <string name="settings_other">Other</string>
     <string name="settings_statistics">Statistics</string>
@@ -325,4 +329,12 @@
     <string name="alarm_backup">Alternative Alarm</string>
     <string name="alarm_fallback_info">System alarm adopted as selected radio station failed to load</string>
     <string name="alarm_back_desc">Alternative system alarm adopted when the radio station fails to load</string>
+
+    <string name="context_menu_share">@string/detail_share</string>
+    <string name="context_menu_visit_homepage">@string/action_station_visit_website</string>
+    <string name="context_menu_play_in_radiodroid">@string/detail_play_in_radiodroid</string>
+    <string name="context_menu_play_in_external_player">@string/action_play_in_external</string>
+    <string name="context_menu_add_alarm">@string/action_alarm</string>
+    <string name="context_menu_create_shortcut">@string/detail_create_shortcut</string>
+    <string name="context_menu_delete">@string/action_delete</string>
 </resources>

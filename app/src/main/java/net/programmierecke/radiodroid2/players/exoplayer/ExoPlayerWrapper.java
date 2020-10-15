@@ -18,34 +18,31 @@ import androidx.annotation.Nullable;
 import androidx.preference.PreferenceManager;
 
 import com.google.android.exoplayer2.C;
-import com.google.android.exoplayer2.DefaultLoadControl;
-import com.google.android.exoplayer2.DefaultRenderersFactory;
 import com.google.android.exoplayer2.ExoPlaybackException;
-import com.google.android.exoplayer2.ExoPlayerFactory;
 import com.google.android.exoplayer2.Format;
-import com.google.android.exoplayer2.LoadControl;
 import com.google.android.exoplayer2.PlaybackParameters;
 import com.google.android.exoplayer2.Player;
 import com.google.android.exoplayer2.SimpleExoPlayer;
 import com.google.android.exoplayer2.analytics.AnalyticsListener;
 import com.google.android.exoplayer2.audio.AudioAttributes;
 import com.google.android.exoplayer2.decoder.DecoderCounters;
-import com.google.android.exoplayer2.extractor.DefaultExtractorsFactory;
-import com.google.android.exoplayer2.extractor.ExtractorsFactory;
 import com.google.android.exoplayer2.metadata.Metadata;
-import com.google.android.exoplayer2.source.ExtractorMediaSource;
+import com.google.android.exoplayer2.metadata.MetadataOutput;
+import com.google.android.exoplayer2.metadata.icy.IcyHeaders;
+import com.google.android.exoplayer2.metadata.icy.IcyInfo;
+import com.google.android.exoplayer2.metadata.id3.Id3Frame;
 import com.google.android.exoplayer2.source.MediaSource;
 import com.google.android.exoplayer2.source.MediaSourceEventListener;
+import com.google.android.exoplayer2.source.ProgressiveMediaSource;
 import com.google.android.exoplayer2.source.TrackGroupArray;
 import com.google.android.exoplayer2.source.hls.HlsMediaSource;
-import com.google.android.exoplayer2.trackselection.AdaptiveTrackSelection;
-import com.google.android.exoplayer2.trackselection.DefaultTrackSelector;
-import com.google.android.exoplayer2.trackselection.TrackSelection;
 import com.google.android.exoplayer2.trackselection.TrackSelectionArray;
-import com.google.android.exoplayer2.trackselection.TrackSelector;
 import com.google.android.exoplayer2.upstream.DataSource;
 import com.google.android.exoplayer2.upstream.DefaultBandwidthMeter;
+import com.google.android.exoplayer2.upstream.DefaultLoadErrorHandlingPolicy;
+import com.google.android.exoplayer2.upstream.HttpDataSource;
 
+import net.programmierecke.radiodroid2.BuildConfig;
 import net.programmierecke.radiodroid2.R;
 import net.programmierecke.radiodroid2.Utils;
 import net.programmierecke.radiodroid2.players.PlayState;
@@ -55,11 +52,12 @@ import net.programmierecke.radiodroid2.station.live.StreamLiveInfo;
 import net.programmierecke.radiodroid2.players.PlayerWrapper;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.Map;
 
 import okhttp3.OkHttpClient;
 
-public class ExoPlayerWrapper implements PlayerWrapper, IcyDataSource.IcyDataSourceListener {
+public class ExoPlayerWrapper implements PlayerWrapper, IcyDataSource.IcyDataSourceListener, MetadataOutput {
 
     final private String TAG = "ExoPlayerWrapper";
 
@@ -98,7 +96,55 @@ public class ExoPlayerWrapper implements PlayerWrapper, IcyDataSource.IcyDataSou
             }
         }
     };
+    final class CustomLoadErrorHandlingPolicy extends DefaultLoadErrorHandlingPolicy {
+        final int MIN_RETRY_DELAY_MS = 10;
+        final SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
 
+        // We need to read the retry delay here on each error again because the user might change
+        // this value between retries and experiment with different vales to get the best result for
+        // the specific situation. We also need to make sure that a sensible minimum value is chosen.
+        int getSanitizedRetryDelaySettingsMs() {
+            return Math.max(sharedPrefs.getInt("settings_retry_delay", 100), MIN_RETRY_DELAY_MS);
+        }
+
+        @Override
+        public long getRetryDelayMsFor(
+                int dataType,
+                long loadDurationMs,
+                IOException exception,
+                int errorCount) {
+
+            int retryDelay = getSanitizedRetryDelaySettingsMs();
+
+            if (exception instanceof HttpDataSource.InvalidContentTypeException) {
+                stateListener.onPlayerError(R.string.error_play_stream);
+                return C.TIME_UNSET; // Immediately surface error if we cannot play content type
+            }
+
+            if (!Utils.hasAnyConnection(context)) {
+                int resumeWithinS = sharedPrefs.getInt("settings_resume_within", 60);
+                if (resumeWithinS > 0) {
+                    resumeWhenNetworkConnected();
+                    retryDelay = 1000 * resumeWithinS + retryDelay;
+                }
+            }
+
+            if (BuildConfig.DEBUG) {
+                Log.d(TAG, "Providing retry delay of " + retryDelay + "ms " +
+                        "for: data type " + dataType + ", " +
+                        "load duration: " + loadDurationMs + "ms, " +
+                        "error count: " + errorCount + ", " +
+                        "exception " + exception.getClass() + ", " +
+                        "message: " + exception.getMessage());
+            }
+            return retryDelay;
+        }
+
+        @Override
+        public int getMinimumLoadableRetryCount(int dataType) {
+            return sharedPrefs.getInt("settings_retry_timeout", 10) * 1000 / getSanitizedRetryDelaySettingsMs() + 1;
+        }
+    }
 
     @Override
     public void playRemote(@NonNull OkHttpClient httpClient, @NonNull String streamUrl, @NonNull Context context, boolean isAlarm) {
@@ -123,38 +169,36 @@ public class ExoPlayerWrapper implements PlayerWrapper, IcyDataSource.IcyDataSou
         }
 
         if (player == null) {
-            TrackSelection.Factory videoTrackSelectionFactory = new AdaptiveTrackSelection.Factory();
-            TrackSelector trackSelector = new DefaultTrackSelector(videoTrackSelectionFactory);
-
-            LoadControl loadControl = new DefaultLoadControl.Builder().createDefaultLoadControl();
-            player = ExoPlayerFactory.newSimpleInstance(context, new DefaultRenderersFactory(context), trackSelector, loadControl);
+            player = new SimpleExoPlayer.Builder(context).build();
             player.setAudioAttributes(new AudioAttributes.Builder().setContentType(C.CONTENT_TYPE_MUSIC)
                     .setUsage(isAlarm ? C.USAGE_ALARM : C.USAGE_MEDIA).build());
 
             player.addListener(new ExoPlayerListener());
             player.addAnalyticsListener(new AnalyticEventListener());
+            player.addMetadataOutput(this);
         }
 
         if (playerThreadHandler == null) {
             playerThreadHandler = new Handler(Looper.getMainLooper());
         }
 
-        isHls = streamUrl.endsWith(".m3u8");
+        isHls = Utils.urlIndicatesHlsStream(streamUrl);
 
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context.getApplicationContext());
-        final int retryTimeout = prefs.getInt("settings_retry_timeout", 4);
-        final int retryDelay = prefs.getInt("settings_retry_delay", 10);
+        final int retryTimeout = prefs.getInt("settings_retry_timeout", 10);
+        final int retryDelay = prefs.getInt("settings_retry_delay", 100);
 
         DataSource.Factory dataSourceFactory = new RadioDataSourceFactory(httpClient, bandwidthMeter, this, retryTimeout, retryDelay);
         // Produces Extractor instances for parsing the media data.
-        ExtractorsFactory extractorsFactory = new DefaultExtractorsFactory();
-
         if (!isHls) {
-            audioSource = new ExtractorMediaSource.Factory(dataSourceFactory).setExtractorsFactory(extractorsFactory)
+            audioSource = new ProgressiveMediaSource.Factory(dataSourceFactory)
+                    .setLoadErrorHandlingPolicy(new CustomLoadErrorHandlingPolicy())
                     .createMediaSource(Uri.parse(streamUrl));
             player.prepare(audioSource);
         } else {
-            audioSource = new HlsMediaSource.Factory(dataSourceFactory).createMediaSource(Uri.parse(streamUrl));
+            audioSource = new HlsMediaSource.Factory(dataSourceFactory)
+                    .setLoadErrorHandlingPolicy(new CustomLoadErrorHandlingPolicy())
+                    .createMediaSource(Uri.parse(streamUrl));
             player.prepare(audioSource);
         }
 
@@ -255,9 +299,45 @@ public class ExoPlayerWrapper implements PlayerWrapper, IcyDataSource.IcyDataSou
     }
 
     @Override
+    public void onMetadata(Metadata metadata) {
+        if (BuildConfig.DEBUG) Log.d(TAG, "META: " + metadata.toString());
+        if ((metadata != null)) {
+            final int length = metadata.length();
+            if (length > 0) {
+                for (int i = 0; i < length; i++) {
+                    final Metadata.Entry entry = metadata.get(i);
+                    if (entry == null) {
+                        continue;
+                    }
+                    if (entry instanceof IcyInfo) {
+                        final IcyInfo icyInfo = ((IcyInfo) entry);
+                        Log.d(TAG, "IcyInfo: " + icyInfo.toString());
+                        if (icyInfo.title != null) {
+                            Map<String, String> rawMetadata = new HashMap<String, String>() {{
+                                put("StreamTitle", icyInfo.title);
+                            }};
+                            StreamLiveInfo streamLiveInfo = new StreamLiveInfo(rawMetadata);
+                            onDataSourceStreamLiveInfo(streamLiveInfo);
+                        }
+                    } else if (entry instanceof IcyHeaders) {
+                        final IcyHeaders icyHeaders = ((IcyHeaders) entry);
+                        Log.d(TAG, "IcyHeaders: " + icyHeaders.toString());
+                        onDataSourceShoutcastInfo(new ShoutcastInfo(icyHeaders));
+                    } else if (entry instanceof Id3Frame) {
+                        final Id3Frame id3Frame = ((Id3Frame) entry);
+                        Log.d(TAG, "id3 metadata: " + id3Frame.toString());
+                    }
+                }
+            }
+        }
+    }
+
+    @Override
     public void onDataSourceConnectionLostIrrecoverably() {
         Log.i(TAG, "Connection lost irrecoverably.");
+    }
 
+    void resumeWhenNetworkConnected() {
         playerThreadHandler.post(() -> {
             SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
             int resumeWithin = sharedPref.getInt("settings_resume_within", 60);
@@ -279,7 +359,7 @@ public class ExoPlayerWrapper implements PlayerWrapper, IcyDataSource.IcyDataSou
                 };
                 playerThreadHandler.postDelayed(fullStopTask, resumeWithin * 1000);
 
-                stateListener.onPlayerWarning(R.string.error_stream_reconnect_timeout);
+                stateListener.onPlayerWarning(R.string.warning_no_network_trying_resume);
             } else {
                 stop();
 
@@ -372,6 +452,7 @@ public class ExoPlayerWrapper implements PlayerWrapper, IcyDataSource.IcyDataSou
 
         @Override
         public void onPlayerError(ExoPlaybackException error) {
+            Log.d(TAG, "Player error: ", error);
             // Stop playing since it is either irrecoverable error in the player or our data source failed to reconnect.
             if (fullStopTask != null || error.type != ExoPlaybackException.TYPE_SOURCE) {
                 stop();
@@ -449,7 +530,7 @@ public class ExoPlayerWrapper implements PlayerWrapper, IcyDataSource.IcyDataSou
 
         @Override
         public void onPlayerError(EventTime eventTime, ExoPlaybackException error) {
-
+            Log.d(TAG, "Player error at playback position " + eventTime.currentPlaybackPositionMs + "ms: ", error);
         }
 
         @Override

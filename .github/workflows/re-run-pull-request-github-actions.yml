@@ -1,0 +1,65 @@
+name: Re-run CI tests on open PRs
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  re-run-github-actions:
+    runs-on: ubuntu-latest
+    steps:
+      - name: (GET-&-PUT GitHub API) Push empty commit to PR branch
+        uses: actions/github-script@0.2.0
+        with:
+          github-token: ${{secrets.PAT}}
+          script: |
+            const owner = context.repo.owner;
+            const repo = context.repo.repo;
+            const {data: pullRequests} = await github.pulls.list({
+              owner,
+              repo,
+              base: "master",
+              state: "open",
+            });
+        
+            for (pr of pullRequests) {
+              try {
+                let pullReq = {};
+                while (pullReq.mergeable === undefined || pullReq.mergeable === null) {
+                  pullReq = (
+                    await github.pulls.get({
+                      owner,
+                      repo,
+                      pull_number: pr.number,
+                    })
+                  ).data;
+                }
+                if(pullReq.mergeable === false) continue;
+
+                const {data: commitData} = await github.repos.getCommit({
+                  owner,
+                  repo,
+                  ref: pullReq.head.sha,
+                });
+
+                const {data: createdCommit} = await github.git.createCommit({
+                  owner,
+                  repo,
+                  message: "trigger github actions",
+                  tree: commitData.commit.tree.sha,
+                  parents: [commitData.sha],
+                  commiter: context.payload.pusher,
+                  author: context.payload.pusher,
+                });
+
+                await github.git.updateRef({
+                  owner,
+                  repo,
+                  ref: `heads/${pr.head.ref}`,
+                  sha: createdCommit.sha,
+                });
+              } catch (err) {
+                console.log(err);
+              }
+            }

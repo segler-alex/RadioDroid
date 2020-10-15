@@ -73,7 +73,7 @@ public class StationActions {
         }).show();
     }
 
-    private static void openStationHomeUrl(final @NonNull FragmentActivity activity, final @NonNull DataRadioStation station) {
+    static void openStationHomeUrl(final @NonNull FragmentActivity activity, final @NonNull DataRadioStation station) {
         if (!TextUtils.isEmpty(station.HomePageUrl)) {
             Uri stationUrl = Uri.parse(station.HomePageUrl);
             if (stationUrl != null) {
@@ -188,14 +188,14 @@ public class StationActions {
                 LocalBroadcastManager.getInstance(ctx).sendBroadcast(new Intent(ActivityMain.ACTION_HIDE_LOADING));
 
                 if (result != null) {
-                    Intent share = new Intent(Intent.ACTION_VIEW);
-                    share.setDataAndType(Uri.parse(result), "audio/*");
+                    Intent share = new Intent(Intent.ACTION_SEND);
+                    share.setType("text/plain");
+                    share.putExtra(Intent.EXTRA_SUBJECT, station.Name);
+                    share.putExtra(Intent.EXTRA_TEXT, result);
                     String title = ctx.getResources().getString(R.string.share_action);
                     Intent chooser = Intent.createChooser(share, title);
 
-                    if (share.resolveActivity(ctx.getPackageManager()) != null) {
-                        ctx.startActivity(chooser);
-                    }
+                    ctx.startActivity(chooser);
                 } else {
                     Toast toast = Toast.makeText(ctx.getApplicationContext(), ctx.getResources().getText(R.string.error_station_load), Toast.LENGTH_SHORT);
                     toast.show();

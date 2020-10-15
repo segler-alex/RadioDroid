@@ -7,6 +7,7 @@
     <string name="detail_create_shortcut">Agregar a la pantalla de inicio</string>
     <string name="detail_language">Idioma</string>
     <string name="detail_weblink">Enlace web</string>
+    <string name="detail_visit_website">@string/action_station_visit_website</string>
     <string name="detail_play">Reproducir</string>
     <string name="detail_pause">Pausar</string>
     <string name="detail_stop">Parar</string>
@@ -61,6 +62,7 @@
     <string name="about_version">Versión : %1$s</string>
     <string name="detail_star">Agregar a favoritos</string>
     <string name="detail_unstar">Quitar de favoritos</string>
+    <string name="detail_play_in_external_player">@string/action_play_in_external</string>
     <string name="progress_loading">Cargando...</string>
 
     <string name="sleep_timer" formatted="true">Tiempo para dormir: %1$02d:%2$02d</string>
@@ -185,12 +187,10 @@
     <string name="settings_record_name_formatting_1_display">estación_artista_\u200bpista</string>
     <string name="settings_record_name_formatting_2_display">estación_fecha_\u200bhora</string>
     <string name="settings_record_name_formatting_3_display">índices_estación_\u200bfecha</string>
-
     <string name="settings_record_name_formatting_default_display">estación_artista_pista_\u200bfecha_\u200bhora</string>
     <string name="settings_record_name_formatting_1_display">estación_artista_\u200bpista</string>
     <string name="settings_record_name_formatting_2_display">estación_fecha_\u200bhora</string>
     <string name="settings_record_name_formatting_3_display">índice_estación_\u200bfecha</string>
-
     <string name="notify_pre_play">Conectando</string>
     <string name="notify_play">Reproduciendo</string>
     <string name="notify_paused">En pausa</string>
@@ -234,7 +234,7 @@
     <string name="error_caching_stream">Problema al «cachear» la emisión</string>
     <string name="error_play_stream">No se puede reproducir la emisión</string>
     <string name="error_stream_reconnect_timeout">No se puede volver a conectar a la transmisión: tiempo de espera agotado</string>
-    <string name="giving_up_resume">Intento de continuar la retransmisión ignorado</string>
+    <string name="giving_up_resume">Intento de continuar la retransmisión abandonado</string>
 
     <string name="error_record_needs_write">Necesito permisos de escritura para grabar</string>
     <string name="error_grant_audiofocus">La solicitud de enfoque de audio no fue otorgada por el sistema</string>
@@ -325,4 +325,11 @@
     <string name="alarm_backup">Alarma alternativa</string>
     <string name="alarm_fallback_info">Alarma del sistema adoptada como estación de radio seleccionada falló al cargar</string>
     <string name="alarm_back_desc">Sistema alternativo de alarma adoptado cuando falla la carga de la estación de radio</string>
+    <string name="context_menu_share">@string/detail_share</string>
+    <string name="context_menu_visit_homepage">@string/action_station_visit_website</string>
+    <string name="context_menu_play_in_radiodroid">@string/detail_play_in_radiodroid</string>
+    <string name="context_menu_play_in_external_player">@string/action_play_in_external</string>
+    <string name="context_menu_add_alarm">@string/action_alarm</string>
+    <string name="context_menu_create_shortcut">@string/detail_create_shortcut</string>
+    <string name="context_menu_delete">@string/action_delete</string>
 </resources>

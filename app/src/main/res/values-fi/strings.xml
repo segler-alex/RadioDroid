@@ -35,7 +35,7 @@
     <string name="progress_loading">Ladataan...</string>
 
     <string name="sleep_timer" formatted="true">Uniajastin: %1$02d:%2$02d</string>
-    <string name="nav_item_add_sleep">+15 min</string>
+    <string name="nav_item_add_sleep">Uniajastin</string>
 
     <string name="settings_single_use_tags">Kertakäyttöiset tunnisteet</string>
     <string name="settings_single_use_tags_desc_off">Älä näytä kertakäyttöisiä tunnisteita</string>

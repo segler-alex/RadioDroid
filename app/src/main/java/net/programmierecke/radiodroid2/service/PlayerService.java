@@ -32,6 +32,8 @@ import android.os.PowerManager;
 import android.os.RemoteException;
 import android.support.v4.media.MediaMetadataCompat;
 
+import androidx.annotation.NonNull;
+import androidx.core.app.JobIntentService;
 import androidx.media.app.NotificationCompat.MediaStyle;
 import androidx.media.session.MediaButtonReceiver;
 
@@ -75,7 +77,7 @@ import net.programmierecke.radiodroid2.recording.RunningRecordingInfo;
 
 import static android.content.Intent.ACTION_MEDIA_BUTTON;
 
-public class PlayerService extends Service implements RadioPlayer.PlayerListener {
+public class PlayerService extends JobIntentService implements RadioPlayer.PlayerListener {
     protected static final int NOTIFY_ID = 1;
     private static final String NOTIFICATION_CHANNEL_ID = "default";
 
@@ -1083,7 +1085,7 @@ public class PlayerService extends Service implements RadioPlayer.PlayerListener
         handler.post(() -> {
             setMediaPlaybackState(PlaybackStateCompat.STATE_PLAYING);
 
-            toneGenerator = new ToneGenerator(AudioManager.STREAM_ALARM, 100);
+            toneGenerator = new ToneGenerator(AudioManager.STREAM_MUSIC, 100);
             toneGenerator.startTone(ToneGenerator.TONE_SUP_RADIO_NOTAVAIL, AUDIO_WARNING_DURATION);
         });
 
@@ -1283,5 +1285,10 @@ public class PlayerService extends Service implements RadioPlayer.PlayerListener
                 }
             });
         }
+    }
+
+    @Override
+    protected void onHandleWork(@NonNull Intent intent) {
+        Log.d(TAG, "onHandleWork called with intent: " + intent.toString());
     }
 }

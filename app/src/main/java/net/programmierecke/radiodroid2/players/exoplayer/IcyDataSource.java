@@ -2,7 +2,6 @@ package net.programmierecke.radiodroid2.players.exoplayer;
 
 
 import android.net.Uri;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -12,14 +11,11 @@ import com.google.android.exoplayer2.upstream.DefaultHttpDataSource;
 import com.google.android.exoplayer2.upstream.HttpDataSource;
 import com.google.android.exoplayer2.upstream.TransferListener;
 
-import net.programmierecke.radiodroid2.BuildConfig;
 import net.programmierecke.radiodroid2.station.live.ShoutcastInfo;
 import net.programmierecke.radiodroid2.station.live.StreamLiveInfo;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -80,33 +76,24 @@ public class IcyDataSource implements HttpDataSource {
     private final TransferListener transferListener;
     private final IcyDataSourceListener dataSourceListener;
 
-    private long timeUntilStopReconnecting;
-    private long delayBetweenReconnections;
-
     private Request request;
 
     private ResponseBody responseBody;
     private Map<String, List<String>> responseHeaders;
 
-    private int remainingUntilMetadata = Integer.MAX_VALUE;
-
-    private byte readBuffer[] = new byte[256 * 16];
-
+    int metadataBytesToSkip = 0;
+    int remainingUntilMetadata = Integer.MAX_VALUE;
     private boolean opened;
 
-    private ShoutcastInfo shoutcastInfo;
+    ShoutcastInfo shoutcastInfo;
     private StreamLiveInfo streamLiveInfo;
 
     public IcyDataSource(@NonNull OkHttpClient httpClient,
                          @NonNull TransferListener listener,
-                         @NonNull IcyDataSourceListener dataSourceListener,
-                         long timeUntilStopReconnecting,
-                         long delayBetweenReconnections) {
+                         @NonNull IcyDataSourceListener dataSourceListener) {
         this.httpClient = httpClient;
         this.transferListener = listener;
         this.dataSourceListener = dataSourceListener;
-        this.timeUntilStopReconnecting = timeUntilStopReconnecting;
-        this.delayBetweenReconnections = delayBetweenReconnections;
     }
 
     @Override
@@ -172,6 +159,7 @@ public class IcyDataSource implements HttpDataSource {
             shoutcastInfo = ShoutcastInfo.Decode(response);
             dataSourceListener.onDataSourceShoutcastInfo(shoutcastInfo);
 
+            metadataBytesToSkip = 0;
             if (shoutcastInfo != null) {
                 remainingUntilMetadata = shoutcastInfo.metadataOffset;
             } else {
@@ -180,12 +168,6 @@ public class IcyDataSource implements HttpDataSource {
 
             return responseBody.contentLength();
         }
-    }
-
-    private void reconnect() throws HttpDataSourceException {
-        close();
-        connect();
-        Log.i(TAG, "Reconnected successfully!");
     }
 
     @Override
@@ -209,33 +191,37 @@ public class IcyDataSource implements HttpDataSource {
             return bytesTransferred;
         } catch (HttpDataSourceException readError) {
             dataSourceListener.onDataSourceConnectionLost();
-
-            final long reconnectStartTime = System.currentTimeMillis();
-
-            while (true) {
-                final long currentTime = System.currentTimeMillis();
-
-                if (BuildConfig.DEBUG) Log.d(TAG, "Reconnecting...");
-
-                try {
-                    reconnect();
-                    break;
-                } catch (HttpDataSourceException ex) {
-                    try {
-                        Thread.sleep(delayBetweenReconnections);
-                    } catch (InterruptedException e) {
-                        break;
-                    }
-                }
-
-                if (currentTime - reconnectStartTime > timeUntilStopReconnecting) {
-                    dataSourceListener.onDataSourceConnectionLostIrrecoverably();
-                    throw new HttpDataSourceException("Reconnection retry time ended.", dataSpec, HttpDataSourceException.TYPE_READ);
-                }
-            }
+            throw readError;
         }
+    }
 
-        return 0;
+    void sendToDataSourceListenersWithoutMetadata(byte[] buffer, int offset, int bytesAvailable) {
+        int canSkip = Math.min(metadataBytesToSkip, bytesAvailable);
+        offset += canSkip;
+        bytesAvailable -= canSkip;
+        remainingUntilMetadata -= canSkip;
+        while (bytesAvailable > 0) {
+            if (bytesAvailable > remainingUntilMetadata) { // do we need to handle a metadata frame at all?
+                if (remainingUntilMetadata > 0) { // is there any audio data before the metadata frame?
+                    dataSourceListener.onDataSourceBytesRead(buffer, offset, remainingUntilMetadata);
+                    offset += remainingUntilMetadata;
+                    bytesAvailable -= remainingUntilMetadata;
+                }
+                metadataBytesToSkip = buffer[offset] * 16 + 1;
+                remainingUntilMetadata = shoutcastInfo.metadataOffset + metadataBytesToSkip;
+            }
+
+            int bytesLeft = Math.min(bytesAvailable, remainingUntilMetadata);
+            if (bytesLeft > metadataBytesToSkip) { // is there audio data left we need to send?
+                dataSourceListener.onDataSourceBytesRead(buffer, offset + metadataBytesToSkip, bytesLeft - metadataBytesToSkip);
+                metadataBytesToSkip = 0;
+            } else {
+                metadataBytesToSkip -= bytesLeft;
+            }
+            offset += bytesLeft;
+            bytesAvailable -= bytesLeft;
+            remainingUntilMetadata -= bytesLeft;
+        }
     }
 
     private int readInternal(byte[] buffer, int offset, int readLength) throws HttpDataSourceException {
@@ -245,29 +231,16 @@ public class IcyDataSource implements HttpDataSource {
 
         InputStream stream = responseBody.byteStream();
 
-        int ret = 0;
+        int bytesRead = 0;
         try {
-            ret = stream.read(buffer, offset, remainingUntilMetadata < readLength ? remainingUntilMetadata : readLength);
+            bytesRead = stream.read(buffer, offset, readLength);
         } catch (IOException e) {
             throw new HttpDataSourceException(e, dataSpec, HttpDataSourceException.TYPE_READ);
         }
 
-        if(ret > 0) {
-            dataSourceListener.onDataSourceBytesRead(buffer, offset, ret);
-        }
+        sendToDataSourceListenersWithoutMetadata(buffer, offset, bytesRead);
 
-        if (remainingUntilMetadata == ret) {
-            try {
-                readMetaData(stream);
-                remainingUntilMetadata = shoutcastInfo.metadataOffset;
-            } catch (IOException e) {
-                throw new HttpDataSourceException(e, dataSpec, HttpDataSourceException.TYPE_READ);
-            }
-        } else {
-            remainingUntilMetadata -= ret;
-        }
-
-        return ret;
+        return bytesRead;
     }
 
     @Override
@@ -295,65 +268,9 @@ public class IcyDataSource implements HttpDataSource {
         return responseHeaders;
     }
 
-    private int readMetaData(InputStream inputStream) throws IOException {
-        int metadataBytes = inputStream.read() * 16;
-        int metadataBytesToRead = metadataBytes;
-        int readBytesBufferMetadata = 0;
-        int readBytes;
-
-        if (metadataBytes > 0) {
-            Arrays.fill(readBuffer, (byte) 0);
-            while (true) {
-                readBytes = inputStream.read(readBuffer, readBytesBufferMetadata, metadataBytesToRead);
-                if (readBytes == 0) {
-                    continue;
-                }
-                if (readBytes < 0) {
-                    break;
-                }
-                metadataBytesToRead -= readBytes;
-                readBytesBufferMetadata += readBytes;
-                if (metadataBytesToRead <= 0) {
-                    String s = new String(readBuffer, 0, metadataBytes, "utf-8");
-
-                    if (BuildConfig.DEBUG) Log.d(TAG, "METADATA:" + s);
-
-                    Map<String, String> rawMetadata = decodeShoutcastMetadata(s);
-                    streamLiveInfo = new StreamLiveInfo(rawMetadata);
-
-                    dataSourceListener.onDataSourceStreamLiveInfo(streamLiveInfo);
-
-                    if (BuildConfig.DEBUG) Log.d(TAG, "META:" + streamLiveInfo.getTitle());
-                    break;
-                }
-            }
-        }
-        return readBytesBufferMetadata + 1;
-    }
-
-    private Map<String, String> decodeShoutcastMetadata(String metadataStr) {
-        Map<String, String> metadata = new HashMap<>();
-
-        String[] kvs = metadataStr.split(";");
-
-        for (String kv : kvs) {
-            final int n = kv.indexOf('=');
-            if (n < 1) continue;
-
-            final boolean isString = n + 1 < kv.length()
-                    && kv.charAt(kv.length() - 1) == '\''
-                    && kv.charAt(n + 1) == '\'';
-
-            final String key = kv.substring(0, n);
-            final String val = isString ?
-                    kv.substring(n + 2, kv.length() - 1) :
-                    n + 1 < kv.length() ?
-                            kv.substring(n + 1) : "";
-
-            metadata.put(key, val);
-        }
-
-        return metadata;
+    @Override
+    public int getResponseCode() {
+        return 0;
     }
 
     @Override

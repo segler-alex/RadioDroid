@@ -53,7 +53,7 @@
     <string name="sleep_timer_title">Hoeveel minuten alvorens te stoppen?</string>
     <string name="sleep_timer_apply">Toepassen</string>
     <string name="sleep_timer_clear">Wissen</string>
-    <string name="nav_item_add_sleep">+15 minuten</string>
+    <string name="nav_item_add_sleep">Slaaptimer</string>
 
     <string name="nav_item_save_playlist">Opslaan naar afspeellijst</string>
     <string name="nav_item_load_playlist">Laden uit afspeellijst</string>

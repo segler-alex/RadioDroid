@@ -29,6 +29,6 @@ public class RadioDataSourceFactory implements DataSource.Factory {
 
     @Override
     public DataSource createDataSource() {
-        return new IcyDataSource(httpClient, transferListener, dataSourceListener, retryTimeout, retryDelay);
+        return new IcyDataSource(httpClient, transferListener, dataSourceListener);
     }
 }

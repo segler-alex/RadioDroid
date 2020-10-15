@@ -227,7 +227,7 @@
             search:summary=""
             android:title="@string/settings_retry_timeout" />
         <net.programmierecke.radiodroid2.views.IntEditTextPreference
-            android:defaultValue="0"
+            android:defaultValue="100"
             android:key="settings_retry_delay"
             android:maxLength="8"
             android:summary="@string/settings_milliseconds_format"
