@@ -1,5 +1,7 @@
 package net.programmierecke.radiodroid2.tests;
 
+import android.os.Build;
+
 import androidx.test.core.app.ApplicationProvider;
 import androidx.test.espresso.IdlingRegistry;
 import androidx.test.espresso.action.ViewActions;
@@ -10,16 +12,19 @@ import com.yariksoffice.lingver.Lingver;
 
 import net.programmierecke.radiodroid2.ActivityMain;
 import net.programmierecke.radiodroid2.R;
+import net.programmierecke.radiodroid2.test.BuildConfig;
 import net.programmierecke.radiodroid2.tests.utils.TestUtils;
 import net.programmierecke.radiodroid2.tests.utils.ViewPagerIdlingResource;
 
 import org.hamcrest.core.AllOf;
+import org.hamcrest.core.Is;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Locale;
 
@@ -27,6 +32,7 @@ import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.matcher.ViewMatchers.isDescendantOfA;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static net.programmierecke.radiodroid2.tests.utils.RecyclerViewMatcher.withRecyclerView;
+import static org.junit.Assert.assertThat;
 
 @LargeTest
 @RunWith(Parameterized.class)
@@ -36,26 +42,31 @@ public class UILangTest {
 
     @Parameterized.Parameters(name = "locale={0}")
     public static Iterable<Object[]> initParameters() {
-        return Arrays.asList(new Object[][]{
-                {new Locale("en")},
-                {new Locale("ca")},
-                {new Locale("cs")},
-                {new Locale("da")},
-                {new Locale("de")},
-                {new Locale("el")},
-                {new Locale("es")},
-                {new Locale("fi")},
-                {new Locale("fr")},
-                {new Locale("hu")},
-                {new Locale("in")},
-                {new Locale("nl")},
-                {new Locale("nn")},
-                {new Locale("pl")},
-                {new Locale("ru")},
-                {new Locale("sk")},
-                {new Locale("tr")},
-                {new Locale("zh")},
-        });
+        ArrayList<Object[]> params = new ArrayList<>();
+        for (String availableLocale : BuildConfig.AVAILABLE_LOCALES) {
+            params.add(new Object[]{parseLocale(availableLocale)});
+        }
+
+        return Arrays.asList(params.toArray(new Object[][]{}));
+    }
+
+    private static Locale parseLocale(String str) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            return Locale.forLanguageTag(str);
+        } else {
+            if (str.contains("-")) {
+                String[] args = str.split("-");
+                if (args.length > 2) {
+                    return new Locale(args[0], args[1], args[3]);
+                } else if (args.length > 1) {
+                    return new Locale(args[0], args[1]);
+                } else if (args.length == 1) {
+                    return new Locale(args[0]);
+                }
+            }
+
+            return new Locale(str);
+        }
     }
 
     @Rule
@@ -70,8 +81,21 @@ public class UILangTest {
 
     private static final int STATIONS_COUNT = 20;
 
+    Locale getCurrentLocale() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            return ApplicationProvider.getApplicationContext()
+                    .getResources().getConfiguration().getLocales()
+                    .get(0);
+        } else {
+            return ApplicationProvider.getApplicationContext()
+                    .getResources().getConfiguration().locale;
+        }
+    }
+
     @Before
     public void setUp() {
+        assertThat("Locale is not supported", getCurrentLocale(), Is.is(locale));
+
         TestUtils.populateFavourites(ApplicationProvider.getApplicationContext(), STATIONS_COUNT);
         TestUtils.populateHistory(ApplicationProvider.getApplicationContext(), STATIONS_COUNT);
     }
