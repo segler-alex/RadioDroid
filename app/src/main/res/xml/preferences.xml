@@ -60,7 +60,7 @@
 
         <CheckBoxPreference
             android:defaultValue="true"
-            android:key="settings_request_icymetadata"
+            android:key="request_icymetadata"
             android:summaryOff="@string/settings_request_icymetadata_off"
             android:summaryOn="@string/settings_request_icymetadata_on"
             android:title="@string/settings_request_icymetadata" />

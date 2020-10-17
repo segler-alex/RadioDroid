@@ -117,6 +117,11 @@
     <string name="startup_show_history">Show history</string>
     <string name="startup_show_last_view">Last view</string>
 
+    <string name="request_icymetadata">Request IcyMetadata</string>
+    <string name="settings_request_icymetadata_off">do not request IcyMetadata</string>
+    <string name="settings_request_icymetadata_on">Request IcyMetadata</string>
+    <string name="settings_request_icymetadata">Request IcyMetadata</string>
+
     <string name="settings_load_icons">Show station icons</string>
     <string name="settings_load_icons_on">Icons will be downloaded</string>
     <string name="settings_load_icons_off">Icons will not be downloaded</string>

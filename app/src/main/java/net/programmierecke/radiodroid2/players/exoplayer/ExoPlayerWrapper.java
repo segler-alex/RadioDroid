@@ -187,7 +187,7 @@ public class ExoPlayerWrapper implements PlayerWrapper, IcyDataSource.IcyDataSou
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context.getApplicationContext());
         final int retryTimeout = prefs.getInt("settings_retry_timeout", 10);
         final int retryDelay = prefs.getInt("settings_retry_delay", 100);
-	final boolean requestIcyMetadata = prefs.getBoolean("settings_request_icymetadata", false);
+	final boolean requestIcyMetadata = prefs.getBoolean("request_icymetadata", false);
 
         DataSource.Factory dataSourceFactory = new RadioDataSourceFactory(httpClient, bandwidthMeter, this, requestIcyMetadata);
         // Produces Extractor instances for parsing the media data.

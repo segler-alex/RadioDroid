@@ -21,8 +21,6 @@ public class RadioDataSourceFactory implements DataSource.Factory {
         this.httpClient = httpClient;
         this.transferListener = transferListener;
         this.dataSourceListener = dataSourceListener;
-        this.retryTimeout = retryTimeout;
-        this.retryDelay = retryDelay;
     }
 
     @Override

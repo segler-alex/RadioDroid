@@ -1,12 +1,14 @@
 package net.programmierecke.radiodroid2.players.mediaplayer;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Handler;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
+import androidx.preference.PreferenceManager;
 
 import net.programmierecke.radiodroid2.BuildConfig;
 import net.programmierecke.radiodroid2.R;
@@ -62,8 +64,8 @@ public class MediaPlayerWrapper implements PlayerWrapper, StreamProxyListener {
 
         isHls = Utils.urlIndicatesHlsStream(streamUrl);
 
-	SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
-        boolean requestIcyMetadata = sharedPref.getBoolean("settings_request_icymetadata", false);
+	    SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
+        final boolean requestIcyMetadata = sharedPref.getBoolean("request_icymetadata", false);
 
         if (!isHls) {
             if (proxy != null) {

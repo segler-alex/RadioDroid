@@ -43,11 +43,11 @@ public class StreamProxy implements Recordable {
     private boolean isStopped = false;
     private boolean requestIcyMetadata;
 
-    public StreamProxy(OkHttpClient httpClient, String uri, StreamProxyListener callback, bool requestIcyMetadata) {
+    public StreamProxy(OkHttpClient httpClient, String uri, StreamProxyListener callback, boolean requestIcyMetadata) {
         this.httpClient = httpClient;
         this.uri = uri;
         this.callback = callback;
-	this.requestIcyMetadata = requestIcyMetadata;
+	    this.requestIcyMetadata = requestIcyMetadata;
 
         createProxy();
     }
@@ -178,7 +178,7 @@ public class StreamProxy implements Recordable {
                    builder.addHeader("Icy-MetaData", "1");
 	    }
 
-            final Request request = builder.built();
+            final Request request = builder.build();
 
             while (!isStopped && retry > 0) {
                 ResponseBody responseBody = null;
