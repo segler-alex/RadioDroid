@@ -58,6 +58,13 @@
             android:summaryOn="@string/settings_auto_play_on_startup_on"
             android:title="@string/settings_auto_play_on_startup" />
 
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="settings_request_icymetadata"
+            android:summaryOff="@string/settings_request_icymetadata_off"
+            android:summaryOn="@string/settings_request_icymetadata_on"
+            android:title="@string/settings_request_icymetadata" />
+
     </PreferenceScreen>
 
     <PreferenceScreen android:title="@string/settings_interaction"

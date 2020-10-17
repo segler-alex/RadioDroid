@@ -41,11 +41,13 @@ public class StreamProxy implements Recordable {
     private byte readBuffer[] = new byte[256 * 16];
     private volatile String localAddress = null;
     private boolean isStopped = false;
+    private boolean requestIcyMetadata;
 
-    public StreamProxy(OkHttpClient httpClient, String uri, StreamProxyListener callback) {
+    public StreamProxy(OkHttpClient httpClient, String uri, StreamProxyListener callback, bool requestIcyMetadata) {
         this.httpClient = httpClient;
         this.uri = uri;
         this.callback = callback;
+	this.requestIcyMetadata = requestIcyMetadata;
 
         createProxy();
     }
@@ -170,9 +172,13 @@ public class StreamProxy implements Recordable {
             final int port = proxyServer.getLocalPort();
             localAddress = String.format(Locale.US, "http://localhost:%d", port);
 
-            final Request request = new Request.Builder().url(uri)
-                    .addHeader("Icy-MetaData", "1")
-                    .build();
+            Request.Builder builder = new Request.Builder().url(uri);
+
+	    if (requestIcyMetadata) {
+                   builder.addHeader("Icy-MetaData", "1");
+	    }
+
+            final Request request = builder.built();
 
             while (!isStopped && retry > 0) {
                 ResponseBody responseBody = null;

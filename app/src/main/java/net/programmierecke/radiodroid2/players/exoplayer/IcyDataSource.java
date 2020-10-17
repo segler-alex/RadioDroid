@@ -84,16 +84,19 @@ public class IcyDataSource implements HttpDataSource {
     int metadataBytesToSkip = 0;
     int remainingUntilMetadata = Integer.MAX_VALUE;
     private boolean opened;
+    private boolean requestIcyMetadata;
 
     ShoutcastInfo shoutcastInfo;
     private StreamLiveInfo streamLiveInfo;
 
     public IcyDataSource(@NonNull OkHttpClient httpClient,
                          @NonNull TransferListener listener,
-                         @NonNull IcyDataSourceListener dataSourceListener) {
+                         @NonNull IcyDataSourceListener dataSourceListener,
+			 boolean requestIcyMetadata) {
         this.httpClient = httpClient;
         this.transferListener = listener;
         this.dataSourceListener = dataSourceListener;
+        this.requestIcyMetadata = requestIcyMetadata;
     }
 
     @Override
@@ -105,8 +108,11 @@ public class IcyDataSource implements HttpDataSource {
         final boolean allowGzip = (dataSpec.flags & DataSpec.FLAG_ALLOW_GZIP) != 0;
 
         HttpUrl url = HttpUrl.parse(dataSpec.uri.toString());
-        Request.Builder builder = new Request.Builder().url(url)
-                .addHeader("Icy-MetaData", "1");
+        Request.Builder builder = new Request.Builder().url(url);
+
+	if (requestIcyMetadata) {
+                builder.addHeader("Icy-MetaData", "1");
+	}
 
         if (!allowGzip) {
             builder.addHeader("Accept-Encoding", "identity");

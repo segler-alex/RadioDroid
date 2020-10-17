@@ -62,13 +62,16 @@ public class MediaPlayerWrapper implements PlayerWrapper, StreamProxyListener {
 
         isHls = Utils.urlIndicatesHlsStream(streamUrl);
 
+	SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
+        boolean requestIcyMetadata = sharedPref.getBoolean("settings_request_icymetadata", false);
+
         if (!isHls) {
             if (proxy != null) {
                 if (BuildConfig.DEBUG) Log.d(TAG, "stopping old proxy.");
                 stopProxy();
             }
 
-            proxy = new StreamProxy(httpClient, streamUrl, MediaPlayerWrapper.this);
+            proxy = new StreamProxy(httpClient, streamUrl, MediaPlayerWrapper.this, requestIcyMetadata);
         } else {
             stopProxy();
             onStreamCreated(streamUrl);

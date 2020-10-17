@@ -12,14 +12,12 @@ public class RadioDataSourceFactory implements DataSource.Factory {
     private OkHttpClient httpClient;
     private final TransferListener transferListener;
     private IcyDataSource.IcyDataSourceListener dataSourceListener;
-    private long retryTimeout;
-    private long retryDelay;
+    private boolean requestIcyMetadata;
 
     public RadioDataSourceFactory(@NonNull OkHttpClient httpClient,
                                   @NonNull TransferListener transferListener,
                                   @NonNull IcyDataSource.IcyDataSourceListener dataSourceListener,
-                                  long retryTimeout,
-                                  long retryDelay) {
+                                  boolean requestIcyMetadata) {
         this.httpClient = httpClient;
         this.transferListener = transferListener;
         this.dataSourceListener = dataSourceListener;
@@ -29,6 +27,6 @@ public class RadioDataSourceFactory implements DataSource.Factory {
 
     @Override
     public DataSource createDataSource() {
-        return new IcyDataSource(httpClient, transferListener, dataSourceListener);
+        return new IcyDataSource(httpClient, transferListener, dataSourceListener, requestIcyMetadata);
     }
 }
