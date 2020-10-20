@@ -72,6 +72,7 @@ public class FragmentSettings extends PreferenceFragmentCompat implements Shared
         findPreference("pref_category_connectivity").setIcon(Utils.IconicsIcon(getContext(), GoogleMaterial.Icon.gmd_import_export));
         findPreference("pref_category_recordings").setIcon(Utils.IconicsIcon(getContext(), CommunityMaterial.Icon2.cmd_record_rec));
         findPreference("pref_category_mpd").setIcon(Utils.IconicsIcon(getContext(), CommunityMaterial.Icon2.cmd_speaker_wireless));
+        findPreference("pref_category_android_auto").setIcon(Utils.IconicsIcon(getContext(), CommunityMaterial.Icon.cmd_car));
         findPreference("pref_category_other").setIcon(Utils.IconicsIcon(getContext(), CommunityMaterial.Icon2.cmd_information_outline));
     }
 

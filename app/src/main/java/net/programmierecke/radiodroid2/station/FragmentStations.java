@@ -24,6 +24,7 @@ import net.programmierecke.radiodroid2.BuildConfig;
 import net.programmierecke.radiodroid2.FragmentBase;
 import net.programmierecke.radiodroid2.R;
 import net.programmierecke.radiodroid2.RadioDroidApp;
+import net.programmierecke.radiodroid2.StationSaveManager;
 import net.programmierecke.radiodroid2.Utils;
 import net.programmierecke.radiodroid2.interfaces.IFragmentSearchable;
 import net.programmierecke.radiodroid2.utils.CustomFilter;
@@ -48,6 +49,7 @@ public class FragmentStations extends FragmentBase implements IFragmentSearchabl
     private StationsFilter stationsFilter;
     private StationsFilter.SearchStyle lastSearchStyle = StationsFilter.SearchStyle.ByName;
     private String lastQuery = "";
+    private StationSaveManager queue;
 
     void onStationClick(DataRadioStation theStation, int pos) {
         RadioDroidApp radioDroidApp = (RadioDroidApp) getActivity().getApplication();
@@ -71,6 +73,8 @@ public class FragmentStations extends FragmentBase implements IFragmentSearchabl
 
         ArrayList<DataRadioStation> filteredStationsList = new ArrayList<>();
         List<DataRadioStation> radioStations = DataRadioStation.DecodeJson(getUrlResult());
+        queue.clear();
+        queue.addAll(radioStations);
 
         if (BuildConfig.DEBUG) Log.d(TAG, "station count:" + radioStations.size());
 
@@ -93,6 +97,7 @@ public class FragmentStations extends FragmentBase implements IFragmentSearchabl
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         Log.d("STATIONS","onCreateView()");
+        queue = new StationSaveManager(getContext());
         Bundle bundle = getArguments();
         if (bundle != null) {
             searchEnabled = bundle.getBoolean(KEY_SEARCH_ENABLED, false);

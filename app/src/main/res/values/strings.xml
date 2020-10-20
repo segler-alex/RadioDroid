@@ -337,4 +337,11 @@
     <string name="context_menu_add_alarm">@string/action_alarm</string>
     <string name="context_menu_create_shortcut">@string/detail_create_shortcut</string>
     <string name="context_menu_delete">@string/action_delete</string>
+    <string name="settings_android_auto">Android Auto</string>
+    <string name="settings_show_station_icons_in_hud_browser">Station icons in media browser</string>
+    <string name="settings_show_station_icons_in_hud_browser_desc_on">Icons will be shown in media browser. ⚠Note: This is not officially supported and may cause incompatibilities.</string>
+    <string name="settings_show_station_icons_in_hud_browser_desc_off">Icons will not be shown in media browser.</string>
+    <string name="settings_grid_layout_hud_icon_display">Grid layout for station icons</string>
+    <string name="settings_grid_layout_hud_icon_display_desc_off">Stations are displayed in list layout</string>
+    <string name="settings_grid_style_layout_icon_display_desc_on">Station icons are displayed in grid layout</string>
 </resources>

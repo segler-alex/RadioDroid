@@ -245,6 +245,28 @@
             android:title="@string/settings_proxy" />
     </PreferenceScreen>
 
+    <PreferenceScreen
+        search:ignore="true"
+        android:key="pref_category_android_auto"
+        android:title="@string/settings_android_auto">
+
+        <CheckBoxPreference
+            android:key="show_station_icons_in_hud_browser"
+            android:defaultValue="false"
+            android:summaryOff="@string/settings_show_station_icons_in_hud_browser_desc_off"
+            android:summaryOn="@string/settings_show_station_icons_in_hud_browser_desc_on"
+            android:title="@string/settings_show_station_icons_in_hud_browser" />
+
+        <CheckBoxPreference
+            android:key="settings_grid_layout_hud_icon_display"
+            android:defaultValue="false"
+            android:dependency="show_station_icons_in_hud_browser"
+            android:summaryOff="@string/settings_grid_layout_hud_icon_display_desc_off"
+            android:summaryOn="@string/settings_grid_style_layout_icon_display_desc_on"
+            android:title="@string/settings_grid_layout_hud_icon_display" />
+
+    </PreferenceScreen>
+
     <PreferenceScreen android:title="@string/settings_other"
         search:ignore="true"
         android:key="pref_category_other">

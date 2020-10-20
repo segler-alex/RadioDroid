@@ -57,6 +57,8 @@ public class StationSaveManager extends Observable {
     }
 
     public void add(DataRadioStation station) {
+        if (station.queue == null)
+            station.queue = this;
         listStations.add(station);
         Save();
 
@@ -68,6 +70,8 @@ public class StationSaveManager extends Observable {
     }
 
     public void addFront(DataRadioStation station) {
+        if (station.queue == null)
+            station.queue = this;
         listStations.add(0, station);
         Save();
 
@@ -76,6 +80,15 @@ public class StationSaveManager extends Observable {
         if (stationStatusListener != null) {
             stationStatusListener.onStationStatusChanged(station, true);
         }
+    }
+
+    public void addAll(List<DataRadioStation> stations) {
+        if (stations == null)
+            return;
+        for (DataRadioStation station : stations) {
+            station.queue = this;
+        }
+        listStations.addAll(stations);
     }
 
     public DataRadioStation getLast() {
@@ -174,6 +187,7 @@ public class StationSaveManager extends Observable {
     }
 
     public void restore(DataRadioStation station, int pos) {
+        station.queue = this;
         listStations.add(pos, station);
         Save();
 
@@ -276,6 +290,9 @@ public class StationSaveManager extends Observable {
         String str = sharedPref.getString(getSaveId(), null);
         if (str != null) {
             List<DataRadioStation> arr = DataRadioStation.DecodeJson(str);
+            for (DataRadioStation station : arr) {
+                station.queue = this;
+            }
             listStations.addAll(arr);
             if (hasInvalidUuids() && Utils.hasAnyConnection(context)) {
                 refreshStationsFromServer();
@@ -434,6 +451,7 @@ public class StationSaveManager extends Observable {
                         String uuid = line.substring(M3U_PREFIX.length()).trim();
                         DataRadioStation station = Utils.getStationByUuid(httpClient, context, uuid);
                         if (station != null) {
+                            station.queue = this;
                             loadedItems.add(station);
                         }
                     } catch (Exception e) {

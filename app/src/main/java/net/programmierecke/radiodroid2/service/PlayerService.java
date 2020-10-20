@@ -8,7 +8,6 @@ import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
-import android.app.Service;
 import android.bluetooth.BluetoothA2dp;
 import android.bluetooth.BluetoothHeadset;
 import android.content.Context;
@@ -459,8 +458,7 @@ public class PlayerService extends JobIntentService implements RadioPlayer.Playe
         Intent startActivityIntent = new Intent(itsContext.getApplicationContext(), ActivityMain.class);
         mediaSession.setSessionActivity(PendingIntent.getActivity(itsContext.getApplicationContext(), 0, startActivityIntent, PendingIntent.FLAG_UPDATE_CURRENT));
 
-        mediaSession.setFlags(MediaSessionCompat.FLAG_HANDLES_MEDIA_BUTTONS | MediaSessionCompat.FLAG_HANDLES_TRANSPORT_CONTROLS);
-
+        setMediaPlaybackState(PlaybackStateCompat.STATE_NONE);
         RadioDroidApp radioDroidApp = (RadioDroidApp) getApplication();
         trackHistoryRepository = radioDroidApp.getTrackHistoryRepository();
 
@@ -654,8 +652,8 @@ public class PlayerService extends JobIntentService implements RadioPlayer.Playe
             return;
         }
 
-        RadioDroidApp radioDroidApp = (RadioDroidApp) getApplication();
-        DataRadioStation station = radioDroidApp.getFavouriteManager().getNextById(currentStation.StationUuid);
+        setMediaPlaybackState(PlaybackStateCompat.STATE_SKIPPING_TO_NEXT);
+        DataRadioStation station = currentStation.queue.getNextById(currentStation.StationUuid);
 
         if (station != null) {
             if (radioPlayer.isPlaying()) {
@@ -673,8 +671,7 @@ public class PlayerService extends JobIntentService implements RadioPlayer.Playe
             return;
         }
 
-        RadioDroidApp radioDroidApp = (RadioDroidApp) getApplication();
-        DataRadioStation station = radioDroidApp.getFavouriteManager().getPreviousById(currentStation.StationUuid);
+        DataRadioStation station = currentStation.queue.getPreviousById(currentStation.StationUuid);
         if (station != null) {
             if (radioPlayer.isPlaying()) {
                 playWithoutWarnings(station);
@@ -788,19 +785,21 @@ public class PlayerService extends JobIntentService implements RadioPlayer.Playe
             playbackStateBuilder.setErrorMessage(PlaybackStateCompat.ERROR_CODE_ACTION_ABORTED, error);
         }
 
-        playbackStateBuilder.setState(state, PlaybackStateCompat.PLAYBACK_POSITION_UNKNOWN, 0);
+        playbackStateBuilder.setState(state, PlaybackStateCompat.PLAYBACK_POSITION_UNKNOWN, 1.0f);
         mediaSession.setPlaybackState(playbackStateBuilder.build());
     }
 
     private void enableMediaSession() {
-        if (BuildConfig.DEBUG) Log.d(TAG, "enabling media session.");
+        if (!mediaSession.isActive()) {
+            if (BuildConfig.DEBUG) Log.d(TAG, "enabling media session.");
 
-        IntentFilter becomingNoisyFilter = new IntentFilter(AudioManager.ACTION_AUDIO_BECOMING_NOISY);
-        registerReceiver(becomingNoisyReceiver, becomingNoisyFilter);
+            IntentFilter becomingNoisyFilter = new IntentFilter(AudioManager.ACTION_AUDIO_BECOMING_NOISY);
+            registerReceiver(becomingNoisyReceiver, becomingNoisyFilter);
 
-        mediaSession.setActive(true);
+            mediaSession.setActive(true);
 
-        setMediaPlaybackState(PlaybackStateCompat.STATE_NONE);
+            setMediaPlaybackState(PlaybackStateCompat.STATE_NONE);
+        }
     }
 
     private void disableMediaSession() {
@@ -1000,6 +999,7 @@ public class PlayerService extends JobIntentService implements RadioPlayer.Playe
 
                 if (mediaSession != null) {
                     final MediaMetadataCompat.Builder builder = new MediaMetadataCompat.Builder();
+                    builder.putLong(MediaMetadataCompat.METADATA_KEY_DURATION, -1);
                     builder.putString(MediaMetadataCompat.METADATA_KEY_ALBUM, currentStation.Name);
                     builder.putString(MediaMetadataCompat.METADATA_KEY_ARTIST, liveInfo.getArtist());
                     builder.putString(MediaMetadataCompat.METADATA_KEY_TITLE, liveInfo.getTrack());
