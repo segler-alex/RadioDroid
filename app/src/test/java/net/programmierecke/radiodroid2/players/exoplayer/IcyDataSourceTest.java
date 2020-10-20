@@ -21,7 +21,7 @@ class IcyDataSourceTest {
 
     @BeforeAll
     public static void setup() {
-        icyDataSource = new IcyDataSource(new OkHttpClient(), new TestTransferListener(), new TestDataSourceListener());
+        icyDataSource = new IcyDataSource(new OkHttpClient(), new TestTransferListener(), new TestDataSourceListener(), true);
         icyDataSource.shoutcastInfo = new ShoutcastInfo();
         icyDataSource.shoutcastInfo.metadataOffset = 16000;
     }
