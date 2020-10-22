@@ -4,33 +4,43 @@ import android.content.Context;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import net.programmierecke.radiodroid2.cast.CastAwareActivity;
+
 public class CastHandler {
 
-    public static boolean isReal() {
+    public boolean isReal() {
         return false;
     }
 
-    public static void onCreate(ActivityMain activity) {
+    public boolean isCastAvailable() {
+        return false;
+    }
+
+    public void setActivity(CastAwareActivity activity) {
 
     }
 
-    public static void onPause() {
+    public void onCreate(ActivityMain activity) {
 
     }
 
-    public static void onResume() {
+    public void onPause() {
 
     }
 
-    public static MenuItem getRouteItem(Context context, Menu menu) {
+    public void onResume() {
+
+    }
+
+    public MenuItem getRouteItem(Context context, Menu menu) {
         return null;
     }
 
-    public static boolean isCastSessionAvailable() {
+    public boolean isCastSessionAvailable() {
         return false;
     }
 
-    public static void PlayRemote(String title, String url, String iconurl) {
+    public void playRemote(String title, String url, String iconurl) {
 
     }
 }

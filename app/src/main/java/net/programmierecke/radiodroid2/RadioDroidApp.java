@@ -40,6 +40,8 @@ public class RadioDroidApp extends MultiDexApplication {
 
     private MPDClient mpdClient;
 
+    private CastHandler castHandler;
+
     private TrackMetadataSearcher trackMetadataSearcher;
 
     private ConnectionPool connectionPool;
@@ -94,6 +96,8 @@ public class RadioDroidApp extends MultiDexApplication {
 
         mpdClient = new MPDClient(this);
 
+        castHandler = new CastHandler();
+
         trackMetadataSearcher = new TrackMetadataSearcher(httpClient);
 
         recordingsManager.updateRecordingsList();
@@ -135,6 +139,10 @@ public class RadioDroidApp extends MultiDexApplication {
 
     public MPDClient getMpdClient() {
         return mpdClient;
+    }
+
+    public CastHandler getCastHandler() {
+        return castHandler;
     }
 
     public TrackMetadataSearcher getTrackMetadataSearcher() {

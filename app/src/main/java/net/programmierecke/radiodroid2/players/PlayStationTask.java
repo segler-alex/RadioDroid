@@ -67,7 +67,9 @@ public class PlayStationTask extends AsyncTask<Void, Void, String> {
     }
 
     public static PlayStationTask playCAST(DataRadioStation stationToPlay, Context ctx) {
-        return new PlayStationTask(stationToPlay, ctx, url -> CastHandler.PlayRemote(stationToPlay.Name, url, stationToPlay.IconUrl), null);
+        RadioDroidApp radioDroidApp = (RadioDroidApp) ctx.getApplicationContext();
+        CastHandler castHandler = radioDroidApp.getCastHandler();
+        return new PlayStationTask(stationToPlay, ctx, url -> castHandler.playRemote(stationToPlay.Name, url, stationToPlay.IconUrl), null);
     }
 
     @Override
