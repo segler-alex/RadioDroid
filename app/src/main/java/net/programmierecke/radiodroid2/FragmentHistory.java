@@ -1,16 +1,21 @@
 package net.programmierecke.radiodroid2;
 
+import android.content.Intent;
 import android.graphics.Color;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.google.android.material.snackbar.Snackbar;
 
@@ -20,10 +25,17 @@ import net.programmierecke.radiodroid2.interfaces.IAdapterRefreshable;
 import net.programmierecke.radiodroid2.station.StationActions;
 import net.programmierecke.radiodroid2.station.StationsFilter;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import okhttp3.OkHttpClient;
+
 public class FragmentHistory extends Fragment implements IAdapterRefreshable {
-    private static final String TAG = "FragmentStarred";
+    private static final String TAG = "FragmentHistory";
 
     private RecyclerView rvStations;
+    private SwipeRefreshLayout swipeRefreshLayout;
+    private AsyncTask task = null;
 
     private HistoryManager historyManager;
 
@@ -102,9 +114,96 @@ public class FragmentHistory extends Fragment implements IAdapterRefreshable {
 
         adapter.enableItemRemoval(rvStations);
 
+        swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swiperefresh);
+        if (swipeRefreshLayout != null) {
+            swipeRefreshLayout.setOnRefreshListener(
+                    new SwipeRefreshLayout.OnRefreshListener() {
+                        @Override
+                        public void onRefresh() {
+                            if (BuildConfig.DEBUG) {
+                                Log.d(TAG, "onRefresh called from SwipeRefreshLayout");
+                            }
+                            RefreshDownloadList();
+                        }
+                    }
+            );
+        }
+
         RefreshListGui();
 
         return view;
+    }
+
+    void RefreshDownloadList(){
+        RadioDroidApp radioDroidApp = (RadioDroidApp) getActivity().getApplication();
+        final OkHttpClient httpClient = radioDroidApp.getHttpClient();
+        ArrayList<String> listUUids = new ArrayList<String>();
+        for (DataRadioStation station : historyManager.listStations){
+            listUUids.add(station.StationUuid);
+        }
+        Log.d(TAG, "Search for items: "+listUUids.size());
+
+        task = new AsyncTask<Void, Void, List<DataRadioStation>>() {
+            @Override
+            protected List<DataRadioStation> doInBackground(Void... params) {
+                return Utils.getStationsByUuid(httpClient, getActivity(), listUUids);
+            }
+
+            @Override
+            protected void onPostExecute(List<DataRadioStation> result) {
+                DownloadFinished();
+                if(getContext() != null)
+                    LocalBroadcastManager.getInstance(getContext()).sendBroadcast(new Intent(ActivityMain.ACTION_HIDE_LOADING));
+                if (BuildConfig.DEBUG) {
+                    Log.d(TAG, "Download relativeUrl finished");
+                }
+                if (result != null) {
+                    if (BuildConfig.DEBUG) {
+                        Log.d(TAG, "Download relativeUrl OK");
+                    }
+                    Log.d(TAG, "Found items: "+result.size());
+                    SyncList(result);
+                    RefreshListGui();
+                } else {
+                    try {
+                        Toast toast = Toast.makeText(getContext(), getResources().getText(R.string.error_list_update), Toast.LENGTH_SHORT);
+                        toast.show();
+                    }
+                    catch(Exception e){
+                        Log.e("ERR",e.toString());
+                    }
+                }
+                super.onPostExecute(result);
+            }
+        }.execute();
+    }
+
+    private void SyncList(List<DataRadioStation> list_new) {
+        ArrayList<String> to_remove = new ArrayList<String>();
+        for (DataRadioStation station_current: historyManager.listStations){
+            boolean found = false;
+            for (DataRadioStation station_new: list_new){
+                if (station_new.StationUuid.equals(station_current.StationUuid)){
+                    found = true;
+                }
+            }
+            if (!found){
+                Log.d(TAG,"Remove station: " + station_current.StationUuid + " - " + station_current.Name);
+                to_remove.add(station_current.StationUuid);
+            }
+        }
+        Log.d(TAG,"start refill");
+        historyManager.clear();
+        historyManager.addMultiple(list_new);
+        Log.d(TAG,"start save");
+        historyManager.Save();
+        Log.d(TAG,"fin save");
+    }
+
+    protected void DownloadFinished() {
+        if (swipeRefreshLayout != null) {
+            swipeRefreshLayout.setRefreshing(false);
+        }
     }
 
     @Override

@@ -53,6 +53,7 @@ import java.net.Proxy;
 import java.security.KeyStore;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -273,6 +274,27 @@ public class Utils {
                 }
             } catch (Exception e) {
                 Log.e("UTIL", "getStationByUuid() " + e);
+            }
+        }
+        return null;
+    }
+
+    public static List<DataRadioStation> getStationsByUuid(OkHttpClient httpClient, Context ctx, Iterable<String> listUUids) {
+        String uuids = TextUtils.join(",", listUUids);
+        Log.d("UTIL", "Search by uuid for items");
+        HashMap<String, String> p = new HashMap<String, String>();
+        p.put("uuids", uuids);
+        String result = Utils.downloadFeedRelative(httpClient, ctx, "json/stations/byuuid", true, p);
+        if (result != null) {
+            try {
+                List<DataRadioStation> list = DataRadioStation.DecodeJson(result);
+                if (list != null) {
+                    return list;
+                }else{
+                    Log.e("UTIL", "stations by uuid was null");
+                }
+            } catch (Exception e) {
+                Log.e("UTIL", "getStationsByUuid() " + e);
             }
         }
         return null;

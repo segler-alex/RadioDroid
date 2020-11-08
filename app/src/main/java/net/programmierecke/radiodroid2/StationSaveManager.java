@@ -67,6 +67,21 @@ public class StationSaveManager extends Observable {
         }
     }
 
+    public void addMultiple(List<DataRadioStation> stations) {
+        for (DataRadioStation station_new: stations){
+            listStations.add(station_new);
+        }
+        Save();
+
+        notifyObservers();
+
+        /*
+        if (stationStatusListener != null) {
+            stationStatusListener.onStationStatusChanged(station, true);
+        }
+        */
+    }
+
     public void addFront(DataRadioStation station) {
         listStations.add(0, station);
         Save();
