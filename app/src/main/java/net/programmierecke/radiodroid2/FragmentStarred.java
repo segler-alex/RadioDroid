@@ -158,7 +158,7 @@ public class FragmentStarred extends Fragment implements IAdapterRefreshable, Ob
         for (DataRadioStation station : favouriteManager.listStations){
             listUUids.add(station.StationUuid);
         }
-        Log.e(TAG, "Search for items: "+listUUids.size());
+        Log.d(TAG, "Search for items: "+listUUids.size());
 
         task = new AsyncTask<Void, Void, List<DataRadioStation>>() {
             @Override
@@ -209,12 +209,11 @@ public class FragmentStarred extends Fragment implements IAdapterRefreshable, Ob
                 to_remove.add(station_current.StationUuid);
             }
         }
-        Log.e(TAG,"start refill");
-        favouriteManager.clear();
-        favouriteManager.addMultiple(list_new);
-        Log.e(TAG,"start save");
+        Log.d(TAG,"replace items");
+        favouriteManager.replaceList(list_new);
+        Log.d(TAG,"start save");
         favouriteManager.Save();
-        Log.e(TAG,"fin save");
+        Log.d(TAG,"fin save");
     }
 
     protected void DownloadFinished() {

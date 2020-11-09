@@ -192,9 +192,8 @@ public class FragmentHistory extends Fragment implements IAdapterRefreshable {
                 to_remove.add(station_current.StationUuid);
             }
         }
-        Log.d(TAG,"start refill");
-        historyManager.clear();
-        historyManager.addMultiple(list_new);
+        Log.d(TAG,"replace items");
+        historyManager.replaceList(list_new);
         Log.d(TAG,"start save");
         historyManager.Save();
         Log.d(TAG,"fin save");

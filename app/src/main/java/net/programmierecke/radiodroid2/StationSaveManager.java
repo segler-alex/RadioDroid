@@ -74,12 +74,20 @@ public class StationSaveManager extends Observable {
         Save();
 
         notifyObservers();
+    }
 
-        /*
-        if (stationStatusListener != null) {
-            stationStatusListener.onStationStatusChanged(station, true);
+    public void replaceList(List<DataRadioStation> stations_new) {
+        for (DataRadioStation station_new: stations_new) {
+            for (int i = 0; i < listStations.size(); i++) {
+                if (listStations.get(i).StationUuid.equals(station_new.StationUuid)){
+                    listStations.set(i, station_new);
+                    break;
+                }
+            }
         }
-        */
+        Save();
+
+        notifyObservers();
     }
 
     public void addFront(DataRadioStation station) {
