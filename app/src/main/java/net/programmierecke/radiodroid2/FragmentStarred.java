@@ -211,8 +211,6 @@ public class FragmentStarred extends Fragment implements IAdapterRefreshable, Ob
         }
         Log.d(TAG,"replace items");
         favouriteManager.replaceList(list_new);
-        Log.d(TAG,"start save");
-        favouriteManager.Save();
         Log.d(TAG,"fin save");
     }
 

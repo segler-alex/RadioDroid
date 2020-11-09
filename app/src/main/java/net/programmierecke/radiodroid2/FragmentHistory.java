@@ -194,8 +194,6 @@ public class FragmentHistory extends Fragment implements IAdapterRefreshable {
         }
         Log.d(TAG,"replace items");
         historyManager.replaceList(list_new);
-        Log.d(TAG,"start save");
-        historyManager.Save();
         Log.d(TAG,"fin save");
     }
 

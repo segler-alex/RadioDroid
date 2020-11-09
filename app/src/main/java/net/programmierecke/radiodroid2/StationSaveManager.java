@@ -365,20 +365,18 @@ public class StationSaveManager extends Observable {
         Toast toast = Toast.makeText(context, context.getResources().getString(R.string.notify_load_playlist_now, filePath, fileName), Toast.LENGTH_LONG);
         toast.show();
 
-        new AsyncTask<Void, Void, DataRadioStation[]>() {
+        new AsyncTask<Void, Void, List<DataRadioStation>>() {
             @Override
-            protected DataRadioStation[] doInBackground(Void... params) {
+            protected List<DataRadioStation> doInBackground(Void... params) {
                 return LoadM3UInternal(filePath, fileName);
             }
 
             @Override
-            protected void onPostExecute(DataRadioStation[] result) {
+            protected void onPostExecute(List<DataRadioStation> result) {
                 if (result != null) {
-                    Log.i("LOAD", "Loaded " + result.length + "stations");
-                    for (DataRadioStation station : result) {
-                        add(station);
-                    }
-                    Toast toast = Toast.makeText(context, context.getResources().getString(R.string.notify_load_playlist_ok, result.length, filePath, fileName), Toast.LENGTH_LONG);
+                    Log.i("LOAD", "Loaded " + result.size() + "stations");
+                    addMultiple(result);
+                    Toast toast = Toast.makeText(context, context.getResources().getString(R.string.notify_load_playlist_ok, result.size(), filePath, fileName), Toast.LENGTH_LONG);
                     toast.show();
                 } else {
                     Log.e("LOAD", "Load failed");
@@ -440,8 +438,7 @@ public class StationSaveManager extends Observable {
         }
     }
 
-    DataRadioStation[] LoadM3UInternal(String filePath, String fileName) {
-        Vector<DataRadioStation> loadedItems = new Vector<>();
+    List<DataRadioStation> LoadM3UInternal(String filePath, String fileName) {
         try {
             File f = new File(filePath, fileName);
 
@@ -450,25 +447,28 @@ public class StationSaveManager extends Observable {
 
             final RadioDroidApp radioDroidApp = (RadioDroidApp) context.getApplicationContext();
             final OkHttpClient httpClient = radioDroidApp.getHttpClient();
+            ArrayList<String> listUuids = new ArrayList<String>();
 
             while ((line = br.readLine()) != null) {
                 if (line.startsWith(M3U_PREFIX)) {
                     try {
                         String uuid = line.substring(M3U_PREFIX.length()).trim();
-                        DataRadioStation station = Utils.getStationByUuid(httpClient, context, uuid);
-                        if (station != null) {
-                            loadedItems.add(station);
-                        }
+                        listUuids.add(uuid);
                     } catch (Exception e) {
                         Log.e("LOAD", e.toString());
                     }
                 }
             }
+            List<DataRadioStation> listStationsNew  = Utils.getStationsByUuid(httpClient, context, listUuids);
             br.close();
+            if (listStationsNew != null) {
+                return listStationsNew;
+            }
         } catch (Exception e) {
             Log.e("LOAD", "File write failed: " + e.toString());
             return null;
         }
-        return loadedItems.toArray(new DataRadioStation[0]);
+        List<DataRadioStation> loadedItems = new ArrayList<>();
+        return loadedItems;
     }
 }
