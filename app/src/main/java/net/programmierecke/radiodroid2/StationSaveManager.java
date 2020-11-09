@@ -402,6 +402,7 @@ public class StationSaveManager extends Observable {
             BufferedWriter bw = new BufferedWriter(new FileWriter(f, false));
             bw.write("#EXTM3U\n");
             for (DataRadioStation station : listStations) {
+                /*
                 String result = null;
                 for (int i = 0; i < 20; i++) {
                     result = Utils.getRealStationLink(httpClient, context, station.StationUuid);
@@ -414,12 +415,13 @@ public class StationSaveManager extends Observable {
                         Log.e("ERR", "Play() " + e);
                     }
                 }
+                */
 
-                if (result != null) {
+                //if (result != null) {
                     bw.write(M3U_PREFIX + station.StationUuid + "\n");
                     bw.write("#EXTINF:-1," + station.Name + "\n");
-                    bw.write(result + "\n\n");
-                }
+                    bw.write(station.StreamUrl + "\n\n");
+                //}
             }
             bw.flush();
             bw.close();
@@ -459,8 +461,9 @@ public class StationSaveManager extends Observable {
                     }
                 }
             }
-            List<DataRadioStation> listStationsNew  = Utils.getStationsByUuid(httpClient, context, listUuids);
             br.close();
+
+            List<DataRadioStation> listStationsNew = Utils.getStationsByUuid(httpClient, context, listUuids);
             if (listStationsNew != null) {
                 return listStationsNew;
             }
