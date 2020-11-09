@@ -207,11 +207,15 @@ public class FragmentStarred extends Fragment implements IAdapterRefreshable, Ob
             if (!found){
                 Log.d(TAG,"Remove station: " + station_current.StationUuid + " - " + station_current.Name);
                 to_remove.add(station_current.StationUuid);
+                station_current.DeletedOnServer = true;
             }
         }
         Log.d(TAG,"replace items");
         favouriteManager.replaceList(list_new);
         Log.d(TAG,"fin save");
+
+        Toast toast = Toast.makeText(getContext(), getResources().getString(R.string.notify_sync_list_deleted_entries, to_remove.size(), favouriteManager.size()), Toast.LENGTH_SHORT);
+        toast.show();
     }
 
     protected void DownloadFinished() {
