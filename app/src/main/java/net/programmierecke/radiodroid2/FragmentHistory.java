@@ -197,8 +197,10 @@ public class FragmentHistory extends Fragment implements IAdapterRefreshable {
         historyManager.replaceList(list_new);
         Log.d(TAG,"fin save");
 
-        Toast toast = Toast.makeText(getContext(), getResources().getString(R.string.notify_sync_list_deleted_entries, to_remove.size(), historyManager.size()), Toast.LENGTH_SHORT);
-        toast.show();
+        if (to_remove.size() > 0) {
+            Toast toast = Toast.makeText(getContext(), getResources().getString(R.string.notify_sync_list_deleted_entries, to_remove.size(), historyManager.size()), Toast.LENGTH_SHORT);
+            toast.show();
+        }
     }
 
     protected void DownloadFinished() {
