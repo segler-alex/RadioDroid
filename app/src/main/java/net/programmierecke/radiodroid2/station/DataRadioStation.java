@@ -64,6 +64,7 @@ public class DataRadioStation implements Parcelable {
 	public String Codec;
 	public boolean Working = true;
 	public boolean Hls = false;
+	public boolean DeletedOnServer = false;
 
 	public String playableUrl;
 
@@ -72,6 +73,9 @@ public class DataRadioStation implements Parcelable {
 
 	public String getShortDetails(Context ctx) {
 		List<String> aList = new ArrayList<String>();
+		if (DeletedOnServer){
+			aList.add(ctx.getResources().getString(R.string.station_detail_deleted_on_server));
+		}
 		if (!Working){
 			aList.add(ctx.getResources().getString(R.string.station_detail_broken));
 		}
@@ -91,6 +95,9 @@ public class DataRadioStation implements Parcelable {
 
 	public String getLongDetails(Context ctx) {
 		List<String> aList = new ArrayList<>();
+		if (DeletedOnServer){
+			aList.add(ctx.getResources().getString(R.string.station_detail_deleted_on_server));
+		}
 		if (!Working){
 			aList.add(ctx.getResources().getString(R.string.station_detail_broken));
 		}
@@ -177,6 +184,9 @@ public class DataRadioStation implements Parcelable {
 							if (anObject.has("hls")){
 								aStation.Hls = anObject.getInt("hls") != 0;
 							}
+							if (anObject.has("DeletedOnServer")){
+								aStation.DeletedOnServer = anObject.getInt("DeletedOnServer") != 0;
+							}
 
 							aStation.fixStationFields();
 
@@ -243,6 +253,9 @@ public class DataRadioStation implements Parcelable {
 					if (anObject.has("lastcheckok")){
 						aStation.Working = anObject.getInt("lastcheckok") != 0;
 					}
+					if (anObject.has("DeletedOnServer")){
+						aStation.DeletedOnServer = anObject.getInt("DeletedOnServer") != 0;
+					}
 
 					aStation.fixStationFields();
 
@@ -282,6 +295,7 @@ public class DataRadioStation implements Parcelable {
 			obj.put("bitrate",""+Bitrate);
 			obj.put("codec",Codec);
 			obj.put("lastcheckok",Working ? "1" : "0");
+			obj.put("DeletedOnServer",DeletedOnServer ? "1" : "0");
 			return obj;
 		} catch (JSONException e) {
 			Log.e(TAG, "toJson() "+e);

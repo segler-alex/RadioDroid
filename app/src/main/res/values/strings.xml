@@ -86,6 +86,7 @@
     <string name="notify_save_playlist_nok">Could not export to %1$s&#47;%2$s</string>
     <string name="notify_save_playlist_now">Exporting to %1$s&#47;%2$s, please wait.</string>
     <string name="notify_save_playlist_ok">Exported to %1$s&#47;%2$s successfully</string>
+    <string name="notify_sync_list_deleted_entries">%1$d of %2$d local streams in the list did not exist on the server and were marked</string>
 
     <string name="searchpreference_clear_history">Clear history</string>
     <string name="searchpreference_no_results">No results</string>
@@ -260,6 +261,7 @@
 
     <string name="station_detail_bitrate">%1$1d kbps</string>
     <string name="station_detail_broken">BROKEN</string>
+    <string name="station_detail_deleted_on_server">DELETED</string>
 
     <string name="image_button_disable">Disable</string>
     <string name="image_button_record">Record</string>

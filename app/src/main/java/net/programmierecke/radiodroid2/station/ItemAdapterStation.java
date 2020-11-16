@@ -256,6 +256,16 @@ public class ItemAdapterStation
 
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getContext().getApplicationContext());
         boolean useCircularIcons = Utils.useCircularIcons(getContext());
+        if (station.DeletedOnServer){
+            // set to red
+            holder.itemView.setBackgroundColor(0xFFFF0000);
+        }else if (!station.Working){
+            // set to yellow
+            holder.itemView.setBackgroundColor(0xFFFFFF00);
+        }else{
+            // set to transparent
+            holder.itemView.setBackgroundColor(0x00000000);
+        }
 
         if (!shouldLoadIcons) {
             holder.imageViewIcon.setVisibility(View.GONE);
