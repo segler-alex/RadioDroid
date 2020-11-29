@@ -2,6 +2,26 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 
+def getAvailableLocales() {
+    def tree = fileTree(dir: 'src/main/res', include: '**/strings.xml')
+    return tree.collect {
+        def lang = it.getParentFile().getName() - "values-" - "values"
+
+        // We want a name which would be understood by Locale::forLanguageTag, so we should do
+        // do a simple conversion for an edge case:
+        //   "pt-rBR" -> "pt-BR"
+        //   "zh-rCN" -> "zh-CN"
+        //   and so on
+        lang = lang.replace("-r", "-")
+
+        if (lang.empty) {
+            lang = "en"
+        }
+
+        lang
+    }
+}
+
 android {
 
     flavorDimensions "one"
@@ -39,6 +59,11 @@ android {
         // It must neither be present in /res/values/strings.xml
         // nor in /res/values/string_no_translate.xml
         resValue 'string', 'app_name_untranslated', 'RadioDroid'
+
+        // There is no easy way to get available locales during runtime, and especially before
+        // tests setup.
+        def escapedLocales = getAvailableLocales().collect { "\"" + it + "\"" }
+        buildConfigField "String[]", "AVAILABLE_LOCALES", String.format("{ %s }", escapedLocales.join(","))
 
         testInstrumentationRunner "net.programmierecke.radiodroid2.tests.CustomTestRunner"
 
