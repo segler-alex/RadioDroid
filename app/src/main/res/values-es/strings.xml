@@ -33,7 +33,7 @@
     <string name="action_delete">Borrar</string>
     <string name="action_delete_history">Borrar historial</string>
     <string name="action_delete_favorites">Borrar favoritos</string>
-    <string name="action_delete_stream_history">Clear track history</string>
+    <string name="action_delete_stream_history">Borrar historial de pistas</string>
     <string name="action_ok">Aceptar</string>
     <string name="action_cancel">Cancelar</string>
     <string name="action_top_click">Más clics</string>
@@ -59,7 +59,7 @@
     <string name="nav_item_alarm">Alarma</string>
 
     <string name="about_text">Esta aplicación usa el directorio libre de radios en\nhttps://www.radio-browser.info\nCualquiera puede agregar estaciones o editar las existentes. Funciona como una wiki para estaciones de radio que emiten por internet (streaming).\n\nContacto:\nsegler_alex@web.de\n\nGestor de incidencias:\nhttps://github.com/segler-alex/RadioDroid/issues\n\nSi te gusta este software y quieres ayudar, siéntete libre de enviar un correo. Realmente necesitaría alguien con experiencia en gráficos para hacer la aplicación más agradable de ver :) Quizá alguien que pueda dibujar iconos, imágenes... Pero también programadores para arregar fallos, o implementar nuevas características. ;)\n¡También se agradecen siempre ideas para nuevas características!\n\nEsta aplicación es software libre bajo la licencia GPLv3.\nhttps://www.gnu.org/licenses/gpl-3.0.html</string>
-    <string name="about_version">Versión : %1$s</string>
+    <string name="about_version">Versión: %1$s</string>
     <string name="detail_star">Agregar a favoritos</string>
     <string name="detail_unstar">Quitar de favoritos</string>
     <string name="detail_play_in_external_player">@string/action_play_in_external</string>
@@ -109,7 +109,7 @@
     <string name="settings_show_broken_on">Mostrar estaciones rotas en las listas</string>
     <string name="settings_show_broken_off">No mostrar estaciones rotas en las listas</string>
 
-    <string name="settings_startup_behaviour">Start Behavior</string>
+    <string name="settings_startup_behaviour">Comportamiento de inicio</string>
     <string name="startup_action_title">Iniciar acción</string>
     <string name="startup_action_title_desc">%s</string>
     <string name="startup_show_all_stations">Mostrar todas las estaciones</string>
@@ -187,6 +187,11 @@
     <string name="settings_record_name_formatting_1_display">estación_artista_\u200bpista</string>
     <string name="settings_record_name_formatting_2_display">estación_fecha_\u200bhora</string>
     <string name="settings_record_name_formatting_3_display">índices_estación_\u200bfecha</string>
+
+    <string name="settings_record_name_formatting_default_display">estación_artista_pista_\u200bfecha_\u200bhora</string>
+    <string name="settings_record_name_formatting_1_display">estación_artista_\u200bpista</string>
+    <string name="settings_record_name_formatting_2_display">estación_fecha_\u200bhora</string>
+    <string name="settings_record_name_formatting_3_display">índice_estación_\u200bfecha</string>
 
     <string name="notify_pre_play">Conectando</string>
     <string name="notify_play">Reproduciendo</string>
@@ -285,6 +290,7 @@
     <string name="action_add_mpd_server">Agregar servidor MPD</string>
 
     <string name="action_play_in_external">Reproducir en reproductor externo</string>
+    <string name="action_choose_external_player">Elegir reproductor externo</string>
 
     <string name="settings_other">Otro</string>
     <string name="settings_statistics">Estadísticas</string>
@@ -322,7 +328,6 @@
     <string name="alarm_backup">Alarma alternativa</string>
     <string name="alarm_fallback_info">Alarma del sistema adoptada como estación de radio seleccionada falló al cargar</string>
     <string name="alarm_back_desc">Sistema alternativo de alarma adoptado cuando falla la carga de la estación de radio</string>
-
     <string name="context_menu_share">@string/detail_share</string>
     <string name="context_menu_visit_homepage">@string/action_station_visit_website</string>
     <string name="context_menu_play_in_radiodroid">@string/detail_play_in_radiodroid</string>
