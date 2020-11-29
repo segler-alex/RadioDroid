@@ -683,7 +683,7 @@ public class FragmentPlayerFull extends Fragment {
 
                     final List<TrackMetadata.AlbumArt> albumArts = trackMetadata.getAlbumArts();
                     if (!albumArts.isEmpty()) {
-                        final String albumArtUrl = albumArts.get(0).url;
+                        final String albumArtUrl = albumArts.get(0).getUrl();
 
                         if (!TextUtils.isEmpty(albumArtUrl)) {
                             Picasso.get()
