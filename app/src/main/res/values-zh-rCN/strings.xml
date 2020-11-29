@@ -86,6 +86,7 @@
     <string name="notify_save_playlist_nok">无法导出到 %1$s&#47;%2$s</string>
     <string name="notify_save_playlist_now">正在导出到 %1$s&#47;%2$s，请稍候。</string>
     <string name="notify_save_playlist_ok">成功导出到 %1$s&#47;%2$s</string>
+    <string name="notify_sync_list_deleted_entries">列表中 %2$d 个本地电台中的 %1$d 个在服务器标记为不存在</string>
 
     <string name="searchpreference_clear_history">清除历史</string>
     <string name="searchpreference_no_results">无匹配项</string>
@@ -201,7 +202,7 @@
 
     <string name="notify_open_link_failure">未发现打开链接的应用</string>
 
-    <string name="notify_station_removed_from_list">1项已移除</string>
+    <string name="notify_station_removed_from_list">1 项已移除</string>
     <string name="action_station_removed_from_list_undo">撤消</string>
 
     <string name="alert_install_lyrics_app">您的设备上未安装 QuickLyric。您想从 Google Play 商店下载吗？</string>
@@ -255,6 +256,7 @@
 
     <string name="station_detail_bitrate">%1$1d kbps</string>
     <string name="station_detail_broken">无效</string>
+    <string name="station_detail_deleted_on_server">已删除</string>
 
     <string name="image_button_disable">停用</string>
     <string name="image_button_record">录音</string>
