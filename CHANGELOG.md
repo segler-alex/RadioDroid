@@ -4,6 +4,20 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
+### Added
+- Refreshable favorites and history lists
+- Mark removed stations red, and broken stations yellow
+- Translation updates
+- Adaptive launcher icon
+- Testing framework
+- Stop button to MPD
+- Very basic android TV support
+
+### Fixed
+- Recording in android 10
+- Correctly display audio players in list of external play
+- Play audio warnings as music and not as alarm
+- False negatives in hls stream detection
 
 ## [0.83] - 2020-04-15
 ### Changed
