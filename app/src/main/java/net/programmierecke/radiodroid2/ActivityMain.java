@@ -44,22 +44,20 @@ import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.navigation.NavigationView;
-
 import com.google.android.material.tabs.TabLayout;
 import com.mikepenz.iconics.Iconics;
-import com.mikepenz.iconics.context.IconicsLayoutInflater2;
 import com.rustamg.filedialogs.FileDialog;
 import com.rustamg.filedialogs.OpenFileDialog;
 import com.rustamg.filedialogs.SaveFileDialog;
 
 import net.programmierecke.radiodroid2.alarm.FragmentAlarm;
 import net.programmierecke.radiodroid2.alarm.TimePickerFragment;
-import net.programmierecke.radiodroid2.interfaces.IFragmentRefreshable;
+import net.programmierecke.radiodroid2.cast.CastAwareActivity;
 import net.programmierecke.radiodroid2.interfaces.IFragmentSearchable;
 import net.programmierecke.radiodroid2.players.PlayState;
+import net.programmierecke.radiodroid2.players.PlayStationTask;
 import net.programmierecke.radiodroid2.players.mpd.MPDClient;
 import net.programmierecke.radiodroid2.players.mpd.MPDServersRepository;
-import net.programmierecke.radiodroid2.players.PlayStationTask;
 import net.programmierecke.radiodroid2.players.selector.PlayerType;
 import net.programmierecke.radiodroid2.service.MediaSessionCallback;
 import net.programmierecke.radiodroid2.service.PlayerService;
@@ -74,7 +72,13 @@ import okhttp3.OkHttpClient;
 
 import static net.programmierecke.radiodroid2.service.MediaSessionCallback.EXTRA_STATION_UUID;
 
-public class ActivityMain extends AppCompatActivity implements SearchView.OnQueryTextListener, NavigationView.OnNavigationItemSelectedListener, BottomNavigationView.OnNavigationItemSelectedListener, FileDialog.OnFileSelectedListener, TimePickerDialog.OnTimeSetListener, SearchPreferenceResultListener {
+public class ActivityMain extends AppCompatActivity implements SearchView.OnQueryTextListener,
+        NavigationView.OnNavigationItemSelectedListener,
+        BottomNavigationView.OnNavigationItemSelectedListener,
+        FileDialog.OnFileSelectedListener,
+        TimePickerDialog.OnTimeSetListener,
+        SearchPreferenceResultListener,
+        CastAwareActivity {
 
     public static final String EXTRA_SEARCH_TAG = "search_tag";
 
@@ -294,7 +298,7 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
             }
         });
 
-        CastHandler.onCreate(this);
+        ((RadioDroidApp) getApplication()).getCastHandler().onCreate(this);
 
         setupStartUpFragment();
     }
@@ -463,9 +467,11 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
 
         if (PlayerServiceUtil.getPlayerState() == PlayState.Idle) {
             PlayerServiceUtil.shutdownService();
-        } else if (PlayerServiceUtil.isPlaying()) {
-            CastHandler.onPause();
         }
+
+        CastHandler castHandler = ((RadioDroidApp) getApplication()).getCastHandler();
+        castHandler.onPause();
+        castHandler.setActivity(null);
     }
 
     private void handleIntent(@NonNull Intent intent) {
@@ -525,7 +531,9 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
         setupBroadcastReceiver();
 
         PlayerServiceUtil.bind(this);
-        CastHandler.onResume();
+        CastHandler castHandler = ((RadioDroidApp) getApplication()).getCastHandler();
+        castHandler.onResume();
+        castHandler.setActivity(this);
 
         if (playerBottomSheet.getState() == BottomSheetBehavior.STATE_EXPANDED) {
             appBarLayout.setExpanded(false);
@@ -647,7 +655,8 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
  */
         }
 
-        MenuItem mediaRouteMenuItem = CastHandler.getRouteItem(getApplicationContext(), menu);
+        ((RadioDroidApp) getApplication()).getCastHandler().getRouteItem(getApplicationContext(), menu);
+
         return true;
     }
 
@@ -1078,5 +1087,10 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
         getSupportFragmentManager().popBackStack();
         FragmentSettings f = FragmentSettings.openNewSettingsSubFragment(this, result.getScreen());
         result.highlight(f, Utils.getAccentColor(this));
+    }
+
+    @Override
+    public void invalidateOptionsMenuForCast() {
+        invalidateOptionsMenu();
     }
 }

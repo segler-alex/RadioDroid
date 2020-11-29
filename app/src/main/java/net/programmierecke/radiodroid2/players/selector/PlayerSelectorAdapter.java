@@ -106,10 +106,12 @@ public class PlayerSelectorAdapter extends RecyclerView.Adapter<RecyclerView.Vie
     protected PlayerSelectorAdapter(@NonNull Context context, @Nullable DataRadioStation stationToPlay) {
         //super(DIFF_CALLBACK);
 
+        RadioDroidApp radioDroidApp =  (RadioDroidApp) context.getApplicationContext();
+
         this.context = context;
         this.inflater = LayoutInflater.from(context);
 
-        this.mpdClient = ((RadioDroidApp) context.getApplicationContext()).getMpdClient();
+        this.mpdClient = radioDroidApp.getMpdClient();
         this.stationToPlay = stationToPlay;
 
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
@@ -127,7 +129,7 @@ public class PlayerSelectorAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             viewTypes.add(PlayerType.EXTERNAL.getValue());
         }
 
-        if (CastHandler.isCastSessionAvailable()) {
+        if (radioDroidApp.getCastHandler().isCastSessionAvailable()) {
             fixedViewsCount++;
             viewTypes.add(PlayerType.CAST.getValue());
         }

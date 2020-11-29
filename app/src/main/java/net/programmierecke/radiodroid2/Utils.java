@@ -31,6 +31,7 @@ import com.mikepenz.iconics.IconicsDrawable;
 import com.mikepenz.iconics.IconicsSize;
 import com.mikepenz.iconics.typeface.IIcon;
 
+import net.programmierecke.radiodroid2.players.PlayStationTask;
 import net.programmierecke.radiodroid2.players.selector.PlayerSelectorDialog;
 import net.programmierecke.radiodroid2.players.selector.PlayerType;
 import net.programmierecke.radiodroid2.service.ConnectivityChecker;
@@ -324,9 +325,19 @@ public class Utils {
 
     public static void showPlaySelection(final RadioDroidApp radioDroidApp, final DataRadioStation station, final FragmentManager fragmentManager) {
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(radioDroidApp);
-        final boolean play_external = sharedPref.getBoolean("play_external", false);
+        final boolean externalAvailable = sharedPref.getBoolean("play_external", false);
 
-        if (radioDroidApp.getMpdClient().isMpdEnabled() || play_external || CastHandler.isCastSessionAvailable()) {
+        CastHandler castHandler = radioDroidApp.getCastHandler();
+        final boolean castAvailable = castHandler.isCastSessionAvailable();
+
+        final boolean mpdAvailable = radioDroidApp.getMpdClient().isMpdEnabled();
+
+        if (castAvailable && !externalAvailable && !mpdAvailable) {
+            new PlayStationTask(station, radioDroidApp.getApplicationContext(),
+                    url -> castHandler.playRemote(station.Name, url, station.IconUrl),
+                    null)
+                    .execute();
+        } else if (externalAvailable || mpdAvailable) {
             showMpdServersDialog(radioDroidApp, fragmentManager, station);
         } else {
             playAndWarnIfMetered(radioDroidApp, station, PlayerType.RADIODROID, () -> play(radioDroidApp, station));
