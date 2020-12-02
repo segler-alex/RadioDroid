@@ -129,7 +129,7 @@ def getLastFMApiKey() {
 }
 
 ext {
-    exoplayerVersion = '2.11.7'
+    exoplayerVersion = '2.12.2'
     iconicsVersion = '4.0.2'
 }
 
