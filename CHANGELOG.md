@@ -12,6 +12,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - Testing framework
 - Stop button to MPD
 - Very basic android TV support
+- LastFM Api key changeable by user in settings menu
 
 ### Fixed
 - Recording in android 10
