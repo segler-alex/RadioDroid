@@ -4,6 +4,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
@@ -30,6 +31,7 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.paging.PagedList;
+import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -564,8 +566,12 @@ public class FragmentPlayerFull extends Fragment {
             return;
         }
 
+        final RadioDroidApp radioDroidApp = (RadioDroidApp) requireActivity().getApplication();
+        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(radioDroidApp);
+        String LastFMApiKey = sharedPref.getString("last_fm_api_key", "");
+
         if (TextUtils.isEmpty(liveInfo.getArtist()) || TextUtils.isEmpty(liveInfo.getTrack()) ||
-                BuildConfig.LastFMAPIKey.isEmpty()) {
+                LastFMApiKey.isEmpty()) {
             if (station.hasIcon()) {
                 // TODO: Check if we already have this station's icon loaded into image view
                 Picasso.get()
@@ -585,7 +591,6 @@ public class FragmentPlayerFull extends Fragment {
             trackMetadataCallback.cancel();
         }
 
-        final RadioDroidApp radioDroidApp = (RadioDroidApp) requireActivity().getApplication();
         TrackMetadataSearcher trackMetadataSearcher = radioDroidApp.getTrackMetadataSearcher();
 
         final WeakReference<FragmentPlayerFull> fragmentWeakReference = new WeakReference<>(this);
@@ -604,7 +609,7 @@ public class FragmentPlayerFull extends Fragment {
                 fragment.requireActivity().runOnUiThread(() -> {
                     if (fragment.isResumed()) {
                         fragment.trackMetadataCallback = new PlayerTrackMetadataCallback(fragmentWeakReference, trackHistoryEntry);
-                        trackMetadataSearcher.fetchTrackMetadata(liveInfo.getArtist(), liveInfo.getTrack(), fragment.trackMetadataCallback);
+                        trackMetadataSearcher.fetchTrackMetadata(LastFMApiKey, liveInfo.getArtist(), liveInfo.getTrack(), fragment.trackMetadataCallback);
                     }
                 });
             }

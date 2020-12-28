@@ -63,8 +63,8 @@ public class LfmMetadataSearcher {
         return normalizedTrack.equals(track) ? null : normalizedTrack;
     }
 
-    public void fetchTrackMetadata(String artist, @NonNull final String track, @NonNull final TrackMetadataCallback trackMetadataCallback) {
-        if (BuildConfig.LastFMAPIKey.isEmpty() || TextUtils.isEmpty(track)) {
+    public void fetchTrackMetadata(String LastFMApiKey, String artist, @NonNull final String track, @NonNull final TrackMetadataCallback trackMetadataCallback) {
+        if (LastFMApiKey.isEmpty() || TextUtils.isEmpty(track)) {
             trackMetadataCallback.onFailure(TrackMetadataCallback.FailureType.UNRECOVERABLE);
             return;
         }
@@ -74,15 +74,15 @@ public class LfmMetadataSearcher {
 
         // We want to rate limit calls to Last.fm API to prevent exceeding unknown limits.
         if (rateLimiter.allowed()) {
-            httpClient.newCall(buildRequest(trimmedArtist, trimmedTrack))
-                    .enqueue(new MetadataCallback(trackMetadataCallback, trimmedArtist, trimmedTrack));
+            httpClient.newCall(buildRequest(LastFMApiKey, trimmedArtist, trimmedTrack))
+                    .enqueue(new MetadataCallback(trackMetadataCallback, LastFMApiKey, trimmedArtist, trimmedTrack));
         } else {
             trackMetadataCallback.onFailure(TrackMetadataCallback.FailureType.RECOVERABLE);
         }
     }
 
-    private Request buildRequest(String artist, String track) {
-        HttpUrl url = HttpUrl.parse(String.format(API_GET_TRACK_METADATA, BuildConfig.LastFMAPIKey, artist, track));
+    private Request buildRequest(String LastFMApiKey, String artist, String track) {
+        HttpUrl url = HttpUrl.parse(String.format(API_GET_TRACK_METADATA, LastFMApiKey, artist, track));
         Request.Builder requestBuilder = new Request.Builder().url(url).get();
         return requestBuilder.build();
     }
@@ -91,11 +91,13 @@ public class LfmMetadataSearcher {
         private final TrackMetadataCallback trackMetadataCallback;
         private final String artist;
         private final String track;
+        private final String LastFMApiKey;
 
-        public MetadataCallback(TrackMetadataCallback trackMetadataCallback, String artist, String track) {
+        public MetadataCallback(TrackMetadataCallback trackMetadataCallback, String LastFMApiKey, String artist, String track) {
             this.trackMetadataCallback = trackMetadataCallback;
             this.track = track;
             this.artist = artist;
+            this.LastFMApiKey = LastFMApiKey;
         }
 
         @Override
@@ -115,7 +117,7 @@ public class LfmMetadataSearcher {
                 if (trackData == null) {
                     String normalizedTrack = tryNormalizeTrack(track);
                     if (normalizedTrack != null && normalizedTrack.length() > 3) {
-                        httpClient.newCall(buildRequest(artist, normalizedTrack)).enqueue(new MetadataCallback(trackMetadataCallback, artist, normalizedTrack));
+                        httpClient.newCall(buildRequest(LastFMApiKey, artist, normalizedTrack)).enqueue(new MetadataCallback(trackMetadataCallback, LastFMApiKey, artist, normalizedTrack));
                     } else {
                         trackMetadataCallback.onFailure(TrackMetadataCallback.FailureType.UNRECOVERABLE);
                     }

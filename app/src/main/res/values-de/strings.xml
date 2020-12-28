@@ -151,6 +151,8 @@
     <string name="player_info_recording_to">Wird aufgenommen als:\n%1$s</string>
     <string name="player_info_recorded_to">Zuletzt aufgenommen:\n%1$s</string>
 
+    <string name="settings_lastfm_api_key">Last FM API Schlüssel</string>
+    <string name="settings_lastfm_api_key_desc">Mit LastFM werden Album Bilder im Player angezeigt</string>
     <string name="station_detail_bitrate">%1$1d kbps</string>
     <string name="station_detail_broken">KAPUTT</string>
 

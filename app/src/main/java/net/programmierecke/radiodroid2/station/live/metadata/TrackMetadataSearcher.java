@@ -14,7 +14,7 @@ public class TrackMetadataSearcher {
     }
 
 
-    public void fetchTrackMetadata(String artist, @NonNull String track, @NonNull TrackMetadataCallback trackMetadataCallback) {
-        lfmMetadataSearcher.fetchTrackMetadata(artist, track, trackMetadataCallback);
+    public void fetchTrackMetadata(String LastFMApiKey, String artist, @NonNull String track, @NonNull TrackMetadataCallback trackMetadataCallback) {
+        lfmMetadataSearcher.fetchTrackMetadata(LastFMApiKey, artist, track, trackMetadataCallback);
     }
 }

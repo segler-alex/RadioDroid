@@ -91,10 +91,6 @@ android {
         }
     }
 
-    buildTypes.each {
-        it.buildConfigField 'String', 'LastFMAPIKey', '"' + getLastFMApiKey() + '"'
-    }
-
     buildTypes {
         release {
             minifyEnabled false
@@ -121,11 +117,6 @@ android {
         animationsDisabled = true
         unitTests.returnDefaultValues = true
     }
-}
-
-def getLastFMApiKey() {
-    def value = project.getProperties().get('lastFMApiKey')
-    return value != null ? value : ''
 }
 
 ext {
