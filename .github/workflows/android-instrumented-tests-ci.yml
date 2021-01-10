@@ -20,9 +20,9 @@ jobs:
         uses: actions/setup-java@v1
         with:
           java-version: 1.8
-      - uses: malinskiy/action-android/install-sdk@release/0.0.7
+      - uses: malinskiy/action-android/install-sdk@release/0.1.0
       - name: Instrumented tests
-        uses: malinskiy/action-android/emulator-run-cmd@release/0.0.7
+        uses: malinskiy/action-android/emulator-run-cmd@release/0.1.0
         timeout-minutes: 35
         with:
           cmd: ./gradlew connectedFreeDebugAndroidTest

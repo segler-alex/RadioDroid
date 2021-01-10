@@ -12,7 +12,7 @@ import com.yariksoffice.lingver.Lingver;
 
 import net.programmierecke.radiodroid2.ActivityMain;
 import net.programmierecke.radiodroid2.R;
-import net.programmierecke.radiodroid2.test.BuildConfig;
+import net.programmierecke.radiodroid2.BuildConfig;
 import net.programmierecke.radiodroid2.tests.utils.TestUtils;
 import net.programmierecke.radiodroid2.tests.utils.ViewPagerIdlingResource;
 
