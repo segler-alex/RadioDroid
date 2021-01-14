@@ -1,6 +1,8 @@
 package net.programmierecke.radiodroid2;
 
+import android.app.UiModeManager;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -17,6 +19,7 @@ import net.programmierecke.radiodroid2.players.mpd.MPDClient;
 import net.programmierecke.radiodroid2.station.live.metadata.TrackMetadataSearcher;
 import net.programmierecke.radiodroid2.proxy.ProxySettings;
 import net.programmierecke.radiodroid2.recording.RecordingsManager;
+import net.programmierecke.radiodroid2.utils.TvChannelManager;
 
 import java.io.File;
 import java.io.IOException;
@@ -35,6 +38,7 @@ public class RadioDroidApp extends MultiDexApplication {
     private FavouriteManager favouriteManager;
     private RecordingsManager recordingsManager;
     private RadioAlarmManager alarmManager;
+    private TvChannelManager tvChannelManager;
 
     private TrackHistoryRepository trackHistoryRepository;
 
@@ -91,6 +95,12 @@ public class RadioDroidApp extends MultiDexApplication {
         favouriteManager = new FavouriteManager(this);
         recordingsManager = new RecordingsManager();
         alarmManager = new RadioAlarmManager(this);
+
+        UiModeManager uiModeManager = (UiModeManager) getSystemService(UI_MODE_SERVICE);
+        if (uiModeManager.getCurrentModeType() == Configuration.UI_MODE_TYPE_TELEVISION) {
+            tvChannelManager = new TvChannelManager(this);
+            favouriteManager.addObserver(tvChannelManager);
+        }
 
         trackHistoryRepository = new TrackHistoryRepository(this);
 
