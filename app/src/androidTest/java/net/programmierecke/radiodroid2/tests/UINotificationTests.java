@@ -1,8 +1,5 @@
 package net.programmierecke.radiodroid2.tests;
 
-import android.content.Context;
-import android.media.AudioManager;
-
 import androidx.test.core.app.ApplicationProvider;
 import androidx.test.espresso.ViewInteraction;
 import androidx.test.espresso.action.ViewActions;
@@ -33,13 +30,15 @@ import javax.annotation.Nonnull;
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayingAtLeast;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
+import static net.programmierecke.radiodroid2.tests.utils.TestUtils.expectNoNotification;
+import static net.programmierecke.radiodroid2.tests.utils.TestUtils.expectRunningNotification;
 import static org.hamcrest.core.AllOf.allOf;
 import static org.junit.Assert.assertNotNull;
 
 @LargeTest
 @RunWith(AndroidJUnit4.class)
-// UI notifications currently only work with API 26+
-@SdkSuppress(minSdkVersion = 26)
+// UI notifications currently only work with API 23+
+@SdkSuppress(minSdkVersion = 23)
 public class UINotificationTests {
 
     @Rule
@@ -101,8 +100,7 @@ public class UINotificationTests {
         UiDevice uiDevice = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation());
         uiDevice.openNotification();
 
-        String expectedAppName = ApplicationProvider.getApplicationContext().getString(R.string.app_name);
-        uiDevice.wait(Until.hasObject(By.textStartsWith(expectedAppName)), 250);
+        expectRunningNotification(uiDevice);
         uiDevice.wait(Until.hasObject(By.desc(ApplicationProvider.getApplicationContext().getString(R.string.action_resume))), 250);
 
         UiObject2 resumeBtn = uiDevice.findObject(By.desc(ApplicationProvider.getApplicationContext().getString(R.string.action_resume)));
@@ -122,8 +120,7 @@ public class UINotificationTests {
         UiDevice uiDevice = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation());
         uiDevice.openNotification();
 
-        String expectedAppName = ApplicationProvider.getApplicationContext().getString(R.string.app_name);
-        uiDevice.wait(Until.hasObject(By.textStartsWith(expectedAppName)), 250);
+        expectRunningNotification(uiDevice);
         uiDevice.wait(Until.hasObject(By.desc(ApplicationProvider.getApplicationContext().getString(R.string.action_pause))), 250);
 
         UiObject2 pauseBtn = uiDevice.findObject(By.desc(ApplicationProvider.getApplicationContext().getString(R.string.action_pause)));
@@ -143,8 +140,7 @@ public class UINotificationTests {
         UiDevice uiDevice = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation());
         uiDevice.openNotification();
 
-        String expectedAppName = ApplicationProvider.getApplicationContext().getString(R.string.app_name);
-        uiDevice.wait(Until.hasObject(By.textStartsWith(expectedAppName)), 250);
+        expectRunningNotification(uiDevice);
         uiDevice.wait(Until.hasObject(By.desc(ApplicationProvider.getApplicationContext().getString(R.string.action_stop))), 250);
 
         UiObject2 stopBtn = uiDevice.findObject(By.desc(ApplicationProvider.getApplicationContext().getString(R.string.action_stop)));
@@ -152,18 +148,7 @@ public class UINotificationTests {
 
         stopBtn.click();
 
-        ConditionWatcher.waitForCondition(new ConditionWatcher.Condition() {
-            @Override
-            public boolean testCondition() {
-                return uiDevice.findObject(By.textStartsWith(expectedAppName)) == null;
-            }
-
-            @Nonnull
-            @Override
-            public String getDescription() {
-                return "Wait for notification to disappear";
-            }
-        }, ConditionWatcher.SHORT_WAIT_POLICY);
+        expectNoNotification(uiDevice);
 
         ConditionWatcher.waitForCondition(new IsMusicPlayingCondition(false), ConditionWatcher.SHORT_WAIT_POLICY);
     }

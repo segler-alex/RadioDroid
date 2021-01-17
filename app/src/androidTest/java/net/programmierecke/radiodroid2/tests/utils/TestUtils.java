@@ -4,15 +4,23 @@ import android.content.Context;
 import android.view.View;
 
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.test.core.app.ApplicationProvider;
 import androidx.test.espresso.UiController;
+import androidx.test.uiautomator.By;
+import androidx.test.uiautomator.UiDevice;
+import androidx.test.uiautomator.Until;
 
 import net.programmierecke.radiodroid2.BuildConfig;
 import net.programmierecke.radiodroid2.FavouriteManager;
 import net.programmierecke.radiodroid2.HistoryManager;
+import net.programmierecke.radiodroid2.R;
 import net.programmierecke.radiodroid2.RadioDroidApp;
 import net.programmierecke.radiodroid2.station.DataRadioStation;
+import net.programmierecke.radiodroid2.tests.utils.conditionwatcher.ConditionWatcher;
 
 import java.util.Objects;
+
+import javax.annotation.Nonnull;
 
 public class TestUtils {
 
@@ -102,5 +110,27 @@ public class TestUtils {
 
         recyclerView.scrollBy(scrollX, scrollY);
         uiController.loopMainThreadUntilIdle();
+    }
+
+    public static void expectRunningNotification(UiDevice uiDevice) {
+        String expectedAppName = ApplicationProvider.getApplicationContext().getString(R.string.app_name);
+        uiDevice.wait(Until.hasObject(By.textStartsWith(expectedAppName)), 250);
+    }
+
+    public static void expectNoNotification(UiDevice uiDevice) {
+        String expectedAppName = ApplicationProvider.getApplicationContext().getString(R.string.app_name);
+
+        ConditionWatcher.waitForCondition(new ConditionWatcher.Condition() {
+            @Override
+            public boolean testCondition() {
+                return uiDevice.findObject(By.textStartsWith(expectedAppName)) == null;
+            }
+
+            @Nonnull
+            @Override
+            public String getDescription() {
+                return "Wait for notification to disappear";
+            }
+        }, ConditionWatcher.SHORT_WAIT_POLICY);
     }
 }

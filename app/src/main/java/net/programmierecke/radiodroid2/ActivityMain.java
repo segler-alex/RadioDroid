@@ -169,7 +169,7 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
         final Toolbar myToolbar = findViewById(R.id.my_awesome_toolbar);
         setSupportActionBar(myToolbar);
 
-        PlayerServiceUtil.bind(this);
+        PlayerServiceUtil.startService(getApplicationContext());
 
         selectedMenuItem = sharedPref.getInt("last_selectedMenuItem", -1);
         instanceStateWasSaved = savedInstanceState != null;
@@ -448,7 +448,14 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
     @Override
     public void onDestroy() {
         super.onDestroy();
-        PlayerServiceUtil.unBind(this);
+
+        if (!PlayerServiceUtil.isNotificationActive()) {
+            /* If at this point if for whatever reason we have the service without a notification,
+             * we must shut it down because user doesn't have a way to interact with it.
+             * This is a safeguard since such service should have been destroyed in onPause()
+             */
+            PlayerServiceUtil.shutdownService();
+        }
     }
 
     @Override
@@ -530,7 +537,7 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
 
         setupBroadcastReceiver();
 
-        PlayerServiceUtil.bind(this);
+        PlayerServiceUtil.startService(getApplicationContext());
         CastHandler castHandler = ((RadioDroidApp) getApplication()).getCastHandler();
         castHandler.onResume();
         castHandler.setActivity(this);
