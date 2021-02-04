@@ -231,7 +231,7 @@
     <string name="error_caching_stream">Strøm mellemlager problem</string>
     <string name="error_play_stream">Kan ikke afspille strøm</string>
     <string name="error_stream_reconnect_timeout">Kan ikke forbinde til strøm: tidsudløb</string>
-    <string name="warning_no_network_trying_resume">Ingen netværk forbindelse. Genoptager når forbindelse er tilbage.</string>
+    <string name="warning_network_lost_trying_resume">Ingen netværk forbindelse. Genoptager når forbindelse er tilbage.</string>
     <string name="giving_up_resume">Forsøg på genopatage afspilning afvist</string>
 
     <string name="error_record_needs_write">Behøver skrive tilladelse for optagning</string>

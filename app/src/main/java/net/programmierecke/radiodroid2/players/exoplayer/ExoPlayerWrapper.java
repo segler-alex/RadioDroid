@@ -44,6 +44,7 @@ import com.google.android.exoplayer2.upstream.HttpDataSource;
 
 import net.programmierecke.radiodroid2.BuildConfig;
 import net.programmierecke.radiodroid2.R;
+import net.programmierecke.radiodroid2.RadioDroidApp;
 import net.programmierecke.radiodroid2.Utils;
 import net.programmierecke.radiodroid2.players.PlayState;
 import net.programmierecke.radiodroid2.recording.RecordableListener;
@@ -81,15 +82,17 @@ public class ExoPlayerWrapper implements PlayerWrapper, IcyDataSource.IcyDataSou
     private Context context;
     private MediaSource audioSource;
 
-    private Runnable fullStopTask;
+    private Runnable stopResumeAttemptTask;
+    private Runnable noNetworkNotificationTask;
+
 
     private final BroadcastReceiver networkChangedReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            if (fullStopTask != null && player != null && audioSource != null && Utils.hasAnyConnection(context)) {
+            if (stopResumeAttemptTask != null && player != null && audioSource != null && Utils.hasAnyConnection(context)) {
                 Log.i(TAG, "Regained connection. Resuming playback.");
 
-                cancelStopTask();
+                cancelStopResumeAttemptTask();
 
                 player.prepare(audioSource);
                 player.setPlayWhenReady(true);
@@ -114,7 +117,7 @@ public class ExoPlayerWrapper implements PlayerWrapper, IcyDataSource.IcyDataSou
                 IOException exception,
                 int errorCount) {
 
-            int retryDelay = getSanitizedRetryDelaySettingsMs();
+            long retryDelay = getSanitizedRetryDelaySettingsMs();
 
             if (exception instanceof HttpDataSource.InvalidContentTypeException) {
                 stateListener.onPlayerError(R.string.error_play_stream);
@@ -125,7 +128,7 @@ public class ExoPlayerWrapper implements PlayerWrapper, IcyDataSource.IcyDataSou
                 int resumeWithinS = sharedPrefs.getInt("settings_resume_within", 60);
                 if (resumeWithinS > 0) {
                     resumeWhenNetworkConnected();
-                    retryDelay = 1000 * resumeWithinS + retryDelay;
+                    retryDelay = 1000 * resumeWithinS + getBufferedMs();
                 }
             }
 
@@ -160,7 +163,7 @@ public class ExoPlayerWrapper implements PlayerWrapper, IcyDataSource.IcyDataSou
         this.context = context;
         this.streamUrl = streamUrl;
 
-        cancelStopTask();
+        cancelStopResumeAttemptTask();
 
         stateListener.onStateChanged(PlayState.PrePlaying);
 
@@ -213,7 +216,7 @@ public class ExoPlayerWrapper implements PlayerWrapper, IcyDataSource.IcyDataSou
     public void pause() {
         Log.i(TAG, "Pause. Stopping exoplayer.");
 
-        cancelStopTask();
+        cancelStopResumeAttemptTask();
 
         if (player != null) {
             context.unregisterReceiver(networkChangedReceiver);
@@ -227,7 +230,7 @@ public class ExoPlayerWrapper implements PlayerWrapper, IcyDataSource.IcyDataSou
     public void stop() {
         Log.i(TAG, "Stopping exoplayer.");
 
-        cancelStopTask();
+        cancelStopResumeAttemptTask();
 
         if (player != null) {
             context.unregisterReceiver(networkChangedReceiver);
@@ -338,28 +341,35 @@ public class ExoPlayerWrapper implements PlayerWrapper, IcyDataSource.IcyDataSou
     }
 
     void resumeWhenNetworkConnected() {
+        if (stopResumeAttemptTask != null)
+            return;
+
         playerThreadHandler.post(() -> {
             SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
-            int resumeWithin = sharedPref.getInt("settings_resume_within", 60);
-            if (resumeWithin > 0) {
-                Log.d(TAG, "Trying to resume playback within " + resumeWithin + "s.");
+            long resumeWithinMs = getBufferedMs() + 1000 * sharedPref.getInt("settings_resume_within", 60);
+            if (resumeWithinMs > 0) {
+                Log.d(TAG, "Trying to resume playback within " + resumeWithinMs + " ms.");
 
                 // We want user to be able to paused during connection loss.
                 // TODO: Find a way to notify user that even if current state is Playing
                 //       we are actually trying to reconnect.
                 //stateListener.onStateChanged(PlayState.Paused);
 
-                cancelStopTask();
+                cancelStopResumeAttemptTask();
 
-                fullStopTask = () -> {
+                stopResumeAttemptTask = () -> {
                     stop();
                     stateListener.onPlayerError(R.string.giving_up_resume);
 
-                    ExoPlayerWrapper.this.fullStopTask = null;
+                    ExoPlayerWrapper.this.stopResumeAttemptTask = null;
                 };
-                playerThreadHandler.postDelayed(fullStopTask, resumeWithin * 1000);
+                playerThreadHandler.postDelayed(stopResumeAttemptTask, resumeWithinMs);
 
-                stateListener.onPlayerWarning(R.string.warning_no_network_trying_resume);
+                noNetworkNotificationTask = () -> {
+                    stateListener.onPlayerWarning(R.string.warning_network_lost_trying_resume);
+                };
+                playerThreadHandler.postDelayed(noNetworkNotificationTask, getBufferedMs());
+
             } else {
                 stop();
 
@@ -421,10 +431,15 @@ public class ExoPlayerWrapper implements PlayerWrapper, IcyDataSource.IcyDataSou
         return isHls ? "ts" : "mp3";
     }
 
-    private void cancelStopTask() {
-        if (fullStopTask != null) {
-            playerThreadHandler.removeCallbacks(fullStopTask);
-            fullStopTask = null;
+    private void cancelStopResumeAttemptTask() {
+        if (noNetworkNotificationTask != null) {
+            playerThreadHandler.removeCallbacks(noNetworkNotificationTask);
+            noNetworkNotificationTask = null;
+        }
+        if (stopResumeAttemptTask != null) {
+            playerThreadHandler.removeCallbacks(stopResumeAttemptTask);
+            stopResumeAttemptTask = null;
+            ((RadioDroidApp)(context.getApplicationContext())).getTextToSpeechPlayer().stop();
         }
     }
 
@@ -454,7 +469,7 @@ public class ExoPlayerWrapper implements PlayerWrapper, IcyDataSource.IcyDataSou
         public void onPlayerError(ExoPlaybackException error) {
             Log.d(TAG, "Player error: ", error);
             // Stop playing since it is either irrecoverable error in the player or our data source failed to reconnect.
-            if (fullStopTask != null || error.type != ExoPlaybackException.TYPE_SOURCE) {
+            if (stopResumeAttemptTask != null || error.type != ExoPlaybackException.TYPE_SOURCE) {
                 stop();
                 stateListener.onPlayerError(R.string.error_play_stream);
             }
@@ -478,7 +493,7 @@ public class ExoPlayerWrapper implements PlayerWrapper, IcyDataSource.IcyDataSou
 
             switch (playbackState) {
                 case Player.STATE_READY:
-                    cancelStopTask();
+                    cancelStopResumeAttemptTask();
                     stateListener.onStateChanged(PlayState.Playing);
                     break;
                 case Player.STATE_BUFFERING:
