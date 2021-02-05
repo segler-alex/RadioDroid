@@ -8,7 +8,6 @@ import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
-import android.app.Service;
 import android.bluetooth.BluetoothA2dp;
 import android.bluetooth.BluetoothHeadset;
 import android.content.Context;
@@ -334,6 +333,11 @@ public class PlayerService extends JobIntentService implements RadioPlayer.Playe
         public void warnAboutMeteredConnection(PlayerType playerType) throws RemoteException {
             PlayerService.this.warnAboutMeteredConnection(playerType);
         }
+
+        @Override
+        public boolean isNotificationActive() throws RemoteException {
+            return PlayerService.this.notificationIsActive;
+        }
     };
 
     private MediaSessionCompat.Callback mediaSessionCallback = null;
@@ -500,7 +504,7 @@ public class PlayerService extends JobIntentService implements RadioPlayer.Playe
     public int onStartCommand(Intent intent, int flags, int startId) {
         // Service could be started by external forces, e.g. when we had the last media session
         // and user presses play/pause media button.
-        PlayerServiceUtil.bind(itsContext.getApplicationContext());
+        PlayerServiceUtil.bindService(itsContext.getApplicationContext());
 
         if (currentStation == null) {
             RadioDroidApp radioDroidApp = (RadioDroidApp) getApplication();

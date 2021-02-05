@@ -6,11 +6,8 @@ import android.content.Intent;
 import android.content.ServiceConnection;
 import android.content.res.Resources;
 import android.os.IBinder;
-import android.os.Parcel;
-import android.os.Parcelable;
 import android.os.RemoteException;
 import android.util.Log;
-
 import android.util.TypedValue;
 import android.widget.ImageView;
 
@@ -37,19 +34,28 @@ public class PlayerServiceUtil {
     private static boolean mBound;
     private static ServiceConnection serviceConnection;
 
-    public static void bind(Context context) {
+    public static void startService(Context context) {
         if (mBound) return;
 
         Intent anIntent = new Intent(context, PlayerService.class);
         anIntent.putExtra(PlayerService.PLAYER_SERVICE_NO_NOTIFICATION_EXTRA, true);
         mainContext = context;
         serviceConnection = getServiceConnection();
-        context.startService(anIntent);
         context.bindService(anIntent, serviceConnection, Context.BIND_AUTO_CREATE);
         mBound = true;
     }
 
-    public static void unBind(Context context) {
+    public static void bindService(Context context) {
+        if (mBound) return;
+
+        mainContext = context;
+        serviceConnection = getServiceConnection();
+        Intent anIntent = new Intent(context, PlayerService.class);
+        context.bindService(anIntent, serviceConnection, Context.BIND_AUTO_CREATE);
+        mBound = true;
+    }
+
+    private static void unBind(Context context) {
         try {
             context.unbindService(serviceConnection);
         } catch (Exception e) {
@@ -98,6 +104,7 @@ public class PlayerServiceUtil {
                     Log.d("PLAYER", "Service offline");
                 }
                 unBind(mainContext);
+                itsPlayerService = null;
             }
         };
     }
@@ -431,5 +438,16 @@ public class PlayerServiceUtil {
                 Log.e("", "" + e);
             }
         }
+    }
+
+    public static boolean isNotificationActive() {
+        if (itsPlayerService != null) {
+            try {
+                return itsPlayerService.isNotificationActive();
+            } catch (RemoteException e) {
+                Log.e("", "" + e);
+            }
+        }
+        return false;
     }
 }
