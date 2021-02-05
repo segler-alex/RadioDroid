@@ -290,7 +290,7 @@
     <string name="action_play_in_external">使用外部播放器播放</string>
     <string name="action_choose_external_player">选择外部播放器</string>
 
-    <string name="settings_lastfm_api_key">Last.fm API key</string>
+    <string name="settings_lastfm_api_key">Last.fm API 密钥</string>
     <string name="settings_lastfm_api_key_desc">输入一个 API 密钥以便在全屏播放器中启用专辑封面</string>
     <string name="settings_other">其它</string>
     <string name="settings_statistics">统计</string>

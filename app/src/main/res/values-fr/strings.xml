@@ -7,6 +7,7 @@
     <string name="detail_create_shortcut">Ajouter à l\'écran d\'accueil</string>
     <string name="detail_language">Langue</string>
     <string name="detail_weblink">Lien Web</string>
+    <string name="detail_visit_website">@string/action_station_visit_website</string>
     <string name="detail_play">Lire</string>
     <string name="detail_pause">Pause</string>
     <string name="detail_stop">Arrêter</string>
@@ -36,6 +37,7 @@
     <string name="action_ok">OK</string>
     <string name="action_cancel">Annuler</string>
     <string name="action_top_click">Top Clics</string>
+    <string name="action_toggle_view">Basculer l\'affichage</string>
     <string name="action_top_vote">Top Votes</string>
     <string name="action_changed_lately">Modification récente</string>
     <string name="action_currently_playing">Écoutées actuellement</string>
@@ -60,6 +62,7 @@
     <string name="about_version">Version : %1$s</string>
     <string name="detail_star">Ajouter aux favoris</string>
     <string name="detail_unstar">Supprimer des favoris</string>
+    <string name="detail_play_in_external_player">@string/action_play_in_external</string>
     <string name="progress_loading">Chargement...</string>
 
     <string name="sleep_timer" formatted="true">Temps de sommeil : %1$02d:%2$02d</string>
@@ -77,12 +80,12 @@
     <string name="error_invalid_file_name">Nom de fichier invalide</string>
     <string name="label_button_cancel">Annuler</string>
     <string name="label_button_overwrite">Écraser</string>
-    <string name="notify_load_playlist_nok">Impossible d\'importer depuis %1$s/%2$s</string>
-    <string name="notify_load_playlist_now">Importation depuis %1$s/%2$s, veuillez patienter.</string>
-    <string name="notify_load_playlist_ok">%1$d stations importées depuis %2$s/%3$s</string>
-    <string name="notify_save_playlist_nok">Impossible d\'exporter vers %1$s/%2$s</string>
-    <string name="notify_save_playlist_now">Exportation vers %1$s/%2$s, veuillez patienter.</string>
-    <string name="notify_save_playlist_ok">Exportation vers %1$s/%2$s réussie</string>
+    <string name="notify_load_playlist_nok">Impossible d\'importer depuis %1$s&#47;%2$s</string>
+    <string name="notify_load_playlist_now">Importation depuis %1$s&#47;%2$s, veuillez patienter.</string>
+    <string name="notify_load_playlist_ok">%1$d stations importées depuis %2$s&#47;%3$s</string>
+    <string name="notify_save_playlist_nok">Impossible d\'exporter vers %1$s&#47;%2$s</string>
+    <string name="notify_save_playlist_now">Exportation vers %1$s&#47;%2$s, veuillez patienter.</string>
+    <string name="notify_save_playlist_ok">Exportation vers %1$s&#47;%2$s réussie</string>
     <string name="notify_sync_list_deleted_entries">%1$d sur %2$d stations locales dans la liste marquées comme inexistantes sur le serveur</string>
 
     <string name="searchpreference_clear_history">Vider l\'histoire</string>
@@ -96,6 +99,7 @@
     <string name="settings_compact_style">Mode compact</string>
     <string name="settings_compact_style_desc_off">Grande icône adoptée avec les détails de la station</string>
     <string name="settings_compact_style_desc_on">Petite icône adoptée sans les détails de la station</string>
+    <string name="settings_bottom_navigation">Navigation inférieure</string>
 
     <string name="settings_interaction">Interaction</string>
     <string name="settings_single_use_tags">Montrer les tags uniques</string>
@@ -157,8 +161,7 @@
     <string name="settings_proxy_password">Mot de passe</string>
     <string name="settings_proxy_action_test">Test</string>
     <string name="settings_proxy_working">Connecté avec succès à %s</string>
-    <string name="settings_proxy_not_working">Impossible de se connecter à %s\n
-       %s</string>
+    <string name="settings_proxy_not_working">Impossible de se connecter à %s\n%s</string>
     <string name="settings_proxy_invalid">Les valeurs que vous avez fournies dans le proxy sont invalides</string>
     <string name="ignore_proxy_settings_invalid">Réglages invalides du proxy ignorés</string>
     <string name="settings_seconds_format">%d secondes</string>
@@ -171,7 +174,7 @@
     <string name="settings_auto_resume_on_wired_headset_connected">Reprise sur la connexion filaire</string>
     <string name="settings_auto_resume_on_wired_headset_connected_on">Reprise de la lecture sur le plug-in du casque filaire</string>
 
-    <string name="settings_auto_resume_on_bluetooth_a2dp_connected">Reprendre à la connexion bluetooth</string>
+    <string name="settings_auto_resume_on_bluetooth_a2dp_connected">Reprendre à la connexion Bluetooth</string>
     <string name="settings_auto_resume_on_bluetooth_a2dp_connected_on">Reprise de la lecture sur la connexion du périphérique Bluetooth A2DP</string>
 
     <string name="settings_warn_no_wifi">Alerter lors de la lecture sans Wi-Fi</string>
@@ -181,7 +184,10 @@
     <string name="settings_recordings">Enregistrements</string>
     <string name="settings_record_name_formatting">Format du nom</string>
 
-
+    <string name="settings_record_name_formatting_default_display">stations_artiste_piste_\u200bdate_\u200bheure</string>
+    <string name="settings_record_name_formatting_1_display">stations_artiste_\u200bpiste</string>
+    <string name="settings_record_name_formatting_2_display">stations_date_\u200bheure</string>
+    <string name="settings_record_name_formatting_3_display">index_stations_\u200bdate</string>
 
     <string name="notify_pre_play">Connexion</string>
     <string name="notify_play">En lecture</string>
@@ -216,6 +222,7 @@
     <string name="alert_select_mpd_server_save">Enregistrer</string>
     <string name="alert_select_mpd_server_remove">Supprimer</string>
     <string name="alert_add_or_edit_mpd_server">Entrer les détails d\'un serveur</string>
+    <string name="alert_alarm_working">Heure de l\'alarme</string>
     <string name="alert_alarm_not_working">Pas assez d\'informations sur l\'alarme</string>
     <string name="alert_select_external_alarm_app">Choisir le lecteur audio</string>
 
@@ -239,10 +246,8 @@
     <string name="player_info_status_recording">en enregistrement</string>
     <string name="player_info_status_playing_and_recording">en lecture et enregistrement</string>
     <string name="player_info_transferred">Données transmises : %1$s</string>
-    <string name="player_info_recording_to">Enregistrement à :\n
- %1$s</string>
-    <string name="player_info_recorded_to">Dernier enregistrement :\n
- %1$s</string>
+    <string name="player_info_recording_to">Enregistrement à :\n%1$s</string>
+    <string name="player_info_recorded_to">Dernier enregistrement :\n%1$s</string>
 
     <string name="tab_player_art">Pochette d\'album</string>
     <string name="tab_player_info">Info</string>
@@ -296,10 +301,23 @@
 
     <string name="description_btn_setup_alarm">Régler l\'alarme</string>
 
+    <string-array name="weekdays">
+        <item>D</item>
+        <item>L</item>
+        <item>M</item>
+        <item>M</item>
+        <item>J</item>
+        <item>V</item>
+        <item>S</item>
+    </string-array>
 
     <string name="notify_stream_url_copied">URL du flux copié avec succès</string>
     <string name="notify_track_info_copied">Informations de la piste copiées avec succès</string>
 
+    <string-array name="actions_station_link">
+        <item>Visiter le site Web</item>
+        <item>Copier l\'URL du flux</item>
+    </string-array>
 
     <string name="alert_metered_connection_title">Connexion monitorée détectée</string>
     <string name="alert_metered_connection_message">Une connexion monitorée peut entrainer des frais supplémentaires, appuyez sur \'OK\' pour continuer</string>
@@ -311,14 +329,11 @@
     <string name="alarm_fallback_info">L\'alarme du système adoptée comme station radio sélectionnée n’a pas été chargée</string>
     <string name="alarm_back_desc">Système d\'alarme alternatif adopté lorsque la station radio ne se charge pas</string>
     
-    <string-array name="weekdays">
-        <item>D</item>
-        <item>L</item>
-        <item>M</item>
-        <item>M</item>
-        <item>J</item>
-        <item>V</item>
-        <item>S</item>
-    </string-array>
-
+    <string name="context_menu_share">@string/detail_share</string>
+    <string name="context_menu_visit_homepage">@string/action_station_visit_website</string>
+    <string name="context_menu_play_in_radiodroid">@string/detail_play_in_radiodroid</string>
+    <string name="context_menu_play_in_external_player">@string/action_play_in_external</string>
+    <string name="context_menu_add_alarm">@string/action_alarm</string>
+    <string name="context_menu_create_shortcut">@string/detail_create_shortcut</string>
+    <string name="context_menu_delete">@string/action_delete</string>
 </resources>

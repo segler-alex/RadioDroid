@@ -177,7 +177,7 @@
     <string name="settings_auto_resume_on_bluetooth_a2dp_connected">Resume on Bluetooth connection</string>
     <string name="settings_auto_resume_on_bluetooth_a2dp_connected_on">Resume playback on Bluetooth A2DP device connection</string>
 
-    <string name="settings_warn_no_wifi">Off-Wi-Fi Warning</string>
+    <string name="settings_warn_no_wifi">Off-Wi-Fi warning</string>
     <string name="settings_warn_no_wifi_on">Warn when playing without Wi-Fi connection</string>
     <string name="settings_warn_no_wifi_off">No warning when not on Wi-Fi connection</string>
 
