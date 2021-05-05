@@ -1,1 +1,187 @@
+<?xml version="1.0" encoding="utf-8"?>
 
+<resources>
+    <string name="detail_name">Nomo</string>
+    <string name="detail_tags">Etikedoj</string>
+    <string name="detail_country">Lando</string>
+    <string name="detail_create_shortcut">Aldoni al hejmekrano</string>
+    <string name="detail_language">Lingvo</string>
+    <string name="detail_visit_website">@string/action_station_visit_website</string>
+    <string name="detail_play">Ludi</string>
+    <string name="detail_pause">Paŭzigi</string>
+    <string name="detail_stop">Halti</string>
+    <string name="detail_share">Konigi</string>
+    <string name="detail_play_in_radiodroid">Ludi per RadioDroid</string>
+
+    <string name="action_links">Ligiloj</string>
+    <string name="action_homepage">Hejmpaĝo</string>
+    <string name="action_favorite">Plej ŝatataj</string>
+    <string name="action_alarm">Vekhorloĝo</string>
+
+    <string name="action_station_visit_website">Viziti la retejon</string>
+    <string name="action_station_copy_stream_url">Kopii ligilon de fluo</string>
+    <string name="action_station_share">Konigi</string>
+
+    <string name="action_skip_to_next">Sekva</string>
+    <string name="action_pause">Paŭzigi</string>
+    <string name="action_skip_to_previous">Antaŭa</string>
+    <string name="action_resume">Daŭrigi</string>
+    <string name="action_stop">Halti</string>
+    <string name="action_search">Serĉi</string>
+    <string name="action_delete">Forigi</string>
+    <string name="action_delete_history">Forviŝi historion</string>
+    <string name="action_delete_favorites">Forviŝi plej ŝatatajn</string>
+    <string name="action_ok">Bone</string>
+    <string name="action_cancel">Nuligi</string>
+    <string name="action_currently_playing">Ludas</string>
+    <string name="action_tags">Etikedoj</string>
+    <string name="action_countries">Landoj</string>
+    <string name="action_languages">Lingvoj</string>
+    <string name="action_edit">Redakti</string>
+    <string name="action_lyrics">Teksto</string>
+    <string name="action_copy_info">Kopii Informon</string>
+    <string name="error_station_load">Ne povas konekti al radia stacio</string>
+
+    <string name="nav_item_stations">Radiaj stacioj</string>
+    <string name="nav_item_starred">Plej ŝatataj</string>
+    <string name="nav_item_history">Historio</string>
+    <string name="nav_item_settings">Agordoj</string>
+    <string name="nav_item_alarm">Vekhorloĝo</string>
+
+    <string name="about_version">Versio: %1$s</string>
+    <string name="detail_star">Aldoni al plejŝatataj</string>
+    <string name="detail_unstar">Forigi el plejŝatataj</string>
+    <string name="detail_play_in_external_player">@string/action_play_in_external</string>
+    <string name="progress_loading">Ŝargas...</string>
+
+    <string name="sleep_timer_apply">Apliki</string>
+
+    <string name="nav_item_save_playlist">Elporti plej ŝatatajn kiel ludlisto</string>
+    <string name="nav_item_load_playlist">Enporti plej ŝatatajn el ludlisto</string>
+    <string name="nav_item_save_history_playlist">Elporti historion kiel ludlisto</string>
+    <string name="confirm_overwrite_file">Ĉu anstataŭigi la dosieron?</string>
+    <string name="dialog_hint_file_name">Enigu dosiernomon</string>
+    <string name="error_invalid_file_name">Nevalida dosiernomo</string>
+    <string name="label_button_cancel">Nuligi</string>
+    <string name="label_button_overwrite">Anstataŭigi</string>
+
+    <string name="searchpreference_clear_history">Viŝi historion</string>
+    <string name="searchpreference_no_results">Neniu rezulto</string>
+    <string name="searchpreference_search">Serĉi…</string>
+    <string name="settings_appearance">Apero</string>
+    <string name="settings_theme_selection_title">Etoso</string>
+    <string name="theme_light">Hela</string>
+    <string name="theme_dark">Malhela</string>
+
+    <string name="settings_show_broken">Difektitajn staciojn</string>
+
+    <string name="startup_action_title_desc">%s</string>
+    <string name="startup_show_all_stations">Montri ĉiujn staciojn</string>
+    <string name="startup_show_favorites">Montri plej ŝatatajn</string>
+    <string name="startup_show_history">Montri historion</string>
+
+    <string name="settings_load_icons">Montri radiajn staciajn piktogramojn</string>
+    <string name="settings_load_icons_on">Elŝutos piktogramojn</string>
+    <string name="settings_load_icons_off">Ne elŝutos piktogramojn</string>
+
+
+    <string name="settings_click_trend_icon_visible_on">Piktogramo malkaŝitos</string>
+    <string name="settings_click_trend_icon_visible_off">Piktogramo kaŝitos</string>
+
+    <string name="settings_alarm">Vekhorloĝo</string>
+    <string name="settings_alarm_audio_player">Sonludilo</string>
+    <string name="settings_play">Ludilo</string>
+    <string name="settings_play_external_desc_off">Ludi radiajn staciojn per RadioDroid</string>
+
+    <string name="settings_seconds_format">%d sekundoj</string>
+
+    <string name="settings_recordings">Registraĵoj</string>
+    <string name="settings_record_name_formatting">Noma formato</string>
+
+    <string name="notify_play">Ludas</string>
+    <string name="notify_paused">Paŭzita</string>
+
+    <string name="notify_station_removed_from_list">1 Forigita</string>
+    <string name="action_station_removed_from_list_undo">MALFARI</string>
+
+    <string name="alert_delete_history">Ĉu vi certe volas forviŝi historion?</string>
+    <string name="alert_delete_favorites">Ĉu vi certe volas forigi ĉiujn plej ŝatatajn?</string>
+    <string name="yes">Jes</string>
+    <string name="no">Ne</string>
+
+    <string name="alert_select_mpd_server_add">Aldoni</string>
+    <string name="alert_select_mpd_server_save">Konservi</string>
+    <string name="alert_select_mpd_server_remove">Forigi</string>
+    <string name="alert_alarm_not_working">Ne sufiĉas informojn por vekhorloĝo</string>
+    <string name="alert_select_external_alarm_app">Elekti sonludilon</string>
+
+    <string name="alert_press_back_to_exit">Presu unu fojon pli por eliri</string>
+
+    <string name="player_info_status">Statuso:&#160;</string>
+    <string name="player_info_status_stopped">haltita</string>
+    <string name="player_info_status_playing">ludas</string>
+    <string name="player_info_status_recording">registras</string>
+    <string name="player_info_status_playing_and_recording">ludas kaj registras</string>
+
+    <string name="tab_player_info">Informoj</string>
+    <string name="tab_player_recordings">Registraĵoj</string>
+
+    <string name="station_detail_bitrate">%1$1d kbps</string>
+    <string name="station_detail_broken">DIFEKTITA</string>
+    <string name="station_detail_deleted_on_server">FORIGITA</string>
+
+    <string name="image_button_disable">Malŝalti</string>
+    <string name="image_button_record">Registri</string>
+    <string name="image_button_recordings">Registraĵoj</string>
+    <string name="image_button_delete">Forigi</string>
+    <string name="image_button_more">Pli</string>
+    <string name="image_button_less">Malpli</string>
+    <string name="image_button_repeat">Ripeti</string>
+    <string name="image_button_dont_repeat">Ne ripeti</string>
+
+    <string name="media_route_menu_title">GoogleCast</string>
+    <string name="app_id">5A97BAE4</string>
+    <string name="app_name">RadioDroid</string>
+
+    <string name="action_mpd_nok">MPD ne konektita</string>
+    <string name="action_mpd_ok">MPD konektita</string>
+
+    <string name="action_enable_mpd">Ŝalti na MPD</string>
+    <string name="action_disable_mpd">Malŝalti na MPD</string>
+
+    <string name="action_play_in_external">Ludi en eksterna ludilo</string>
+    <string name="action_choose_external_player">Elekti eksternan ludilon</string>
+
+    <string name="settings_other">Aliaj</string>
+    <string name="settings_statistics">Statistikoj</string>
+    <string name="settings_about">Pri RadioDroid</string>
+
+    <string name="description_btn_setup_alarm">Agordi vekhorloĝon</string>
+
+    <string-array name="weekdays">
+        <item>L</item>
+        <item>M</item>
+	<item>M</item>
+        <item>Ĵ</item>
+        <item>V</item>
+        <item>S</item>
+        <item>D</item>
+    </string-array>
+
+    <string-array name="actions_station_link">
+        <item>Viziti retejon</item>
+        <item>Kopii ligilon de fluo</item>
+    </string-array>
+
+    <string name="nav_item_statistics">Statistikoj</string>
+    <string name="nav_item_about">Pri</string>
+    <string name="refresh">Aktualigi</string>
+
+    <string name="context_menu_share">@string/detail_share</string>
+    <string name="context_menu_visit_homepage">@string/action_station_visit_website</string>
+    <string name="context_menu_play_in_radiodroid">@string/detail_play_in_radiodroid</string>
+    <string name="context_menu_play_in_external_player">@string/action_play_in_external</string>
+    <string name="context_menu_add_alarm">@string/action_alarm</string>
+    <string name="context_menu_create_shortcut">@string/detail_create_shortcut</string>
+    <string name="context_menu_delete">@string/action_delete</string>
+</resources>
