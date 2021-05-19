@@ -2,7 +2,7 @@
 
 <resources>
     <string name="detail_name">Nome</string>
-    <string name="detail_tags">Categoria</string>
+    <string name="detail_tags">Categorias</string>
     <string name="detail_country">País</string>
     <string name="detail_create_shortcut">Adicionar à tela inicial</string>
     <string name="detail_language">Idioma</string>
@@ -15,7 +15,7 @@
     <string name="detail_play_in_radiodroid">Reproduzir via RadioDroid</string>
 
     <string name="action_links">Links</string>
-    <string name="action_homepage">Página inicial</string>
+    <string name="action_homepage">Tela inicial</string>
     <string name="action_favorite">Favorito</string>
     <string name="action_alarm">Alarme</string>
 
@@ -33,7 +33,7 @@
     <string name="action_delete">Excluir</string>
     <string name="action_delete_history">Excluir histórico</string>
     <string name="action_delete_favorites">Excluir os favoritos</string>
-    <string name="action_delete_stream_history">Remover o histórico das faixas</string>
+    <string name="action_delete_stream_history">Remover o histórico de faixas</string>
     <string name="action_ok">OK</string>
     <string name="action_cancel">Cancelar</string>
     <string name="action_top_click">Top Cliques</string>
@@ -45,7 +45,7 @@
     <string name="action_countries">Países</string>
     <string name="action_languages">Idiomas</string>
     <string name="action_edit">Editar</string>
-    <string name="action_lyrics">Letras das músicas</string>
+    <string name="action_lyrics">Letras de música</string>
     <string name="action_copy_info">Info. sobre cópia</string>
     <string name="error_station_load">Não foi possível conectar à rádio</string>
     <string name="error_list_update">Não foi possível conectar ao servidor da rádio</string>
@@ -56,16 +56,16 @@
     <string name="nav_item_starred">Favoritos</string>
     <string name="nav_item_history">Histórico</string>
     <string name="nav_item_settings">Configurações</string>
-    <string name="nav_item_alarm">Despertador</string>
+    <string name="nav_item_alarm">Alarme</string>
 
-    <string name="about_text">Este App usa o catálogo gratuito de rádios do site\nhttps://www.radio-browser.info\nTodos podem adicionar ou editar às rádios daí. Funciona como wiki das rádios na rede.\n\nContato:\nsegler_alex@web.de\n\nRelatarBugs:\nhttps://github.com/segler-alex/RadioDroid/issues\n\nSe você gosta da idea e quer ajudar, fique a vontade para enviar um e-mail. Também preciso de alguém com experiência gráfica para tornar o App mais agradável aos olhos :) Talvez alguém que possa desenhar ícones, imagens... mas também desenvolvedores que corrijam bugs ou implementem novas funcionalidades não falhas ;)\nNovas idéias e melhorias são sempre bem-vindos!\n\nEste App é de software livre, licenciado sob a GPLv3.\nhttps://www.gnu.org/licenses/gpl-3.0.html</string>
+    <string name="about_text">Este App usa o catálogo gratuito de rádios do site\nhttps://www.radio-browser.info\nTodos podem adicionar ou editar às rádios aí. Funciona como wiki das rádios na rede.\n\nContato:\nsegler_alex@web.de\n\nRelatar problemas:\nhttps://github.com/segler-alex/RadioDroid/issues\n\nSe você gosta da idea e quer ajudar, fique a vontade para enviar um e-mail. Além disso preciso de alguém com experiência gráfica para tornar o App mais agradável aos olhos :) alguém que possa desenhar ícones, imagens... Assim como desenvolvedores que corrijam bugs ou implementem novas funcionalidades não falhas ;)\nNovas idéias e melhorias são sempre bem-vindos!\n\nEste App é de software livre, licenciado sob a GPLv3.\nhttps://www.gnu.org/licenses/gpl-3.0.html</string>
     <string name="about_version">Versão: %1$s</string>
     <string name="detail_star">Adicionar aos favoritos</string>
     <string name="detail_unstar">Excluir dos favoritos</string>
     <string name="detail_play_in_external_player">@string/action_play_in_external</string>
     <string name="progress_loading">Carregando...</string>
 
-    <string name="sleep_timer" formatted="true">Despertador: %1$02d:%2$02d</string>
+    <string name="sleep_timer" formatted="true">Alarme: %1$02d:%2$02d</string>
     <string name="sleep_timer_title">Parar de reproduzir após o tempo selecionado</string>
     <string name="sleep_timer_apply">Aplicar</string>
     <string name="sleep_timer_clear">Limpar</string>
@@ -97,8 +97,8 @@
     <string name="theme_dark">Escuro</string>
     <string name="settings_circular_icons">Usar ícones circulares</string>
     <string name="settings_compact_style">Modo compacto</string>
-    <string name="settings_compact_style_desc_off">Ícones grandes com detalhes de rádio</string>
-    <string name="settings_compact_style_desc_on">Ícones pequenos sem detalhes de rádio</string>
+    <string name="settings_compact_style_desc_off">Ícones grandes com detalhes da rádio</string>
+    <string name="settings_compact_style_desc_on">Ícones pequenos sem detalhes da rádio</string>
     <string name="settings_bottom_navigation">Barra de navegação embaixo</string>
 
     <string name="settings_interaction">Interação</string>
@@ -106,12 +106,12 @@
     <string name="settings_single_use_tags_desc_off">Não serão mostradas atribuições raramente usadas</string>
     <string name="settings_single_use_tags_desc_on">Serão mostradas atribuições raramente usadas</string>
 
-    <string name="settings_show_broken">Rádios sem funcionar</string>
-    <string name="settings_show_broken_on">Mostrar na lista rádios sem funcionar</string>
-    <string name="settings_show_broken_off">Não mostrar na lista rádios sem funcionar</string>
+    <string name="settings_show_broken">Rádios que não funcionam</string>
+    <string name="settings_show_broken_on">Mostrar rádios que não funcionam na lista</string>
+    <string name="settings_show_broken_off">Não mostrar rádios que não funcionam na lista</string>
 
     <string name="settings_startup_behaviour">Layout inicial</string>
-    <string name="startup_action_title">Definir aba inicial</string>
+    <string name="startup_action_title">Definir tela inicial</string>
     <string name="startup_action_title_desc">%s</string>
     <string name="startup_show_all_stations">Mostrar todas às rádios</string>
     <string name="startup_show_favorites">Mostrar favoritos</string>
@@ -122,12 +122,12 @@
     <string name="settings_load_icons_on">Ícones serão baixados</string>
     <string name="settings_load_icons_off">Ícones não serão baixados</string>
 
-    <string name="settings_auto_favorite">Adicionar autom. favoritos</string>
+    <string name="settings_auto_favorite">Adicionar autom. aos favoritos</string>
     <string name="settings_auto_favorite_on">Adicionar as rádios automaticamente aos favoritos quando reproduzido pela primeira vez</string>
     <string name="settings_auto_favorite_off">Não adicionar as rádios automaticamente aos favoritos</string>
 
-    <string name="settings_icon_click_toggles_favorite">Favoritos pelo clique</string>
-    <string name="settings_icon_click_toggles_favorite_on">Clique no ícone de rádio para adicionar ou excluir de favoritos</string>
+    <string name="settings_icon_click_toggles_favorite">Favoritos via clique</string>
+    <string name="settings_icon_click_toggles_favorite_on">Clique no ícone da rádio para adicionar ou excluir dos favoritos</string>
     <string name="settings_icon_click_toggles_favorite_off">Clique no ícone de rádio para começar a reproduzir</string>
 
     <string name="settings_click_trend_icon_visible">Ícone da tendência</string>
@@ -142,20 +142,20 @@
     <string name="settings_alarm_sleep_timer">Despertador</string>
     <string name="settings_alarm_sleep_timer_desc">Parar de reproduzir após %1$s minutos</string>
     <string name="settings_play">Player</string>
-    <string name="settings_auto_play_on_startup">Auto-reproduzir</string>
+    <string name="settings_auto_play_on_startup">Reproduzir ao abrir</string>
     <string name="settings_auto_play_on_startup_on">Reproduzir a última rádio ao abrir</string>
     <string name="settings_auto_play_on_startup_off">Não reproduzir a última rádio ao abrir</string>
     <string name="settings_play_external">Habilitar player externo</string>
-    <string name="settings_play_external_desc_on">Reproduzir as rádios com App externo</string>
+    <string name="settings_play_external_desc_on">Reproduzir as rádios com o App externo</string>
     <string name="settings_play_external_desc_off">Reproduzir as rádios via RadioDroid</string>
     <string name="settings_equalizer">Equalizador</string>
 
     <string name="settings_connectivity">Conectividade</string>
     <string name="settings_connect_timeout">Tempo limite de conexão</string>
-    <string name="settings_read_timeout">Leia o tempo limite</string>
+    <string name="settings_read_timeout">Tempo limite de consulta</string>
     <string name="settings_resume_timeout">Tempo limite para retomar</string>
-    <string name="settings_retry_timeout">Tempo limite para re-conectar</string>
-    <string name="settings_retry_delay">Espera para re-conectar</string>
+    <string name="settings_retry_timeout">Tempo limite para reconectar</string>
+    <string name="settings_retry_delay">Espera para reconectar</string>
     <string name="settings_proxy">Proxy</string>
     <string name="settings_proxy_login">Nome de usuário</string>
     <string name="settings_proxy_password">Senha</string>
@@ -171,15 +171,15 @@
 
     <string name="settings_auto_resume_do_not_resume">Não retomar</string>
 
-    <string name="settings_auto_resume_on_wired_headset_connected">Retomar ao conectar via Wi-Fi</string>
+    <string name="settings_auto_resume_on_wired_headset_connected">Retomar ao conectar com Wi-Fi</string>
     <string name="settings_auto_resume_on_wired_headset_connected_on">Retomar a reprodução ao inserir o fone de ouvido</string>
 
-    <string name="settings_auto_resume_on_bluetooth_a2dp_connected">Retomar ao conectar via Bluetooth</string>
-    <string name="settings_auto_resume_on_bluetooth_a2dp_connected_on">Retomar a reprodução ao conectar via dispositivo Bluetooth A2DP</string>
+    <string name="settings_auto_resume_on_bluetooth_a2dp_connected">Retomar ao conectar com Bluetooth</string>
+    <string name="settings_auto_resume_on_bluetooth_a2dp_connected_on">Retomar a reprodução ao conectar com dispositivo Bluetooth A2DP</string>
 
-    <string name="settings_warn_no_wifi">Avisar ao perder conexão via Wi-Fi</string>
-    <string name="settings_warn_no_wifi_on">Avisar ao reproduzir sem internet via Wi-Fi</string>
-    <string name="settings_warn_no_wifi_off">Não avisar ao perder conexão via Wi-Fi</string>
+    <string name="settings_warn_no_wifi">Avisar ao perder conexão com Wi-Fi</string>
+    <string name="settings_warn_no_wifi_on">Avisar ao reproduzir sem conexão Wi-Fi</string>
+    <string name="settings_warn_no_wifi_off">Não avisar ao perder conexão com Wi-Fi</string>
 
     <string name="settings_recordings">Gravações</string>
     <string name="settings_record_name_formatting">Formato de nome</string>
@@ -189,9 +189,9 @@
     <string name="notify_paused">Pausado</string>
     <string name="notify_metered_connection">Conexão de dados</string>
 
-    <string name="notify_starred">Rádio foi adicionada aos favoritos</string>
-    <string name="notify_autostarred">Rádio foi automaticamente adicionada aos favoritos</string>
-    <string name="notify_unstarred">Rádio foi removida dos favoritos</string>
+    <string name="notify_starred">A rádio foi adicionada aos favoritos</string>
+    <string name="notify_autostarred">A rádio foi automaticamente adicionada aos favoritos</string>
+    <string name="notify_unstarred">A rádio foi removida dos favoritos</string>
     <string name="notify_deleted_favorites">Os favoritos foram excluídos</string>
     <string name="notify_deleted_history">O histórico foi excluído</string>
 
@@ -226,11 +226,11 @@
     <string name="error_stream_url">Problema com URL da rádio</string>
     <string name="error_caching_stream">Problema com cacheamento da rádio</string>
     <string name="error_play_stream">Não foi possível reproduzir</string>
-    <string name="error_stream_reconnect_timeout">Não foi possível re-conectar à rádio: tempo esgotado</string>
+    <string name="error_stream_reconnect_timeout">Não foi possível reconectar à rádio: tempo esgotado</string>
     <string name="warning_no_network_trying_resume">Sem conexão da rede. Retomará quando a conexão estiver de volta.</string>
     <string name="giving_up_resume">Desistindo da tentativa de retomar a reprodução</string>
 
-    <string name="error_record_needs_write">Precisa permissão ao armazenamento para salvar as gravação</string>
+    <string name="error_record_needs_write">Precisa permissão de armazenamento para salvar as gravação</string>
     <string name="error_grant_audiofocus">O pedido para usar áudio não foi concedido pelo sistema</string>
 
     <string name="error_no_equalizer_found">Nenhum equalizador da música encontrado</string>
@@ -250,7 +250,7 @@
     <string name="tab_player_recordings">Gravações</string>
 
     <string name="station_detail_bitrate">%1$1d kbps</string>
-    <string name="station_detail_broken">SEM FUNCIONAR</string>
+    <string name="station_detail_broken">NÃO FUNCIONAM</string>
     <string name="station_detail_deleted_on_server">EXCLUÍDO</string>
 
     <string name="image_button_disable">Desativar</string>
@@ -321,7 +321,7 @@
     <string name="refresh">Atualizar</string>
 
     <string name="alarm_backup">Alarme alternativo</string>
-    <string name="alarm_fallback_info">Não foi possível carregar a rádio escolhida como alarme</string>
+    <string name="alarm_fallback_info">Não foi possível reproduzir a rádio escolhida como alarme</string>
     <string name="alarm_back_desc">Alarme alternativo caso a rádio escolhida falhar de carregar</string>
 
     <string name="context_menu_share">@string/detail_share</string>
