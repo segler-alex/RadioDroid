@@ -7,11 +7,22 @@
     <string name="detail_create_shortcut">Dodaj do ekranu głównego</string>
     <string name="detail_language">Język</string>
     <string name="detail_weblink">Link do strony internetowej</string>
+    <string name="detail_visit_website">@link/działanie_stacja_odwiedzone_stronainternetowa</string>
     <string name="detail_play">Odtwarzaj</string>
     <string name="detail_pause">Zatrzymaj</string>
     <string name="detail_stop">Zakończ</string>
     <string name="detail_share">Udostępnij</string>
+    <string name="detail_play_in_radiodroid">Odtwarzanie w RadioDroid</string>
 
+    <string name="action_links">Linki</string>
+    <string name="action_homepage">Strona główna</string>
+    <string name="action_favorite">Ulubione</string>
+    <string name="action_alarm">Budzik</string>
+
+    <string name="action_station_visit_website">Odwiedź stronę internetową</string>
+    <string name="action_station_copy_stream_url">Kopiuj adres URL strumienia</string>
+    <string name="action_station_share">Udostępnij</string>
+	
     <string name="action_local">Lokalne</string>
     <string name="action_skip_to_next">Następna</string>
     <string name="action_pause">Zatrzymaj</string>
@@ -22,16 +33,20 @@
     <string name="action_delete">Usuń</string>
     <string name="action_delete_history">Usuń historię</string>
     <string name="action_delete_favorites">Usuń ulubione</string>
+    <string name="action_delete_stream_history">Wyczyść historię odtwarzania</string>
     <string name="action_ok">OK</string>
     <string name="action_cancel">Anuluj</string>
     <string name="action_top_click">Najwięcej kliknięć</string>
     <string name="action_toggle_view">Przełącz widok</string>
     <string name="action_top_vote">Najwyższa ocena</string>
-    <string name="action_changed_lately">Niedawno zmienione</string>
-    <string name="action_currently_playing">Teraz odtwarzane</string>
+    <string name="action_changed_lately">Ostatnio zmienione</string>
+    <string name="action_currently_playing">Odtwarzane</string>
     <string name="action_tags">Tagi</string>
     <string name="action_countries">Kraje</string>
     <string name="action_languages">Języki</string>
+    <string name="action_edit">Edytuj</string>
+    <string name="action_lyrics">Tekst</string>
+    <string name="action_copy_info">Kopiuj informacje</string>
     <string name="error_station_load">Nie można połączyć się ze stacją</string>
     <string name="error_list_update">Nie można połączyć się z serwerem przeglądarki radiowej</string>
 
@@ -41,13 +56,13 @@
     <string name="nav_item_starred">Ulubione</string>
     <string name="nav_item_history">Historia</string>
     <string name="nav_item_settings">Ustawienia</string>
-    <string name="nav_item_alarm">Alarm</string>
-    <string name="tab_player_recordings">Nagrania</string>
-
+    <string name="nav_item_alarm">Budzik</string>
+	
     <string name="about_text">Ta aplikacja korzysta z bezpłatnego katalogu stacji radiowych umieszczonych pod adresem \nhttps://www.radio-browser.info\nKażdy może dodawać do niego stacje lub edytować istniejące stacje. Działa jak wiki dla internetowych (streaming) stacji radiowych.\n\nKontakt:\nsegler_alex@web.de\n\nBugtracker - Zgłoś błąd:\nhttps://github.com/segler-alex/RadioDroid/issues\n\nJeśli podoba Ci się oprogramowanie i chcesz pomóc, wyślij mi e-mail. Potrzebuję kogoś z doświadczeniem graficznym, aby uczynić aplikację przyjemniejszą dla oka :) Może ktoś, kto potrafi rysować ikony, obrazy... ale także programistów, którzy naprawiają błędy lub wdrażają nowe (funkcje nie zawierające błędów;)\nRównież pomysły na nowe funkcje są zawsze mile widziane!\n\nTa aplikacja jest wolnym oprogramowaniem na licencji GPLv3.\nhttps://www.gnu.org/licenses/gpl-3.0.html</string>
     <string name="about_version">Wersja: %1$s</string>
     <string name="detail_star">Dodaj do ulubionych</string>
     <string name="detail_unstar">Usuń z ulubionych</string>
+    <string name="detail_play_in_external_player">@link/odtwarzanie_w_zewnętrznym_odtwarzaczu</string>
     <string name="progress_loading">Ładowanie...</string>
 
     <string name="sleep_timer" formatted="true">Wyłącznik czasowy: %1$02d:%2$02d</string>
@@ -56,14 +71,22 @@
     <string name="sleep_timer_clear">Wyczyść</string>
     <string name="nav_item_add_sleep">Wyłącznik czasowy</string>
 
-    <string name="nav_item_save_playlist">Dopisz do listy odtwarzania </string>
+    <string name="nav_item_save_playlist">Dopisz do listy odtwarzania</string>
     <string name="nav_item_load_playlist">Wczytaj z listy odtwarzania</string>
+    <string name="nav_item_save_history_playlist">Eksportuj historię jako listę odtwarzania</string>
     <string name="confirm_overwrite_file">Zastąpić plik?</string>
     <string name="dialog_hint_file_name">Wpisz nazwę pliku</string> 
     <string name="error_empty_field">To pole jest wymagane</string>
     <string name="error_invalid_file_name">Nieprawidłowa nazwa pliku</string>
     <string name="label_button_cancel">Anuluj</string>
     <string name="label_button_overwrite">Zastąp</string>
+    <string name="notify_load_playlist_nok">Nie można importować z %1$s&#47;%2$s</string>
+    <string name="notify_load_playlist_now">Import z %1$s&#47;%2$s, proszę czekać.</string>
+    <string name="notify_load_playlist_ok">Importowane %1$d stacje z %2$s&#47;%3$s</string>
+    <string name="notify_save_playlist_nok">Nie można wyeksportować do %1$s&#47;%2$s</string>
+    <string name="notify_save_playlist_now">Eksport do %1$s&#47;%2$s, proszę czekać.</string>
+    <string name="notify_save_playlist_ok">Wyeksportowano do %1$s&#47;%2$s pomyślnie</string>
+    <string name="notify_sync_list_deleted_entries">%1$d z %2$d lokalnych stacji na liście oznaczonych jako nieistniejące na serwerze</string>
 
     <string name="searchpreference_clear_history">Wyczyść historię</string>
     <string name="searchpreference_no_results">Brak wyników</string>
@@ -87,6 +110,7 @@
     <string name="settings_show_broken_on">Pokaż uszkodzone stacje na listach</string>
     <string name="settings_show_broken_off">Nie pokazuj uszkodzonych stacji na listach</string>
 
+    <string name="settings_startup_behaviour">Zachowanie początkowe</string>
     <string name="startup_action_title">Uruchom akcję</string>
     <string name="startup_action_title_desc">%s</string>
     <string name="startup_show_all_stations">Pokaż wszystkie stacje</string>
@@ -138,8 +162,20 @@
     <string name="settings_proxy_action_test">Test</string>
     <string name="settings_proxy_working">Pomyślnie nawiązano połączenie z %s</string>
     <string name="settings_proxy_not_working">Nie udało się połączyć z %s\n%s</string>
+    <string name="settings_proxy_invalid">Wartości podane dla serwera proxy są nieprawidłowe</string>
+    <string name="ignore_proxy_settings_invalid">Zignorowano nieprawidłowe ustawienia proxy</string>
     <string name="settings_seconds_format">%d sekund</string>
     <string name="settings_milliseconds_format">%d milisekund</string>
+
+    <string name="settings_pause_when_noisy">Wstrzymaj przy odłączaniu zestawu słuchawkowego</string>
+
+    <string name="settings_auto_resume_do_not_resume">Nie wznawiaj</string>
+
+    <string name="settings_auto_resume_on_wired_headset_connected">Wznów przy połączeniu przewodowym</string>
+    <string name="settings_auto_resume_on_wired_headset_connected_on">Wznów odtwarzanie na wtyczce przewodowego zestawu słuchawkowego</string>
+
+    <string name="settings_auto_resume_on_bluetooth_a2dp_connected">Wznów przy połączeniu Bluetooth</string>
+    <string name="settings_auto_resume_on_bluetooth_a2dp_connected_on">Wznów odtwarzanie na połączeniu urządzenia Bluetooth A2DP</string>
 
     <string name="settings_warn_no_wifi">Ostrzeżenie o wyłączonym Wi-Fi</string>
     <string name="settings_warn_no_wifi_on">Ostrzegaj, gdy odtwarzanie odbywa się bez połączenia z Wi-Fi</string>
@@ -148,23 +184,34 @@
     <string name="settings_recordings">Nagrania</string>
     <string name="settings_record_name_formatting">Format nazwy</string>
 
-    <string name="settings_record_name_formatting_default_display">stacja_artysta_utwór_\u200bdate_\u200btime</string>
-    <string name="settings_record_name_formatting_1_display">stacja_artysta_\u200btrack</string>
-    <string name="settings_record_name_formatting_2_display">stacja_data_\u200btime</string>
-    <string name="settings_record_name_formatting_3_display">index_stacja_\u200bdate</string>
+    <string name="settings_record_name_formatting_default" translatable="false">${stacja}_${artysta}_${utwór}_${data}_${czas}</string>
+    <string name="settings_record_name_formatting_1" translatable="false">${stacja}_${artysta}_${utwór}</string>
+    <string name="settings_record_name_formatting_2" translatable="false">${stacja}_${data}_${czas}</string>
+    <string name="settings_record_name_formatting_3" translatable="false">${index}_${stacja}_${data}</string>
+
+    <string name="settings_record_name_formatting_default_display">stacja_artysta_utwór_\u200bdata_\u200bczas</string>
+    <string name="settings_record_name_formatting_1_display">stacja_artysta_\u200butwór</string>
+    <string name="settings_record_name_formatting_2_display">stacja_data_\u200bczas</string>
+    <string name="settings_record_name_formatting_3_display">index_stacja_\u200bdata</string>
 	
     <string name="notify_pre_play">Łączenie</string>
     <string name="notify_play">Odtwarzanie</string>
     <string name="notify_paused">Zatrzymaj</string>
+	<string name="notify_metered_connection">Połączenie taryfowe</string>
+	
     <string name="notify_starred">Stacja została dodana do ulubionych</string>
     <string name="notify_autostarred">Stacja została automatycznie dodana do ulubionych</string>
     <string name="notify_unstarred">Stacja została usunięta z ulubionych</string>
     <string name="notify_deleted_favorites">Ulubione zostały usunięte</string>
     <string name="notify_deleted_history">Historia została usunięta</string>
 
+    <string name="notify_open_link_failure">Nie znaleziono aplikacji, która otwierała link</string>
+
     <string name="notify_station_removed_from_list">Usunięto 1</string>
     <string name="action_station_removed_from_list_undo">COFNIJ</string>
 
+    <string name="alert_install_lyrics_app">QuickLyric nie jest zainstalowany na Twoim urządzeniu. Czy chcesz go pobrać ze Sklepu Google Play?</string>
+ 
     <string name="alert_delete_history">Czy na pewno chcesz usunąć historię?</string>
     <string name="alert_delete_favorites">Czy na pewno chcesz usunąć wszystkie ulubione?</string>
     <string name="yes">Tak</string>
@@ -172,6 +219,7 @@
 
     <string name="alert_select_mpd_server">Wybierz serwer</string>
     <string name="alert_select_mpd_server_name">Nazwa serwera</string>
+	<string name="alert_select_mpd_server_password">Hasło serwera</string>
     <string name="hostname">Nazwa hosta</string>
     <string name="port">Port</string>
 
@@ -189,7 +237,8 @@
     <string name="error_caching_stream">Problem z buforowaniem strumienia</string>
     <string name="error_play_stream">Nie można odtwarzać strumienia</string>
     <string name="error_stream_reconnect_timeout">Nie można ponownie połączyć się ze strumieniem: przekroczenie czasu oczekiwania</string>
-    <string name="giving_up_resume">Próba wznowienia odtwarzania została zaniechana</string>
+    <string name="warning_no_network_trying_resume">Brak połączenia z siecią. Próbuję wznowić po przywróceniu połączenia.</string>
+    <string name="giving_up_resume">Rezygnacja z próby wznowienia odtwarzania</string>
 
     <string name="error_record_needs_write">Potrzebujesz uprawnień do zapisu dla nagrywania</string>
     <string name="error_grant_audiofocus">Żądanie dla audio focus nie zostało przyznane przez system</string>
@@ -205,8 +254,14 @@
     <string name="player_info_recording_to">Nagrywanie do:\n%1$s</string>
     <string name="player_info_recorded_to">Ostatnie nagranie:\n%1$s</string>
 
+    <string name="tab_player_art">Okładki albumów</string>
+    <string name="tab_player_info">Informacje</string>
+    <string name="tab_player_history">Historia utworów</string>
+    <string name="tab_player_recordings">Nagrania</string>
+	
     <string name="station_detail_bitrate">%1$1d kbps</string>
     <string name="station_detail_broken">USZKODZONE</string>
+	<string name="station_detail_deleted_on_server">USUNIĘTE</string>
 
     <string name="image_button_disable">Wyłącz</string>
     <string name="image_button_record">Nagraj</string>
@@ -232,9 +287,24 @@
     <string name="action_mpd_ok">MPD podłączony</string>
     <string name="action_mpd_connected">Połączono z serwerem: %1$s</string>
 
+    <string name="mpd_no_connection">Brak połączenia</string>
+    <string name="action_enable_mpd">Włącz MPD</string>
+    <string name="action_disable_mpd">Wyłącz MPD</string>
+    <string name="action_add_mpd_server">Dodaj sewer MPD</string>
+
+    <string name="action_play_in_external">Otwórz w odtwarzaczu zewnętrznym</string>
+    <string name="action_choose_external_player">Wybierz odtwarzacz zewnętrzny</string>
+
+    <string name="settings_lastfm_api_key">Klucz API Last.fm</string>
+    <string name="settings_lastfm_api_key_desc">Wprowadź klucz API, aby włączyć okładki albumów w odtwarzaczu pełnoekranowym</string>
     <string name="settings_other">Inne</string>
     <string name="settings_statistics">Statystyki</string>
     <string name="settings_about">O RadioDroid</string>
+
+    <string name="description_btn_skip_to_next">Przejdź do następnego</string>
+    <string name="description_btn_skip_to_previous">Przejdź do poprzedniego</string>
+
+    <string name="description_btn_setup_alarm">Ustaw budzik</string>
 
     <string-array name="weekdays">
         <item>N</item>
@@ -247,13 +317,21 @@
     </string-array>
 
     <string name="notify_stream_url_copied">Adres URL strumienia skopiowano pomyślnie</string>
+    <string name="notify_track_info_copied">Informacje o utworze zostały pomyślnie skopiowane</string>
 
     <string-array name="actions_station_link">
         <item>Odwiedź Stronę Internetową</item>
         <item>Skopiuj adres URL strumienia</item>
     </string-array>
 
+    <string name="alert_metered_connection_title">Wykryto połączenie taryfowe</string>
+    <string name="alert_metered_connection_message">Połączenie taryfowe może wiązać się z dodatkowymi opłatami, naciśnij przycisk \'OK\', aby kontynuować.</string>
     <string name="nav_item_statistics">Statystyki</string>
     <string name="nav_item_about">O</string>
     <string name="refresh">Odśwież</string>
+	
+    <string name="alarm_backup">Alternatywny alarm</string>
+    <string name="alarm_fallback_info">Alarm systemowy przyjęty jako wybrana stacja radiowa nie został załadowany</string>
+    <string name="alarm_back_desc">Alternatywny alarm systemowy przyjęty, gdy stacja radiowa nie ładuje się</string>
+
 </resources>
