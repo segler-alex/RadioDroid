@@ -183,7 +183,7 @@ dependencies {
     androidTestImplementation 'androidx.test.uiautomator:uiautomator:2.2.0'
 
     //noinspection GradleDependency
-    androidTestImplementation("com.squareup.okhttp3:mockwebserver:3.12.6")
+    androidTestImplementation("com.squareup.okhttp3:mockwebserver:4.9.3")
     androidTestImplementation("com.github.YarikSOffice:lingver:1.2.1") {
         exclude group: 'org.jetbrains.kotlin', module: 'kotlin-stdlib-jdk7'
     }
