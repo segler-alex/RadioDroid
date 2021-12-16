@@ -156,7 +156,7 @@ dependencies {
     implementation 'com.github.zawadz88.materialpopupmenu:material-popup-menu:3.4.0'
     implementation 'com.github.ByteHamster:SearchPreference:v2.0.0'
 
-    implementation 'androidx.room:room-runtime:2.2.5'
+    implementation 'androidx.room:room-runtime:2.4.0'
     annotationProcessor 'androidx.room:room-compiler:2.2.5'
 
     implementation "androidx.lifecycle:lifecycle-extensions:2.2.0"
