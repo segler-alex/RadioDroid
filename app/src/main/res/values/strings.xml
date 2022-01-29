@@ -145,6 +145,11 @@
     <string name="settings_auto_play_on_startup">Auto-play</string>
     <string name="settings_auto_play_on_startup_on">Play last station on startup</string>
     <string name="settings_auto_play_on_startup_off">Do not play last station on startup</string>
+    <string name="settings_auto_off_on_startup">Auto-stop</string>
+    <string name="settings_auto_off_on_startup_on">Use Auto-stop timer with auto-play</string>
+    <string name="settings_auto_off_on_startup_off">Do not use Auto-stop timer with auto-play</string>
+    <string name="settings_auto_off_sleep_timer">Auto-stop timer</string>
+    <string name="settings_auto_off_sleep_timer_desc">Stop playing after %1$s minutes</string>
     <string name="settings_play_external">Enable external player</string>
     <string name="settings_play_external_desc_on">Play stations with external player</string>
     <string name="settings_play_external_desc_off">Play stations with RadioDroid</string>

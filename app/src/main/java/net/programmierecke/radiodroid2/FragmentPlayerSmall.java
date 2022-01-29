@@ -192,17 +192,28 @@ public class FragmentPlayerSmall extends Fragment {
 
     private void tryPlayAtStart() {
         boolean play = false;
+	boolean auto_off = false;
 
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(requireContext().getApplicationContext());
         if (!firstPlayAttempted && PlayerServiceUtil.isServiceBound()) {
             firstPlayAttempted = true;
 
             if (!PlayerServiceUtil.isPlaying()) {
-                SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(requireContext().getApplicationContext());
                 play = sharedPreferences.getBoolean("auto_play_on_startup", false);
             }
         }
 
         if (play) {
+            auto_off = sharedPreferences.getBoolean("auto_off_on_startup", false);
+            if (auto_off) {
+                int timeout;
+                try {
+                    timeout = Integer.parseInt(sharedPreferences.getString("auto_off_timeout", "10"));
+                } catch(Exception e) {
+                    timeout=10;
+                }
+                PlayerServiceUtil.addTimer(timeout * 60);
+            }
             playLastFromHistory();
         }
     }
