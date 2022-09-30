@@ -7,6 +7,7 @@ import androidx.test.core.app.ApplicationProvider;
 import androidx.test.espresso.action.ViewActions;
 import androidx.test.espresso.matcher.ViewMatchers;
 import androidx.test.filters.LargeTest;
+import androidx.test.filters.SdkSuppress;
 import androidx.test.rule.ActivityTestRule;
 
 import net.programmierecke.radiodroid2.ActivityMain;
@@ -98,7 +99,7 @@ public class UIHistoryFragmentTest {
         }
     }
 
-    @Ignore("Disabled until updated to espresso 3.4")
+    @SdkSuppress(maxSdkVersion = 32)
     @Test
     public void stationInHistory_ShouldBeDeleted_WithSwipeRight() {
         onView(withId(R.id.nav_item_history)).perform(ViewActions.click());

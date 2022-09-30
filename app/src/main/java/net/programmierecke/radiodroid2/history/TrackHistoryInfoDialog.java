@@ -119,10 +119,9 @@ public class TrackHistoryInfoDialog extends BottomSheetDialogFragment {
     }
 
     private boolean isQuickLyricInstalled() {
-        PackageManager pm = Objects.requireNonNull(getContext()).getPackageManager();
+        PackageManager pm = requireContext().getPackageManager();
         try {
-            pm.getPackageInfo("com.geecko.QuickLyric", PackageManager.GET_ACTIVITIES);
-            return true;
+            return pm.getApplicationInfo("com.geecko.QuickLyric", 0).enabled;
         } catch (PackageManager.NameNotFoundException ignored) {
             return false;
         }

@@ -9,6 +9,7 @@ import androidx.test.espresso.action.ViewActions;
 import androidx.test.espresso.contrib.RecyclerViewActions;
 import androidx.test.espresso.matcher.ViewMatchers;
 import androidx.test.filters.LargeTest;
+import androidx.test.filters.SdkSuppress;
 import androidx.test.rule.ActivityTestRule;
 
 import net.programmierecke.radiodroid2.ActivityMain;
@@ -136,7 +137,7 @@ public class UIFavouritesFragmentTest {
         assertEquals(getFakeRadioStationName(0), favouriteManager.getList().get(1).Name);
     }
 
-    @Ignore("Disabled until updated to espresso 3.4")
+    @SdkSuppress(maxSdkVersion = 32)
     @Test
     public void stationInFavourites_ShouldBeDeleted_WithSwipeRight() {
         onView(withId(R.id.nav_item_starred)).perform(ViewActions.click());

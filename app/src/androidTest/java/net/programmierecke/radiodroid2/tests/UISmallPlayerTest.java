@@ -8,6 +8,7 @@ import androidx.test.core.app.ApplicationProvider;
 import androidx.test.espresso.action.ViewActions;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.filters.LargeTest;
+import androidx.test.filters.SdkSuppress;
 import androidx.test.rule.ActivityTestRule;
 
 import net.programmierecke.radiodroid2.ActivityMain;
@@ -63,6 +64,7 @@ public class UISmallPlayerTest {
         ConditionWatcher.waitForCondition(new IsMusicPlayingCondition(true), ConditionWatcher.SHORT_WAIT_POLICY);
     }
 
+    @SdkSuppress(maxSdkVersion = 32)
     @Test
     public void playBackState_ShouldBeCorrect_AfterRapidToggling() {
         // TODO: Make clicking more rapid. there is a visible delay as of now.
