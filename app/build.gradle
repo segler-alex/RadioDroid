@@ -129,7 +129,7 @@ android {
 }
 
 ext {
-    exoplayerVersion = '2.14.2'
+    exoplayerVersion = '2.15.1'
     iconicsVersion = '4.0.2'
 }
 

@@ -11,7 +11,6 @@ import android.net.Uri;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
-import android.view.Surface;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -20,6 +19,7 @@ import androidx.preference.PreferenceManager;
 import com.google.android.exoplayer2.C;
 import com.google.android.exoplayer2.ExoPlaybackException;
 import com.google.android.exoplayer2.Format;
+import com.google.android.exoplayer2.PlaybackException;
 import com.google.android.exoplayer2.PlaybackParameters;
 import com.google.android.exoplayer2.Player;
 import com.google.android.exoplayer2.SimpleExoPlayer;
@@ -32,7 +32,6 @@ import com.google.android.exoplayer2.metadata.icy.IcyHeaders;
 import com.google.android.exoplayer2.metadata.icy.IcyInfo;
 import com.google.android.exoplayer2.metadata.id3.Id3Frame;
 import com.google.android.exoplayer2.source.MediaSource;
-import com.google.android.exoplayer2.source.MediaSourceEventListener;
 import com.google.android.exoplayer2.source.ProgressiveMediaSource;
 import com.google.android.exoplayer2.source.TrackGroupArray;
 import com.google.android.exoplayer2.source.hls.HlsMediaSource;
@@ -46,10 +45,10 @@ import net.programmierecke.radiodroid2.BuildConfig;
 import net.programmierecke.radiodroid2.R;
 import net.programmierecke.radiodroid2.Utils;
 import net.programmierecke.radiodroid2.players.PlayState;
+import net.programmierecke.radiodroid2.players.PlayerWrapper;
 import net.programmierecke.radiodroid2.recording.RecordableListener;
 import net.programmierecke.radiodroid2.station.live.ShoutcastInfo;
 import net.programmierecke.radiodroid2.station.live.StreamLiveInfo;
-import net.programmierecke.radiodroid2.players.PlayerWrapper;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -108,13 +107,10 @@ public class ExoPlayerWrapper implements PlayerWrapper, IcyDataSource.IcyDataSou
         }
 
         @Override
-        public long getRetryDelayMsFor(
-                int dataType,
-                long loadDurationMs,
-                IOException exception,
-                int errorCount) {
+        public long getRetryDelayMsFor(LoadErrorInfo loadErrorInfo) {
 
             int retryDelay = getSanitizedRetryDelaySettingsMs();
+            IOException exception = loadErrorInfo.exception;
 
             if (exception instanceof HttpDataSource.InvalidContentTypeException) {
                 stateListener.onPlayerError(R.string.error_play_stream);
@@ -131,9 +127,7 @@ public class ExoPlayerWrapper implements PlayerWrapper, IcyDataSource.IcyDataSou
 
             if (BuildConfig.DEBUG) {
                 Log.d(TAG, "Providing retry delay of " + retryDelay + "ms " +
-                        "for: data type " + dataType + ", " +
-                        "load duration: " + loadDurationMs + "ms, " +
-                        "error count: " + errorCount + ", " +
+                        "error count: " + loadErrorInfo.errorCount + ", " +
                         "exception " + exception.getClass() + ", " +
                         "message: " + exception.getMessage());
             }
@@ -451,18 +445,13 @@ public class ExoPlayerWrapper implements PlayerWrapper, IcyDataSource.IcyDataSou
         }
 
         @Override
-        public void onPlayerError(ExoPlaybackException error) {
+        public void onPlayerErrorChanged(PlaybackException error) {
             Log.d(TAG, "Player error: ", error);
             // Stop playing since it is either irrecoverable error in the player or our data source failed to reconnect.
-            if (fullStopTask != null || error.type != ExoPlaybackException.TYPE_SOURCE) {
+            if (fullStopTask != null) {
                 stop();
                 stateListener.onPlayerError(R.string.error_play_stream);
             }
-        }
-
-        @Override
-        public void onPositionDiscontinuity(int reason) {
-            // Do nothing
         }
 
         @Override
@@ -494,21 +483,6 @@ public class ExoPlayerWrapper implements PlayerWrapper, IcyDataSource.IcyDataSou
         }
 
         @Override
-        public void onPositionDiscontinuity(EventTime eventTime, int reason) {
-
-        }
-
-        @Override
-        public void onSeekStarted(EventTime eventTime) {
-
-        }
-
-        @Override
-        public void onSeekProcessed(EventTime eventTime) {
-
-        }
-
-        @Override
         public void onPlaybackParametersChanged(EventTime eventTime, PlaybackParameters playbackParameters) {
 
         }
@@ -521,16 +495,6 @@ public class ExoPlayerWrapper implements PlayerWrapper, IcyDataSource.IcyDataSou
         @Override
         public void onShuffleModeChanged(EventTime eventTime, boolean shuffleModeEnabled) {
 
-        }
-
-        @Override
-        public void onLoadingChanged(EventTime eventTime, boolean isLoading) {
-
-        }
-
-        @Override
-        public void onPlayerError(EventTime eventTime, ExoPlaybackException error) {
-            Log.d(TAG, "Player error at playback position " + eventTime.currentPlaybackPositionMs + "ms: ", error);
         }
 
         @Override
@@ -550,26 +514,6 @@ public class ExoPlayerWrapper implements PlayerWrapper, IcyDataSource.IcyDataSou
 
         @Override
         public void onMetadata(EventTime eventTime, Metadata metadata) {
-
-        }
-
-        @Override
-        public void onDecoderEnabled(EventTime eventTime, int trackType, DecoderCounters decoderCounters) {
-
-        }
-
-        @Override
-        public void onDecoderInitialized(EventTime eventTime, int trackType, String decoderName, long initializationDurationMs) {
-
-        }
-
-        @Override
-        public void onDecoderInputFormatChanged(EventTime eventTime, int trackType, Format format) {
-
-        }
-
-        @Override
-        public void onDecoderDisabled(EventTime eventTime, int trackType, DecoderCounters decoderCounters) {
 
         }
 
