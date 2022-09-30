@@ -160,7 +160,7 @@
     <string name="settings_proxy_password">Senha</string>
     <string name="settings_proxy_action_test">Teste</string>
     <string name="settings_proxy_working">Conectado com êxito a %s</string>
-    <string name="settings_proxy_not_working">Falha na conexão com %s\n%s</string>
+    <string name="settings_proxy_not_working">Falha na conexão com %1$s\n%2$s</string>
     <string name="settings_proxy_invalid">Os valores que você forneceu para o proxy são inválidos</string>
     <string name="ignore_proxy_settings_invalid">As configurações de proxy inválido serão ignorados</string>
     <string name="settings_seconds_format">%d segundos</string>

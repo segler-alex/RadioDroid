@@ -115,7 +115,7 @@
     <string name="settings_proxy_password">Wachtwoord</string>
     <string name="settings_proxy_action_test">Testen</string>
     <string name="settings_proxy_working">Verbonden met %s</string>
-    <string name="settings_proxy_not_working">Verbinden met %s mislukt\n%s</string>
+    <string name="settings_proxy_not_working">Verbinden met %1$s mislukt\n%2$s</string>
     <string name="settings_seconds_format">%d seconden</string>
     <string name="settings_milliseconds_format">%d milliseconden</string>
 

@@ -161,7 +161,7 @@
     <string name="settings_proxy_password">密码</string>
     <string name="settings_proxy_action_test">测试</string>
     <string name="settings_proxy_working">成功连接到 %s</string>
-    <string name="settings_proxy_not_working">未能连接到 %s\n%s</string>
+    <string name="settings_proxy_not_working">未能连接到 %1$s\n%2$s</string>
     <string name="settings_proxy_invalid">您提供的代理服务器值无效</string>
     <string name="ignore_proxy_settings_invalid">已忽略无效的代理服务器设置</string>
     <string name="settings_seconds_format">%d 秒</string>
