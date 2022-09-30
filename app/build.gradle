@@ -26,22 +26,18 @@ android {
 
     flavorDimensions "one"
 
-    compileSdkVersion 29
-    buildToolsVersion '29.0.3'
+    compileSdkVersion 33
 
-    lintOptions {
-        abortOnError true
-    }
 
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
     }
 
     defaultConfig {
         applicationId "net.programmierecke.radiodroid2"
         minSdkVersion 16
-        targetSdkVersion 29
+        targetSdkVersion 30
 
         versionCode 94
         versionName "0.84"
@@ -109,6 +105,10 @@ android {
             dimension "one"
         }
     }
+    lint {
+        abortOnError true
+    }
+    namespace 'net.programmierecke.radiodroid2'
 
     testOptions {
         unitTests.all {
@@ -204,7 +204,7 @@ android.applicationVariants.all { variant ->
     variant.outputs.all { output ->
 
         // get app_name field from defaultConfig
-        def appName = variant.mergedFlavor.resValues.get('app_name_untranslated').getValue()
+        def appName = variant.mergedFlavor.resValues.get('string/app_name_untranslated').getValue()
         appName = "${appName}"
 
         // concat new App name with each flavor's name
