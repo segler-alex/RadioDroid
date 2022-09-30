@@ -19,6 +19,7 @@ import androidx.preference.PreferenceManager;
 import com.google.android.exoplayer2.C;
 import com.google.android.exoplayer2.ExoPlaybackException;
 import com.google.android.exoplayer2.Format;
+import com.google.android.exoplayer2.MediaItem;
 import com.google.android.exoplayer2.PlaybackException;
 import com.google.android.exoplayer2.PlaybackParameters;
 import com.google.android.exoplayer2.Player;
@@ -56,7 +57,7 @@ import java.util.Map;
 
 import okhttp3.OkHttpClient;
 
-public class ExoPlayerWrapper implements PlayerWrapper, IcyDataSource.IcyDataSourceListener, MetadataOutput {
+public class ExoPlayerWrapper implements PlayerWrapper, IcyDataSource.IcyDataSourceListener, Player.Listener {
 
     final private String TAG = "ExoPlayerWrapper";
 
@@ -167,9 +168,8 @@ public class ExoPlayerWrapper implements PlayerWrapper, IcyDataSource.IcyDataSou
             player.setAudioAttributes(new AudioAttributes.Builder().setContentType(C.CONTENT_TYPE_MUSIC)
                     .setUsage(isAlarm ? C.USAGE_ALARM : C.USAGE_MEDIA).build(),false);
 
-            player.addListener(new ExoPlayerListener());
+            player.addListener(this);
             player.addAnalyticsListener(new AnalyticEventListener());
-            player.addMetadataOutput(this);
         }
 
         if (playerThreadHandler == null) {
@@ -187,12 +187,12 @@ public class ExoPlayerWrapper implements PlayerWrapper, IcyDataSource.IcyDataSou
         if (!isHls) {
             audioSource = new ProgressiveMediaSource.Factory(dataSourceFactory)
                     .setLoadErrorHandlingPolicy(new CustomLoadErrorHandlingPolicy())
-                    .createMediaSource(Uri.parse(streamUrl));
+                    .createMediaSource(MediaItem.fromUri(Uri.parse(streamUrl)));
             player.prepare(audioSource);
         } else {
             audioSource = new HlsMediaSource.Factory(dataSourceFactory)
                     .setLoadErrorHandlingPolicy(new CustomLoadErrorHandlingPolicy())
-                    .createMediaSource(Uri.parse(streamUrl));
+                    .createMediaSource(MediaItem.fromUri(Uri.parse(streamUrl)));
             player.prepare(audioSource);
         }
 
@@ -422,7 +422,6 @@ public class ExoPlayerWrapper implements PlayerWrapper, IcyDataSource.IcyDataSou
         }
     }
 
-    private class ExoPlayerListener implements Player.EventListener {
 
         @Override
         public void onTracksChanged(TrackGroupArray trackGroups, TrackSelectionArray trackSelections) {
@@ -458,7 +457,6 @@ public class ExoPlayerWrapper implements PlayerWrapper, IcyDataSource.IcyDataSou
         public void onPlaybackParametersChanged(PlaybackParameters playbackParameters) {
             // Do nothing
         }
-    }
 
     private class AnalyticEventListener implements AnalyticsListener {
         @Override
