@@ -171,7 +171,7 @@ public class ExoPlayerWrapper implements PlayerWrapper, IcyDataSource.IcyDataSou
         if (player == null) {
             player = new SimpleExoPlayer.Builder(context).build();
             player.setAudioAttributes(new AudioAttributes.Builder().setContentType(C.CONTENT_TYPE_MUSIC)
-                    .setUsage(isAlarm ? C.USAGE_ALARM : C.USAGE_MEDIA).build());
+                    .setUsage(isAlarm ? C.USAGE_ALARM : C.USAGE_MEDIA).build(),false);
 
             player.addListener(new ExoPlayerListener());
             player.addAnalyticsListener(new AnalyticEventListener());
@@ -574,11 +574,6 @@ public class ExoPlayerWrapper implements PlayerWrapper, IcyDataSource.IcyDataSou
         }
 
         @Override
-        public void onAudioSessionId(EventTime eventTime, int audioSessionId) {
-
-        }
-
-        @Override
         public void onAudioAttributesChanged(EventTime eventTime, AudioAttributes audioAttributes) {
 
         }
@@ -595,11 +590,6 @@ public class ExoPlayerWrapper implements PlayerWrapper, IcyDataSource.IcyDataSou
 
         @Override
         public void onVideoSizeChanged(EventTime eventTime, int width, int height, int unappliedRotationDegrees, float pixelWidthHeightRatio) {
-
-        }
-
-        @Override
-        public void onRenderedFirstFrame(EventTime eventTime, @Nullable Surface surface) {
 
         }
 
