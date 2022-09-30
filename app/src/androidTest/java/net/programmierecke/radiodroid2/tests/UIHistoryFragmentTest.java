@@ -16,6 +16,7 @@ import net.programmierecke.radiodroid2.RadioDroidApp;
 import net.programmierecke.radiodroid2.tests.utils.TestUtils;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -97,6 +98,7 @@ public class UIHistoryFragmentTest {
         }
     }
 
+    @Ignore("Disabled until updated to espresso 3.4")
     @Test
     public void stationInHistory_ShouldBeDeleted_WithSwipeRight() {
         onView(withId(R.id.nav_item_history)).perform(ViewActions.click());

@@ -16,12 +16,19 @@ updates:
   schedule:
     interval: daily
     time: '04:00'
-  ignore:
+  ignore: # we neeed to ignore these updates while we still support API 16
     - dependency-name: "com.squareup.okhttp3:okhttp"
-      versions: ["3.13.+", "3.14.+", "4.+"]
+      versions: ">= 3.13"
+    - dependency-name: "com.squareup.okhttp3:mockwebserver"
+      versions: ">= 3.13"
     - dependency-name: "com.mikepenz:iconics-core"
-      versions: ["5.+"]
+      versions: ">= 5"
     - dependency-name: "com.mikepenz:iconics-views"
-      versions: ["5.+"]
-  open-pull-requests-limit: 10
+      versions: ">= 5"
+    - dependency-name: 'com.github.zawadz88.materialpopupmenu:material-popup-menu'
+      versions: ">= 3.5"
+    - dependency-name: 'com.squareup.picasso:picasso'
+      versions: "2.71828"
+    - dependency-name: 'jp.wasabeef:picasso-transformations'
+      versions: ">= 2.4"
 
