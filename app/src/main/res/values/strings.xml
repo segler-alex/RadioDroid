@@ -341,4 +341,8 @@
     <string name="context_menu_add_alarm">@string/action_alarm</string>
     <string name="context_menu_create_shortcut">@string/detail_create_shortcut</string>
     <string name="context_menu_delete">@string/action_delete</string>
+    <string name="settings_disable_battery_optimization">Battery optimization</string>
+    <string name="settings_ignore_battery_optimization_summary_on">Battery optimization is ignored, RadioDroid should always be able to re-gain focus after focus loss.</string>
+    <string name="settings_ignore_battery_optimization_summary_off">Battery optimization is activated, RadioDroid will not be able to re-gain focus after focus loss, if in background.</string>
+    <string name="key_ignore_battery_optimization">ignore_battery_optimization</string>
 </resources>

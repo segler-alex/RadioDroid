@@ -1,22 +1,26 @@
 package net.programmierecke.radiodroid2;
 
+import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.media.audiofx.AudioEffect;
-import android.os.AsyncTask;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.preference.ListPreference;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
 import androidx.preference.Preference.OnPreferenceClickListener;
 import androidx.preference.PreferenceScreen;
 
+import android.os.PowerManager;
+import android.provider.Settings;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -28,18 +32,9 @@ import com.bytehamster.lib.preferencesearch.SearchPreference;
 import net.programmierecke.radiodroid2.interfaces.IApplicationSelected;
 import net.programmierecke.radiodroid2.proxy.ProxySettingsDialog;
 
-import java.net.InetAddress;
-import java.net.UnknownHostException;
-import java.util.Vector;
-
 import static net.programmierecke.radiodroid2.ActivityMain.FRAGMENT_FROM_BACKSTACK;
 
 public class FragmentSettings extends PreferenceFragmentCompat implements SharedPreferences.OnSharedPreferenceChangeListener, IApplicationSelected, PreferenceFragmentCompat.OnPreferenceStartScreenCallback  {
-
-    @Override
-    public Fragment getCallbackFragment() {
-        return this;
-    }
 
     public static FragmentSettings openNewSettingsSubFragment(ActivityMain activity, String key) {
         FragmentSettings f = new FragmentSettings();
@@ -173,6 +168,15 @@ public class FragmentSettings extends PreferenceFragmentCompat implements Shared
                 }
             });
         }
+
+        Preference batPref = getPreferenceScreen().findPreference(getString(R.string.key_ignore_battery_optimization));
+        if (batPref != null) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                updateBatteryPrefDescription(batPref);
+            } else {
+                batPref.getParent().removePreference(batPref);
+            }
+        }
     }
 
     /*
@@ -212,12 +216,40 @@ public class FragmentSettings extends PreferenceFragmentCompat implements Shared
 
         if(findPreference("shareapp_package") != null)
             findPreference("shareapp_package").setSummary(getPreferenceManager().getSharedPreferences().getString("shareapp_package", ""));
+
+        Preference batPref = getPreferenceScreen().findPreference(getString(R.string.key_ignore_battery_optimization));
+        if (batPref != null && Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) { // the second condition should already follow from the first
+            updateBatteryPrefDescription(batPref);
+        }
     }
 
     @Override
     public void onPause() {
         getPreferenceManager().getSharedPreferences().unregisterOnSharedPreferenceChangeListener(this);
         super.onPause();
+    }
+
+    @RequiresApi(23)
+    private void updateBatteryPrefDescription(Preference batPref) {
+        PowerManager pm = (PowerManager) getContext().getSystemService(Context.POWER_SERVICE);
+        if (pm.isIgnoringBatteryOptimizations(getContext().getPackageName())) {
+            batPref.setSummary(R.string.settings_ignore_battery_optimization_summary_on);
+            batPref.setOnPreferenceClickListener(preference -> {
+                Intent intent = new Intent(Settings.ACTION_IGNORE_BATTERY_OPTIMIZATION_SETTINGS);
+                startActivity(intent);
+                updateBatteryPrefDescription(batPref);
+                return true;
+            });
+        } else {
+            batPref.setSummary(R.string.settings_ignore_battery_optimization_summary_off);
+            batPref.setOnPreferenceClickListener(preference -> {
+                @SuppressLint("BatteryLife") Intent intent = new Intent(Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS);
+                intent.setData(Uri.parse("package:" + getContext().getPackageName()));
+                startActivity(intent);
+                updateBatteryPrefDescription(batPref);
+                return true;
+            });
+        }
     }
 
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences,
