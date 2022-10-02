@@ -24,6 +24,7 @@ import net.programmierecke.radiodroid2.tests.utils.conditionwatcher.ConditionWat
 import net.programmierecke.radiodroid2.tests.utils.conditionwatcher.IsMusicPlayingCondition;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -98,6 +99,7 @@ public class UINotificationTests {
                 ConditionWatcher.SHORT_WAIT_POLICY);
     }
 
+    @Ignore
     @Test
     public void playback_ShouldStart_OnResumeFromNotification() {
         launchPausedNotification();
