@@ -4,6 +4,7 @@ import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.matcher.ViewMatchers.isDescendantOfA;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static net.programmierecke.radiodroid2.tests.utils.RecyclerViewMatcher.withRecyclerView;
+import static org.hamcrest.core.StringStartsWith.startsWith;
 import static org.junit.Assert.assertThat;
 
 import android.os.Build;
@@ -91,10 +92,15 @@ public class UILangTest {
 
     @Before
     public void setUp() {
-        assertThat("Locale is not supported", getCurrentLocale(), Is.is(locale));
+        try {
+            assertThat("Locale is not supported", getCurrentLocale(), Is.is(locale));
 
-        TestUtils.populateFavourites(ApplicationProvider.getApplicationContext(), STATIONS_COUNT);
-        TestUtils.populateHistory(ApplicationProvider.getApplicationContext(), STATIONS_COUNT);
+            TestUtils.populateFavourites(ApplicationProvider.getApplicationContext(), STATIONS_COUNT);
+            TestUtils.populateHistory(ApplicationProvider.getApplicationContext(), STATIONS_COUNT);
+        } catch (AssertionError e) {
+            assertThat(e.getMessage(), startsWith("Locale is not supported"));
+        }
+
     }
 
     @Test
