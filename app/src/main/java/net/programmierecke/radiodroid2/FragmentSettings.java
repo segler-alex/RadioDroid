@@ -1,17 +1,14 @@
 package net.programmierecke.radiodroid2;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.media.audiofx.AudioEffect;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.widget.Toolbar;
-import androidx.fragment.app.Fragment;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.preference.Preference;
@@ -173,6 +170,12 @@ public class FragmentSettings extends PreferenceFragmentCompat implements Shared
         if (batPref != null) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 updateBatteryPrefDescription(batPref);
+                batPref.setOnPreferenceClickListener(preference -> {
+                    Intent intent = new Intent(Settings.ACTION_IGNORE_BATTERY_OPTIMIZATION_SETTINGS);
+                    startActivity(intent);
+                    updateBatteryPrefDescription(batPref);
+                    return true;
+                });
             } else {
                 batPref.getParent().removePreference(batPref);
             }
@@ -234,21 +237,8 @@ public class FragmentSettings extends PreferenceFragmentCompat implements Shared
         PowerManager pm = (PowerManager) getContext().getSystemService(Context.POWER_SERVICE);
         if (pm.isIgnoringBatteryOptimizations(getContext().getPackageName())) {
             batPref.setSummary(R.string.settings_ignore_battery_optimization_summary_on);
-            batPref.setOnPreferenceClickListener(preference -> {
-                Intent intent = new Intent(Settings.ACTION_IGNORE_BATTERY_OPTIMIZATION_SETTINGS);
-                startActivity(intent);
-                updateBatteryPrefDescription(batPref);
-                return true;
-            });
         } else {
             batPref.setSummary(R.string.settings_ignore_battery_optimization_summary_off);
-            batPref.setOnPreferenceClickListener(preference -> {
-                @SuppressLint("BatteryLife") Intent intent = new Intent(Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS);
-                intent.setData(Uri.parse("package:" + getContext().getPackageName()));
-                startActivity(intent);
-                updateBatteryPrefDescription(batPref);
-                return true;
-            });
         }
     }
 
