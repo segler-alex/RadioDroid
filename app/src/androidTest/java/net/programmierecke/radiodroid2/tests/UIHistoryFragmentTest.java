@@ -17,6 +17,7 @@ import static org.junit.Assert.assertEquals;
 
 import android.content.pm.ActivityInfo;
 import android.os.Build;
+import android.os.SystemClock;
 
 import androidx.test.core.app.ApplicationProvider;
 import androidx.test.espresso.action.ViewActions;
@@ -108,22 +109,25 @@ public class UIHistoryFragmentTest {
 
         onView(allOf((withId(R.id.recyclerViewStations)), FirstViewMatcher.firstView())).perform(scrollToRecyclerItem(0));
         onView(withRecyclerView(R.id.recyclerViewStations).atPosition(0)).perform(ViewActions.swipeRight());
+        waitForView(withId(com.google.android.material.R.id.snackbar_action));
+        SystemClock.sleep(1000);
         assertEquals(STATIONS_COUNT - 1, historyManager.getList().size());
 
         onView(allOf((withId(R.id.recyclerViewStations)), FirstViewMatcher.firstView())).perform(scrollToRecyclerItem(1));
         onView(withRecyclerView(R.id.recyclerViewStations).atPosition(1)).perform(ViewActions.swipeRight());
+        waitForView(withId(com.google.android.material.R.id.snackbar_action));
+        SystemClock.sleep(1000);
         assertEquals(STATIONS_COUNT - 2, historyManager.getList().size());
 
         onView(allOf((withId(R.id.recyclerViewStations)), FirstViewMatcher.firstView())).perform(scrollToRecyclerItem(2));
         onView(withRecyclerView(R.id.recyclerViewStations).atPosition(2)).perform(ViewActions.swipeRight());
+        waitForView(withId(com.google.android.material.R.id.snackbar_action));
+        SystemClock.sleep(1000);
         assertEquals(STATIONS_COUNT - 3, historyManager.getList().size());
 
         // Snackbar with undo action
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
             // for whatever reason this often does not work on API 21 emulators
-            waitForView(withId(com.google.android.material.R.id.snackbar_action))
-                    .toMatch(
-                            allOf(withText(R.string.action_station_removed_from_list_undo), isDisplayed()));
             onView(withId(com.google.android.material.R.id.snackbar_action)).perform(ViewActions.click());
 
             assertEquals(STATIONS_COUNT - 2, historyManager.getList().size());
