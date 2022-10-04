@@ -20,9 +20,9 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.content.res.AppCompatResources;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.appcompat.widget.AppCompatImageView;
-import androidx.core.content.ContextCompat;
 
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.squareup.picasso.Picasso;
@@ -59,7 +59,7 @@ public class TrackHistoryInfoDialog extends BottomSheetDialogFragment {
         final float px = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 200, resource.getDisplayMetrics());
         Picasso.get()
                 .load(historyEntry.artUrl)
-                .placeholder(ContextCompat.getDrawable(getContext(), R.drawable.ic_photo_24dp))
+                .placeholder(AppCompatResources.getDrawable(getContext(), R.drawable.ic_photo_24dp))
                 .resize((int) px, 0)
                 .into(imageViewTrackArt);
 

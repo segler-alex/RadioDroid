@@ -80,6 +80,8 @@ android {
         buildConfigField "java.util.concurrent.atomic.AtomicBoolean", "IS_TESTING", "new java.util.concurrent.atomic.AtomicBoolean(false)"
 
         multiDexKeepProguard file('multidex-config.pro')
+
+        vectorDrawables.useSupportLibrary = true
     }
 
     testOptions {
