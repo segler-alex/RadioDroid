@@ -182,7 +182,7 @@ dependencies {
 
     implementation 'androidx.paging:paging-runtime:3.1.1'
 
-    playImplementation 'com.google.android.gms:play-services-cast:21.1.0'
+    playImplementation 'com.google.android.gms:play-services-cast:21.2.0'
     playImplementation 'com.google.android.gms:play-services-cast-framework:21.2.0'
     playImplementation 'com.google.android.gms:play-services-safetynet:18.0.1'
 
