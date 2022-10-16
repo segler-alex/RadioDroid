@@ -26,4 +26,4 @@ jobs:
         distribution: 'zulu'
         java-version: 11
     - name: Tests
-      run: bash ./gradlew test --stacktrace
+      run: bash ./gradlew build --stacktrace
