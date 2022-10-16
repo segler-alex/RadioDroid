@@ -55,7 +55,7 @@ public class TrackHistoryInfoDialog extends BottomSheetDialogFragment {
         AppCompatButton btnLyrics = view.findViewById(R.id.btnViewLyrics);
         AppCompatButton btnCopyInfo = view.findViewById(R.id.btnCopyTrackInfo);
 
-        Resources resource = Objects.requireNonNull(getContext()).getResources();
+        Resources resource = requireContext().getResources();
         final float px = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 200, resource.getDisplayMetrics());
         Picasso.get()
                 .load(historyEntry.artUrl)

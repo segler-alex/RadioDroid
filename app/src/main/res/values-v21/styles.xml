@@ -7,4 +7,97 @@
         <item name="android:windowSharedElementEnterTransition">@android:transition/move</item>
         <item name="android:windowSharedElementExitTransition">@android:transition/move</item>
     </style>
+
+    <style name="MyMaterialTheme.Base" parent="Theme.MaterialComponents.Light">
+        <item name="windowNoTitle">true</item>
+        <item name="windowActionBar">false</item>
+        <item name="dialogTheme">@style/DialogTheme</item>
+        <item name="alertDialogTheme">@style/AlertTheme</item>
+        <item name="bottomSheetDialogTheme">@style/BottomSheetDialogTheme</item>
+        <item name="android:windowBackground">@color/windowBackground</item>
+        <item name="android:statusBarColor">@color/colorPrimary</item>
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+
+        <item name="preferenceTheme">@style/PreferenceThemeOverlay</item>
+
+        <item name="colorPlayerBackground">@color/colorPlayerBackground</item>
+        <item name="colorPlayerShadow">@color/colorPlayerShadow</item>
+        <item name="tagBackgroundColor">@color/tagBackgroundColor</item>
+
+        <item name="menuTextColorSelected">@color/menuTextColorSelected</item>
+        <item name="menuTextColorDefault">@color/menuTextColorDefault</item>
+        <item name="itemTextAppearance">@style/MenuTextAppearance</item>
+
+        <item name="menuBottomTextColorSelected">@color/menuBottomTextColorSelected</item>
+        <item name="menuBottomTextColorDefault">@color/menuBottomTextColorDefault</item>
+        <item name="menuBottomBackgroundColor">@color/menuBottomBackgroundColor</item>
+
+        <item name="swipeDeleteIconColor">@color/swipeDeleteIconColor</item>
+        <item name="swipeDeleteBackgroundColor">@color/swipeDeleteBackgroundColor</item>
+
+        <item name="colorTabUnderline">@color/colorTabUnderline</item>
+
+        <item name="android:itemBackground">@color/windowBackground</item>
+        <item name="iconsInItemBackgroundColor">@color/iconsInItemBackgroundColor</item>
+
+        <item name="met_baseColor">?android:textColorPrimary</item>
+        <item name="met_textColorHint">?android:textColorHint</item>
+        <item name="met_primaryColor">?android:colorPrimary</item>
+
+        <item name="snackbarButtonStyle">@style/SnackBarButton</item>
+
+        <!-- workaround for lower API -->
+        <item name="colorAccentMy">@color/colorAccent</item>
+
+        <item name="viewInflaterClass">androidx.appcompat.app.AppCompatViewInflater</item>
+    </style>
+
+    <style name="MyMaterialTheme.Base.Dark" parent="Theme.MaterialComponents">
+        <item name="windowNoTitle">true</item>
+        <item name="windowActionBar">false</item>
+        <item name="dialogTheme">@style/DialogTheme.Dark</item>
+        <item name="alertDialogTheme">@style/AlertTheme.Dark</item>
+        <item name="bottomSheetDialogTheme">@style/BottomSheetDialogTheme.Dark</item>
+        <item name="android:windowBackground">@color/windowBackgroundDark</item>
+        <item name="android:statusBarColor">@color/colorPrimaryDark</item>
+        <item name="colorPrimary">@color/colorPrimaryDark</item>
+        <item name="colorPrimaryDark">@color/colorPrimary</item>
+        <item name="colorAccent">@color/colorAccentDark</item>
+
+        <item name="preferenceTheme">@style/PreferenceThemeOverlay</item>
+
+        <item name="colorPlayerBackground">@color/colorPlayerBackgroundDark</item>
+        <item name="colorPlayerShadow">@color/colorPlayerShadowDark</item>
+
+        <item name="tagBackgroundColor">@color/tagBackgroundColorDark</item>
+
+        <item name="menuTextColorSelected">@color/menuTextColorSelectedDark</item>
+        <item name="menuTextColorDefault">@color/menuTextColorDefaultDark</item>
+        <item name="android:itemTextAppearance">@style/MenuTextAppearance</item>
+
+        <item name="menuBottomTextColorSelected">@color/menuBottomTextColorSelectedDark</item>
+        <item name="menuBottomTextColorDefault">@color/menuBottomTextColorDefaultDark</item>
+        <item name="menuBottomBackgroundColor">@color/menuBottomBackgroundColorDark</item>
+
+        <item name="swipeDeleteIconColor">@color/swipeDeleteIconColorDark</item>
+        <item name="swipeDeleteBackgroundColor">@color/swipeDeleteBackgroundColorDark</item>
+
+        <item name="colorTabUnderline">@color/colorTabUnderlineDark</item>
+
+        <item name="android:itemBackground">@color/windowBackgroundDark</item>
+        <item name="iconsInItemBackgroundColor">@color/iconsInItemBackgroundColorDark</item>
+
+        <item name="met_baseColor">?android:textColorPrimary</item>
+        <item name="met_textColorHint">?android:textColorHint</item>
+        <item name="met_primaryColor">?android:colorPrimaryDark</item>
+
+        <item name="snackbarButtonStyle">@style/SnackBarButtonDark</item>
+
+        <!-- workaround for lower API -->
+        <item name="colorAccentMy">@color/colorAccentDark</item>
+
+        <item name="viewInflaterClass">androidx.appcompat.app.AppCompatViewInflater</item>
+    </style>
 </resources>

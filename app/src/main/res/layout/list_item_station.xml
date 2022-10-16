@@ -1,13 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:id="@+id/station_foreground"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="?attr/selectableItemBackground"
-        android:orientation="vertical">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/station_foreground"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="?attr/selectableItemBackground"
+    android:orientation="vertical">
 
     <LinearLayout
             android:id="@+id/layoutMain"
@@ -34,17 +32,17 @@
                     android:contentDescription="@null" />
 
             <ImageView
-                    android:id="@+id/transparentCircle"
-                    android:layout_width="70dp"
-                    android:layout_height="70dp"
-                    android:layout_marginEnd="20dp"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginRight="20dp"
-                    android:layout_marginStart="5dp"
-                    android:tint="?android:attr/windowBackground"
-                    app:srcCompat="@drawable/ic_transparent_circle"
-                    android:visibility="gone"
-                    android:contentDescription="@null" />
+                android:id="@+id/transparentCircle"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:layout_marginStart="5dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginEnd="20dp"
+                android:layout_marginRight="20dp"
+                android:contentDescription="@null"
+                android:visibility="gone"
+                app:srcCompat="@drawable/ic_transparent_circle"
+                app:tint="?android:attr/windowBackground" />
 
             <ImageView
                 android:id="@+id/trendStatusIcon"
@@ -115,7 +113,7 @@
                 android:contentDescription="@string/image_button_more"
                 android:minWidth="50dp"
                 android:padding="5dp"
-                android:tint="?attr/iconsInItemBackgroundColor"
+                app:tint="?attr/iconsInItemBackgroundColor"
                 app:srcCompat="@drawable/ic_expand_more_black_24dp" />
     </LinearLayout>
 
