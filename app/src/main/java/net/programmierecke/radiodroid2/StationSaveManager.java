@@ -499,7 +499,7 @@ public class StationSaveManager extends Observable {
             FileReader fr = new FileReader(f);
             return LoadM3UReader(fr);
         } catch (Exception e) {
-            Log.e("LOAD", "File write failed: " + e.toString());
+            Log.e("LOAD", "File read failed: " + e.toString());
             return null;
         }
     }
