@@ -5,6 +5,17 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 
+## [0.85] - 2023-09-27
+### Fixed
+- Building works again
+- File dialog on android 13 uses system dialog and works now
+
+### Added
+- Translations: norwegian(nb), basque(eu)
+
+### Changed
+- Server fallback should work now even when the server return 502
+
 ## [0.84] - 2020-12-28
 ### Added
 - Refreshable favorites and history lists
