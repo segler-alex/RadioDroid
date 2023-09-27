@@ -1,0 +1,333 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+    <string name="detail_name">Izena</string>
+    <string name="detail_tags">Etiketak</string>
+    <string name="detail_country">Estatua</string>
+    <string name="detail_create_shortcut">Gehitu hasierako pantailan</string>
+    <string name="detail_language">Hizkuntza</string>
+    <string name="detail_weblink">Web-esteka</string>
+    <string name="detail_visit_website">Bisitatu webgunea</string>
+    <string name="detail_play">Erreproduzitu</string>
+    <string name="detail_pause">Pausatu</string>
+    <string name="detail_stop">Gelditu</string>
+    <string name="detail_share">Partekatu</string>
+    <string name="detail_play_in_radiodroid">Erreproduzitu RadioDroiden</string>
+
+    <string name="action_links">Estekak</string>
+    <string name="action_homepage">Hasierako orria</string>
+    <string name="action_favorite">Gogokoa</string>
+    <string name="action_alarm">Alarma</string>
+
+    <string name="action_station_visit_website">Bisitatu webgunea</string>
+    <string name="action_station_copy_stream_url">Kopiatu transmisioaren URLa</string>
+    <string name="action_station_share">Partekatu</string>
+
+    <string name="action_local">Lokala</string>
+    <string name="action_skip_to_next">Hurrengoa</string>
+    <string name="action_pause">Pausatu</string>
+    <string name="action_skip_to_previous">Aurrekoa</string>
+    <string name="action_resume">Jarraitu</string>
+    <string name="action_stop">Gelditu</string>
+    <string name="action_search">Bilatu</string>
+    <string name="action_delete">Ezabatu</string>
+    <string name="action_delete_history">Ezabatu historiala</string>
+    <string name="action_delete_favorites">Ezabatu gogokoak</string>
+    <string name="action_delete_stream_history">Ezabatu pisten historiala</string>
+    <string name="action_ok">Ados</string>
+    <string name="action_cancel">Utzi</string>
+    <string name="action_top_click">Klik gehien</string>
+    <string name="action_toggle_view">Aldatu ikuspegia</string>
+    <string name="action_top_vote">Boto gehien</string>
+    <string name="action_changed_lately">Duela gutxi aldatua</string>
+    <string name="action_currently_playing">Igortzen</string>
+    <string name="action_tags">Etiketak</string>
+    <string name="action_countries">Estatuak</string>
+    <string name="action_languages">Hizkuntzak</string>
+    <string name="action_edit">Editatu</string>
+    <string name="action_lyrics">Letrak</string>
+    <string name="action_copy_info">Kopiatu informazioa</string>
+    <string name="error_station_load">Ezin da irrati-etxearekin konektatu</string>
+    <string name="error_list_update">Ezin izan da irratien direktorioko zerbitzariarekin konektatu</string>
+
+    <string name="share_action">Partekatu irrati-etxearen esteka honekin...</string>
+
+    <string name="nav_item_stations">Irratiak</string>
+    <string name="nav_item_starred">Gogokoak</string>
+    <string name="nav_item_history">Historiala</string>
+    <string name="nav_item_settings">Ezarpenak</string>
+    <string name="nav_item_alarm">Alarma</string>
+
+    <string name="about_text">Aplikazio honek irratien direktorio libre hau erabiltzen du:\nhttps://www.radio-browser.info\nEdozeinek gehitu dezake irrati-etxeak edo daudenak editatu. Interneten bidez igortzen duten irrati-etxeen wiki gisa funtzionatzen du.\n\nKontaktua\nsegler_alex@web.de\n\nIntzidentzien kudeaketa:\nhttps://github.com/segler-alex/RadioDroid/issues\n\nSoftware hau gustuko baduzu eta lagundu nahi baduzu aski duzu e-posta bat bidaltzea. Izan ere grafikoetan aritua den norbaiten laguntza behar dut aplikazioaren itxura atseginagoa egiteko :) Agian ikonoak, irudiak egiten dakien norbait... Baina baita ere programadoreak akatsak zuzendu eta funtzionalitate berriak gehitzeko. ;)\n¡ Funtzionalitate berrientzako ideiak ere ongi etorriak dira!\n\nAplikazio hau software librea da GPLv3 lizentziapean.\nhttps://www.gnu.org/licenses/gpl-3.0.html</string>
+    <string name="about_version">Bertsioa: %1$s</string>
+    <string name="detail_star">Gehitu gogokoetan</string>
+    <string name="detail_unstar">Kendu gogokoetatik</string>
+    <string name="detail_play_in_external_player">Erreproduzitu kanpoko erreproduzitzailean</string>
+    <string name="progress_loading">Kargatzen...</string>
+
+    <string name="sleep_timer" formatted="true">Lo egiteko tenporizadorea: %1$02d:%2$02d</string>
+    <string name="sleep_timer_title">Gelditu erreprodukzioa hautatutako minutua eta gero</string>
+    <string name="sleep_timer_apply">Aplikatu</string>
+    <string name="sleep_timer_clear">Ezabatu</string>
+    <string name="nav_item_add_sleep">Lo egiteko tenporizadorea</string>
+
+    <string name="nav_item_save_playlist">Gorde erreprodukzio-ilaran</string>
+    <string name="nav_item_load_playlist">Kargatu erreprodukzio-ilaratik</string>
+    <string name="nav_item_save_history_playlist">Esportatu historiala erreprodukzio-ilara gisa</string>
+    <string name="confirm_overwrite_file">Fitxategia gainidatzi nahi duzu?</string>
+    <string name="dialog_hint_file_name">Zehaztu fitxategiaren izena</string>
+    <string name="error_empty_field">Eremu hau beharrezkoa da</string>
+    <string name="error_invalid_file_name">Fitxategi-izen baliogabea</string>
+    <string name="label_button_cancel">Utzi</string>
+    <string name="label_button_overwrite">Gainidatzi</string>
+    <string name="notify_load_playlist_nok">Ezin izan da inportatu hemendik: %1$s&#47;%2$s</string>
+    <string name="notify_load_playlist_now">Inportatzen hemendik: %1$s&#47;%2$s,mesedez, itxaron.</string>
+    <string name="notify_load_playlist_ok">%1$d irrati-etxe inportatu dira hemendik: %2$s&#47;%3$s</string>
+    <string name="notify_save_playlist_nok">Ezin izan da esportatu hona: %1$s&#47;%2$s</string>
+    <string name="notify_save_playlist_now">Esportatzen hona %1$s&#47;%2$s, mesedez, itxaron.</string>
+    <string name="notify_save_playlist_ok">Behar bezala esportatu da hona: %1$s&#47;%2$s</string>
+
+    <string name="searchpreference_clear_history">Garbitu historiala</string>
+    <string name="searchpreference_no_results">Emaitzik ez</string>
+    <string name="searchpreference_search">Bilatu…</string>
+    <string name="settings_appearance">Itxura</string>
+    <string name="settings_theme_selection_title">Gaia</string>
+    <string name="theme_light">Argia</string>
+    <string name="theme_dark">Iluna</string>
+    <string name="settings_circular_icons">Erabili ikono borobilak</string>
+    <string name="settings_compact_style">Estilo trinkoa</string>
+    <string name="settings_compact_style_desc_off">Ezarri ikono handia irrati-etxearen xehetasunekin</string>
+    <string name="settings_compact_style_desc_on">Ezarri ikono txikia irrati-etxearen xehetsunik gabe</string>
+    <string name="settings_bottom_navigation">Nabigazioa beheko aldean</string>
+
+    <string name="settings_interaction">Interakzioa</string>
+    <string name="settings_single_use_tags">Erakutsi gutxi erebilitako etiketak</string>
+    <string name="settings_single_use_tags_desc_off">Ez erakutsi gutxi erabilitako etiketak</string>
+    <string name="settings_single_use_tags_desc_on">Gutxi erabilitako etiketak erakutsiko dira</string>
+
+    <string name="settings_show_broken">Irrati-etxe hautsiak</string>
+    <string name="settings_show_broken_on">Erakutsi irrati-etxe hautsiak zerrendetan</string>
+    <string name="settings_show_broken_off">Ez erakutsi irrati-etxe hautsiak zerrendetan</string>
+
+    <string name="settings_startup_behaviour">Hasierako jokabidea</string>
+    <string name="startup_action_title">Abiatu ekintza</string>
+    <string name="startup_action_title_desc">%s</string>
+    <string name="startup_show_all_stations">Erakutsi irrati-etxe guztiak</string>
+    <string name="startup_show_favorites">Erakutsi gogokoak</string>
+    <string name="startup_show_history">Erakutsi historiala</string>
+    <string name="startup_show_last_view">Erakutsi azkena</string>
+
+    <string name="settings_load_icons">Erakutsi irrati-etxeen ikonoak</string>
+    <string name="settings_load_icons_on">Ikonoak deskargatuko dira</string>
+    <string name="settings_load_icons_off">Ikonoak ez dira deskargatuko</string>
+
+    <string name="settings_auto_favorite">Auto-gogokoak</string>
+    <string name="settings_auto_favorite_on">Irrati-etxeak erabili ahala gogokoen zerrendara gehituko dira automatikoki</string>
+    <string name="settings_auto_favorite_off">Irrati-etxeak ez dira gogokoen zerrendara gehituko automatikoki erabili ahala</string>
+
+    <string name="settings_icon_click_toggles_favorite">Ikonoan klik egitean</string>
+    <string name="settings_icon_click_toggles_favorite_on">Ikonoan klik egitean irrati-etxea gogokoetara gehituko da edo bertatik kendu</string>
+    <string name="settings_icon_click_toggles_favorite_off">Ikonoan klik egitean irrati-etxearen erreprodukzioa hasiko da</string>
+
+    <string name="settings_click_trend_icon_visible">Ikonoen jokaera</string>
+    <string name="settings_click_trend_icon_visible_on">Ikonoa ikusgai</string>
+    <string name="settings_click_trend_icon_visible_off">Ikonoa ezkutuan</string>
+
+    <string name="settings_alarm">Alarma</string>
+    <string name="settings_alarm_external">Ireki beste aplikazioa</string>
+    <string name="settings_alarm_external_desc_on">Ireki alarma lehenetsitako aplikazioarekin</string>
+    <string name="settings_alarm_external_desc_off">Ireki alarma RadioDroidekin</string>
+    <string name="settings_alarm_audio_player">Erreproduzitu audioa</string>
+    <string name="settings_alarm_sleep_timer">Lotarako tenporizadorea</string>
+    <string name="settings_alarm_sleep_timer_desc">Gelditu erreprodukzioa %1$s minutu eta gero</string>
+    <string name="settings_play">Erreproduzitzailea</string>
+    <string name="settings_auto_play_on_startup">Erreprodukzio automatikoa</string>
+    <string name="settings_auto_play_on_startup_on">Erreproduzitu azken irrati-etxea abioan</string>
+    <string name="settings_auto_play_on_startup_off">Ez erreproduzitu azken irratik-etxea abioan</string>
+    <string name="settings_play_external">Irekin kanpoko erreproduktorea</string>
+    <string name="settings_play_external_desc_on">Erreproduzitu irrati-etxeak kanpoko erreproduzitzaile baten bidez</string>
+    <string name="settings_play_external_desc_off">Erreproduzitu irrati-etxeak RadioDroiden bidez</string>
+    <string name="settings_equalizer">Ekualizadorea</string>
+
+    <string name="settings_connectivity">Konexioa</string>
+    <string name="settings_connect_timeout">Igorpenaren itxaron-denbora</string>
+    <string name="settings_read_timeout">Igorpenaren irakurketaren itxaron-denbora</string>
+    <string name="settings_resume_timeout">Igorpena berrekiteko itxaron-denbora</string>
+    <string name="settings_retry_timeout">Berrekiteko itxaron-denbora</string>
+    <string name="settings_retry_delay">Berriro konektatzeko atzerapena</string>
+    <string name="settings_proxy">Proxy</string>
+    <string name="settings_proxy_login">Erabiltzaile-izena</string>
+    <string name="settings_proxy_password">Pasahitza</string>
+    <string name="settings_proxy_action_test">Probatu</string>
+    <string name="settings_proxy_working">%s irrati-etxera behar bezala konektatu da</string>
+    <string name="settings_proxy_not_working">%s irrati-etxearen konekzioak huts egin du\n%s</string>
+    <string name="settings_proxy_invalid">Proxyaren datuak baliogabeak dira</string>
+    <string name="ignore_proxy_settings_invalid">Proxyaren datu baliogabeak ez dira kontuan hartu</string>
+    <string name="settings_seconds_format">%d segundo</string>
+    <string name="settings_milliseconds_format">%d milisegundo</string>
+
+    <string name="settings_pause_when_noisy">Pausatu aurikularrak deskonektatzean</string>
+
+    <string name="settings_auto_resume_do_not_resume">Ez jarraitu</string>
+
+    <string name="settings_auto_resume_on_wired_headset_connected">Jarraitu kabledun konexioaren bidez</string>
+    <string name="settings_auto_resume_on_wired_headset_connected_on">Jarraitu erreprodukzioa kabledun aurikularrekin konektatzean</string>
+
+    <string name="settings_auto_resume_on_bluetooth_a2dp_connected">Jarraitu Bluetooth konexioarekin</string>
+    <string name="settings_auto_resume_on_bluetooth_a2dp_connected_on">Jarraitu erreprodukzioa A2DP Bluetooth gailuekin konektatzean</string>
+
+    <string name="settings_warn_no_wifi">Abisatu Wi-Fia ez badago</string>
+    <string name="settings_warn_no_wifi_on">Abisatu Wi-Fi konexiorik ez badago</string>
+    <string name="settings_warn_no_wifi_off">Ez abisatu Wi-Fi konexiorik ez badago</string>
+
+    <string name="settings_recordings">Grabazioak</string>
+    <string name="settings_record_name_formatting">Izenaren formatua</string>
+
+    <string name="settings_record_name_formatting_default_display">irrati-etxea_artista_pista_\u200bdata_\u200bordua</string>
+    <string name="settings_record_name_formatting_1_display">irrati-etxea_artista_\u200bpista</string>
+    <string name="settings_record_name_formatting_2_display">irrati-etxea_data_\u200bordua</string>
+    <string name="settings_record_name_formatting_3_display">indizea_irrati-etxea_\u200bdata</string>
+
+    <string name="notify_pre_play">Konektatzen</string>
+    <string name="notify_play">Erreproduzitzen</string>
+    <string name="notify_paused">Pausatua</string>
+    <string name="notify_metered_connection">Erabilpen neurtuko konexioa</string>
+
+    <string name="notify_starred">Irrati-etxea gogokoetara gehitu da</string>
+    <string name="notify_autostarred">Irrati-etxea gogokoetara gehitu da automatikoki</string>
+    <string name="notify_unstarred">Irrati-etxea gogokoetatik kendu da</string>
+    <string name="notify_deleted_favorites">Gogokoak ezabatu dira.</string>
+    <string name="notify_deleted_history">Historiala ezabatu da.</string>
+
+    <string name="notify_open_link_failure">Esteka irekitzeko ez da aplikaziorik topatu</string>
+
+    <string name="notify_station_removed_from_list">1 ezabatu da</string>
+    <string name="action_station_removed_from_list_undo">DESEGIN</string>
+
+    <string name="alert_install_lyrics_app">QuickLyric ez dago gailu honetan instalatuta. Nahi al duzu Google Play Store-tik eskuratzea?</string>
+
+    <string name="alert_delete_history">Ziur zaude historiala ezabatu nahi duzula?</string>
+    <string name="alert_delete_favorites">Ziur zaude gogokoak ezabatu nahi dituzula?</string>
+    <string name="yes">Bai</string>
+    <string name="no">Ez</string>
+
+    <string name="alert_select_mpd_server">Por favor selecciona un servidor</string>
+    <string name="alert_select_mpd_server_name">Nombre del servidor</string>
+    <string name="alert_select_mpd_server_password">Contraseña del servidor</string>
+    <string name="hostname">Nombre del host</string>
+    <string name="port">Puerto</string>
+
+    <string name="alert_select_mpd_server_add">Gehitu</string>
+    <string name="alert_select_mpd_server_save">Gorde</string>
+    <string name="alert_select_mpd_server_remove">Kendu</string>
+    <string name="alert_add_or_edit_mpd_server">Idatzi zerbitzariaren xehetasunak</string>
+    <string name="alert_alarm_working">Uneko alarma denbora</string>
+    <string name="alert_alarm_not_working">Alarma erabiltzeko ez dago informazio nahikorik</string>
+    <string name="alert_select_external_alarm_app">Aukeratu audio-erreproduzigailua</string>
+
+    <string name="alert_press_back_to_exit">Ateratzeko sakatu atzera berriro</string>
+
+    <string name="error_stream_url">Errorea igorpenaren URLan</string>
+    <string name="error_caching_stream">Errorea igorpenaren cachean</string>
+    <string name="error_play_stream">Ezin da igorpena erreproduzitu</string>
+    <string name="error_stream_reconnect_timeout">Ezin da berriro konektatu igorpenera: itxaron-denbora agortu da</string>
+    <string name="giving_up_resume">Utzitako igorpena jarraitzeko saiatzen</string>
+
+    <string name="error_record_needs_write">Errorea, grabatzeko idazte baimen nahikorik ez</string>
+    <string name="error_grant_audiofocus">Sistemak ez du audio erreproduzitzeko baimenik eman</string>
+
+    <string name="error_no_equalizer_found">Ez da ekualizadorerik aurkitu</string>
+
+    <string name="player_info_status">Egoera:&#160;</string>
+    <string name="player_info_status_stopped">geldirik</string>
+    <string name="player_info_status_playing">erreproduzitzen</string>
+    <string name="player_info_status_recording">grabatzen</string>
+    <string name="player_info_status_playing_and_recording">erreproduzitzen eta grabatzen</string>
+    <string name="player_info_transferred">Datuak bidali dira: %1$s</string>
+    <string name="player_info_recording_to">Grabatzen hona: %1$s</string>
+    <string name="player_info_recorded_to">Azken grabazioa:\n%1$s</string>
+
+    <string name="tab_player_art">Albumaren artista</string>
+    <string name="tab_player_info">Info</string>
+    <string name="tab_player_history">Historiala</string>
+    <string name="tab_player_recordings">Grabazioak</string>
+
+    <string name="station_detail_bitrate">%1$1d kbps</string>
+    <string name="station_detail_broken">HAUTSIA</string>
+
+    <string name="image_button_disable">Ezgaitu</string>
+    <string name="image_button_record">Grabatu</string>
+    <string name="image_button_record_request_permission">Eskatu grabatzeko baimenak</string>
+    <string name="image_button_recordings">Grabazioak</string>
+    <string name="image_button_delete">Ezabatu</string>
+    <string name="image_button_more">Gehiago</string>
+    <string name="image_button_less">Gutxiago</string>
+    <string name="image_button_repeat">Errepikatu</string>
+    <string name="image_button_dont_repeat">Ez errepikatu</string>
+    <string name="icon_click_trend_decreasing">Arrakasta galtzen</string>
+    <string name="icon_click_trend_increasing">Arrakasta handitzen</string>
+    <string name="icon_click_trend_stable">Arrakasta egonkorra</string>
+
+    <string name="media_route_menu_title">GoogleCast</string>
+    <string name="app_id">5A97BAE4</string>
+    <string name="app_name">RadioDroid</string>
+
+    <string name="settings_mpd">Musika erreproduzitzeko demonioa (Music Player Daemon, MPD)</string>
+    <string name="settings_mpd_port">MPD-ren ataka</string>
+    <string name="settings_view_mpd_servers">Zure zerbitzariak</string>
+    <string name="action_mpd_nok">MPD konexiorik gabe</string>
+    <string name="action_mpd_ok">MPD konektatuta</string>
+    <string name="action_mpd_connected">Zerbitzari honetara konektuta: %1$s</string>
+
+    <string name="mpd_no_connection">Konexiorik ez</string>
+    <string name="action_enable_mpd">Gaitu MPD</string>
+    <string name="action_disable_mpd">Ezgaitu MPD</string>
+    <string name="action_add_mpd_server">Gehitu MPD zerbitzaria</string>
+
+    <string name="action_play_in_external">Erreproduzitu kanpoko erreproduzigailu baten bidez</string>
+    <string name="action_choose_external_player">Aukeratu kanpoko erreproduzigailua</string>
+
+    <string name="settings_other">Beste bat</string>
+    <string name="settings_statistics">Estatistikak</string>
+    <string name="settings_about">RadioDroid-i buruz</string>
+
+    <string name="description_btn_skip_to_next">Hurrengora</string>
+    <string name="description_btn_skip_to_previous">Aurrekora</string>
+
+    <string name="description_btn_setup_alarm">Ezarri alarma</string>
+
+    <string-array name="weekdays">
+        <item>I</item>
+        <item>AL</item>
+        <item>AR</item>
+        <item>AZ</item>
+        <item>OG</item>
+        <item>OR</item>
+        <item>L</item>
+    </string-array>
+
+    <string name="notify_stream_url_copied">Igorpenaren URLa behar bezala kopiatu da</string>
+    <string name="notify_track_info_copied">Pistaren informazioa behar bezala kopiatu da</string>
+
+    <string-array name="actions_station_link">
+        <item>Bisitatu webgunea</item>
+        <item>Kopiatu igorpenaren URLa</item>
+    </string-array>
+
+    <string name="alert_metered_connection_title">Neurtutako erabilpeneko konexioa detektatu da</string>
+    <string name="alert_metered_connection_message">Neurtutako erabilpeneko konexioa erabiltzeak karguak sor ditzake, sakatu \'Onartu\' jarraitzeko.</string>
+    <string name="nav_item_statistics">Estatistikak</string>
+    <string name="nav_item_about">Honi buruz</string>
+    <string name="refresh">Birkargatu</string>
+
+    <string name="alarm_backup">Alarma alternatiboa</string>
+    <string name="alarm_fallback_info">Sistemaren alarma gisa aukeratutako irrati-etxearen erreproduzioak huts egin du</string>
+    <string name="alarm_back_desc">Sistemaren alarmaren alternatiba aukeratutako irrati-etxearen erreprodukzioak huts egiten duenerako</string>
+    <string name="context_menu_share">@string/detail_share</string>
+    <string name="context_menu_visit_homepage">@string/action_station_visit_website</string>
+    <string name="context_menu_play_in_radiodroid">@string/detail_play_in_radiodroid</string>
+    <string name="context_menu_play_in_external_player">@string/action_play_in_external</string>
+    <string name="context_menu_add_alarm">@string/action_alarm</string>
+    <string name="context_menu_create_shortcut">@string/detail_create_shortcut</string>
+    <string name="context_menu_delete">@string/action_delete</string>
+</resources>
