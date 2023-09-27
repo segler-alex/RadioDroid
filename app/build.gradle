@@ -48,7 +48,7 @@ android {
         minSdkVersion 16
         targetSdkVersion 33
 
-        versionCode 94
+        versionCode 95
         versionName "0.85"
 
         multiDexEnabled true
