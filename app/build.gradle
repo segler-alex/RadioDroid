@@ -49,7 +49,7 @@ android {
         targetSdkVersion 33
 
         versionCode 94
-        versionName "0.84"
+        versionName "0.85"
 
         multiDexEnabled true
         vectorDrawables.useSupportLibrary = true
