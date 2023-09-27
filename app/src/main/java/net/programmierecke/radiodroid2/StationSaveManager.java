@@ -24,6 +24,8 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
+import java.io.Reader;
+import java.io.Writer;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -361,6 +363,32 @@ public class StationSaveManager extends Observable {
         }.execute();
     }
 
+    public void SaveM3USimple(final String filePath, final String fileName) {
+        Toast toast = Toast.makeText(context, context.getResources().getString(R.string.notify_save_playlist_now, filePath, fileName), Toast.LENGTH_LONG);
+        toast.show();
+
+        new AsyncTask<Void, Void, Boolean>() {
+            @Override
+            protected Boolean doInBackground(Void... params) {
+                return SaveM3UInternal(filePath, fileName);
+            }
+
+            @Override
+            protected void onPostExecute(Boolean result) {
+                if (result.booleanValue()) {
+                    Log.i("SAVE", "OK");
+                    Toast toast = Toast.makeText(context, context.getResources().getString(R.string.notify_save_playlist_ok, filePath, fileName), Toast.LENGTH_LONG);
+                    toast.show();
+                } else {
+                    Log.i("SAVE", "NOK");
+                    Toast toast = Toast.makeText(context, context.getResources().getString(R.string.notify_save_playlist_nok, filePath, fileName), Toast.LENGTH_LONG);
+                    toast.show();
+                }
+                super.onPostExecute(result);
+            }
+        }.execute();
+    }
+
     public void LoadM3U(final String filePath, final String fileName) {
         Toast toast = Toast.makeText(context, context.getResources().getString(R.string.notify_load_playlist_now, filePath, fileName), Toast.LENGTH_LONG);
         toast.show();
@@ -391,6 +419,36 @@ public class StationSaveManager extends Observable {
         }.execute();
     }
 
+    public void LoadM3USimple(final Reader reader) {
+        Toast toast = Toast.makeText(context, context.getResources().getString(R.string.notify_load_playlist_now, "", ""), Toast.LENGTH_LONG);
+        toast.show();
+
+        new AsyncTask<Void, Void, List<DataRadioStation>>() {
+            @Override
+            protected List<DataRadioStation> doInBackground(Void... params) {
+                return LoadM3UReader(reader);
+            }
+
+            @Override
+            protected void onPostExecute(List<DataRadioStation> result) {
+                if (result != null) {
+                    Log.i("LOAD", "Loaded " + result.size() + "stations");
+                    addMultiple(result);
+                    Toast toast = Toast.makeText(context, context.getResources().getString(R.string.notify_load_playlist_ok, result.size(), "", ""), Toast.LENGTH_LONG);
+                    toast.show();
+                } else {
+                    Log.e("LOAD", "Load failed");
+                    Toast toast = Toast.makeText(context, context.getResources().getString(R.string.notify_load_playlist_nok, "", ""), Toast.LENGTH_LONG);
+                    toast.show();
+                }
+
+                notifyObservers();
+
+                super.onPostExecute(result);
+            }
+        }.execute();
+    }
+
     protected final String M3U_PREFIX = "#RADIOBROWSERUUID:";
 
     boolean SaveM3UInternal(String filePath, String fileName) {
@@ -400,38 +458,33 @@ public class StationSaveManager extends Observable {
         try {
             File f = new File(filePath, fileName);
             BufferedWriter bw = new BufferedWriter(new FileWriter(f, false));
-            bw.write("#EXTM3U\n");
-            for (DataRadioStation station : listStations) {
-                /*
-                String result = null;
-                for (int i = 0; i < 20; i++) {
-                    result = Utils.getRealStationLink(httpClient, context, station.StationUuid);
-                    if (result != null) {
-                        break;
-                    }
-                    try {
-                        Thread.sleep(500);
-                    } catch (InterruptedException e) {
-                        Log.e("ERR", "Play() " + e);
-                    }
-                }
-                */
-
-                //if (result != null) {
-                    bw.write(M3U_PREFIX + station.StationUuid + "\n");
-                    bw.write("#EXTINF:-1," + station.Name + "\n");
-                    bw.write(station.StreamUrl + "\n\n");
-                //}
-            }
-            bw.flush();
-            bw.close();
-
+            var r = SaveM3UWriter(bw);
             if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT) {
                 context.sendBroadcast(new Intent(Intent.ACTION_MEDIA_MOUNTED, Uri.parse("file://" + Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MUSIC))));
             } else {
                 MediaScannerConnection
                         .scanFile(context, new String[]{f.getAbsolutePath()}, null, null);
             }
+            return r;
+        } catch (Exception e) {
+            Log.e("Exception", "File write failed: " + e.toString());
+            return false;
+        }
+    }
+
+    public boolean SaveM3UWriter(Writer bw) {
+        final RadioDroidApp radioDroidApp = (RadioDroidApp) context.getApplicationContext();
+        final OkHttpClient httpClient = radioDroidApp.getHttpClient();
+
+        try {
+            bw.write("#EXTM3U\n");
+            for (DataRadioStation station : listStations) {
+                bw.write(M3U_PREFIX + station.StationUuid + "\n");
+                bw.write("#EXTINF:-1," + station.Name + "\n");
+                bw.write(station.StreamUrl + "\n\n");
+            }
+            bw.flush();
+            bw.close();
 
             return true;
         } catch (Exception e) {
@@ -443,15 +496,25 @@ public class StationSaveManager extends Observable {
     List<DataRadioStation> LoadM3UInternal(String filePath, String fileName) {
         try {
             File f = new File(filePath, fileName);
+            FileReader fr = new FileReader(f);
+            return LoadM3UReader(fr);
+        } catch (Exception e) {
+            Log.e("LOAD", "File read failed: " + e.toString());
+            return null;
+        }
+    }
 
-            BufferedReader br = new BufferedReader(new FileReader(f));
+    List<DataRadioStation> LoadM3UReader(Reader reader) {
+        try {
             String line;
 
             final RadioDroidApp radioDroidApp = (RadioDroidApp) context.getApplicationContext();
             final OkHttpClient httpClient = radioDroidApp.getHttpClient();
             ArrayList<String> listUuids = new ArrayList<String>();
 
+            BufferedReader br = new BufferedReader(reader);
             while ((line = br.readLine()) != null) {
+                Log.v("LOAD", "line: "+line);
                 if (line.startsWith(M3U_PREFIX)) {
                     try {
                         String uuid = line.substring(M3U_PREFIX.length()).trim();
@@ -468,7 +531,7 @@ public class StationSaveManager extends Observable {
                 return listStationsNew;
             }
         } catch (Exception e) {
-            Log.e("LOAD", "File write failed: " + e.toString());
+            Log.e("LOAD", "File read failed: " + e.toString());
             return null;
         }
         List<DataRadioStation> loadedItems = new ArrayList<>();

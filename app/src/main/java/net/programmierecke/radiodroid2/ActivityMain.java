@@ -9,8 +9,10 @@ import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.provider.DocumentsContract;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.Menu;
@@ -65,7 +67,13 @@ import net.programmierecke.radiodroid2.service.PlayerServiceUtil;
 import net.programmierecke.radiodroid2.station.DataRadioStation;
 import net.programmierecke.radiodroid2.station.StationsFilter;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.util.Date;
 
 import okhttp3.OkHttpClient;
@@ -98,6 +106,10 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
 
     public static final int PERM_REQ_STORAGE_FAV_SAVE = 1;
     public static final int PERM_REQ_STORAGE_FAV_LOAD = 2;
+
+    // Request code for creating a PDF document.
+    private static final int ACTION_SAVE_FILE = 1;
+    private static final int ACTION_LOAD_FILE = 2;
 
     private SearchView mSearchView;
 
@@ -149,13 +161,16 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
         setTheme(Utils.getThemeResId(this));
         setContentView(R.layout.layout_main);
 
+        Log.d(TAG, "FilesDir: "+getFilesDir().getAbsolutePath());
+        Log.d(TAG, "CacheDir: "+getCacheDir().getAbsolutePath());
         try {
             File dir = new File(getFilesDir().getAbsolutePath());
             if (dir.isDirectory()) {
+
                 String[] children = dir.list();
                 for (String aChildren : children) {
                     if (BuildConfig.DEBUG) {
-                        Log.d("MAIN", "delete file:" + aChildren);
+                        Log.d(TAG, "delete file:" + aChildren);
                     }
                     try {
                         new File(dir, aChildren).delete();
@@ -433,12 +448,18 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
             case PERM_REQ_STORAGE_FAV_LOAD: {
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     LoadFavourites();
+                } else {
+                    Log.w(TAG,"permission not granted -> simple load");
+                    LoadFavouritesSimple();
                 }
                 return;
             }
             case PERM_REQ_STORAGE_FAV_SAVE: {
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     SaveFavourites();
+                } else {
+                    Log.w(TAG,"permission not granted -> simple save");
+                    SaveFavouritesSimple();
                 }
                 return;
             }
@@ -667,17 +688,50 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
         return true;
     }
 
-    /*@Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent resultData) {
+        super.onActivityResult(requestCode, resultCode, resultData);
 
-        if (requestCode == 1 && resultCode == RESULT_OK) {
-            String filePath = data.getStringExtra(FilePickerActivity.RESULT_FILE_PATH);
-            RadioDroidApp radioDroidApp = (RadioDroidApp) getApplication();
-            FavouriteManager favouriteManager = radioDroidApp.getFavouriteManager();
-            favouriteManager.SaveM3U(filePath, "radiodroid.m3u");
+        if (requestCode == ACTION_SAVE_FILE && resultCode == RESULT_OK) {
+            Uri uri = null;
+            if (resultData != null) {
+                uri = resultData.getData();
+                Log.d(TAG, "Choosen save path: " + uri);
+                RadioDroidApp radioDroidApp = (RadioDroidApp) getApplication();
+                FavouriteManager favouriteManager = radioDroidApp.getFavouriteManager();
+                HistoryManager historyManager = radioDroidApp.getHistoryManager();
+                try{
+                    OutputStream os = getContentResolver().openOutputStream(uri);
+                    OutputStreamWriter writer = new OutputStreamWriter(os);
+                    if (selectedMenuItem == R.id.nav_item_starred) {
+                        favouriteManager.SaveM3UWriter(writer);
+                    }else if (selectedMenuItem == R.id.nav_item_history) {
+                        historyManager.SaveM3UWriter(writer);
+                    }
+                }
+                catch (Exception e){
+                    Log.e(TAG, "Unable to write to file " + e);
+                }
+            }
         }
-    }*/
+        if (requestCode == ACTION_LOAD_FILE && resultCode == RESULT_OK) {
+            Uri uri = null;
+            if (resultData != null) {
+                uri = resultData.getData();
+                Log.d(TAG, "Choosen load path: " + uri);
+                RadioDroidApp radioDroidApp = (RadioDroidApp) getApplication();
+                FavouriteManager favouriteManager = radioDroidApp.getFavouriteManager();
+                try{
+                    InputStream is = getContentResolver().openInputStream(uri);
+                    InputStreamReader reader = new InputStreamReader(is);
+                    favouriteManager.LoadM3USimple(reader);
+                }
+                catch (Exception e){
+                    Log.e(TAG, "Unable to load to file " + e);
+                }
+            }
+        }
+    }
 
     @Override
     public void onFileSelected(FileDialog dialog, File file) {
@@ -710,6 +764,14 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
         dialog.show(getSupportFragmentManager(), SaveFileDialog.class.getName());
     }
 
+    void SaveFavouritesSimple() {
+        Intent intent = new Intent(Intent.ACTION_CREATE_DOCUMENT);
+        intent.addCategory(Intent.CATEGORY_OPENABLE);
+        intent.setType("audio/x-mpegurl");
+        intent.putExtra(Intent.EXTRA_TITLE, "playlist.m3u");
+        startActivityForResult(intent, ACTION_SAVE_FILE);
+    }
+
     void LoadFavourites() {
         OpenFileDialog dialogOpen = new OpenFileDialog();
         dialogOpen.setStyle(DialogFragment.STYLE_NO_TITLE, Utils.getThemeResId(this));
@@ -717,6 +779,14 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
         argsOpen.putString(FileDialog.EXTENSION, ".m3u"); // file extension is optional
         dialogOpen.setArguments(argsOpen);
         dialogOpen.show(getSupportFragmentManager(), OpenFileDialog.class.getName());
+    }
+
+    void LoadFavouritesSimple() {
+        Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+        intent.addCategory(Intent.CATEGORY_OPENABLE);
+        intent.setType("audio/x-mpegurl");
+        intent.putExtra(Intent.EXTRA_TITLE, "playlist.m3u");
+        startActivityForResult(intent, ACTION_LOAD_FILE);
     }
 
     @Override
