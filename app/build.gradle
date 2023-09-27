@@ -170,7 +170,7 @@ dependencies {
     implementation 'com.github.zawadz88.materialpopupmenu:material-popup-menu:3.4.0'
     implementation 'com.github.ByteHamster:SearchPreference:v2.3.0'
 
-    implementation 'androidx.room:room-runtime:2.4.3'
+    implementation 'androidx.room:room-runtime:2.5.2'
     androidTestImplementation("androidx.test.espresso:espresso-contrib:3.4.0") {
         exclude group: 'org.checkerframework', module: 'checker'
     }
