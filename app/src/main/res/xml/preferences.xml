@@ -57,7 +57,6 @@
             android:summaryOff="@string/settings_auto_play_on_startup_off"
             android:summaryOn="@string/settings_auto_play_on_startup_on"
             android:title="@string/settings_auto_play_on_startup" />
-
     </PreferenceScreen>
 
     <PreferenceScreen android:title="@string/settings_interaction"
@@ -253,6 +252,13 @@
             android:key="last_fm_api_key"
             android:title="@string/settings_lastfm_api_key"
             android:summary="@string/settings_lastfm_api_key_desc"/>
+
+        <Preference
+            android:defaultValue="false"
+            android:key="@string/key_ignore_battery_optimization"
+            android:summaryOff="@string/settings_ignore_battery_optimization_summary_off"
+            android:summaryOn= "@string/settings_ignore_battery_optimization_summary_on"
+            android:title="@string/settings_disable_battery_optimization" />
 
         <Preference
             android:key="show_statistics"

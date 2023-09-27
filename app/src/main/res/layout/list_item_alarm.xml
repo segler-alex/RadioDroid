@@ -4,7 +4,7 @@
     android:id="@+id/LinearLayout1"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:descendantFocusability="blocksDescendants"
+    android:baselineAligned="false" android:descendantFocusability="blocksDescendants"
     android:orientation="horizontal">
 
     <LinearLayout
@@ -62,17 +62,17 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/buttonDeleteAlarm"
-            android:tint="?attr/iconsInItemBackgroundColor"
             app:srcCompat="@drawable/ic_delete_black_24dp"
             android:layout_gravity="center"
             android:background="?attr/selectableItemBackgroundBorderless"
-            android:contentDescription="@string/image_button_delete" />
+            android:contentDescription="@string/image_button_delete"
+            app:tint="?attr/iconsInItemBackgroundColor" />
 
         <ImageButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/checkboxRepeating"
-            android:tint="?attr/iconsInItemBackgroundColor"
+            app:tint="?attr/iconsInItemBackgroundColor"
             app:srcCompat="@drawable/ic_refresh_black_24dp"
             android:layout_gravity="center"
             android:background="?attr/selectableItemBackgroundBorderless"

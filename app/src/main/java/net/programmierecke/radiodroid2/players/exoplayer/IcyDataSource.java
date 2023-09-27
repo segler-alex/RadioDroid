@@ -142,7 +142,7 @@ public class IcyDataSource implements HttpDataSource {
 
         final String type = contentType == null ? getMimeType(dataSpec.uri.toString(), "audio/mpeg") : contentType.toString().toLowerCase();
 
-        if (!REJECT_PAYWALL_TYPES.evaluate(type)) {
+        if (!REJECT_PAYWALL_TYPES.apply(type)) {
             close();
             throw new InvalidContentTypeException(type, dataSpec);
         }

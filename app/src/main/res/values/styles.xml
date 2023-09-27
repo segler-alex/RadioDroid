@@ -13,7 +13,6 @@
         <item name="alertDialogTheme">@style/AlertTheme</item>
         <item name="bottomSheetDialogTheme">@style/BottomSheetDialogTheme</item>
         <item name="android:windowBackground">@color/windowBackground</item>
-        <item name="android:statusBarColor">@color/colorPrimary</item>
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
@@ -59,7 +58,6 @@
         <item name="alertDialogTheme">@style/AlertTheme.Dark</item>
         <item name="bottomSheetDialogTheme">@style/BottomSheetDialogTheme.Dark</item>
         <item name="android:windowBackground">@color/windowBackgroundDark</item>
-        <item name="android:statusBarColor">@color/colorPrimaryDark</item>
         <item name="colorPrimary">@color/colorPrimaryDark</item>
         <item name="colorPrimaryDark">@color/colorPrimary</item>
         <item name="colorAccent">@color/colorAccentDark</item>

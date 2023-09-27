@@ -160,7 +160,7 @@
     <string name="settings_proxy_password">Sandi</string>
     <string name="settings_proxy_action_test">Tes</string>
     <string name="settings_proxy_working">Berhasil terhubung ke %s</string>
-    <string name="settings_proxy_not_working">Gagal menyambung ke %s\n%s</string>
+    <string name="settings_proxy_not_working">Gagal menyambung ke %1$s\n%2$s</string>
     <string name="settings_proxy_invalid">Nilai yang anda berikan untuk proksi tidak valid</string>
     <string name="ignore_proxy_settings_invalid">Abaikan pengaturan proksi yang tidak valid</string>
     <string name="settings_seconds_format">%d detik</string>

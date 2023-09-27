@@ -20,9 +20,9 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.content.res.AppCompatResources;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.appcompat.widget.AppCompatImageView;
-import androidx.core.content.ContextCompat;
 
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.squareup.picasso.Picasso;
@@ -55,11 +55,11 @@ public class TrackHistoryInfoDialog extends BottomSheetDialogFragment {
         AppCompatButton btnLyrics = view.findViewById(R.id.btnViewLyrics);
         AppCompatButton btnCopyInfo = view.findViewById(R.id.btnCopyTrackInfo);
 
-        Resources resource = Objects.requireNonNull(getContext()).getResources();
+        Resources resource = requireContext().getResources();
         final float px = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 200, resource.getDisplayMetrics());
         Picasso.get()
                 .load(historyEntry.artUrl)
-                .placeholder(ContextCompat.getDrawable(getContext(), R.drawable.ic_photo_24dp))
+                .placeholder(AppCompatResources.getDrawable(getContext(), R.drawable.ic_photo_24dp))
                 .resize((int) px, 0)
                 .into(imageViewTrackArt);
 
@@ -119,10 +119,9 @@ public class TrackHistoryInfoDialog extends BottomSheetDialogFragment {
     }
 
     private boolean isQuickLyricInstalled() {
-        PackageManager pm = Objects.requireNonNull(getContext()).getPackageManager();
+        PackageManager pm = requireContext().getPackageManager();
         try {
-            pm.getPackageInfo("com.geecko.QuickLyric", PackageManager.GET_ACTIVITIES);
-            return true;
+            return pm.getApplicationInfo("com.geecko.QuickLyric", 0).enabled;
         } catch (PackageManager.NameNotFoundException ignored) {
             return false;
         }

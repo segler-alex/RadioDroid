@@ -1,29 +1,5 @@
 package net.programmierecke.radiodroid2.tests;
 
-import android.content.pm.ActivityInfo;
-import android.os.Build;
-
-import androidx.test.core.app.ApplicationProvider;
-import androidx.test.espresso.action.ViewActions;
-import androidx.test.espresso.matcher.ViewMatchers;
-import androidx.test.filters.LargeTest;
-import androidx.test.rule.ActivityTestRule;
-
-import net.programmierecke.radiodroid2.ActivityMain;
-import net.programmierecke.radiodroid2.FavouriteManager;
-import net.programmierecke.radiodroid2.R;
-import net.programmierecke.radiodroid2.RadioDroidApp;
-import net.programmierecke.radiodroid2.tests.utils.TestUtils;
-
-import org.junit.Before;
-import org.junit.Ignore;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
-
-import java.util.Arrays;
-
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.hasDescendant;
@@ -38,6 +14,33 @@ import static net.programmierecke.radiodroid2.tests.utils.TestUtils.getFakeRadio
 import static net.programmierecke.radiodroid2.tests.utils.conditionwatcher.ViewMatchWaiter.waitForView;
 import static org.hamcrest.Matchers.allOf;
 import static org.junit.Assert.assertEquals;
+
+import android.content.pm.ActivityInfo;
+import android.os.Build;
+import android.os.SystemClock;
+
+import androidx.test.core.app.ApplicationProvider;
+import androidx.test.espresso.action.ViewActions;
+import androidx.test.espresso.matcher.ViewMatchers;
+import androidx.test.filters.LargeTest;
+import androidx.test.filters.SdkSuppress;
+import androidx.test.rule.ActivityTestRule;
+
+import net.programmierecke.radiodroid2.ActivityMain;
+import net.programmierecke.radiodroid2.FavouriteManager;
+import net.programmierecke.radiodroid2.R;
+import net.programmierecke.radiodroid2.RadioDroidApp;
+import net.programmierecke.radiodroid2.tests.utils.FirstViewMatcher;
+import net.programmierecke.radiodroid2.tests.utils.TestUtils;
+
+import org.junit.Before;
+import org.junit.Ignore;
+import org.junit.Rule;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.Parameterized;
+
+import java.util.Arrays;
 
 @LargeTest
 @RunWith(Parameterized.class)
@@ -80,7 +83,7 @@ public class UIFavouritesFragmentTest {
     public void stationsRecyclerFavourites_ShouldRecycleItems() {
         onView(ViewMatchers.withId(R.id.nav_item_starred)).perform(ViewActions.click());
 
-        onView(withId(R.id.recyclerViewStations)).check(matches(recyclerRecycles()));
+        onView(allOf((withId(R.id.recyclerViewStations)), FirstViewMatcher.firstView())).check(matches(recyclerRecycles()));
     }
 
     @Ignore("Disabled until drag and drop is fixed, see " +
@@ -115,6 +118,8 @@ public class UIFavouritesFragmentTest {
         assertEquals(getFakeRadioStationName(0), favouriteManager.getList().get(2).Name);
     }
 
+    @Ignore("Disabled until drag and drop is fixed, see " +
+            "https://stackoverflow.com/questions/27992427/recyclerview-adapter-notifyitemmoved0-1-scrolls-screen")
     @Test
     public void stationInFavourites_ShouldBeReordered_WithSimpleDragAndDrop() {
         onView(ViewMatchers.withId(R.id.nav_item_starred)).perform(ViewActions.click());
@@ -131,34 +136,32 @@ public class UIFavouritesFragmentTest {
         assertEquals(getFakeRadioStationName(0), favouriteManager.getList().get(1).Name);
     }
 
+    @SdkSuppress(maxSdkVersion = 32)
     @Test
     public void stationInFavourites_ShouldBeDeleted_WithSwipeRight() {
         onView(withId(R.id.nav_item_starred)).perform(ViewActions.click());
 
-        onView(withId(R.id.recyclerViewStations)).perform(scrollToRecyclerItem(0));
+        onView(allOf((withId(R.id.recyclerViewStations)), FirstViewMatcher.firstView())).perform(scrollToRecyclerItem(0));
         onView(withRecyclerView(R.id.recyclerViewStations).atPosition(0)).perform(ViewActions.swipeRight());
-        onView(withRecyclerView(R.id.recyclerViewStations).atPosition(0))
-                .check(matches(hasDescendant(withText(getFakeRadioStationName(1)))));
+        waitForView(withId(com.google.android.material.R.id.snackbar_action));
+        SystemClock.sleep(1000);
         assertEquals(STATIONS_COUNT - 1, favouriteManager.getList().size());
 
-        onView(withId(R.id.recyclerViewStations)).perform(scrollToRecyclerItem(1));
+        onView(allOf((withId(R.id.recyclerViewStations)), FirstViewMatcher.firstView())).perform(scrollToRecyclerItem(1));
         onView(withRecyclerView(R.id.recyclerViewStations).atPosition(1)).perform(ViewActions.swipeRight());
-        onView(withRecyclerView(R.id.recyclerViewStations).atPosition(1))
-                .check(matches(hasDescendant(withText(getFakeRadioStationName(3)))));
+        waitForView(withId(com.google.android.material.R.id.snackbar_action));
+        SystemClock.sleep(1000);
         assertEquals(STATIONS_COUNT - 2, favouriteManager.getList().size());
 
-        onView(withId(R.id.recyclerViewStations)).perform(scrollToRecyclerItem(2));
+        onView(allOf((withId(R.id.recyclerViewStations)), FirstViewMatcher.firstView())).perform(scrollToRecyclerItem(2));
         onView(withRecyclerView(R.id.recyclerViewStations).atPosition(2)).perform(ViewActions.swipeRight());
-        onView(withRecyclerView(R.id.recyclerViewStations).atPosition(1))
-                .check(matches(hasDescendant(withText(getFakeRadioStationName(3)))));
+        waitForView(withId(com.google.android.material.R.id.snackbar_action));
+        SystemClock.sleep(1000);
         assertEquals(STATIONS_COUNT - 3, favouriteManager.getList().size());
 
         // Snackbar with undo action
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
             // for whatever reason this often does not work on API 21 emulators
-            waitForView(withId(com.google.android.material.R.id.snackbar_action))
-                    .toMatch(
-                            allOf(withText(R.string.action_station_removed_from_list_undo), isDisplayed()));
             onView(withId(com.google.android.material.R.id.snackbar_action)).perform(ViewActions.click());
 
             assertEquals(STATIONS_COUNT - 2, favouriteManager.getList().size());

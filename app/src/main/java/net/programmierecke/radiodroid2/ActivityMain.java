@@ -1093,7 +1093,7 @@ public class ActivityMain extends AppCompatActivity implements SearchView.OnQuer
         result.closeSearchPage(this);
         getSupportFragmentManager().popBackStack();
         FragmentSettings f = FragmentSettings.openNewSettingsSubFragment(this, result.getScreen());
-        result.highlight(f, Utils.getAccentColor(this));
+        result.highlight(f);
     }
 
     @Override
