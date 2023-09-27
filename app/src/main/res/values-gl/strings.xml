@@ -155,7 +155,7 @@
     <string name="settings_read_timeout">Lectura da desconexión </string>
     <string name="settings_resume_timeout">Retomar tras desconexión</string>
     <string name="settings_retry_timeout">Conectar tras desconexión</string>
-    <string name="settings_retry_delay">Retraso na conexión/string>
+    <string name="settings_retry_delay">Retraso na conexión</string>
     <string name="settings_proxy">Proxy</string>
     <string name="settings_proxy_login">Nome de usuaria</string>
     <string name="settings_proxy_password">Contrasinal</string>

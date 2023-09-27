@@ -290,7 +290,7 @@
   <string name="mpd_no_connection">Ingen tilkobling</string>
   <string name="action_enable_mpd">Slå på MPD</string>
   <string name="action_disable_mpd">Slå av MPD</string>
-  <string name="action_add_mpd_server"Legg til MPD server</string>
+  <string name="action_add_mpd_server">Legg til MPD server</string>
 
   <string name="action_play_in_external">Spill av i ekstern avspiller</string>
   <string name="action_choose_external_player">Velg ekstern avspiller</string>
