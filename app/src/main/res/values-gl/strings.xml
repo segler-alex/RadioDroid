@@ -161,7 +161,7 @@
     <string name="settings_proxy_password">Contrasinal</string>
     <string name="settings_proxy_action_test">Test</string>
     <string name="settings_proxy_working">Conexión correcta a %s</string>
-    <string name="settings_proxy_not_working">Fallou a conexión a %s\n%s</string>
+    <string name="settings_proxy_not_working">Fallou a conexión a %1$s\n%2$s</string>
     <string name="settings_proxy_invalid">Os valores proporcionados para o proxy non son válidos</string>
     <string name="ignore_proxy_settings_invalid">Ignorados os valores non válidos para o proxy</string>
     <string name="settings_seconds_format">%d segundos</string>

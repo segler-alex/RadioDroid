@@ -160,7 +160,7 @@
     <string name="settings_proxy_password">Pasahitza</string>
     <string name="settings_proxy_action_test">Probatu</string>
     <string name="settings_proxy_working">%s irrati-etxera behar bezala konektatu da</string>
-    <string name="settings_proxy_not_working">%s irrati-etxearen konekzioak huts egin du\n%s</string>
+    <string name="settings_proxy_not_working">%1$s irrati-etxearen konekzioak huts egin du\n%2$s</string>
     <string name="settings_proxy_invalid">Proxyaren datuak baliogabeak dira</string>
     <string name="ignore_proxy_settings_invalid">Proxyaren datu baliogabeak ez dira kontuan hartu</string>
     <string name="settings_seconds_format">%d segundo</string>
