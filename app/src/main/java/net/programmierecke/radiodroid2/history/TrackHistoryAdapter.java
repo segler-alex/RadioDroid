@@ -10,7 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.core.content.ContextCompat;
+import androidx.appcompat.content.res.AppCompatResources;
 import androidx.fragment.app.FragmentActivity;
 import androidx.paging.PagedList;
 import androidx.paging.PagedListAdapter;
@@ -52,7 +52,7 @@ public class TrackHistoryAdapter extends PagedListAdapter<TrackHistoryEntry, Tra
         this.context = activity;
         inflater = LayoutInflater.from(context);
 
-        stationImagePlaceholder = ContextCompat.getDrawable(context, R.drawable.ic_photo_24dp);
+        stationImagePlaceholder = AppCompatResources.getDrawable(context, R.drawable.ic_photo_24dp);
     }
 
     @NonNull

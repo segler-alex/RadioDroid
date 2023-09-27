@@ -251,7 +251,7 @@ public class FragmentPlayerFull extends Fragment {
         historyAndRecordsPagerAdapter.recyclerViewSongHistory.addItemDecoration(dividerItemDecoration);
 
         trackHistoryViewModel = ViewModelProviders.of(this).get(TrackHistoryViewModel.class);
-        trackHistoryViewModel.getAllHistoryPaged().observe(this, new Observer<PagedList<TrackHistoryEntry>>() {
+        trackHistoryViewModel.getAllHistoryPaged().observe(getViewLifecycleOwner(), new Observer<PagedList<TrackHistoryEntry>>() {
             @Override
             public void onChanged(@Nullable PagedList<TrackHistoryEntry> songHistoryEntries) {
                 trackHistoryAdapter.submitList(songHistoryEntries);

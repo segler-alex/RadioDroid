@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.content.res.Resources;
+import android.graphics.drawable.Drawable;
 import android.os.IBinder;
 import android.os.RemoteException;
 import android.util.Log;
@@ -12,6 +13,7 @@ import android.util.TypedValue;
 import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.content.res.AppCompatResources;
 import androidx.core.content.ContextCompat;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
@@ -27,6 +29,8 @@ import net.programmierecke.radiodroid2.players.selector.PlayerType;
 import net.programmierecke.radiodroid2.station.DataRadioStation;
 import net.programmierecke.radiodroid2.station.live.ShoutcastInfo;
 import net.programmierecke.radiodroid2.station.live.StreamLiveInfo;
+
+import java.util.Objects;
 
 public class PlayerServiceUtil {
 
@@ -277,6 +281,7 @@ public class PlayerServiceUtil {
         if (fromUrl.trim().equals("")) return;
         Resources r = mainContext.getResources();
         final float px = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 70, r.getDisplayMetrics());
+        final Drawable stationImagePlaceholder = AppCompatResources.getDrawable(holder.getContext(), R.drawable.ic_photo_24dp);
 
         Callback imageLoadCallback = new Callback() {
             @Override
@@ -287,7 +292,7 @@ public class PlayerServiceUtil {
             public void onError(Exception e) {
                 Picasso.get()
                         .load(fromUrl)
-                        .placeholder(ContextCompat.getDrawable(mainContext, R.drawable.ic_photo_24dp))
+                        .placeholder(stationImagePlaceholder)
                         .resize((int) px, 0)
                         .networkPolicy(NetworkPolicy.NO_CACHE)
                         .into(holder);
@@ -296,7 +301,7 @@ public class PlayerServiceUtil {
 
         Picasso.get()
                 .load(fromUrl)
-                .placeholder(ContextCompat.getDrawable(mainContext, R.drawable.ic_photo_24dp))
+                .placeholder(stationImagePlaceholder)
                 .resize((int) px, 0)
                 .networkPolicy(NetworkPolicy.OFFLINE)
                 .into(holder, imageLoadCallback);

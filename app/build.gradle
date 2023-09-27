@@ -1,6 +1,5 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-android-extensions'
 
 def getAvailableLocales() {
     def tree = fileTree(dir: 'src/main/res', include: '**/strings.xml')
@@ -26,22 +25,28 @@ android {
 
     flavorDimensions "one"
 
-    compileSdkVersion 29
-    buildToolsVersion '29.0.3'
+    compileSdkVersion 33
 
-    lintOptions {
-        abortOnError true
-    }
 
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
+    }
+
+    kotlin {
+        jvmToolchain {
+            languageVersion.set(JavaLanguageVersion.of("11"))
+        }
+    }
+
+    buildFeatures {
+        viewBinding true
     }
 
     defaultConfig {
         applicationId "net.programmierecke.radiodroid2"
         minSdkVersion 16
-        targetSdkVersion 29
+        targetSdkVersion 33
 
         versionCode 94
         versionName "0.84"
@@ -75,6 +80,8 @@ android {
         buildConfigField "java.util.concurrent.atomic.AtomicBoolean", "IS_TESTING", "new java.util.concurrent.atomic.AtomicBoolean(false)"
 
         multiDexKeepProguard file('multidex-config.pro')
+
+        vectorDrawables.useSupportLibrary = true
     }
 
     testOptions {
@@ -109,6 +116,10 @@ android {
             dimension "one"
         }
     }
+    lint {
+        abortOnError true
+    }
+    namespace 'net.programmierecke.radiodroid2'
 
     testOptions {
         unitTests.all {
@@ -120,29 +131,31 @@ android {
 }
 
 ext {
-    exoplayerVersion = '2.11.7'
+    exoplayerVersion = '2.18.2'
     iconicsVersion = '4.0.2'
 }
 
 dependencies {
     implementation 'androidx.multidex:multidex:2.0.1'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
-    implementation 'androidx.appcompat:appcompat:1.2.0'
-    implementation 'androidx.recyclerview:recyclerview:1.1.0'
-    implementation 'com.google.android.material:material:1.3.0-alpha04'
-    implementation 'androidx.preference:preference:1.1.1'
-    implementation 'androidx.mediarouter:mediarouter:1.2.0'
+    implementation 'androidx.appcompat:appcompat:1.5.1'
+    implementation 'androidx.recyclerview:recyclerview:1.2.1'
+    implementation 'com.google.android.material:material:1.8.0-beta01'
+    implementation 'androidx.preference:preference:1.2.0'
+    implementation 'androidx.mediarouter:mediarouter:1.3.1'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
-    implementation 'androidx.recyclerview:recyclerview:1.1.0'
-    implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
+    implementation 'androidx.recyclerview:recyclerview:1.2.1'
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
     implementation 'androidx.tvprovider:tvprovider:1.0.0'
 
     // Keep OkHttp 3.12.X to support Android 4.X, see https://developer.squareup.com/blog/okhttp-3-13-requires-android-5
     //noinspection GradleDependency
-    implementation 'com.squareup.okhttp3:okhttp:3.12.12'
+    implementation 'com.squareup.okhttp3:okhttp:3.12.13'
 
-    implementation 'com.google.code.gson:gson:2.8.6'
-    implementation 'com.squareup.picasso:picasso:2.71828'
+    implementation 'com.google.code.gson:gson:2.9.1'
+    //noinspection GradleDependency 2.8 is newer than 2.71828'
+    implementation 'com.squareup.picasso:picasso:2.8'
+    //noinspection GradleDependency
     implementation 'jp.wasabeef:picasso-transformations:2.3.1'
     implementation "com.google.android.exoplayer:exoplayer-core:$exoplayerVersion"
     implementation "com.google.android.exoplayer:exoplayer-hls:$exoplayerVersion"
@@ -152,43 +165,43 @@ dependencies {
     implementation 'com.mikepenz:community-material-typeface:3.7.95.4-kotlin@aar'
     implementation 'com.github.rustamg:file-dialogs:1.0'
     implementation 'info.debatty:java-string-similarity:2.0.0'
-    implementation 'me.xdrop:fuzzywuzzy:1.2.0'
+    implementation 'me.xdrop:fuzzywuzzy:1.4.0'
+    //noinspection GradleDependency
     implementation 'com.github.zawadz88.materialpopupmenu:material-popup-menu:3.4.0'
-    implementation 'com.github.ByteHamster:SearchPreference:v2.0.0'
+    implementation 'com.github.ByteHamster:SearchPreference:v2.3.0'
 
-    implementation 'androidx.room:room-runtime:2.2.5'
-    annotationProcessor 'androidx.room:room-compiler:2.2.5'
+    implementation 'androidx.room:room-runtime:2.4.3'
+    androidTestImplementation("androidx.test.espresso:espresso-contrib:3.4.0") {
+        exclude group: 'org.checkerframework', module: 'checker'
+    }
+    annotationProcessor 'androidx.room:room-compiler:2.4.3'
 
     implementation "androidx.lifecycle:lifecycle-extensions:2.2.0"
-    implementation "androidx.lifecycle:lifecycle-common-java8:2.2.0"
+    implementation "androidx.lifecycle:lifecycle-common-java8:2.5.1"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.1"
 
-    implementation 'androidx.paging:paging-runtime:2.1.2'
+    implementation 'androidx.paging:paging-runtime:3.1.1'
 
-    playImplementation 'com.google.android.gms:play-services-cast:19.0.0'
-    playImplementation 'com.google.android.gms:play-services-cast-framework:19.0.0'
-    playImplementation 'com.google.android.gms:play-services-safetynet:17.0.0'
+    playImplementation 'com.google.android.gms:play-services-cast:21.2.0'
+    playImplementation 'com.google.android.gms:play-services-cast-framework:21.2.0'
+    playImplementation 'com.google.android.gms:play-services-safetynet:18.0.1'
 
-    testImplementation 'junit:junit:4.13.1'
-    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'
-    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.0'
-    testRuntimeOnly 'org.junit.vintage:junit-vintage-engine:5.7.0'
+    testImplementation 'junit:junit:4.13.2'
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.9.1'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.9.1'
+    testRuntimeOnly 'org.junit.vintage:junit-vintage-engine:5.9.1'
 
-    androidTestImplementation 'androidx.test:core:1.3.1-alpha02'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.2'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
-    androidTestImplementation 'androidx.test.espresso:espresso-contrib:3.3.0'
-    // Keep this versions 1.3.0 until bumping it won't break building of AndroidTest
-    androidTestImplementation 'androidx.test:runner:1.3.0'
-    androidTestImplementation 'androidx.test:rules:1.3.0'
+    androidTestImplementation 'androidx.test:core:1.5.0'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.4'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
+    androidTestImplementation 'androidx.test:runner:1.4.0'
+    androidTestImplementation 'androidx.test:rules:1.4.0'
     androidTestImplementation 'androidx.test.uiautomator:uiautomator:2.2.0'
 
     //noinspection GradleDependency
-    androidTestImplementation("com.squareup.okhttp3:mockwebserver:3.12.6")
-    androidTestImplementation("com.github.YarikSOffice:lingver:1.2.1") {
-        exclude group: 'org.jetbrains.kotlin', module: 'kotlin-stdlib-jdk7'
-    }
-
-    androidTestUtil 'androidx.test:orchestrator:1.3.0'
+    androidTestImplementation("com.squareup.okhttp3:mockwebserver:3.12.13")
+    androidTestImplementation("com.github.YarikSOffice:lingver:1.3.0")
+    androidTestUtil 'androidx.test:orchestrator:1.4.1'
 }
 
 
@@ -204,7 +217,7 @@ android.applicationVariants.all { variant ->
     variant.outputs.all { output ->
 
         // get app_name field from defaultConfig
-        def appName = variant.mergedFlavor.resValues.get('app_name_untranslated').getValue()
+        def appName = variant.mergedFlavor.resValues.get('string/app_name_untranslated').getValue()
         appName = "${appName}"
 
         // concat new App name with each flavor's name

@@ -179,6 +179,11 @@ public class Utils {
 
             String responseStr = response.body().string();
 
+            if (!response.isSuccessful()) {
+                Log.e("UTIL", "Unsuccessful response: " + response.message() + "\n" + responseStr);
+                return null;
+            }
+
             writeFileCache(ctx, theURI, responseStr);
             if (BuildConfig.DEBUG) {
                 Log.d("UTIL", "wrote cache file for:" + theURI);

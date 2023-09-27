@@ -233,7 +233,7 @@
     <string name="settings_play_external_desc_on">Stationen werden mit einem externem Player abspielt.</string>
     <string name="settings_proxy_action_test">Prüfung</string>
     <string name="settings_proxy_login">Nutzername</string>
-    <string name="settings_proxy_not_working">Die Verbindung zu %s konnte nicht hergestellt werden \n%s.</string>
+    <string name="settings_proxy_not_working">Die Verbindung zu %1$s konnte nicht hergestellt werden \n%2$s.</string>
     <string name="settings_proxy_password">Passwort</string>
     <string name="settings_proxy_working">Erfolgreich verbunden mit %s</string>
     <string name="settings_read_timeout">Zeitüberschreitung beim Lesen</string>

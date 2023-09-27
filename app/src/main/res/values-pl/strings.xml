@@ -137,7 +137,7 @@
     <string name="settings_proxy_password">Hasło</string>
     <string name="settings_proxy_action_test">Test</string>
     <string name="settings_proxy_working">Pomyślnie nawiązano połączenie z %s</string>
-    <string name="settings_proxy_not_working">Nie udało się połączyć z %s\n%s</string>
+    <string name="settings_proxy_not_working">Nie udało się połączyć z %1$s\n%2$s</string>
     <string name="settings_seconds_format">%d sekund</string>
     <string name="settings_milliseconds_format">%d milisekund</string>
 

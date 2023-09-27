@@ -161,7 +161,7 @@
     <string name="settings_proxy_password">Adgangskode</string>
     <string name="settings_proxy_action_test">Test</string>
     <string name="settings_proxy_working">Forbundet til %s</string>
-    <string name="settings_proxy_not_working">Kunne ikke forbinde til %s\n%s</string>
+    <string name="settings_proxy_not_working">Kunne ikke forbinde til %1$s\n%2$s</string>
     <string name="settings_proxy_invalid">Mellemvært værdier er ugyldige</string>
     <string name="ignore_proxy_settings_invalid">Ignorere ugyldig mellemvært opsætning</string>
     <string name="settings_seconds_format">%d sekunder</string>

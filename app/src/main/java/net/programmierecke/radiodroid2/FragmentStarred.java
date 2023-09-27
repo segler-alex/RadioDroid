@@ -124,7 +124,7 @@ public class FragmentStarred extends Fragment implements IAdapterRefreshable, Ob
             @Override
             public void onStationMoveFinished() {
                 // We don't want to update RecyclerView during its layout process
-                Objects.requireNonNull(getView()).post(() -> {
+                requireView().post(() -> {
                     favouriteManager.Save();
                     favouriteManager.notifyObservers();
                 });

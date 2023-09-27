@@ -71,11 +71,13 @@ public class RadioDroidApp extends MultiDexApplication {
         }
     }
 
+    static {
+        AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
+    }
+
     @Override
     public void onCreate() {
         super.onCreate();
-
-        AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
 
         GoogleProviderHelper.use(getBaseContext());
 

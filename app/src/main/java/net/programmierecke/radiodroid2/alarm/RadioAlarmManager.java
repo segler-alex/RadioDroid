@@ -26,6 +26,8 @@ public class RadioAlarmManager {
     private static final int ONE_DAY_IN_MILLIS = 24 * 60 * 60 * 1000;
     private Context context;
     private List<DataRadioStationAlarm> list = new ArrayList<DataRadioStationAlarm>();
+    final int pendingIntentFlag =  Build.VERSION.SDK_INT >= Build.VERSION_CODES.M ? PendingIntent.FLAG_IMMUTABLE : 0;
+
 
     private class AlarmsObservable extends Observable {
         @Override
@@ -118,7 +120,7 @@ public class RadioAlarmManager {
         }
 
         editor.putString("alarm.ids",items);
-        editor.commit();
+        editor.apply();
 
         savedAlarmsObservable.notifyObservers();
     }
@@ -190,7 +192,7 @@ public class RadioAlarmManager {
 
             Intent intent = new Intent(context, AlarmReceiver.class);
             intent.putExtra("id",alarmId);
-            PendingIntent alarmIntent = PendingIntent.getBroadcast(context, alarmId, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+            PendingIntent alarmIntent = PendingIntent.getBroadcast(context, alarmId, intent, PendingIntent.FLAG_UPDATE_CURRENT | pendingIntentFlag);
             AlarmManager alarmMgr = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
 
             Calendar calendar = Calendar.getInstance();
@@ -242,7 +244,7 @@ public class RadioAlarmManager {
         if (alarm != null) {
             if(BuildConfig.DEBUG) { Log.d("ALARM","stopped:"+alarmId); }
             Intent intent = new Intent(context, AlarmReceiver.class);
-            PendingIntent alarmIntent = PendingIntent.getBroadcast(context, alarmId, intent, 0);
+            PendingIntent alarmIntent = PendingIntent.getBroadcast(context, alarmId, intent, pendingIntentFlag);
             AlarmManager alarmMgr = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
             alarmMgr.cancel(alarmIntent);
         }

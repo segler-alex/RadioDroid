@@ -273,6 +273,13 @@
             android:summary="@string/settings_lastfm_api_key_desc"/>
 
         <Preference
+            android:defaultValue="false"
+            android:key="@string/key_ignore_battery_optimization"
+            android:summaryOff="@string/settings_ignore_battery_optimization_summary_off"
+            android:summaryOn= "@string/settings_ignore_battery_optimization_summary_on"
+            android:title="@string/settings_disable_battery_optimization" />
+
+        <Preference
             android:key="show_statistics"
             android:title="@string/settings_statistics" />
 
