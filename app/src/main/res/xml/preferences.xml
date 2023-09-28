@@ -57,6 +57,25 @@
             android:summaryOff="@string/settings_auto_play_on_startup_off"
             android:summaryOn="@string/settings_auto_play_on_startup_on"
             android:title="@string/settings_auto_play_on_startup" />
+
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="auto_off_on_startup"
+            android:dependency="auto_play_on_startup"
+            android:summaryOff="@string/settings_auto_off_on_startup_off"
+            android:summaryOn="@string/settings_auto_off_on_startup_on"
+            android:title="@string/settings_auto_off_on_startup" />
+
+        <ListPreference
+            android:defaultValue="10"
+            android:dependency="auto_off_on_startup"
+            android:entries="@array/timeout_minutes"
+            android:entryValues="@array/timeout_minutes_values"
+            android:key="auto_off_timeout"
+            android:summary="@string/settings_auto_off_sleep_timer_desc"
+            search:summary=""
+            android:title="@string/settings_auto_off_sleep_timer" />
+
     </PreferenceScreen>
 
     <PreferenceScreen android:title="@string/settings_interaction"
