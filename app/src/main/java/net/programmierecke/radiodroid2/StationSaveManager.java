@@ -527,14 +527,22 @@ public class StationSaveManager extends Observable {
             br.close();
 
             List<DataRadioStation> listStationsNew = Utils.getStationsByUuid(httpClient, context, listUuids);
-            if (listStationsNew != null) {
-                return listStationsNew;
+
+            // sort list to have the same order as the initial save file
+            List<DataRadioStation> listStationsSorted = new ArrayList<DataRadioStation>();
+            for (String uuid: listUuids)
+            {
+                for (DataRadioStation s: listStationsNew){
+                    if (uuid.equals(s.StationUuid)){
+                        listStationsSorted.add(s);
+                        break;
+                    }
+                }
             }
+            return listStationsSorted;
         } catch (Exception e) {
             Log.e("LOAD", "File read failed: " + e.toString());
             return null;
         }
-        List<DataRadioStation> loadedItems = new ArrayList<>();
-        return loadedItems;
     }
 }
