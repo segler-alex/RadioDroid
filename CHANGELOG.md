@@ -5,6 +5,15 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 
+## [0.86] - 2023-09-28
+### Added
+- Auto stop support for auto start-play
+
+### Changed
+- Enabled android tv again
+- Distribute package as AAB on play store from now on
+- Sorting of entries from loaded files is now the same as the file
+
 ## [0.85] - 2023-09-27
 ### Fixed
 - Building works again
