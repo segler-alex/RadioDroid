@@ -154,16 +154,16 @@ public class FragmentSettings extends PreferenceFragmentCompat implements Shared
                 }
             });
 
-            findPreference("show_about").setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-                @Override
-                public boolean onPreferenceClick(Preference preference) {
-                    ((ActivityMain) getActivity()).getToolbar().setTitle(R.string.settings_about);
-                    FragmentAbout f = new FragmentAbout();
-                    FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
-                    fragmentTransaction.replace(R.id.containerView, f).addToBackStack(String.valueOf(FRAGMENT_FROM_BACKSTACK)).commit();
-                    return false;
-                }
-            });
+//            findPreference("show_about").setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+//                @Override
+//                public boolean onPreferenceClick(Preference preference) {
+//                    ((ActivityMain) getActivity()).getToolbar().setTitle(R.string.settings_about);
+//                    FragmentAbout f = new FragmentAbout();
+//                    FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+//                    fragmentTransaction.replace(R.id.containerView, f).addToBackStack(String.valueOf(FRAGMENT_FROM_BACKSTACK)).commit();
+//                    return false;
+//                }
+//            });
         }
 
         Preference batPref = getPreferenceScreen().findPreference(getString(R.string.key_ignore_battery_optimization));
