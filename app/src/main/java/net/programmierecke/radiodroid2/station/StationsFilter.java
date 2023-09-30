@@ -156,7 +156,7 @@ public class StationsFilter extends CustomFilter {
         final String query = constraint.toString().toLowerCase();
         Log.d("FILTER", "performFiltering() " + query);
 
-        if (searchStyle == SearchStyle.ByName && (query.isEmpty() || (query.length() < 3 && filterType == FilterType.GLOBAL))) {
+        if (searchStyle == SearchStyle.ByName && (query.isEmpty() || (query.length() < 2 && filterType == FilterType.GLOBAL))) {
             Log.d("FILTER", "performFiltering() 2 " + query);
             filteredStationsList = dataProvider.getOriginalStationList();
             lastRemoteQuery = "";
