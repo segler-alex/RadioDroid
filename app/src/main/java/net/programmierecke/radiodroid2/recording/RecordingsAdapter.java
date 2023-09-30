@@ -98,7 +98,7 @@ public class RecordingsAdapter extends RecyclerView.Adapter<RecordingsAdapter.Re
         ProgressDialog dialog = ProgressDialog.show(context, "Loading...", "Please wait...", true, false);
         String path = RecordingsManager.getRecordDir() + "/" + theData.Name;
         if (BuildConfig.DEBUG) {
-            Log.e(TAG, "play: " + path);
+            Log.d(TAG, "play: " + path);
         }
 
         Intent i = new Intent(path);
