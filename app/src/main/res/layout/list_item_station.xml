@@ -81,7 +81,6 @@
                     android:ellipsize="end"
                     android:lines="1"
                     android:scrollbars="none"
-                
                     android:textAppearance="@style/TextAppearance.AppCompat.Body2" />
 
             <TextView
