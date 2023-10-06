@@ -58,6 +58,7 @@ public class RadioDroidBrowserService extends MediaBrowserServiceCompat {
         radioDroidBrowser = new RadioDroidBrowser((RadioDroidApp) getApplication());
 
         Intent anIntent = new Intent(this, PlayerService.class);
+        anIntent.putExtra(PlayerService.PLAYER_SERVICE_NO_NOTIFICATION_EXTRA, true);
         startService(anIntent);
 
         playerServiceConnection = new ServiceConnection() {
