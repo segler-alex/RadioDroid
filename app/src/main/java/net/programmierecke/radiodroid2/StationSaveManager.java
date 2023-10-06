@@ -13,6 +13,7 @@ import android.util.Log;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
+import androidx.collection.ArraySet;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import net.programmierecke.radiodroid2.station.DataRadioStation;
@@ -59,6 +60,8 @@ public class StationSaveManager extends Observable {
     }
 
     public void add(DataRadioStation station) {
+        if (station.queue == null)
+            station.queue = this;
         listStations.add(station);
         Save();
 
@@ -93,6 +96,8 @@ public class StationSaveManager extends Observable {
     }
 
     public void addFront(DataRadioStation station) {
+        if (station.queue == null)
+            station.queue = this;
         listStations.add(0, station);
         Save();
 
@@ -103,6 +108,15 @@ public class StationSaveManager extends Observable {
         }
     }
 
+        public void addAll(List<DataRadioStation> stations) {
+        if (stations == null)
+            return;
+        for (DataRadioStation station : stations) {
+            station.queue = this;
+        }
+        listStations.addAll(stations);
+    }
+    
     public DataRadioStation getLast() {
         if (!listStations.isEmpty()) {
             return listStations.get(listStations.size() - 1);
@@ -199,6 +213,7 @@ public class StationSaveManager extends Observable {
     }
 
     public void restore(DataRadioStation station, int pos) {
+        station.queue = this;
         listStations.add(pos, station);
         Save();
 
@@ -301,6 +316,9 @@ public class StationSaveManager extends Observable {
         String str = sharedPref.getString(getSaveId(), null);
         if (str != null) {
             List<DataRadioStation> arr = DataRadioStation.DecodeJson(str);
+            for (DataRadioStation station : arr) {
+                station.queue = this;
+            }
             listStations.addAll(arr);
             if (hasInvalidUuids() && Utils.hasAnyConnection(context)) {
                 refreshStationsFromServer();
@@ -496,6 +514,7 @@ public class StationSaveManager extends Observable {
     List<DataRadioStation> LoadM3UInternal(String filePath, String fileName) {
         try {
             File f = new File(filePath, fileName);
+            ArraySet<DataRadioStation> loadedItems = null;
             FileReader fr = new FileReader(f);
             return LoadM3UReader(fr);
         } catch (Exception e) {
@@ -518,7 +537,11 @@ public class StationSaveManager extends Observable {
                 if (line.startsWith(M3U_PREFIX)) {
                     try {
                         String uuid = line.substring(M3U_PREFIX.length()).trim();
-                        listUuids.add(uuid);
+                        DataRadioStation station = Utils.getStationByUuid(httpClient, context, uuid);
+                        if (station != null) {
+                            station.queue = this;
+                            loadedItems.add(station);
+                        }
                     } catch (Exception e) {
                         Log.e("LOAD", e.toString());
                     }
