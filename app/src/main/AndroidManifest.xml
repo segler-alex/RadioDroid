@@ -61,11 +61,10 @@
                 <category android:name="android.intent.category.LEANBACK_LAUNCHER" />
             </intent-filter>
 
-            <!-- Use this intent filter to get voice searches, like "Play The Beatles" -->
-            <!--<intent-filter>-->
-                <!--<action android:name="android.media.action.MEDIA_PLAY_FROM_SEARCH" />-->
-                <!--<category android:name="android.intent.category.DEFAULT" />-->
-            <!--</intent-filter>-->
+            <intent-filter>
+                <action android:name="android.media.action.MEDIA_PLAY_FROM_SEARCH" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
         </activity>
         <service
             android:name="net.programmierecke.radiodroid2.service.PlayerService"
@@ -77,14 +76,14 @@
             </intent-filter>
         </service>
 
-<!--        <service-->
-<!--            android:name="net.programmierecke.radiodroid2.service.RadioDroidBrowserService"-->
-<!--            android:exported="true"-->
-<!--            tools:ignore="ExportedService">-->
-<!--            <intent-filter>-->
-<!--                <action android:name="android.media.browse.MediaBrowserService" />-->
-<!--            </intent-filter>-->
-<!--        </service>-->
+<!--        <service
+<!--            android:name="net.programmierecke.radiodroid2.service.RadioDroidBrowserService"
+<!--            android:exported="true"
+<!--            tools:ignore="ExportedService">
+<!--            <intent-filter>
+<!--                <action android:name="android.media.browse.MediaBrowserService" />
+<!--            </intent-filter>
+<!--        </service>
 
         <receiver
             android:name="net.programmierecke.radiodroid2.alarm.AlarmReceiver"
@@ -113,13 +112,13 @@
             </intent-filter>
         </receiver>
 
-        <!--<meta-data-->
-            <!--android:name="com.google.android.gms.car.application"-->
-            <!--android:resource="@xml/automotive_app_desc" />-->
+        <meta-data
+            android:name="com.google.android.gms.car.application"
+            android:resource="@xml/automotive_app_desc" />
 
-        <!--<meta-data-->
-            <!--android:name="com.google.android.gms.car.notification.SmallIcon"-->
-            <!--android:resource="@mipmap/ic_launcher" />-->
+        <meta-data
+            android:name="com.google.android.gms.car.notification.SmallIcon"
+            android:resource="@mipmap/ic_launcher" />
 
     </application>
 </manifest>
