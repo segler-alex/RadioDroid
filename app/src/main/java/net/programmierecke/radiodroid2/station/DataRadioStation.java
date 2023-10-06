@@ -21,6 +21,7 @@ import com.squareup.picasso.Target;
 
 import net.programmierecke.radiodroid2.ActivityMain;
 import net.programmierecke.radiodroid2.R;
+import net.programmierecke.radiodroid2.StationSaveManager;
 import net.programmierecke.radiodroid2.Utils;
 import net.programmierecke.radiodroid2.service.MediaSessionCallback;
 
@@ -68,6 +69,8 @@ public class DataRadioStation implements Parcelable {
 
 	public String playableUrl;
 
+	public StationSaveManager queue;
+	
 	@Deprecated
 	public String StationId = "";
 
