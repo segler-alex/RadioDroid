@@ -1,7 +1,12 @@
 package net.programmierecke.radiodroid2.service;
 
 import android.content.ContentResolver;
+import static androidx.media.utils.MediaConstants.DESCRIPTION_EXTRAS_KEY_CONTENT_STYLE_BROWSABLE;
+import static androidx.media.utils.MediaConstants.DESCRIPTION_EXTRAS_KEY_CONTENT_STYLE_PLAYABLE;
+import static androidx.media.utils.MediaConstants.DESCRIPTION_EXTRAS_VALUE_CONTENT_STYLE_GRID_ITEM;
+import static androidx.media.utils.MediaConstants.DESCRIPTION_EXTRAS_VALUE_CONTENT_STYLE_LIST_ITEM;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -12,15 +17,13 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.media.MediaBrowserCompat;
 import android.support.v4.media.MediaDescriptionCompat;
+import android.support.v4.media.MediaMetadataCompat;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-
-import android.support.v4.media.MediaBrowserCompat;
 import androidx.media.MediaBrowserServiceCompat;
-import android.support.v4.media.MediaDescriptionCompat;
-import android.support.v4.media.MediaMetadataCompat;
-import android.text.TextUtils;
+import androidx.preference.PreferenceManager;
 
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
@@ -46,6 +49,7 @@ import static net.programmierecke.radiodroid2.Utils.resourceToUri;
 
 
 public class RadioDroidBrowser {
+    private static final String TAG = "RadioDroidBrowser";
     private static final String MEDIA_ID_ROOT = "__ROOT__";
     private static final String MEDIA_ID_MUSICS_FAVORITE = "__FAVORITE__";
     private static final String MEDIA_ID_MUSICS_HISTORY = "__HISTORY__";
@@ -142,20 +146,34 @@ public class RadioDroidBrowser {
             }
 
             List<MediaBrowserCompat.MediaItem> mediaItems = new ArrayList<>();
-
+            SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(context.getApplicationContext());
+            
             for (DataRadioStation station : stations) {
+                
                 Bitmap stationIcon = stationIdToIcon.get(station.StationUuid);
+                
                 if (stationIcon == null)
                     stationIcon = BitmapFactory.decodeResource(Resources.getSystem(), R.drawable.ic_launcher);
                 Bundle extras = new Bundle();
                 extras.putParcelable(MediaMetadataCompat.METADATA_KEY_ALBUM_ART, stationIcon);
                 extras.putParcelable(MediaMetadataCompat.METADATA_KEY_DISPLAY_ICON, stationIcon);
-                mediaItems.add(new MediaBrowserCompat.MediaItem(new MediaDescriptionCompat.Builder()
+                MediaDescriptionCompat.Builder mediaItem = new MediaDescriptionCompat.Builder()
                         .setMediaId(MEDIA_ID_MUSICS_HISTORY + LEAF_SEPARATOR + station.StationUuid)
                         .setTitle(station.Name)
-                        .setIconBitmap(stationIcon)
-                        .setExtras(extras)
-                        .build(),
+                        .setDescription(station.Country + " " + station.Country + " " + station.TagsAll)
+                        .setExtras(extras);
+
+                if (station.IconUrl != null && !station.IconUrl.isEmpty()) {
+                    String iconUrl = station.IconUrl;
+                    if (iconUrl.startsWith("http:")) {
+                        iconUrl = iconUrl.replace("http:", "https:");
+                    }
+                    mediaItem.setIconUri(Uri.parse(iconUrl));
+                } else {
+                    mediaItem.setIconUri(resourceToUri(resources, R.drawable.ic_photo_24dp));
+                }
+
+                mediaItems.add(new MediaBrowserCompat.MediaItem(mediaItem.build(),
                         MediaBrowserCompat.MediaItem.FLAG_PLAYABLE));
             }
 
@@ -169,9 +187,24 @@ public class RadioDroidBrowser {
         this.radioDroidApp = radioDroidApp;
     }
 
-    @Nullable
+   @Nullable
     public MediaBrowserServiceCompat.BrowserRoot onGetRoot(@NonNull String clientPackageName, int clientUid, @Nullable Bundle rootHints) {
-        return new MediaBrowserServiceCompat.BrowserRoot(MEDIA_ID_ROOT, null);
+       SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(radioDroidApp.getApplicationContext().getApplicationContext());
+       Bundle extras = new Bundle();
+       extras.putInt(DESCRIPTION_EXTRAS_KEY_CONTENT_STYLE_BROWSABLE, DESCRIPTION_EXTRAS_VALUE_CONTENT_STYLE_LIST_ITEM);
+       if (sharedPref.getBoolean("load_icons", false) && sharedPref.getBoolean("icons_only_favorites_style", false)) {
+           Log.d(TAG, "Setting grid style for playables");
+           extras.putInt(
+                   DESCRIPTION_EXTRAS_KEY_CONTENT_STYLE_PLAYABLE,
+                   DESCRIPTION_EXTRAS_VALUE_CONTENT_STYLE_GRID_ITEM);
+       } else {
+           Log.d(TAG, "Setting list style for playables");
+           extras.putInt(
+                   DESCRIPTION_EXTRAS_KEY_CONTENT_STYLE_PLAYABLE,
+                   DESCRIPTION_EXTRAS_VALUE_CONTENT_STYLE_LIST_ITEM);
+       }
+//       extras.putBoolean(CONTENT_STYLE_SUPPORTED, true);
+       return new MediaBrowserServiceCompat.BrowserRoot(MEDIA_ID_ROOT, extras);
     }
 
     public void onLoadChildren(@NonNull String parentId, @NonNull MediaBrowserServiceCompat.Result<List<MediaBrowserCompat.MediaItem>> result) {
@@ -223,23 +256,23 @@ public class RadioDroidBrowser {
         mediaItems.add(new MediaBrowserCompat.MediaItem(new MediaDescriptionCompat.Builder()
                 .setMediaId(MEDIA_ID_MUSICS_FAVORITE)
                 .setTitle(resources.getString(R.string.nav_item_starred))
-                .setIconUri(resourceToUri(resources, R.drawable.ic_star_black_24dp))
+                .setIconUri(resourceToUri(resources, R.drawable.ic_star_white_24))
                 .build(),
                 MediaBrowserCompat.MediaItem.FLAG_BROWSABLE));
 
         mediaItems.add(new MediaBrowserCompat.MediaItem(new MediaDescriptionCompat.Builder()
                 .setMediaId(MEDIA_ID_MUSICS_HISTORY)
                 .setTitle(resources.getString(R.string.nav_item_history))
-                .setIconUri(resourceToUri(resources, R.drawable.ic_restore_black_24dp))
+                .setIconUri(resourceToUri(resources, R.drawable.ic_star_white_24))
                 .build(),
                 MediaBrowserCompat.MediaItem.FLAG_BROWSABLE));
 
-        mediaItems.add(new MediaBrowserCompat.MediaItem(new MediaDescriptionCompat.Builder()
+/*        mediaItems.add(new MediaBrowserCompat.MediaItem(new MediaDescriptionCompat.Builder()
                 .setMediaId(MEDIA_ID_MUSICS_TOP)
                 .setTitle(resources.getString(R.string.action_top_click))
                 .setIconUri(resourceToUri(resources, R.drawable.ic_restore_black_24dp))
                 .build(),
-                MediaBrowserCompat.MediaItem.FLAG_BROWSABLE));
+                MediaBrowserCompat.MediaItem.FLAG_BROWSABLE));*/
         return mediaItems;
     }
 

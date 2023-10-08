@@ -130,6 +130,7 @@ public class FragmentTabs extends Fragment implements IFragmentRefreshable, IFra
                 return countryCode;
             }
             countryCode = ctx.getResources().getConfiguration().locale.getCountry();
+            addresses[IDX_LOCAL] = "json/stations/bycountrycodeexact/?order=clickcount&reverse=true";
             Log.d("MAIN", "Locale: '" + countryCode + "'");
             if (countryCode != null && countryCode.length() == 2) {
                 return countryCode;

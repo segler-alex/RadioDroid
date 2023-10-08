@@ -18,6 +18,7 @@
                 android:layout_width="90dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
+                android:background="@android:color/white"
                 android:measureAllChildren="true">
 
             <ImageView
@@ -114,7 +115,7 @@
                 android:minWidth="50dp"
                 android:padding="5dp"
                 app:tint="?attr/iconsInItemBackgroundColor"
-                app:srcCompat="@drawable/ic_expand_more_black_24dp" />
+                app:srcCompat="@drawable/ic_expand_more_white_24dp" />
     </LinearLayout>
 
     <ViewStub
