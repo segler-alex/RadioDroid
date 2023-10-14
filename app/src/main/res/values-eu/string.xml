@@ -88,7 +88,7 @@
     <string name="notify_save_playlist_ok">Behar bezala esportatu da hona: %1$s&#47;%2$s</string>
 
     <string name="searchpreference_clear_history">Garbitu historiala</string>
-    <string name="searchpreference_no_results">Emaitzik ez</string>
+    <string name="searchpreference_no_results">Emaitzarik ez</string>
     <string name="searchpreference_search">Bilatu…</string>
     <string name="settings_appearance">Itxura</string>
     <string name="settings_theme_selection_title">Gaia</string>
@@ -211,17 +211,17 @@
     <string name="yes">Bai</string>
     <string name="no">Ez</string>
 
-    <string name="alert_select_mpd_server">Por favor selecciona un servidor</string>
-    <string name="alert_select_mpd_server_name">Nombre del servidor</string>
-    <string name="alert_select_mpd_server_password">Contraseña del servidor</string>
-    <string name="hostname">Nombre del host</string>
-    <string name="port">Puerto</string>
+    <string name="alert_select_mpd_server">Mesedez hautatu zerbitzari bat</string>
+    <string name="alert_select_mpd_server_name">Zerbitzariaren izena</string>
+    <string name="alert_select_mpd_server_password">Zerbitzariaren pasahitza</string>
+    <string name="hostname">Ostalariaren izena</string>
+    <string name="port">Ataka</string>
 
     <string name="alert_select_mpd_server_add">Gehitu</string>
     <string name="alert_select_mpd_server_save">Gorde</string>
     <string name="alert_select_mpd_server_remove">Kendu</string>
     <string name="alert_add_or_edit_mpd_server">Idatzi zerbitzariaren xehetasunak</string>
-    <string name="alert_alarm_working">Uneko alarma denbora</string>
+    <string name="alert_alarm_working">Uneko alarmaren denbora</string>
     <string name="alert_alarm_not_working">Alarma erabiltzeko ez dago informazio nahikorik</string>
     <string name="alert_select_external_alarm_app">Aukeratu audio-erreproduzigailua</string>
 
