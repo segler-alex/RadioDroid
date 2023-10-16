@@ -76,14 +76,16 @@
             </intent-filter>
         </service>
 
-<!--        <service
-<!--            android:name="net.programmierecke.radiodroid2.service.RadioDroidBrowserService"
-<!--            android:exported="true"
-<!--            tools:ignore="ExportedService">
-<!--            <intent-filter>
-<!--                <action android:name="android.media.browse.MediaBrowserService" />
-<!--            </intent-filter>
-<!--        </service>
+<!--
+        <service
+            android:exported="true"
+            tools:ignore="ExportedService">
+            <intent-filter>
+                <action android:name="android.media.browse.MediaBrowserService" />
+            android:name="net.programmierecke.radiodroid2.service.RadioDroidBrowserService"
+            </intent-filter>
+        </service>
+-->
 
         <receiver
             android:name="net.programmierecke.radiodroid2.alarm.AlarmReceiver"
