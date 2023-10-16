@@ -514,7 +514,6 @@ public class StationSaveManager extends Observable {
     List<DataRadioStation> LoadM3UInternal(String filePath, String fileName) {
         try {
             File f = new File(filePath, fileName);
-            ArraySet<DataRadioStation> loadedItems = null;
             FileReader fr = new FileReader(f);
             return LoadM3UReader(fr);
         } catch (Exception e) {
@@ -530,6 +529,7 @@ public class StationSaveManager extends Observable {
             final RadioDroidApp radioDroidApp = (RadioDroidApp) context.getApplicationContext();
             final OkHttpClient httpClient = radioDroidApp.getHttpClient();
             ArrayList<String> listUuids = new ArrayList<String>();
+            ArraySet<DataRadioStation> loadedItems = null;
 
             BufferedReader br = new BufferedReader(reader);
             while ((line = br.readLine()) != null) {

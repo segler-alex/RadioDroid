@@ -1,5 +1,6 @@
 package net.programmierecke.radiodroid2.recording;
 
+import android.app.ProgressDialog;
 import android.content.ClipData;
 import android.content.Context;
 import android.content.Intent;
