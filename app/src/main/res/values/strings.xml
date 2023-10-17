@@ -42,7 +42,7 @@
     <string name="action_changed_lately">Changed Lately</string>
     <string name="action_currently_playing">Playing</string>
     <string name="action_tags">Tags</string>
-    <string name="action_countries">Countries/Regions</string>
+    <string name="action_countries">Countries</string>
     <string name="action_languages">Languages</string>
     <string name="action_edit">Edit</string>
     <string name="action_lyrics">Lyrics</string>
