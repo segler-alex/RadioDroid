@@ -98,18 +98,18 @@
     <string name="settings_compact_style">Estilo trinkoa</string>
     <string name="settings_compact_style_desc_off">Ezarri ikono handia irrati-etxearen xehetasunekin</string>
     <string name="settings_compact_style_desc_on">Ezarri ikono txikia irrati-etxearen xehetsunik gabe</string>
-    <string name="settings_bottom_navigation">Nabigazioa beheko aldean</string>
+    <string name="settings_bottom_navigation">Nabigazioa beheko barran</string>
 
     <string name="settings_interaction">Interakzioa</string>
     <string name="settings_single_use_tags">Erakutsi gutxi erebilitako etiketak</string>
     <string name="settings_single_use_tags_desc_off">Ez erakutsi gutxi erabilitako etiketak</string>
     <string name="settings_single_use_tags_desc_on">Gutxi erabilitako etiketak erakutsiko dira</string>
 
-    <string name="settings_show_broken">Irrati-etxe hautsiak</string>
-    <string name="settings_show_broken_on">Erakutsi irrati-etxe hautsiak zerrendetan</string>
-    <string name="settings_show_broken_off">Ez erakutsi irrati-etxe hautsiak zerrendetan</string>
+    <string name="settings_show_broken">Irrati-etxe inaktiboak</string>
+    <string name="settings_show_broken_on">Erakutsi irrati-etxe inaktiboak zerrendetan</string>
+    <string name="settings_show_broken_off">Ez erakutsi irrati-etxe inaktiboak zerrendetan</string>
 
-    <string name="settings_startup_behaviour">Hasierako jokabidea</string>
+    <string name="settings_startup_behaviour">Abioko jokabidea</string>
     <string name="startup_action_title">Abiatu ekintza</string>
     <string name="startup_action_title_desc">%s</string>
     <string name="startup_show_all_stations">Erakutsi irrati-etxe guztiak</string>
@@ -134,17 +134,17 @@
     <string name="settings_click_trend_icon_visible_off">Ikonoa ezkutuan</string>
 
     <string name="settings_alarm">Alarma</string>
-    <string name="settings_alarm_external">Ireki beste aplikazioa</string>
+    <string name="settings_alarm_external">Ireki beste aplikazioa batean</string>
     <string name="settings_alarm_external_desc_on">Ireki alarma lehenetsitako aplikazioarekin</string>
     <string name="settings_alarm_external_desc_off">Ireki alarma RadioDroidekin</string>
     <string name="settings_alarm_audio_player">Erreproduzitu audioa</string>
     <string name="settings_alarm_sleep_timer">Lotarako tenporizadorea</string>
-    <string name="settings_alarm_sleep_timer_desc">Gelditu erreprodukzioa %1$s minutu eta gero</string>
-    <string name="settings_play">Erreproduzitzailea</string>
+    <string name="settings_alarm_sleep_timer_desc">Gelditu erreprodukzioa %1$s minutu pasata</string>
+    <string name="settings_play">Erreprodukzioa</string>
     <string name="settings_auto_play_on_startup">Erreprodukzio automatikoa</string>
     <string name="settings_auto_play_on_startup_on">Erreproduzitu azken irrati-etxea abioan</string>
-    <string name="settings_auto_play_on_startup_off">Ez erreproduzitu azken irratik-etxea abioan</string>
-    <string name="settings_play_external">Irekin kanpoko erreproduktorea</string>
+    <string name="settings_auto_play_on_startup_off">Ez erreproduzitu azken irrati-etxea abioan</string>
+    <string name="settings_play_external">Ireki kanpoko erreproduzitzailea</string>
     <string name="settings_play_external_desc_on">Erreproduzitu irrati-etxeak kanpoko erreproduzitzaile baten bidez</string>
     <string name="settings_play_external_desc_off">Erreproduzitu irrati-etxeak RadioDroiden bidez</string>
     <string name="settings_equalizer">Ekualizadorea</string>
@@ -154,8 +154,8 @@
     <string name="settings_read_timeout">Igorpenaren irakurketaren itxaron-denbora</string>
     <string name="settings_resume_timeout">Igorpena berrekiteko itxaron-denbora</string>
     <string name="settings_retry_timeout">Berrekiteko itxaron-denbora</string>
-    <string name="settings_retry_delay">Berriro konektatzeko atzerapena</string>
-    <string name="settings_proxy">Proxy</string>
+    <string name="settings_retry_delay">Berriro konektatzeko itxaron-denbora</string>
+    <string name="settings_proxy">Proxya</string>
     <string name="settings_proxy_login">Erabiltzaile-izena</string>
     <string name="settings_proxy_password">Pasahitza</string>
     <string name="settings_proxy_action_test">Probatu</string>
@@ -170,13 +170,13 @@
 
     <string name="settings_auto_resume_do_not_resume">Ez jarraitu</string>
 
-    <string name="settings_auto_resume_on_wired_headset_connected">Jarraitu kabledun konexioaren bidez</string>
+    <string name="settings_auto_resume_on_wired_headset_connected">Jarraitu kable-konexioaren bidez</string>
     <string name="settings_auto_resume_on_wired_headset_connected_on">Jarraitu erreprodukzioa kabledun aurikularrekin konektatzean</string>
 
     <string name="settings_auto_resume_on_bluetooth_a2dp_connected">Jarraitu Bluetooth konexioarekin</string>
     <string name="settings_auto_resume_on_bluetooth_a2dp_connected_on">Jarraitu erreprodukzioa A2DP Bluetooth gailuekin konektatzean</string>
 
-    <string name="settings_warn_no_wifi">Abisatu Wi-Fia ez badago</string>
+    <string name="settings_warn_no_wifi">Abisatu Wi-Firik ez badago</string>
     <string name="settings_warn_no_wifi_on">Abisatu Wi-Fi konexiorik ez badago</string>
     <string name="settings_warn_no_wifi_off">Ez abisatu Wi-Fi konexiorik ez badago</string>
 
@@ -272,7 +272,7 @@
     <string name="app_id">5A97BAE4</string>
     <string name="app_name">RadioDroid</string>
 
-    <string name="settings_mpd">Musika erreproduzitzeko demonioa (Music Player Daemon, MPD)</string>
+    <string name="settings_mpd">Musika erreproduzitzeko demonioa (MPD)</string>
     <string name="settings_mpd_port">MPD-ren ataka</string>
     <string name="settings_view_mpd_servers">Zure zerbitzariak</string>
     <string name="action_mpd_nok">MPD konexiorik gabe</string>
@@ -287,7 +287,7 @@
     <string name="action_play_in_external">Erreproduzitu kanpoko erreproduzigailu baten bidez</string>
     <string name="action_choose_external_player">Aukeratu kanpoko erreproduzigailua</string>
 
-    <string name="settings_other">Beste bat</string>
+    <string name="settings_other">Bestelakoak</string>
     <string name="settings_statistics">Estatistikak</string>
     <string name="settings_about">RadioDroid-i buruz</string>
 
